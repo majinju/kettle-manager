@@ -1,0 +1,84 @@
+<%layout("/eova/layout/default.html",{'title' : 'Easy Object View Admin'}){%>
+<script type="text/javascript">
+
+	// 禁止登录页内嵌
+	if (window != top){
+		parent.location.href = location.href; 
+	}
+	
+	var UA = navigator.userAgent.toLowerCase();
+    var browerKernel = {
+        isWebkit: function() {
+            if (/webkit/i.test(UA)) return true;
+            else return false;
+        },
+	    isFirefox: function() {
+            if (/firefox/i.test(UA)) return true;
+            else return false;
+		}
+    }
+
+	if(!browerKernel.isWebkit()){
+		alert("您当前浏览器无法兼容本系统！\n推荐使用Google Chrome 浏览器！\n\n其它兼容浏览器：\n360浏览器极速模式\n搜狗高速浏览器3\n世界之窗极速版\n猎豹浏览器\nQQ浏览器");
+	}
+	
+	$(function() {
+		$('#loginDialog').show().dialog({
+			modal : false,
+			closable : false,
+			iconCls : 'icon-databasegear',
+			onOpen : function() {
+				$('form :input:first').focus();
+				$('form :input').keyup(function(event) {
+					if (event.keyCode == 13) {
+						$('#MyForm').submit();
+					}
+				});
+			}
+		});
+	});
+	
+</script>
+
+<body>
+	<div id="loginDialog" title="简单对象管理系统-初始化" style="width: 380px; height: 210px; padding: 10px;">
+		<form method="post" id="MyForm" action="/doInit">
+			<table class="table" style="width: 100%; height: 100%;">
+				<tr>
+					<th width="100px">数据库IP地址:</th>
+					<td><input name="ip" value="${ip!'127.0.0.1'}" class="easyui-validatebox" data-options="required:true" style="width: 210px;" /></td>
+				</tr>
+				<tr>
+					<th>数据库端口:</th>
+					<td><input name="port" value="${port!3306}" class="easyui-validatebox" data-options="required:true" style="width: 210px;" /></td>
+				</tr>
+				<tr>
+					<th width="100px">数据库用户名:</th>
+					<td><input name="userName" value="${userName!'root'}" class="easyui-validatebox" data-options="required:true" style="width: 210px;" /></td>
+				</tr>
+				<tr>
+					<th>数据库密码:</th>
+					<td><input name="password" value="${password!}" class="easyui-validatebox" data-options="required:true" style="width: 210px;" /></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><input id="start" type="button" value="开始" style="width: 50px;" /></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+<script>
+$(function(){
+	$('#start').click(function(){
+		var $fm = $('#MyForm'); 
+		if ($fm.form('validate')) {
+			$fm.submit();
+		}
+	});
+	<%if(!isEmpty(msg!)){%>
+	$.messager.alert('警告','${msg!}', 'error');  
+	<%}%>
+});
+</script>
+</body>
+<%}%>

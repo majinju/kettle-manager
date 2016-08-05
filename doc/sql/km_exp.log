@@ -1,0 +1,47 @@
+
+Connected to: Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+Export done in ZHS16GBK character set and AL16UTF16 NCHAR character set
+
+About to export specified users ...
+. exporting pre-schema procedural objects and actions
+. exporting foreign function library names for user KM 
+. exporting PUBLIC type synonyms
+. exporting private type synonyms
+. exporting object type definitions for user KM 
+About to export KM's objects ...
+. exporting database links
+. exporting sequence numbers
+. exporting cluster definitions
+. about to export KM's tables via Conventional Path ...
+. . exporting table                    EOVA_BUTTON        167 rows exported
+. . exporting table                      EOVA_DICT         21 rows exported
+. . exporting table                     EOVA_FIELD        169 rows exported
+. . exporting table                       EOVA_LOG          0 rows exported
+. . exporting table                      EOVA_MENU         36 rows exported
+. . exporting table                    EOVA_OBJECT         15 rows exported
+. . exporting table                      EOVA_ROLE          4 rows exported
+. . exporting table                  EOVA_ROLE_BTN        167 rows exported
+. . exporting table                      EOVA_TASK          3 rows exported
+. . exporting table                      EOVA_USER          4 rows exported
+. . exporting table                    EOVA_WIDGET         17 rows exported
+. . exporting table             METL_CHINESE_SPELL      21124 rows exported
+. . exporting table                  METL_DATABASE          3 rows exported
+. . exporting table                METL_UNIFY_DICT         62 rows exported
+. exporting synonyms
+. exporting views
+. exporting stored procedures
+. exporting operators
+. exporting referential integrity constraints
+. exporting triggers
+. exporting indextypes
+. exporting bitmap, functional and extensible indexes
+. exporting posttables actions
+. exporting materialized views
+. exporting snapshot logs
+. exporting job queues
+. exporting refresh groups and children
+. exporting dimensions
+. exporting post-schema procedural objects and actions
+. exporting statistics
+Export terminated successfully without warnings.

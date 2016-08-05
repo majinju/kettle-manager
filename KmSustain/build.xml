@@ -1,0 +1,64 @@
+<project name="PentahoReporting" default="default" basedir=".">
+
+	<description>
+	  	 打包插件
+	</description>
+
+	<tstamp prefix="start" />
+
+	<!-- system properties to use -->
+	<property name="cr" value="${line.separator}" />
+
+	<!-- set global properties for this build -->
+	<property name="kettle_dir" location="D:\NIS\data-integration5.4" />
+	<property name="src" location="src\main\java" />
+	<property name="classes" location="target\classes" />
+	<property name="lib" location="target" />
+	<property name="kettle_lib" location="${kettle_dir}\lib" />
+	<property name="libswt" location="${kettle_dir}\libswt" />
+	<property name="resource" location="src\main\resource" />
+
+	<target name="init" description="create timestamp and directories">
+		<echo>初始化</echo>
+		<tstamp />
+		<mkdir dir="${classes}" />
+		<mkdir dir="${lib}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<echo>编译代码</echo>
+		<javac srcdir="${src}" destdir="${classes}">
+			<classpath id="cpath">
+				<fileset dir="${kettle_lib}" includes="*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="copy" depends="compile" description="copy images etc to classes directory">
+		<echo>拷贝附属文件</echo>
+		<copy todir="${classes}">
+			<fileset dir="${src}" includes="**/*.png,**/*.xml,**/*.properties" />
+		</copy>
+	</target>
+
+	<target name="lib" depends="compile, copy" description="generate the Jasper Reporting Plugin library dummy.jar">
+		<echo>生成jar包</echo>
+		<jar jarfile="${lib}/KmSustain.jar" basedir="${classes}" includes="**/*" />
+	</target>
+
+	<target name="deploy" depends="lib" description="Deploy step_resource_dirution...">
+		<echo>部署插件</echo>
+		<copy todir="${kettle_lib}">
+			<fileset dir="${lib}" includes="**/*.jar" />
+		</copy>
+	</target>
+
+	<target name="clean" description="clean up generated files">
+		<echo>删除已经生成的文件</echo>
+		<delete dir="${classes}" />
+		<delete dir="${lib}" />
+	</target>
+	
+	<target name="default" depends="deploy" description="default = build all" />
+
+</project>

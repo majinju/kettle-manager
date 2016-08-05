@@ -1,0 +1,7 @@
+修改DataGrid
+formatter:function(value, row, index, field){
+添加field参数用于获取当前列字段名
+
+修改TreeGrid
+formatter:function(value, row, field){
+添加field参数用于获取当前列字段名

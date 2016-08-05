@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false" monitoring="autodetect"
+         dynamicConfig="true">
+         
+    <diskStore path="java.io.tmpdir"/>
+    
+    <defaultCache
+           maxEntriesLocalHeap="10000"
+           eternal="false"
+           overflowToDisk="false"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="3600">
+    </defaultCache>
+    
+    <!--字典相关缓存-->
+    <cache name="dict"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="20000"
+           eternal="false"
+           overflowToDisk="false"
+           diskSpoolBufferSizeMB="50"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="3600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off"
+            />
+    <!--system cache name sysCache-->
+    <cache name="sysCache"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="20000"
+           eternal="false"
+           overflowToDisk="false"
+           diskSpoolBufferSizeMB="50"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="3600"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off"
+            />
+            
+	<!--service cache name serviceCache, 30s time out-->
+    <cache name="serviceCache"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="20000"
+           eternal="false"
+           overflowToDisk="false"
+           diskSpoolBufferSizeMB="0"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="3"
+           memoryStoreEvictionPolicy="LRU"
+           transactionalMode="off"
+            />
+
+    <!--player cache name playerCache, session time out 30min-->
+    <cache name="playerCache"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="20000"
+           eternal="false"
+           overflowToDisk="false"
+           diskSpoolBufferSizeMB="10"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="0"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off"
+           />
+           
+	<!--Action cache name actionCache, session time out 30s-->
+    <cache name="actionCache"
+           maxEntriesLocalHeap="10000"
+           maxEntriesLocalDisk="20000"
+           eternal="false"
+           overflowToDisk="false"
+           diskSpoolBufferSizeMB="50"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="30"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off"
+            />
+
+</ehcache>
+<!-- maxEntriesLocalHeap="10000" 内存最多1W条-->
+<!-- maxEntriesLocalDisk="20000" 磁盘最多2W条-->
+<!-- eternal="false" 是否自动过期-->
+<!-- overflowToDisk="true" 是否自动存磁盘-->
+<!-- diskSpoolBufferSizeMB="50" DiskStore使用的磁盘大小,默认值30MB。每个cache使用各自的DiskStore-->
+<!-- timeToIdleSeconds="1800" 空闲过期时间-->
+<!-- timeToLiveSeconds="3600" 最长使用时间-->
+<!-- memoryStoreEvictionPolicy="LFU" 缓存策略-->
+<!-- transactionalMode="off" 使ehcache作为JTA事务的参与者-->
+<!-- FIFO  (先进先出). -->
+<!-- LFU 最少使用) -->
+<!-- LRU 最近最少使用(ehcache 默认值) -->

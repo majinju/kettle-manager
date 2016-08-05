@@ -1,0 +1,19 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-page',plain:true"
+   onclick="crud_detail_${object.code}()">
+    查看
+</a>
+<script type="text/javascript">
+    var crud_detail_${object.code} = function () {
+        var grid = $('#${gridId}');
+        var row = grid.datagrid('getSelected');
+        var num = grid.datagrid('getSelections').length;
+        if (num > "1") {
+        	$.slideMsg("请勿选择多行数据！");
+            return;
+        }
+        if (isSelected(row)) {
+            loadDialog(grid, '${object.name}详情', '/form/detail/${object.code}-' + row.pk_val);
+            $('.dialog-button').css("text-align","center");
+        }
+    };
+</script>

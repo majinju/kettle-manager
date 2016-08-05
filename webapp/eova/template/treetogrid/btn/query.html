@@ -1,0 +1,21 @@
+<a id="btn_query_${gridId}" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-zoom',plain:true"
+   onclick="crud_query_${object.code}()">
+    快速查询
+</a>
+<script type="text/javascript">
+    var gridId = '${gridId}', formId = '${formId}';
+    var crud_query_${object.code} = function () {
+    	var data = $.getFormParasObj($('#' + formId));
+    	// 获取tree条件值
+    	data['query_menu_code'] = eova_tree_node_value;
+        $('#' + gridId).datagrid('load', data);
+    };
+
+    $('body').keydown(function (event) {
+//     $('#' + formId).keydown(function (event) {
+        if (event.keyCode == 13) {
+            crud_query_${object.code}();
+        }
+    });
+
+</script>

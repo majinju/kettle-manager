@@ -1,0 +1,27 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="startJob()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var startJob = function () {
+    	var $grid = $('#${gridId}');
+        var rows = $grid.datagrid('getSelections');
+        var num = rows.length;
+        if (num == "0") {
+        	$.slideMsg("请至少选择一条记录！");
+            return;
+        }
+        MaskUtil.mask("正在启动中..."); 
+        $.post('/oss/job_manager/startJob', 
+    	        {"rows": JSON.stringify(rows)},
+    	        function (result, status) {
+    	            MaskUtil.unmask(); 
+    	            if (result.success) {
+    	                $.slideMsg("启动完成");
+    	                $grid.datagrid('load');
+    	            } else {
+    	            	$.messager.alert("操作错误", result.msg ,'error');
+    	            }
+    	        });
+    };
+</script>

@@ -1,0 +1,197 @@
+--备份相关数据库语句
+exp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/km.dmp owner=(km)  log=E:/workspace/kettle-manager/doc/sql/km_exp.log 
+--导入数据库语句
+imp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/km.dmp fromuser=km touser=km commit buffer=512000000 ignore=y
+--设置变量
+org.osjava.sj.root=E:\云盘同步文件夹\360云同步\文档杂物\simple-jndi
+
+-------------------脚本-----------
+--R_JOB表新增字段
+alter table R_JOB add RUN_STATUS VARCHAR2(100) default 'Stopped';
+-- 在kettle资源库中新增参数设置表
+create table JOB_PARAMS
+(
+  OID          VARCHAR2(32) default sys_guid() not null,
+  OCODE        VARCHAR2(100),
+  ONAME        VARCHAR2(100),
+  ODESCRIBE    VARCHAR2(500),
+  OORDER       NUMBER,
+  SIMPLE_SPELL VARCHAR2(200),
+  FULL_SPELL   VARCHAR2(500),
+  CREATE_DATE  VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
+  UPDATE_DATE  VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
+  CREATE_USER  VARCHAR2(100),
+  UPDATE_USER  VARCHAR2(100),
+  EXPAND       VARCHAR2(2000),
+  IS_DISABLE   VARCHAR2(10) default '0',
+  FLAG1        VARCHAR2(200),
+  FLAG2        VARCHAR2(200),
+  ID_JOB       NUMBER,
+  VALUE        VARCHAR2(2000)
+);
+-- Add comments to the table 
+comment on table JOB_PARAMS
+  is '作业参数设置';
+-- Add comments to the columns 
+comment on column JOB_PARAMS.OID
+  is '对象主键';
+comment on column JOB_PARAMS.OCODE
+  is '对象代码';
+comment on column JOB_PARAMS.ONAME
+  is '对象名称';
+comment on column JOB_PARAMS.ODESCRIBE
+  is '对象描述';
+comment on column JOB_PARAMS.OORDER
+  is '对象排序';
+comment on column JOB_PARAMS.SIMPLE_SPELL
+  is '对象简拼';
+comment on column JOB_PARAMS.FULL_SPELL
+  is '对象全拼';
+comment on column JOB_PARAMS.CREATE_DATE
+  is '创建时间';
+comment on column JOB_PARAMS.UPDATE_DATE
+  is '更新时间';
+comment on column JOB_PARAMS.CREATE_USER
+  is '创建人';
+comment on column JOB_PARAMS.UPDATE_USER
+  is '更新人';
+comment on column JOB_PARAMS.EXPAND
+  is '扩展信息';
+comment on column JOB_PARAMS.IS_DISABLE
+  is '是否禁用';
+comment on column JOB_PARAMS.FLAG1
+  is '备用1';
+comment on column JOB_PARAMS.FLAG2
+  is '备用2';
+comment on column JOB_PARAMS.ID_JOB
+  is '作业';
+comment on column JOB_PARAMS.VALUE
+  is '变量值';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JOB_PARAMS
+  add constraint PK_JOB_PARAMS primary key (OID);
+-- Create/Recreate indexes 
+create index IDX_JOB_PARAMS_CREATE_DATE on JOB_PARAMS (CREATE_DATE);
+create index IDX_JOB_PARAMS_ONAME on JOB_PARAMS (ONAME);
+create index IDX_JOB_PARAMS_UPDATE_DATE on JOB_PARAMS (UPDATE_DATE);
+
+create or replace view v_job as
+select id_job,
+       id_directory,
+       id_job as timing,
+       name,
+       description,
+       extended_description,
+       job_version,
+       job_status,
+       id_database_log,
+       table_name_log,
+       created_user,
+       created_date,
+       modified_user,
+       modified_date,
+       use_batch_id,
+       pass_batch_id,
+       use_logfield,
+       shared_file,
+       run_status
+  from r_job;
+  
+create or replace view v_job_params as
+select ja.id_job,
+to_char(ja.value_str) as ocode,
+to_char(ja1.value_str) as oname,
+to_char(ja2.value_str) as PARAM_DEFAULT,
+p.value,p.simple_spell,p.full_spell
+from r_job_attribute ja
+inner join r_job_attribute ja1 on ja1.id_job=ja.id_job and ja1.nr=ja.nr and ja1.code='PARAM_DESC'
+inner join r_job_attribute ja2 on ja2.id_job=ja.id_job and ja2.nr=ja.nr and ja2.code='PARAM_DEFAULT'
+left join job_params p on p.id_job=ja.id_job and to_char(ja.value_str)=p.ocode
+where ja.code = 'PARAM_KEY'
+order by ja.nr asc;
+
+
+-- km库需要
+create table KM.METL_TASK_TIMING
+(
+  OID              VARCHAR2(32) default sys_guid() not null,
+  OCODE            VARCHAR2(100),
+  ONAME            VARCHAR2(100),
+  ODESCRIBE        VARCHAR2(500),
+  OORDER           NUMBER,
+  SIMPLE_SPELL     VARCHAR2(200),
+  FULL_SPELL       VARCHAR2(500),
+  CREATE_DATE      VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
+  UPDATE_DATE      VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
+  CREATE_USER      VARCHAR2(100),
+  UPDATE_USER      VARCHAR2(100),
+  EXPAND           VARCHAR2(2000),
+  IS_DISABLE       VARCHAR2(10) default '0',
+  FLAG1            VARCHAR2(200),
+  FLAG2            VARCHAR2(200),
+  IS_REPEAT        VARCHAR2(10),
+  SCHEDULER_TYPE   VARCHAR2(100),
+  INTERVAL_SECONDS NUMBER,
+  INTERVAL_MINUTES NUMBER,
+  HOUR             NUMBER,
+  MINUTES          NUMBER,
+  WEEK_DAY         VARCHAR2(100),
+  DAY_OF_MONTH     NUMBER
+);
+-- Add comments to the table 
+comment on table KM.METL_TASK_TIMING
+  is '任务定时';
+-- Add comments to the columns 
+comment on column KM.METL_TASK_TIMING.OID
+  is '对象主键';
+comment on column KM.METL_TASK_TIMING.OCODE
+  is '对象代码';
+comment on column KM.METL_TASK_TIMING.ONAME
+  is '对象名称';
+comment on column KM.METL_TASK_TIMING.ODESCRIBE
+  is '对象描述';
+comment on column KM.METL_TASK_TIMING.OORDER
+  is '对象排序';
+comment on column KM.METL_TASK_TIMING.SIMPLE_SPELL
+  is '对象简拼';
+comment on column KM.METL_TASK_TIMING.FULL_SPELL
+  is '对象全拼';
+comment on column KM.METL_TASK_TIMING.CREATE_DATE
+  is '创建时间';
+comment on column KM.METL_TASK_TIMING.UPDATE_DATE
+  is '更新时间';
+comment on column KM.METL_TASK_TIMING.CREATE_USER
+  is '创建人';
+comment on column KM.METL_TASK_TIMING.UPDATE_USER
+  is '更新人';
+comment on column KM.METL_TASK_TIMING.EXPAND
+  is '扩展信息';
+comment on column KM.METL_TASK_TIMING.IS_DISABLE
+  is '是否禁用';
+comment on column KM.METL_TASK_TIMING.FLAG1
+  is '备用1';
+comment on column KM.METL_TASK_TIMING.FLAG2
+  is '备用2';
+comment on column KM.METL_TASK_TIMING.IS_REPEAT
+  is '允许重复';
+comment on column KM.METL_TASK_TIMING.SCHEDULER_TYPE
+  is '定时类型';
+comment on column KM.METL_TASK_TIMING.INTERVAL_SECONDS
+  is '秒间隔';
+comment on column KM.METL_TASK_TIMING.INTERVAL_MINUTES
+  is '分间隔';
+comment on column KM.METL_TASK_TIMING.HOUR
+  is '每天几时';
+comment on column KM.METL_TASK_TIMING.MINUTES
+  is '每天几分';
+comment on column KM.METL_TASK_TIMING.WEEK_DAY
+  is '每周周几';
+comment on column KM.METL_TASK_TIMING.DAY_OF_MONTH
+  is '每月几号';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table KM.METL_TASK_TIMING
+  add constraint PK_METL_TASK_TIMING primary key (OID);
+-- Create/Recreate indexes 
+create index KM.IDX_M_T_TIMING_CREATE_DATE on KM.METL_TASK_TIMING (CREATE_DATE);
+create index KM.IDX_M_T_TIMING_UPDATE_DATE on KM.METL_TASK_TIMING (UPDATE_DATE);
+

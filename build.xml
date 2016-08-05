@@ -1,0 +1,87 @@
+<project name="PentahoReporting" default="default" basedir=".">
+
+	<description>
+	  	 打包
+	</description>
+
+	<tstamp prefix="start" />
+
+	<!-- system properties to use -->
+	<property name="cr" value="${line.separator}" />
+
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="classes" location="target\classes" />
+	<property name="lib" location="webapp\WEB-INF\lib" />
+	<property name="kettle_dir" location="D:\NIS\data-integration5.4" />
+	<property name="target" location="target\kettle-manager" />
+	<property name="jar_dir" location="target\jar_dir" />
+	<property name="resource" location="resources" />
+	<property name="doc" location="doc" />
+
+	<target name="init" description="create timestamp and directories">
+		<echo>初始化</echo>
+		<tstamp />
+		<mkdir dir="${classes}" />
+		<mkdir dir="${target}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<echo>编译代码</echo>
+		<javac srcdir="${src}" destdir="${classes}">
+			<classpath id="cpath">
+				<fileset dir="${kettle_dir}\lib" includes="*.jar" />
+				<fileset dir="${lib}" includes="*.jar" />
+				<fileset dir="${classes}" includes="*.class" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="copy" depends="compile" description="copy images etc to classes directory">
+		<echo>拷贝附属文件</echo>
+		<copy todir="${classes}">
+			<fileset dir="${resource}" includes="**/*.png,**/*.xml,**/*.properties" 
+			excludes="log4j.xml"/>
+		</copy>
+	</target>
+
+	<target name="lib" depends="compile, copy" description="generate the Jasper Reporting Plugin library dummy.jar">
+		<echo>生成jar包</echo>
+		<jar jarfile="${jar_dir}/kettle-manager.jar" basedir="${classes}" includes="**/*" />
+	</target>
+
+	<target name="deploy" depends="lib" description="Deploy step_resource_dirution...">
+		<echo>生成部署包</echo>
+		<copy todir="${target}\lib">
+			<fileset dir="${lib}" includes="**/*.jar" />
+			<fileset dir="${jar_dir}" includes="**/*.jar" />
+			<fileset dir="${kettle_dir}\lib" includes="*.jar" />
+		</copy>
+		<copy todir="${target}">
+			<fileset dir="${resource}" includes="default/*" />
+			<fileset dir="" includes="doc/**" />
+		</copy>
+		<copy todir="${target}\webapp">
+			<fileset dir="webapp" includes="**" excludes="WEB-INF/lib/**,WEB-INF/classes/**"/>
+		</copy>
+		<copy todir="${target}">
+			<fileset dir="doc\杂物" includes="plugins/**"/>
+			<fileset file="doc\杂物\start.bat"/>
+			<fileset file="${resource}\log4j.xml"/>
+		</copy>
+		<zip destfile="target\kettle-manager.zip">
+			<fileset dir="${target}" includes="**"/>
+		</zip>
+		<delete dir="${classes}" />
+		<delete dir="${target}" />
+		<delete dir="${jar_dir}" />
+	</target>
+
+	<target name="clean" description="clean up generated files">
+		<echo>删除已经生成的文件</echo>
+		<delete file="target\kettle-manager.zip" />
+	</target>
+	
+	<target name="default" depends="clean,deploy" description="default = build all" />
+
+</project>

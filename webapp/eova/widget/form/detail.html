@@ -1,0 +1,14 @@
+<%layout("/eova/layout/default.html",{'title' : object.name + '详情' }){%>
+<body>
+<#form id="${'detailForm' + object.code}" name="${'detailForm' + object.code}" items="${fields}" isUpdate="true" />
+
+<script type="text/javascript">
+var submitForm = function($dialog, $grid, $pjq) {
+    $dialog.dialog('destroy');
+};
+</script>
+<%if(!isEmpty(object.diy_js!)){%>
+<script type="text/javascript" src="${object.diy_js}"></script>
+<%}%>
+</body>
+<%}%>

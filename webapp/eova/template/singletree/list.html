@@ -1,0 +1,44 @@
+<%layout("/eova/layout/default.html",{'title' : object.name + '列表'}){%>
+<body class="easyui-layout">
+	<%if(isTrue(isQuery!)){%>
+	<div id="layoutNorth" region="north" title="快速查询" split="true">
+    <#query id="queryForm" items="${fields}" />
+    </div>
+	<%}%>
+    <div data-options="region:'center',fit:false,border:false">
+		<div id="gridToolbar" style="display: none;">
+			<table style="width: 100%">
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<%// 自定义功能按钮%>
+								<%for(btn in btnList){%>
+								<td><%include(btn.ui,{'object':object, 'gridId':'grid', 'parentId': 'grid', 'parentType': 'treegrid', 'formId':'queryForm', 'button':btn }){}%></td>
+								<%}%>
+								
+								<%// 仅超级管理员可见%>
+        						<%if(session.user.rid == 1){%>
+        						<td><%include("/eova/button/btn/quick.html",{'object':object, 'gridId':'grid', 'formId':'queryForm', 'menuCode': menu.code }){}%></td>
+								<%}%>
+							</tr>
+						</table>
+					</td>
+					<%if(isQuery){%>
+					<td style="float: right;margin-right: 10px;border: solid 1px #CAD4CA;border-radius: 5px 5px 5px 5px;"><%include("/eova/template/singletree/btn/query.html",{'formId':'queryForm', 'gridId':'grid'}){}%></td>
+					<%}%>
+				</tr>
+			</table>
+		</div>
+		<#treegrid id="grid" objectCode="${object.code}" toolbar="gridToolbar" menuCode="${menu.code}" treeField="${menu.config.treegrid.treeField}" />
+	</div>
+<script type="text/javascript" src="${STATIC!}/ui/js/template.js"></script>
+<%if(!isEmpty(menu.diy_js!)){%>
+<script type="text/javascript" src="${menu.diy_js}"></script>
+<%}%>
+<%if(!isEmpty(object.diy_js!)){%>
+<script type="text/javascript" src="${object.diy_js}"></script>
+<%}%>
+</body>
+
+<%}%>

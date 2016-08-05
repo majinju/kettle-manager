@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Web容器Path配置错误</title>
+</head>
+<body>
+WEB容器Path配置不正确，请参考如下进行配置！如下为Eclipse配置，其它IDE请理解后自己摸索配置方式！<br>
+<br>
+<img src="${ctx}/oss/ui/images/520.png">
+<pre>
+正确的配置：
+IP   = 127.0.0.1
+Port = 80
+Path = /
+URL  = http://127.0.0.1
+
+PS:建议使用80端口(其它端口也可以)，不建议用localhost访问
+
+总结：
+Eova为了方便的解决路径问题，直接从根目录开始计算路径，没有繁琐的在各处都添加（项目名+端口）。
+如果有同学想同时运行多个工程，可以使用多个端口号起服务即可。
+正式环境一般都是这么玩的，JFinal也是这么玩的，如果有不得已的原因需要带项目名，请手工修改之。
+</pre>
+</body>
+</html>

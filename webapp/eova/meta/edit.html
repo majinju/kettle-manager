@@ -1,0 +1,17 @@
+<%layout("/eova/layout/default.html",{'title' : '元字段编辑'}){%>
+<script type="text/javascript" src="${STATIC!}/ui/js/template.js"></script>
+
+<body class="easyui-layout">
+<div data-options="region:'center',fit:false,border:false">
+    <#grid id="fieldGrid" objectCode="eova_field_code" isFirstLoad="false" isPaging="false" />
+</div>
+<script>
+    $(function () {
+        $('#fieldGrid').datagrid('load', {
+            query_object_code: '${objectCode}'
+        });
+    });
+</script>
+</body>
+
+<%}%>

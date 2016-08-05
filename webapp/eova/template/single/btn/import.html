@@ -1,0 +1,10 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-tablerowinsert',plain:true"
+onclick="crud_import()">
+	导入
+</a>
+<script type="text/javascript">
+var crud_import = function() {
+	var grid = $('#grid');
+	importDialog(grid, '导入${object.name}数据', '/single_grid/importXls/${menu.code}');
+};
+</script>

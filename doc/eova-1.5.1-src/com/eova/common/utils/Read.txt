@@ -1,0 +1,62 @@
+公共类库包分类说明：1
+com.zjzsys.common
+
+check 数据检查
+data 数据处理:Array,List,Map
+io 各种文件操作:txt,zip,xml,img,class...
+net 网络操作：ip...
+sec 安全处理：各种加密解密算法，安全过滤验证...
+time 时间处理:Date，Timestamp，DataTime 各种类型时间处理
+
+
+高频常用Code整理：
+
+// Map遍历
+Iterator iter = XXMap.entrySet().iterator();
+while (iter.hasNext()) {
+	Map.Entry entry = (Map.Entry) iter.next();
+	Object key = entry.getKey();
+	Object val = entry.getValue();
+}
+
+// List迭代
+Iterator<Gms_Fun> it = funList.iterator();  
+while (it.hasNext()) {  
+	Gms_Fun fun = it.next();  
+    if (it.fun() % 2 == 0)  
+        it.remove();
+        //这里要使用Iterator的remove方法移除当前对象，如果使用List的remove方法，则同样会出现ConcurrentModificationException  
+}
+
+// json to java
+public static void main(String[] args) {
+		
+		// 转对象
+		String so = "{'1':'sec','2':'soft'}";
+		JSONObject a = JSON.parseObject(so);
+		System.out.println(a);
+		System.out.println(a.get("1"));
+		
+		// 转List
+		String sl = "[{'1':'sec','2':'soft'},{'1':'sec','2':'soft'}]";
+		List<JSONObject> list = JSON.parseArray(sl, JSONObject.class);
+		for(JSONObject o : list){
+			System.out.println(o);
+		}
+		
+		// 转Map
+		String sm = "{'1':[{'1':'sec','2':'soft'},{'1':'sec','2':'soft'}]}";
+		Map<String, List<JSONObject>> map = JSON.parseObject(sm, new TypeReference<Map<String, List<JSONObject>>>() {});
+		System.out.println(map.toString());
+}
+序列化：
+
+String jsonString = JSON.toJSONString(obj);
+反序列化：
+
+VO vo = JSON.parseObject("...", VO.class);
+泛型反序列化：
+
+import com.alibaba.fastjson.TypeReference;
+
+List<VO> list = JSON.parseObject("...", new TypeReference<List<VO>>() {});

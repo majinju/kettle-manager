@@ -1,0 +1,22 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="eova_roleChoose()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+var eova_roleChoose = function() {
+	var grid = $('#grid');
+	var row = grid.datagrid('getSelected');
+	if (isSelected(row)){
+		var dialog = parent.sy.modalDialog({
+	 		title : '['+ row.name +']可用功能选择',
+	 		url : '/auth/toRoleChoose/' + row.id,
+	 		buttons : [ {
+	 			text : '确定',
+	 			handler : function() {
+	 				dialog.find('iframe').get(0).contentWindow.submitForm(dialog, grid, parent.$);
+	 			}
+	 		} ]
+	 	}, 1400, 600);
+	}
+};
+</script>

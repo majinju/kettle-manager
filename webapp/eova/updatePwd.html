@@ -1,0 +1,41 @@
+<%layout("/eova/layout/default.html",{'title' : '修改密码'}){%>
+<script type="text/javascript">
+
+	var submitNow = function($dialog, $parent) {
+		var url = "/updatePwd";
+		//console.log(url);
+		$.post(url, sy.serializeObject($('#updatePwd')), function(result) {
+			console.log(result);
+			if (result.success) {
+				$.slideMsg("修改密码成功！", $parent);
+				$dialog.dialog('destroy');
+			} else {
+				$parent.messager.alert('提示', result.msg, 'error');
+			}
+		}, 'json');
+	};
+	var submitForm = function($dialog, $pjq) {
+		if ($('#updatePwd').form('validate')) {
+			submitNow($dialog, $pjq);
+		}
+	};
+</script>
+
+<form id="updatePwd" method="post" class="form">
+	<table class="table" style="width: 100%;">
+		<tr>
+			<th style="font-family: 微软雅黑" title="">旧密码：</th>
+			<td><#text id="oldPwd" name="oldPwd" isNoN="true" /></td>
+		</tr>
+		<tr>
+			<th style="font-family: 微软雅黑" title="">新密码：</th>
+			<td><#text id="newPwd" name="newPwd" isNoN="true" /></td>
+		</tr>
+		<tr>
+			<th style="font-family: 微软雅黑" title="">确认密码：</th>
+			<td><#text id="confirm" name="confirm" isNoN="true" /></td>
+		</tr>
+	</table>
+</form>
+
+<%}%>

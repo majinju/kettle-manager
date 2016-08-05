@@ -1,0 +1,40 @@
+<%layout("/eova/layout/default.html",{'title' : '修改' + object.name }){%>
+<body>
+<#form id="${'updateForm' + object.code}" name="${'updateForm' + object.code}" items="${fields}" isUpdate="true" />
+
+<script type="text/javascript">
+var $form = $('#updateForm${object.code}');
+
+var submitNow = function($dialog, $grid, $pjq) {
+    var url = "/form/doUpdate/${object.code}";
+    $.post(url, sy.serializeObject($form), function(result) {
+        if (result.success) {
+        	$.slideMsg("修改${object.name}成功！", $pjq);
+        	if($grid.context.URL.indexOf('/single_tree') != -1){
+        		$grid.treegrid('reload');
+        	} else {
+        		$grid.datagrid('reload');
+        	}
+            $dialog.dialog('destroy');	
+            
+        } else {
+        	$.alert($pjq, result.msg);
+        }
+    }, 'json');
+};
+
+var submitForm = function($dialog, $grid, $pjq) {
+    // nice validator
+    $form.isValid(function(isValied){
+        if(isValied){
+            submitNow($dialog, $grid, $pjq);
+        }
+    });
+};
+
+</script>
+<%if(!isEmpty(object.diy_js!)){%>
+<script type="text/javascript" src="${object.diy_js}"></script>
+<%}%>
+</body>
+<%}%>

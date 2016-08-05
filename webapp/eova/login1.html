@@ -1,0 +1,64 @@
+<%layout("/eova/layout/default.html",{'title' : 'Easy Object View Admin'}){%>
+<script type="text/javascript">
+
+	// 禁止登录页内嵌
+	if (window != top){
+		parent.location.href = location.href; 
+	}
+	
+	var UA = navigator.userAgent.toLowerCase();
+    var browerKernel = {
+        isWebkit: function() {
+            if (/webkit/i.test(UA)) return true;
+            else return false;
+        },
+	    isFirefox: function() {
+            if (/firefox/i.test(UA)) return true;
+            else return false;
+		}
+    }
+
+	if(!browerKernel.isWebkit()){
+		alert("您当前浏览器无法兼容本系统！\n推荐使用Google Chrome 浏览器！\n\n其它兼容浏览器：\n360浏览器极速模式\n搜狗高速浏览器3\n世界之窗极速版\n猎豹浏览器\nQQ浏览器");
+	}
+	
+	$(function() {
+		$('#loginDialog').show().dialog({
+			modal : false,
+			closable : false,
+			iconCls : 'icon-lockopen',
+			onOpen : function() {
+				$('form :input:first').focus();
+				$('form :input').keyup(function(event) {
+					if (event.keyCode == 13) {
+						$('#loginForm').submit();
+					}
+				});
+			}
+		});
+	});
+	
+</script>
+
+<body style="background-image: url('/ui/images/bg.jpg'); background-repeat: no-repeat;">
+	<div id="loginDialog" title="简单对象管理系统登录(超级管理员：admin/000000)" style="width: 350px; height: 180px; padding: 10px;">
+		<form method="post" id="loginForm" action="/doLogin">
+			<table class="table" style="width: 100%; height: 100%;">
+				<tr>
+					<th width="70">登录名</th>
+					<td><input name="loginId" value="${login_id!'admin'}" class="easyui-validatebox" data-options="required:true" style="width: 210px;" /></td>
+				</tr>
+				<tr>
+					<th>密码</th>
+					<td><input name="loginPwd" value="${login_pwd!'000000'}" type="password" class="easyui-validatebox" data-options="required:true" style="width: 210px;" /></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><input type="submit" value="登录" style="width: 50px;" />&nbsp;<input type="reset" value="重置" style="width: 50px;" /></td>
+				</tr>
+			</table>
+			<span style="color: red;font-weight: bold;">${msg!}</span>
+		</form>
+	</div>
+</body>
+<%}%>

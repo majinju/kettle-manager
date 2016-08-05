@@ -1,0 +1,21 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="eova_export()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+var eova_export = function() {
+	var $grid = $('#${gridId}');
+    var rows = $grid.datagrid('getSelections');
+    var num = rows.length;
+    if (num == "0") {
+    	$.slideMsg("请至少选择一条记录！");
+        return;
+    }
+    var vals = [];
+    for (var i = 0; i < rows.length; i++) { //组成一个字符串，ID主键用逗号隔开
+    	vals.push(rows[i]['id']);
+    }
+	// 新开窗口生成脚本
+    window.open('/button/doExport/' + vals.join(','));
+};
+</script>

@@ -1,0 +1,7 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-controladdblue',plain:true" onclick="dev_add_button()" title="快速添加按钮(仅超级管理员可见)"></a>
+<script type="text/javascript">
+var dev_add_button = function() {
+	var grid = $('#grid');
+	loadDialog(grid, '快速添加按钮', '/button/quick/${menuCode!}');
+};
+</script>

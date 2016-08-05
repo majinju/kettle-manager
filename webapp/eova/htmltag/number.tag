@@ -1,0 +1,1 @@
+<input id="${id!}" name="${isTrue(isQuery!)?QUERY+name:name}" value="${value!}" class="easyui-numberspinner${isTrue(isNoN!) ? ' easyui-validatebox' : ''}" data-options="${isTrue(isNoN!) ? "required:true" : ""}" value="1000" data-options="increment:100" style="width:180px;"></input>

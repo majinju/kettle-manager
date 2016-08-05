@@ -1,0 +1,3 @@
+/webapp/WEB-INF/classes
+*.JSCompress
+/target

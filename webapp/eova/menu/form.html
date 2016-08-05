@@ -1,0 +1,404 @@
+<%layout("/eova/layout/default.html",{'title' : 'Dialog' }){%>
+
+<form id="myForm" method="post" class="form" style="padding: 5px;">
+	<input type="hidden" name="parent_id" value="${parent_id!3}">
+    <fieldset>
+        <legend>菜单信息</legend>
+        <table class="table" style="width: 100%;">
+            <tr>
+                <th>名称</th>
+                <td>
+                    <#text id="name" name="name" value="${menu.name!}" />
+                </td>
+                <th style="width:110px;">图标</th>
+                <td>
+                    <#icon id="icon" name="icon" value="${menu.icon!}" />
+                </td>
+            </tr>
+            <tr>
+                <th>编码</th>
+                <td>
+                    <#text id="code" name="code" value="${menu.code!}" />
+                </td>
+                <th>序号</th>
+                <td>
+                    <#text id="index" name="indexNum" value="${menu.order_num!1}" />
+                </td>
+            </tr>
+            <tr>
+                <th>业务模版</th>
+                <td>
+                    <select class="easyui-combobox" id="type" name="type" style="width: 180px;"
+                            data-options="editable:false, onChange:typeChange">
+                        <option value="dir">父目录菜单[dir]</option>
+                        <option value="diy">自定义业务[diy]</option>
+                        <option value="single_grid" selected="selected">单表[single_grid]</option>
+                        <option value="master_slave_grid">主子表[master_slave_grid]</option>
+                    </select>
+                </td>
+				<th></th>
+				<td></td>
+			</tr>
+            <tr id="trUrl" style="display: none;">
+                <th>自定义业务URL</th>
+                <td colspan="3">
+                    <#texts id="url" name="url" value="${menu.url!}" placeholder="请输入自定义功能的访问URL" style="width:713px;height:20px;" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <fieldset id="single_grid">
+        <legend>业务模版配置(单表)</legend>
+        <table class="table" style="width: 100%;">
+            <tr>
+                <th style="width:110px;">元对象</th>
+                <td>
+                    <#find id="single_grid_object" name="objectCode" code="eova_field_code" field="object_code" />
+                </td>
+            </tr>
+            <tr>
+                <th>业务拦截器</th>
+                <td>
+                    <#texts id="single_grid_Interceptor" name="bizIntercept" value="${menu.biz_intercept!}" style="width:90%;height:50px;" htmlattrs="placeholder='请输入自定义业务拦截器的类路径'" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <fieldset id="master_slave_grid" style="display: none;">
+        <legend>业务模版配置(主子表)默认可以配置5个子，有几个配几个，超过5个手工改库</legend>
+       	<table class="table" style="width: 100%;">
+            <tr>
+                <th style="width:110px;">主对象</th>
+                <td>
+                    <#find id="masterObjectCode" name="masterObjectCode" code="eova_field_code" field="object_code" />
+                </td>
+                <th style="width:110px;">主外键字段</th>
+                <td>
+                    <#find id="masterFieldCode" name="masterFieldCode" exp=" " />
+                </td>
+            </tr>
+        </table>
+        <div id="sonTab" class="easyui-tabs" data-options="fit:true,border:true" style="width:1060px;height:30px;">
+        	<div title="子1">
+	        	<table class="table" style="width: 100%;">
+		            <tr>
+		                <th style="width:110px;">对象</th>
+		                <td>
+		                    <#find id="slaveObjectCode1" name="slaveObjectCode1" code="eova_field_code" field="object_code" />
+		                </td>
+		                <th style="width:110px;">关联字段</th>
+		                <td>
+		                    <#find id="slaveFieldCode1" name="slaveFieldCode1" exp=" " />
+		                </td>
+		            </tr>
+		        </table>	
+        	</div>
+        	<div title="子2">
+	        	<table class="table" style="width: 100%;">
+		            <tr>
+		                <th style="width:110px;">对象</th>
+		                <td>
+		                    <#find id="slaveObjectCode2" name="slaveObjectCode2" code="eova_field_code" field="object_code" />
+		                </td>
+		                <th style="width:110px;">关联字段</th>
+		                <td>
+		                    <#find id="slaveFieldCode2" name="slaveFieldCode2" exp=" " />
+		                </td>
+		            </tr>
+		        </table>	
+        	</div>
+        	<div title="子3">
+	        	<table class="table" style="width: 100%;">
+		            <tr>
+		                <th style="width:110px;">对象</th>
+		                <td>
+		                    <#find id="slaveObjectCode3" name="slaveObjectCode3" code="eova_field_code" field="object_code" />
+		                </td>
+		                <th style="width:110px;">关联字段</th>
+		                <td>
+		                    <#find id="slaveFieldCode3" name="slaveFieldCode3" exp=" " />
+		                </td>
+		            </tr>
+		        </table>	
+        	</div>
+        	<div title="子4">
+	        	<table class="table" style="width: 100%;">
+		            <tr>
+		                <th style="width:110px;">对象</th>
+		                <td>
+		                    <#find id="slaveObjectCode4" name="slaveObjectCode4" code="eova_field_code" field="object_code" />
+		                </td>
+		                <th style="width:110px;">关联字段</th>
+		                <td>
+		                    <#find id="slaveFieldCode4" name="slaveFieldCode4" exp=" " />
+		                </td>
+		            </tr>
+		        </table>	
+        	</div>
+        	<div title="子5">
+	        	<table class="table" style="width: 100%;">
+		            <tr>
+		                <th style="width:110px;">对象</th>
+		                <td>
+		                    <#find id="slaveObjectCode5" name="slaveObjectCode5" code="eova_field_code" field="object_code" />
+		                </td>
+		                <th style="width:110px;">关联字段</th>
+		                <td>
+		                    <#find id="slaveFieldCode5" name="slaveFieldCode5" exp=" " />
+		                </td>
+		            </tr>
+		        </table>	
+        	</div>
+        </div>
+    </fieldset>
+</form>
+<style>
+#template img{
+	border: 5px solid #D1D7DC;
+}
+</style>
+<hr>
+<div id="template" style="text-align: center;font-weight: bold;">
+	<div><span id="templatename">[单表]</span>业务模版风格预览：</div>
+	<div id="templateimg">
+		<img src="/ui/images/template/single_grid.png" >
+	</div>
+</div>
+<script type="text/javascript">
+
+    var $form = $('#myForm');
+
+    function typeChange(newValue, oldValue) {
+        // diy 需要显示 自定义URL字段,并启用校验
+        if (newValue == 'diy') {
+            $('#trUrl').show();
+            $form.validator("setField", "url", "自定义业务URL:required;");
+        } else {
+            if (oldValue == 'diy') {
+                $form.validator("setField", "url", null);
+                $('#trUrl').hide();
+            }
+        }
+        
+        $('#template').hide();
+
+        if (newValue == 'single_grid') {
+            $form.validator('setField', {
+            	objectCode: '元对象:required;'
+            });
+            $('#templatename').text('[单表]');
+            $('#templateimg').html('<img src="/ui/images/template/single_grid.png" >');
+            $('#template').show();
+        } else {
+            if (oldValue == 'single_grid') {
+                $form.validator('setField', {
+                	objectCode: null
+                });
+            }
+        }
+
+        if (newValue == 'master_slave_grid') {
+            $form.validator('setField', {
+                masterObjectCode: '主对象:required;',
+                slaveObjectCode: '子对象:required;',
+                masterFieldCode: '主外键字段:required;',
+                slaveFieldCode: '子关联字段:required;'
+            });
+            $('#templatename').text('[主子表]');
+            $('#templateimg').html('<img src="/ui/images/template/master_slave_grid.png" >');
+            $('#template').show();
+        } else {
+            if (oldValue == 'master_slave_grid') {
+                $form.validator('setField', {
+                    masterObjectCode: null,
+                    slaveObjectCode: null,
+                    masterFieldCode: null,
+                    slaveFieldCode: null
+                });
+            }
+        }
+
+        $('#' + newValue).show();
+        $('#' + oldValue).hide();
+    }
+
+    $(function () {
+
+        var $masterObjectCode = $('#masterObjectCode');
+        var $masterFieldCode = $('#masterFieldCode');
+
+        var $slaveObjectCode1 = $('#slaveObjectCode1');
+        var $slaveFieldCode1 = $('#slaveFieldCode1');
+        
+        var $slaveObjectCode2 = $('#slaveObjectCode2');
+        var $slaveFieldCode2 = $('#slaveFieldCode2');
+        
+        var $slaveObjectCode3 = $('#slaveObjectCode3');
+        var $slaveFieldCode3 = $('#slaveFieldCode3');
+        
+        var $slaveObjectCode4 = $('#slaveObjectCode4');
+        var $slaveFieldCode4 = $('#slaveFieldCode4');
+        
+        var $slaveObjectCode5 = $('#slaveObjectCode5');
+        var $slaveFieldCode5 = $('#slaveFieldCode5');
+
+        // 初始化禁用子字段
+        $masterFieldCode.mask();
+        $slaveFieldCode1.mask();
+        $slaveFieldCode2.mask();
+        $slaveFieldCode3.mask();
+        $slaveFieldCode4.mask();
+        $slaveFieldCode5.mask();
+
+        function buildUrl(newValue){
+        	var exp = "select en Field,cn Name from eova_field where object_code = '" + newValue + "';ds=eova";            
+            var url = "/widget/find?exp=" + encodeURIComponent(encodeURIComponent(exp));
+            return url;
+        }
+        
+        // 查找框级联
+        $masterObjectCode.eovafind({onChange: function (oldValue, newValue) {
+            //console.log(oldValue +'|'+newValue);
+            if (newValue == '') {
+                $masterFieldCode.mask();
+                return;
+            }
+            
+            $masterFieldCode.attr('url', buildUrl(newValue));
+            $masterFieldCode.unmask();
+        }});
+        
+        $slaveObjectCode1.eovafind({onChange: function (oldValue, newValue) {
+            if (newValue == '') {
+                $slaveFieldCode1.mask();
+                return;
+            }
+
+            $slaveFieldCode1.attr('url', buildUrl(newValue));
+            $slaveFieldCode1.unmask();
+        }});
+        $slaveObjectCode2.eovafind({onChange: function (oldValue, newValue) {
+            if (newValue == '') {
+                $slaveFieldCode2.mask();
+                return;
+            }
+
+            $slaveFieldCode2.attr('url', buildUrl(newValue));
+            $slaveFieldCode2.unmask();
+        }});
+        $slaveObjectCode3.eovafind({onChange: function (oldValue, newValue) {
+            if (newValue == '') {
+                $slaveFieldCode3.mask();
+                return;
+            }
+
+            $slaveFieldCode3.attr('url', buildUrl(newValue));
+            $slaveFieldCode3.unmask();
+        }});
+        $slaveObjectCode4.eovafind({onChange: function (oldValue, newValue) {
+            if (newValue == '') {
+                $slaveFieldCode4.mask();
+                return;
+            }
+
+            $slaveFieldCode4.attr('url', buildUrl(newValue));
+            $slaveFieldCode4.unmask();
+        }});
+        $slaveObjectCode5.eovafind({onChange: function (oldValue, newValue) {
+            if (newValue == '') {
+                $slaveFieldCode5.mask();
+                return;
+            }
+
+            $slaveFieldCode5.attr('url', buildUrl(newValue));
+            $slaveFieldCode5.unmask();
+        }});
+
+        $form.validator({
+            debug: false,
+            stopOnError: true,
+            focusInvalid: false,
+            showOk: false,
+            timely: false,
+            msgMaker: false,
+            fields: {
+            	parent_id: {rule: '父级:required;'},
+                name: {rule: '名称:required;'},
+                code: {rule: '编码:required;eovacode;'},
+                indexNum: {rule: '序号:required;'},
+                type: {rule: '业务类型:required;'},
+                objectCode: {rule: '元对象:required;'}
+            }
+        });
+
+        $form.on("validation", function(e, current){
+            // 当前字段未验证通过，Tip提示
+            if(!current.isValid){
+                var tip = $.tipwarn($(current.element).parent(), current.msg);
+                //alert(current.msg);
+                // 开始输入销毁提示
+                $(current.element).keydown(function(event){
+                    tip.tooltip('destroy');
+                    $(this).unbind("keydown");
+                });
+            }
+        });
+    });
+
+    var submitForm = function ($dialog, $grid, $pjq) {
+        //buildUrl($pjq);
+        $form.isValid(function(isValied){
+            if(isValied){
+                submitNow($dialog, $grid, $pjq);
+            }
+        });
+    };
+
+    var submitNow = function($dialog, $grid, $pjq) {
+        var url = "/menu/add";
+        $.post(url, sy.serializeObject($form), function (result) {
+            if (result.success) {
+                $.slideMsg("添加菜单成功！", $pjq);
+                $grid.treegrid('load');
+                $dialog.dialog('destroy');
+            } else {
+                $pjq.messager.alert('提示', result.msg, 'error');
+            }
+        }, 'json');
+    };
+
+    function buildUrl($pjq) {
+
+        var type = $('#type').combo('getValue');
+        var $single_grid_object = $('#single_grid_object');
+        var $url = $('#url');
+
+        // 如果是目录直接返回
+        if (type == 'dir') {
+            return;
+        }
+
+        // 自定义菜单
+        if (type == 'diy') {
+            // url 不能为空
+            if ($url.val() == '') {
+                $pjq.messager.alert('提示', '请输入业务URL', 'error');
+                return;
+            }
+        }
+
+        // 单表模版，如果元对象为空，则弹必填提示
+        if (type == 'single_grid') {
+            // 元对象不能为空
+//            if ($single_grid_object.eovafind().getValue() == '') {
+//                $pjq.messager.alert('提示', '请选择元对象', 'error');
+//                return;
+//            }
+        }
+
+    }
+
+</script>
+
+
+<%}%>

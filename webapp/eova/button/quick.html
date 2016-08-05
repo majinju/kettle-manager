@@ -1,0 +1,114 @@
+<%layout("/eova/layout/default.html",{'title' : 'Dialog' }){%>
+
+<form id="myForm" method="post" class="form" style="padding: 5px;">
+    <fieldset>
+        <table class="table" style="width: 100%;">
+            <tr>
+                <th>所属菜单编码</th>
+                <td>
+                    <#text id="menu_code" name="menu_code" value="${menuCode}" disable="true" />
+                </td>
+            </tr>
+            <tr>
+                <th style="width:110px;">图标</th>
+                <td>
+                    <#icon id="icon" name="icon" value="icon-cog" /> (人靠衣装马靠鞍，选个图标高大上)
+                </td>
+            </tr>
+            <tr>
+                <th>名称</th>
+                <td>
+                    <#text id="name" name="name" value="" /> (必填)
+                </td>
+            </tr>
+            <tr>
+                <th>按钮UI路径</th>
+                <td>
+                    <#texts id="ui" name="ui" value="" placeholder="HTML文件路径 例：/order/btn/print.html" style="width:500px;height:20px;" /> (必填)
+                </td>
+            </tr>
+            <tr>
+                <th>按钮BS路径</th>
+                <td>
+                    <#texts id="bs" name="bs" value="${menu.name!}" placeholder="服务端URI 例：/order/print" style="width:500px;height:20px;" /> (必填)
+                </td>
+            </tr>
+            <tr>
+                <th>所属按钮组号</th>
+                <td>
+                    <#text id="group_num" name="group_num" value="0" /> (默认即可)
+                </td>
+            </tr>
+            <tr>
+                <th>分配给角色</th>
+                <td>
+                    <#combo id="role" name="role" code="eova_user_code" field="rid" multiple="true" value="1" /> (可多选)
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+<script type="text/javascript">
+
+    var $form = $('#myForm');
+    
+    // js 给下拉框赋值 案例 
+    // $('#role').eovacombo().setValue(2);
+
+    $(function () {
+
+        $form.validator({
+            debug: false,
+            stopOnError: true,
+            focusInvalid: false,
+            showOk: false,
+            timely: false,
+            msgMaker: false,
+            fields: {
+                name: {rule: '名称:required;'},
+                ui: {rule: '按钮UI路径:required;'},
+                bs: {rule: '按钮BS路径:required;'},
+            }
+        });
+
+        $form.on("validation", function(e, current){
+            // 当前字段未验证通过，Tip提示
+            if(!current.isValid){
+                var tip = $.tipwarn($(current.element).parent(), current.msg);
+                //alert(current.msg);
+                // 开始输入销毁提示
+                $(current.element).keydown(function(event){
+                    tip.tooltip('destroy');
+                    $(this).unbind("keydown");
+                });
+            }
+        });
+    });
+
+    var submitForm = function ($dialog, $grid, $pjq) {
+        //buildUrl($pjq);
+        $form.isValid(function(isValied){
+            if(isValied){
+                submitNow($dialog, $grid, $pjq);
+            }
+        });
+    };
+
+    var submitNow = function($dialog, $grid, $pjq) {
+        var url = "/button/doQuick";
+        $.post(url, sy.serializeObject($form), function (result) {
+            if (result.success) {
+                $.slideMsg("添加按钮成功！", $pjq);
+                $grid.datagrid('load');
+                $dialog.dialog('destroy');
+            } else {
+                $pjq.messager.alert('提示', result.msg, 'error');
+            }
+        }, 'json');
+    };
+
+
+</script>
+
+<%}%>
