@@ -9,7 +9,7 @@
   <created_user>-</created_user>
   <created_date>2016&#x2f;06&#x2f;28 16&#x3a;22&#x3a;47.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2016&#x2f;08&#x2f;01 22&#x3a;07&#x3a;24.000</modified_date>
+  <modified_date>2016&#x2f;08&#x2f;18 14&#x3a;44&#x3a;19.083</modified_date>
     <parameters>
     </parameters>
   <connection>
@@ -133,8 +133,8 @@
     </attributes>
   </connection>
     <slaveservers>
-         <slaveserver><name>slave2</name><hostname>localhost</hostname><port>8082</port><webAppName/><username>cluster</username><password>Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>N</master><sslMode>N</sslMode></slaveserver>
          <slaveserver><name>master1</name><hostname>localhost</hostname><port>8080</port><webAppName/><username>cluster</username><password>Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>Y</master><sslMode>N</sslMode></slaveserver>
+         <slaveserver><name>slave2</name><hostname>localhost</hostname><port>8082</port><webAppName/><username>cluster</username><password>Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8</password><proxy_hostname/><proxy_port/><non_proxy_hosts/><master>N</master><sslMode>N</sslMode></slaveserver>
     </slaveservers>
 <job-log-table><connection/>
 <schema/>
@@ -156,17 +156,6 @@
    <pass_batchid>N</pass_batchid>
    <shared_objects_file/>
   <entries>
-    <entry>
-      <name>&#x8bb0;&#x5f55;&#x65e5;&#x5fd7;</name>
-      <description/>
-      <type>EVAL</type>
-      <script>&#x2f;&#x2f;&#x8c03;&#x7528;&#x540e;&#x53f0;&#x7a0b;&#x5e8f;&#x6267;&#x884c;&#x6570;&#x636e;&#x8d26;&#x5355;&#x4efb;&#x52a1;&#xd;&#xa;var edb &#x3d; new Packages.net.oschina.kettlemanager.JobManager&#x28;_entry_&#x29;&#x3b;&#xd;&#xa;edb.run&#x28;&#x29;&#x3b;&#xd;&#xa;true&#x3b;</script>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>271</xloc>
-      <yloc>114</yloc>
-      </entry>
     <entry>
       <name>START</name>
       <description/>
@@ -197,20 +186,32 @@
       <xloc>389</xloc>
       <yloc>114</yloc>
       </entry>
+    <entry>
+      <name>&#x5b9a;&#x65f6;&#x8bb0;&#x5f55;&#x8fd0;&#x884c;&#x65e5;&#x5fd7;</name>
+      <description/>
+      <type>JobEntryKettleUtil</type>
+      <configInfo>&#x7b;&#x7d;</configInfo>
+      <className>net.oschina.kettlemanager.JobManager</className>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>270</xloc>
+      <yloc>117</yloc>
+      </entry>
   </entries>
   <hops>
     <hop>
-      <from>&#x8bb0;&#x5f55;&#x65e5;&#x5fd7;</from>
-      <to>&#x6210;&#x529f;</to>
+      <from>START</from>
+      <to>&#x5b9a;&#x65f6;&#x8bb0;&#x5f55;&#x8fd0;&#x884c;&#x65e5;&#x5fd7;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
+      <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>START</from>
-      <to>&#x8bb0;&#x5f55;&#x65e5;&#x5fd7;</to>
+      <from>&#x5b9a;&#x65f6;&#x8bb0;&#x5f55;&#x8fd0;&#x884c;&#x65e5;&#x5fd7;</from>
+      <to>&#x6210;&#x529f;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

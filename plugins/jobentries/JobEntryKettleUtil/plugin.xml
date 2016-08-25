@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="JobEntryKettleUtil"
+   iconfile="icon.png"
+   description="kettle工具"
+   tooltip="kettle工具作业插件"
+   category="General"
+   classname="net.oschina.kettleutil.jobentry.JobEntryKettleUtil">
+   <libraries>
+    <library name="JobEntryKettleUtil.jar"/>
+    </libraries>
+    
+   <localized_category>
+     <category locale="en_US">General</category>
+     <category locale="zh_CN">通用</category>
+   </localized_category>
+   <localized_description>
+     <description locale="en_US">kettle工具</description>
+   </localized_description>
+   <localized_tooltip>
+     <tooltip locale="en_US">kettle工具作业插件</tooltip>
+   </localized_tooltip>
+</plugin>

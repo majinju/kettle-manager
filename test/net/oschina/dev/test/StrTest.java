@@ -9,7 +9,7 @@ package net.oschina.dev.test;
 import org.junit.Test;
 
 /**
- *  <br/>
+ * 字符串测试 <br/>
  * date: 2016年8月5日 <br/>
  * @author jingma
  * @version 

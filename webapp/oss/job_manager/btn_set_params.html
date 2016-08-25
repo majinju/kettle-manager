@@ -20,14 +20,14 @@ var setParams = function() {
         || document.documentElement.clientHeight
         || document.body.clientHeight;
 
-	    var dialog = parent.sy.modalDialog({
+	    var dialog = window.sy.modalDialog({
 	 		title : '作业参数设置',
 	 		url : '/single_grid/list/list_job_params?expand_params=showQuery-false_showBtn-false_showRowMenu-false&id_job=' + row.id_job,
 	 		buttons : [ 
 		 		{
 		 			text : '&nbsp;&nbsp;确&nbsp;定&nbsp;&nbsp;',
 		 			handler : function() {
-		 				dialog.find('iframe').get(0).contentWindow.dialogSaveTable(dialog, grid, parent.$);
+		 				dialog.find('iframe').get(0).contentWindow.dialogSaveTable_grid(dialog, grid, parent.$);
 		 			}
 		 		},
 		 		{

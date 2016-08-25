@@ -1,8 +1,8 @@
 <table id="${id}" width="auto" height="auto"></table>
 <script>
 // var ${'$'+id};
-var $myGrid;
-var objectCode = '${objectCode!}';// medaobject code
+var $myGrid_${id};
+var objectCode_${id} = '${objectCode!}';// medaobject code
 $(function () {
 	
     // init param
@@ -29,7 +29,7 @@ $(function () {
     var configJson = '${configJson!}';// config is json
     
     if (url == '') {
-        url = '/grid/query/' + objectCode;
+        url = '/grid/query/' + objectCode_${id};
         if(menuCode != ''){
         	url = url + '-' + menuCode;
         }
@@ -40,7 +40,7 @@ $(function () {
     	url = url + '?' + paras;
     }
     
-    // console.log(objectCode + 'isFirstLoad' + isFirstLoad);
+    // console.log(objectCode_${id} + 'isFirstLoad' + isFirstLoad);
 
     var config, object, fields;
 
@@ -50,14 +50,14 @@ $(function () {
     if(objectJson != '') {
         object = JSON.parse(objectJson);
     } else {
-        $.syncGetJson('/meta/object/' + objectCode, function (json) {
+        $.syncGetJson('/meta/object/' + objectCode_${id}, function (json) {
             object = json;
         });
     }
     if(fieldsJson != '') {
         fields = JSON.parse(fieldsJson);
     } else  {
-        $.syncGetJson('/meta/fields/' + objectCode, function (json) {
+        $.syncGetJson('/meta/fields/' + objectCode_${id}, function (json) {
             fields = json;
         });
     }
@@ -156,11 +156,11 @@ $(function () {
             editor.options = {};
             if (f.type == '下拉框') {
                 editor.options = {
-                    url: '/widget/comboJson/' + objectCode + '-' + f.en, valueField: 'id', textField: 'cn', multiple: f.is_multiple
+                    url: '/widget/comboJson/' + objectCode_${id} + '-' + f.en, valueField: 'id', textField: 'cn', multiple: f.is_multiple
                 }
             } else if (f.type == '查找框') {
                 editor.options = {
-                    url: '/widget/find?code=' + objectCode + '&field=' + f.en + '&multiple=' + f.is_multiple
+                    url: '/widget/find?code=' + objectCode_${id} + '&field=' + f.en + '&multiple=' + f.is_multiple
                 }
             } else if (f.type == '定时框') {
                 editor.options = {
@@ -210,7 +210,7 @@ $(function () {
 	}
 
     var selectIndex;
-    $myGrid = $grid.datagrid({
+    $myGrid_${id} = $grid.datagrid({
         fit: true,
         border: false,
         striped: true,
@@ -222,7 +222,7 @@ $(function () {
         rownumbers: object.is_show_num,
         showFooter: true,
        
-        ctrlSelect: false,
+        ctrlSelect: true,
         singleSelect: object.is_single,
         selectOnCheck: true,
         checkOnSelect: true,
@@ -260,9 +260,10 @@ $(function () {
             }
         },
         onLoadSuccess: function (data) {
+            $myGrid_${id}.datagrid("clearSelections");
             if (object.is_celledit && data.total < 1) {
                 // 暂时禁用，初始化不加载空行，使用Grid 分页栏按钮添加！
-                $myGrid.datagrid('insertRow', {index: 0, row: {}});
+                $myGrid_${id}.datagrid('insertRow', {index: 0, row: {}});
             }
         },
         onRowContextMenu: function (e, rowIndex, rowData) {
@@ -281,11 +282,11 @@ $(function () {
         }
     });
     
-//     ${'$'+id} = $myGrid;
+//     ${'$'+id} = $myGrid_${id};
 
     // 开启编辑模式
     if (object.is_celledit) {
-        $myGrid.datagrid('enableCellEditing');
+        $myGrid_${id}.datagrid('enableCellEditing');
     }
 
     var rowMenu;
@@ -302,7 +303,7 @@ $(function () {
             name: 'reload',
             iconCls: 'pagination-load',
             onclick: function () {
-                $myGrid.datagrid('reload');
+                $myGrid_${id}.datagrid('reload');
             }
         });
         rowMenu.menu('appendItem', {
@@ -310,7 +311,7 @@ $(function () {
             name: 'exportAll',
             iconCls: 'icon-pageexcel',
             onclick: function () {
-                window.location.href = '/grid/export/' + objectCode;
+                window.location.href = '/grid/export/' + objectCode_${id};
             }
         });
         rowMenu.menu('appendItem', {
@@ -319,7 +320,7 @@ $(function () {
             iconCls: 'icon-pageexcel',
             onclick: function () {
             	// 导出Xls
-                $.gridToExcel($myGrid, objectCode);
+                $.gridToExcel($myGrid_${id}, objectCode_${id});
             }
         });
         if (object.is_celledit) {
@@ -341,7 +342,7 @@ $(function () {
                 iconCls: 'icon-tabledelete',
                 onclick: function () {
                 	console.log('删除行，索引=' +  selectIndex);
-					$myGrid.datagrid('deleteRow', selectIndex);
+					$myGrid_${id}.datagrid('deleteRow', selectIndex);
                 }
             });
             rowMenu.menu('appendItem', {
@@ -349,7 +350,7 @@ $(function () {
                 name: 'add',
                 iconCls: 'icon-tableadd',
                 onclick: function () {
-                    $myGrid.datagrid('insertRow', {
+                    $myGrid_${id}.datagrid('insertRow', {
                         index: 0,
                         row: rowData
                     });
@@ -360,7 +361,7 @@ $(function () {
                 name: 'save',
                 iconCls: 'icon-tablesave',
                 onclick: function () {
-                    saveTable();
+                    saveTable_${id}();
                 }
             });
 //            rowMenu.menu('appendItem', {
@@ -368,7 +369,7 @@ $(function () {
 //                name: 'reject',
 //                iconCls: 'icon-undo',
 //                onclick: function () {
-//                    //$myGrid.datagrid('rejectChanges');
+//                    //$myGrid_${id}.datagrid('rejectChanges');
 //                    console.log('回滚数据');
 //                }
 //            });
@@ -394,7 +395,7 @@ $(function () {
             name: 'editmeta',
             iconCls: 'icon-tableedit',
             onclick: function () {
-                window.open('/meta/edit/' + objectCode);
+                window.open('/meta/edit/' + objectCode_${id});
             }
         });
         cmenu.menu('appendItem', {
@@ -402,7 +403,7 @@ $(function () {
             name: 'editmeta',
             iconCls: 'icon-tableedit',
             onclick: function () {
-                loadDialog($myGrid, '修改元对象', '/form/update/eova_object_code-' + object.id);
+                loadDialog($myGrid_${id}, '修改元对象', '/form/update/eova_object_code-' + object.id);
             }
         });
         <%}%>
@@ -428,13 +429,13 @@ $(function () {
         });
         $form.on("validation", $.validation);    	
     }
-//    var pager = $myGrid.datagrid('getPager');
+//    var pager = $myGrid_${id}.datagrid('getPager');
 //    pager.pagination({
 //        buttons: [
 //            {
 //                iconCls: 'icon-tableadd',
 //                handler: function () {
-//                    $myGrid.datagrid('insertRow', {
+//                    $myGrid_${id}.datagrid('insertRow', {
 //                        index: 0,
 //                        row: {}
 //                    });
@@ -455,17 +456,17 @@ $(function () {
 //        ]
 //    });
 });
-var saveTable = function(){
-    var inserted = $myGrid.datagrid('getChanges', 'inserted');
-    var deleted = $myGrid.datagrid('getChanges', 'deleted');
-    var updated = $myGrid.datagrid('getChanges', 'updated');
+var saveTable_${id} = function(){
+    var inserted = $myGrid_${id}.datagrid('getChanges', 'inserted');
+    var deleted = $myGrid_${id}.datagrid('getChanges', 'deleted');
+    var updated = $myGrid_${id}.datagrid('getChanges', 'updated');
 
     var isOk = true;
     var errorMsg = '';
     if (inserted.length > 0) {
         var json1 = JSON.stringify(inserted);
         console.log('保存add数据' + json1);
-        $.syncPost('/grid/add/' + objectCode, {rows: json1},
+        $.syncPost('/grid/add/' + objectCode_${id}, {rows: json1},
                 function (result, status) {
                     if (!result.success) {
                         isOk = false;
@@ -476,7 +477,7 @@ var saveTable = function(){
     if (updated.length > 0) {
         var json3 = JSON.stringify(updated);
         console.log('保存update数据' + json3);
-        $.syncPost('/grid/update/' + objectCode, {rows: json3},
+        $.syncPost('/grid/update/' + objectCode_${id}, {rows: json3},
                 function (result, status) {
                     if (!result.success) {
                         isOk = false;
@@ -487,7 +488,7 @@ var saveTable = function(){
     if (deleted.length > 0) {
         var json2 = JSON.stringify(deleted);
         console.log('保存delete数据' + json2);
-        $.syncPost('/grid/delete/' + objectCode, {rows: json2},
+        $.syncPost('/grid/delete/' + objectCode_${id}, {rows: json2},
                 function (result, status) {
                     if (!result.success) {
                         isOk = false;
@@ -499,14 +500,14 @@ var saveTable = function(){
     if (isOk) {
         $.slideMsg("保存成功！");
         // 确认改动
-        $myGrid.datagrid('acceptChanges');
+        $myGrid_${id}.datagrid('acceptChanges');
         console.log('标记更改');
     } else {
         $.alert($, errorMsg);
     }
 }
-var dialogSaveTable = function($dialog, $grid, $pjq) {
-    saveTable();
+var dialogSaveTable_${id} = function($dialog, $grid, $pjq) {
+    saveTable_${id}();
     $dialog.dialog('destroy');
 };
 

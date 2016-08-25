@@ -1,4 +1,4 @@
-<project name="PentahoReporting" default="default" basedir=".">
+<project name="KmSustain" default="default" basedir=".">
 
 	<description>
 	  	 打包插件
@@ -6,59 +6,60 @@
 
 	<tstamp prefix="start" />
 
-	<!-- system properties to use -->
 	<property name="cr" value="${line.separator}" />
+	<property name="project_name" value="KmSustain" />
 
-	<!-- set global properties for this build -->
-	<property name="kettle_dir" location="D:\NIS\data-integration5.4" />
-	<property name="src" location="src\main\java" />
-	<property name="classes" location="target\classes" />
-	<property name="lib" location="target" />
-	<property name="kettle_lib" location="${kettle_dir}\lib" />
-	<property name="libswt" location="${kettle_dir}\libswt" />
-	<property name="resource" location="src\main\resource" />
+	<property name="src" location="src/main/java" />
+	<property name="resources" location="src/main/resources" />
+	<property name="target" location="target" />
+	
+	<!-- 指定环境变量参数为:SystemVariable -->
+	<property environment="SystemVariable" />
+	<property name="kettle_dir" location="${SystemVariable.KETTLE_HOME}" />
 
-	<target name="init" description="create timestamp and directories">
+	<target name="init">
 		<echo>初始化</echo>
 		<tstamp />
-		<mkdir dir="${classes}" />
-		<mkdir dir="${lib}" />
+		<mkdir dir="${target}\classes" />
 	</target>
 
-	<target name="compile" depends="init" description="compile the source ">
+	<target name="compile" depends="init">
 		<echo>编译代码</echo>
-		<javac srcdir="${src}" destdir="${classes}">
+		<javac srcdir="${src}" destdir="${target}\classes">
 			<classpath id="cpath">
-				<fileset dir="${kettle_lib}" includes="*.jar" />
+				<fileset dir="${kettle_dir}\lib" includes="*.jar" />
+				<fileset dir="${kettle_dir}\ext-lib" includes="*.jar" />
+				<fileset dir="${kettle_dir}\libswt/win32/" includes="*.jar" />
 			</classpath>
 		</javac>
 	</target>
 
-	<target name="copy" depends="compile" description="copy images etc to classes directory">
+	<target name="copy" depends="compile">
 		<echo>拷贝附属文件</echo>
-		<copy todir="${classes}">
+		<copy todir="${target}\classes">
 			<fileset dir="${src}" includes="**/*.png,**/*.xml,**/*.properties" />
 		</copy>
 	</target>
 
-	<target name="lib" depends="compile, copy" description="generate the Jasper Reporting Plugin library dummy.jar">
+	<target name="lib" depends="copy">
 		<echo>生成jar包</echo>
-		<jar jarfile="${lib}/KmSustain.jar" basedir="${classes}" includes="**/*" />
+		<jar jarfile="${target}/${project_name}.jar" basedir="${target}\classes" includes="**/*" />
 	</target>
 
-	<target name="deploy" depends="lib" description="Deploy step_resource_dirution...">
+	<target name="deploy" depends="lib">
 		<echo>部署插件</echo>
-		<copy todir="${kettle_lib}">
-			<fileset dir="${lib}" includes="**/*.jar" />
+		<copy todir="${kettle_dir}\ext-lib">
+			<fileset dir="${target}" includes="${project_name}.jar" />
 		</copy>
+
+		<delete dir="${target}\classes" />
 	</target>
 
-	<target name="clean" description="clean up generated files">
+	<target name="clean">
 		<echo>删除已经生成的文件</echo>
-		<delete dir="${classes}" />
-		<delete dir="${lib}" />
+		<delete dir="${target}" />
 	</target>
 	
-	<target name="default" depends="deploy" description="default = build all" />
+	<target name="default" depends="clean,deploy" description="默认删除已经生成的文件重新生成" />
 
 </project>

@@ -44,7 +44,8 @@ public class KettleUtil extends BaseStep implements StepInterface {
                 kui.setData(data);
                 return kui.run();
             } catch (Exception e) {
-                logError("运行失败", e);
+                setErrors(getErrors()+1);
+                logError("运行失败,"+meta.getClassName()+","+meta.getConfigInfo(), e);
                 return defaultRun();
             }
 		}else{

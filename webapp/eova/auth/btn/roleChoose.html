@@ -7,7 +7,7 @@ var eova_roleChoose = function() {
 	var grid = $('#grid');
 	var row = grid.datagrid('getSelected');
 	if (isSelected(row)){
-		var dialog = parent.sy.modalDialog({
+		var dialog = window.sy.modalDialog({
 	 		title : '['+ row.name +']可用功能选择',
 	 		url : '/auth/toRoleChoose/' + row.id,
 	 		buttons : [ {

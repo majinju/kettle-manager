@@ -13,7 +13,7 @@
 		</filter>
 	</appender>
 	<appender name="debug" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="e:/temp/kettlemanager/logs/kettlemanager/debug.log" />  
+		<param name="File" value="/temp/kettle-manager/logs/kettle-manager/debug.log" />  
 		<param name="Append" value="true" />  
 		<param name="Encoding" value="UTF-8" />
 		<param name="MaxBackupIndex" value="10" />  
@@ -29,7 +29,7 @@
 		</filter>
 	</appender>
 	<appender name="info" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="e:/temp/kettlemanager/logs/kettlemanager/info.log" />  
+		<param name="File" value="/temp/kettle-manager/logs/kettle-manager/info.log" />  
 		<param name="Append" value="true" />  
 		<param name="Encoding" value="UTF-8" />
 		<param name="MaxBackupIndex" value="10" />  
@@ -46,7 +46,7 @@
 	</appender>
 	
 	<appender name="error" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="e:/temp/kettlemanager/logs/kettlemanager/error.log" />  
+		<param name="File" value="/temp/kettle-manager/logs/kettle-manager/error.log" />  
 		<param name="Append" value="true" />  
 		<param name="Encoding" value="UTF-8" />
 		<param name="MaxBackupIndex" value="10" />  

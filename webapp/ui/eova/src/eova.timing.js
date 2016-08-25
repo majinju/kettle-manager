@@ -165,7 +165,7 @@
     // 定时配置弹出框
     var eova_findDialog = function(timingBox, url) {
         // 弹出窗口
-        var dialog = parent.sy.modalDialog({
+        var dialog = window.sy.modalDialog({
             title : '任务定时配置',
             url : url,
             buttons : [ {

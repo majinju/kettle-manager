@@ -23,6 +23,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.oss.model.MetlDatabase;
 
 /**
@@ -199,6 +200,8 @@ public class DatabaseIntercept extends MetlMOIntercept {
     * @throws Exception 
     */
     private void updateKettleJndi() throws Exception {
+        //移除数据库字典缓存
+        CacheKit.remove(UtilConst.CACHE_DICT, KuConst.DICT_CATEGORY_DATABASE+"_DOL");
         List<MetlDatabase> list = MetlDatabase.dao.queryNotDisable("status",
                 UtilConst.LINK_STATUS_SUCCESS);
         Record kettleDruid = Dict.dictObj(

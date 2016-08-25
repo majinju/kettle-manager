@@ -11,5 +11,4 @@
 		<libraries>
     		<library name="KettleUtil.jar"/>
 		</libraries>
-		
 </plugin>

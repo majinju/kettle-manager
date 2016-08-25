@@ -1182,7 +1182,7 @@
     // Find 查询框
     var eova_findDialog = function(findBox, url) {
         // 弹出窗口
-        var dialog = parent.sy.modalDialog({
+        var dialog = window.sy.modalDialog({
             title : '请选择数据',
             url : url,
             buttons : [ {
@@ -1378,7 +1378,7 @@
     // 定时配置弹出框
     var eova_timingDialog = function(timingBox, url) {
         // 弹出窗口
-        var dialog = parent.sy.modalDialog({
+        var dialog = window.sy.modalDialog({
             title : '任务定时配置',
             url : url,
             buttons : [ {

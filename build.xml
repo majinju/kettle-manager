@@ -1,4 +1,4 @@
-<project name="PentahoReporting" default="default" basedir=".">
+<project name="kettle-manager" default="default" basedir=".">
 
 	<description>
 	  	 打包
@@ -6,82 +6,105 @@
 
 	<tstamp prefix="start" />
 
-	<!-- system properties to use -->
+	<!-- 指定环境变量参数为:SystemVariable -->
+	<property environment="SystemVariable" />
 	<property name="cr" value="${line.separator}" />
-
-	<!-- set global properties for this build -->
+	
+	<!-- 修改概率较高的参数 -->
+	<property name="kettle_dir" location="${SystemVariable.KETTLE_HOME}" />
+	<property name="temp_dir" value="/temp/${ant.project.name}" />
+	<property name="extLib" value="${kettle_dir}/ext-lib" />
+	<property name="myutils" value="E:/workspace/myutils/target"/>
+	
 	<property name="src" location="src" />
-	<property name="classes" location="target\classes" />
-	<property name="lib" location="webapp\WEB-INF\lib" />
-	<property name="kettle_dir" location="D:\NIS\data-integration5.4" />
-	<property name="target" location="target\kettle-manager" />
-	<property name="jar_dir" location="target\jar_dir" />
-	<property name="resource" location="resources" />
+	<property name="resources" location="resources" />
 	<property name="doc" location="doc" />
+	<property name="lib" location="webapp/WEB-INF/lib" />
+	
+	<property name="target" location="${temp_dir}/${ant.project.name}" />
+	<property name="classes" location="${temp_dir}/classes" />
+	
 
-	<target name="init" description="create timestamp and directories">
+	<target name="init">
 		<echo>初始化</echo>
 		<tstamp />
+		<delete dir="${target}" />
 		<mkdir dir="${classes}" />
 		<mkdir dir="${target}" />
+		<mkdir dir="${extLib}" />
+		<copy todir="${extLib}">
+			<fileset dir="${myutils}" includes="myutils.jar" />
+			<fileset dir="${myutils}/ext-lib" includes="**/*.jar" />
+		</copy>
+		<copy todir="${target}/lib">
+			<fileset dir="${lib}" includes="**/*.jar" />
+		</copy>
 	</target>
 
-	<target name="compile" depends="init" description="compile the source ">
+	<target name="compile" depends="init">
 		<echo>编译代码</echo>
 		<javac srcdir="${src}" destdir="${classes}">
 			<classpath id="cpath">
-				<fileset dir="${kettle_dir}\lib" includes="*.jar" />
-				<fileset dir="${lib}" includes="*.jar" />
+				<fileset dir="${kettle_dir}/lib" includes="*.jar" />
+				<fileset dir="${extLib}" includes="*.jar" />
+				<fileset dir="${target}/lib" includes="*.jar" />
 				<fileset dir="${classes}" includes="*.class" />
 			</classpath>
 		</javac>
 	</target>
 
-	<target name="copy" depends="compile" description="copy images etc to classes directory">
+	<target name="copy" depends="compile">
 		<echo>拷贝附属文件</echo>
 		<copy todir="${classes}">
-			<fileset dir="${resource}" includes="**/*.png,**/*.xml,**/*.properties" 
+			<fileset dir="${resources}" includes="**/*.png,**/*.xml,**/*.properties" 
 			excludes="log4j.xml"/>
 		</copy>
 	</target>
 
-	<target name="lib" depends="compile, copy" description="generate the Jasper Reporting Plugin library dummy.jar">
+	<target name="jar" depends="copy" description="生成jar包">
 		<echo>生成jar包</echo>
-		<jar jarfile="${jar_dir}/kettle-manager.jar" basedir="${classes}" includes="**/*" />
+		<jar jarfile="${temp_dir}/${ant.project.name}.jar" basedir="${classes}" includes="**/*" />
 	</target>
 
-	<target name="deploy" depends="lib" description="Deploy step_resource_dirution...">
+	<target name="deploy" depends="jar">
 		<echo>生成部署包</echo>
-		<copy todir="${target}\lib">
-			<fileset dir="${lib}" includes="**/*.jar" />
-			<fileset dir="${jar_dir}" includes="**/*.jar" />
-			<fileset dir="${kettle_dir}\lib" includes="*.jar" />
+		<copy todir="${target}/lib">
+			<fileset dir="${temp_dir}" includes="${ant.project.name}.jar" />
 		</copy>
-		<copy todir="${target}">
-			<fileset dir="${resource}" includes="default/*" />
-			<fileset dir="" includes="doc/**" />
-		</copy>
-		<copy todir="${target}\webapp">
+		<copy todir="${target}/webapp">
 			<fileset dir="webapp" includes="**" excludes="WEB-INF/lib/**,WEB-INF/classes/**"/>
 		</copy>
 		<copy todir="${target}">
-			<fileset dir="doc\杂物" includes="plugins/**"/>
-			<fileset file="doc\杂物\start.bat"/>
-			<fileset file="${resource}\log4j.xml"/>
+			<fileset file="doc/杂物/start.bat"/>
+			<fileset dir="${resources}" includes="default/*" />
+			<fileset dir="" includes="doc/**" />
+			<fileset dir="" includes="plugins/**" />
 		</copy>
-		<zip destfile="target\kettle-manager.zip">
+		<copy todir="${target}">
+			<fileset file="doc/杂物/start.bat"/>
+		</copy>
+		<replace dir="${target}" includes="start.bat,default/**">
+			<replacefilter token="@project-name@" value="${ant.project.name}"/>
+			<replacefilter token="@ext-lib@" value="%KETTLE_HOME%/ext-lib/*"/>
+			<replacefilter token="@temp-dir@" value="${temp_dir}"/>
+			<replacefilter token="@host@" value="127.0.0.1"/>
+			<replacefilter token="@port@" value="86"/>
+			<replacefilter token="@db-metl-url@" value="jdbc:oracle:thin:@127.0.0.1:1521:mydb"/>
+			<replacefilter token="@db-metl-user@" value="km"/>
+			<replacefilter token="@db-metl-pwd@" value="km"/>
+		</replace>
+		<zip destfile="${temp_dir}/${ant.project.name}.zip">
 			<fileset dir="${target}" includes="**"/>
 		</zip>
 		<delete dir="${classes}" />
-		<delete dir="${target}" />
-		<delete dir="${jar_dir}" />
+		<delete file="${temp_dir}/${ant.project.name}.jar"/>
 	</target>
 
-	<target name="clean" description="clean up generated files">
+	<target name="clean">
 		<echo>删除已经生成的文件</echo>
-		<delete file="target\kettle-manager.zip" />
+		<delete file="${temp_dir}/${ant.project.name}.zip" />
 	</target>
 	
-	<target name="default" depends="clean,deploy" description="default = build all" />
+	<target name="default" depends="clean,deploy" description="默认删除已经生成的文件重新生成" />
 
 </project>

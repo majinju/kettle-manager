@@ -68,7 +68,7 @@ var loadDialog = function(grid, name, url, width, height) {
 		height = $(window).height() * 0.9;
 	}
 	// 弹出窗口
- 	var dialog = parent.sy.modalDialog({
+ 	var dialog = window.sy.modalDialog({
  		title : name,
  		url : url,
  		buttons : [ {
@@ -89,7 +89,7 @@ var loadDialog = function(grid, name, url, width, height) {
 // 导入数据Dialog
 var importDialog = function(grid, name, url) {
 	// 弹出窗口
- 	var dialog = parent.sy.modalDialog({
+ 	var dialog = window.sy.modalDialog({
  		title : name,
  		url : url,
  		buttons : [ {

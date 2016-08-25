@@ -52,7 +52,7 @@ var eova_clearVal = function(input, flag){
 var eova_iconDialog = function(input, span) {
 	// 获取选中行
 	// 弹出窗口
-	var dialog = parent.sy.modalDialog({
+	var dialog = window.sy.modalDialog({
 		id : 'icon_ok',
 		title : '修改ICON',
 		url : '/toIcon',

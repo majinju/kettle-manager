@@ -21,6 +21,10 @@
 				if (!sy.startWith(node.attributes.url, '/')) {
 					src = node.attributes.url;
 				}
+				if(node.is_new_tab=='1'){
+				    window.open(src);
+				    return;
+				}
 				var opts = {
 					title : node.text,
 					closable : true,

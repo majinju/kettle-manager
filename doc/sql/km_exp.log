@@ -17,7 +17,7 @@ About to export KM's objects ...
 . . exporting table                    EOVA_BUTTON        167 rows exported
 . . exporting table                      EOVA_DICT         21 rows exported
 . . exporting table                     EOVA_FIELD        169 rows exported
-. . exporting table                       EOVA_LOG          0 rows exported
+. . exporting table                       EOVA_LOG          4 rows exported
 . . exporting table                      EOVA_MENU         36 rows exported
 . . exporting table                    EOVA_OBJECT         15 rows exported
 . . exporting table                      EOVA_ROLE          4 rows exported

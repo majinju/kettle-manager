@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 
 import net.oschina.kettleutil.common.KuConst;
 import net.oschina.kettleutil.db.Db;
+import net.oschina.kettleutil.jobentry.JobEntryKettleUtilRunBase;
 import net.oschina.mytuils.DateUtil;
 import net.oschina.mytuils.KettleUtils;
 import net.oschina.mytuils.constants.UtilConst;
@@ -27,18 +28,22 @@ import org.apache.commons.logging.LogFactory;
 import org.pentaho.di.core.logging.KettleLogStore;
 import org.pentaho.di.job.Job;
 import org.pentaho.di.job.JobMeta;
-import org.pentaho.di.job.entries.eval.JobEntryEval;
 import org.pentaho.di.trans.Trans;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 执行数据账单中的任务 <br/>
+ * 作业具体操作管理 <br/>
  * date: 2016年6月28日 <br/>
  * @author jingma
  * @version 
  */
-public class JobManager{
+public class JobManager extends JobEntryKettleUtilRunBase{
+    private static final String LOG_FILE_ROOT = "日志文件路径";
+    private static final String IS_WRITE_LOG_FILE = "是否写日志文件";
+    private static final String LOG_FILE_SIZE = "日志文件大小(M)";
+    private static final String RUN_LOG_LINE = "获取运行日志行数";
     /**
     * 启动失败
     */
@@ -72,10 +77,6 @@ public class JobManager{
     */
     private static String logFileRoot = "/temp/km/logs/kettle";
     /**
-    * 项目基础数据库操作对象
-    */
-    private static Db metldb;
-    /**
     * 资源库所在数据库操作对象
     */
     private static Db kettledb;
@@ -95,12 +96,8 @@ public class JobManager{
     * job日志已处理行数记录：<作业，作业对应的日志输出流>
     */
     private static Map<Job,FileOutputStream> jobLogStream = new HashMap<Job, FileOutputStream>();
-    /**
-    * javascript控件
-    */
-    private JobEntryEval jee;
+
     static{
-        metldb = Db.use(UtilConst.DATASOURCE_METL);
         kettledb = Db.use(KuConst.DATASOURCE_KETTLE);
     }
     
@@ -109,17 +106,18 @@ public class JobManager{
      */
     public JobManager() {
     }
-    
-    public JobManager(JobEntryEval jobEntryEval) {
-        super();
-        this.jee = jobEntryEval;
-    }
 
     /**
     * 开始获取并执行数据账单中的任务 <br/>
     * @author jingma
     */
-    public void run(){
+    public boolean run() throws Exception{
+        if(configInfo!=null){
+            setIsWriteLogFile(configInfo.getBoolean(IS_WRITE_LOG_FILE));
+            setLogFileRoot(configInfo.getString(LOG_FILE_ROOT));
+            setLogFileSize(configInfo.getDoubleValue(LOG_FILE_SIZE));
+            setRunLogLine(configInfo.getIntValue(RUN_LOG_LINE));
+        }
         //记录日志
         Iterator<Entry<String, Job>> jobIter = jobMap.entrySet().iterator();
         while(jobIter.hasNext()){
@@ -130,7 +128,7 @@ public class JobManager{
                 try {
                     jobLogStream.get(job).close();
                 } catch (Exception e) {
-                    jee.logBasic("关闭日志输出流失败", e);
+                    jeku.logBasic("关闭日志输出流失败", e);
                 }
                 jobIter.remove();
                 jobLogLine.remove(job);
@@ -144,6 +142,7 @@ public class JobManager{
             //更新作业状态
             kettledb.update(SQL_UPDATE_JOB_STATUS,status,Integer.parseInt(job.getObjectId().getId()));
         }
+        return true;
     }
     /**
     * 启动时初始化，运行之前在运行的作业 <br/>
@@ -184,8 +183,18 @@ public class JobManager{
                     param.getString("value"));
         }
         Job job = new Job(KettleUtils.getInstanceRep(), jm);
+        return startJob(job);
+    }
+    /**
+    * 启动作业 <br/>
+    * @author jingma
+    * @param job 作业
+    * @return
+    * @throws Exception
+    */
+    public static String startJob(Job job){
         job.start();
-        jobMap.put(idJob, job);
+        jobMap.put(job.getObjectId().getId(), job);
         jobLogLine.put(job, 0);
         jobLogStream.put(job, null);
         log.info("作业启动完成："+job.getJobname());
@@ -306,35 +315,19 @@ public class JobManager{
             log.error("写日志文件失败", e);
         }
     }
-
     /**
-     * @return jee 
-     */
-    public JobEntryEval getJee() {
-        return jee;
+    * 
+    * @see net.oschina.kettleutil.jobentry.JobEntryKettleUtilRunBase#getDefaultConfigInfo()
+    */
+    @Override
+    public String getDefaultConfigInfo() throws Exception {
+        JSONObject params = new JSONObject();
+        params.put(RUN_LOG_LINE, runLogLine);
+        params.put(LOG_FILE_SIZE, logFileSize);
+        params.put(IS_WRITE_LOG_FILE, isWriteLogFile);
+        params.put(LOG_FILE_ROOT, logFileRoot);
+        return JSON.toJSONString(params, true);
     }
-
-    /**
-     * @param jee the jee to set
-     */
-    public void setJee(JobEntryEval jee) {
-        this.jee = jee;
-    }
-
-    /**
-     * @return metldb 
-     */
-    public Db getMetldb() {
-        return metldb;
-    }
-
-    /**
-     * @param metldb the metldb to set
-     */
-    public void setMetldb(Db metldb) {
-        JobManager.metldb = metldb;
-    }
-
     /**
      * @return runLogLine 
      */
@@ -346,7 +339,9 @@ public class JobManager{
      * @param runLogLine the runLogLine to set
      */
     public static void setRunLogLine(int runLogLine) {
-        JobManager.runLogLine = runLogLine;
+        if(runLogLine>0){
+            JobManager.runLogLine = runLogLine;
+        }
     }
 
     /**
@@ -360,7 +355,9 @@ public class JobManager{
      * @param isWriteLogFile the isWriteLogFile to set
      */
     public static void setIsWriteLogFile(Boolean isWriteLogFile) {
-        JobManager.isWriteLogFile = isWriteLogFile;
+        if(isWriteLogFile!=null){
+            JobManager.isWriteLogFile = isWriteLogFile;
+        }
     }
 
     /**
@@ -374,7 +371,9 @@ public class JobManager{
      * @param logFileRoot the logFileRoot to set
      */
     public static void setLogFileRoot(String logFileRoot) {
-        JobManager.logFileRoot = logFileRoot;
+        if(logFileRoot!=null){
+            JobManager.logFileRoot = logFileRoot;
+        }
     }
 
     /**
@@ -388,7 +387,9 @@ public class JobManager{
      * @param logFileSize the logFileSize to set
      */
     public static void setLogFileSize(double logFileSize) {
-        JobManager.logFileSize = logFileSize;
+        if(logFileSize>0){
+            JobManager.logFileSize = logFileSize;
+        }
     }
     
 }

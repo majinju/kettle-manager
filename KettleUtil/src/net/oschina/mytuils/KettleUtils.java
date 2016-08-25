@@ -13,7 +13,6 @@ import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.di.job.Job;
 import org.pentaho.di.job.JobHopMeta;
 import org.pentaho.di.job.JobMeta;
-import org.pentaho.di.job.entries.eval.JobEntryEval;
 import org.pentaho.di.job.entries.job.JobEntryJob;
 import org.pentaho.di.job.entries.special.JobEntrySpecial;
 import org.pentaho.di.job.entries.trans.JobEntryTrans;
@@ -178,13 +177,12 @@ public class KettleUtils {
         if(!KettleEnvironment.isInitialized()){
             KettleEnvironment.init();
         }
-        if(System.getenv("org.osjava.sj.root")!=null){
-            System.setProperty("org.osjava.sj.root", System.getenv("org.osjava.sj.root"));
-            log.info("Simple-jndi配置根路径（org.osjava.sj.root）："+System.getenv("org.osjava.sj.root"));
+        if(System.getenv("KETTLE_JNDI_ROOT")!=null){
+            System.setProperty("org.osjava.sj.root", System.getenv("KETTLE_JNDI_ROOT"));
+            log.info("Simple-jndi配置根路径："+System.getenv("KETTLE_JNDI_ROOT"));
         }
 		//创建资源库数据库对象，类似我们在spoon里面创建资源库
 		DatabaseMeta dataMeta = new DatabaseMeta(name, type, access, host, db, port, user, pass);
-//		dataMeta.set
 		//资源库元对象
 		KettleDatabaseRepositoryMeta kettleDatabaseMeta = 
 				new KettleDatabaseRepositoryMeta(id, repName, description, dataMeta);
@@ -791,7 +789,7 @@ public class KettleUtils {
     * @param jee 
     * @return
     */
-    public static Job getRootJob(JobEntryEval jee) {
+    public static Job getRootJob(JobEntryBase jee) {
         Job rootjob = jee.getParentJob();
         return getRootJob(rootjob);
     }
@@ -811,7 +809,7 @@ public class KettleUtils {
     * @param jee 
     * @return
     */
-    public static String getRootJobId(JobEntryEval jee) {
+    public static String getRootJobId(JobEntryBase jee) {
         return getRootJob(jee).getObjectId().getId();
     }
     /**

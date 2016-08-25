@@ -8,5 +8,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Engine"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kettle UI"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/myutils"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/my_ext-lib"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/druid"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/fastjson"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

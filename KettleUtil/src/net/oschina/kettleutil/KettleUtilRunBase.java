@@ -9,6 +9,8 @@ package net.oschina.kettleutil;
 import net.oschina.mytuils.KettleUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.core.row.RowDataUtil;
 import org.pentaho.di.core.row.RowMetaInterface;
@@ -17,6 +19,7 @@ import org.pentaho.di.core.row.ValueMetaInterface;
 import org.pentaho.di.core.variables.VariableSpace;
 import org.pentaho.di.job.Job;
 import org.pentaho.di.trans.Trans;
+import org.pentaho.di.trans.TransMeta;
 import org.pentaho.di.trans.step.StepMeta;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +33,7 @@ import com.alibaba.fastjson.JSONObject;
  * @version 
  */
 public abstract class KettleUtilRunBase {
+    protected Log log = LogFactory.getLog(getClass());
     /**
     * kettleUtil控件
     */
@@ -63,21 +67,26 @@ public abstract class KettleUtilRunBase {
     * @return 
     * @throws KettleException 
     */
-    public boolean run() throws KettleException{
+    public boolean run() throws Exception{
         Object[] r = ku.getRow(); // get row, blocks when needed!
         if (r == null) // no more input to be expected...
         {
-            return end();
+            end();
+            ku.setOutputDone();
+            return false;
         }
-        getFields(data.outputRowMeta, ku.getStepname(), null, null, ku);
-        init();
+        if (ku.first) {
+            data.outputRowMeta = (RowMetaInterface) ku.getInputRowMeta().clone();
+            getFields(data.outputRowMeta, ku.getStepname(), null, null, ku);
+            ku.first = false;
+            init();
+        }
         //创建输出记录
         Object[] outputRow = RowDataUtil.createResizedCopy( r, data.outputRowMeta.size() );
         disposeRow(outputRow);
         //将该记录设置到下一步骤的读取序列中
         ku.putRow(data.outputRowMeta, outputRow); // copy row to possible alternate rowset(s)
         return true;
-        
     }
 
     /**
@@ -85,7 +94,7 @@ public abstract class KettleUtilRunBase {
     * @author jingma
     * @param outputRow
     */
-    protected void disposeRow(Object[] outputRow) {
+    protected void disposeRow(Object[] outputRow) throws Exception{
         
     }
 
@@ -93,11 +102,7 @@ public abstract class KettleUtilRunBase {
     * 初始化工作 <br/>
     * @author jingma
     */
-    protected void init() {
-        if (!ku.first) {
-            return;
-        }
-        ku.first = false;
+    protected void init() throws Exception{
     }
 
     /**
@@ -105,9 +110,16 @@ public abstract class KettleUtilRunBase {
     * @author jingma
     * @return
     */
-    protected boolean end() {
-        ku.setOutputDone();
-        return false;
+    protected void end() throws Exception{
+    }
+    /**
+    * 获取格式化后的默认JSON配置参数，供使用者方便快捷的修改配置 <br/>
+    * @author jingma
+     * @param transMeta 
+     * @param stepName 
+    */
+    public String getDefaultConfigInfo(TransMeta transMeta, String stepName) throws Exception{
+        return "{}";
     }
 
     /**
@@ -216,8 +228,12 @@ public abstract class KettleUtilRunBase {
     public void setMeta(KettleUtilMeta meta, VariableSpace space) {
         this.meta = meta;
         //将配置信息解析成josn对象,支持变量
-        if(StringUtils.isNotBlank(meta.getConfigInfo())){
-            setConfigInfo(JSON.parseObject(space.environmentSubstitute(meta.getConfigInfo())));
+        try {
+            if(StringUtils.isNotBlank(meta.getConfigInfo())){
+                setConfigInfo(JSON.parseObject(space.environmentSubstitute(meta.getConfigInfo())));
+            }
+        } catch (Exception e) {
+            log.info("配置信息转换为JSON对象失败："+JSON.toJSONString(meta), e);
         }
     }
 

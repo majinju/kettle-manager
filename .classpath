@@ -19,7 +19,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Kettle DB Dialog"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Engine"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kettle UI"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/MetlKettleSustain"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MetlKettleSustain"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/my_ext-lib"/>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>

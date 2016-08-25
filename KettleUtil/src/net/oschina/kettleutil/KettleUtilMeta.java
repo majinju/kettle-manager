@@ -29,15 +29,12 @@ import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
 import org.w3c.dom.Node;
 
-
-/**   
- * @Title: 元数据类 
- * @Package plugin.template 
- * @Description: TODO(用一句话描述该文件做什么) 
- * @author http://www.ahuoo.com  
- * @date 2010-8-8 下午05:10:26 
- * @version V1.0   
- */
+/**
+* 元数据 <br/>
+* date: 2016年8月18日 <br/>
+* @author jingma
+* @version 
+*/
 public class KettleUtilMeta extends BaseStepMeta implements StepMetaInterface {
 
 	private static Class<?> PKG = KettleUtilMeta.class; // for i18n purposes
@@ -100,6 +97,16 @@ public class KettleUtilMeta extends BaseStepMeta implements StepMetaInterface {
 		}
 	}
 
+    public String getDefaultConfigInfo(TransMeta transMeta, String stepName, VariableSpace space) throws Exception {
+        if(StringUtils.isNotBlank(getClassName())){
+            //实例化配置的类，获取输出字段
+            KettleUtilRunBase kui = (KettleUtilRunBase) Class.forName(space.environmentSubstitute(getClassName())).newInstance();
+            kui.setKu(null);
+            kui.setMeta(this,space);
+            return kui.getDefaultConfigInfo(transMeta,stepName);
+        }
+        return null;
+    }
 	public Object clone() {
 		Object retval = super.clone();
 		return retval;
@@ -108,7 +115,8 @@ public class KettleUtilMeta extends BaseStepMeta implements StepMetaInterface {
 	public void loadXML(Node stepnode, List<DatabaseMeta> databases, Map<String, Counter> counters) throws KettleXMLException {
 
 		try {
-			setConfigInfo(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "configinfo")));
+			setClassName(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "classname")));
+            setConfigInfo(XMLHandler.getNodeValue(XMLHandler.getSubNode(stepnode, "configinfo")));
 		} catch (Exception e) {
 			throw new KettleXMLException("Template Plugin Unable to read step info from XML node", e);
 		}
@@ -116,7 +124,7 @@ public class KettleUtilMeta extends BaseStepMeta implements StepMetaInterface {
 	}
 
 	public void setDefault() {
-        className = "net.oschina.kettleutil.utilrun.kurDemo";
+        className = "net.oschina.kettleutil.utilrun.KurDemo";
 		configInfo = "{}";
 	}
 

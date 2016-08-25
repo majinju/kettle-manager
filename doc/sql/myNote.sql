@@ -1,11 +1,15 @@
 --备份相关数据库语句
-exp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/km.dmp owner=(km)  log=E:/workspace/kettle-manager/doc/sql/km_exp.log 
---导入数据库语句
-imp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/km.dmp fromuser=km touser=km commit buffer=512000000 ignore=y
---设置变量
-org.osjava.sj.root=E:\云盘同步文件夹\360云同步\文档杂物\simple-jndi
+--exp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/km.dmp owner=(km)  log=E:/workspace/kettle-manager/doc/sql/km_exp.log 
 
--------------------脚本-----------
+--导入数据库语句
+--imp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/km.dmp fromuser=km touser=km commit buffer=512000000 ignore=y
+
+--设置环境变量
+--KETTLE_JNDI_ROOT=E:\云盘同步文件夹\360云同步\文档杂物\simple-jndi
+--KETTLE_HOME=D:\NIS\data-integration5.4
+
+-------------------数据库脚本----------------------
+--kettle资源库的数据库中执行如下语句
 --R_JOB表新增字段
 alter table R_JOB add RUN_STATUS VARCHAR2(100) default 'Stopped';
 -- 在kettle资源库中新增参数设置表
@@ -75,7 +79,7 @@ create index IDX_JOB_PARAMS_CREATE_DATE on JOB_PARAMS (CREATE_DATE);
 create index IDX_JOB_PARAMS_ONAME on JOB_PARAMS (ONAME);
 create index IDX_JOB_PARAMS_UPDATE_DATE on JOB_PARAMS (UPDATE_DATE);
 
-create or replace view v_job as
+create or replace view kettle.v_job as
 select id_job,
        id_directory,
        id_job as timing,
@@ -95,9 +99,13 @@ select id_job,
        use_logfield,
        shared_file,
        run_status
-  from r_job;
+  from r_job j
+  where j.job_status=2
+  /*
+  作业视图，默认只显示处于发布状态的作业，可以根据需要自行修改
+  */;
   
-create or replace view v_job_params as
+create or replace view kettle.v_job_params as
 select ja.id_job,
 to_char(ja.value_str) as ocode,
 to_char(ja1.value_str) as oname,
@@ -106,12 +114,15 @@ p.value,p.simple_spell,p.full_spell
 from r_job_attribute ja
 inner join r_job_attribute ja1 on ja1.id_job=ja.id_job and ja1.nr=ja.nr and ja1.code='PARAM_DESC'
 inner join r_job_attribute ja2 on ja2.id_job=ja.id_job and ja2.nr=ja.nr and ja2.code='PARAM_DEFAULT'
+inner join r_job j on j.job_status=2 and j.id_job=ja.id_job
 left join job_params p on p.id_job=ja.id_job and to_char(ja.value_str)=p.ocode
 where ja.code = 'PARAM_KEY'
-order by ja.nr asc;
+order by ja.nr asc
+/*
+参数设置
+*/;
 
-
--- km库需要
+-- 以下语句在km库（本系统数据库）执行
 create table KM.METL_TASK_TIMING
 (
   OID              VARCHAR2(32) default sys_guid() not null,
@@ -194,4 +205,18 @@ alter table KM.METL_TASK_TIMING
 -- Create/Recreate indexes 
 create index KM.IDX_M_T_TIMING_CREATE_DATE on KM.METL_TASK_TIMING (CREATE_DATE);
 create index KM.IDX_M_T_TIMING_UPDATE_DATE on KM.METL_TASK_TIMING (UPDATE_DATE);
+
+create table eova_menu_object(
+    id NUMBER(10) NOT NULL,
+    menu_code VARCHAR2(50) NOT NULL,
+    object_code VARCHAR2(50) NOT NULL,
+    indexs NUMBER(10)
+);
+
+alter table eova_menu_object add constraint pk_eova_menu_object primary key(id);
+comment on column eova_menu_object.menu_code is '菜单编码';
+comment on column eova_menu_object.object_code is '对象编码';
+comment on column eova_menu_object.indexs is '对象索引';
+alter table eova_menu_object modify indexs default '0';
+
 

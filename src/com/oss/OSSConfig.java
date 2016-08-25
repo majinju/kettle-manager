@@ -10,16 +10,12 @@ import net.oschina.kettlemanager.JobManager;
 import net.oschina.kettleutil.common.CommonUtil;
 import net.oschina.kettleutil.common.KuConst;
 import net.oschina.mytuils.KettleUtils;
-import net.oschina.mytuils.constants.UtilConst;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.eova.config.EovaConfig;
 import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.DbPro;
 import com.jfinal.plugin.activerecord.Record;
 import com.oss.controller.JobManagerController;
 import com.oss.model.MetlTaskTiming;
@@ -45,19 +41,6 @@ public class OSSConfig extends EovaConfig {
         if(KuConst.DATASOURCE_KETTLE.equals(ds)){
             try {
                 CommonUtil.connectKettle(ds, db.toJson());
-                //读取配置信息
-                DbPro metldb = Db.use(UtilConst.DATASOURCE_METL);
-                JSONObject logConfig = JSON.parseObject(metldb.queryStr("select expand from metl_unify_dict d where d.ocode=? and d.dict_category=?",
-                        "job_manager_config",KuConst.DICT_CATEGORY_GENERAL_CONFIG)).
-                        getJSONObject("logConfig");
-                Boolean isWriteLogFile = logConfig.getBoolean("isWriteLogFile");
-                String logFileRoot = logConfig.getString("logFileRoot");
-                Integer runLogLine = logConfig.getInteger("runLogLine");
-                Double logFileSize = logConfig.getDouble("logFileSize");
-                JobManager.setIsWriteLogFile(isWriteLogFile);
-                JobManager.setLogFileRoot(logFileRoot);
-                JobManager.setRunLogLine(runLogLine);
-                JobManager.setLogFileSize(logFileSize);
                 JobManager.init();
             } catch (Exception e) {
                 log.error("连接kettle资源库失败", e);

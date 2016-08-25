@@ -22,7 +22,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.di.core.database.util.DatabaseUtil;
 import org.pentaho.di.core.exception.KettleException;
-import org.pentaho.di.job.entries.eval.JobEntryEval;
 import org.pentaho.di.job.entry.JobEntryBase;
 import org.pentaho.di.trans.step.BaseStep;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -231,7 +230,7 @@ public class Db {
     * @param conn 数据库连接
     * @param preps 预编译语句
     */
-    public static void closeConn(JobEntryEval jee,Connection conn,PreparedStatement... preps){
+    public static void closeConn(JobEntryBase jee,Connection conn,PreparedStatement... preps){
         for(PreparedStatement p:preps){
             if(p != null){
                 try {

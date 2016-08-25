@@ -1,5 +1,7 @@
 package net.oschina.kettleutil;
 
+import net.oschina.mytuils.StringUtil;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -15,6 +17,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.pentaho.di.core.Const;
@@ -121,7 +124,7 @@ public class KettleUtilDialog extends BaseStepDialog implements StepDialogInterf
         fdClassName.right = new FormAttachment(100, margin );
 		wClassName.setLayoutData(fdClassName);
 
-	    wlConfigInfo = new Label( shell, SWT.RIGHT );
+	    wlConfigInfo = new Label( shell, SWT.NONE );
 	    wlConfigInfo.setText( BaseMessages.getString( PKG, "KettleUtil.ConfigInfo.Label" )+" " );
 	    props.setLook( wlConfigInfo );
 	    fdlConfigInfo = new FormData();
@@ -133,23 +136,35 @@ public class KettleUtilDialog extends BaseStepDialog implements StepDialogInterf
         // OK and cancel buttons
         wOK = new Button(shell, SWT.PUSH);
         wOK.setText(BaseMessages.getString(PKG, "System.Button.OK")); 
-        
-	    wConfigInfo =
-	      new StyledTextComp( transMeta, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL, "" );
-	    props.setLook( wConfigInfo, Props.WIDGET_STYLE_FIXED );
-	    wConfigInfo.addModifyListener( lsMod );
-	    fdConfigInfo = new FormData();
-	    fdConfigInfo.left = new FormAttachment( middle, 0 );
-	    fdConfigInfo.top = new FormAttachment( wClassName, margin );
-	    fdConfigInfo.right = new FormAttachment( 100, -2 * margin );
-	    fdConfigInfo.bottom = new FormAttachment( wOK, -2 * margin );
-	    fdConfigInfo.height = 125;
-	    wConfigInfo.setLayoutData( fdConfigInfo );
+
+        wGet = new Button(shell, SWT.PUSH);
+        wGet.setText("获取默认配置");
+        wGet.setToolTipText("在输入类名称后再通过此按钮获取对应默认配置信息");
+
+        // Script line
+        wlConfigInfo = new Label( shell, SWT.NONE );
+        wlConfigInfo.setText( BaseMessages.getString( PKG, "JobEntryKettleUtil.Script.Label" ) );
+        props.setLook( wlConfigInfo );
+        fdlConfigInfo = new FormData();
+        fdlConfigInfo.left = new FormAttachment( 0, 0 );
+        fdlConfigInfo.top = new FormAttachment( wClassName, margin );
+        wlConfigInfo.setLayoutData( fdlConfigInfo );
+        wConfigInfo =
+          new StyledTextComp( transMeta, shell, SWT.MULTI | SWT.LEFT | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL, "" );
+        wConfigInfo.setText( BaseMessages.getString( PKG, "JobEntryKettleUtil.Script.Default" ) );
+        props.setLook( wConfigInfo, Props.WIDGET_STYLE_FIXED );
+        wConfigInfo.addModifyListener( lsMod );
+        fdConfigInfo = new FormData();
+        fdConfigInfo.left = new FormAttachment( 0, 0 );
+        fdConfigInfo.top = new FormAttachment( wlConfigInfo, margin );
+        fdConfigInfo.right = new FormAttachment( 100, -10 );
+        fdConfigInfo.bottom = new FormAttachment( wOK, -margin );
+        wConfigInfo.setLayoutData( fdConfigInfo );
 		      
 		wCancel = new Button(shell, SWT.PUSH);
 		wCancel.setText(BaseMessages.getString(PKG, "System.Button.Cancel")); 
 
-		BaseStepDialog.positionBottomButtons(shell, new Button[] { wOK, wCancel }, margin, null);
+		BaseStepDialog.positionBottomButtons(shell, new Button[] {wOK, wCancel,wGet}, margin, null);
 
 		
 		// Add listeners
@@ -163,9 +178,34 @@ public class KettleUtilDialog extends BaseStepDialog implements StepDialogInterf
 				ok();
 			}
 		};
+		lsGet = new Listener() {
+            @Override
+            public void handleEvent(Event e) {
+                input.setClassName(wClassName.getText());
+                input.setConfigInfo(wConfigInfo.getText());
+                String conf = null;
+                String msg = "获取默认配置失败，请输入正确的类名称";
+                try {
+                    conf = input.getDefaultConfigInfo(transMeta,
+                            wStepname.getText(),variables);
+                } catch (Exception e1) {
+                    msg = e1.getMessage();
+                }
+                if(StringUtil.isBlank(conf)){
+                    wConfigInfo.setText("{}");
+                    MessageBox mb = new MessageBox( shell, SWT.OK | SWT.ICON_ERROR );
+                    mb.setMessage(msg);
+                    mb.setText("错误");
+                    mb.open();
+                }else{
+                    wConfigInfo.setText(conf);
+                }
+            }
+        };
 
 		wCancel.addListener(SWT.Selection, lsCancel);
 		wOK.addListener(SWT.Selection, lsOK);
+		wGet.addListener(SWT.Selection, lsGet);
 
 		lsDef = new SelectionAdapter() {
 			public void widgetDefaultSelected(SelectionEvent e) {

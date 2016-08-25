@@ -10,17 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.oschina.kettleutil.common.KuConst;
+import net.oschina.mytuils.DesUtil;
+import net.oschina.mytuils.Dict;
 import net.oschina.mytuils.StringUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.eova.common.utils.xx;
+import com.eova.config.EovaConst;
 import com.eova.engine.EovaExp;
 import com.eova.model.User;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
-import net.oschina.mytuils.Dict;
 
 /**
 * 公用控制器<br/>
@@ -101,5 +104,23 @@ public class CommonController extends Controller {
             result.put("error", "已经存在");
 	    }
         renderJson(result);
+	}
+	/**
+	* 将用户信息加密，然后重定向到指定url <br/>
+	* @author jingma
+	*/
+	public void doDesEncryptUrl(){
+	    String url = getPara("url");
+	    String[] urlArr = url.split("@");
+        User user = (User)getSessionAttr(EovaConst.USER);
+        String userInfo = Dict.getDbCurrentDateLL()+"@"+user.toJson();
+	    if(urlArr.length==2){
+	        JSONObject expand = JSON.parseObject(Dict.dictObj("PROJECT", 
+	                urlArr[0]).getStr(KuConst.FIELD_EXPAND));
+	        url = expand.getString("host")+urlArr[1];
+	        userInfo = DesUtil.encrypt(userInfo, expand.getString("pwd"));
+	    }
+	    url += "&userInfo="+userInfo;
+        redirect("http://"+url);
 	}
 }
