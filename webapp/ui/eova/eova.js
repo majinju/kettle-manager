@@ -1181,6 +1181,13 @@
 
     // Find 查询框
     var eova_findDialog = function(findBox, url) {
+        var w=window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+        var h=window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
         // 弹出窗口
         var dialog = window.sy.modalDialog({
             title : '请选择数据',
@@ -1194,7 +1201,7 @@
                     window.focus();
                 }
             } ]
-        },650,600);
+        },w/2,h);
     };
 
 })(jQuery);

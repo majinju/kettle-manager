@@ -1,6 +1,6 @@
 /**
 * Project Name:KettleUtil
-* Date:2016年6月28日上午11:49:02
+* Date:2016年6月28日
 * Copyright (c) 2016, jingma All Rights Reserved.
 */
 
@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,14 +22,15 @@ import net.oschina.kettleutil.db.Db;
 import net.oschina.kettleutil.jobentry.JobEntryKettleUtilRunBase;
 import net.oschina.mytuils.DateUtil;
 import net.oschina.mytuils.KettleUtils;
+import net.oschina.mytuils.StringUtil;
 import net.oschina.mytuils.constants.UtilConst;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.pentaho.di.core.logging.KettleLogStore;
 import org.pentaho.di.job.Job;
 import org.pentaho.di.job.JobMeta;
 import org.pentaho.di.trans.Trans;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -53,13 +55,21 @@ public class JobManager extends JobEntryKettleUtilRunBase{
     */
     public static final String STOP_FAILED = "StopFailed";
     /**
-    * 
+    * 更新作业状态SQL
     */
-    public static final String SQL_UPDATE_JOB_STATUS = "update r_job j set j.run_status=? where j.id_job=?";
+    public static final String SQL_INSERT_END_LOG = "insert into job_log(id_job,job_name,start_date,end_date,result,log_file) values(?,?,?,?,?,?)";
+    /**
+    * 更新作业状态SQL
+    */
+    public static final String SQL_UPDATE_JOB_STATUS = "update r_job j set j.run_status=?,j.last_update=? where j.id_job=?";
     /**
     * 日志
     */
-    private static Log log = LogFactory.getLog(JobManager.class);
+    private static Logger log = LoggerFactory.getLogger(JobManager.class);
+    /**
+    * 日志文件的根路径
+    */
+    private static String jobViewName = "v_job";
     /**
     * 前端获取运行日志最大行数
     */
@@ -81,9 +91,13 @@ public class JobManager extends JobEntryKettleUtilRunBase{
     */
     private static Db kettledb;
     /**
+    * jobMap：<作业,开始时间>
+    */
+    private static Map<Job,String> jobStartDateMap = new Hashtable<Job,String>();
+    /**
     * jobMap：<作业id,作业>
     */
-    private static Map<String,Job> jobMap = new HashMap<String,Job>();
+    private static Map<String,Job> jobMap = new Hashtable<String,Job>();
     /**
     * job日志已处理行数记录：<作业，已处理行数>
     */
@@ -119,46 +133,65 @@ public class JobManager extends JobEntryKettleUtilRunBase{
             setRunLogLine(configInfo.getIntValue(RUN_LOG_LINE));
         }
         //记录日志
-        Iterator<Entry<String, Job>> jobIter = jobMap.entrySet().iterator();
-        while(jobIter.hasNext()){
-            Job job = jobIter.next().getValue();
-            if (!job.isActive()) {
-                // 运行结束
-                writeJobLog(job);
-                try {
-                    jobLogStream.get(job).close();
-                } catch (Exception e) {
-                    jeku.logBasic("关闭日志输出流失败", e);
+        synchronized (jobMap) {
+            Iterator<Entry<String, Job>> jobIter = jobMap.entrySet().iterator();
+            while(jobIter.hasNext()){
+                Job job = jobIter.next().getValue();
+                if (!job.isActive()) {
+                    // 运行结束
+                    writeJobLog(job);
+                    try {
+                        jobLogStream.get(job).close();
+                    } catch (Exception e) {
+                        jeku.logBasic("关闭日志输出流失败", e);
+                    }
+                    jobIter.remove();
+                    jobLogLine.remove(job);
+                    jobLogStream.remove(job);
+                    writeEndLog(job);
+                    //修改作业状态
+                } else {
+                    // 正在运行
+                    writeJobLog(job);
                 }
-                jobIter.remove();
-                jobLogLine.remove(job);
-                jobLogStream.remove(job);
-                //修改作业状态
-            } else {
-                // 正在运行
-                writeJobLog(job);
+                String status = getJobStatus(job);
+                //更新作业状态
+                kettledb.update(SQL_UPDATE_JOB_STATUS,status,
+                        kettledb.getCurrentDateStr14(),
+                        Integer.parseInt(job.getObjectId().getId()));
             }
-            String status = getJobStatus(job);
-            //更新作业状态
-            kettledb.update(SQL_UPDATE_JOB_STATUS,status,Integer.parseInt(job.getObjectId().getId()));
         }
         return true;
     }
     /**
+    * 写作业结束日志到日志表 <br/>
+    * @author jingma
+    * @param job 结束的作业
+    */
+    private static void writeEndLog(Job job) {
+        kettledb.update(SQL_INSERT_END_LOG, Integer.parseInt(job.getObjectId().getId()),
+                job.getJobMeta().getName(),jobStartDateMap.get(job),kettledb.getCurrentDateStr14(),
+                getJobStatus(job),jobLogFile.get(job).getAbsolutePath());
+    }
+
+    /**
     * 启动时初始化，运行之前在运行的作业 <br/>
     * @author jingma
+    * @param view 本应用操作的作业视图
     */
-    public static void init(){
-        String sql = "select * from r_job j where run_status=?";
+    public static void init(String view){
+        setJobViewName(view);
+        String sql = "select * from "+getJobViewName()+" j where run_status=?";
         List<JSONObject> list = kettledb.find(sql, Trans.STRING_RUNNING);
         for(JSONObject job:list){
             String status = START_FAILED;
             try {
-                status = startJob(job.getString("id_job"));
+                status = startJob(job);
             } catch (Exception e) {
                 log.error("启动job失败:"+job, e);
             }
             kettledb.update(SQL_UPDATE_JOB_STATUS, status,
+                    kettledb.getCurrentDateStr14(),
                     job.getString("id_job"));
         }
     }
@@ -166,17 +199,35 @@ public class JobManager extends JobEntryKettleUtilRunBase{
     /**
     * 启动作业 <br/>
     * @author jingma
-    * @param idJob 作业id
+    * @param jobJson 作业id
     * @return
     * @throws Exception
     */
-    public static String startJob(String idJob) throws Exception {
-        if(jobMap.containsKey(idJob)){
-            return jobMap.get(idJob).getStatus();
+    public static String startJob(JSONObject jobJson) throws Exception {
+        String jobId = jobJson.getString("id_job");
+        if(jobMap.containsKey(jobId)){
+            //获取已经存在的job
+            Job job = jobMap.get(jobId);
+            //正在运行的
+            if(job.isActive()){
+                return jobMap.get(jobId).getStatus();
+            }else{
+                // 运行结束
+                writeJobLog(job);
+                try {
+                    jobLogStream.get(job).close();
+                } catch (Exception e) {
+                    log.debug("关闭日志输出流失败", e);
+                }
+                jobMap.remove(jobId);
+                jobLogLine.remove(job);
+                jobLogStream.remove(job);
+                writeEndLog(job);
+            }
         }
-        JobMeta jm = KettleUtils.loadJob(idJob);
+        JobMeta jm = KettleUtils.loadJob(jobJson.getString("name"),jobJson.getLong("id_directory"));
         Map<String, JSONObject> paramMap = kettledb.
-                findMap("ocode","select * from job_params jp where jp.id_job=?", idJob);
+                findMap("ocode","select * from job_params jp where jp.id_job=?", jobId);
         for(JSONObject param:paramMap.values()){
             //设置参数
             jm.setParameterValue(param.getString(KuConst.FIELD_OCODE),
@@ -193,6 +244,7 @@ public class JobManager extends JobEntryKettleUtilRunBase{
     * @throws Exception
     */
     public static String startJob(Job job){
+        jobStartDateMap.put(job, kettledb.getCurrentDateStr14());
         job.start();
         jobMap.put(job.getObjectId().getId(), job);
         jobLogLine.put(job, 0);
@@ -253,6 +305,9 @@ public class JobManager extends JobEntryKettleUtilRunBase{
         String msg = KettleLogStore.getAppender().getBuffer(
                 job.getLogChannel().getLogChannelId(), false, 
                 startLineNr , lastLineNr ).toString();
+        if(StringUtil.isBlank(msg)){
+            msg = "只能显示最近两个小时的实时运行日志";
+        }
         return msg;
     }
 
@@ -389,6 +444,22 @@ public class JobManager extends JobEntryKettleUtilRunBase{
     public static void setLogFileSize(double logFileSize) {
         if(logFileSize>0){
             JobManager.logFileSize = logFileSize;
+        }
+    }
+
+    /**
+     * @return jobViewName 
+     */
+    public static String getJobViewName() {
+        return jobViewName;
+    }
+
+    /**
+     * @param jobViewName the jobViewName to set
+     */
+    public static void setJobViewName(String jobViewName) {
+        if(jobViewName!=null){
+            JobManager.jobViewName = jobViewName;
         }
     }
     

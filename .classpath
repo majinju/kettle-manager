@@ -5,22 +5,14 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/druid"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/fastjson"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/myutils"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/KettleUtil"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/KmSustain"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle DB Dialog"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Engine"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle UI"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/MetlKettleSustain"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/my_ext-lib"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/my_ext-lib-ep"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/kettle5.4-ep"/>
 	<classpathentry kind="output" path="webapp/WEB-INF/classes"/>
 </classpath>

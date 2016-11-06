@@ -25,7 +25,7 @@
 
 	<target name="compile" depends="init">
 		<echo>编译代码</echo>
-		<javac srcdir="${src}" destdir="${target}\classes">
+		<javac srcdir="${src}" destdir="${target}\classes" debug="true">
 			<classpath id="cpath">
 				<fileset dir="${kettle_dir}\lib" includes="*.jar" />
 				<fileset dir="${kettle_dir}\ext-lib" includes="*.jar" />

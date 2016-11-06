@@ -2,14 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/kettle5.4"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle DB Dialog"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Engine"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kettle UI"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/myutils"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/my_ext-lib"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/druid"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/fastjson"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/kettle5.4-ep"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/my_ext-lib-ep"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

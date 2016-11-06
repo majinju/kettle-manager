@@ -111,7 +111,7 @@ public class DsUtil {
 	 */
 	public static List<String> getTableNamesByConfigName(String ds, String type, String schemaPattern, String tableNamePattern) {
 
-		if (tableNamePattern == null) {
+        if (StringUtil.isBlank(tableNamePattern)) {
 			tableNamePattern = "%";
 		}
 

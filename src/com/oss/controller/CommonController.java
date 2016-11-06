@@ -6,6 +6,7 @@
  */
 package com.oss.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import net.oschina.mytuils.StringUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.eova.common.utils.xx;
+import com.eova.config.EovaConfig;
 import com.eova.config.EovaConst;
 import com.eova.engine.EovaExp;
 import com.eova.model.User;
@@ -48,6 +50,22 @@ public class CommonController extends Controller {
 		log.info(user.getStr("nickname")+"获取："+fileDir);
 		renderFile(fileDir);
 	}
+    /**
+    * 下载文件-绝对路径 <br/>
+    * @author jingma
+    * @throws Exception
+    */
+    public void downloadJdlj() throws Exception {
+        String fileDir = getPara("fileDir");
+        User user = (User)getSessionAttr("user");
+        log.info(user.getStr("nickname")+"获取："+fileDir);
+        File f = new File(fileDir);
+        if(f.getAbsolutePath().matches(EovaConfig.props.get("download_jdlj_pattern"))){
+            renderFile(f);
+        }else{
+            renderText("该文件不再允许下载范围内");
+        }
+    }
     /**
     * 验证值在表中是否不存在 <br/>
     * @author jingma

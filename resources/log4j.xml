@@ -86,6 +86,7 @@
 	<logger name="druid.sql.Statement" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="debug" />
+		<appender-ref ref="info" />
 		<appender-ref ref="error" />
 	</logger>
 	<root>

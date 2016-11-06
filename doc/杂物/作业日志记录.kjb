@@ -4,13 +4,33 @@
     <description>&#x4f5c;&#x4e1a;&#x65e5;&#x5fd7;&#x8bb0;&#x5f55;&#xff0c;&#x6309;&#x8bbe;&#x5b9a;&#x65f6;&#x95f4;&#x95f4;&#x9694;&#x8bb0;&#x5f55;&#x65e5;&#x5fd7;&#x5230;&#x6587;&#x4ef6;</description>
     <extended_description/>
     <job_version/>
-    <job_status>1</job_status>
+    <job_status>2</job_status>
   <directory>&#x2f;metl</directory>
   <created_user>-</created_user>
   <created_date>2016&#x2f;06&#x2f;28 16&#x3a;22&#x3a;47.000</created_date>
   <modified_user>admin</modified_user>
-  <modified_date>2016&#x2f;08&#x2f;18 14&#x3a;44&#x3a;19.083</modified_date>
+  <modified_date>2016&#x2f;08&#x2f;25 11&#x3a;02&#x3a;59.149</modified_date>
     <parameters>
+        <parameter>
+            <name>IS_WRITE_LOG_FILE</name>
+            <default_value>true</default_value>
+            <description>&#x662f;&#x5426;&#x5199;&#x65e5;&#x5fd7;&#x6587;&#x4ef6;</description>
+        </parameter>
+        <parameter>
+            <name>LOG_FILE_ROOT</name>
+            <default_value>&#x2f;temp&#x2f;km&#x2f;logs&#x2f;kettle</default_value>
+            <description>&#x65e5;&#x5fd7;&#x6587;&#x4ef6;&#x8def;&#x5f84;</description>
+        </parameter>
+        <parameter>
+            <name>LOG_FILE_SIZE</name>
+            <default_value>20</default_value>
+            <description>&#x65e5;&#x5fd7;&#x6587;&#x4ef6;&#x5927;&#x5c0f;&#x28;M&#x29;</description>
+        </parameter>
+        <parameter>
+            <name>RUN_LOG_LINE</name>
+            <default_value>10000</default_value>
+            <description>&#x83b7;&#x53d6;&#x8fd0;&#x884c;&#x65e5;&#x5fd7;&#x884c;&#x6570;</description>
+        </parameter>
     </parameters>
   <connection>
     <name>eova</name>
@@ -164,7 +184,7 @@
       <dummy>N</dummy>
       <repeat>Y</repeat>
       <schedulerType>1</schedulerType>
-      <intervalSeconds>10</intervalSeconds>
+      <intervalSeconds>30</intervalSeconds>
       <intervalMinutes>0</intervalMinutes>
       <hour>12</hour>
       <minutes>0</minutes>
@@ -190,7 +210,7 @@
       <name>&#x5b9a;&#x65f6;&#x8bb0;&#x5f55;&#x8fd0;&#x884c;&#x65e5;&#x5fd7;</name>
       <description/>
       <type>JobEntryKettleUtil</type>
-      <configInfo>&#x7b;&#x7d;</configInfo>
+      <configInfo>&#x7b;&#xa;	&#x22;&#x662f;&#x5426;&#x5199;&#x65e5;&#x5fd7;&#x6587;&#x4ef6;&#x22;&#x3a;&#x22;&#x24;&#x7b;IS_WRITE_LOG_FILE&#x7d;&#x22;,&#xa;	&#x22;&#x83b7;&#x53d6;&#x8fd0;&#x884c;&#x65e5;&#x5fd7;&#x884c;&#x6570;&#x22;&#x3a;&#x22;&#x24;&#x7b;RUN_LOG_LINE&#x7d;&#x22;,&#xa;	&#x22;&#x65e5;&#x5fd7;&#x6587;&#x4ef6;&#x5927;&#x5c0f;&#x28;M&#x29;&#x22;&#x3a;&#x22;&#x24;&#x7b;LOG_FILE_SIZE&#x7d;&#x22;,&#xa;	&#x22;&#x65e5;&#x5fd7;&#x6587;&#x4ef6;&#x8def;&#x5f84;&#x22;&#x3a;&#x22;&#x24;&#x7b;LOG_FILE_ROOT&#x7d;&#x22;&#xa;&#x7d;</configInfo>
       <className>net.oschina.kettlemanager.JobManager</className>
       <parallel>N</parallel>
       <draw>Y</draw>

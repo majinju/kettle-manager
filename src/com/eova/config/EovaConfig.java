@@ -231,19 +231,17 @@ public class EovaConfig extends JFinalConfig {
 	@Override
 	public void configPlugin(Plugins plugins) {
         EovaConfig.plugins = plugins;
-        //metl数据源
-        String ds = UtilConst.DATASOURCE_METL;
-        String url = (String)props.get(ds+"_url");
-        String user = (String)props.get(ds+"_user");
-        String pwd = (String)props.get(ds+"_pwd");
-        DruidPlugin dp = initDruidPlugin(url, user, pwd);
-        ActiveRecordPlugin arp = initActiveRecordPlugin(url, ds, dp);
-        disposeDs(ds, url, arp, null);
-        log.info("load "+ds+" source:" + url + "/" + user);
-        plugins.add(dp).add(arp);
-        dp.start();
-        arp.start();
-        List<Record> dbs = Db.use(ds).find("select * from metl_database t "
+        String ds = null;
+        String url = null;
+        String user = null;
+        String pwd = null;
+        DruidPlugin dp = null;
+        ActiveRecordPlugin arp = null;
+        String dbCodes = (String)props.get("config_db_codes");
+        for(String code:dbCodes.split(",")){
+            startDs(code);
+        }
+        List<Record> dbs = Db.use(UtilConst.DATASOURCE_METL).find("select * from metl_database t "
                 + "where t.is_disable=? and t.status=?",
                 UtilConst.WHETHER_FALSE,
                 UtilConst.LINK_STATUS_SUCCESS);
@@ -258,7 +256,7 @@ public class EovaConfig extends JFinalConfig {
             dp = initDruidPlugin(url, user, pwd);
             arp = initActiveRecordPlugin(url, ds, dp);
             disposeDs(ds, url, arp, db);
-            if(!KuConst.DISABLE_EDIT_DS.contains(ds)){
+            if(EovaConfig.props.get("config_db_codes").indexOf(ds)==-1){
                 dpMap.put(ds, dp);
                 arpMap.put(ds, arp);
             }
@@ -278,6 +276,30 @@ public class EovaConfig extends JFinalConfig {
         // 配置Quartz
         QuartzPlugin quartz = new QuartzPlugin();
         plugins.add(quartz);
+	}
+	
+	/**
+	* 读取配置信息，启动指定数据源 <br/>
+	* @author jingma
+	* @param ds 数据源代码
+	*/
+	private void startDs(String ds){
+        String url = null;
+        String user = null;
+        String pwd = null;
+        DruidPlugin dp = null;
+        ActiveRecordPlugin arp = null;
+        //metl数据源
+        url = (String)props.get(ds+"_url");
+        user = (String)props.get(ds+"_user");
+        pwd = (String)props.get(ds+"_pwd");
+        dp = initDruidPlugin(url, user, pwd);
+        arp = initActiveRecordPlugin(url, ds, dp);
+        disposeDs(ds, url, arp, null);
+        log.info("load "+ds+" source:" + url + "/" + user);
+        plugins.add(dp).add(arp);
+        dp.start();
+        arp.start();
 	}
 
     /**

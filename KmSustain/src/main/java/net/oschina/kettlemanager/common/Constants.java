@@ -1,6 +1,6 @@
 /**
 * Project Name:eova
-* Date:2016年5月24日下午7:18:51
+* Date:2016年5月24日
 * Copyright (c) 2016, jingma All Rights Reserved.
 */
 

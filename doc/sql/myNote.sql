@@ -12,6 +12,12 @@
 --kettle资源库的数据库中执行如下语句
 --R_JOB表新增字段
 alter table R_JOB add RUN_STATUS VARCHAR2(100) default 'Stopped';
+comment on column R_JOB.RUN_STATUS
+  is '运行状态';
+alter table R_JOB add LAST_UPDATE VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss');
+comment on column R_JOB.LAST_UPDATE
+  is '最后更新时间';
+  
 -- 在kettle资源库中新增参数设置表
 create table JOB_PARAMS
 (
@@ -79,6 +85,79 @@ create index IDX_JOB_PARAMS_CREATE_DATE on JOB_PARAMS (CREATE_DATE);
 create index IDX_JOB_PARAMS_ONAME on JOB_PARAMS (ONAME);
 create index IDX_JOB_PARAMS_UPDATE_DATE on JOB_PARAMS (UPDATE_DATE);
 
+-- Create table
+create table JOB_LOG
+(
+  OID          VARCHAR2(32) default sys_guid() not null,
+  OCODE        VARCHAR2(100),
+  ONAME        VARCHAR2(100),
+  ODESCRIBE    VARCHAR2(500),
+  OORDER       NUMBER,
+  SIMPLE_SPELL VARCHAR2(200),
+  FULL_SPELL   VARCHAR2(500),
+  CREATE_DATE  VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
+  UPDATE_DATE  VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
+  CREATE_USER  VARCHAR2(100),
+  UPDATE_USER  VARCHAR2(100),
+  EXPAND       VARCHAR2(4000) default '{}',
+  IS_DISABLE   VARCHAR2(10) default '0',
+  FLAG1        VARCHAR2(200),
+  FLAG2        VARCHAR2(200),
+  ID_JOB       NUMBER,
+  JOB_NAME     VARCHAR2(200),
+  start_date   VARCHAR2(14),
+  end_date     VARCHAR2(14),
+  result       VARCHAR2(200),
+  log_file     VARCHAR2(1000)
+)
+;
+-- Add comments to the table 
+comment on table JOB_LOG
+  is '作业日志';
+-- Add comments to the columns 
+comment on column JOB_LOG.OID
+  is '对象主键';
+comment on column JOB_LOG.OCODE
+  is '对象代码';
+comment on column JOB_LOG.ONAME
+  is '对象名称';
+comment on column JOB_LOG.ODESCRIBE
+  is '对象描述';
+comment on column JOB_LOG.OORDER
+  is '对象排序';
+comment on column JOB_LOG.SIMPLE_SPELL
+  is '对象简拼';
+comment on column JOB_LOG.FULL_SPELL
+  is '对象全拼';
+comment on column JOB_LOG.CREATE_DATE
+  is '创建时间';
+comment on column JOB_LOG.UPDATE_DATE
+  is '更新时间';
+comment on column JOB_LOG.CREATE_USER
+  is '创建人';
+comment on column JOB_LOG.UPDATE_USER
+  is '更新人';
+comment on column JOB_LOG.EXPAND
+  is '扩展信息';
+comment on column JOB_LOG.IS_DISABLE
+  is '是否禁用';
+comment on column JOB_LOG.FLAG1
+  is '备用1';
+comment on column JOB_LOG.FLAG2
+  is '备用2';
+comment on column JOB_LOG.ID_JOB
+  is '作业ID';
+comment on column JOB_LOG.JOB_NAME
+  is '作业名称';
+comment on column JOB_LOG.start_date
+  is '开始时间';
+comment on column JOB_LOG.end_date
+  is '结束时间';
+comment on column JOB_LOG.result
+  is '运行结果';
+comment on column JOB_LOG.log_file
+  is '日志文件';
+
 create or replace view kettle.v_job as
 select id_job,
        id_directory,
@@ -98,7 +177,8 @@ select id_job,
        pass_batch_id,
        use_logfield,
        shared_file,
-       run_status
+       run_status，
+       last_update
   from r_job j
   where j.job_status=2
   /*

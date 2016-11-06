@@ -14,7 +14,6 @@
 	<property name="kettle_dir" location="${SystemVariable.KETTLE_HOME}" />
 	<property name="temp_dir" value="/temp/${ant.project.name}" />
 	<property name="extLib" value="${kettle_dir}/ext-lib" />
-	<property name="myutils" value="E:/workspace/myutils/target"/>
 	
 	<property name="src" location="src" />
 	<property name="resources" location="resources" />
@@ -33,8 +32,7 @@
 		<mkdir dir="${target}" />
 		<mkdir dir="${extLib}" />
 		<copy todir="${extLib}">
-			<fileset dir="${myutils}" includes="myutils.jar" />
-			<fileset dir="${myutils}/ext-lib" includes="**/*.jar" />
+			<fileset dir="${doc}/ext-lib" includes="**/*.jar" />
 		</copy>
 		<copy todir="${target}/lib">
 			<fileset dir="${lib}" includes="**/*.jar" />
@@ -43,7 +41,7 @@
 
 	<target name="compile" depends="init">
 		<echo>编译代码</echo>
-		<javac srcdir="${src}" destdir="${classes}">
+		<javac srcdir="${src}" destdir="${classes}" debug="true">
 			<classpath id="cpath">
 				<fileset dir="${kettle_dir}/lib" includes="*.jar" />
 				<fileset dir="${extLib}" includes="*.jar" />
@@ -83,18 +81,23 @@
 		<copy todir="${target}">
 			<fileset file="doc/杂物/start.bat"/>
 		</copy>
-		<replace dir="${target}" includes="start.bat,default/**">
+		<replace dir="${target}" includes="default/**" encoding="UTF-8">
 			<replacefilter token="@project-name@" value="${ant.project.name}"/>
 			<replacefilter token="@ext-lib@" value="%KETTLE_HOME%/ext-lib/*"/>
 			<replacefilter token="@temp-dir@" value="${temp_dir}"/>
 			<replacefilter token="@host@" value="127.0.0.1"/>
 			<replacefilter token="@port@" value="86"/>
-			<replacefilter token="@db-metl-url@" value="jdbc:oracle:thin:@127.0.0.1:1521:mydb"/>
-			<replacefilter token="@db-metl-user@" value="km"/>
-			<replacefilter token="@db-metl-pwd@" value="km"/>
+			<replacefilter token="@job-view-name@" value="v_job"/>
+		</replace>
+		<replace dir="${target}" includes="start.bat" encoding="GBK">
+			<replacefilter token="@project-name@" value="${ant.project.name}"/>
+			<replacefilter token="@ext-lib@" value="${extLib}/*"/>
+			<replacefilter token="@temp-dir@" value="${temp_dir}"/>
+			<replacefilter token="@port@" value="86"/>
 		</replace>
 		<zip destfile="${temp_dir}/${ant.project.name}.zip">
 			<fileset dir="${target}" includes="**"/>
+			<fileset dir="${kettle_dir}" includes="ext-lib/**" />
 		</zip>
 		<delete dir="${classes}" />
 		<delete file="${temp_dir}/${ant.project.name}.jar"/>

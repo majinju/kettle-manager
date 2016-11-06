@@ -1,9 +1,9 @@
 package net.oschina.mytuils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.pentaho.di.core.KettleEnvironment;
 import org.pentaho.di.core.database.DatabaseMeta;
 import org.pentaho.di.core.exception.KettleException;
@@ -37,6 +37,8 @@ import org.pentaho.di.trans.step.StepMeta;
 import org.pentaho.di.trans.step.StepMetaInterface;
 import org.pentaho.di.trans.steps.jobexecutor.JobExecutorMeta;
 import org.pentaho.di.trans.steps.transexecutor.TransExecutorMeta;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -49,17 +51,11 @@ import com.alibaba.fastjson.JSONObject;
  * @version 0.0.1
  * @since JDK 1.6
  */
-/**
-*  <br/>
-* date: 2016年7月20日 <br/>
-* @author jingma
-* @version 
-*/
 public class KettleUtils {
 	/**
 	 * LOG:日志
 	 */
-	public static Logger log = Logger.getLogger(KettleUtils.class);
+	public static Logger log = LoggerFactory.getLogger(KettleUtils.class);
 	/**
 	 * repository:kettle资源库
 	 */
@@ -72,6 +68,10 @@ public class KettleUtils {
 	* 作业模板
 	*/
 	private static JobMeta jobMetaTemplate;
+	/**
+	* 资源库Map
+	*/
+	private static Map<String,Repository> repMap = new HashMap<String, Repository>();
 	
 	/**
 	 * getInstance:获取的单例资源库. <br/>
@@ -87,6 +87,15 @@ public class KettleUtils {
 			throw new KettleException("没有初始化资源库");
 		}
 	}
+	/**
+	* 获取指定资源库 <br/>
+	* @author jingma
+	* @param repId 资源id
+	* @return
+	*/
+	public static Repository use(String repId){
+	    return repMap.get(repId);
+	}
 	
 	/**
 	 * createFileRep:创建文件资源库. <br/>
@@ -99,7 +108,8 @@ public class KettleUtils {
 	 * @throws KettleException 
 	 * @since JDK 1.6
 	 */
-	public static Repository createFileRep(String id, String repName, String description, String baseDirectory) throws KettleException{
+	public static Repository createFileRep(String id, String repName, 
+	        String description, String baseDirectory) throws KettleException{
         destroy();
         //初始化kettle环境
         if(!KettleEnvironment.isInitialized()){
@@ -110,25 +120,18 @@ public class KettleUtils {
 	}
 
     /**
-     * createDBRep:创建数据库资源库. <br/>
-     * @author jingma
-     * @param name 数据库连接名称
-     * @param type 数据库类型
-     * @param access 访问类型
-     * @param host ip地址
-     * @param db 数据库名称
-     * @param port 端口
-     * @param user 数据库用户名
-     * @param pass 数据库密码
-     * @return 初始化的资源库
-     * @throws KettleException 
-     * @since JDK 1.6
-     */
+    * 创建JNDI数据库资源库 <br/>
+    * @author jingma
+    * @param name 数据库连接名称
+    * @param type 数据库类型
+    * @param db jndi名称
+    * @return
+    * @throws KettleException
+    */
     public static Repository createDBRepByJndi(String name, String type,
             String db) throws KettleException{
-        
         return createDBRep( name, type, "JNDI", null, 
-             db, null, null, null, "DBRep", "DBRep", "数据库资源库");
+             db, null, null, null);
     }
     
 	/**
@@ -149,7 +152,7 @@ public class KettleUtils {
 	public static Repository createDBRep(String name, String type, String access, String host, 
 			String db, String port, String user, String pass) throws KettleException{
 		return createDBRep( name, type, access, host, 
-			 db, port, user, pass, "DBRep", "DBRep", "数据库资源库");
+			 db, port, user, pass, name, name, name+"数据库资源库");
 	}
 	
 	/**
@@ -177,10 +180,6 @@ public class KettleUtils {
         if(!KettleEnvironment.isInitialized()){
             KettleEnvironment.init();
         }
-        if(System.getenv("KETTLE_JNDI_ROOT")!=null){
-            System.setProperty("org.osjava.sj.root", System.getenv("KETTLE_JNDI_ROOT"));
-            log.info("Simple-jndi配置根路径："+System.getenv("KETTLE_JNDI_ROOT"));
-        }
 		//创建资源库数据库对象，类似我们在spoon里面创建资源库
 		DatabaseMeta dataMeta = new DatabaseMeta(name, type, access, host, db, port, user, pass);
 		//资源库元对象
@@ -190,6 +189,11 @@ public class KettleUtils {
 	}
     public static Repository createRep(BaseRepositoryMeta baseRepositoryMeta,
             String id, String repName, String description) throws KettleException{
+        Repository repository = null;
+        if(System.getenv("KETTLE_JNDI_ROOT")!=null){
+            System.setProperty("org.osjava.sj.root", System.getenv("KETTLE_JNDI_ROOT"));
+            log.info("Simple-jndi配置根路径："+System.getenv("KETTLE_JNDI_ROOT"));
+        }
         if(baseRepositoryMeta instanceof KettleDatabaseRepositoryMeta){
             //创建资源库对象
             repository = new KettleDatabaseRepository();
@@ -201,6 +205,11 @@ public class KettleUtils {
             //给资源库赋值
             repository.init((KettleFileRepositoryMeta) baseRepositoryMeta);
         }
+        //第一个创建的资源库是默认操作的资源库
+        if(KettleUtils.repository==null){
+            KettleUtils.repository = repository;
+        }
+        repMap.put(id, repository);
         log.info(repository.getName()+"资源库初始化成功");
         return repository;
     }
@@ -309,6 +318,37 @@ public class KettleUtils {
 		}
 		return null;
 	}
+
+    /**
+     * loadTrans:加载作业. <br/>
+     * @author jingma
+     * @param jobname 作业名称
+     * @param directory 作业路径
+     * @return 作业元数据
+     * @since JDK 1.6
+     */
+    public static JobMeta loadJob(String jobname, long directory) {
+        return loadJob(jobname, directory, repository);
+    }
+    /**
+     * loadTrans:加载作业. <br/>
+     * @author jingma
+     * @param jobname 作业名称
+     * @param directory 作业路径
+     * @param repository 资源库
+     * @return 作业元数据
+     * @since JDK 1.6
+     */
+    public static JobMeta loadJob(String jobname, long directory,Repository repository) {
+        try {
+            RepositoryDirectoryInterface dir = repository.
+                    findDirectory(new LongObjectId(directory));
+            return repository.loadJob(jobname,dir,null, null);
+        } catch (KettleException e) {
+            log.error("获取作业失败,jobname:"+jobname+",directory:"+directory, e);
+        }
+        return null;
+    }
 	
 	/**
 	 * loadTrans:加载转换. <br/>
@@ -431,11 +471,12 @@ public class KettleUtils {
 	/**
 	 * isDirectoryExist:判断指定的job目录是否存在. <br/>
 	 * @author jingma
+	 * @param repository 
 	 * @param directoryName
 	 * @return
 	 * @since JDK 1.6
 	 */
-	public static boolean isDirectoryExist(String directoryName) {
+	public static boolean isDirectoryExist(Repository repository, String directoryName) {
 		try {
 			RepositoryDirectoryInterface dir = repository.findDirectory(directoryName);
 			if(dir==null){
@@ -551,25 +592,27 @@ public class KettleUtils {
 	* @author jingma
 	* @param jobName job名称
 	* @param jobPath job路径
-	* @param repository 来源资源库
+	* @param fromRepository 来源资源库
+    * @param toRepository 目标资源库
 	* @throws KettleException
 	*/
-	public static void jobCopy(String jobName,String jobPath,Repository repository) throws KettleException {
-		JobMeta jobMeta = KettleUtils.loadJob(jobName,jobPath,repository);
+	public static void jobCopy(String jobName,String jobPath,Repository fromRepository,
+	        Repository toRepository) throws KettleException {
+		JobMeta jobMeta = KettleUtils.loadJob(jobName,jobPath,fromRepository);
 		for(JobEntryCopy jec:jobMeta.getJobCopies()){
 			if(jec.isTransformation()){
 				JobEntryTrans jet = (JobEntryTrans)jec.getEntry();
-				transCopy(jet.getObjectName(), jet.getDirectory(),repository);
+				transCopy(jet.getObjectName(), jet.getDirectory(),fromRepository,toRepository);
 			}else if(jec.isJob()){
 				JobEntryJob jej = (JobEntryJob)jec.getEntry();
-				jobCopy(jej.getObjectName(),jej.getDirectory(),repository);
+				jobCopy(jej.getObjectName(),jej.getDirectory(),fromRepository,toRepository);
 			}
 		}
-		jobMeta.setRepository(KettleUtils.getInstanceRep());
-		jobMeta.setMetaStore(KettleUtils.getInstanceRep().getMetaStore());
-		if(!isDirectoryExist(jobPath)){
+		jobMeta.setRepository(toRepository);
+		jobMeta.setMetaStore(toRepository.getMetaStore());
+		if(!isDirectoryExist(toRepository,jobPath)){
 			//所在目录不存在则创建
-			KettleUtils.repository.createRepositoryDirectory(KettleUtils.repository.findDirectory("/"), jobPath);
+		    toRepository.createRepositoryDirectory(toRepository.findDirectory("/"), jobPath);
 		}
 		KettleUtils.saveJob(jobMeta);
 	}
@@ -579,27 +622,29 @@ public class KettleUtils {
 	* @author jingma
 	* @param jobName 转换名称
 	* @param jobPath 转换路径
-	* @param repository 来源资源库
+    * @param fromRepository 来源资源库
+    * @param toRepository 目标资源库
 	* @throws KettleException
 	*/
-	public static void transCopy(String transName,String transPath,Repository repository) throws KettleException {
-		TransMeta tm = KettleUtils.loadTrans(transName, transPath, repository);
+	public static void transCopy(String transName,String transPath,Repository fromRepository,
+            Repository toRepository) throws KettleException {
+		TransMeta tm = KettleUtils.loadTrans(transName, transPath, fromRepository);
 		for(StepMeta sm:tm.getSteps()){
 			if(sm.isJobExecutor()){
 				JobExecutorMeta jem = (JobExecutorMeta)sm.getStepMetaInterface();
-				jobCopy(jem.getJobName(),jem.getDirectoryPath(),repository);
+				jobCopy(jem.getJobName(),jem.getDirectoryPath(),fromRepository,toRepository);
 			}
 			else if(sm.getStepMetaInterface() instanceof TransExecutorMeta){
 				TransExecutorMeta te = (TransExecutorMeta)sm.getStepMetaInterface();
-				transCopy(te.getTransName(), te.getDirectoryPath(),repository);
+				transCopy(te.getTransName(), te.getDirectoryPath(),fromRepository,toRepository);
 			}
 		}
-		if(!isDirectoryExist(transPath)){
+		if(!isDirectoryExist(toRepository,transPath)){
 			//所在目录不存在则创建
-			KettleUtils.repository.createRepositoryDirectory(KettleUtils.repository.findDirectory("/"), transPath);
+		    toRepository.createRepositoryDirectory(toRepository.findDirectory("/"), transPath);
 		}
-		tm.setRepository(KettleUtils.getInstanceRep());
-		tm.setMetaStore(KettleUtils.getInstanceRep().getMetaStore());
+		tm.setRepository(toRepository);
+		tm.setMetaStore(toRepository.getMetaStore());
 		KettleUtils.saveTrans(tm);
 	}
 

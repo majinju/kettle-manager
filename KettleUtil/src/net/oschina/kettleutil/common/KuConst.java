@@ -1,16 +1,11 @@
 /**
 * Project Name:eova
-* Date:2016年5月24日下午7:18:51
+* Date:2016年5月24日
 * Copyright (c) 2016, jingma All Rights Reserved.
 */
 
 package net.oschina.kettleutil.common;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import net.oschina.mytuils.constants.UtilConst;
 
 /**
  * 常量 <br/>
@@ -27,11 +22,6 @@ public interface KuConst {
     * kettle资源库数据源
     */
     String DATASOURCE_KETTLE = "kettle";
-    /**
-    * 禁止页面编辑的数据源
-    */
-    List<String> DISABLE_EDIT_DS = new ArrayList<String>(
-            Arrays.asList(UtilConst.DATASOURCE_METL,DATASOURCE_EOVA));
     
     /**
     * 数据类型-字符串

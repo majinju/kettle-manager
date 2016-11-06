@@ -2,6 +2,7 @@ package com.oss.controller;
 
 import net.oschina.kettlemanager.JobManager;
 import net.oschina.kettleutil.common.KuConst;
+import net.oschina.mytuils.Dict;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -36,13 +37,13 @@ public class JobManagerController extends Controller {
 	        String runStatus = JobManager.START_FAILED;
 	        JSONObject job = jobs.getJSONObject(i);
 	        try {
-	            runStatus = JobManager.startJob(job.getString("id_job"));
+	            runStatus = JobManager.startJob(job);
             } catch (Exception e) {
                 flag = true;
                 log.error("启动job失败:"+job, e);
             }
 	        Db.use(KuConst.DATASOURCE_KETTLE).update(JobManager.SQL_UPDATE_JOB_STATUS, runStatus,
-	                job.getString("id_job"));
+	                Dict.getDbCurrentDateLL(),job.getString("id_job"));
 	    }
 	    if(!flag){
 	        renderJson(new Easy());
@@ -69,7 +70,7 @@ public class JobManagerController extends Controller {
                 log.error("停止job失败:"+job, e);
             }
             Db.use(KuConst.DATASOURCE_KETTLE).update(JobManager.SQL_UPDATE_JOB_STATUS, runStatus,
-                    job.getString("id_job"));
+                    Dict.getDbCurrentDateLL(),job.getString("id_job"));
         }
         if(!flag){
             renderJson(new Easy());

@@ -11,6 +11,7 @@ import net.oschina.kettleutil.common.CommonUtil;
 import net.oschina.kettleutil.common.KuConst;
 import net.oschina.mytuils.KettleUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.eova.config.EovaConfig;
 import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
@@ -40,8 +41,16 @@ public class OSSConfig extends EovaConfig {
         super.disposeDs(ds, url, arp, db);
         if(KuConst.DATASOURCE_KETTLE.equals(ds)){
             try {
-                CommonUtil.connectKettle(ds, db.toJson());
-                JobManager.init();
+                JSONObject json = new JSONObject();
+                json.put("type", props.get("kettle_dbtype"));
+                JSONObject expand = new JSONObject();
+                JSONObject kettleUser = new JSONObject();
+                kettleUser.put("username", props.get("kettle_username"));
+                kettleUser.put("password", props.get("kettle_password"));
+                expand.put("kettleUser", kettleUser);
+                json.put(KuConst.FIELD_EXPAND, expand);
+                CommonUtil.connectKettle(ds, json.toJSONString());
+                JobManager.init(props.get("job_view_name"));
             } catch (Exception e) {
                 log.error("连接kettle资源库失败", e);
             }

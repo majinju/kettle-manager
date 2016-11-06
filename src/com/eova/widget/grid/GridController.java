@@ -102,7 +102,7 @@ public class GridController extends Controller {
 
 		// 分页查询Grid数据
 		String view = object.getView();
-		String sql = "from " + view;
+		String sql = "from ";
 
 		intercept = TemplateUtil.initIntercept(object.getBizIntercept());
 		
@@ -112,8 +112,9 @@ public class GridController extends Controller {
 			//将已有条件传给拦截器
 			ac.where = where;
 			ac.params = parmList;
+			ac.view = view;
 			intercept.queryBefore(ac);
-			
+			sql += ac.view;
 			// 追加条件
 			if (!xx.isEmpty(ac.condition)) {
 				where += ac.condition;
@@ -124,6 +125,8 @@ public class GridController extends Controller {
 				where = ac.where;
 				parmList = ac.params;
 			}
+		}else{
+            sql += view;
 		}
 		
 		sql += where + sort;

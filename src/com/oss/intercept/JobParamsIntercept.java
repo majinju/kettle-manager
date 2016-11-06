@@ -8,7 +8,7 @@ import com.jfinal.plugin.activerecord.Db;
 
 /**
  * 
- * 统一字典拦截器
+ * 作业参数拦截器
  * 
  * @author Jieven
  * 

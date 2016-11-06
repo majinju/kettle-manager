@@ -1,6 +1,6 @@
 /**
 * Project Name:metl
-* Date:2016年6月12日下午10:05:29
+* Date:2016年6月12日
 * Copyright (c) 2016, jingma All Rights Reserved.
 */
 

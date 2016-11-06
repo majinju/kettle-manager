@@ -1,6 +1,6 @@
 /**
 * Project Name:KettleUtil
-* Date:2016年6月21日下午2:55:40
+* Date:2016年6月21日
 * Copyright (c) 2016, jingma All Rights Reserved.
 */
 
@@ -147,7 +147,7 @@ public class Db {
         if(list.size()>0){
             return list.get(0);
         }else{
-            return new JSONObject();
+            return null;
         }
     }
     /**

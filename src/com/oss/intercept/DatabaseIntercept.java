@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 
-import net.oschina.kettleutil.common.CommonUtil;
 import net.oschina.kettleutil.common.KuConst;
 import net.oschina.mytuils.Dict;
 import net.oschina.mytuils.DruidCrypt;
@@ -106,7 +105,7 @@ public class DatabaseIntercept extends MetlMOIntercept {
 	    Record db = ac.record;
         String ds = db.getStr(KuConst.FIELD_OCODE);
         String isDisable = db.getStr("is_disable");
-        if(KuConst.DISABLE_EDIT_DS.contains(ds)){
+        if(EovaConfig.props.get("config_db_codes").indexOf(ds)>-1){
             return ds+"数据源禁止修改";
         }
         //已经存在的数据源先删除
@@ -145,12 +144,6 @@ public class DatabaseIntercept extends MetlMOIntercept {
 	@Override
 	public String updateSucceed(AopContext ac) throws Exception {
         updateKettleJndi();
-        for(Record db:ac.records){
-            String ds = db.getStr(KuConst.FIELD_OCODE);
-            if(KuConst.DATASOURCE_KETTLE.equals(ds)){
-                CommonUtil.connectKettle(ds, db.toJson());
-            }
-        }
 	    return super.updateSucceed(ac);
 	}
 	/**
@@ -162,7 +155,7 @@ public class DatabaseIntercept extends MetlMOIntercept {
         //需禁止在页面修改默认的三个数据源
         Record db = ac.record;
         String ds = db.getStr(KuConst.FIELD_OCODE);
-        if(KuConst.DISABLE_EDIT_DS.contains(ds)){
+        if(EovaConfig.props.get("config_db_codes").indexOf(ds)>-1){
             return ds+"数据源禁止删除";
         }
 	    return super.deleteBefore(ac);
