@@ -7,6 +7,8 @@
 package com.oss.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,14 +133,21 @@ public class CommonController extends Controller {
 	    String url = getPara("url");
 	    String[] urlArr = url.split("@");
         User user = (User)getSessionAttr(EovaConst.USER);
-        String userInfo = Dict.getDbCurrentDateLL()+"@"+user.toJson();
+        String userInfo = Dict.getDbCurrentDateLL()+"@"+user.getStr("id");
 	    if(urlArr.length==2){
 	        JSONObject expand = JSON.parseObject(Dict.dictObj("PROJECT", 
 	                urlArr[0]).getStr(KuConst.FIELD_EXPAND));
 	        url = expand.getString("host")+urlArr[1];
-	        userInfo = DesUtil.encrypt(userInfo, expand.getString("pwd"));
+	        userInfo = DesUtil.encrypt(userInfo, expand.getString("pwd"))
+	                .replace("\n", "").replace("\r", "");
 	    }
-	    url += "&userInfo="+userInfo;
+        try {
+            url += "&userInfo="+URLEncoder.encode(userInfo,"utf8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("用户信息编码失败", e);
+            renderText("用户信息编码失败");
+            return;
+        }
         redirect("http://"+url);
 	}
 }

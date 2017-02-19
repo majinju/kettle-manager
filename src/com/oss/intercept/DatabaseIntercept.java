@@ -11,6 +11,7 @@ import net.oschina.mytuils.FtpUtil;
 import net.oschina.mytuils.StringUtil;
 import net.oschina.mytuils.constants.UtilConst;
 
+import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -26,12 +27,11 @@ import com.jfinal.plugin.ehcache.CacheKit;
 import com.oss.model.MetlDatabase;
 
 /**
- * 
- * 标准字段拦截器
- * 
- * @author Jieven
- * 
- */
+* 数据库管理拦截器 <br/>
+* date: 2016年11月16日 <br/>
+* @author jingma
+* @version 
+*/
 public class DatabaseIntercept extends MetlMOIntercept {
     /**
     * 日志
@@ -205,12 +205,20 @@ public class DatabaseIntercept extends MetlMOIntercept {
         String template = kd.getJSONObject("configTemplate").getString("value");
         StringBuffer content = new StringBuffer();
         for(MetlDatabase db:list){
+            //自动修正为配置文件中的数据库信息
+            if(EovaConfig.props.get("config_db_codes").indexOf(db.getStr("ocode"))>-1){
+                db.set("url", EovaConfig.props.get(db.getStr("ocode")+"_url"));
+                db.set("password", EovaConfig.props.get(db.getStr("ocode")+"_pwd"));
+                db.set("username", EovaConfig.props.get(db.getStr("ocode")+"_user"));
+            }
             String pwd = db.getStr("password");
             String[] encryptPwd = DruidCrypt.encrypt(pwd);
             String temp = template.replace("${name}", db.getStr(KuConst.FIELD_OCODE));
             temp = temp.replace("${url}", db.getStr("url"));
             temp = temp.replace("${user}", db.getStr("username"));
-            temp = temp.replace("${pwd}", encryptPwd[0]);
+            temp = temp.replace("${pwd}", pwd);
+            temp = temp.replace("${driver}", JdbcUtils.getDriverClassName(db.getStr("url")));
+            temp = temp.replace("${decryptPwd}", encryptPwd[0]);
             temp = temp.replace("${decryptKey}", encryptPwd[1]);
             content.append(temp);
         }

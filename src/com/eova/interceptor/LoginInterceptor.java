@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.eova.config.EovaConfig;
 import com.eova.config.EovaConst;
 import com.eova.model.User;
 import com.jfinal.aop.Interceptor;
@@ -62,22 +63,42 @@ public class LoginInterceptor implements Interceptor {
 	            JSONObject expand = JSON.parseObject(
 	                    Dict.dictObj(KuConst.DICT_CATEGORY_GENERAL_CONFIG, 
 	                    "user_info_crypt_pwd").getStr(KuConst.FIELD_EXPAND));
+	            String autoLoginModel = EovaConfig.props.get("auto_login_model");
 		        try {
-		            userInfo = DesUtil.decrypt(userInfo, expand.getString("pwd"));
-		            int idx = userInfo.indexOf("@");
-		            Date urlDate = DateUtil.parseDate(userInfo.substring(0, idx));
-		            if(Math.abs(urlDate.getTime()-new Date().getTime())<1000*300){
-		                JSONObject urlUser = JSON.parseObject(userInfo.substring(idx+1));
-		                user = new User();
-		                user.set(urlUser);
-		                inv.getController().setSessionAttr(EovaConst.USER, user);
-		                inv.invoke();
-		                return;
-		            }else{
-		                log.info("用户信息过期："+userInfo);
-		            }
+		            //密码模式
+		            if("pwd_user".equals(autoLoginModel)){
+                        int idx = userInfo.indexOf("@");
+		                if(expand.getString("pwd").equals(userInfo.substring(0, idx))){
+                            user = User.dao.findById(userInfo.substring(idx+1));
+                            if(user==null){
+                                log.info("用户不存在："+userInfo);
+                            }else{
+                                inv.getController().setSessionAttr(EovaConst.USER, user);
+                                inv.invoke();
+                                return;
+                            }
+		                }else{
+                            log.info("密码不正确："+userInfo);
+		                }
+		            } else if("date_user".equals(autoLoginModel)){
+	                    userInfo = DesUtil.decrypt(userInfo, expand.getString("pwd"));
+	                    int idx = userInfo.indexOf("@");
+	                    Date urlDate = DateUtil.parseDate(userInfo.substring(0, idx));
+	                    if(Math.abs(urlDate.getTime()-new Date().getTime())<1000*60*5){
+                            user = User.dao.findById(userInfo.substring(idx+1));
+                            if(user==null){
+                                log.info("用户不存在："+userInfo);
+                            }else{
+                                inv.getController().setSessionAttr(EovaConst.USER, user);
+                                inv.invoke();
+                                return;
+                            }
+	                    }else{
+	                        log.info("用户信息过期："+userInfo);
+	                    }
+                    }
                 } catch (Exception e) {
-                    log.error("解密用户信息失败："+userInfo, e);
+                    log.error("解析用户信息失败："+userInfo, e);
                 }
 		    }
             inv.getController().redirect("/toLogin");

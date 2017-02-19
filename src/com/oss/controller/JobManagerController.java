@@ -3,6 +3,9 @@ package com.oss.controller;
 import net.oschina.kettlemanager.JobManager;
 import net.oschina.kettleutil.common.KuConst;
 import net.oschina.mytuils.Dict;
+import net.oschina.mytuils.KettleUtils;
+
+import org.pentaho.di.repository.LongObjectId;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -90,6 +93,33 @@ public class JobManagerController extends Controller {
         } catch (Exception e) {
             log.error("获取作业运行日志失败:"+idJob, e);
             renderText("获取作业运行日志失败:"+e.getMessage());
+        }
+    }
+    /**
+    * 将作业更新到文件资源库 <br/>
+    * @author jingma
+    */
+    public void updateTofile(){
+        String rows = getPara("rows");
+        JSONArray jobs = JSON.parseArray(rows);
+        //是否有更新失败的作业
+        boolean flag = false;
+        for(int i=0;i<jobs.size();i++){
+            JSONObject job = jobs.getJSONObject(i);
+            try {
+                KettleUtils.jobCopy(job.getString("name"), 
+                        KettleUtils.getDirectory(new LongObjectId(job.getLongValue("id_directory"))), 
+                        KettleUtils.getInstanceRep(), 
+                        KettleUtils.use(KuConst.CACHE_FILE_REP));
+            } catch (Exception e) {
+                flag = true;
+                log.error("更新job失败:"+job, e);
+            }
+        }
+        if(!flag){
+            renderJson(new Easy());
+        }else{
+            renderJson(new Easy("部分作业更新失败",false));
         }
     }
 }

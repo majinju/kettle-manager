@@ -270,7 +270,7 @@ public class MetlTaskTiming extends BaseModel<MetlTaskTiming> {
             return 0;
         }
         String sql = "update r_jobentry_attribute ja "
-                + "set ja.VALUE_NUM=?,ja.VALUE_STR=?"
+                + "set ja.VALUE_NUM=?,ja.VALUE_STR=? "
                 + "where ja.id_jobentry="+startId
                 + " and ja.code=?";
         DbPro db = Db.use(KuConst.DATASOURCE_KETTLE);

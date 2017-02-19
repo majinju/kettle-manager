@@ -53,17 +53,15 @@ public class CommonUtil {
         ObjectId dbId = null;
         Repository repository = KettleUtils.getInstanceRep();
         dbId = repository.getDatabaseID(dbCode);
-        if(dbId!=null){
-            return repository.loadDatabaseMeta(dbId, null);
-        }else{
+        if(dbId==null){
             JSONObject metlDb = Db.use(UtilConst.DATASOURCE_METL).
                     findFirst("select * from metl_database db where db.ocode=?", dbCode);
             DatabaseMeta dataMeta = new DatabaseMeta(dbCode, CommonUtil.metlDsToKettleDs(metlDb.getString("type")), 
                     "JNDI", null, dbCode, null, null, null);
-            //保存转换时会进行该数据库的保存的
-            //repository.saveDatabaseMetaStepAttribute(id_transformation, id_step, dbCode, dataMeta);
-            return dataMeta;
+            KettleUtils.saveRepositoryElement(dataMeta);
+            dbId = repository.getDatabaseID(dbCode);
         }
+        return repository.loadDatabaseMeta(dbId, null);
     }
     /**
     * 连接kettle资源库 <br/>

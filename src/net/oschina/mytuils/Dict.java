@@ -9,10 +9,15 @@ package net.oschina.mytuils;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import net.oschina.mytuils.constants.UtilConst;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -38,7 +43,7 @@ public class Dict {
         }
         String defaultVal = "select ocode ID,oname CN from metl_unify_dict where dict_category='"
                 +dictCategory+"' and is_disable='"+UtilConst.WHETHER_FALSE
-                +"' order by oorder asc;ds=metl";
+                +"' order by oorder,ocode asc;ds=metl";
         result = dictCategory;
         //如果不是select开头的，则判断为使用同一字典方式。
         if(StringUtil.isNotBlank(dictCategory)&&!dictCategory.toLowerCase().startsWith("select")){
@@ -163,9 +168,36 @@ public class Dict {
     * @return 来源字符串的简拼
     */
     public static String getSimpleSpell(String source){
-        Record r = Db.use(UtilConst.DATASOURCE_METL).
-                findFirst("select f_get_simple_spell(?) as spell from dual",source);
-        return r.getStr("spell");
+        if(StringUtil.isBlank(source)){
+            return null;
+        }
+        String dbType = getDbtypeByDatasource(
+                DbKit.getConfig(UtilConst.DATASOURCE_METL).getDataSource());
+        String result = "";
+        for(int i=0;i<source.length();i++){
+            String zi= source.substring(i, i+1);
+            Record r = null;
+            if(JdbcUtils.ORACLE.equals(dbType)){
+                r = Db.use(UtilConst.DATASOURCE_METL).findFirst("SELECT t.simple_spell FROM metl_chinese_spell t WHERE t.oname = ? and t.is_disable='0' and rownum<2",zi);
+            }else {
+                r = Db.use(UtilConst.DATASOURCE_METL).findFirst("SELECT t.simple_spell FROM metl_chinese_spell t WHERE t.oname = ? and t.is_disable='0' limit 1",zi);
+            }
+            result += r==null?zi:r.getStr("simple_spell");
+        }
+        return result;
+    }
+    /**
+    * 根据数据源获取数据库类型 <br/>
+    * @author jingma
+    * @param dataSource
+    * @return
+    */
+    public static String getDbtypeByDatasource(DataSource dataSource) {
+        String dbType = null;
+        if(dataSource instanceof DruidDataSource){
+            dbType = ((DruidDataSource)dataSource).getDbType();
+        }
+        return dbType;
     }
 
     /**
@@ -175,9 +207,23 @@ public class Dict {
     * @return 来源字符串的全拼
     */
     public static String getFullSpell(String source){
-        Record r = Db.use(UtilConst.DATASOURCE_METL).
-                findFirst("select f_get_full_spell(?) as spell from dual",source);
-        return r.getStr("spell");
+        if(StringUtil.isBlank(source)){
+            return null;
+        }
+        String dbType = getDbtypeByDatasource(
+                DbKit.getConfig(UtilConst.DATASOURCE_METL).getDataSource());
+        String result = "";
+        for(int i=0;i<source.length();i++){
+            String zi= source.substring(i, i+1);
+            Record r = null;
+            if(JdbcUtils.ORACLE.equals(dbType)){
+                r = Db.use(UtilConst.DATASOURCE_METL).findFirst("SELECT t.full_spell FROM metl_chinese_spell t WHERE t.oname = ? and t.is_disable='0' and rownum<2",zi);
+            }else {
+                r = Db.use(UtilConst.DATASOURCE_METL).findFirst("SELECT t.full_spell FROM metl_chinese_spell t WHERE t.oname = ? and t.is_disable='0' limit 1",zi);
+            }
+            result += r==null?zi:r.getStr("full_spell");
+        }
+        return result;
     }
 
     /**
@@ -186,7 +232,16 @@ public class Dict {
     * @return
     */
     public static String getDbCurrentDateLL(){
-        Record r = Db.use("metl").findFirst("select to_char(sysdate,'yyyymmddhh24miss') as curr_date from dual");
+        Record r = null;
+        String dbType = getDbtypeByDatasource(
+                DbKit.getConfig(UtilConst.DATASOURCE_METL).getDataSource());
+        if(JdbcUtils.ORACLE.equals(dbType)){
+            r = Db.use(UtilConst.DATASOURCE_METL).findFirst("select to_char(sysdate,'yyyymmddhh24miss') as curr_date from dual");
+        }else if(JdbcUtils.MYSQL.equals(dbType)){
+            r = Db.use(UtilConst.DATASOURCE_METL).findFirst("SELECT DATE_FORMAT(NOW(),'%Y%m%d%H%i%S') as curr_date");
+        }else{
+            DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14);
+        }
         return r.getStr("curr_date");
     }
 

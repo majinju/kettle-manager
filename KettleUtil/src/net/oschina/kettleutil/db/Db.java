@@ -16,16 +16,20 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import net.oschina.kettleutil.common.KuConst;
+import net.oschina.mytuils.DateUtil;
 import net.oschina.mytuils.StringUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.osjava.sj.loader.SJDataSource;
 import org.pentaho.di.core.database.util.DatabaseUtil;
 import org.pentaho.di.core.exception.KettleException;
 import org.pentaho.di.job.entry.JobEntryBase;
 import org.pentaho.di.trans.step.BaseStep;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -49,6 +53,10 @@ public class Db {
     * spring数据库操作工具
     */
     private JdbcTemplate jdbcTemplate;
+    /**
+    * 数据库类型
+    */
+    private String dbType;
     /**
     * 获取数据库操作对象 <br/>
     * @author jingma
@@ -110,7 +118,26 @@ public class Db {
     
     public Db(JdbcTemplate jdbcTemplate) {
         super();
+        DataSource dataSource = jdbcTemplate.getDataSource();
+        dbType = getDbtypeByDatasource(dataSource);
         this.jdbcTemplate = jdbcTemplate;
+    }
+    /**
+    * 根据数据源获取数据库类型 <br/>
+    * @author jingma
+    * @param dataSource
+    * @return
+    */
+    public static String getDbtypeByDatasource(DataSource dataSource) {
+        String dbType = null;
+        if(dataSource instanceof DruidDataSource){
+            dbType = ((DruidDataSource)dataSource).getDbType();
+        }else if(dataSource instanceof SJDataSource){
+            dbType = JdbcUtils.getDbType(
+                    ((SJDataSource)dataSource).toString().split("::::")[1],
+                    null);
+        }
+        return dbType;
     }
     /**
     * 执行更新语句 <br/>
@@ -203,8 +230,14 @@ public class Db {
     * @return
     */
     public String getCurrentDateStr14(){
-        return findFirst("select to_char(sysdate,'yyyymmddhh24miss') as current_date from dual").
-                getString("current_date");
+        if(JdbcUtils.ORACLE.equals(dbType)){
+            return findFirst("select to_char(sysdate,'yyyymmddhh24miss') as cur_date from dual").
+                    getString("cur_date");
+        }else if(JdbcUtils.MYSQL.equals(dbType)){
+            return findFirst("SELECT DATE_FORMAT(NOW(),'%Y%m%d%H%i%S') as cur_date").
+                    getString("cur_date");
+        }
+        return DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14);
     }
     /**
     * 执行修改语句 <br/>

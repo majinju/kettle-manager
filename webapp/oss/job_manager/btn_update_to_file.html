@@ -1,0 +1,27 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="updateTofile()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var updateTofile = function () {
+    	var $grid = $('#${gridId}');
+        var rows = $grid.datagrid('getSelections');
+        var num = rows.length;
+        if (num == "0") {
+        	$.slideMsg("请至少选择一条记录！");
+            return;
+        }
+        MaskUtil.mask("正在更新作业到文件资源库中..."); 
+        $.post('/oss/job_manager/updateTofile', 
+    	        {"rows": JSON.stringify(rows)},
+    	        function (result, status) {
+    	            MaskUtil.unmask(); 
+    	            if (result.success) {
+    	                $.slideMsg("更新完成");
+    	                $grid.datagrid('load');
+    	            } else {
+    	            	$.messager.alert("操作错误", result.msg ,'error');
+    	            }
+    	        });
+    };
+</script>

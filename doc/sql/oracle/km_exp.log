@@ -14,10 +14,10 @@ About to export KM's objects ...
 . exporting sequence numbers
 . exporting cluster definitions
 . about to export KM's tables via Conventional Path ...
-. . exporting table                    EOVA_BUTTON        173 rows exported
+. . exporting table                    EOVA_BUTTON        174 rows exported
 . . exporting table                      EOVA_DICT         21 rows exported
-. . exporting table                     EOVA_FIELD        191 rows exported
-. . exporting table                       EOVA_LOG         43 rows exported
+. . exporting table                     EOVA_FIELD        193 rows exported
+. . exporting table                       EOVA_LOG         66 rows exported
 . . exporting table                      EOVA_MENU         37 rows exported
 . . exporting table                    EOVA_OBJECT         16 rows exported
 . . exporting table                      EOVA_ROLE          4 rows exported

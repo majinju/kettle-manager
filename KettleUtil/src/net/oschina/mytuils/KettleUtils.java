@@ -24,6 +24,7 @@ import org.pentaho.di.repository.LongObjectId;
 import org.pentaho.di.repository.ObjectId;
 import org.pentaho.di.repository.Repository;
 import org.pentaho.di.repository.RepositoryDirectoryInterface;
+import org.pentaho.di.repository.RepositoryElementInterface;
 import org.pentaho.di.repository.StringObjectId;
 import org.pentaho.di.repository.filerep.KettleFileRepository;
 import org.pentaho.di.repository.filerep.KettleFileRepositoryMeta;
@@ -110,7 +111,6 @@ public class KettleUtils {
 	 */
 	public static Repository createFileRep(String id, String repName, 
 	        String description, String baseDirectory) throws KettleException{
-        destroy();
         //初始化kettle环境
         if(!KettleEnvironment.isInitialized()){
             KettleEnvironment.init();
@@ -175,13 +175,13 @@ public class KettleUtils {
 	 */
 	public static Repository createDBRep(String name, String type, String access, String host, 
 			String db, String port, String user, String pass,String id, String repName, String description) throws KettleException{
-        destroy();
         //初始化kettle环境
         if(!KettleEnvironment.isInitialized()){
             KettleEnvironment.init();
         }
 		//创建资源库数据库对象，类似我们在spoon里面创建资源库
 		DatabaseMeta dataMeta = new DatabaseMeta(name, type, access, host, db, port, user, pass);
+		dataMeta.setForcingIdentifiersToLowerCase(true);
 		//资源库元对象
 		KettleDatabaseRepositoryMeta kettleDatabaseMeta = 
 				new KettleDatabaseRepositoryMeta(id, repName, description, dataMeta);
@@ -189,6 +189,12 @@ public class KettleUtils {
 	}
     public static Repository createRep(BaseRepositoryMeta baseRepositoryMeta,
             String id, String repName, String description) throws KettleException{
+        if(use(id)!=null){
+            if(repository.getName().equals(use(id).getName())){
+                repository = null;
+            }
+            use(id).disconnect();
+        }
         Repository repository = null;
         if(System.getenv("KETTLE_JNDI_ROOT")!=null){
             System.setProperty("org.osjava.sj.root", System.getenv("KETTLE_JNDI_ROOT"));
@@ -443,6 +449,25 @@ public class KettleUtils {
         }
         return null;
     }
+    /**
+    * 保存资源库对象 <br/>
+    * @author jingma
+    * @param repositoryElement 资源库对象
+    * @throws KettleException
+    */
+    public static void saveRepositoryElement(RepositoryElementInterface repositoryElement) throws KettleException {
+        saveRepositoryElement(getInstanceRep(),repositoryElement);
+    }
+    /**
+    * 保存资源库对象 <br/>
+    * @author jingma
+    * @param repository 要保存到的资源库
+    * @param repositoryElement 资源库对象
+    * @throws KettleException
+    */
+    public static void saveRepositoryElement(Repository repository,RepositoryElementInterface repositoryElement) throws KettleException {
+        repository.save(repositoryElement, null, null, true );
+    }
 
 	/**
 	 * saveTrans:保存转换. <br/>
@@ -452,10 +477,21 @@ public class KettleUtils {
 	 * @since JDK 1.6
 	 */
 	public static void saveTrans(TransMeta transMeta) throws KettleException {
-//		repository.save(transMeta, null, new RepositoryImporter(repository), true );
-		repository.save(transMeta, null, null, true );
+	    saveRepositoryElement(repository,transMeta);
 	}
 
+    /**
+     * saveTrans:保存转换. <br/>
+     * @author jingma
+     * @param repository 要保存到的资源库
+     * @param transMeta 转换元数据
+     * @throws KettleException
+     * @since JDK 1.6
+     */
+    public static void saveTrans(Repository repository,TransMeta transMeta) throws KettleException {
+        saveRepositoryElement(repository,transMeta);
+    }
+    
 	/**
 	 * saveJob:保存job. <br/>
 	 * @author jingma
@@ -464,9 +500,19 @@ public class KettleUtils {
 	 * @since JDK 1.6
 	 */
 	public static void saveJob(JobMeta jobMeta) throws KettleException {
-//		repository.save(jobMeta, null, new RepositoryImporter(repository), true );
-		repository.save(jobMeta, null, null, true );
+	    saveRepositoryElement(repository,jobMeta);
 	}
+    /**
+     * saveJob:保存job. <br/>
+     * @author jingma
+     * @param repository 要保存到的资源库
+     * @param jobMeta job元数据
+     * @throws KettleException
+     * @since JDK 1.6
+     */
+    public static void saveJob(Repository repository,JobMeta jobMeta) throws KettleException {
+        saveRepositoryElement(repository,jobMeta);
+    }
 
 	/**
 	 * isDirectoryExist:判断指定的job目录是否存在. <br/>
@@ -614,7 +660,7 @@ public class KettleUtils {
 			//所在目录不存在则创建
 		    toRepository.createRepositoryDirectory(toRepository.findDirectory("/"), jobPath);
 		}
-		KettleUtils.saveJob(jobMeta);
+		KettleUtils.saveJob(toRepository,jobMeta);
 	}
 
 	/**
@@ -645,7 +691,7 @@ public class KettleUtils {
 		}
 		tm.setRepository(toRepository);
 		tm.setMetaStore(toRepository.getMetaStore());
-		KettleUtils.saveTrans(tm);
+		KettleUtils.saveTrans(toRepository,tm);
 	}
 
     /**

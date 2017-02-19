@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.alibaba.fastjson.util.TypeUtils;
 import com.eova.common.utils.xx;
 import com.eova.config.EovaConst;
 import com.jfinal.kit.LogKit;
@@ -171,43 +172,43 @@ public class DbPro {
 	}
 	
 	public Integer queryInt(String sql, Object... paras) {
-		return (Integer)queryColumn(sql, paras);
+		return TypeUtils.castToInt(queryColumn(sql, paras));
 	}
 	
 	public Integer queryInt(String sql) {
-		return (Integer)queryColumn(sql, NULL_PARA_ARRAY);
+		return TypeUtils.castToInt(queryColumn(sql, NULL_PARA_ARRAY));
 	}
 	
 	public Long queryLong(String sql, Object... paras) {
-		return (Long)queryColumn(sql, paras);
+		return TypeUtils.castToLong(queryColumn(sql, paras));
 	}
 	
 	public Long queryLong(String sql) {
-		return (Long)queryColumn(sql, NULL_PARA_ARRAY);
+		return TypeUtils.castToLong(queryColumn(sql, NULL_PARA_ARRAY));
 	}
 	
 	public Double queryDouble(String sql, Object... paras) {
-		return (Double)queryColumn(sql, paras);
+		return TypeUtils.castToDouble(queryColumn(sql, paras));
 	}
 	
 	public Double queryDouble(String sql) {
-		return (Double)queryColumn(sql, NULL_PARA_ARRAY);
+		return TypeUtils.castToDouble(queryColumn(sql, NULL_PARA_ARRAY));
 	}
 	
 	public Float queryFloat(String sql, Object... paras) {
-		return (Float)queryColumn(sql, paras);
+		return TypeUtils.castToFloat(queryColumn(sql, paras));
 	}
 	
 	public Float queryFloat(String sql) {
-		return (Float)queryColumn(sql, NULL_PARA_ARRAY);
+		return TypeUtils.castToFloat(queryColumn(sql, NULL_PARA_ARRAY));
 	}
 	
 	public java.math.BigDecimal queryBigDecimal(String sql, Object... paras) {
-		return (java.math.BigDecimal)queryColumn(sql, paras);
+		return TypeUtils.castToBigDecimal(queryColumn(sql, paras));
 	}
 	
 	public java.math.BigDecimal queryBigDecimal(String sql) {
-		return (java.math.BigDecimal)queryColumn(sql, NULL_PARA_ARRAY);
+		return TypeUtils.castToBigDecimal(queryColumn(sql, NULL_PARA_ARRAY));
 	}
 	
 	public byte[] queryBytes(String sql, Object... paras) {
@@ -219,11 +220,11 @@ public class DbPro {
 	}
 	
 	public java.util.Date queryDate(String sql, Object... paras) {
-		return (java.util.Date)queryColumn(sql, paras);
+		return TypeUtils.castToDate(queryColumn(sql, paras));
 	}
 	
 	public java.util.Date queryDate(String sql) {
-		return (java.util.Date)queryColumn(sql, NULL_PARA_ARRAY);
+		return TypeUtils.castToDate(queryColumn(sql, NULL_PARA_ARRAY));
 	}
 	
 	public java.sql.Time queryTime(String sql, Object... paras) {
@@ -243,11 +244,11 @@ public class DbPro {
 	}
 	
 	public Boolean queryBoolean(String sql, Object... paras) {
-		return (Boolean)queryColumn(sql, paras);
+		return TypeUtils.castToBoolean(queryColumn(sql, paras));
 	}
 	
 	public Boolean queryBoolean(String sql) {
-		return (Boolean)queryColumn(sql, NULL_PARA_ARRAY);
+		return TypeUtils.castToBoolean(queryColumn(sql, NULL_PARA_ARRAY));
 	}
 	
 	public Number queryNumber(String sql, Object... paras) {

@@ -373,13 +373,6 @@ $(function () {
 //                    console.log('回滚数据');
 //                }
 //            });
-            rowMenu.menu('appendItem', {
-                text: '其它功能',
-                name: 'other',
-                onclick: function () {
-                    alert('Eova is So Easy');
-                }
-            });
         }
     }
 
@@ -407,12 +400,6 @@ $(function () {
             }
         });
         <%}%>
-        // 动态加载列作为菜单项目
-        cmenu.menu('appendItem', {
-			text: 'other',
-			name: 'other',
-			iconCls: ''
-        });
     }
     
     if (object.is_celledit) {

@@ -91,7 +91,7 @@
 		</replace>
 		<replace dir="${target}" includes="start.bat" encoding="GBK">
 			<replacefilter token="@project-name@" value="${ant.project.name}"/>
-			<replacefilter token="@ext-lib@" value="${extLib}/*"/>
+			<replacefilter token="@ext-lib@" value="%KETTLE_HOME%/ext-lib/*"/>
 			<replacefilter token="@temp-dir@" value="${temp_dir}"/>
 			<replacefilter token="@port@" value="86"/>
 		</replace>
