@@ -451,6 +451,15 @@ String.prototype.time14Totime19 = function () {
     +str.substring(12, 14);
     return result;
 };
+/**
+ * 首字母大写
+ * @returns {String} 转换结果
+ */
+String.prototype.upperCastFast = function () {
+    var str = this;
+    var result = str.substring(0, 1).toUpperCase()+str.substring(1);
+    return result;
+};
 
 $(function() {
 	$(".filed-order").filedOder();

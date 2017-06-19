@@ -1,17 +1,22 @@
-
 --设置环境变量
---KETTLE_JNDI_ROOT=E:\云盘同步文件夹\360云同步\文档杂物\simple-jndi
 --KETTLE_HOME=D:\NIS\data-integration5.4
 
+--KM用户是管理平台的数据库用户，请自行创建或使用已有用户，然后修改数据库配置
+--将KM.sql导入
+
 -------------------数据库脚本----------------------
---kettle资源库的数据库中执行如下语句
+--原始kettle资源库的数据库中执行如下语句（若使用我提供的资源库建表语句kettle.sql则不用执行，已经包含了）
 --R_JOB表新增字段
 ALTER TABLE `r_job`
-ADD COLUMN `RUN_STATUS`  varchar(100) NULL COMMENT '运行状态' AFTER `SHARED_FILE`;
+ADD COLUMN `RUN_STATUS`  varchar(100) NULL DEFAULT 'Stopped' COMMENT '运行状态' AFTER `SHARED_FILE`;
 ALTER TABLE `r_job`
 ADD COLUMN `LAST_UPDATE`  varchar(14) NULL COMMENT '最后更新时间' AFTER `RUN_STATUS`;
 ALTER TABLE `r_job`
-ADD COLUMN `AUTO_RESTART_NUM`  varchar(10) NULL COMMENT '自动重启次数' AFTER `LAST_UPDATE`;
+ADD COLUMN `AUTO_RESTART_NUM`  varchar(10) NULL DEFAULT '0' COMMENT '自动重启次数' AFTER `LAST_UPDATE`;
+ALTER TABLE `r_job`
+ADD COLUMN `REPOSITORY_CODE`  varchar(200) NULL  DEFAULT 'KETTLE_DEFAULT' COMMENT '资源库代码' AFTER `AUTO_RESTART_NUM`;
+ALTER TABLE `r_job`
+ADD COLUMN `PROJECT_CODE`  varchar(200) NULL DEFAULT 'KM_LOCALHOST_82' COMMENT '运行在' AFTER `REPOSITORY_CODE`;
   
 -- 在kettle资源库中新增参数设置表
 CREATE TABLE `job_log` (
@@ -85,9 +90,11 @@ select id_job,
        shared_file,
        run_status,
        last_update,
-       auto_restart_num
+       auto_restart_num,
+       repository_code,
+       project_code
   from r_job j
-  where j.job_status=2
+--  where j.job_status=2
   /*
   作业视图，默认只显示处于发布状态的作业，可以根据需要自行修改
   */;

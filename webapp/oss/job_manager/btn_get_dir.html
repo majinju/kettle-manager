@@ -1,0 +1,20 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="getDir()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var getDir = function () {
+    	var grid = $('#grid');
+        var row = grid.datagrid('getSelected');
+        var num = grid.datagrid('getSelections').length;
+        if (num > "1") {
+        	$.slideMsg("请勿选择多行数据！");
+            return;
+        }
+        if (isSelected(row)) {
+			$.post('/oss/job_manager/getDir',{"job":JSON.stringify(row)},function(data,status){
+                $.messager.alert('获取作业目录', "作业:"+row.name+"<br/>目录:"+data, 'info');
+			});
+        }
+    };
+</script>

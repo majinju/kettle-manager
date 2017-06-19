@@ -1,15 +1,11 @@
---备份相关数据库语句
---exp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/oracle/km.dmp owner=(km)  log=E:/workspace/kettle-manager/doc/sql/oracle/km_exp.log 
-
---导入数据库语句
---imp km/km@127.0.0.1/mydb file=E:/workspace/kettle-manager/doc/sql/oracle/km.dmp fromuser=km touser=km commit buffer=512000000 ignore=y
-
 --设置环境变量
---KETTLE_JNDI_ROOT=E:\云盘同步文件夹\360云同步\文档杂物\simple-jndi
 --KETTLE_HOME=D:\NIS\data-integration5.4
 
+--KM用户是管理平台的数据库用户，请自行创建或使用已有用户，然后修改数据库配置
+--KM结构和数据用plsql导出，可以使用plsql的工具->导出表->sql插入将KM.sql导入
+
 -------------------数据库脚本----------------------
---kettle资源库的数据库中执行如下语句
+--原始kettle资源库的数据库中执行如下语句（若使用我提供的资源库建表语句kettle.sql则不用执行，已经包含了）
 --R_JOB表新增字段
 alter table R_JOB add RUN_STATUS VARCHAR2(100) default 'Stopped';
 comment on column R_JOB.RUN_STATUS
@@ -20,6 +16,13 @@ comment on column R_JOB.LAST_UPDATE
 alter table R_JOB add AUTO_RESTART_NUM VARCHAR2(10) default '0';
 comment on column R_JOB.AUTO_RESTART_NUM
   is '自动重启次数';
+alter table R_JOB add REPOSITORY_CODE VARCHAR2(100) default 'KETTLE_DEFAULT';
+alter table R_JOB add PROJECT_CODE VARCHAR2(500) default 'KM_LOCALHOST_82';
+-- Add comments to the columns 
+comment on column R_JOB.REPOSITORY_CODE
+  is '资源库代码';
+comment on column R_JOB.PROJECT_CODE
+  is '运行在';
   
 -- 在kettle资源库中新增参数设置表
 create table JOB_PARAMS
@@ -182,9 +185,11 @@ select id_job,
        shared_file,
        run_status,
        last_update,
-       auto_restart_num
+       auto_restart_num,
+       REPOSITORY_CODE,
+       PROJECT_CODE
   from r_job j
-  where j.job_status=2
+  --where j.job_status=2
   /*
   作业视图，默认只显示处于发布状态的作业，可以根据需要自行修改
   */;
@@ -205,102 +210,3 @@ order by ja.nr asc
 /*
 参数设置
 */;
-
--- 以下语句在km库（本系统数据库）执行
-create table METL_TASK_TIMING
-(
-  OID              VARCHAR2(32) default sys_guid() not null,
-  OCODE            VARCHAR2(100),
-  ONAME            VARCHAR2(100),
-  ODESCRIBE        VARCHAR2(500),
-  OORDER           NUMBER,
-  SIMPLE_SPELL     VARCHAR2(200),
-  FULL_SPELL       VARCHAR2(500),
-  CREATE_DATE      VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
-  UPDATE_DATE      VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
-  CREATE_USER      VARCHAR2(100),
-  UPDATE_USER      VARCHAR2(100),
-  EXPAND           VARCHAR2(2000),
-  IS_DISABLE       VARCHAR2(10) default '0',
-  FLAG1            VARCHAR2(200),
-  FLAG2            VARCHAR2(200),
-  IS_REPEAT        VARCHAR2(10),
-  SCHEDULER_TYPE   VARCHAR2(100),
-  INTERVAL_SECONDS NUMBER,
-  INTERVAL_MINUTES NUMBER,
-  HOUR             NUMBER,
-  MINUTES          NUMBER,
-  WEEK_DAY         VARCHAR2(100),
-  DAY_OF_MONTH     NUMBER
-);
--- Add comments to the table 
-comment on table METL_TASK_TIMING
-  is '任务定时';
--- Add comments to the columns 
-comment on column METL_TASK_TIMING.OID
-  is '对象主键';
-comment on column METL_TASK_TIMING.OCODE
-  is '对象代码';
-comment on column METL_TASK_TIMING.ONAME
-  is '对象名称';
-comment on column METL_TASK_TIMING.ODESCRIBE
-  is '对象描述';
-comment on column METL_TASK_TIMING.OORDER
-  is '对象排序';
-comment on column METL_TASK_TIMING.SIMPLE_SPELL
-  is '对象简拼';
-comment on column METL_TASK_TIMING.FULL_SPELL
-  is '对象全拼';
-comment on column METL_TASK_TIMING.CREATE_DATE
-  is '创建时间';
-comment on column METL_TASK_TIMING.UPDATE_DATE
-  is '更新时间';
-comment on column METL_TASK_TIMING.CREATE_USER
-  is '创建人';
-comment on column METL_TASK_TIMING.UPDATE_USER
-  is '更新人';
-comment on column METL_TASK_TIMING.EXPAND
-  is '扩展信息';
-comment on column METL_TASK_TIMING.IS_DISABLE
-  is '是否禁用';
-comment on column METL_TASK_TIMING.FLAG1
-  is '备用1';
-comment on column METL_TASK_TIMING.FLAG2
-  is '备用2';
-comment on column METL_TASK_TIMING.IS_REPEAT
-  is '允许重复';
-comment on column METL_TASK_TIMING.SCHEDULER_TYPE
-  is '定时类型';
-comment on column METL_TASK_TIMING.INTERVAL_SECONDS
-  is '秒间隔';
-comment on column METL_TASK_TIMING.INTERVAL_MINUTES
-  is '分间隔';
-comment on column METL_TASK_TIMING.HOUR
-  is '每天几时';
-comment on column METL_TASK_TIMING.MINUTES
-  is '每天几分';
-comment on column METL_TASK_TIMING.WEEK_DAY
-  is '每周周几';
-comment on column METL_TASK_TIMING.DAY_OF_MONTH
-  is '每月几号';
--- Create/Recreate primary, unique and foreign key constraints 
-alter table METL_TASK_TIMING
-  add constraint PK_METL_TASK_TIMING primary key (OID);
--- Create/Recreate indexes 
-create index IDX_M_T_TIMING_CREATE_DATE on METL_TASK_TIMING (CREATE_DATE);
-create index IDX_M_T_TIMING_UPDATE_DATE on METL_TASK_TIMING (UPDATE_DATE);
-
-create table eova_menu_object(
-    id NUMBER(10) NOT NULL,
-    menu_code VARCHAR2(50) NOT NULL,
-    object_code VARCHAR2(50) NOT NULL,
-    indexs NUMBER(10)
-);
-
-alter table eova_menu_object add constraint pk_eova_menu_object primary key(id);
-comment on column eova_menu_object.menu_code is '菜单编码';
-comment on column eova_menu_object.object_code is '对象编码';
-comment on column eova_menu_object.indexs is '对象索引';
-alter table eova_menu_object modify indexs default '0';
-
-

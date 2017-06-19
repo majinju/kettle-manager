@@ -1,0 +1,204 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.benma666</groupId>
+    <artifactId>kettle-manager</artifactId>
+    <packaging>war</packaging>
+    <version>0.1.0</version>
+
+    <name>kettle-manager</name>
+    <url>http://git.oschina.net/ma459006574/kettle-manager</url>
+
+    <properties>
+        <!-- 主要依赖库的版本定义 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdk.version>1.7</jdk.version>
+        <junit.version>4.11</junit.version>
+
+        <mysql.version>5.1.20</mysql.version>
+        <oracle.version>14</oracle.version>
+
+        <druid.version>1.0.12</druid.version>
+        <ehcache.version>2.5.2</ehcache.version>
+
+        <jetty.version>8.1.8</jetty.version>
+        <jfinal.version>2.2</jfinal.version>
+        <cglib.version>3.1</cglib.version>
+        
+        <beetl.version>2.2.5</beetl.version>
+
+        <cos.version>26Dec2008</cos.version>
+        <fastjson.version>1.2.0</fastjson.version>
+        <commons-codec.version>1.7</commons-codec.version>
+        <log4j.version>1.2.16</log4j.version>
+        <slf4j.version>1.6.1</slf4j.version>
+        <jxl.version>2.6.12</jxl.version>
+
+    </properties>
+
+    <dependencies>
+    
+        <dependency>
+			<groupId>cn.benma666</groupId>
+			<artifactId>myutils</artifactId>
+			<version>0.0.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        
+        <dependency>
+		  <groupId>oracle.ojdbc</groupId>
+		  <artifactId>ojdbc</artifactId>
+		  <version>${oracle.version}</version>
+		</dependency>
+        
+<!--         <dependency> -->
+<!--             <groupId>postgresql</groupId> -->
+<!--             <artifactId>postgresql</artifactId> -->
+<!--             <version>9.1-901-1.jdbc4</version> -->
+<!--         </dependency> -->
+        
+<!--         <dependency> -->
+<!--             <groupId>com.h2database</groupId> -->
+<!--             <artifactId>h2</artifactId> -->
+<!--             <version>1.4.187</version> -->
+<!--         </dependency> -->
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>jfinal</artifactId>
+            <version>${jfinal.version}</version>
+        </dependency>
+        
+        <dependency>
+    		<groupId>cglib</groupId>
+    		<artifactId>cglib-nodep</artifactId>
+    		<version>${cglib.version}</version>
+		</dependency>
+
+        <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>cos</artifactId>
+            <version>${cos.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+<!--         <dependency> -->
+<!--             <groupId>com.ibeetl</groupId> -->
+<!--             <artifactId>beetl</artifactId> -->
+<!--             <version>${beetl.version}</version> -->
+<!--         </dependency> -->
+
+<!--         <dependency> -->
+<!--             <groupId>com.alibaba</groupId> -->
+<!--             <artifactId>druid</artifactId> -->
+<!--             <version>${druid.version}</version> -->
+<!--         </dependency> -->
+
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+
+<!--         <dependency> -->
+<!--             <groupId>com.alibaba</groupId> -->
+<!--             <artifactId>fastjson</artifactId> -->
+<!--             <version>${fastjson.version}</version> -->
+<!--         </dependency> -->
+
+<!--         <dependency> -->
+<!--             <groupId>log4j</groupId> -->
+<!--             <artifactId>log4j</artifactId> -->
+<!--             <version>${log4j.version}</version> -->
+<!--         </dependency> -->
+
+<!--         <dependency> -->
+<!--             <groupId>org.slf4j</groupId> -->
+<!--             <artifactId>slf4j-api</artifactId> -->
+<!--             <version>${slf4j.version}</version> -->
+<!--         </dependency> -->
+
+<!--         <dependency> -->
+<!--             <groupId>org.slf4j</groupId> -->
+<!--             <artifactId>slf4j-log4j12</artifactId> -->
+<!--             <version>${slf4j.version}</version> -->
+<!--         </dependency> -->
+
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+            <version>${jxl.version}</version>
+        </dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>net.lingala.zip4j</groupId> -->
+<!-- 			<artifactId>zip4j</artifactId> -->
+<!-- 			<version>1.3.1</version> -->
+<!-- 		</dependency> -->
+    </dependencies>
+    <build>
+        <finalName>eova</finalName>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+        <outputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory>
+        <testOutputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</testOutputDirectory>
+
+        <plugins>
+            <!-- compiler插件, 设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <showWarnings>true</showWarnings>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- war打包插件, 设定war包名称不带版本号 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <warName>${project.artifactId}</warName>
+                    <warSourceExcludes>jetty-*.jar</warSourceExcludes>
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/src/main/webapp</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+
+            <!-- clean插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+            
+        </plugins>
+    </build>
+</project>

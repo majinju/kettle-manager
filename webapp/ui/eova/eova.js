@@ -677,7 +677,7 @@
             editable : true,// 可编辑
             valueField: 'id',
             textField: 'cn',
-
+            ignores:'',//忽略部分选项
             // 事件
             onChange : function(oldValue, newValue) {}
         };
@@ -830,12 +830,14 @@
                 comboBox.$panel.empty();// 清空下拉面板选项
 //                $("<div value=\"\">&nbsp;</div>").appendTo(comboBox.$panel);
                 $.each(json, function (index, obj) {
-                	// 字符串长度格式化
-                	var text = $.clipStr(obj[options.textField], 11);
-                    $("<div value=\"" + obj[options.valueField] + "\" title='"+
-                            text+"["+obj[options.valueField] +"]"+"'>" 
-                            + text + "</div>").appendTo(comboBox.$panel);
-//                    $("<div value=\"" + obj[options.valueField] + "\">" + text + "</div>").appendTo(comboBox.$panel);
+                    if(options.ignores.indexOf(','+obj[options.valueField]+',')==-1){
+                    	// 字符串长度格式化
+                    	var text = $.clipStr(obj[options.textField], 11);
+                        $("<div value=\"" + obj[options.valueField] + "\" title='"+
+                                text+"["+obj[options.valueField] +"]"+"'>" 
+                                + text + "</div>").appendTo(comboBox.$panel);
+    //                    $("<div value=\"" + obj[options.valueField] + "\">" + text + "</div>").appendTo(comboBox.$panel);
+                    }
                 });
                 var panel = comboBox.$panel.children('div');
                 // 选择下拉项
@@ -979,6 +981,12 @@
      * @param text
      */
     ComboBox.prototype.setTexts = function (texts) {
+//        var p = this.$panel;
+//        var to = setTimeout(function(){
+//            if(p.children("div").length>=texts.length){
+//                clearTimeout(to);
+//            }
+//        }, 50);
         // 清空所有选中项
         this.$panel.children().removeClass('eova-combo-selected');
 

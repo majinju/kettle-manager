@@ -1,0 +1,23 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="updateJob()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var updateJob = function () {
+    	var grid = $('#grid');
+        var row = grid.datagrid('getSelected');
+        var num = grid.datagrid('getSelections').length;
+        if (num > "1") {
+        	$.slideMsg("请勿选择多行数据！");
+            return;
+        }
+        if (isSelected(row)) {
+            var job_type = row.job_version_val;
+            if(job_type=='shell'||job_type=='javascript'||job_type=='sql'||job_type=='km'){
+            	loadDialog(grid, '修改作业', '/oss/job_manager/toUpdateJob'+job_type.upperCastFast()+'?job=' + encodeURI(JSON.stringify(row)));
+            }else{
+            	loadDialog(grid, '修改作业', '/form/update/R_JOB-' + row.id_job);
+            }
+        }
+    };
+</script>

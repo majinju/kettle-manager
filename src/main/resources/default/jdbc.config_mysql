@@ -1,0 +1,19 @@
+config_db_codes = metl,eova,kettle
+
+#metl数据源
+metl_url = jdbc:mysql://localhost:3306/km?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true
+metl_user = root
+metl_pwd = 123
+
+#eova数据源
+eova_url = jdbc:mysql://localhost:3306/km?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true
+eova_user = root
+eova_pwd = 123
+
+#kettle数据源
+kettle_url = jdbc:mysql://localhost:3306/kettle?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true
+kettle_user = root
+kettle_pwd = 123
+
+#默认事务级别配置(MYSQL=4,Oralce=2)
+transaction_level = 4

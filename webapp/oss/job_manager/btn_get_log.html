@@ -22,7 +22,7 @@ onclick="getLog()">
 
     	    var dialog = window.sy.modalDialog({
     	 		title : '查看['+row.name+']作业运行日志',
-    	 		url : '/oss/job_manager/getLog/' + row.id_job,
+    	 		url : '/oss/job_manager/getLog?job=' + encodeURI(JSON.stringify(row)),
     	 		buttons : [ {
     	 			text : '关闭',
     	 			handler : function() {

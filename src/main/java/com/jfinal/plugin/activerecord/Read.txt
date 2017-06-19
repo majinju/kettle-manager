@@ -1,0 +1,14 @@
+因为JFinal对Oracle不兼容。
+
+Model和Record Builder时，做手工强转，办法虽土，但解决了问题。
+Eova可以在Oracle上跑了。
+测试版本Oracle10g
+
+修订如下：
+Java类型    Oracle类型
+Boolean   CHAR(1)
+Integer   NUMBER(<11)
+Long      NUMBER(>11)
+Double    NUMBER(N) 带小数点
+
+改动已提交给JFinal作者，等待作者在新版本中提供完美的解决方案。

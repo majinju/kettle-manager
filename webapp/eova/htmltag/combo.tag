@@ -45,6 +45,7 @@ if(!isEmpty(code) || !isEmpty(exp)){
 $('#${id!}').eovacombo({
     valueField : 'id',
     textField : 'cn',
-    multiple : ${multiple!false}
+    multiple : ${multiple!false},
+    ignores : "${ignores!''}"
 });
 </script>
