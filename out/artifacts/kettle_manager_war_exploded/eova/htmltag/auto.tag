@@ -1,1 +1,0 @@
-<div class="eova-auto" id="${id!}" name="${(isQuery!)=='true' ? QUERY+name:name}" value="${value!}"></div>

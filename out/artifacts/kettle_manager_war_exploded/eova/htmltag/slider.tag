@@ -1,1 +1,0 @@
-<input id="${id!}" name="${isTrue(isQuery!)?QUERY+name:name}" value="${value!}" class="easyui-slider" value="50" style="width:230px" data-options="showTip:true">
