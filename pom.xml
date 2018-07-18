@@ -121,8 +121,8 @@
             <version>${ehcache.version}</version>
         </dependency>
 
-                 <dependency>
-                     <groupId>com.alibaba</groupId>
+        <dependency>
+            <groupId>com.alibaba</groupId>
                      <artifactId>fastjson</artifactId>
                      <version>${fastjson.version}</version>
                  </dependency>
