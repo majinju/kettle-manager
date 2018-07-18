@@ -1,0 +1,13 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="developing()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var developing = function () {
+           $.messager.show({
+               title:'系统提示',
+               msg:'此功能还在开发中。。。',
+               showType:'show'
+           });
+    };
+</script>

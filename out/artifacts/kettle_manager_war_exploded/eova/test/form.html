@@ -1,0 +1,23 @@
+<%layout("/eova/layout/default.html",{'title' : 'Easy Object View Admin'}){%>
+<body>
+
+<form id="sdfsd" method="post" class="form">
+	<div class="eova-form" style="padding:20px;">
+		<div style="padding:5px;">自增框：<div id="testauto" name="testauto" value="111" class="eova-auto"></div></div>
+		
+	    <div style="padding:5px;">文本框：<#text id="test9" name="test9" value="1" placeholder="info" isNoN="true" validator="" options="disable:true" /></div>
+		<div style="padding:5px;">下拉框：<#combo id="test1" name="test1" code="eova_object_code" field="data_source" value="1" isNoN="true" multiple="true" options="disable:true" /></div>
+	    <div style="padding:5px;">查找框：<#find id="test2" name="test2" code="eova_object_code" field="data_source" value="1" isNoN="true"  options="disable:true"/></div>
+	    <div style="padding:5px;">时间框：<#time id="test3" name="test3" value="" isNoN="true" options="disable:true" /></div>
+		<div style="padding:5px;">图标框：<#icon id="test8" name="test8" value="1" isNoN="true" options="disable:true" /></div>
+		
+		<div style="padding:5px;">图片框：<#img id="test7" name="test7" value="1" isNoN="true" options="disable:true" /></div>
+	    
+		<div style="padding:5px;">复选框：<#check id="test6" name="test6" value="1" isNoN="true" options="disable:true" /></div>
+		<div style="padding:5px;">文本域：<#texts id="test4" name="test4" value="1" isNoN="true" placeholder="info" validator="" style="width:258px;height:20px;" options="disable:true" /></div>
+		<div style="padding:5px;">编辑框：<#edit id="test5" name="test5" value="1" isNoN="true" style="width: 758px;height:150px;margin-bottom: 5px;float: left;" options="disable:true" /></div>
+	</div>
+</form>
+
+</body>
+<%}%>

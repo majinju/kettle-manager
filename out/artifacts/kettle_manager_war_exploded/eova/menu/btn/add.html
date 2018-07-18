@@ -1,0 +1,22 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="crud_add()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+var crud_add = function() {
+	var grid = $('#${gridId}');
+    var row = grid.datagrid('getSelected');
+    if (row && row.type != 'dir'){
+     	$.slideMsg("只能选择目录才可以新增，不选新增到根目录！");
+     	return;
+    }
+    // 默认新增到综合业务下
+    var menuId = 3;
+    if(row != null){
+    	menuId = row.id;
+    }
+	var param = "?parent_id=" + menuId;
+	
+	loadDialog(grid, '新功能配置', '/menu/toAdd' + param, 1100);
+};
+</script>

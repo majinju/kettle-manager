@@ -1,0 +1,10 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="addJob()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+var addJob = function() {
+	var grid = $('#${gridId}');
+	loadDialog(grid, '新建作业', '/oss/job_manager/toAddJob');
+};
+</script>

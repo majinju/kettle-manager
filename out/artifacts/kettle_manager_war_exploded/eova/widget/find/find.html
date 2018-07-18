@@ -1,0 +1,63 @@
+<%layout("/eova/layout/dialog.html",{'title' : '查找数据'}){%>
+
+<body class="easyui-layout">
+	<%// title="快速查询" collapsed="true"%>
+    <div id="layoutNorth" region="north"  split="true" style="height:40px;">
+    <#query id="queryFindForm" items="${itemList}" />
+    </div>
+    <div data-options="region:'center',fit:false,border:false">
+	    <%include("/eova/widget/find/toolbar.html"){}%>
+	    <#grid id="findGrid" objectJson="${objectJson}" fieldsJson="${fieldsJson}" url="${action!}" isPaging="${isPaging!true}" formId="queryFindForm" />
+    </div>
+<script>
+var $findGrid = $('#findGrid');
+
+$(function(){
+	//绑定双击事件
+	$findGrid.datagrid({
+		onDblClickRow : function(rowIndex, rowData){
+			// 模拟点击确认
+			parent.$('#find_ok').trigger('click');
+		}
+	});
+});
+
+var object = JSON.parse('${objectJson}');
+var selectData = function($dialog, findBox) {
+
+    var rows = $findGrid.datagrid('getSelections');
+    try{
+    	// 有选中行
+        var oldValue = findBox.$valuebox.val();
+        var newValue = '';
+        if (rows.length != "0") {
+	        var vals = [], txts = [];
+	        for (var i = 0; i < rows.length; i++) { //组成一个字符串，ID主键用逗号隔开
+	        	vals.push(rows[i][object.pk_name]);
+	            txts.push(rows[i][object.cn]);
+	        }
+        	// 获取主键值(第一列)
+            findBox.$valuebox.val(vals.join(','));
+        	// 获取翻译值(第二列)
+            findBox.$textbox.val(txts.join(','));
+            newValue = findBox.$valuebox.val();
+    	} else {
+    		// 没选值，就清空
+            findBox.$valuebox.val("");
+            findBox.$textbox.val("");
+    	}
+        // 值变更回调
+        if (oldValue != newValue) {
+            console.log(oldValue +'|'+newValue);
+            findBox.options.onChange.call(findBox.$dom, oldValue, newValue);
+        }
+    }catch(err){
+    	console.log("查找框validate异常:" + err);
+    }finally{
+    	// 关闭Dialog
+    	$dialog.dialog('destroy');
+    }
+};
+</script>
+</body>
+<%}%>

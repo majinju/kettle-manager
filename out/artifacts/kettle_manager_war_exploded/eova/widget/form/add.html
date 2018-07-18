@@ -1,0 +1,39 @@
+<%layout("/eova/layout/default.html",{'title' : '新增' + object.name }){%>
+
+<body>
+<#form id="${'addForm' + object.code}" name="${'addForm' + object.code}" items="${fields}" />
+
+<script type="text/javascript">
+var $form = $('#addForm${object.code}');
+
+var submitNow = function($dialog, $grid, $pjq) {
+	var url = "/form/doAdd/${object.code}";
+	$.post(url, sy.serializeObject($form), function(result) {
+		if (result.success) {
+			//$pjq.messager.alert('提示', result.msg, 'info');
+			$.slideMsg("新增${object.name}成功！", $pjq);
+			if($grid.context.URL.indexOf('/single_tree') != -1){
+        		$grid.treegrid('load');
+        	} else {
+        		$grid.datagrid('load');
+        	}
+			$dialog.dialog('destroy');
+		} else {
+			$.alert($pjq, result.msg);
+		}
+	}, 'json');
+};
+var submitForm = function($dialog, $grid, $pjq) {
+	// nice validator
+	$form.isValid(function(isValied){
+		if(isValied){
+			submitNow($dialog, $grid, $pjq);
+		}
+	});
+};
+</script>
+<%if(!isEmpty(object.diy_js!)){%>
+<script type="text/javascript" src="${object.diy_js}"></script>
+<%}%>
+</body>
+<%}%>

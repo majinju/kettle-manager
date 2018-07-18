@@ -1,0 +1,141 @@
+<%layout("/eova/layout/default.html",{'title' : '任务定时配置'}){%>
+
+<script>
+$(function(){
+    typeChange();
+});
+
+var typeChange = function(){
+    setValidateForm("myForm",{
+        scheduler_type: {rule: 'required;'}
+    });
+    $("#myForm").isValid(function(isValied){
+        if(isValied){
+            var scheduler_type = $("#scheduler_type").eovacombo().getValue();
+            if(scheduler_type == "1"){
+                $("#interval_seconds").eovatext().disable(false);
+                $("#interval_minutes").eovatext().disable(false);
+                $("#myForm").validator('setField',{
+                    interval_seconds:'required;range[0~999999999]',
+                    interval_minutes:'required;range[0~999999999]'
+                });
+            }else{
+                $("#interval_seconds").eovatext().disable(true);
+                $("#interval_minutes").eovatext().disable(true);
+                $("#myForm").validator('setField',{
+                    interval_seconds:null,
+                    interval_minutes:null
+                });
+            }
+            if(scheduler_type == "2"||scheduler_type == "3"||scheduler_type == "4"){
+                $("#hour").eovatext().disable(false);
+                $("#minutes").eovatext().disable(false);
+                $("#myForm").validator('setField',{
+                    minutes:'required;range[0~59]',
+                    hour:'required;range[0~23]'
+                });
+            }else{
+                $("#hour").eovatext().disable(true);
+                $("#minutes").eovatext().disable(true);
+                $("#myForm").validator('setField',{
+                    minutes:null,
+                    hour:null
+                });
+            }
+            if(scheduler_type == "3"){
+                $("#week_day").eovacombo().disable(false);
+                $("#myForm").validator('setField',{
+                    week_day:'required'
+                });
+            }else{
+                $("#week_day").eovacombo().disable(true);
+                $("#myForm").validator('setField',{
+                    week_day:null
+                });
+            }
+            if(scheduler_type == "4"){
+                $("#day_of_month").eovatext().disable(false);
+                $("#myForm").validator('setField',{
+                    day_of_month:'required;range[0~31]'
+                });
+            }else{
+                $("#day_of_month").eovatext().disable(true);
+                $("#myForm").validator('setField',{
+                    day_of_month:null
+                });
+            }
+        }
+    });
+}
+var cancel = function($dialog, timingBox) {
+	// 关闭Dialog
+	$dialog.dialog('destroy');
+}
+var ok = function($dialog, timingBox) {
+     $("#myForm").isValid(function(isValied){
+         if(isValied){
+             $.post("/timing/saveTiming", sy.serializeObject($('#myForm')), function(result) {
+         		if (result.success) {
+         		    var arr = result.msg.split(",");
+         		    timingBox.setValue(arr[0]);
+         		    timingBox.setText(arr[1]);
+         			$dialog.dialog('destroy');
+         		} else {
+         			$pjq.messager.alert('提示', result.msg, 'error');
+         		}
+         	}, 'json');
+         }
+     });
+};
+</script>
+<body class="easyui-layout">
+	<form id="myForm" method="post" class="form" style="padding: 5px;">
+		<input type="hidden" name="oid" value="${taskTiming.oid!}"/>
+	    <table class="table" style="width: 100%;">
+	        <tr>
+	            <th>重复</th>
+	            <td>
+	                <#check id="is_repeat" name="is_repeat" value="${taskTiming.is_repeat!}" />
+	            </td>
+	        </tr>
+	        <tr>
+	            <th style="color:red;">类型</th>
+	            <td>
+	                <#combo id="scheduler_type" name="scheduler_type" value="${taskTiming.scheduler_type!}" exp="SCHEDULER_TYPE" options="editable:false,onChange:typeChange"/>
+	            </td>
+	        </tr>
+	        <tr>
+	            <th>以秒计算的间隔</th>
+	            <td>
+	                <#text id="interval_seconds" name="interval_seconds" value="${taskTiming.interval_seconds!}" disable="true"/>
+	            </td>
+	        </tr>
+	        <tr>
+	            <th>以分钟计算的间隔</th>
+	            <td>
+	                <#text id="interval_minutes" name="interval_minutes" value="${taskTiming.interval_minutes!}" disable="true"/>
+	            </td>
+	        </tr>
+	        <tr>
+	            <th>每天</th>
+	            <td>
+	                <#text id="hour" name="hour" value="${taskTiming.hour!}" options="width:90" disable="true"/>
+	                <#text id="minutes" name="minutes" value="${taskTiming.minutes!}" options="width:90" disable="true"/>
+	            </td>
+	        </tr>
+	        <tr>
+	            <th>每周</th>
+	            <td>
+	                <#combo id="week_day" name="week_day"  value="${taskTiming.week_day!}" exp="WEEK_DAY" disable="true" options="editable:false"/>
+	            </td>
+	        </tr>
+	        <tr>
+	            <th>每月</th>
+	            <td>
+	                <#text id="day_of_month" name="day_of_month" value="${taskTiming.day_of_month!}" disable="true"/>
+	            </td>
+	        </tr>
+	    </table>
+	    </form>
+</body>
+<%}%>

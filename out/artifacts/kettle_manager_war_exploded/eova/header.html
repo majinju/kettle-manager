@@ -1,0 +1,29 @@
+<div id="header">
+	<div class="headerNav">
+		<a class="logo" href="javascript:void(0);">LOGO</a>
+		<span style="color: #b7d2ff;display: inline-block;margin-top: 32px;margin-left: -10px;font-size: 1.2em;">
+			v0.2.0
+		</span>
+		<ul class="nav">
+			<li style="color: #b9ccda;">欢迎[${user.login_id}]</li>
+			<li><a href="#" onclick="updatePwd();">修改密码</a></li>
+			<li><a href="/toLogin">注销</a></li>
+			<li><a href="/doExit">退出</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	var updatePwd = function() {
+		var dialog = window.sy.modalDialog({
+			title : '修改密码',
+			url : '/toUpdatePwd',
+			buttons : [ {
+				text : '确定',
+				handler : function() {
+					dialog.find('iframe').get(0).contentWindow.submitForm(
+							dialog,parent.$);
+				}
+			} ]
+		},400,180);
+	};
+</script>

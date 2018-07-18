@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>${title!}</title>
+<%include("/eova/meta.html"){}%>
+<%include("/eova/include.html"){}%>
+</head>
+${layoutContent}
+<script>
+$(function(){
+	$('div[class="eova-text"]').eovatext();
+    $('div[class="eova-time"]').eovatime();
+    $('div[class="eova-auto"]').eovaauto();
+    $('div[class="eova-check"]').eovacheck();
+    $('div[class="eova-find"]').eovafind();
+    $('div[class="eova-combo"]').eovacombo();
+    $('div[class="eova-icon"]').eovaicon();
+    $('div[class="eova-timing"]').eovatiming();
+});
+//设置表单校验规则
+var setValidateForm = function(formName,fields){
+    $("#"+formName).validator({
+           debug: false,
+           stopOnError: true,
+           focusInvalid: false,
+           showOk: false,
+           timely: true,
+           msgMaker: false,
+           fields: fields
+     });
+
+    $("#"+formName).on("validation", function(e, current){
+     // 当前字段未验证通过，Tip提示
+     if(!current.isValid){
+         var tip = $.tipwarn($(current.element).parent(), current.msg);
+         //alert(current.msg);
+         // 开始输入销毁提示
+         $(current.element).keydown(function(event){
+             tip.tooltip('destroy');
+             $(this).unbind("keydown");
+         });
+     }
+ });
+}
+</script>
+</html>

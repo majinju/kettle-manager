@@ -1,0 +1,10 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="eova_importMetaData()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+var eova_importMetaData = function() {
+	var grid = $('#${gridId}');
+	loadDialog(grid, '导入元数据', '/meta/imports');
+};
+</script>

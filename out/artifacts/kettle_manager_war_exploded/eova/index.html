@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Kettle管理</title>
+<meta http-equiv="Expires" CONTENT="0">
+<meta http-equiv="Cache-Control" CONTENT="no-cache">
+<meta http-equiv="Pragma" CONTENT="no-cache">
+<%include("/eova/meta.html"){}%>
+<%include("/eova/include.html"){}%>
+</head>
+<script type="text/javascript">
+	$(function() {
+
+		// 选项卡
+		var mainTabs = $('#mainTabs');
+
+		// Tree Node OnClick
+		var nodeClick = function(node) {
+			if (node.attributes.url) {
+				var src = node.attributes.url;
+				if (!sy.startWith(node.attributes.url, '/')) {
+					src = node.attributes.url;
+				}
+				if(node.is_new_tab=='1'){
+				    window.open(src);
+				    return;
+				}
+				var opts = {
+					title : node.text,
+					closable : true,
+					iconCls : node.iconCls,
+					content : sy
+							.formatString(
+									'<iframe src="{0}" allowTransparency="true" style="border:0;width:100%;height:99%;" frameBorder="0"></iframe>',
+									src),
+					border : false,
+					fit : true
+				};
+				if (mainTabs.tabs('exists', opts.title)) {
+					mainTabs.tabs('select', opts.title);
+				} else {
+					mainTabs.tabs('add', opts);
+				}
+			}
+		};
+
+		// JS加载菜单导航
+		<%for(x in rootList){%>
+		$('#${x.code}').tree({
+			url : '/showTree/${x.id}',
+			animate : true,
+			onClick : nodeClick
+		});
+		<%}%>
+
+		// 选项卡菜单
+		var tabsMenu = $('#tabsMenu').menu(
+				{
+					onClick : function(item) {
+						var curTabTitle = $(this).data('tabTitle');
+						var type = $(item.target).attr('type');
+
+						if (type === 'close') {
+							var t = mainTabs.tabs('getTab', curTabTitle);
+							if (t.panel('options').closable) {
+								mainTabs.tabs('close', curTabTitle);
+							}
+							return;
+						}
+
+						var allTabs = mainTabs.tabs('tabs');
+						var closeTabsTitle = [];
+
+						$.each(allTabs, function() {
+							var opt = $(this).panel('options');
+							if (opt.closable && opt.title != curTabTitle
+									&& type === 'closeOther') {
+								closeTabsTitle.push(opt.title);
+							} else if (opt.closable && type === 'closeAll') {
+								closeTabsTitle.push(opt.title);
+							}
+						});
+
+						for ( var i = 0; i < closeTabsTitle.length; i++) {
+							mainTabs.tabs('close', closeTabsTitle[i]);
+						}
+					}
+				});
+		// 初始化选项卡
+		mainTabs.tabs({
+			fit : true,
+			border : false,
+			tools : [ {
+				text : '最大化',
+				iconCls : 'icon-arrowoutlonger',
+				handler : function() {
+					$('#mainLayout').layout("collapse", "north").layout("collapse", "west");
+				}
+			}, {
+				text : '刷新',
+				iconCls : 'icon-arrowrefresh',
+				handler : function() {
+					var panel = mainTabs.tabs('getSelected').panel('panel');
+					var frame = panel.find('iframe');
+					try {
+						if (frame.length > 0) {
+							for ( var i = 0; i < frame.length; i++) {
+								frame[i].contentWindow.document.write('');
+								frame[i].contentWindow.close();
+								frame[i].src = frame[i].src;
+							}
+							if (navigator.userAgent.indexOf("MSIE") > 0) {// IE特有回收内存方法
+								try {
+									CollectGarbage();
+								} catch (e) {
+								}
+							}
+						}
+					} catch (e) {
+					}
+				}
+			} ],
+			onContextMenu : function(e, title) {
+				e.preventDefault();
+				tabsMenu.menu('show', {
+					left : e.pageX,
+					top : e.pageY
+				}).data('tabTitle', title);
+			}
+		});
+		// 初始化添加默认主页
+// 		var mainOpts = {
+// 			fit : true,
+// 			title : '管理中心',
+// 			closable : false,
+// 			border : false,
+// 			iconCls : 'icon-feed',
+// 			content : '<iframe id="mainFrame" name="mainFrame" src="/toMain" allowTransparency="true" style="border: 0; width: 100%; height: 99%;" frameBorder="0"></iframe>'
+// 		};
+// 		mainTabs.tabs('add', mainOpts);
+	});
+</script>
+
+<body id="mainLayout" class="easyui-layout">
+	<div data-options="region:'north',href:'/toHeader'" style="height: 62px; overflow: hidden;"></div>
+	<div data-options="region:'west',href:'',split:true" title="菜单导航" style="width: 200px; overflow: hidden;">
+		<div class="easyui-accordion" data-options="fit:true">
+			<%for(x in rootList){%>
+			<div title="${x.name}" style="padding: 5px;" data-options="iconCls:'${x.icon}'">
+				<ul id="${x.code}"></ul>
+			</div>
+			<%}%>
+		</div>
+	</div>
+	<div data-options="region:'center'" style="overflow: hidden;">
+		<div id="mainTabs"></div>
+	</div>
+	<div data-options="region:'south',href:'/eova/footer.html',border:false" style="height: 30px; overflow: hidden;"></div>
+
+	<div id="tabsMenu">
+		<div data-options="iconCls:'icon-applicationdelete'" type="close">关闭</div>
+		<div data-options="iconCls:'icon-cancel'" type="closeOther">关闭其他</div>
+		<div data-options="iconCls:'icon-cross'" type="closeAll">关闭所有</div>
+	</div>
+</body>
+</html>

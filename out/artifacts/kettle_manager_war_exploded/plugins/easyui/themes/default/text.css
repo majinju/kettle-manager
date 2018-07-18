@@ -1,0 +1,70 @@
+/* span[class^="eova-icon"] { */
+/* 	background-image: url(images/eova_icon.png); */
+/* 	background-repeat: no-repeat; */
+/* 	background-color: #ECF3FF; */
+/* } */
+
+/* .eova-icon-text{ */
+/* 	background-position: center 0; */
+/* 	background: url('images/eova_icon.png') no-repeat center 0; */
+/* } */
+
+/* .eova-icon-combox{ */
+/* 	background-position: center -20px; */
+/* } */
+
+/* .eova-icon-find{ */
+/* 	background-position: center -40px; */
+/* } */
+
+/* .eova-icon-time{ */
+/* 	background-position: center -60px; */
+/* } */
+
+/* .eova-icon-icon{ */
+/* 	background-position: center -80px; */
+/* } */
+
+/* .eova-icon-file{ */
+/* 	background-position: center -100px; */
+/* } */
+
+/* .eova-icon-identity{ */
+/* 	background-position: center -120px; */
+/* } */
+
+
+.eova-icon-text {
+  width: 18px;
+  height: 20px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+.eova-icon-text-hover {
+  opacity: 1.0;
+  filter: alpha(opacity=100);
+}
+.combo-panel {
+  overflow: auto;
+}
+.eova-icon-text {
+  background: url('images/eova_icon.png') no-repeat center 0;
+}
+.combo,
+.combo-panel {
+  background-color: #ffffff;
+}
+.combo {
+  border-color: #95B8E7;
+  background-color: #ffffff;
+}
+.eova-icon-text {
+  background-color: #E0ECFF;
+}
+.eova-icon-text-hover {
+  background-color: #eaf2ff;
+}

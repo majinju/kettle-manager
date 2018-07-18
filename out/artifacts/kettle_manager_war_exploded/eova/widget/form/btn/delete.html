@@ -1,0 +1,16 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-pagedelete',plain:true"
+   onclick="crud_deletes_${object.code}()">
+    删除
+</a>
+<script type="text/javascript">
+    var crud_deletes_${object.code} = function () {
+        var $grid = $('#${gridId}');
+        var array = $grid.datagrid('getSelections');
+        var num = array.length; //获取要删除信息的个数
+        if (num == "0") {
+        	$.slideMsg("请选择一条记录！");
+            return;
+        }
+        confirmDel($grid, '${object.code}', array);
+    };
+</script>

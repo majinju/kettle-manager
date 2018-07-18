@@ -1,0 +1,209 @@
+<%layout("/eova/layout/default.html",{'title' : 'Dialog' }){%>
+
+<script type="text/javascript">
+    $(function(){
+        jtChange();
+    });
+    //作业类型变化
+    var jtChange = function(){
+        $(".job_fieldset").hide();
+        var job_type = $('#job_type').eovacombo().getValue();
+        $("#"+job_type).show();
+    }
+    
+    var job_type = null;
+    var submitNow = function($dialog, $grid, $pjq) {
+        var url = "/oss/job_manager/editJob"+job_type.upperCastFast();
+        var oInfo = sy.serializeObject($('#myForm'));
+        var params = sy.serializeObject($('#'+job_type+'Form'));
+        params = $.extend(oInfo,params);
+        $.post(url, params, function(result) {
+            if (result.success) {
+                //$pjq.messager.alert('提示', result.msg, 'info');
+                $.slideMsg(result.msg, $pjq);
+                $grid.datagrid('load');
+                $dialog.dialog('destroy');
+            } else {
+                $pjq.messager.alert('提示', result.msg, 'error');
+            }
+        }, 'json');
+    }
+    var submitForm = function($dialog, $grid, $pjq) {
+        if("${job.id_job!}">0){
+            job_type = $('#job_type').eovacombo().getValue();
+            $("#"+job_type+'Form').isValid(function(isValied){
+                if(isValied){
+                    submitNow($dialog, $grid, $pjq);
+                }
+            });
+        }else{
+            $("#myForm").isValid(function(isValied){
+                if(isValied){
+                    job_type = $('#job_type').eovacombo().getValue();
+                    $("#"+job_type+'Form').isValid(function(isValied){
+                        if(isValied){
+                            submitNow($dialog, $grid, $pjq);
+                        }
+                    });
+                }
+            });
+        }
+    }
+</script>
+<fieldset>
+    <legend>作业信息</legend>
+    <form id="myForm" method="post" class="form" style="padding: 5px;">
+    <input type="hidden" name="id_job" value="${job.id_job!}">
+    <table class="table" style="width: 100%;">
+        <tr>
+            <th style="color: red;width: 120px;">作业类型</th>
+            <td>
+                <#combo id="job_type" name="job_type" code="R_JOB" field="job_version" ignores=",general," value="${job.job_version_val!'shell'}" disable="${job.id_job!}" options="editable:false,onChange:jtChange"/>
+            </td>
+            <th style="color: red;width: 120px;">作业名称</th>
+            <td>
+                <#text id="name" name="name" value="${job.name!}" disable="${job.id_job!}"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 120px;">作业目录</th>
+            <td colspan="3">
+                <#texts id="directory" name="directory" value="${job.dir!}" isNoN="" placeholder="/km_auto_gen的相对路径" disable="${job.id_job!=null ? '1' : ''}" style="width:90%;height:20px;vertical-align: inherit;" />
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 120px;">作业描述</th>
+            <td colspan="3">
+                <#texts id="description" name="description" value="${job.description!}" isNoN="" placeholder="" style="width:90%;height:60px;" />
+            </td>
+        </tr>
+    </table>
+    </form>
+    <script type="text/javascript">
+    $(function(){
+        setValidateForm("myForm",{
+            job_type: {rule: '作业类型:required;'},
+            name: {rule: "作业名称:required;remote[/common/notExistValueByTable?p_table=r_job&p_ds=kettle&p_name=name]"}
+        });
+    })
+    </script>
+</fieldset>
+<fieldset id="shell" class="job_fieldset" style="display: none">
+    <legend>shell作业</legend>
+    <form id="shellForm" method="post" class="form" style="padding: 5px;">
+    <table class="table" style="width: 100%;">
+        <tr>
+            <th style="width: 120px;">工作路径</th>
+            <td colspan="3">
+                <#texts id="work_path" name="work_path" value="${job.work_path!}" isNoN="" placeholder="默认：/tmp" style="width:90%;height:20px;vertical-align: inherit;" />
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 120px;">shell脚本</th>
+            <td colspan="3">
+            	<#texts id="shell_content" name="shell_content" value="${job.shell_content!}" isNoN="" placeholder="作业在linux上运行就写shell脚本，在windows上运行就写bat脚本" style="width:90%;height:200px;" />
+            </td>
+        </tr>
+    </table>
+    </form>
+    <script type="text/javascript">
+    $(function(){
+        setValidateForm("shellForm",{
+            shell_content: {rule: 'shell脚本内容:required;'},
+        });
+    })
+    </script>
+</fieldset>
+<fieldset id="sql" class="job_fieldset" style="display: none">
+    <legend>sql脚本</legend>
+    <form id="sqlForm" method="post" class="form" style="padding: 5px;">
+    <table class="table" style="width: 100%;">
+        <tr>
+            <th style="color: red;width: 120px;">数据库</th>
+            <td>
+                <#combo id="database" name="database" exp="DATABASE" value="${job.database!}" options="editable:false,onChange:jtChange"/>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 120px;">sql脚本</th>
+            <td colspan="3">
+            	<#texts id="sql_content" name="sql_content" value="${job.sql_content!}" isNoN="" placeholder="" style="width:90%;height:200px;" />
+            </td>
+        </tr>
+    </table>
+    </form>
+    <script type="text/javascript">
+    $(function(){
+        setValidateForm("sqlForm",{
+            database: {rule: '数据库:required;'},
+            sql_content: {rule: 'sql脚本:required;'},
+        });
+    })
+    </script>
+</fieldset>
+<fieldset id="javascript" class="job_fieldset" style="display: none">
+    <legend>JS作业</legend>
+    <form id="javascriptForm" method="post" class="form" style="padding: 5px;">
+    <table class="table" style="width: 100%;">
+        <tr>
+            <th style="width: 120px;">JS脚本</th>
+            <td colspan="3">
+            	<#texts id="javascript_content" name="javascript_content" value="${job.javascript_content!}" isNoN="" placeholder="" style="width:90%;height:200px;" />
+            </td>
+        </tr>
+    </table>
+    </form>
+    <script type="text/javascript">
+    $(function(){
+        setValidateForm("javascriptForm",{
+            javascript_content: {rule: 'JS脚本:required;'},
+        });
+    })
+    </script>
+</fieldset>
+<fieldset id="km" class="job_fieldset" style="display: none">
+    <legend>KM作业</legend>
+    <form id="kmForm" method="post" class="form" style="padding: 5px;">
+    <table class="table" style="width: 100%;">
+        <tr>
+            <th style="color: red;width: 120px;">类名称</th>
+            <td colspan="3">
+                <#texts id="class_name" name="class_name" value="${job.class_name!}" isNoN="" placeholder="" style="width:70%;height:20px;vertical-align: inherit;" />
+	            <a href="javascript:void(0);" onclick="getKmDefaultConfig();" class="easyui-linkbutton c6" data-options="toggle:true">获取默认配置</a>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 120px;">配置信息</th>
+            <td colspan="3">
+            	<#json id="config_info" name="config_info" value="${job.config_info!}" isNoN="" style="width: 758px;height:250px;margin-bottom: 5px;float: left;" disable="" />
+            </td>
+        </tr>
+    </table>
+    </form>
+    <script type="text/javascript">
+    $(function(){
+        setValidateForm("kmForm",{
+            class_name: {rule: '类名称:required;'},
+        });
+    });
+    function getKmDefaultConfig(){
+        $('#kmForm').isValid(function(isValied){
+            if(isValied){
+                $.post("/task/getDefaultConfig", 
+                        {"class_name":$("#class_name").val()}, 
+                        function(result) {
+		                    if (result.success) {
+		                        config_info.setText(result.msg);
+		                        $("#jsoneditor_textarea_config_info").val(result.msg);
+		                    } else {
+		                        $.messager.alert('提示', result.msg, 'error');
+		                    }
+		                }, 
+		                'json'
+		             );
+            }
+        });
+    }
+    </script>
+</fieldset>
+<%}%>

@@ -1,0 +1,86 @@
+<%layout("/eova/layout/default.html",{'title' : 'Dialog' }){%>
+<style>
+#myForm span{
+border: 1px solid #BBD4FE;
+padding: 3px;
+background-color: #EAF2FF;
+margin: 5px;
+border-radius:5px;
+}
+#myForm input {
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+}
+</style>
+<form id="myForm" method="post" class="form">
+	<table class="table" style="width: 100%;">
+		<%for(group in btnMap){%>
+		<tr>
+			<th style="width: 200px;">功能组${group.key}</th>
+			<td>
+				<table>
+					<tr style="line-height: 22px;">
+					<%for(x in group.value){%>
+					<td>
+					<label>
+						<span>${x.name}</span>
+						<input type="checkbox" id="${x.id}" name="${group.key}_${x.id}" value="false" ${isTrue(x.is_del!) ? '' : 'checked'}  />
+					</label>
+					</td>
+					<%}%>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<%}%>
+	</table>
+	
+<div id="template" style="text-align: center;font-weight: bold;margin-top: 20px;">
+	<div>功能组位置分布：</div>
+	<div id="templateimg">
+		<img src="/ui/images/template/master_slave_grid.png" style="border: 5px solid #D1D7DC;">
+	</div>
+</div>
+
+<pre>
+
+	说明：
+	本功能用于控制，某业务是否可以开放某些功能
+	单表一排按钮，主子表两排按钮，和界面工具栏对应！
+	
+	举个栗子：
+	【用户管理】一般用户都是由前台注册产生，所以不应该在后台提供新增功能。
+	所以就不要勾选新增，然后分配权限时就不存在新增功能，自然用户也无法看到该功能。
+</pre>
+<br>
+<pre style="color: red;">
+	新手提示：
+	按钮对于用户是否可见，由角色权限控制 
+	新增菜单时系统会默认给超级管理员角色分配权限，其它角色需手工分配
+	【系统管理】>【角色管理】>【权限分配】
+</pre>
+</form>
+<script type="text/javascript">
+var fm = $('#myForm');
+var submitNow = function($dialog, $grid, $pjq) {
+	var url = "/menu/menuFun/${menu.code}";
+	$.post(url, sy.serializeObject(fm), function(result) {
+		if (result.success) {
+			$.slideMsg("操作成功！", $pjq);
+			$grid.treegrid('load');
+			$dialog.dialog('destroy');
+		} else {
+			$pjq.messager.alert('提示', result.msg, 'error');
+		}
+	}, 'json');
+};
+var submitForm = function($dialog, $grid, $pjq) {
+	if (fm.form('validate')) {
+		submitNow($dialog, $grid, $pjq);
+	}
+};
+</script>
+
+
+<%}%>

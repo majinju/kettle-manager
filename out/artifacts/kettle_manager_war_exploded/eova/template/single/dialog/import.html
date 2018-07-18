@@ -1,0 +1,58 @@
+<%layout("/eova/layout/default.html",{'title' : '导入数据'}){%>
+<body>
+<div style="padding: 5px;text-align: center;">
+<form target="ajaxUpload" id="importForm" action="/single_grid/doImportXls/${menuCode}" method="POST" enctype="multipart/form-data">
+	<input type="file" id="upfile" name="upfile" value="上传" formaction="importForm">
+<!-- 	<input type="submit" value="提交"> -->
+</form>
+</div>
+<iframe name="ajaxUpload" style="display:none">
+</iframe>  
+<script type="text/javascript">
+	var extArray = new Array(".xls");
+	function limit(file){
+	    var allowSubmit = false;
+	    if (!file){
+	        return;
+	    }
+	    while (file.indexOf("\\") != -1){
+	        file = file.slice(file.indexOf("\\") + 1);
+	    }
+	    var ext = file.slice(file.lastIndexOf(".")).toLowerCase();
+	    for (var i = 0; i < extArray.length; i++) {
+	        if (extArray[i] == ext){
+	            allowSubmit = true;
+	            break;
+	        }
+	    }
+	    if (!allowSubmit){
+	    	alert("只能上传以下格式的文件:"+ (extArray.join("")) + "\n请重新选择再上传.");
+	    	return false;
+	    }
+	    return true;
+	}
+
+	var $pjq,$grid,$dialog;
+	var submitForm = function(dialog, grid, pjq) {
+		var $fm = $('#importForm');
+		var $file = $('#upfile');
+		if (limit($file.val())) {
+			$fm.submit();
+		}
+		$pjq = pjq;
+		$grid = grid;
+		$dialog = dialog;
+	};
+	// 上传回调:IFrame Ajax上传
+	var callback = function (msg, success){
+		if (success) {
+			$.slideMsg(msg, $pjq);
+		} else {
+			$pjq.messager.alert('提示', msg, 'error');
+		}
+		$grid.datagrid('load');
+		$dialog.dialog('destroy');
+	}
+</script>
+</body>
+<%}%>

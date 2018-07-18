@@ -1,0 +1,43 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="setParams()" title="设置作业运行参数">
+	${button.name!}
+</a>
+<script type="text/javascript">
+var setParams = function() {
+	var grid = $('#grid');
+    var row = grid.datagrid('getSelected');
+    var num = grid.datagrid('getSelections').length;
+    if (num > "1") {
+    	$.slideMsg("请勿选择多行数据！");
+        return;
+    }
+    if (isSelected(row)) {
+        var w=window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+        var h=window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+
+	    var dialog = window.sy.modalDialog({
+	 		title : '作业参数设置',
+	 		url : '/single_grid/list/list_job_params?expand_params=showQuery-false_showBtn-false_showRowMenu-false&id_job=' + row.id_job,
+	 		buttons : [ 
+		 		{
+		 			text : '&nbsp;&nbsp;确&nbsp;定&nbsp;&nbsp;',
+		 			handler : function() {
+		 				dialog.find('iframe').get(0).contentWindow.dialogSaveTable_grid(dialog, grid, parent.$);
+		 			}
+		 		},
+		 		{
+		 			text : '&nbsp;&nbsp;关&nbsp;闭&nbsp;&nbsp;',
+		 			handler : function() {
+	         			dialog.dialog('destroy');
+		 			}
+		 		} 
+	 		]
+	 	}, w-20, h-20);
+    }
+};
+</script>

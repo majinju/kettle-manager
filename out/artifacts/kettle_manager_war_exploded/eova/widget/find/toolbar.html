@@ -1,0 +1,27 @@
+<div id="toolbar" style="display: none;">
+	<table>
+		<tr>
+			<td><a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-zoom',plain:true" onclick="queryFun()">快速查询</a></td>
+			<td><a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-arrowrefresh',plain:true" onclick="resetFun()">初始化</a></td>
+		</tr>
+	</table>
+</div>
+<script type="text/javascript">
+	// 回车自动查询
+	document.onkeydown = function(e){
+		e = window.event;
+		var int_keycode = e.keyCode;
+		if (int_keycode == 13){
+			queryFun();
+		}
+	};
+	// 重载Grid
+	var queryFun = function(){
+		$('#findGrid').datagrid('load',$.getFormParasObj($('#queryFindForm')));
+	};
+	// 刷新Grid
+	var resetFun = function() {
+		$('#queryFindForm input').val('');
+		$('#findGrid').datagrid('load', {});
+	};
+</script>

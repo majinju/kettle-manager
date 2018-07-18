@@ -1,0 +1,31 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="eova_task_trigger()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+var eova_task_trigger = function() {
+	var grid = $('#grid');
+	var row = grid.datagrid('getSelected');
+    if (!isSelected(row)) {
+    	return;
+    }
+    
+    $.messager.confirm('请确认', '您确定手工触发一次任务？', function(o) {
+		if (o) {
+            $.ajax({
+    			url : '/task/trigger/' + row.id,
+    			dataType : 'json',
+    			success : function(o) {
+    				if (o.success) {
+    					grid.datagrid('load');	
+    					grid.datagrid('unselectAll');
+    					$.slideMsg("操作成功！");
+    				} else {
+    					$.messager.alert("操作错误", o.msg ,'error');
+    				}
+    			}
+    		});
+		}
+	});
+};
+</script>

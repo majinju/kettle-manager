@@ -1,0 +1,134 @@
+<%layout("/eova/layout/default.html",{'title' : object.name + '列表'}){%>
+<body class="easyui-layout">
+<%if(isTrue(isQuery!)){%>
+<div id="layoutNorth" region="north" title="快速查询" split="true">
+    <#query id="queryForm" items="${itemList}" />
+</div>
+<%}%>
+<div data-options="region:'center',fit:false,border:false,split:false">
+    <div id="contentLayout" class="easyui-layout" data-options="fit:true">
+    	<div data-options="region:'center',fit:false,border:false">
+        	<div id="master_grid_toolbar" style="display: none;">
+			<table style="width: 100%">
+				<tr>
+					<td>
+                <table>
+                    <tr>
+                        <%if(!isEmpty(btnMap[0]!)){%>
+                        <%for(btn in btnMap[0]){%>
+                         <td><%include(btn.ui,{'object':object, 'gridId':'master_grid', 'button':btn}){}%></td>
+                        <%}%>
+                        <%}%>
+                        
+                        <%// 仅超级管理员可见%>
+      					<%if(session.user.rid == 1){%>
+      					<td><%include("/eova/button/btn/quick.html",{'object':object, 'gridId':'grid', 'formId':'queryForm', 'menuCode': menu.code }){}%></td>
+						<%}%>
+                    </tr>
+                </table>
+					</td>
+                        <%if(isQuery){%>
+                        <td style="float: right;margin-right: 10px;border: solid 1px #CAD4CA;border-radius: 5px 5px 5px 5px;"><%include("/eova/template/single/btn/query.html",{'formId':'queryForm', 'gridId':'master_grid'}){}%></td>
+                        <%}%>
+				</tr>
+			</table>
+            </div>
+            <#grid id="master_grid" toolbar="master_grid_toolbar" objectCode="${config.objectCode}" menuCode="${menu.code}" cellEdit="add,update,delete" formId="queryForm" />
+        </div>
+        <div data-options="region:'south',fit:false,border:false,split:true" style="height:170px">
+        
+            <div id="sonTab" class="easyui-tabs" data-options="fit:true,border:false">
+            	
+        		<%for(var i=0;i<objects.~size;i++){%>
+        		<%var x = objects[i];%>
+                <div title="${x.name}">
+                	<div id="${x.code}_toolbar" style="display: none;">
+		                <table>
+		                    <tr>
+		                    	<%if(!isEmpty(btnMap[i+1]!)){// 有按钮授权才显示%>
+                                <%for(btn in btnMap[i+1]){%>
+                                <td><%include(btn.ui,{'object':x, 'gridId': x.code + '_grid', 'parentId': 'master_grid', 'objectField' : config.objectField, 'field' : config.fields[i] , 'button':btn}){}%></td>
+                                <%}%>
+                                <%}%>
+		                    </tr>
+		                </table>
+		            </div>
+                    <#grid id="${x.code}_grid" masterId="master_grid" toolbar="${x.code}_toolbar" configJson="${configJson!}" objectCode="${x.code}" isFirstLoad="false" isPaging="false" cellEdit="add,update,delete" />
+                </div>
+	        	<%}%>
+	        	
+            </div>         
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+    	<%// 主表相关设定%>
+        var $master_grid = $('#master_grid').datagrid({
+        	<%// 选中行事件%>
+            onSelect:function(rowIndex, rowData){
+           		// 默认自动选中第一个Tab
+           		var $firstSonGrid = $('#${config.objects[0]}_grid');
+           		$firstSonGrid.datagrid('load',{
+                    ${'query_' + config.fields[0]} : rowData.${config.objectField}
+                });
+           		$firstSonGrid.datagrid('clearSelections');
+                $('#sonTab').tabs('select',0);
+            },
+            <%// 数据加载成功事件%>
+            onLoadSuccess: function(data){
+            	// 主表没数据直接清空子表
+            	if(data.total == 0){
+            		$(this).datagrid('clearSelections');
+            		// 清空子的数据
+            		<%for(x in objects){%>
+            		$('#${x.code}_grid').datagrid('loadData', { total: 0, rows: [] });
+            		<%}%>
+            		return;
+            	}
+            	// 数据加载成功后自动选择第一行
+            	$(this).datagrid('clearSelections');
+                $(this).datagrid('selectRow', 0);
+            }
+        });
+        <%// 子表相关设定%>
+        <%for(x in objects){%>
+		$('#${x.code}_grid').datagrid({
+			onBeforeLoad: function(data){
+				// 主表没选中行，子表不加载任何数据(包括排序)
+				var rowData = $master_grid.datagrid('getSelected');
+            	if(!rowData){
+            		return false;
+            	}
+            }
+		});
+		<%}%>
+		<%// click tabs resize grid and reload%>
+        $('#sonTab').tabs({
+        	onSelect : function( title ,index){
+        		var rowData = $master_grid.datagrid('getSelected');
+        		<%for(x in objects){%>
+				if(index == ${xLP.index-1}){
+					var $slavegrid = $('#${x.code}_grid');
+					$slavegrid.datagrid('resize');
+					$slavegrid.datagrid('clearSelections');
+					if(rowData){
+						$slavegrid.datagrid('load',{
+		                    ${'query_' + config.fields[xLP.index-1]} : rowData.${config.objectField}
+		                });
+					}
+        		}
+        		<%}%>
+        	}
+        });
+    });
+</script>
+<script type="text/javascript" src="${STATIC!}/ui/js/template.js"></script>
+<%if(!isEmpty(menu.diy_js!)){%>
+<script type="text/javascript" src="${menu.diy_js}"></script>
+<%}%>
+<%if(!isEmpty(object.diy_js!)){%>
+<script type="text/javascript" src="${object.diy_js}"></script>
+<%}%>
+</body>
+<%}%>

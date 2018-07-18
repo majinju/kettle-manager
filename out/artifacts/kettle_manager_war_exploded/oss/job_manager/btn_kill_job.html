@@ -1,0 +1,31 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="killJob()" title="强制结束作业">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var killJob = function () {
+    	var $grid = $('#${gridId}');
+        var rows = $grid.datagrid('getSelections');
+        var num = rows.length;
+        if (num == "0") {
+        	$.slideMsg("请至少选择一条记录！");
+            return;
+        }
+        $.messager.confirm('提示', '确定结束选中的作业吗?', function(r){
+			if (r){
+		        MaskUtil.mask("正在结束选中的作业..."); 
+		        $.post('/oss/job_manager/killJob', 
+		    	        {"rows": JSON.stringify(rows)},
+		    	        function (result, status) {
+		    	            MaskUtil.unmask(); 
+		    	            if (result.success) {
+		    	                $.slideMsg("结束作业完成");
+		    	                $grid.datagrid('load');
+		    	            } else {
+		    	            	$.messager.alert("操作错误", result.msg ,'error');
+		    	            }
+		    	        });
+			}
+		});
+    };
+</script>

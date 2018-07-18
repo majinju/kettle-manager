@@ -1,0 +1,35 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="getLog()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var getLog = function () {
+    	var grid = $('#grid');
+        var row = grid.datagrid('getSelected');
+        var num = grid.datagrid('getSelections').length;
+        if (num > "1") {
+        	$.slideMsg("请勿选择多行数据！");
+            return;
+        }
+        if (isSelected(row)) {
+            var w=window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+
+            var h=window.innerHeight
+            || document.documentElement.clientHeight
+            || document.body.clientHeight;
+
+    	    var dialog = window.sy.modalDialog({
+    	 		title : '查看['+row.name+']作业运行日志',
+    	 		url : '/oss/job_manager/getLog?job=' + encodeURI(JSON.stringify(row)),
+    	 		buttons : [ {
+    	 			text : '关闭',
+    	 			handler : function() {
+             			dialog.dialog('destroy');
+    	 			}
+    	 		} ]
+    	 	}, w-20, h-20);
+        }
+    };
+</script>

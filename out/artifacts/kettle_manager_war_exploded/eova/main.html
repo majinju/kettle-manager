@@ -1,0 +1,225 @@
+<%layout("/eova/layout/default.html",{'title' : 'Portal'}){%>
+
+<style type="text/css">
+	.title{
+		font-size:16px;
+		font-weight:bold;
+		padding:20px 10px;
+		background:#eee;
+		overflow:hidden;
+		border-bottom:1px solid #ccc;
+	}
+	.t-list{
+		padding:5px;
+	}
+	a {
+		color:blue;
+		text-decoration:underline;
+	}
+	#pay td {
+		border: 1px solid;
+		text-align: center;
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+</style>
+
+<script>
+	$(function(){
+		$('#pp').portal({
+			border:false,
+			fit:true
+		});
+// 		add();
+	});
+// 	function add(){
+// 		for(var i=1; i<3; i++){
+// 			var p = $('<div/>').appendTo('body');
+// 			p.panel({
+// 				title:'Title'+i,
+// 				content:'<div style="padding:5px;">Content'+(i+1)+'</div>',
+// 				height:100,
+// 				closable:true,
+// 				collapsible:true
+// 			});
+// 			$('#pp').portal('add', {
+// 				panel:p,
+// 				columnIndex:i
+// 			});
+// 		}
+// 		$('#pp').portal('resize');
+// 	}
+// 	function remove(){
+// 		$('#pp').portal('remove',$('#pgrid'));
+// 		$('#pp').portal('resize');
+// 	}
+</script>
+
+<body class="easyui-layout">
+
+	<div region="center" border="false">
+		<div id="pp" style="position:relative">
+			<div style="width:47%;">
+				<div title="捐赠鼓励" closable="true" style="height:520px;padding:2px;" >
+<a href="http://note.youdao.com/share/?id=2d8204409aa61385eb36c00c52486402&type=note">如何进行开发者认证？</a>(认证后可免费获取最新源码)
+<br><br>
+<b style="color: rgb(255, 0, 0);">
+您的捐赠会用于<br>
+</b>
+推动项目的发展<br>
+奖励开发团队中的杰出贡献者<br>
+贴补项目网站域名注册、服务器托管、带宽租用等运营成本<br>
+<br>
+<strong style="font-size: 14px; color: #bfbfbf">
+天使已有100+，你可以怀疑EOVA，但是你不能怀疑100+互联网精英的智商！
+</strong><br>
+<b style="color: rgb(255, 0, 0); font-size: 16px;">
+天使群共享不仅有源码，还有最新的补丁<br>
+天使用户大部分都是独立开发者，创业者，他们正在使用EOVA，约吗？<br>
+</b>
+<table>
+	<tr align="center">
+	<td width="200">支付宝二维码</td>
+	<td>微信二维码</td>
+	</tr>
+	<tr align="center">
+	<td><img width="120" src="/ui/images/pay/alipay100.png"></td>
+	<td><img width="120" src="/ui/images/pay/weixin100.png"></td>
+	</tr>
+</table>
+
+<strong style="font-size: 14px; color: #bfbfbf">
+如果天使已经满足不了你的欲望，其实你还可以成为上帝！
+</strong><br>
+<b style="color: #FF9900; font-size: 16px;">
+嗯.可能你很好奇，上帝是什么，上帝就是神一样的男人：CTO,SOHO,土豪...
+</b><br>
+<table>
+	<tr align="center">
+	<td width="200">支付宝二维码</td>
+	<td>微信二维码</td>
+	</tr>
+	<tr align="center">
+	<td><img width="120" src="/ui/images/pay/alipay500.png"></td>
+	<td><img width="120" src="/ui/images/pay/weixin500.png"></td>
+	</tr>
+</table>
+<br><br>
+
+钱不是万能的，但是钱是最能够清晰的表达你的支持度和认可度，捐的越多说明EOVA对你越有价值。<br>
+天使用户就是EOVA的脊梁，他们不仅付出金钱，还出了很多汗水。<br>
+他们横眉冷对千夫指,俯首甘为孺子牛，当小白鼠、提需求、查BUG、测问题、献代码... 因为有了他们，才会有一个又一个的新版本产生！<br>
+<img src="/ui/images/pay/zz.gif">向所有为EOVA做出贡献的用户致敬，没有你们的鼎力支持，就没有如今的EOVA！<br>
+<br>
+<h3 style="color: rgb(255, 0, 0); font-size: 22px;">
+2016我们依然在一起！WE ARE 伐木累!<br>
+</h3>
+				</div>				
+			</div>
+			
+			<div style="width:16%;">
+				<div title="用户特权" closable="true" style="height:520px;padding:5px;">
+			    
+			    <b>【普通】</b><br>
+			        可以加入EOVA用户群<br>
+			        可以永久	免费使用Eova<br>
+			    <br>
+			    <p style="color: #99CC66">
+			    <b>【开发者】</b><br>
+			        可以加入EOVA开发者群<br>
+			        可以免费获取源码<br>
+			    </p>
+			    <br>
+			    <p style="color: #0066CC">
+				<b>【天使】</b><br>
+				可以加入EOVA天使群<br>
+				可以获取源码<br>
+				可以获取更新补丁<br>
+				可以参加Eova内测<br>
+				可以优先体验新版本功能<br>
+				15分钟响应一次群问答<br>
+				</p>
+				<br>
+				<p style="color: #FF0033">
+				<b>【上帝】</b><br>
+				可以加入EOVA(天使)上帝群<br>
+				可以参加Eova封测<br>
+				可以要求需求的实现优先级<br>
+				可以参与决策Eova的发展方向<br>
+				即时响应群问答<br>
+				</p>
+				<br>
+				<p style="color: #FFCC33">
+				<b>【企业用户】</b><br>
+				上门服务，项目外包<br>
+				技术培训，技术支持<br>
+				</p>
+				<br>
+				PS:最终解释权归作者所有<br>
+				</div>
+			</div>
+			
+			<div style="width:22%;">
+			    <div title="更新日志" closable="true" style="height:520px;padding:2px;">
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ceaa329c68a2288d5c8aa65ece30d28844d9bc640b88043d23287a2256198227"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="EOVA快速开发" title="EOVA快速开发"></a>
+					<br>
+					进行快速开发,走向人生巅峰！<br>
+					# <a target="_blank" href="http://www.oschina.net/p/eova">Eova项目主页</a><b class="red">(请收藏/已用)</b><br>
+					# <a target="_blank" href="http://git.oschina.net/eova/eova">EovaGit</a> 获取最新代码 <b class="red">(请Fork)</b><br>
+					# <a target="_blank" href="http://my.oschina.net/jieven/blog">Eova博客</a> 各种技术分享 <b class="red">(请关注)</b><br>
+					# <a href="http://7xign9.com1.z0.glb.clouddn.com/eova_doc_1.5.pdf">Eova文档</a> 基础介绍 <b class="red">(请通读)</b><br>
+<br>
+<pre>
+Eova V1.5(稳定版)
+-----------------------
+Eova不做最屌，只做经济适用!
+[重构]AOP重构，新增AopContext，添加queryBefore拦截
+
+[新增]动态定时调度管理
+[新增]主子表模版支持多子,级联新增修改
+[新增]支持下拉框级联选择
+[新增]导出当页数据(翻译后的)
+[新增]多级授权(用户可以将自己的权限分配给其它角色)
+[新增]自动根据注释解析列名和字典
+[新增]导出元数据功能
+[新增]Grid Cell Edit UI校验
+
+[优化]导入元数据表的弹出选择屏蔽分页
+[优化]功能按钮和权限管理
+[优化]主子表自动关联操作
+[优化]自定义按钮时，可自定义弹出Dialog大小
+[优化]完善下拉框多值并且支持模糊搜索
+[优化]Grid Ctrl多选
+[优化]下拉框 选项文本超过11个字会裁剪...
+[优化]表达式语法升级
+[优化]部分JS压缩和引用简化
+
+[修复]快速编辑元数据功能只有超级管理员可见
+[修复]View元对象无法正常新增修改
+[修复]只有编辑才会触发禁用
+[修复]主子模版中子表行内编辑菜单不显示异常
+
+Q:Eova支持工作流吗？
+A:工作流太笨重了，Eova能轻松实现常见的，
+订单流程，支付流程...等流程管理
+
+Q：Eova可以在IE和火狐运行吗？
+A：IE10+,火狐高版本,勉强可以跑,但是不推荐！
+推荐使用大谷歌！(为什么不支持IE，因为兼容IE劳民伤财)
+
+Q：EOVA 支持oracle数据库吗?
+A：Eova 1.3 已经兼容Oracle.
+
+Q：请问EOVA支持sql server吗？ 
+A：JFinal2.0已支持sql server方言，
+Eova支持JFinal所支持的所有数据库.
+
+</pre>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</body>
+
+<<%}%>

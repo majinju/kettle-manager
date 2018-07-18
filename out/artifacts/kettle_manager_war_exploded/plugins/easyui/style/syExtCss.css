@@ -1,0 +1,108 @@
+.table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.table th,.table td {
+	border: 1px solid #8CACBB;
+	padding: 0.3em 0.7em;
+	text-align: left;
+}
+
+.table th {
+	background: #F8F8F8;
+	text-align: center;
+	font-family: "Microsoft Yahei";
+	font-size: 14px;
+	font-weight:normal;
+}
+
+.table thead th {
+	text-align: center;
+}
+
+.table tbody th {
+	text-align: right;
+}
+
+.table tr:hover {
+	background-color: #f6fafd;
+}
+
+.table td:hover {
+	background-color: #f9feff;
+}
+
+.form th {
+	text-align: right;
+}
+
+.form th,.form td {
+	padding: 0.1em 0.3em;
+	border: 1px solid #D1D7DC;
+}
+
+.form input,.form select,.form textarea {
+	width: 150px;
+}
+
+.form input[type='checkbox'],.form input[type='radio'] {
+	width: 20px;
+}
+
+fieldset {
+	border: 1px dotted #D1D7DC;
+	margin-top: 10px;
+}
+
+legend {
+	border: 1px dotted #D1D7DC;
+	font-size: small;
+}
+a {
+	color:#000; 
+	text-decoration: none;
+	line-height:11px
+}
+a:hover {
+	text-decoration: underline;
+}
+
+li { list-style-type: none; }
+
+#header .logo { background:url(/easy/style/images/logo.png) no-repeat;float:left; width:280px; height:60px; text-indent:-1000px;}
+
+#header { 
+	display: block;
+	overflow: hidden;
+	height: 60px;
+	z-index: 30;
+}
+#header .headerNav {
+	height: 60px;
+	background-repeat: no-repeat;
+	background-position: 100% -60px;
+}
+
+#header, #header .headerNav {
+	background-image: url(/easy/style/images/header_bg.png);
+}
+#header .nav {
+	display: block;
+	height: 21px;
+	position: absolute;
+	top: 8px;
+	right: 0;
+	z-index: 31;
+}
+#header .nav ul { display:none; width:230px; border:solid 1px #06223e; overflow:hidden; background:#FFF; position:absolute; top:20px; right:0;}
+#header .nav li { float:left; margin-left:-1px; padding:0 8px; line-height:11px; position:relative; background:url(/easy/style/images/listLine.png) no-repeat;}
+#header .nav li a { color:#b9ccda;}
+#header .nav ul li { margin-top:0px; height:21px;}
+#header .nav .selected ul {display:block;}
+
+.footer {
+	font-size: 12px;
+	font-family: Arial, sans-serif;
+	font-weight: normal;
+}

@@ -1,0 +1,24 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-pageadd',plain:true"
+   onclick="crud_add_${object.code}()">
+    新增
+</a>
+<script type="text/javascript">
+    var crud_add_${object.code} = function () {
+    	var grid = $('#${gridId}');
+    	
+        var ref = '';
+    	// ------------------------------级联
+    	var parent = $('#${parentId!}');
+        var objectField = '${objectField!}';
+        var field = '${field!}';
+    	if(parent && objectField != '' && field != ''){
+    		// 从父组件上获取选中外键值
+    		var parentRow = parent.datagrid('getSelected');
+    		ref = ref + "?ref=" + field + ":" + parentRow[objectField];
+    	}
+    	// ------------------------------级联
+    	
+        loadDialog(grid, '新增${object.name}', '/form/add/${object.code}' + ref);
+        $('.dialog-button').css("text-align","center");
+    };
+</script>

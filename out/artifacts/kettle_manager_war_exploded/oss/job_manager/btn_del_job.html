@@ -1,0 +1,31 @@
+<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'${button.icon!}',plain:true"
+onclick="delJob()">
+	${button.name!}
+</a>
+<script type="text/javascript">
+    var delJob = function () {
+    	var $grid = $('#${gridId}');
+        var rows = $grid.datagrid('getSelections');
+        var num = rows.length;
+        if (num == "0") {
+        	$.slideMsg("请至少选择一条记录！");
+            return;
+        }
+        $.messager.confirm('提示', '确定删除选中的作业吗?', function(r){
+			if (r){
+		        MaskUtil.mask("正在删除中...");
+		        $.post('/oss/job_manager/delJob', 
+		    	        {"rows": JSON.stringify(rows)},
+		    	        function (result, status) {
+		    	            MaskUtil.unmask(); 
+		    	            if (result.success) {
+		    	                $.slideMsg("删除完成");
+		    	                $grid.datagrid('load');
+		    	            } else {
+		    	            	$.messager.alert("操作错误", result.msg ,'error');
+		    	            }
+		    	        });
+			}
+		});
+    };
+</script>
