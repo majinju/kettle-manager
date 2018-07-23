@@ -3,6 +3,8 @@ package cn.benma666.common.domain;
 
 import java.io.Serializable;
 
+import org.beetl.sql.core.annotatoin.AssignID;
+
 import com.alibaba.fastjson.JSON;
 
 public class TSysFileRecord extends BasicBean implements Serializable {
@@ -13,6 +15,7 @@ public class TSysFileRecord extends BasicBean implements Serializable {
 	/**
 	 * 主键
 	 */
+    @AssignID("uuid")
 	private java.lang.String id;
 
 	/**
