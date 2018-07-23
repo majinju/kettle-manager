@@ -1,0 +1,45 @@
+.control-label {
+    margin-top: 6px;
+}
+
+.zdSelectPage {
+    margin: 0px;
+    padding: 0px 0px 0px 12px;
+    min-height: 30px !important;
+    height: 30px !important;
+    line-height: 30px !important;
+    font-size: 13px;
+}
+
+.icon {
+    vertical-align: top;
+}
+
+.form-horizontal .radio,
+.form-horizontal .checkbox {
+  min-height: 0 !important;
+}
+
+.checkbox-checked .checkbox-inner:after {
+	position:absolute;
+    top: -6px;
+    left: 3px;
+    font-size: 24px;
+    background: transparent;
+    display: inline-block;
+    font-family: Ionicons;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    line-height: 1;
+    text-transform: none;
+    speak: none;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    content: "\f3fd";
+    cursor: pointer;
+    color: #fff;
+	border: none !important;
+	width: 6px;
+	height: 6px;
+}

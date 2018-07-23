@@ -1,0 +1,165 @@
+/* 页面容器的最大宽度，默认 1340px */
+body div.wrap {
+    max-width: 100%;
+    min-width:1000px;
+}
+
+/*字段排序*/
+.filed-order{
+color: blue;
+cursor: pointer;
+}
+.filed-order i {
+display: inline-block;
+margin-bottom: -2px;
+height: 16px;
+width: 8px;
+background: url(img/menu2.png) no-repeat;
+background-position: -14px 0;
+}
+.filed-order i.desc {
+background: url(img/menu3.png) no-repeat;
+background-position: -14px 0;
+}
+.filed-order i.asc {
+background: url(img/menu4.png) no-repeat;
+background-position: -14px 0;
+}
+/*字段排序*/
+
+/*必填字段*/
+span.required{
+	color: red;
+}
+/*必填字段*/
+
+/**查询列表*/
+.ellipsis{
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 8px;
+    table-layout: fixed;
+}
+
+.time_scope{
+	height: 33px!important;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border: 1px solid #dddee1!important;
+    border-radius: 4px;
+    width: calc((100% - 17px)/2);
+    color: #495060;
+    background-color: #fff!important;
+}
+
+.time_scope_max{
+	height: 33px!important;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border: 1px solid #dddee1!important;
+    border-radius: 4px;
+    width: calc(100% - 2px);
+    color: #495060;
+    background-color: #fff!important;
+}
+
+.time_scope_mid{
+	height: 33px!important;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border: 1px solid #dddee1!important;
+    border-radius: 4px;
+    width: calc(100% - 78px);
+    color: #495060;
+    background-color: #fff!important;
+}
+
+.time_scope_big{
+	height: 33px!important;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border: 1px solid #dddee1!important;
+    border-radius: 4px;
+    width: calc(100% - 39px);
+    color: #495060;
+    background-color: #fff!important;
+}
+
+/*研判报告打印页面样式start*/
+.print table{border:1px solid #000000}
+.print table tr th{border:1px solid #000000}
+.print table tr td{border:1px solid #000000}
+
+.bg-group{
+	margin-bottom:16px;
+}
+
+.nav-tabs-lie {
+    border-bottom: 2px solid #FF173A;
+}
+
+.layui-layeryp {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    -webkit-background-clip: content;
+    border-radius: 2px;
+    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
+}
+
+#layui-layer67{
+    width: 150px;
+    border: 1px solid #fff; 
+    position:fixed;
+    right:30px;
+    top:5%;
+}
+
+body div.wrap, .print{
+    min-width:750px;
+}
+
+.upload-sel{
+	border:1px dashed #ACAAC7;
+	border-radius:4px;
+}
+
+table.table-bordered>tbody>tr>td, table.table-bordered>tbody>tr>th, table.table-bordered>tfoot>tr>td, table.table-bordered>tfoot>tr>th, table.table-bordered>thead>tr>td, table.table-bordered>thead>tr>th{
+	vertical-align: middle;
+}
+
+/*临控申请页面样式start*/
+.lksqri{
+    margin-right: 15px;
+}
+.bmbkjsr{
+	top: 10px;
+}
+/*临控申请页面样式end*/
+/*按钮居中start*/
+.btn-center{
+	text-align: center;
+}
+.btn-center>button{
+	width: 100px;
+}
+/*按钮居中end*/
+/*json start*/
+pre{
+	color: #000;
+	white-space: pre-wrap; /* css-3 */ 
+	white-space: -moz-pre-wrap; /* Mozilla, since 1999 */ 
+	white-space: -pre-wrap; /* Opera 4-6 */ 
+	white-space: -o-pre-wrap; /* Opera 7 */ 
+	word-wrap: break-word; /* Internet Explorer 5.5+ */ 
+}
+/*json  end*/

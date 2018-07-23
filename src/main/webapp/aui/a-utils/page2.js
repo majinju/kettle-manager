@@ -1,0 +1,398 @@
+function layerTips(_str){
+	layer.alert(_str, { 
+   		time: 1500, 
+   		icon:0      	   		
+	});
+}
+
+/**
+ * 本平台ajax分页对象的封装，按套路来就不需要参数配置。
+ * 使用参考频繁进出车辆分析
+ */
+function PageAjax(){
+	//参数传到后台的方式：object/jsonStr
+    this.paramType="object";
+	//分页对象的id
+    this.pageId = "#listPage";
+	//参数
+    this.params={};
+	//页大小
+    this.pageSize = 10;
+	//最大页大小，用于现在导出全部
+    this.maxPageSize = 5000;
+	//页大小列表
+    this.pageSizeList=[10,20,50,100,200,500];
+	//当前页
+    this.pageIndex = 1;
+	//是否自动统计总数，只有查询按钮才会统计总量，分页跳转条件不变，数据量不会变
+    this.autoCount = true;
+	//总量
+    this.total = 0;
+	//总页数
+    this.pageCount = 0;
+	//数据列表
+    this.rows = null;
+	//列表页数据模板id，默认：listPageTemplate
+    this.listPageTemplate = null;
+    this.listHead = null;
+    //显示页大小
+    this.showPageSize = true;
+    
+    //自定义参数校验
+    this.checkParam=function(_params){
+        return true;
+    };
+    
+    //定义表单查询回调函数
+    this.callback=function(data){
+    };
+    this.queryPage=function(){
+        var self = this;
+        //常规验证
+    	if(!self.getQueryForm().isValid()){
+    		return;
+    	}
+        var _params = self.getQueryForm().formToJson();
+        _params = preParam(_params);
+        //特殊验证
+        if(!_params||!self.checkParam(_params)){
+            return false;
+        }
+        self.params = _params;
+        self.pageIndex = 1;
+        self.autoCount = true;
+        self.requestList();
+    };
+    this.pagination=function(){
+        var self = this;
+        if(self.total==0){
+            var col = self.getListHead().find("th").size();
+            //移除分页信息
+            $(self.pageId +" .pagination").html("");
+        }else if(self.total<=self.pageSize){
+            //移除分页信息
+            $(self.pageId +" .pagination").html("");
+        }else{
+            //分页渲染后放到这个元素中
+            var listPage = $(self.pageId +" .pagination");
+            //分页元素渲染
+            listPage.html($("#page-tp").tmpl(self));
+            //页大小变化
+            $(self.pageId+" .pageSizeLi").on("click",function(){
+            	//获取选择的页大小
+                var pageSize = $(this).attr("data-size");
+                self.pageSize = pageSize;
+                //重新计算页数
+                self.setTotal(self.total);
+                //如果当前页大于页数则设置当前页为最大页
+                if(self.pageIndex>self.pageCount){
+                    self.pageIndex=self.pageCount;
+                }
+                //没有修改查询条件，不需要统计数据总量
+                self.autoCount = false;
+                self.requestList();
+            });
+            //转到指定页
+            $(self.pageId+" .paging-sure").on("click",function(){
+                var zhuanPage = $(self.pageId+" .zhuanPage").val();
+                if(!isNumber(zhuanPage)||zhuanPage>self.pageCount||zhuanPage<1){
+                    layerTips("请输入正确的页码");
+                    return;
+                }
+                self.pageIndex = new Number(zhuanPage);
+                //没有修改查询条件，不需要统计数据总量
+                self.autoCount = false;
+                self.requestList();
+            });
+            //第一页
+            $(self.pageId+" a.paging-prev").on("click",function(){
+                if(self.pageIndex==1){
+                    layerTips("已经是第一页了");
+                }else{
+                    self.pageIndex = 1;
+                    self.autoCount = false;
+                    self.requestList();
+                }
+            });
+            //上一页
+            $(self.pageId+" a.paging-before").on("click",function(){
+                if(self.pageIndex==1){
+                    layerTips("已经是第一页了");
+                }else{
+                    self.pageIndex = self.pageIndex - 1;
+                    self.autoCount = false;
+                    self.requestList();
+                }
+            });
+            //下一页
+            $(self.pageId+" a.paging-after").on("click",function(){
+                if(self.pageIndex==self.pageCount){
+                    layerTips("已经是最后一页了");
+                }else{
+                    self.pageIndex = self.pageIndex + 1;
+                    self.autoCount = false;
+                    self.requestList();
+                }
+            });
+            //最后一页
+            $(self.pageId+" a.paging-next").on("click",function(){
+                if(self.pageIndex==self.pageCount){
+                    layerTips("已经是最后一页了");
+                }else{
+                    self.pageIndex = self.pageCount;
+                    self.autoCount = false;
+                    self.requestList();
+                }
+            });
+        }
+    };
+    /**
+     * 请求列表
+     * @param params 查询参数
+     * @param callback 数据处理回调函数
+     */
+    this.requestList=function(){      
+    	var loadindex = layer.load(0,{
+    		shade: [0.3]
+    	});
+        var self = this;
+        var url = self.getUrl();
+        //当只有一个参数，且参数名称是params时，不进行二次json包装
+        if(Object.keys(self.params).length==1&&self.params.params){
+            self.paramType="object";
+        }
+        //设置传到后台的参数
+        self.params.pageIndex = self.pageIndex;
+        self.params.pageSize = self.pageSize;
+        self.params.autoCount = self.autoCount;
+        
+        //处理排序字段
+        if(self.getListHead().find(".order-current").size()==1){
+        	var filedTh = self.getListHead().find(".order-current");
+        	//map传参
+            self.params["map['orderField']"] = filedTh.attr("data-filed");
+            self.params["map['orderWay']"] = filedTh.attr("data-order");
+
+            self.params["orderField"] = filedTh.attr("data-filed");
+            self.params["orderWay"] = filedTh.attr("data-order");
+        }
+        
+        var params = self.params;
+        if(self.paramType=="jsonStr"){
+            params = {"params":JSON.stringify(params),"pageIndex":params.pageIndex,
+                    "pageSize":params.pageSize,"autoCount":params.autoCount};
+        }
+        
+    	$.ajax({
+    		url:url,
+    		type:"post",
+    		data:params,
+            dataType: "json",
+    		success:function(result){
+    			eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
+    			self.getListHead().find("span.checkbox-checked").click();
+    			if(!result.list){
+    				result.list = [];
+    			}
+    			listFrom.rows=self.rows = result.list;
+    		    self.setTotal(result.recordCount);
+    		    self.pagination();
+                $(self.pageId+" .pageSize").val(self.pageSize);
+                self.callback(result);              
+                layer.close(loadindex);
+    		},
+    		error:function(errInfo){
+                layerTips("分页查询失败");        
+                layer.close(loadindex);
+    		}
+    	});
+    };
+    
+    /**
+     * 获取全部数据
+     * @param params 查询参数
+     * @param callback 数据处理回调函数
+     */
+    this.allData=function(callback){
+    	var loadindex = layer.load(0,{
+    		shade: [0.3]
+    	});
+        var self = this;
+        var url = self.getUrl();
+        self.params.pageIndex = 1;
+        self.params.pageSize = self.maxPageSize;
+        //不统计总量
+        self.params.autoCount = false;
+        var params = self.params;
+        if(self.paramType=="jsonStr"){
+            params = {"params":JSON.stringify(params),"pageIndex":params.pageIndex,
+                    "pageSize":params.pageSize,"autoCount":params.autoCount};
+        }
+    	$.ajax({
+    		url:url,
+    		type:"post",
+    		data:params,
+            dataType: "json",
+    		success:function(result){
+                callback(result);
+                layer.close(loadindex);
+    		},
+    		error:function(errInfo){
+                layerTips("分页查询失败");
+                layer.close(loadindex);
+    		}
+    	});
+    };
+    /**
+     * 字段排序
+     */
+    this.fieldOrder = function(_this) {
+        var self = this;
+        var fi = $(_this).find("i");
+        var ficlass = fi.attr("class");
+        $("th i.desc").removeClass("desc");
+        $("th i.asc").removeClass("asc");
+        $(".order-current").removeClass("order-current");
+        $(_this).addClass("order-current");
+        if (!ficlass) {
+            fi.addClass("desc");
+            fi.attr("title", "当前是降序");
+            $(_this).attr("data-order", "desc");
+        } else if (ficlass == 'desc') {
+            fi.removeClass("desc");
+            fi.addClass("asc");
+            fi.attr("title", "当前是升序");
+            $(_this).attr("data-order", "asc");
+        } else if (ficlass == 'asc') {
+            fi.removeClass("asc");
+            fi.attr("title", "点击可以设置排序方式");
+            $(_this).attr("data-order", "");
+            $(".order-current").removeClass("order-current");
+        }
+        self.queryPage();
+    };
+    this.setTotal=function(t){
+        if(t>=0){
+            var self = this;
+            self.total = t;
+            self.pageCount = parseInt(self.total/self.pageSize)+(self.total%self.pageSize>0?1:0);
+        }
+    };
+    /**
+     * 设置当前分页的id
+     */
+    this.setPageId=function(pageid){
+        var self = this;
+        self.pageId = pageid;
+        //设置值改变校验
+        self.getQueryForm().validator({
+        	//实时验证关闭，只在提交表单的时候执行验证
+        	timely:0,
+        	//在第一次错误时停止验证，即一个一个验证
+        	stopOnError:true,
+        	msgClass: 'displayNone',
+        	//生成验证提示
+        	msgMaker: function(opt){
+        		layer.tips(opt.msg, opt.element, {tips:[2, '#c00'],shift:6});
+        		return "";
+            }
+        });
+    };
+    this.getUrl=function(){
+        var self = this;
+        var url = self.getQueryForm().attr("action");
+        return url;
+    };
+    this.getListTemplate=function(){
+        var self = this;
+        //页id加Template后缀作为默认数据模板id
+        var lt = $(self.pageId+"Template");
+        if(self.listPageTemplate){
+        	lt = $("#"+self.listPageTemplate);
+        }
+        return lt;
+    };
+    this.getListHead=function(){
+        var self = this;
+        //用页id限定范围
+        var lh = $(self.pageId+" .listHard");
+        return lh;
+    };
+    this.getQueryForm=function(){
+        var self = this;
+        var queryForm = $(self.pageId+" .queryForm");
+        return queryForm;
+    };
+    /**
+     * 结合页数和序号得到数据的行号
+     * @param index 显示数据的序号
+     * @returns 数据的行号
+     */
+    this.getHangHao=function(index){
+        var self = this;
+        return (self.params.pageIndex-1)*self.params.pageSize+index+1;
+    };
+}
+/**
+ * 导出封装
+ */
+var ExportExcel = {
+//导出本页
+saveAsExcel:function(page, title, hiddenCol)
+{
+	var action = $("#form1_1").attr("action");
+	if(!(action.indexOf("http://")>-1||action.indexOf("/")==0)){
+		$("#form1_1").attr("action",serviceAddr+action);
+	}
+	var tableContent = $(page.pageId+" .exportDiv").html();
+	if(tableContent.indexOf("</td>",tableContent.indexOf("</td>")+1)==-1){
+		layerTips("没有数据可以导出！");
+		return;
+	}
+	document.getElementById('filename_1').value = title;
+	document.getElementById('content_1').value = tableContent;
+	if(hiddenCol == null || hiddenCol == undefined || hiddenCol == "undefined") {
+		document.getElementById('hiddenCol_1').value = "";
+	} else {
+		document.getElementById('hiddenCol_1').value = hiddenCol;
+	}
+	document.getElementById('form1_1').submit();
+},
+
+//导出全部
+exportAll:function(page, title, hiddenCol)
+{
+	var action = $("#form1_1").attr("action");
+	if(!(action.indexOf("http://")>-1||action.indexOf("/")==0)){
+		$("#form1_1").attr("action",serviceAddr+action);
+	}
+	if(page.total == 0){
+		layerTips("没有数据可以导出！");
+		return;
+	}
+	
+	if(page.total >page.maxPageSize){
+		layerTips("系统只能导出前"+page.maxPageSize+"条信息！");
+	}
+	page.allData(function(result){
+	     var trs = page.getListTemplate().tmpl(result.list);
+	     var content = "<table><tr>"+page.getListHead().html()+"</tr>";
+	     for(var i=0;i<trs.length;i++){
+		     content += "<tr>"+trs[i].innerHTML+"</tr>";
+	     }
+	     content += "</table>";
+		 document.getElementById('content_1').value = content;
+		 document.getElementById('filename_1').value = title;
+		 if(hiddenCol == null || hiddenCol == undefined || hiddenCol == "undefined") {
+			document.getElementById('hiddenCol_1').value = "";
+		 } else {
+			document.getElementById('hiddenCol_1').value = hiddenCol;
+		 }
+		 $.ajaxSetup({    
+		     async : false    
+		 }); 
+		 document.forms["form1_1"].submit();
+		 return ;
+	});
+}
+};

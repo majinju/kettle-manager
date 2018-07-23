@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:context="http://www.springframework.org/schema/context"	
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"	
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/task 
+	http://www.springframework.org/schema/task/spring-task.xsd
+	http://www.springframework.org/schema/cache  
+    http://www.springframework.org/schema/cache/spring-cache.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop.xsd	
+    http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<description>Spring公共配置 </description>
+
+	<!-- 定义受环境影响易变的变量 -->
+	<bean class="cn.benma666.common.iframe.AConfig">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="locations">
+			<list>
+				<value>file:/benma666/config/myservice.properties</value>
+			</list>
+		</property>
+	</bean>
+     
+	<!-- 数据源配置,使用应用服务器的数据库连接池 -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>${project.datasource.jndi.name}</value>
+		</property>
+	</bean>
+	
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="cn.benma666">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+    <task:annotation-driven/>
+	
+    <!-- 开启AOP监听 只对当前配置文件有效 -->
+    <aop:aspectj-autoproxy expose-proxy="true"/> 
+
+	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+	<context:component-scan base-package="cn.benma666" />
+    
+	<!-- spring事物控制 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>			
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config expose-proxy="true" proxy-target-class="true">
+		<aop:pointcut id="txPointcut" expression="execution(* cn.benma666.*.service.*Service.*(..))" />
+		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice" />
+	</aop:config>
+	 
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages</value>
+			</list>
+		</property>
+		<property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
+	
+	<!--  定义上传组件包 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+	</bean>
+	
+	<!-- 我的配置 -->
+	<bean id="myConfig" class="cn.benma666.common.iframe.MyConfig" init-method="init">
+		<constructor-arg>
+			<map>
+				<entry key="default" value-ref="dataSource"/>
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

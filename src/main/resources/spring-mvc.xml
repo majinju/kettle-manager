@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<beans xmlns="http://www.springframework.org/schema/beans"    
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:aop="http://www.springframework.org/schema/aop"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:jee="http://www.springframework.org/schema/jee"  
+    xmlns:tx="http://www.springframework.org/schema/tx"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:websocket="http://www.springframework.org/schema/websocket"
+    xsi:schemaLocation="    
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd  
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/mvc   http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd">    
+
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<!-- 使用Annotation自动注册Bean,只扫描@Controller -->
+	<context:component-scan base-package="cn.benma666">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+	</context:component-scan>
+
+ <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="order" value="1" />
+        <property name="contentNegotiationManager">
+            <bean class="org.springframework.web.accept.ContentNegotiationManager">
+                <constructor-arg>
+                    <bean
+                            class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+                        <constructor-arg>
+                            <map>
+                                <entry key="json" value="application/json" />
+                                <entry key="xml" value="application/xml" />
+                            </map>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+                    <property name="viewClass"
+                              value="org.springframework.web.servlet.view.JstlView" />
+                    <property name="prefix" value="/WEB-INF/views/" />
+                    <property name="suffix" value=".jsp" />
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean
+                        class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+                    <property name="prefixJson" value="true" />
+                </bean>
+            </list>
+        </property>
+    </bean> 
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>	
+	
+	<mvc:annotation-driven >   
+	    <!-- 消息转换器 -->
+	    <mvc:message-converters register-defaults="true">
+	      <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	        <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+	      </bean>
+	    </mvc:message-converters>
+   </mvc:annotation-driven>
+
+	<!--
+		对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理
+	-->
+	<mvc:default-servlet-handler />
+	
+	<!-- 采用SpringMVC自带的JSON转换工具，支持@ResponseBody注解 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    </bean>
+
+	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->  
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 视图解析器 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 这里的配置我的理解是自动给后面controller的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->  
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<bean class="cn.benma666.common.iframe.WebLoader"/>
+	
+</beans>  

@@ -1,0 +1,498 @@
+<script type="text/x-tp" id="my-label-tp">
+<span>
+    <span class="required" v-if="field.required">*</span>
+    {{(data.index?(index+1)+"-":"")+field.label}}：
+</span>
+</script>
+<script type="text/javascript">
+Vue.component('my-label', {
+    props: ['field','index','data'],
+    data: function () {
+      return {
+      }
+    },
+    template:"#my-label-tp",
+    watch: {
+//        "field.required": function (required) {
+//          }
+        }
+  });
+</script>
+<script type="text/x-tp" id="my-inputn-tp">
+	<input v-if="edit" :name="(owner||'')+field.name"
+		:value="nval"
+  		@blur="setval"
+		:index="index"
+		:type="field.type||'text'"
+		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
+		:placeholder="field.placeholder" 
+		:disabled="field.disabled"
+		:class="field.classStr" 
+		:onfocus="field.onfocus"
+		 />
+	<span v-else :class="field.classStr" :title="nvalTitle" v-html="nval"></span>
+</script>
+<script type="text/javascript">
+Vue.component('my-inputn', {
+    props: ['field','index','value','owner','edit'],
+    data: function () {
+      return {
+      }
+    },
+    template: '#my-inputn-tp',
+    methods : {
+        setval : function($event) {
+            if(!this.field.zdSelectPage){
+                if(this.field.enCodeing){
+                    $event.val=this.field.enCodeing($event.target.value);
+                }else{
+                    $event.val = $event.target.value;
+                }
+                this.$emit('setval', this.field, $event);
+            }
+        }
+	},
+    computed : {
+        nval:function (){
+            var val=this.value;
+            if(!this.edit&&this.field.zdSelectPage){
+                val = zdMcByDm(this.field.zdlb,this.value);
+            }
+            if(this.field.deCodeing){
+                val=this.field.deCodeing(val,this);
+            }
+           return val;
+        },
+        nvalTitle:function (){
+            var val=this.value;
+            if(!this.edit&&this.field.zdSelectPage){
+                val = zdMcByDm(this.field.zdlb,this.value)+"["+this.value+"]";
+            }
+           return val;
+        }
+    },
+    mounted: function () {
+        if(this.field.zdSelectPage&&this.edit){
+            var _this =  this;
+            _this.target = this.$el;
+            var zdObj = $(this.$el);
+            var field = this.field;
+            var zdlb = field.zdlb;
+            var otherParam = field.otherParam||'';
+            var data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map['zdlb']="
+                    +zdlb+"&map['otherParam']="+otherParam;
+            if(!field.ajax&&zdlb!="SYS_COMMON_ORG"){
+            	data = zdList(zdlb);
+            }
+            zdObj.selectPage({
+            	data:data,
+                showField: 'mc',
+                keyField: 'dm',
+                searchField: "map['searchKey']",
+                orderBy : ['px asc','dm asc','mc'],
+                eAjaxSuccess: function(d){
+                    return d;
+                },
+                //选中项目后的回调处理
+                //入参：data：选中行的原始数据对象
+                eSelect : function(data){
+                    _this.val=data.dm;
+                    _this.mc=data.mc;
+                    _this.$emit('setval', field,_this);
+                    field.value="";
+                    if(field.eSelect){
+                    	field.eSelect(data,_this,field);
+                    }
+                },
+				// 点击select的那个叉的事件回调
+                eClear : function(){
+                    _this.val="";
+                    _this.mc="";
+                    _this.$emit('setval', field,_this);
+                    field.value="";
+                    if(field.eClear){
+                    	field.eClear(_this,field);
+                    }
+                },
+                //仅选择模式，不允许输入查询关键字
+                selectOnly : !(this.field.selectOnly==false),
+                //关闭分页栏，数据将会一次性在列表中展示，上限200个项目
+                pagination : (this.field.pagination==true),
+                //关闭分页的状态下，列表显示的项目个数，其它的项目以滚动条滚动方式展现（默认10个）
+                listSize : this.field.listSize|10,
+                multiple : this.field.multiple
+            });
+            if(this.value){
+                var data = {dm:this.value,mc:zdMcByDm(zdlb,this.value)};
+                _this.val=data.dm;
+                _this.mc=data.mc;
+                _this.$emit('setval', field,_this);
+                field.value="";
+                if(field.eSelect){
+                	field.eSelect(data,_this,field);
+                }
+            }
+        }
+      },
+    updated: function () {
+        if(this.field.zdSelectPage){
+            $(this.$el).selectPageRefresh();
+        }
+      }
+  });
+</script>
+<script type="text/x-tp" id="my-textaera-tp">
+	<textarea :name="(owner||'')+field.name" :id="(owner||'')+field.name" 
+		:value="nval" v-if="edit"
+		@blur="setval"
+		:index="index"
+		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
+		:placeholder="field.placeholder"
+		:disabled="field.disabled"
+		:class="field.classStr" 
+		:onfocus="field.onfocus"
+		></textarea>
+	<span class="form-control" :title="value" v-html="nval" v-else></span>
+</script>
+<script type="text/javascript">
+Vue.component('my-textaera', {
+    props: ['field','index','value','owner','edit'],
+    data: function () {
+      return {
+      }
+    },
+    template: '#my-textaera-tp',
+    computed : {
+        nval:function (){
+            var val=this.value;
+            if(this.field.deCodeing){
+                val=this.field.deCodeing(val,this);
+            }
+           return val;
+        }
+    },
+    methods : {
+        setval : function($event) {
+            if(this.field.enCodeing){
+                $event.val=this.field.enCodeing($event.target.value);
+            }else{
+                $event.val = $event.target.value;
+            }
+            this.$emit('setval', this.field, $event);
+        }
+ 	}
+  });
+</script>
+<!-- 时间范围 -->
+<script type="text/x-tp" id="my-timeaera-tp">
+<div v-if="edit">
+	<input :name="'map[\''+(owner||'')+field.name+'_start\']'" :id="(owner||'')+field.name+'Start'" 
+		:value="nvalStart"
+		@blur="setvalStart"
+		:index="index"
+		:type="field.type||'text'"
+		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
+		:placeholder="field.placeholder"
+		:disabled="field.disabled"
+		:class="'Wdate time_scope '+(field.classStr||'')" 
+		@focus="wpStart"
+		></input>
+		<span class="timelate">~</span>
+		<input :name="'map[\''+(owner||'')+field.name+'_end\']'" :id="(owner||'')+field.name+'End'" 
+		:value="nvalEnd"
+		@blur="setvalEnd"
+		:index="index"
+		:type="field.type||'text'"
+		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
+		:placeholder="field.placeholder"
+		:disabled="field.disabled"
+		:class="'Wdate time_scope '+(field.classStr||'')" 
+		@focus="wpEnd"
+		></input>
+</div>
+<span class="form-control" v-html="nval" v-else></span>
+</script>
+<script type="text/javascript">
+Vue.component('my-timeaera', {
+    props: ['field','index','value','owner','edit'],
+    data: function () {
+      return {
+          startData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
+          endData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
+          times:this.value||[]
+      }
+    },
+    template: '#my-timeaera-tp',
+    computed : {
+        nvalStart:function (){
+            var times = this.times;
+            if(!this.times[0]){
+                return "";
+            }
+            var val=this.times[0];
+            if(val.indexOf('goDay:')==0){
+                val = new Date().addDays(val.substring(6)).format('yyyy-MM-dd');
+            }
+            if(this.field.deCodeing){
+                val=this.field.deCodeing(val,this);
+            }
+           return val;
+        },
+        nvalEnd:function (){
+            var times = this.times;
+            if(!this.times[1]){
+                return "";
+            }
+            var val=this.times[1];
+            if(val.indexOf('goDay:')==0){
+                val = new Date().addDays(val.substring(6)).format('yyyy-MM-dd');
+            }
+            if(this.field.deCodeing){
+                val=this.field.deCodeing(val,this);
+            }
+           return val;
+        }
+    },
+    methods : {
+        setvalStart : function($event) {
+            var times = this.times;
+            if(this.field.enCodeing){
+                times[0]=this.field.enCodeing($event.target.value);
+            }else{
+                times[0] = $event.target.value;
+            }
+            $event.val=times;
+            this.$emit('setval', this.field, $event);
+        },
+	    setvalEnd : function($event) {
+            var times = this.times;
+            if(this.field.enCodeing){
+                times[1]=this.field.enCodeing($event.target.value);
+            }else{
+                times[1] = $event.target.value;
+            }
+            $event.val=times;
+	        this.$emit('setval', this.field, $event);
+	    },
+	    wpStart:function(){
+	        WdatePicker(this.startData);
+	    },
+	    wpEnd:function(){
+	        WdatePicker(this.endData);
+	    }
+ 	}
+  });
+</script>
+<script type="text/x-tp" id="my-input-tp">
+<div class="row form-group" :class="'col-xs-'+(field.col||'4')" 
+		:index="index" :value="value" :style="(fieldshow)?'':'display: none;'">
+	<label class="col-xs-5 control-label">
+	    <my-label :field="field" :index="index" :data="data"></my-label>
+	</label>
+	<div class="col-xs-7" v-if="(field.inputType||'input')=='input'">
+	    <my-inputn :field="field" :index="index" :value="value" :edit="edit"
+  			@setval="setval" class="form-control"></my-inputn>
+	</div>
+	<div class="col-xs-7" v-else-if="field.inputType=='textarea'">
+	    <my-textaera :field="field" :index="index" :value="value" :edit="edit"
+			@setval="setval" class="form-control"></my-textaera>
+	</div>
+	<div class="col-xs-7" v-else-if="field.inputType=='timearea'">
+	    <my-timeaera :field="field" :index="index" :value="value" :edit="edit"
+			@setval="setval"></my-timeaera>
+	</div>
+	<div class="col-xs-7" v-else>
+	    没有控件{{field.inputType}}
+	</div>
+</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-input', {
+    props : [ 'field', 'index', 'value', 'data','edit','fieldshow' ],
+    data : function() {
+        return {}
+    },
+    template : '#my-input-tp',
+    methods : {
+        setval : function(field,event) {
+            this.$emit('setval', field, event);
+        }
+    },
+    created : function() {
+        console.log('初始化字段: ' + this.index + ":" 
+                + this.field.name + "=" + this.value);
+    }
+});
+</script>
+<script type="text/x-tp" id="my-from-tp">
+<form :action="data.action" :method="data.method" onsubmit="return false;">
+	<div class="panel panel-info form-horizontal" role="form">
+		<div class="panel-body">
+			<div class="row gutter-1">
+				<my-input v-for=" (field,key,index) in data.fields" :key="field.name"
+					:field="field" :index="index" :data="data"
+					:edit="pagemodel!='details'"
+					:fieldshow="((pagemodel=='edit'&&!(field.editShow==false))||(pagemodel=='search'&&!(field.searchShow==false))||(pagemodel=='details'&&!(field.detailsShow==false)))"
+					:value="fromdata[field.name]?fromdata[field.name]:field.value"
+					@setval="setval"></my-input>
+			</div>
+			<slot></slot>
+		</div>
+	</div>
+</form>
+</script>
+<script type="text/javascript">
+Vue.component('my-from', {
+    props : [ 'data', 'fromdata','pagemodel' ],
+    data : function() {
+        return {}
+    },
+    template : '#my-from-tp',
+    created : function() {
+        console.log('字段数量: ' + Object.keys(this.data.fields).length);
+    },
+    computed : {
+    },
+    methods : {
+        setval : function(field,event) {
+            this.$emit('setval', field, event);
+        }
+    }
+});
+</script>
+
+<script type="text/x-tp" id="my-th-tp"> 
+<th :style="(field.width?'width: '+field.width+'px;':'')+(field.listShow==false?'display: none;':'')" 
+	:class="field.order?'filed-order':''" 
+	class="ellipsis"
+	:data-filed="field.name" 
+	:title="field.label"
+	data-order=""
+	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
+	><span class="required" v-if="field.required"
+	>*</span>{{field.label}}<i v-if="field.order" class="" title="点击可以设置排序方式"></i></th> 
+</script>
+<script type="text/javascript">
+Vue.component('my-th', {
+    props: ['field'],
+    data: function () {
+      return {
+      }
+    },
+    template:"#my-th-tp",
+    watch: {
+        }
+  });
+</script>
+<script type="text/x-tp" id="my-td-tp"> 
+<td :style="(field.listShow==false)?'display: none;':''" :class="edit?'':'ellipsis'">
+	<my-inputn :field="field" :index="index" :ri="ri" :owner="owner" :edit="edit"
+		:value="row[field.name]||field.value" @setval="setval" 
+		 :class="edit?'form-control':''"></my-inputn>
+</td>
+</script>
+<script type="text/javascript">
+Vue.component('my-td', {
+    props: ['field','ri','index','owner','row','edit'],
+    data: function () {
+      return {
+      }
+    },
+    template:"#my-td-tp",
+    watch: {
+        },
+    methods : {
+        setval : function(field,event) {
+            this.$emit('setval', field, event);
+        }
+	}
+  });
+</script>
+<script type="text/x-tp" id="my-list-tp"> 
+<th :style="field.width?'width: '+field.width+'px;':''" 
+	:class="field.order?'filed-order':''" 
+	class="ellipsis"
+	:data-filed="field.name" 
+	:title="field.label"
+	data-order=""
+	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
+	>{{field.label}}<i v-if="field.order" class="" title="点击可以设置排序方式"></i></th> 
+</script>
+<script type="text/javascript">
+Vue.component('my-list', {
+    props: ['field'],
+    data: function () {
+      return {
+      }
+    },
+    template:"#my-list-tp",
+    watch: {
+        }
+  });
+</script>
+
+<!-- 分页 -->
+<script type="text/x-tp" id="page-tp">
+<div class="col-xs-12">
+<div class="col-xs-12">
+       <div class="pagination-group">
+       			{{if showPageSize}}
+                 <div class="pagination-text">
+                                                                              每页
+                 </div>
+                 <div class="btn-group">
+                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <i class="pageSize">{{= pageSize}}</i>
+                         <span class="caret"></span>
+                     </button>
+                     <ul class="dropdown-menu">
+                         {{each(i,size) pageSizeList}}
+                         <li>
+                             <a class="pageSizeLi" data-size="{{= size}}">{{= size}}</a>
+                         </li>
+						 {{/each}}
+                     </ul>
+                 </div>
+                 <div class="pagination-text">
+                                                                               条，共 {{= pageCount}} 页，共 {{= total}} 条记录
+                 </div>
+                 {{/if}}
+       			 {{if !showPageSize}}
+                 	<i class="pageSize" style="display: none;">{{= pageSize}}</i>
+                 	<div class="pagination-text">
+                                                                               共 {{= pageCount}} 页，共 {{= total}} 条记录
+                 	</div>
+                 {{/if}}
+                 <ul class="pagination">
+                     <li>
+                         <a class="paging-prev">&laquo;</a>
+                     </li>
+                     <li>
+                         <a class="paging-before"><</a>
+                     </li>
+                     <li>
+                         <a class="paging-after">></a>
+                     </li>
+                     <li>
+                         <a class="paging-next">&raquo;</a>
+                     </li>
+                 </ul>
+                 <div class="pagination-text">
+                                                                                  跳至
+                 </div>
+                 <div class="pagination-text">
+                     <input type="text" class="form-control zhuanPage" value="{{= pageIndex}}">
+                 </div>
+                 <div class="pagination-text">
+                                                                                 页
+        </div>
+        <button class="btn btn-default btn-sm paging-sure">确定</button>
+   </div>
+</div>
+</script>
+<!-- 导出excel -->
+<form id='form1_1' name="form1_1" action="common/file/saveToExecl.do" method='post' style="display: hidden">
+	<input type='hidden' name='content' id='content_1' />
+	<input type='hidden' name='filename' value="" id='filename_1' />
+	<input type='hidden' name='hiddenCol' value="" id='hiddenCol_1' />
+</form>
