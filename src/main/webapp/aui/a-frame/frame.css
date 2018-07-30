@@ -664,3 +664,7 @@ body {
 .border {
 	border: solid 1px #cbcbcb;
 }
+
+[v-cloak] {
+    display: none;
+}
