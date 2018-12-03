@@ -583,18 +583,33 @@ function getUrlString(name) {
 /**
  * 实现深拷贝
  */
-function clone(o) {
-	var k=0, ret = o, b;
-	if (o && ((b = (o instanceof Array)) || o instanceof Object)) {
-		ret = b ? [] : {};
-		for (k in o) {
-			if (o.hasOwnProperty(k)) {
-				ret[k] = clone(o[k]);
-			}
-		}
-	}
-	return ret;
-};
+function clone(obj) {
+    var copy = null;
+    switch(typeof obj){
+        case 'number': 
+        case 'string': 
+        case 'boolean': 
+        copy = obj;
+        break;
+        case 'object': 
+        if (obj == null) {
+            copy = null;
+        } else if (toString.apply(obj) === '[object Array]') {
+            copy = [];
+            for (var i in obj) {
+                copy.push(clone(obj[i]));
+            };
+        } else if (toString.apply(obj) === '[object Object]') {
+            copy = {};
+            for (var j in obj) {
+                copy[j] = clone(obj[j]);
+            }
+        } else {
+            copy = obj;
+        }
+    }
+    return copy;
+}
 
 /**
  * 判断字符串是否为空

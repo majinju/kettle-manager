@@ -13,7 +13,7 @@
 	<!-- 解决跨域问题 -->
 	<filter>
 	    <filter-name>CorsFilter</filter-name>
-	    <filter-class>cn.benma666.common.iframe.CORSFilter</filter-class>
+	    <filter-class>cn.benma666.web.CORSFilter</filter-class>
 	</filter>
 	<filter-mapping>
 	    <filter-name>CorsFilter</filter-name>

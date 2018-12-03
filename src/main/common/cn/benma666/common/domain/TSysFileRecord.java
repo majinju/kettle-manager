@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import org.beetl.sql.core.annotatoin.AssignID;
 
-import com.alibaba.fastjson.JSON;
+import cn.benma666.web.BasicBean;
 
 public class TSysFileRecord extends BasicBean implements Serializable {
 
@@ -189,11 +189,6 @@ public class TSysFileRecord extends BasicBean implements Serializable {
 
 	public void setWjlb(java.lang.String wjlb) {
 		this.wjlb = wjlb;
-	}
-
-	@Override
-	public String toString() {
-		return JSON.toJSONString(this);
 	}
 
 }

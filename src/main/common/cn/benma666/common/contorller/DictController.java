@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.benma666.common.domain.TSysZdTyzd;
 import cn.benma666.common.service.DictService;
-import cn.benma666.common.util.DictManager;
-import cn.benma666.common.util.JsonResult;
-import cn.benma666.common.util.StringUtil;
-import cn.benma666.common.util.WebUtil;
+import cn.benma666.iframe.DictManager;
+import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
+import cn.benma666.myutils.StringUtil;
+import cn.benma666.web.BasicController;
+import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -179,7 +180,7 @@ public class DictController extends BasicController {
     public void add(TSysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
-            if(!StringUtil.isNullOrEmpty(t.getMc())){
+            if(!StringUtil.isBlank(t.getMc())){
                 //设置名称简拼
                 t.setJp(PinyinHelper.getShortPinyin(t.getMc()).toUpperCase());
                 //设置名称全拼

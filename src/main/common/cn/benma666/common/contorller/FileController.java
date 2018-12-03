@@ -14,12 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.benma666.common.domain.TSysFileRecord;
-import cn.benma666.common.iframe.BasicObject;
 import cn.benma666.common.service.FileService;
-import cn.benma666.common.util.ExportToExecl;
-import cn.benma666.common.util.LogHelper;
-import cn.benma666.common.util.StringUtil;
-import cn.benma666.common.util.WebUtil;
+import cn.benma666.iframe.BasicObject;
+import cn.benma666.myutils.ExportToExecl;
+import cn.benma666.myutils.JsonResult;
+import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -47,10 +46,10 @@ public class FileController extends BasicObject{
         try{
             //上传文件
             JSONObject record = fileService.uploadFiles(t,file);
-            WebUtil.sendJson(response, StringUtil.success(record));
+            WebUtil.sendJson(response, JsonResult.success("",record));
         }catch(Exception e){
-            LogHelper.getLogger().error("上传文件出错", e);
-            WebUtil.sendJson(response,StringUtil.error("上传文件失败"));
+            log.error("上传文件出错", e);
+            WebUtil.sendJson(response,JsonResult.error("上传文件失败"));
         }
     
     }

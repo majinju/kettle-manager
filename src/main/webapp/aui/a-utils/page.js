@@ -2,6 +2,9 @@ var listPage = null;
 $(function(){
     if(!listPage&&$("#listPage").size()>0){
         listPage = new PageAjax();
+        if(typeof(initPage)=='function'){
+            initPage(listPage);
+        }
         listPage.setPageId(listPage.pageId);
     }
 });
@@ -45,6 +48,10 @@ function PageAjax(){
     this.listHead = null;
     //显示页大小
     this.showPageSize = true;
+    //是否初始查询
+    this.initQuery=true;
+    //统计数据量延迟加载。
+    this.totalDelay = false;
     
     //自定义参数校验
     this.checkParam=function(_params){
@@ -160,10 +167,10 @@ function PageAjax(){
      * @param params 查询参数
      * @param callback 数据处理回调函数
      */
-    this.requestList=function(){      
-    	var loadindex = layer.load(0,{
-    		shade: [0.3]
-    	});
+    this.requestList=function(){
+        var loadindex = layer.load(0,{
+            shade: [0.3]
+        });
         var self = this;
         var url = self.getUrl();
         //当只有一个参数，且参数名称是params时，不进行二次json包装
@@ -177,46 +184,81 @@ function PageAjax(){
         
         //处理排序字段
         if(self.getListHead().find(".order-current").size()==1){
-        	var filedTh = self.getListHead().find(".order-current");
-        	//map传参
+            var filedTh = self.getListHead().find(".order-current");
+            //map传参
             self.params["map['orderField']"] = filedTh.attr("data-filed");
             self.params["map['orderWay']"] = filedTh.attr("data-order");
 
             self.params["orderField"] = filedTh.attr("data-filed");
             self.params["orderWay"] = filedTh.attr("data-order");
         }
-        
-        var params = self.params;
+        self.params.queryList = true;
+        var params = clone(self.params);
+        //如果需要统计总量且要求延迟统计
+        if(params.autoCount&&self.totalDelay){
+            params.autoCount = false;
+        }
         if(self.paramType=="jsonStr"){
             params = {"params":JSON.stringify(params),"pageIndex":params.pageIndex,
                     "pageSize":params.pageSize,"autoCount":params.autoCount};
         }
-        
-    	$.ajax({
-    		url:url,
-    		type:"post",
-    		data:params,
+        $.ajax({
+            url:url,
+            type:"post",
+            data:params,
             dataType: "json",
-    		success:function(result){
-    			eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
-    			self.getListHead().find("span.checkbox-checked").click();
-    			if(!result.list){
-    				result.list = [];
-    			}
-        		self.rows = result.list;
-    		    $(self.pageId +" .listContent").html(self.getListTemplate().tmpl(self.rows));
-    		    $(self.pageId +" .listContent td").ellipsis();
-    		    self.setTotal(result.recordCount);
-    		    self.pagination();
-                $(self.pageId+" .pageSize").val(self.pageSize);
+            success:function(result){
+                eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
+                self.getListHead().find("span.checkbox-checked").click();
+                if(!result.list){
+                    result.list = [];
+                }
+                self.rows = result.list;
+                $(self.pageId +" .listContent").html(self.getListTemplate().tmpl(self.rows));
+                $(self.pageId +" .listContent td").ellipsis();
+
+                //如果需要统计总量且要求延迟统计
+                if(self.params.autoCount&&self.totalDelay){
+                }else{
+                    self.setTotal(result.recordCount);
+                    self.pagination();
+                    $(self.pageId+" .pageSize").val(self.pageSize);
+                }
+                
                 self.callback(result);              
                 layer.close(loadindex);
-    		},
-    		error:function(errInfo){
+            },
+            error:function(errInfo){
                 layerTips("分页查询失败");        
                 layer.close(loadindex);
-    		}
-    	});
+            }
+        });
+
+        //如果需要统计总量且要求延迟统计
+        if(self.params.autoCount&&self.totalDelay){
+            $(self.pageId +" .pagination").html('<div class="col-xs-12"><div class="pagination-group">数据量正在统计中...</div></div>');
+            var params = self.params;
+            params.autoCount = true;
+            params.queryList = false;
+            if(self.paramType=="jsonStr"){
+                params = {"params":JSON.stringify(params),"pageIndex":params.pageIndex,
+                        "pageSize":params.pageSize,"autoCount":params.autoCount,"queryList":params.queryList};
+            }
+            $.ajax({
+                url:url,
+                type:"post",
+                data:params,
+                dataType: "json",
+                success:function(result){
+                    self.setTotal(result.recordCount);
+                    self.pagination();
+                    $(self.pageId+" .pageSize").val(self.pageSize);
+                },
+                error:function(errInfo){
+                    layerTips("统计总量失败");        
+                }
+            });
+        }
     };
     
     /**
@@ -308,22 +350,23 @@ function PageAjax(){
         //显示优化
         $(self.pageId +" .listHard th").ellipsis();
         //设置值改变校验
-        self.getQueryForm().validator({
-        	//实时验证关闭，只在提交表单的时候执行验证
-        	timely:0,
-        	//在第一次错误时停止验证，即一个一个验证
-        	stopOnError:true,
-        	msgClass: 'displayNone',
-        	//生成验证提示
-        	msgMaker: function(opt){
-        		layer.tips(opt.msg, opt.element, {tips:[2, '#c00'],shift:6});
-        		return "";
-            }
-        });
+        //console.log(pageid);
+//        self.getQueryForm().validator({
+//          //实时验证关闭，只在提交表单的时候执行验证
+//          timely:0,
+//          //在第一次错误时停止验证，即一个一个验证
+//          stopOnError:true,
+//          msgClass: 'displayNone',
+//          //生成验证提示
+//          msgMaker: function(opt){
+//              layer.tips(opt.msg, opt.element, {tips:[2, '#c00'],shift:6});
+//              return "";
+//            }
+//        });
         
         //需要校验的不立即查询
-        if(self.getQueryForm().find("[data-rule]").length==0){
-        	self.queryPage();
+        if(self.getQueryForm().find("[data-rule]").length==0&&self.initQuery){
+            self.queryPage();
         }
     	
     };

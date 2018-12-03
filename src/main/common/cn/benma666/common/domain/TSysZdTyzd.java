@@ -6,7 +6,7 @@ import java.io.Serializable;
 import org.beetl.sql.core.annotatoin.AssignID;
 import org.beetl.sql.core.annotatoin.Table;
 
-import com.alibaba.fastjson.JSON;
+import cn.benma666.web.BasicBean;
 
 @Table(name="t_sys_zd_tyzd")
 public class TSysZdTyzd extends BasicBean implements Serializable {
@@ -248,13 +248,4 @@ public class TSysZdTyzd extends BasicBean implements Serializable {
     public void setCache(java.lang.String cache) {
         this.cache = cache;
     }
-
-    /**
-	* 
-	* @see java.lang.Object#toString()
-	*/
-	@Override
-	public String toString() {
-	    return JSON.toJSONString(this);
-	}
 }

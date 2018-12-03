@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<base href="<%=cn.benma666.common.util.WebUtil.getBasePath(request)%>"></base>
+<base href="<%=cn.benma666.web.WebUtil.getBasePath(request)%>"></base>
 <title>XXX系统</title>
 <link href="project/frame/style/index.css" rel="stylesheet">
 </head>

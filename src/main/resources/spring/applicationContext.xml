@@ -24,7 +24,7 @@
 	<description>Spring公共配置 </description>
 
 	<!-- 定义受环境影响易变的变量 -->
-	<bean class="cn.benma666.common.iframe.AConfig">
+	<bean class="cn.benma666.web.AConfig">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreResourceNotFound" value="false" />
 		<property name="locations">
@@ -91,7 +91,7 @@
 	</bean>
 	
 	<!-- 我的配置 -->
-	<bean id="myConfig" class="cn.benma666.common.iframe.MyConfig" init-method="init">
+	<bean id="myConfig" class="cn.benma666.web.MyConfig" init-method="init">
 		<constructor-arg>
 			<map>
 				<entry key="default" value-ref="dataSource"/>

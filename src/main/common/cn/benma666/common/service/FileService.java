@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import cn.benma666.common.domain.TSysFileRecord;
-import cn.benma666.common.iframe.AConfig;
-import cn.benma666.common.iframe.BasicObject;
-import cn.benma666.common.util.StringUtil;
 import cn.benma666.constants.UtilConst;
+import cn.benma666.iframe.BasicObject;
+import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.FileUtil;
+import cn.benma666.web.AConfig;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -66,7 +66,9 @@ public class FileService extends BasicObject{
         String sclb = AConfig.getVal(SYS_SCLB);
         //上传后文件的路径以及文件的名称
         String filePath = AConfig.getVal(SYS_SCLJ) + t.getYwdm() +UtilConst.FXG
-                +fileName.substring(0,fileName.lastIndexOf('.'))+"_"+ StringUtil.getTimeFileName() + "." + fileType;
+                +fileName.substring(0,fileName.lastIndexOf('.'))+"_"
+                + DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14) 
+                + "." + fileType;
         File files = new File(filePath);
         FileUtil.saveFileToDisk(files, file);
         //去重码ywdm+wjlb+MD5
