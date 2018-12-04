@@ -213,12 +213,12 @@
 		            	listPage.requestList(); //执行页面刷新函数
 		        	   	layer.msg(data.msg ? data.msg : "恭喜您，清除缓存成功！", { 
 		        	   		shade:0.3,
-		        	   		time: 1500,    	   		
-		        	   		icon:6,		        	   				        	   		    	   				
+		        	   		time: 3000,    	   		
+		        	   		icon:1,		        	   				        	   		    	   				
 		        		});
 		            }else {
 		            	layer.msg(data.msg ? data.msg : "对不起，清除缓存失败！", { 
-		        	   		time: 1500, 
+		        	   		time: 3000, 
 		        	   		icon:5       	   		
 		        		});
 		            }

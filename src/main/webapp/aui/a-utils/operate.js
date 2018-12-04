@@ -20,7 +20,7 @@ function ajaxDel(_url){
         url: _url,
         dataType: "json",
         success: function (data) {
-            if (data.flg) {              
+            if (data.status) {              
         	   	layer.alert(data.msg ? data.msg : "删除成功！", { 
         	   		shade:0.3,
         	   		time: 1500,    	   		
@@ -61,7 +61,7 @@ function autoSubmit(formId,opened,_url){
 		//表示暂存成功后，需要跳转。例如点击打印暂存后跳转。
 		if(opened!=""&&opened!=undefined){
 			
-			if(data.flg){
+			if(data.status){
 				if(opened=="newpage"){
 					window.open(_url);//跳转页面
 				}else if(opened=="zancun"){
@@ -96,8 +96,8 @@ function formSubmit(formId,opened,_url){
     //_params = preParam(_params);
 		 
 	$.post(url,_params,function(data){
-		if(data.flg){
-			layer.alert(data.msg ? data.msg : "操作成功！", { 
+		if(data.status){
+			layer.alert(data.msg ? data.msg : "操作成功！", {
     	   		shade:0.3,
     	   		time: 1500,    	   		
     	   		icon:1,
@@ -160,7 +160,7 @@ function ajaxBatchUpdate(selectedIds, linkClicked) {
         data: { ids: selectedIds,'map["ids"]': selectedIds},
         dataType: "json",
         success: function (data) {
-            if (data.flg) {
+            if (data.status) {
             	
         	   	layer.alert(data.msg ? data.msg : "操作成功！", { 
         	   		shade:0.3,
@@ -284,7 +284,6 @@ $(document).ready(function(){
 	    	   		btn:["确定","取消"],
 	    	   		yes:function(index,layero){
 	    	   		    //使URL不能再次提交
-		            	$this.attr("style","display: none");
 		            	ajaxBatchUpdate(idArray.join(','), $this);
 	    	   		}
 	    		});	            

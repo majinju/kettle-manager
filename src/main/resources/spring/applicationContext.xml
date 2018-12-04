@@ -75,6 +75,32 @@
 		<aop:pointcut id="txPointcut" expression="execution(* cn.benma666.*.service.*Service.*(..))" />
 		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice" />
 	</aop:config>
+	
+	<bean id="sqlManagerFactoryBean" class="org.beetl.sql.ext.spring4.SqlManagerFactoryBean">
+	   <property name="cs" >
+	        <bean  class="org.beetl.sql.ext.spring4.BeetlSqlDataSource">
+	            <property name="masterSource" ref="dataSource"></property>
+	        </bean>
+	    </property>
+	    <property name="dbStyle">
+	        <bean class="org.beetl.sql.core.db.OracleStyle"/>
+	    </property>
+	    <property name="sqlLoader">
+	        <bean class="org.beetl.sql.core.ClasspathLoader">
+	            <property name="sqlRoot" value="/sql"></property>
+	        </bean>
+	    </property>
+	     <property name="nc">
+	        <bean class="cn.benma666.db.LowerCaseNameConversion"/>
+	    </property>
+	    <property name="interceptors">
+	        <list>
+	            <bean class="org.beetl.sql.ext.DebugInterceptor"></bean>
+	        </list>
+	    </property>
+	</bean>
+	<!-- 我的配置 -->
+	<bean id="myConfig" class="cn.benma666.web.MyConfig" init-method="init"/>
 	 
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
@@ -88,14 +114,5 @@
 	<!--  定义上传组件包 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="100000000" />
-	</bean>
-	
-	<!-- 我的配置 -->
-	<bean id="myConfig" class="cn.benma666.web.MyConfig" init-method="init">
-		<constructor-arg>
-			<map>
-				<entry key="default" value-ref="dataSource"/>
-			</map>
-		</constructor-arg>
 	</bean>
 </beans>
