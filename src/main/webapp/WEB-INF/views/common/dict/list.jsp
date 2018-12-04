@@ -46,7 +46,7 @@
                         <div class="col-xs-4 row">
                         <label class="col-xs-5 control-label">是否删除：</label>
                         <div class="col-xs-7">
-                        	<input type="text" zdlb="LJPD" pagination="false" data-rule="required" selectOnly="true" class="form-control zdSelectPage" name="isdel" value="0">
+                        	<input type="text" zdlb="LJPD" pagination="false" selectOnly="true" class="form-control zdSelectPage" name="isdel" value="0">
                         </div>
                         </div>
 <!--                         <div class="col-xs-4 row"> -->

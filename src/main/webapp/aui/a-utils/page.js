@@ -351,24 +351,26 @@ function PageAjax(){
         $(self.pageId +" .listHard th").ellipsis();
         //设置值改变校验
         //console.log(pageid);
-//        self.getQueryForm().validator({
-//          //实时验证关闭，只在提交表单的时候执行验证
-//          timely:0,
-//          //在第一次错误时停止验证，即一个一个验证
-//          stopOnError:true,
-//          msgClass: 'displayNone',
-//          //生成验证提示
-//          msgMaker: function(opt){
-//              layer.tips(opt.msg, opt.element, {tips:[2, '#c00'],shift:6});
-//              return "";
-//            }
-//        });
+        self.getQueryForm().validator({
+          //实时验证关闭，只在提交表单的时候执行验证
+          timely:0,
+          //在第一次错误时停止验证，即一个一个验证
+          stopOnError:true,
+          msgClass: 'displayNone',
+          //生成验证提示
+          msgMaker: function(opt){
+              layer.tips(opt.msg, opt.element, {tips:[2, '#c00'],shift:6});
+              return "";
+            }
+        });
         
         //需要校验的不立即查询
         if(self.getQueryForm().find("[data-rule]").length==0&&self.initQuery){
             self.queryPage();
+        }else{
+            var col = self.getListHead().find("th").size();
+            $(self.pageId +" .listContent").html("<tr><td colspan='"+col+"'>请点击查询按钮进行查询</td></tr>");
         }
-    	
     };
     this.getUrl=function(){
         var self = this;
