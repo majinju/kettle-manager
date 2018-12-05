@@ -6,7 +6,6 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath*:spring/applicationContext.xml,
-            classpath*:spring_uaac/*.xml
 		</param-value>
 	</context-param>
 	

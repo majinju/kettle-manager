@@ -77,7 +77,7 @@
 		<appender-ref ref="console" />
 	</logger>
 	<logger name="druid.sql.Statement" additivity="false">
-		<level value="DEBUG" />
+		<level value="ERROR" />
 		<appender-ref ref="debug" />
 		<appender-ref ref="info" />
 		<appender-ref ref="error" />
