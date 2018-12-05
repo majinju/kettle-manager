@@ -33,10 +33,16 @@
 			</list>
 		</property>
 	</bean>
-	
-    <!-- 开启AOP监听 只对当前配置文件有效-->
-    <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/> 
 
+	<!-- 自动扫描 -->
+	<context:component-scan base-package="cn.benma666">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
     <task:annotation-driven/>
 
 	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->

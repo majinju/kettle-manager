@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,11 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 public class DictController extends BasicController {
     @Autowired
     private DictService dictService;
+    
+    @Pointcut
+    public void init(){
+        System.out.println(11);
+    }
 
     @RequestMapping(value = "/common/dict/zdList.do")
     public void zdList(TSysZdTyzd t, HttpServletResponse response) {
