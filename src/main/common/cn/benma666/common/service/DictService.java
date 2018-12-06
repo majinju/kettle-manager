@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import cn.benma666.common.domain.TSysZdTyzd;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.myutils.PageInfo;
-import cn.benma666.myutils.StringUtil;
 import cn.benma666.web.BasicService;
 
 import com.alibaba.fastjson.JSONObject;
@@ -41,13 +40,13 @@ public class DictService extends BasicService{
         List<Object> values = new ArrayList<Object>();
         StringBuffer sql = new StringBuffer("select * from t_sys_zd_tyzd t where 1=1");
         //加条件
-        StringUtil.addEq(sql,values,"and zdlb=?",t.getZdlb());
-        StringUtil.addEq(sql,values,"and isdel=?",t.getIsdel());
-        StringUtil.addLike(sql,values,"and dm like ?",t.getDm());
-        StringUtil.addLike(sql,values,"and mc like ?",t.getMc());
-        StringUtil.addLike(sql,values,"and ms like ?",t.getMs());
+        addEq(sql,values,"and zdlb=?",t.getZdlb());
+        addEq(sql,values,"and isdel=?",t.getIsdel());
+        addLike(sql,values,"and dm like ?",t.getDm());
+        addLike(sql,values,"and mc like ?",t.getMc());
+        addLike(sql,values,"and ms like ?",t.getMs());
         //加排序
-        StringUtil.addPxField(sql,"px,dm",t);
+        addPxField(sql,"px,dm",t);
         //分页查询
         page = db.queryPage(page, sql.toString(),values.toArray());
         return page;

@@ -209,7 +209,7 @@
 		        url: _url,
 		        dataType: "json",
 		        success: function (data) {
-		            if (data.flg) {
+		            if (data.status) {
 		            	listPage.requestList(); //执行页面刷新函数
 		        	   	layer.msg(data.msg ? data.msg : "恭喜您，清除缓存成功！", { 
 		        	   		shade:0.3,

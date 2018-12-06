@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +19,6 @@ import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.web.BasicController;
-import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -28,23 +26,19 @@ import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 
 @Controller
+@RequestMapping(value = "/common/dict")
 public class DictController extends BasicController {
     @Autowired
     private DictService dictService;
-    
-    @Pointcut
-    public void init(){
-        System.out.println(11);
-    }
 
-    @RequestMapping(value = "/common/dict/zdList.do")
+    @RequestMapping(value = "/zdList.do")
     public void zdList(TSysZdTyzd t, HttpServletResponse response) {
         String result = JSON.toJSONString(
                 DictManager.zdList(t.getMap().get("zdlb").toString()), true);
-        WebUtil.sendJson(response, result);
+        sendJson(response, result);
     }
 
-    @RequestMapping(value = "/common/dict/zdSearch.do")
+    @RequestMapping(value = "/zdSearch.do")
     public void zdSearch(PageInfo<JSONObject> page, TSysZdTyzd t,
             HttpServletResponse response) {
         Object searchValue = t.getMap().get("searchValue");
@@ -84,14 +78,14 @@ public class DictController extends BasicController {
             result = DictManager.zdSearch(page,
                     (JSONObject) JSONObject.toJSON(t));
         }
-        WebUtil.sendPage(response, result);
+        sendPage(response, result);
     }
 
-    @RequestMapping(value = "/common/dict/clearDict.do")
+    @RequestMapping(value = "/clearDict.do")
     public void clearDict(HttpServletResponse response) {
         DictManager.clearDict();
         JsonResult result = new JsonResult(true, "清除缓存成功!");
-        WebUtil.sendJson(response, result);
+        sendJson(response, result);
     }
 
     /**
@@ -101,7 +95,7 @@ public class DictController extends BasicController {
      * @param model
      * @return String
      */
-    @RequestMapping(value = "/common/dict/list.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/list.do", method = RequestMethod.GET)
     public String list(TSysZdTyzd t, PageInfo<TSysZdTyzd> page) {
         return getPathList();
     }
@@ -111,7 +105,7 @@ public class DictController extends BasicController {
      * @Title: queryList
      * @Description:列表页分页查询
      */
-    @RequestMapping(value = "/common/dict/queryList.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryList.do", method = RequestMethod.POST)
     public void queryList(TSysZdTyzd t,
             PageInfo<JSONObject> page, HttpServletResponse response) {
         try {
@@ -120,7 +114,7 @@ public class DictController extends BasicController {
             log.error("字典列表请求出错", e);
             page = new PageInfo<JSONObject>();
         }
-        WebUtil.sendPage(response, page);
+        sendPage(response, page);
     }
     /**
     * @Title: delete
@@ -128,7 +122,7 @@ public class DictController extends BasicController {
     * @param t
      * @param response 
     */
-    @RequestMapping(value = "/common/dict/delete.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
     public void delete(TSysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
@@ -138,7 +132,7 @@ public class DictController extends BasicController {
             log.error("删除系统配置时出错", ex);
             result = new JsonResult(false, "网络错误！");
         }
-        WebUtil.sendJson(response, result);
+        sendJson(response, result);
     }
     
     /**
@@ -148,7 +142,7 @@ public class DictController extends BasicController {
     * @param response 
     * @return JsonResult
     */
-    @RequestMapping(value = "/common/dict/batchDelete.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/batchDelete.do", method = RequestMethod.POST)
     public void batchDelete(String ids, HttpServletResponse response) {
         JsonResult result;
         try {
@@ -160,7 +154,7 @@ public class DictController extends BasicController {
             log.error("批量删除系统配置时出错", ex);
             result = new JsonResult(false, "网络错误！");
         }
-        WebUtil.sendJson(response, result);
+        sendJson(response, result);
     }
     
     /**
@@ -170,7 +164,7 @@ public class DictController extends BasicController {
     * @param model
     * @return String
     */
-    @RequestMapping(value = "/common/dict/add.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/add.do", method = RequestMethod.GET)
     public String add(HttpServletRequest request) {
         return getPathAdd();
     }
@@ -182,7 +176,7 @@ public class DictController extends BasicController {
      * @param response 
     * @return JsonResult
     */
-    @RequestMapping(value = "/common/dict/add.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/add.do", method = RequestMethod.POST)
     public void add(TSysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
@@ -199,7 +193,7 @@ public class DictController extends BasicController {
             log.error("添加系统配置时出错", ex);
             result = new JsonResult(false, "添加系统配置时出错！");
         }
-        WebUtil.sendJson(response, result);
+        sendJson(response, result);
     }
     
     /**
@@ -209,7 +203,7 @@ public class DictController extends BasicController {
      * @param response 
     * @return JsonResult
     */
-    @RequestMapping(value = "/common/dict/update.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/update.do", method = RequestMethod.POST)
     public void update(TSysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
@@ -220,7 +214,7 @@ public class DictController extends BasicController {
             log.error("更新系统配置时出错", ex);
             result = new JsonResult(false, "添加系统配置时出错！");
         }
-        WebUtil.sendJson(response, result);
+        sendJson(response, result);
     }
     
     /**
@@ -230,7 +224,7 @@ public class DictController extends BasicController {
     * @param model
     * @return String
     */
-    @RequestMapping(value = "/common/dict/update.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/update.do", method = RequestMethod.GET)
     public String update(String id,HttpServletResponse response,Model model) {
         TSysZdTyzd t = new TSysZdTyzd(id);                  
         model.addAttribute("t", sqlManager.single(TSysZdTyzd.class, t.getId()));
@@ -244,7 +238,7 @@ public class DictController extends BasicController {
     * @param model
     * @return String
     */
-    @RequestMapping("/common/dict/details.do")
+    @RequestMapping("/details.do")
     public String details(String id,Model model) {
         TSysZdTyzd t = new TSysZdTyzd(id);                  
         model.addAttribute("t", sqlManager.single(TSysZdTyzd.class, t.getId()));

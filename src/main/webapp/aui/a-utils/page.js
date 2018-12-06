@@ -25,6 +25,8 @@ function PageAjax(){
     this.paramType="object";
 	//分页对象的id
     this.pageId = "#listPage";
+    //分页查询请求url
+    this.actionUrl = null;
 	//参数
     this.params={};
 	//页大小
@@ -52,10 +54,16 @@ function PageAjax(){
     this.initQuery=true;
     //统计数据量延迟加载。
     this.totalDelay = false;
+    //执行默认分页模板处理方式
+    this.defaultPageTmpl = true;
     
     //自定义参数校验
     this.checkParam=function(_params){
         return true;
+    };
+    //参数预处理
+    this.preParam=function(_params){
+        return _params;
     };
     
     //定义表单查询回调函数
@@ -68,7 +76,10 @@ function PageAjax(){
     		return;
     	}
         var _params = self.getQueryForm().formToJson();
+        //通用默认预处理
         _params = preParam(_params);
+        //当前分页定制预处理
+        _params = self.preParam(_params);
         //特殊验证
         if(!_params||!self.checkParam(_params)){
             return false;
@@ -208,23 +219,28 @@ function PageAjax(){
             data:params,
             dataType: "json",
             success:function(result){
-                eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
-                self.getListHead().find("span.checkbox-checked").click();
-                if(!result.list){
-                    result.list = [];
-                }
-                self.rows = result.list;
-                $(self.pageId +" .listContent").html(self.getListTemplate().tmpl(self.rows));
-                $(self.pageId +" .listContent td").ellipsis();
+                if(self.defaultPageTmpl){
+                    if(!result.list){
+                        layerTips(result.msg);
+                        return;
+                    }
+                    eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
+                    self.getListHead().find("span.checkbox-checked").click();
+                    if(!result.list){
+                        result.list = [];
+                    }
+                    self.rows = result.list;
+                    $(self.pageId +" .listContent").html(self.getListTemplate().tmpl(self.rows));
+                    $(self.pageId +" .listContent td").ellipsis();
 
-                //如果需要统计总量且要求延迟统计
-                if(self.params.autoCount&&self.totalDelay){
-                }else{
-                    self.setTotal(result.recordCount);
-                    self.pagination();
-                    $(self.pageId+" .pageSize").val(self.pageSize);
+                    //如果需要统计总量且要求延迟统计
+                    if(self.params.autoCount&&self.totalDelay){
+                    }else{
+                        self.setTotal(result.recordCount);
+                        self.pagination();
+                        $(self.pageId+" .pageSize").val(self.pageSize);
+                    }
                 }
-                
                 self.callback(result);              
                 layer.close(loadindex);
             },
@@ -250,6 +266,10 @@ function PageAjax(){
                 data:params,
                 dataType: "json",
                 success:function(result){
+                    if(!result.list){
+                        layerTips(result.msg);
+                        return;
+                    }
                     self.setTotal(result.recordCount);
                     self.pagination();
                     $(self.pageId+" .pageSize").val(self.pageSize);
@@ -374,6 +394,9 @@ function PageAjax(){
     };
     this.getUrl=function(){
         var self = this;
+        if(self.actionUrl){
+            return self.actionUrl;
+        }
         var url = self.getQueryForm().attr("action");
         return url;
     };

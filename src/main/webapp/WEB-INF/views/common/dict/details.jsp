@@ -60,16 +60,16 @@
                     </div>
                     <div class="row gutter-1 form-group">
                     	<div class="col-xs-12 row">
-                        <label class="col-xs-5 control-label">描述：</label>
-                        <div class="col-xs-7">
+                        <label class="col-xs-2 control-label">描述：</label>
+                        <div class="col-xs-10">
                             <input type="text" class="form-control" name="ms" value="${t.ms }" readonly="readonly">
                         </div>
                         </div>              
                     </div>
                     <div class="row gutter-1 form-group">
                     	<div class="col-xs-12 row">
-                        <label class="col-xs-5 control-label">类别SQL：</label>
-                        <div class="col-xs-7">
+                        <label class="col-xs-2 control-label">类别SQL：</label>
+                        <div class="col-xs-10">
                             <%-- <input type="text" id="lbsql" class="form-control" name="lbsql" value="${t.lbsql}" readonly="readonly"> --%>
                             <textarea rows="3" cols="30" class="form-control" disabled name="lbsql">${t.lbsql}</textarea>
                         </div>

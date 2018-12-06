@@ -15,23 +15,21 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.benma666.common.domain.TSysFileRecord;
 import cn.benma666.common.service.FileService;
-import cn.benma666.iframe.BasicObject;
 import cn.benma666.myutils.ExportToExecl;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.web.BasicController;
 import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSONObject;
 
-
 /**
- * 文件上传下载等功能
- *
- * @date 2017年11月14日下午2:56:29
- * 
- */
-
+* 文件上传下载等功能 <br/>
+* date: 2018年12月6日 <br/>
+* @author jingma
+* @version 
+*/
 @Controller
-public class FileController extends BasicObject{
+@RequestMapping(value = "/common/file")
+public class FileController extends BasicController{
     
     @Autowired
     private FileService fileService;
@@ -39,17 +37,17 @@ public class FileController extends BasicObject{
     /**
      * @Description:文件上传
      */
-    @RequestMapping(value = "/common/file/uploadFile.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadFile.do", method = RequestMethod.POST)
     public void uploadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,TSysFileRecord t){
         //获取文件
         MultipartFile file =((MultipartHttpServletRequest) request).getFile("file");
         try{
             //上传文件
             JSONObject record = fileService.uploadFiles(t,file);
-            WebUtil.sendJson(response, JsonResult.success("",record));
+            sendJson(response, success("",record));
         }catch(Exception e){
             log.error("上传文件出错", e);
-            WebUtil.sendJson(response,JsonResult.error("上传文件失败"));
+            WebUtil.sendJson(response,error("上传文件失败"));
         }
     
     }
@@ -61,7 +59,7 @@ public class FileController extends BasicObject{
      * @param session
      * @param id
      */
-    @RequestMapping(value="/common/file/downloadFile.do")
+    @RequestMapping(value="/downloadFile.do")
     public void downloadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,TSysFileRecord t){
         try {
             TSysFileRecord record = sqlManager.single(TSysFileRecord.class, t.getId());
@@ -79,12 +77,30 @@ public class FileController extends BasicObject{
      * @param request
      * @param response
      */
-    @RequestMapping(value="/common/file/saveToExecl.do")
+    @RequestMapping(value="/saveToExecl.do")
     public void saveToExecl(HttpServletRequest request,HttpServletResponse response){
         try {
             ExportToExecl.fromHtmlTable(request, response);
         } catch (Exception e) {
             log.error("导出excel出错", e);
         }
+    }
+
+    /**
+    * 
+    * @see cn.benma666.web.BasicController#getFModulePath()
+    */
+    @Override
+    public String getFModulePath() {
+        return "common";
+    }
+
+    /**
+    * 
+    * @see cn.benma666.web.BasicController#getModulePath()
+    */
+    @Override
+    public String getModulePath() {
+        return "file";
     }
 }

@@ -8,10 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import cn.benma666.common.domain.TSysFileRecord;
 import cn.benma666.constants.UtilConst;
-import cn.benma666.iframe.BasicObject;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.FileUtil;
 import cn.benma666.web.AConfig;
+import cn.benma666.web.BasicService;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -20,7 +20,7 @@ import com.alibaba.fastjson.JSONObject;
  * 文件相关服务
  */
 @Service
-public class FileService extends BasicObject{
+public class FileService extends BasicService{
     
     /**
      * 文件上传路径
@@ -37,18 +37,14 @@ public class FileService extends BasicObject{
     public static final String SCLB_LOCAL = "LOCAL";
     
     /**
+     * 上传类别_FTP
+     */
+    public static final String SCLB_FTP = "FTP";
+    
+    /**
      * 上传类别_FASTDFS
      */
     public static final String SCLB_FASTDFS = "FASTDFS";
-    
-    /**
-     * 不删除（有效数据标识）
-     */
-    public static final String ISDEL_NO= "0";
-    /**
-     * 删除（无效数据标识）
-     */
-    public static final String ISDEL_YES= "1";
     
     /**
      * 上传文件
