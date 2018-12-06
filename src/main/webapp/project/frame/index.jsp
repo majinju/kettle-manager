@@ -12,7 +12,7 @@
     <div class="hy-iframe-container">
     	<iframe id="iframetop" src="project/frame/template/topmenu.html" frameborder="0" scrolling="no"></iframe>
     	<div class="hy-iframe-container-area">
-    		<iframe id="iframeleft" src="leftcontent.jsp" frameborder="0"></iframe>
+    		<iframe id="iframeleft" src="${param.trunUrl }leftcontent.jsp" frameborder="0"></iframe>
 	    	<iframe id="iframemiddle" name="mainFrame" src="${serviceAddr}aui/editor.md/other/projectStandard/projectStandard.html" frameborder="0"></iframe>
     	</div>
     </div>

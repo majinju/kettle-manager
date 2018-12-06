@@ -90,15 +90,15 @@
 	
 	 <error-page>
 	    <error-code>500</error-code>
-	    <location>/WEB-INF/common/500.jsp</location>
+	    <location>/aui/common/500.jsp</location>
 	 </error-page>
 	 <error-page>
 	    <error-code>404</error-code>
-	    <location>/WEB-INF/common/404.jsp</location>
+	    <location>/aui/common/404.jsp</location>
 	 </error-page>
 	 <error-page>
 	    <error-code>403</error-code>
-	    <location>/WEB-INF/common/403.jsp</location>
+	    <location>/aui/common/403.jsp</location>
 	 </error-page>
 	
 </web-app>
