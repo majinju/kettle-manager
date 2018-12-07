@@ -3,15 +3,11 @@
 <gd:Layout title="字典管理">
 <jsp:body>
     <div class="wrap">
-        <ol class="breadcrumb">
-            <li>
-                <i class="icon ion-home"></i>
-            </li>
-            <li>
-                <a href="javascrip:void(0);">后台管理</a>
-            </li>
-            <li class="active">统一字典</li>
-        </ol>
+	    <div class="panel-heading">
+	        <h3 class="panel-title">
+	                                              查询条件
+	        </h3>
+		</div>
         <div id="listPage">
         <div class="panel panel-default">
             <div class="panel-body">
@@ -68,7 +64,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                                                      系统字典表
+                                                         数据列表
                 </h3>
            
                 <div class="btn-table-left">

@@ -7,7 +7,7 @@ import org.beetl.sql.core.annotatoin.AssignID;
 
 import cn.benma666.web.BasicBean;
 
-public class TSysFileRecord extends BasicBean implements Serializable {
+public class SysFileRecord extends BasicBean implements Serializable {
 
 	private static final long serialVersionUID = -1L;
 	
@@ -73,10 +73,10 @@ public class TSysFileRecord extends BasicBean implements Serializable {
 	 */
 	private java.lang.String wjlb;
 
-	public TSysFileRecord() {
+	public SysFileRecord() {
 	}	
 	
-	public TSysFileRecord(String ywdm, String wjm, String qcm, String sclb, String sclj, String wjlx, String wjlb) {
+	public SysFileRecord(String ywdm, String wjm, String qcm, String sclb, String sclj, String wjlx, String wjlb) {
 		this.ywdm=ywdm;
 		this.wjm=wjm;
 		this.qcm=qcm;

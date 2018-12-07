@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cn.benma666.common.domain.TSysZdTyzd;
+import cn.benma666.common.domain.SysZdTyzd;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.web.BasicService;
@@ -34,11 +34,11 @@ public class DictService extends BasicService{
     * @param page
     * @return
     */
-    public PageInfo<JSONObject> queryPage(TSysZdTyzd t,
+    public PageInfo<JSONObject> queryPage(SysZdTyzd t,
             PageInfo<JSONObject> page) {
         //开始
         List<Object> values = new ArrayList<Object>();
-        StringBuffer sql = new StringBuffer("select * from t_sys_zd_tyzd t where 1=1");
+        StringBuffer sql = new StringBuffer("select * from sys_zd_tyzd t where 1=1");
         //加条件
         addEq(sql,values,"and zdlb=?",t.getZdlb());
         addEq(sql,values,"and isdel=?",t.getIsdel());
@@ -57,8 +57,8 @@ public class DictService extends BasicService{
     * @author jingma
     * @param t
     */
-    public void batchDelete(TSysZdTyzd t) {
-        db.update("update t_sys_zd_tyzd t set t.isdel=? where t.id in ('"
+    public void batchDelete(SysZdTyzd t) {
+        db.update("update sys_zd_tyzd t set t.isdel=? where t.id in ('"
                 +t.get("ids").toString().replace(",", "','")+"')", 
                 UtilConst.WHETHER_TRUE);
     }

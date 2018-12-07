@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.benma666.common.domain.TSysZdTyzd;
+import cn.benma666.common.domain.SysZdTyzd;
 import cn.benma666.common.service.DictService;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
@@ -32,14 +32,14 @@ public class DictController extends BasicController {
     private DictService dictService;
 
     @RequestMapping(value = "/zdList.do")
-    public void zdList(TSysZdTyzd t, HttpServletResponse response) {
+    public void zdList(SysZdTyzd t, HttpServletResponse response) {
         String result = JSON.toJSONString(
                 DictManager.zdList(t.getMap().get("zdlb").toString()), true);
         sendJson(response, result);
     }
 
     @RequestMapping(value = "/zdSearch.do")
-    public void zdSearch(PageInfo<JSONObject> page, TSysZdTyzd t,
+    public void zdSearch(PageInfo<JSONObject> page, SysZdTyzd t,
             HttpServletResponse response) {
         Object searchValue = t.getMap().get("searchValue");
         String otherParam = (String) t.getMap().get("otherParam");
@@ -96,7 +96,7 @@ public class DictController extends BasicController {
      * @return String
      */
     @RequestMapping(value = "/list.do", method = RequestMethod.GET)
-    public String list(TSysZdTyzd t, PageInfo<TSysZdTyzd> page) {
+    public String list(SysZdTyzd t, PageInfo<SysZdTyzd> page) {
         return getPathList();
     }
 
@@ -106,7 +106,7 @@ public class DictController extends BasicController {
      * @Description:列表页分页查询
      */
     @RequestMapping(value = "/queryList.do", method = RequestMethod.POST)
-    public void queryList(TSysZdTyzd t,
+    public void queryList(SysZdTyzd t,
             PageInfo<JSONObject> page, HttpServletResponse response) {
         try {
             page = dictService.queryPage(t, page);
@@ -123,7 +123,7 @@ public class DictController extends BasicController {
      * @param response 
     */
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
-    public void delete(TSysZdTyzd t, HttpServletResponse response) {
+    public void delete(SysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
             sqlManager.updateTemplateById(t);
@@ -146,7 +146,7 @@ public class DictController extends BasicController {
     public void batchDelete(String ids, HttpServletResponse response) {
         JsonResult result;
         try {
-            TSysZdTyzd t = new TSysZdTyzd();
+            SysZdTyzd t = new SysZdTyzd();
             t.getMap().put("ids", ids);
             dictService.batchDelete(t);
             result = new JsonResult(true, "恭喜您，删除成功!");
@@ -177,7 +177,7 @@ public class DictController extends BasicController {
     * @return JsonResult
     */
     @RequestMapping(value = "/add.do", method = RequestMethod.POST)
-    public void add(TSysZdTyzd t, HttpServletResponse response) {
+    public void add(SysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
             if(!StringUtil.isBlank(t.getMc())){
@@ -204,7 +204,7 @@ public class DictController extends BasicController {
     * @return JsonResult
     */
     @RequestMapping(value = "/update.do", method = RequestMethod.POST)
-    public void update(TSysZdTyzd t, HttpServletResponse response) {
+    public void update(SysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
             sqlManager.updateTemplateById(t);
@@ -226,8 +226,8 @@ public class DictController extends BasicController {
     */
     @RequestMapping(value = "/update.do", method = RequestMethod.GET)
     public String update(String id,HttpServletResponse response,Model model) {
-        TSysZdTyzd t = new TSysZdTyzd(id);                  
-        model.addAttribute("t", sqlManager.single(TSysZdTyzd.class, t.getId()));
+        SysZdTyzd t = new SysZdTyzd(id);                  
+        model.addAttribute("t", sqlManager.single(SysZdTyzd.class, t.getId()));
         return getPathUpdate();
     }
     
@@ -240,8 +240,8 @@ public class DictController extends BasicController {
     */
     @RequestMapping("/details.do")
     public String details(String id,Model model) {
-        TSysZdTyzd t = new TSysZdTyzd(id);                  
-        model.addAttribute("t", sqlManager.single(TSysZdTyzd.class, t.getId()));
+        SysZdTyzd t = new SysZdTyzd(id);                  
+        model.addAttribute("t", sqlManager.single(SysZdTyzd.class, t.getId()));
         return getPath("details");
     }
 

@@ -6,12 +6,12 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import cn.benma666.common.domain.TSysFileRecord;
+import cn.benma666.common.domain.SysFileRecord;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.FileUtil;
-import cn.benma666.web.SConf;
 import cn.benma666.web.BasicService;
+import cn.benma666.web.SConf;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -53,7 +53,7 @@ public class FileService extends BasicService{
      * @return
      * @throws IOException
      */
-    public JSONObject uploadFiles(TSysFileRecord t,MultipartFile file){
+    public JSONObject uploadFiles(SysFileRecord t,MultipartFile file){
         //文件名称
         String fileName = file.getOriginalFilename();
         //文件类型
@@ -71,10 +71,10 @@ public class FileService extends BasicService{
         String qcm= t.getYwdm()+t.getWjlb()+FileUtil.getFileMD5(files);
         
         //将文件信息存入数据库        
-        TSysFileRecord obj = new TSysFileRecord(t.getYwdm(),fileName,qcm,sclb,filePath,fileType,t.getWjlb());
+        SysFileRecord obj = new SysFileRecord(t.getYwdm(),fileName,qcm,sclb,filePath,fileType,t.getWjlb());
 
         //如果表中存在此去重码则把这个文件删除
-        JSONObject f = db.findFirst("select * from T_SYS_FILE_RECORD t where t.QCM = ?", qcm);
+        JSONObject f = db.findFirst("select * from sys_file_record t where t.qcm = ?", qcm);
         if(f!=null){
             log.info(f+"文件已经存在");
             files.delete();

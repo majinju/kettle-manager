@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import cn.benma666.common.domain.TSysFileRecord;
+import cn.benma666.common.domain.SysFileRecord;
 import cn.benma666.common.service.FileService;
 import cn.benma666.myutils.ExportToExecl;
 import cn.benma666.web.BasicController;
@@ -38,7 +38,7 @@ public class FileController extends BasicController{
      * @Description:文件上传
      */
     @RequestMapping(value = "/uploadFile.do", method = RequestMethod.POST)
-    public void uploadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,TSysFileRecord t){
+    public void uploadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,SysFileRecord t){
         //获取文件
         MultipartFile file =((MultipartHttpServletRequest) request).getFile("file");
         try{
@@ -60,9 +60,9 @@ public class FileController extends BasicController{
      * @param id
      */
     @RequestMapping(value="/downloadFile.do")
-    public void downloadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,TSysFileRecord t){
+    public void downloadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,SysFileRecord t){
         try {
-            TSysFileRecord record = sqlManager.single(TSysFileRecord.class, t.getId());
+            SysFileRecord record = sqlManager.single(SysFileRecord.class, t.getId());
             if(record!=null){
                 File file = new File(record.getSclj());
                 WebUtil.sendFile(response, file, record.getWjm());

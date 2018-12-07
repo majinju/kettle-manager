@@ -8,8 +8,8 @@ import org.beetl.sql.core.annotatoin.Table;
 
 import cn.benma666.web.BasicBean;
 
-@Table(name="t_sys_zd_tyzd")
-public class TSysZdTyzd extends BasicBean implements Serializable {
+@Table(name="sys_zd_tyzd")
+public class SysZdTyzd extends BasicBean implements Serializable {
 
 	private static final long serialVersionUID = -1L;
 	
@@ -94,10 +94,10 @@ public class TSysZdTyzd extends BasicBean implements Serializable {
      */
     private java.lang.String cache;
 
-	public TSysZdTyzd() {
+	public SysZdTyzd() {
 	}
 	
-	public TSysZdTyzd(String id) {
+	public SysZdTyzd(String id) {
 		this.id = id;
 	}
 
