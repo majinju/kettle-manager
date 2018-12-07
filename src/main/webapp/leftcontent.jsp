@@ -7,27 +7,37 @@
 <title>Examples</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
-<link href="project/frame/style/index.css" rel="stylesheet">
+<link href="project/style/index.css" rel="stylesheet">
 </head>
 <body>
     <div class="hy-lk-nav-l">
 		<ul class="J-level1-nav hy-lk-nav-level1">
 			<li>
 				<p class="hy-lk-nav-level1-tit active">
-				<i class="level1-icon icon1"></i>开发工具<i class="triggle"></i>
+				<i class="level1-icon icon1"></i>后台管理<i class="triggle"></i>
 				</p>
 				<ul class="hy-lk-nav-level2">
-					<li><a href="${serviceAddr}myui/vue/vue.html" target="mainFrame">
-						<i class="circle"></i>vue学习</a>
+					<li><a href="common/dict/list.do" target="mainFrame">
+						<i class="circle"></i>统一字典</a>
 					</li>
-					<li><a href="https://cn.vuejs.org/v2/guide/list.html" target="mainFrame">
-						<i class="circle"></i>vue文档</a>
-					</li>
+				</ul>
+			</li>
+			<li>
+				<p class="hy-lk-nav-level1-tit">
+				<i class="level1-icon icon1"></i>开发工具<i class="triggle"></i>
+				</p>
+				<ul class="hy-lk-nav-level2 hide">
 					<li><a href="${serviceAddr}myui/editor.md/other/projectStandard/projectStandard.html" target="mainFrame">
 						<i class="circle"></i>开发规范</a>
 					</li>
 					<li><a href="${serviceAddr}myui/editor.md/other/authStandard/authStandard.html" target="mainFrame">
 						<i class="circle"></i>权限开发规范</a>
+					</li>
+					<li><a href="${serviceAddr}myui/vue/vue.html" target="mainFrame">
+						<i class="circle"></i>vue学习</a>
+					</li>
+					<li><a href="https://cn.vuejs.org/v2/guide/list.html" target="mainFrame">
+						<i class="circle"></i>vue文档</a>
 					</li>
 					<li><a href="https://validator.niceue.com/docs/" target="mainFrame">
 						<i class="circle"></i>验证框架</a>
@@ -74,20 +84,10 @@
 					</li>
 				</ul>
 			</li>
-			<li>
-				<p class="hy-lk-nav-level1-tit">
-				<i class="level1-icon icon1"></i>后台管理<i class="triggle"></i>
-				</p>
-				<ul class="hy-lk-nav-level2 hide">
-					<li><a href="common/dict/list.do" target="mainFrame">
-						<i class="circle"></i>统一字典</a>
-					</li>
-				</ul>
-			</li>
 		</ul>
 	</div>
 
-	<script src="project/frame/js/jquery.min.js"></script>
-	<script src="project/frame/js/index.js"></script>
+	<script src="project/js/jquery.min.js"></script>
+	<script src="project/js/index.js"></script>
 </body>
 </html>
