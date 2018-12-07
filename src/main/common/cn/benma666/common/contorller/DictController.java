@@ -207,6 +207,7 @@ public class DictController extends BasicController {
     public void update(SysZdTyzd t, HttpServletResponse response) {
         JsonResult result;
         try {
+            t.setEtldate(db.getCurrentDateStr14());
             sqlManager.updateTemplateById(t);
             DictManager.clearDict(t.getZdlb());
             result = new JsonResult(true, "恭喜您，更新成功!");

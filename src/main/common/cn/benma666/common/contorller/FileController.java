@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,10 +16,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.benma666.common.domain.SysFileRecord;
 import cn.benma666.common.service.FileService;
+import cn.benma666.constants.UtilConst;
 import cn.benma666.myutils.ExportToExecl;
+import cn.benma666.myutils.JsonResult;
+import cn.benma666.myutils.PageInfo;
+import cn.benma666.myutils.StringUtil;
 import cn.benma666.web.BasicController;
 import cn.benma666.web.WebUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -84,6 +90,114 @@ public class FileController extends BasicController{
         } catch (Exception e) {
             log.error("导出excel出错", e);
         }
+    }
+    /**
+    * 进入列表页面 <br/>
+    * @author jingma
+    * @param session
+    * @param model
+    * @return
+    */
+    @RequestMapping(value = "/list.do", method = RequestMethod.GET)
+    public String list(HttpSession session, Model model) {
+        return getPathList();
+    }
+    /**
+    * 查询列表数据 <br/>
+    * @author jingma
+    * @param t
+    * @param page
+    * @param response
+    * @param session
+    */
+    @RequestMapping(value = "/queryList.do", method = RequestMethod.POST)
+    public void queryList(SysFileRecord t,PageInfo<JSONObject> page, 
+            HttpServletResponse response, HttpSession session) {
+        try {
+            page = fileService.queryPage(t, page);
+        } catch (Exception e) {
+            log.error("列表请求出错", e);
+            page = new PageInfo<JSONObject>();
+        }
+        sendPage(response, page);
+    }
+
+    /**
+    * 进入编辑新增页面 <br/>
+    * @author jingma
+    * @param id
+    * @param response
+    * @param model
+    * @param session
+    * @return
+    */
+    @RequestMapping(value = "/edit.do", method = RequestMethod.GET)
+    public String update(String id,HttpServletResponse response,Model model, HttpSession session) {
+        if(StringUtil.isNotBlank(id)){
+            SysFileRecord file = sqlManager.single(SysFileRecord.class, id);
+            JSONObject result = (JSONObject) JSON.toJSON(file);
+            result.put("shgx", db.find(
+                    "select * from sys_file_record t where t.id=? and t.isdel=?", 
+                    file.getId(),UtilConst.WHETHER_TRUE));
+            model.addAttribute("obj", result.toJSONString());
+        }else{
+            model.addAttribute("obj", "null");
+        }
+        return getPathEdit();
+    }
+
+    /**
+    * 保存单条数据 <br/>
+    * @author jingma
+    * @param fromData
+    * @param response
+    * @param session
+    */
+    @RequestMapping(value = "/save.do", method = RequestMethod.POST)
+    public void save(String fromData ,HttpServletResponse response, HttpSession session) {
+        JsonResult result;
+        result = fileService.txSave(fromData);
+        sendJson(response, result);
+    }
+
+    /**
+    * 单个删除处理 <br/>
+    * @author jingma
+    * @param t
+    * @param response
+    */
+    @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
+    public void delete(SysFileRecord t, HttpServletResponse response) {
+        JsonResult result;
+        try {
+            t.setEtldate(db.getCurrentDateStr14());
+            sqlManager.updateTemplateById(t);
+            result = new JsonResult(true, "恭喜您，删除成功!");
+        } catch (Exception e) {
+            log.error("删除时出错", e);
+            result = new JsonResult(false, "删除时出错："+e.getMessage());
+        }
+        sendJson(response, result);
+    }
+    /**
+    * 批量删除处理 <br/>
+    * @author jingma
+    * @param ids
+    * @param response
+    */
+    @RequestMapping(value = "/batchDelete.do", method = RequestMethod.POST)
+    public void batchDelete(String ids, HttpServletResponse response) {
+        JsonResult result;
+        try {
+            SysFileRecord t = new SysFileRecord();
+            t.getMap().put("ids", ids);
+            fileService.batchDelete(t);
+            result = new JsonResult(true, "批量删除成功!");
+        } catch (Exception e) {
+            log.error("批量删除时出错", e);
+            result = new JsonResult(false, "批量删除时出错："+e.getMessage());
+        }
+        sendJson(response, result);
     }
 
     /**

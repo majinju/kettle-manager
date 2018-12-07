@@ -1,4 +1,4 @@
-<%@ tag language="java" pageEncoding="UTF-8"  import="cn.benma666.common.util.WebUtil"%>
+<%@ tag language="java" pageEncoding="UTF-8"  import="cn.benma666.web.WebUtil"%>
 <%@ attribute name="title" %>
 <%@ attribute name="css" fragment="true"%>
 <%@ attribute name="js" fragment="true"%>

@@ -23,7 +23,7 @@
                     	<div class="row form-group col-xs-4">
 							<label class="col-xs-5 control-label required">排序：</label>
 	                        <div class="col-xs-7">
-	                            <input type="text" id="px" class="form-control" data-rule="required" name="px" value="${t.px}" >
+	                            <input type="text" id="px" class="form-control" data-rule="required" name="px" value="99999" >
 	                        </div>
                         </div>          
                         <div class="row form-group col-xs-4">
@@ -35,7 +35,7 @@
                         <div class="row form-group col-xs-4">
 	                        <label class="col-xs-5 control-label required">是否删除：</label>
 	                        <div class="col-xs-7">
-	                        	<input type="text" zdlb="LJPD" pagination="false" data-rule="required" select-only="true" class="form-control zdSelectPage" name="isdel" value="${t.isdel}">
+	                        	<input type="text" zdlb="LJPD" pagination="false" data-rule="required" select-only="true" class="form-control zdSelectPage" name="isdel" value="0">
 	                        </div>	
                         </div>
                     	<div class="row form-group col-xs-4">
@@ -47,7 +47,7 @@
                         <div class="row form-group col-xs-4">
 	                        <label class="col-xs-5 control-label required">是否缓存：</label>
 	                        <div class="col-xs-7">
-	                            <input type="text" zdlb="LJPD" pagination="false" data-rule="required" select-only="true" class="form-control zdSelectPage" name="cache" value="${t.cache }">
+	                            <input type="text" zdlb="LJPD" pagination="false" data-rule="required" select-only="true" class="form-control zdSelectPage" name="cache" value="1">
 	                        </div>	
                         </div>
                    		<div class="row form-group col-xs-12">

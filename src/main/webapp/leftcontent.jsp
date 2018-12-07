@@ -20,6 +20,9 @@
 					<li><a href="common/dict/list.do" target="mainFrame">
 						<i class="circle"></i>统一字典</a>
 					</li>
+					<li><a href="common/file/list.do" target="mainFrame">
+						<i class="circle"></i>文件管理</a>
+					</li>
 				</ul>
 			</li>
 			<li>
