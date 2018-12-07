@@ -10,7 +10,7 @@ import cn.benma666.common.domain.TSysFileRecord;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.FileUtil;
-import cn.benma666.web.AConfig;
+import cn.benma666.web.SConf;
 import cn.benma666.web.BasicService;
 
 import com.alibaba.fastjson.JSON;
@@ -59,9 +59,9 @@ public class FileService extends BasicService{
         //文件类型
         String fileType = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
         //文件上传路径
-        String sclb = AConfig.getVal(SYS_SCLB);
+        String sclb = SConf.getVal(SYS_SCLB);
         //上传后文件的路径以及文件的名称
-        String filePath = AConfig.getVal(SYS_SCLJ) + t.getYwdm() +UtilConst.FXG
+        String filePath = SConf.getVal(SYS_SCLJ) + t.getYwdm() +UtilConst.FXG
                 +fileName.substring(0,fileName.lastIndexOf('.'))+"_"
                 + DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14) 
                 + "." + fileType;

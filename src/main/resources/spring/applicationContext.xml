@@ -24,12 +24,17 @@
 	<description>Spring公共配置 </description>
 
 	<!-- 定义受环境影响易变的变量 -->
-	<bean class="cn.benma666.web.AConfig">
+	<bean class="cn.benma666.web.SConf">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreResourceNotFound" value="false" />
 		<property name="locations">
 			<list>
 				<value>file:/benma666/config/myservice.properties</value>
+			</list>
+		</property>
+		<property name="configCodeList">
+			<list>
+				<value>SYS_COMMON_APPCONFIG</value>
 			</list>
 		</property>
 	</bean>
