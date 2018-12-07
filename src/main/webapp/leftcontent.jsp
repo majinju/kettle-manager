@@ -17,16 +17,16 @@
 				<i class="level1-icon icon1"></i>开发工具<i class="triggle"></i>
 				</p>
 				<ul class="hy-lk-nav-level2">
-					<li><a href="${serviceAddr}aui/vue/vue.html" target="mainFrame">
+					<li><a href="${serviceAddr}myui/vue/vue.html" target="mainFrame">
 						<i class="circle"></i>vue学习</a>
 					</li>
 					<li><a href="https://cn.vuejs.org/v2/guide/list.html" target="mainFrame">
 						<i class="circle"></i>vue文档</a>
 					</li>
-					<li><a href="${serviceAddr}aui/editor.md/other/projectStandard/projectStandard.html" target="mainFrame">
+					<li><a href="${serviceAddr}myui/editor.md/other/projectStandard/projectStandard.html" target="mainFrame">
 						<i class="circle"></i>开发规范</a>
 					</li>
-					<li><a href="${serviceAddr}aui/editor.md/other/authStandard/authStandard.html" target="mainFrame">
+					<li><a href="${serviceAddr}myui/editor.md/other/authStandard/authStandard.html" target="mainFrame">
 						<i class="circle"></i>权限开发规范</a>
 					</li>
 					<li><a href="https://validator.niceue.com/docs/" target="mainFrame">
@@ -41,19 +41,19 @@
 					<li><a href="https://terryz.oschina.io/selectpage/demo.html" target="mainFrame">
 						<i class="circle"></i>selectPage</a>
 					</li>
-					<li><a href="aui/zTree_v3/api/API_cn.html" target="mainFrame">
+					<li><a href="myui/zTree_v3/api/API_cn.html" target="mainFrame">
 						<i class="circle"></i>zTree api</a>
 					</li>
-					<li><a href="aui/zTree_v3/demo/cn/index.html" target="mainFrame">
+					<li><a href="myui/zTree_v3/demo/cn/index.html" target="mainFrame">
 						<i class="circle"></i>zTree demo</a>
 					</li>
-					<li><a href="aui/layer/test.html" target="mainFrame">
+					<li><a href="myui/layer/test.html" target="mainFrame">
 						<i class="circle"></i>layer弹窗</a>
 					</li>
-					<li><a href="aui/editor.md/examples/index.html" target="mainFrame">
+					<li><a href="myui/editor.md/examples/index.html" target="mainFrame">
 						<i class="circle"></i>md编辑器</a>
 					</li>
-					<li><a href="aui/ueditor/index.html" target="mainFrame">
+					<li><a href="myui/ueditor/index.html" target="mainFrame">
 						<i class="circle"></i>ueditor编辑器</a>
 					</li>
 					<li><a href="http://echarts.baidu.com/examples.html" target="mainFrame">

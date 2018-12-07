@@ -2,36 +2,34 @@
  * 需要引入的js脚本文件
  */
 var scriptList=[
-      serviceAddr+"aui/vue/vue.js",
-      serviceAddr+"aui/jquery/jquery.tmpl.min.js",
-      serviceAddr+"aui/a-utils/idcard.js",
-      serviceAddr+"aui/a-utils/operate2.js",
-      serviceAddr+"aui/bootstrap/js/bootstrap.min.js",
-      serviceAddr+"aui/SelectPag/selectpage.js?time=20171207",
-      serviceAddr+"aui/a-frame/frame.js?time=20171217",
-      serviceAddr+"aui/layer/layer.js",
-      serviceAddr+"aui/My97DatePicker/WdatePicker.js",
-      serviceAddr+"aui/jquery/jquery.ajaxupload.js",
-      serviceAddr+"aui/jquery/jquery.download.js",
-      serviceAddr+"aui/nice-validator/dist/jquery.validator.js?local=zh-CN",
-      serviceAddr+"aui/ueditor/ueditor.config.js",
-      serviceAddr+"aui/ueditor/ueditor.all.min.js",
-      serviceAddr+"aui/ueditor/zh-cn.js",
-      serviceAddr+"aui/shuiyin/shuiyin.js",
-      serviceAddr+"aui/a-utils/page2.js"
-//      serviceAddr+"aui/zTree_v3/js/jquery.ztree.all.js"
+      serviceAddr+"myui/jquery/jquery.tmpl.min.js",
+      serviceAddr+"myui/myutils/idcard.js",
+      serviceAddr+"myui/myutils/operate.js",
+      serviceAddr+"myui/bootstrap/js/bootstrap.min.js",
+      serviceAddr+"myui/SelectPag/selectpage.js?time=20171207",
+      serviceAddr+"myui/myframe/frame.js?time=20171217",
+      serviceAddr+"myui/layer/layer.js",
+      serviceAddr+"myui/My97DatePicker/WdatePicker.js",
+      serviceAddr+"myui/jquery/jquery.ajaxupload.js",
+      serviceAddr+"myui/nice-validator/dist/jquery.validator.js?local=zh-CN",
+      serviceAddr+"myui/ueditor/ueditor.config.js",
+      serviceAddr+"myui/ueditor/ueditor.all.min.js",
+      serviceAddr+"myui/ueditor/zh-cn.js",
+      serviceAddr+"myui/myutils/shuiyin.js",
+      serviceAddr+"myui/myutils/page.js"
+//      serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js"
    ];
 /**
  * 需要引入的css脚本文件
  */
 var cssList=[
-      serviceAddr+"aui/a-utils/utils.css?time=20171111",
-      serviceAddr+"aui/bootstrap/css/bootstrap.min.css",
-      serviceAddr+"aui/a-frame/frame.css?time=20171111",
-      serviceAddr+"aui/font-awesome/css/font-awesome.css",
-      serviceAddr+"aui/SelectPag/selectpage.bootstrap3.css"
-//      serviceAddr+"aui/zTree_v3/css/zTreeStyle/zTreeStyle.css",
-//      serviceAddr+"aui/zTree_v3/css/demo.css"
+      serviceAddr+"myui/bootstrap/css/bootstrap.min.css",
+      serviceAddr+"myui/myframe/frame.css?time=20171111",
+      serviceAddr+"myui/font-awesome/css/font-awesome.css",
+      serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
+      serviceAddr+"myui/myutils/utils.css?time=20171111"
+//      serviceAddr+"myui/zTree_v3/css/zTreeStyle/zTreeStyle.css",
+//      serviceAddr+"myui/zTree_v3/css/demo.css"
    ];
 
 //执行引入css脚本操作
@@ -49,7 +47,7 @@ $(function() {
 	//zdlb字典
 	$(".zdSelect").zdSelect();
     $(".zdRecord").zdRecord();
-//    $(".zdSelectPage").zdSelectPage();
+    $(".zdSelectPage").zdSelectPage();
     $(".zdTranslate").zdTranslate();
     // 绑定图片上传事件
 	if($("div.uploadFile").length > 0){
@@ -235,6 +233,52 @@ function initValidator(){
             }
         });
     }
+    /**
+     * 根据zdlb生成字典选择
+     */
+    $.fn.zdSelectPage = function() {
+        this.each(function(){
+            var zdObj = $(this);
+            var zdlb = zdObj.attr("zdlb");
+            var otherParam = zdObj.attr("other-param")||'';
+            var data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map['zdlb']="+zdlb+"&map['otherParam']="+otherParam;
+            if(!(zdObj.attr("ajax")=="true")&&zdlb!="SYS_COMMON_ORG"){
+            	data = zdList(zdlb);
+            }
+            zdObj.selectPage({
+            	data:data,
+                showField: 'mc',
+                keyField: 'dm',
+                searchField: "map['searchKey']",
+                orderBy : ['px asc','dm asc','mc'],
+                eAjaxSuccess: function(d){
+                    return d;
+                },
+                //选中项目后的回调处理
+                //入参：data：选中行的原始数据对象
+                eSelect : function(data){
+                    if(zdObj.attr("e-select")){
+                    	eval(zdObj.attr("e-select")+'(data,zdObj)');
+                        
+                    }
+                },
+				// 点击select的那个叉的事件回调
+                eClear : function(){
+                    if(zdObj.attr("e-clear")){
+                        eval(zdObj.attr("e-clear")+'(zdObj)');
+                    }
+                },
+                //仅选择模式，不允许输入查询关键字
+                selectOnly : zdObj.attr("select-only")=="true"?true:false,
+                //关闭分页栏，数据将会一次性在列表中展示，上限200个项目
+                pagination : zdObj.attr("pagination")=="false"?false:true,
+                //关闭分页的状态下，列表显示的项目个数，其它的项目以滚动条滚动方式展现（默认10个）
+                listSize : zdObj.attr("listSize")|10,
+                multiple : zdObj.attr("multiple")=="multiple"?true:false
+            });
+        });
+
+    };
     /**
      * 根据zdlb生成字典选择
      */
@@ -539,18 +583,33 @@ function getUrlString(name) {
 /**
  * 实现深拷贝
  */
-function clone(o) {
-	var k=0, ret = o, b;
-	if (o && ((b = (o instanceof Array)) || o instanceof Object)) {
-		ret = b ? [] : {};
-		for (k in o) {
-			if (o.hasOwnProperty(k)) {
-				ret[k] = clone(o[k]);
-			}
-		}
-	}
-	return ret;
-};
+function clone(obj) {
+    var copy = null;
+    switch(typeof obj){
+        case 'number': 
+        case 'string': 
+        case 'boolean': 
+        copy = obj;
+        break;
+        case 'object': 
+        if (obj == null) {
+            copy = null;
+        } else if (toString.apply(obj) === '[object Array]') {
+            copy = [];
+            for (var i in obj) {
+                copy.push(clone(obj[i]));
+            };
+        } else if (toString.apply(obj) === '[object Object]') {
+            copy = {};
+            for (var j in obj) {
+                copy[j] = clone(obj[j]);
+            }
+        } else {
+            copy = obj;
+        }
+    }
+    return copy;
+}
 
 /**
  * 判断字符串是否为空
@@ -587,7 +646,7 @@ var derive = Object.create ? Object.create : function() {
 //添加指定的天数,并返回新的日期
 Date.prototype.addDays = function (days) {
     var nd = new Date(this);
-    nd.setDate(nd.getDate() + parseInt(days));
+    nd.setDate(nd.getDate() + new Number(days));
     return nd;
 };
 

@@ -194,7 +194,7 @@ body {
 .upload-button-set { 
     max-width: 104px;
     height: 26px;
-    background-image: url(../img/didupload.png) no-repeat;
+    background-image: url(img/didupload.png) no-repeat;
 }
 /*删除文件按钮*/
 .shut-del {
@@ -204,7 +204,7 @@ body {
     right:0px;
     top:0px;
     z-index:100; 
-    background: url(../../aui/a-frame/img/shut.png);
+    background: url(img/shut.png);
 }
 /*下载文件*/
 .dwon-files {
@@ -214,7 +214,7 @@ body {
     right:0px;
     bottom:0px;
     z-index:100; 
-    background: url(../../aui/a-frame/img/download.png); 
+    background: url(img/download.png); 
 }
 .upload-sel {
     position: relative;
