@@ -286,22 +286,22 @@ Vue.component('my-timeaera', {
 <script type="text/x-tp" id="my-input-tp">
 <div class="row form-group" :class="'col-xs-'+(field.col||'4')" 
 		:index="index" :value="value" :style="(fieldshow)?'':'display: none;'">
-	<label class="control-label" :class="'col-xs-'+(field.labelCol||'5')">
+	<label class="control-label" :class="'col-xs-'+(field.labelCol||'6')">
 	    <my-label :field="field" :index="index" :data="data"></my-label>
 	</label>
-	<div :class="'col-xs-'+(field.inputCol||'7')" v-if="(field.inputType||'input')=='input'">
+	<div :class="'col-xs-'+(field.inputCol||'6')" v-if="(field.inputType||'input')=='input'">
 	    <my-inputn :field="field" :index="index" :value="value" :edit="edit"
   			@setval="setval" class="form-control"></my-inputn>
 	</div>
-	<div :class="'col-xs-'+(field.inputCol||'7')" v-else-if="field.inputType=='textarea'">
+	<div :class="'col-xs-'+(field.inputCol||'6')" v-else-if="field.inputType=='textarea'">
 	    <my-textaera :field="field" :index="index" :value="value" :edit="edit"
 			@setval="setval" class="form-control"></my-textaera>
 	</div>
-	<div :class="'col-xs-'+(field.inputCol||'7')" v-else-if="field.inputType=='timearea'">
+	<div :class="'col-xs-'+(field.inputCol||'6')" v-else-if="field.inputType=='timearea'">
 	    <my-timeaera :field="field" :index="index" :value="value" :edit="edit"
 			@setval="setval"></my-timeaera>
 	</div>
-	<div :class="'col-xs-'+(field.inputCol||'7')" v-else>
+	<div :class="'col-xs-'+(field.inputCol||'6')" v-else>
 	    没有控件{{field.inputType}}
 	</div>
 </div>
