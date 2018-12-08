@@ -5,7 +5,7 @@ var scriptList=[
       serviceAddr+"myui/vue/vue.js",
       serviceAddr+"myui/jquery/jquery.tmpl.min.js",
       serviceAddr+"myui/myutils/idcard.js",
-      serviceAddr+"myui/myutils/operate2.js",
+      serviceAddr+"myui/myutils/operate-vue.js",
       serviceAddr+"myui/bootstrap/js/bootstrap.min.js",
       serviceAddr+"myui/SelectPag/selectpage.js?time=20171207",
       serviceAddr+"myui/myframe/frame.js?time=20171217",
@@ -18,7 +18,7 @@ var scriptList=[
       serviceAddr+"myui/ueditor/ueditor.all.min.js",
       serviceAddr+"myui/ueditor/zh-cn.js",
       serviceAddr+"myui/myutils/shuiyin.js",
-      serviceAddr+"myui/myutils/page2.js"
+      serviceAddr+"myui/myutils/page-vue.js"
 //      serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js"
    ];
 /**

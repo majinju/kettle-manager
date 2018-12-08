@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <%@ page language="java"  pageEncoding="UTF-8"%>
-<gd:Layout2 title="编辑">
+<gd:LayoutVue title="编辑">
 <jsp:body> 
 <my-from id="dataform" :data="$data" :fromdata="fromData" :pagemodel="pageModel"
 	class="wrap" @setval="setval" v-cloak>
@@ -167,4 +167,4 @@ var dataform = new Vue({
 	  });
 </script>
 </jsp:body>
-</gd:Layout2>
+</gd:LayoutVue>

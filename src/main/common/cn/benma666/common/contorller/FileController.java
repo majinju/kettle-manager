@@ -18,7 +18,6 @@ import cn.benma666.common.domain.SysFileRecord;
 import cn.benma666.common.service.FileService;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.myutils.ExportToExecl;
-import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.web.BasicController;
@@ -52,8 +51,8 @@ public class FileController extends BasicController{
             JSONObject record = fileService.uploadFiles(t,file);
             sendJson(response, success("",record));
         }catch(Exception e){
-            log.error("上传文件出错", e);
-            WebUtil.sendJson(response,error("上传文件失败"));
+            log.error("数据处理出错", e);
+            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
     
     }
@@ -74,7 +73,8 @@ public class FileController extends BasicController{
                 WebUtil.sendFile(response, file, record.getWjm());
             }                                                           
         } catch (Exception e) {
-            log.error("下载附件出错", e);
+            log.error("数据处理出错", e);
+            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
     }
     
@@ -88,7 +88,8 @@ public class FileController extends BasicController{
         try {
             ExportToExecl.fromHtmlTable(request, response);
         } catch (Exception e) {
-            log.error("导出excel出错", e);
+            log.error("数据处理出错", e);
+            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
     }
     /**
@@ -115,11 +116,11 @@ public class FileController extends BasicController{
             HttpServletResponse response, HttpSession session) {
         try {
             page = fileService.queryPage(t, page);
+            sendPage(response, page);
         } catch (Exception e) {
-            log.error("列表请求出错", e);
-            page = new PageInfo<JSONObject>();
+            log.error("数据处理出错", e);
+            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
-        sendPage(response, page);
     }
 
     /**
@@ -155,9 +156,12 @@ public class FileController extends BasicController{
     */
     @RequestMapping(value = "/save.do", method = RequestMethod.POST)
     public void save(String fromData ,HttpServletResponse response, HttpSession session) {
-        JsonResult result;
-        result = fileService.txSave(fromData);
-        sendJson(response, result);
+        try {
+            sendJson(response, fileService.txSave(fromData));
+        } catch (Exception e) {
+            log.error("数据处理出错", e);
+            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
+        }
     }
 
     /**
@@ -168,16 +172,14 @@ public class FileController extends BasicController{
     */
     @RequestMapping(value = "/delete.do", method = RequestMethod.POST)
     public void delete(SysFileRecord t, HttpServletResponse response) {
-        JsonResult result;
         try {
             t.setEtldate(db.getCurrentDateStr14());
             sqlManager.updateTemplateById(t);
-            result = new JsonResult(true, "恭喜您，删除成功!");
+            WebUtil.sendJson(response,success("恭喜您，删除成功!"));
         } catch (Exception e) {
-            log.error("删除时出错", e);
-            result = new JsonResult(false, "删除时出错："+e.getMessage());
+            log.error("数据处理出错", e);
+            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
-        sendJson(response, result);
     }
     /**
     * 批量删除处理 <br/>
@@ -187,17 +189,15 @@ public class FileController extends BasicController{
     */
     @RequestMapping(value = "/batchDelete.do", method = RequestMethod.POST)
     public void batchDelete(String ids, HttpServletResponse response) {
-        JsonResult result;
         try {
             SysFileRecord t = new SysFileRecord();
             t.getMap().put("ids", ids);
             fileService.batchDelete(t);
-            result = new JsonResult(true, "批量删除成功!");
+            WebUtil.sendJson(response,success("批量删除成功！"));
         } catch (Exception e) {
-            log.error("批量删除时出错", e);
-            result = new JsonResult(false, "批量删除时出错："+e.getMessage());
+            log.error("数据处理出错", e);
+            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
-        sendJson(response, result);
     }
 
     /**

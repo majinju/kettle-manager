@@ -28,7 +28,7 @@
                         <div class="col-xs-4 row">
                         <label class="col-xs-5 control-label">字典类别：</label>
                         <div class="col-xs-7">
-                        	<input type="text" zdlb="ZDLB" ajax="true" class="form-control zdSelectPage" name="zdlb" placeholder="请选择">
+                        	<input type="text" zdlb="SYS_COMMON_ZDLB" ajax="true" class="form-control zdSelectPage" name="zdlb" placeholder="请选择">
                         </div>
                         </div>
                     </div>
@@ -42,13 +42,13 @@
                         <div class="col-xs-4 row">
                         <label class="col-xs-5 control-label">是否删除：</label>
                         <div class="col-xs-7">
-                        	<input type="text" zdlb="LJPD" pagination="false" selectOnly="true" class="form-control zdSelectPage" name="isdel" value="0">
+                        	<input type="text" zdlb="SYS_COMMON_LJPD" pagination="false" selectOnly="true" class="form-control zdSelectPage" name="isdel" value="0">
                         </div>
                         </div>
 <!--                         <div class="col-xs-4 row"> -->
 <!--                         <label class="col-xs-5 control-label">字典类别树：</label> -->
 <!--                         <div class="col-xs-7"> -->
-<!--                         	<input type="text" zdlb="ZDLB" ajax="true" class="form-control" id="upnode" name="upnode"  onclick="showMenu();"> -->
+<!--                         	<input type="text" zdlb="SYS_COMMON_ZDLB" ajax="true" class="form-control" id="upnode" name="upnode"  onclick="showMenu();"> -->
 <!--                         </div> -->
 <!--                         </div> -->
                     </div>
@@ -91,9 +91,9 @@
                                 </span>
                             </th>
                             <th style="width: 50px;">序号</th>
-                            <th style="width: 150px;">代码</th>
+                            <th style="width: 150px;" class="filed-order" data-filed="dm">代码</th>
                             <th class="filed-order" data-filed="mc">名称</th>
-                            <th style="width: 50px;">排序</th>
+                            <th style="width: 50px;" class="filed-order" data-filed="px">排序</th>
                             <th>字典类别</th>                 
                             <th style="width: 80px;">描述</th>               
                             <th style="width: 80px;">上级节点</th>
@@ -121,7 +121,7 @@
                             <td style="text-align: left;">{{= dm}}</td>
                             <td style="text-align: left;">{{= mc}}</td>
                             <td>{{= px}}</td>
-                            <td>{{= zdMcByDm("ZDLB",zdlb)}}</td>
+                            <td>{{= zdMcByDm("SYS_COMMON_ZDLB",zdlb)}}</td>
                             <td>{{= ms}}</td>
                             <td>{{= zdMcByDm(zdlb,upnode)}}</td>
                             <td>{{= time14Totime19(createdate)}}</td>
@@ -160,7 +160,7 @@
 			var _this= $("input:checkbox[name='chks']:checked");
 			var zdlb = _this.attr("zdlb");
 			
-			if(zdlb == "ZDLB"){
+			if(zdlb == "SYS_COMMON_ZDLB"){
 				var dm = _this.attr("dm");
 				var url = "common/dict/zdList.do?map[%27zdlb%27]="+dm;
 				var width = _this.attr("width");

@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
-<gd:Layout2 title="文件管理">
+<gd:LayoutVue title="文件管理">
 	<jsp:body>
 <div class="wrap">
     <div class="panel-heading">
@@ -169,7 +169,7 @@ var listFrom = new Vue({
                 isdel : {
                     name : 'isdel',
                     label : '是否删除',
-                    zdlb : 'LJPD',
+                    zdlb : 'SYS_COMMON_LJPD',
                     zdSelectPage : true,
                     width : 60,
                     value : '0',
@@ -259,4 +259,4 @@ var listFrom = new Vue({
     });
 </script>
 </jsp:body>
-</gd:Layout2>
+</gd:LayoutVue>
