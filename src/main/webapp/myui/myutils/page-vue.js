@@ -63,6 +63,13 @@ function PageAjax(){
         self.autoCount = true;
         self.requestList();
     };
+    /**
+     * 刷新页面数据
+     */
+    this.refreshPage=function(){
+        var self = this;
+        self.requestList();
+    };
     this.pagination=function(){
         var self = this;
         if(self.total==0){
@@ -195,6 +202,7 @@ function PageAjax(){
                     return;
                 }
     			eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
+                self.callback(result);
     			self.getListHead().find("span.checkbox-checked").click();
     			if(!result.list){
     				result.list = [];
@@ -203,7 +211,6 @@ function PageAjax(){
     		    self.setTotal(result.recordCount);
     		    self.pagination();
                 $(self.pageId+" .pageSize").val(self.pageSize);
-                self.callback(result);              
                 layer.close(loadindex);
     		},
     		error:function(errInfo){

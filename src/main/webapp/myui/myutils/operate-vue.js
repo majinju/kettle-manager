@@ -44,19 +44,15 @@ function ajaxDel(_url){
 ///////////////////////////////自动提交表单函数////////////////
 ///////////////////////适用场景：自动定时暂存表单调用该函数///////////
 function autoSubmit(formId,opened,_url){
-			
 	//表示是否指定表单。如果没有指定则默认指定表单
 	if(formId==""||formId==undefined){
 		formId = "dataform";
 	}
 	var url = $("#"+formId).attr("action");
-//	var param = $("#"+formId).serialize();
     var param = dataform.fromData;
 	$.post(url,param,function(data){
-		
 		//表示暂存成功后，需要跳转。例如点击打印暂存后跳转。
 		if(opened!=""&&opened!=undefined){
-			
 			if(data.status){
 				if(opened=="newpage"){
 					window.open(_url);//跳转页面
@@ -68,7 +64,6 @@ function autoSubmit(formId,opened,_url){
 					});
 				}
 			}else{
-				
 				//给出失败提示
 				layer.alert(data.msg ? data.msg : "操作失败！",{					
 					shade:0.3,
@@ -81,7 +76,6 @@ function autoSubmit(formId,opened,_url){
 	});
 	
 }
-
 
  //////////////////////表单提交操作相关////////////////////////
 function formSubmit(formId,opened,_url){
@@ -96,14 +90,11 @@ function formSubmit(formId,opened,_url){
     	   		time: 1500,    	   		
     	   		icon:1,
     	   		end:function(){
-    	   			
     	   			//判断是否设置打开弹层
     	   			if(opened==""||opened==undefined){
-    	   				
     	   			    //关闭弹层
         	   			var index = parent.layer.getFrameIndex(window.name);
         	   			parent.layer.close(index);
-    	   				
     	   				//判断是否跳转到其它页面
     	   				if(_url==""||_url==undefined){    	   					 	   				    
             	   			parent.listFrom.listPage.queryPage(); //执行页面刷新函数    	          	   			
@@ -113,7 +104,6 @@ function formSubmit(formId,opened,_url){
     	   					//跳转到其它页面
     	   					window.parent.location.href = _url;  	   					
     	   				}
-    	   			         	   			
     	   			}else{
     	   				if(opened=="redirect"){
     	   					//跳转到其它页面
@@ -125,9 +115,7 @@ function formSubmit(formId,opened,_url){
     	   				}else{
     	   				    listFrom.listPage.queryPage();
     	   				}
-    	   			   	   				
     	   			}
-    	   			  			
 				}
     		});
 		}else{
@@ -137,16 +125,14 @@ function formSubmit(formId,opened,_url){
     		});
         	subnum=subnum-1;
 		}
-		
 	});
 }
-
 
 /////////////////////////////////////////////
 // @param selectedIds 以逗号','连接的id字符串
 // @param linkClicked 触发单击事件的目标对象
  ///////////////////////////////////////////////
-function ajaxBatchUpdate(selectedIds, linkClicked) {    
+function ajaxBatchUpdate(selectedIds, linkClicked) {
 	//1 批量更新
     $.ajax({
         type: "POST",
@@ -281,7 +267,7 @@ $(document).ready(function(){
 //		            	$this.attr("style","display: none");
 		            	ajaxBatchUpdate(idArray.join(','), $this);
 	    	   		}
-	    		});	            
+	    		});
 	        }
 	        return false;		 
 	 });

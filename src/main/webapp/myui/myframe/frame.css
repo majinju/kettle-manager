@@ -60,9 +60,8 @@ body {
 }
 /* 表单上的按钮 - 右边按钮 */
 .btn-table-right {
-    position:absolute;
+    float: right;
     margin-top:-22px;
-    right:32px;
 }
 .btn-table-right button:not(:first-child) {
     margin-left: 8px;
@@ -668,3 +667,11 @@ body {
 [v-cloak] {
     display: none;
 }
+
+.table-striped>tbody>tr.listrow.edited{
+	background-color: thistle;
+}
+.table-striped>tbody>tr.listrow>td.edited{
+	background-color: thistle;
+}
+
