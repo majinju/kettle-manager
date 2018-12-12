@@ -10,46 +10,46 @@
                 <div class="form-horizontal" role="form">
                 	<div class="row gutter-1">
                         <div class="row form-group col-xs-4">
-	                        <label class="col-xs-5 control-label required">代码：</label>
-	                        <div class="col-xs-7">
+	                        <label class="col-xs-6 control-label required">代码：</label>
+	                        <div class="col-xs-6">
 	                            <input type="text" id="dm" class="form-control" data-rule="required" name="dm" value="${t.dm}" >
 	                        </div>
                         </div>
                         <div class="row form-group col-xs-4">
-	                        <label class="col-xs-5 control-label required">名称：</label>
-	                        <div class="col-xs-7">
-	                            <input type="text" id="mc" class="form-control" data-rule="required" name="mc" value="${t.mc}" >
-	                        </div>
-                        </div>   
-                    	<div class="row form-group col-xs-4">
-							<label class="col-xs-5 control-label required">排序：</label>
-	                        <div class="col-xs-7">
-	                            <input type="text" id="px" class="form-control" data-rule="required" name="px" value="${t.px}" >
-	                        </div>
-                        </div>          
-                        <div class="row form-group col-xs-4">
-	                        <label class="col-xs-5 control-label required">字典类别：</label>
-	                        <div class="col-xs-7">
+	                        <label class="col-xs-6 control-label required">字典类别：</label>
+	                        <div class="col-xs-6">
 	                            <input type="text" zdlb="SYS_COMMON_ZDLB" ajax="true" data-rule="required" class="form-control zdSelectPage" name="zdlb" value="${t.zdlb}" >
 	                        </div>
                         </div>
                         <div class="row form-group col-xs-4">
-	                        <label class="col-xs-5 control-label required">是否删除：</label>
-	                        <div class="col-xs-7">
+	                        <label class="col-xs-6 control-label required">是否缓存：</label>
+	                        <div class="col-xs-6">
+	                            <input type="text" zdlb="SYS_COMMON_LJPD" pagination="false" data-rule="required" select-only="true" class="form-control zdSelectPage" name="cache" value="${t.cache}">
+	                        </div>	
+                        </div>
+                        <div class="row form-group col-xs-12">
+	                        <label class="col-xs-2 control-label required">名称：</label>
+	                        <div class="col-xs-10">
+	                           <textarea class="form-control" data-rule="required" name="mc">${t.mc}</textarea>
+	                        </div>
+                        </div>
+                    	<div class="row form-group col-xs-4">
+							<label class="col-xs-6 control-label required">排序：</label>
+	                        <div class="col-xs-6">
+	                            <input type="text" id="px" class="form-control" data-rule="required" name="px" value="${t.px}" >
+	                        </div>
+                        </div>
+                        <div class="row form-group col-xs-4">
+	                        <label class="col-xs-6 control-label required">是否删除：</label>
+	                        <div class="col-xs-6">
 	                        	<input type="text" zdlb="SYS_COMMON_LJPD" pagination="false" data-rule="required" select-only="true" class="form-control zdSelectPage" name="isdel" value="${t.isdel}">
 	                        </div>	
                         </div>
                     	<div class="row form-group col-xs-4">
-	                        <label class="col-xs-5 control-label">数据来源：</label>
-	                        <div class="col-xs-7">
+	                        <label class="col-xs-6 control-label">数据来源：</label>
+	                        <div class="col-xs-6">
 	                            <input type="text" id="sjly" class="form-control" name="sjly" value="${t.sjly}" >
 	                        </div>
-                        </div>
-                        <div class="row form-group col-xs-4">
-	                        <label class="col-xs-5 control-label required">是否缓存：</label>
-	                        <div class="col-xs-7">
-	                            <input type="text" zdlb="SYS_COMMON_LJPD" pagination="false" data-rule="required" select-only="true" class="form-control zdSelectPage" name="cache" value="${t.cache }">
-	                        </div>	
                         </div>
                    		<div class="row form-group col-xs-12">
 	                        <label class="col-xs-2 control-label">描述：</label>

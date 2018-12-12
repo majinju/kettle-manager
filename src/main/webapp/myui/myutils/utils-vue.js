@@ -317,22 +317,6 @@ function initValidator(){
     };
 })(jQuery);
 
-//移出附件，只删除页面上的附件
-function delFile(id){
-	layer.alert("确定要删除吗？", {
-   		icon: 3,
-   		btn:["确定","取消"],
-   		yes:function(index,layero){
-   			layer.msg("删除成功！", { 
-				shade:0.3,
-				time:1500,    	   		
-				icon:6
-			});
-   			$("#file_" + id).remove();
-   		}
-   	});
-}
-
 /**
  * 字典列表缓存，避免频繁向后台请求
  */
@@ -539,18 +523,33 @@ function getUrlString(name) {
 /**
  * 实现深拷贝
  */
-function clone(o) {
-	var k=0, ret = o, b;
-	if (o && ((b = (o instanceof Array)) || o instanceof Object)) {
-		ret = b ? [] : {};
-		for (k in o) {
-			if (o.hasOwnProperty(k)) {
-				ret[k] = clone(o[k]);
-			}
-		}
-	}
-	return ret;
-};
+function clone(obj) {
+    var copy = null;
+    switch(typeof obj){
+        case 'number': 
+        case 'string': 
+        case 'boolean': 
+        copy = obj;
+        break;
+        case 'object': 
+        if (obj == null) {
+            copy = null;
+        } else if (toString.apply(obj) === '[object Array]') {
+            copy = [];
+            for (var i in obj) {
+                copy.push(clone(obj[i]));
+            };
+        } else if (toString.apply(obj) === '[object Object]') {
+            copy = {};
+            for (var j in obj) {
+                copy[j] = clone(obj[j]);
+            }
+        } else {
+            copy = obj;
+        }
+    }
+    return copy;
+}
 
 /**
  * 判断字符串是否为空
@@ -572,7 +571,6 @@ function isEmpty(str){
 function isNumber(str){
     return (/^(\+|-)?\d+$/.test( str ))&& str>=0;
 }
-
 /**
  * 创建一个具有指定原型的对象
  */
@@ -583,14 +581,12 @@ var derive = Object.create ? Object.create : function() {
 		return new T;
 	};
 }();
-
 //添加指定的天数,并返回新的日期
 Date.prototype.addDays = function (days) {
     var nd = new Date(this);
     nd.setDate(nd.getDate() + parseInt(days));
     return nd;
 };
-
 //添加指定的小时,并返回新的日期
 Date.prototype.addHours = function (hours) {
     var nd = new Date(this);
@@ -622,6 +618,54 @@ Date.prototype.format = function(format) {
 	}
 	return format;
 };
+function time14Totime19(dateStr){
+    if(dateStr==null){
+        return "";
+    }
+    if(dateStr.length!=14){
+        return dateStr;
+    }
+    return dateStr.time14Totime19();
+}
+function time14Totime10(dateStr){
+    if(dateStr==null){
+        return "";
+    }
+    if(dateStr.length!=14){
+        return dateStr;
+    }
+    return dateStr.time14Totime10();
+}
+function time19Totime14(dateStr){
+    if(dateStr==null){
+        return "";
+    }
+    if(dateStr.length!=19){
+        return dateStr;
+    }
+    var result = dateStr.replace(/-/g,'');
+    result = result.replace(/ /g,'');
+    result = result.replace(/:/g,'');
+    return result;
+}
+function time8Totime10(dateStr){
+    if(dateStr==null){
+        return "";
+    }
+    if(dateStr.length!=8){
+        return dateStr;
+    }
+    return dateStr.time8Totime10();
+}
+function time10Totime8(dateStr){
+    if(dateStr==null){
+        return "";
+    }
+    if(dateStr.length!=10){
+        return dateStr;
+    }
+    return dateStr.replace(/-/g,'');
+}
 /**
  * 将公安标准时间字符串转为普通显示时间格式
  * @returns {String} 转换结果
@@ -636,17 +680,6 @@ String.prototype.time14Totime19 = function () {
     +str.substring(12, 14);
     return result;
 };
-
-function time14Totime19(dateStr){
-	if(dateStr==null){
-		return "";
-	}
-	if(dateStr.length!=14){
-		return dateStr;
-	}
-	return dateStr.time14Totime19();
-}
-
 /**
  * 将公安标准时间字符串转为10位普通显示时间格式
  * @returns 转换结果
@@ -658,7 +691,6 @@ String.prototype.time14Totime10 = function () {
     +str.substring(6, 8);
     return result;
 };
-
 /**
  * 将公安标准时间字符串转为12位普通显示时间格式
  * @returns 转换结果 add by nanzhou
@@ -672,7 +704,6 @@ String.prototype.time12Totime14 = function () {
     +str.substring(10, 12)+":00";
     return result;
 };
-
 /**
  * 将公安标准时间字符串转为10位普通显示时间格式
  * @returns 转换结果 add by nanzhou
@@ -684,27 +715,14 @@ String.prototype.time8Totime10 = function () {
     +str.substring(6, 8);
     return result;
 };
-
-function time8Totime10(dateStr){
-	if(dateStr==null){
-		return "";
-	}
-	if(dateStr.length!=8){
-		return dateStr;
-	}
-	return dateStr.time8Totime10();
-}
-
 String.prototype.startWith=function(str){     
   var reg=new RegExp("^"+str);     
   return reg.test(this);        
 };
-
 String.prototype.endWith=function(str){     
   var reg=new RegExp(str+"$");     
   return reg.test(this);        
 };
-
 String.prototype.trim = function() {
 	  var str = this.replace(/^\s\s*/, ''),
 	  ws = /\s/,
@@ -713,53 +731,47 @@ String.prototype.trim = function() {
 	  return str.slice(0, i + 1);
 };
 
+
+////////////////关于IE8不支持Object.keys（）的处理/////////////////////////
 var DONT_ENUM =  "propertyIsEnumerable,isPrototypeOf,hasOwnProperty,toLocaleString,toString,valueOf,constructor".split(","),
     hasOwn = ({}).hasOwnProperty;
-    for (var i in {
-        toString: 1
-    }){
-        DONT_ENUM = false;
+for (var i in {toString: 1}){
+    DONT_ENUM = false;
+}
+Object.keys = Object.keys || function(obj){//ecma262v5 15.2.3.14
+    var result = [];
+    for(var key in obj ) if(hasOwn.call(obj,key)){
+        result.push(key) ;
     }
-
-
-    Object.keys = Object.keys || function(obj){//ecma262v5 15.2.3.14
-            var result = [];
-            for(var key in obj ) if(hasOwn.call(obj,key)){
-                result.push(key) ;
-            }
-            if(DONT_ENUM && obj){
-                for(var i = 0 ;key = DONT_ENUM[i++]; ){
-                    if(hasOwn.call(obj,key)){
-                        result.push(key);
-                    }
-                }
-            }
-            return result;
-        };
-
-
-    
-    function extend(dst) {
-        var h = dst.$$hashKey;
-
-
-        for (var i = 1, ii = arguments.length; i < ii; i++) {
-            var obj = arguments[i];
-            if (obj) {
-                var keys = Object.keys(obj);
-                for (var j = 0, jj = keys.length; j < jj; j++) {
-                    var key = keys[j];
-                    dst[key] = obj[key];
-                }
+    if(DONT_ENUM && obj){
+        for(var i = 0 ;key = DONT_ENUM[i++]; ){
+            if(hasOwn.call(obj,key)){
+                result.push(key);
             }
         }
-
-
-        setHashKey(dst, h);
-        return dst;
     }
+    return result;
+};
+function extend(dst) {
+    var h = dst.$$hashKey;
+    for (var i = 1, ii = arguments.length; i < ii; i++) {
+        var obj = arguments[i];
+        if (obj) {
+            var keys = Object.keys(obj);
+            for (var j = 0, jj = keys.length; j < jj; j++) {
+                var key = keys[j];
+                dst[key] = obj[key];
+            }
+        }
+    }
+    setHashKey(dst, h);
+    return dst;
+}
+////////////////关于IE8不支持Object.keys（）的处理/////////////////////////
 
-//参数预处理
+/**
+ * 参数预处理
+ */
 function preParam(_params){
 	for(var key in _params){
 		if(typeof _params[key] == "string"){
@@ -774,45 +786,3 @@ function preParam(_params){
 	}
     return _params;
 };
-
-//更新用户电话
-function updateUser(officePhone,userId){
-	if(userId){
-		$.ajax({
-			url:serviceAddr+"common/user/update",
-			type:"post",
-			async:false,
-			data:{
-				officePhone:officePhone,
-				userId:userId
-			},
-			success:function(data){
-				
-			}
-		});
-	}
-}
-
-
-//初始化查找用户电话
-function selectUser(userId){
-	var officePhone = "";
-	if(userId){
-		$.ajax({
-			url:serviceAddr+"common/user/detail",
-			type:"post",
-			async:false,
-			data:{
-				userId:userId
-			},
-			success:function(data){
-				if(data.flg){
-					if(data.obj){
-						officePhone = data.obj.officePhone;
-					}
-				}
-			}
-		});
-	}
-	return officePhone;
-}

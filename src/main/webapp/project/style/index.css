@@ -44,7 +44,7 @@ span,lable,td,tr,a,h1,h2,h3,h4,h5{
 .hy-iframe-container-area iframe:first-child,
 .hy-iframe-container-area iframe:last-of-type{
 	position: fixed;
-	width: 240px;
+	width: 174px;
 	overflow-x: hidden;
 }
 .hy-iframe-container-area iframe:last-of-type{
@@ -154,7 +154,7 @@ span,lable,td,tr,a,h1,h2,h3,h4,h5{
  */
 .hy-lk-nav-l{
 	box-sizing: border-box;
-	width: 240px;
+	width: 100%;
 	padding: 20px 0;
 	background: #3a3f4f;
 	min-height: 100%;
@@ -172,7 +172,7 @@ span,lable,td,tr,a,h1,h2,h3,h4,h5{
 }
 .hy-lk-nav-level1-tit{
 	line-height: 56px;
-	padding: 0 25px;
+	padding: 0 6px;
 	position: relative;
 }
 .hy-lk-nav-level1-tit.active{
@@ -236,7 +236,7 @@ span,lable,td,tr,a,h1,h2,h3,h4,h5{
 	border-top: 15px solid #4a5060; 
 }
 .hy-lk-nav-level2{
-	padding: 0 37px;
+	padding: 0 6px;
 	font-size: 14px;
 }
 .hy-lk-nav-level2>li{
@@ -414,7 +414,7 @@ span,lable,td,tr,a,h1,h2,h3,h4,h5{
 }
 #iframemiddle{
 	height: calc((100% - 84px));
-    width: calc((100% - 240px));
+    width: calc((100% - 174px));
 }
 #iframeleft{
 	height: calc((100% - 84px));

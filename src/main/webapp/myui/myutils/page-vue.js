@@ -161,10 +161,6 @@ function PageAjax(){
         if(Object.keys(self.params).length==1&&self.params.params){
             self.paramType="object";
         }
-        //设置传到后台的参数
-        self.params.pageIndex = self.pageIndex;
-        self.params.pageSize = self.pageSize;
-        self.params.autoCount = self.autoCount;
         
         //处理排序字段
         if(self.getListHead().find(".order-current").size()==1){
@@ -176,11 +172,16 @@ function PageAjax(){
             self.params["orderField"] = filedTh.attr("data-filed");
             self.params["orderWay"] = filedTh.attr("data-order");
         }
-        
-        var params = self.params;
+
+        var params = clone(self.params);
         if(self.paramType=="jsonStr"){
-            params = {"params":JSON.stringify(params),"pageIndex":params.pageIndex,
-                    "pageSize":params.pageSize,"autoCount":params.autoCount};
+            params = {"params":JSON.stringify(params),"pageIndex":self.pageIndex,
+                    "pageSize":self.pageSize,"autoCount":self.autoCount};
+        }else{
+            //设置传到后台的参数
+            params.pageIndex = self.pageIndex;
+            params.pageSize = self.pageSize;
+            params.autoCount = self.autoCount;
         }
         
     	$.ajax({
@@ -334,7 +335,7 @@ function PageAjax(){
      */
     this.getHangHao=function(index){
         var self = this;
-        return (self.params.pageIndex-1)*self.params.pageSize+index+1;
+        return (self.pageIndex-1)*self.pageSize+index+1;
     };
 }
 /**

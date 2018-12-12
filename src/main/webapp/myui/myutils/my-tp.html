@@ -1,7 +1,7 @@
 <script type="text/x-tp" id="my-label-tp">
 <span>
-    <span class="required" v-if="field.required">*</span>
-    {{(data.index?(index+1)+"-":"")+field.label}}：
+    <span class="required" v-if="field.bjbt=='1'">*</span>
+    {{(data.index?(index+1)+"-":"")+field.zdmc}}：
 </span>
 </script>
 <script type="text/javascript">
@@ -13,19 +13,20 @@ Vue.component('my-label', {
     },
     template:"#my-label-tp",
     watch: {
-//        "field.required": function (required) {
+//      "field.bjbt": function (required) {
 //          }
         }
   });
 </script>
 <script type="text/x-tp" id="my-inputn-tp">
-	<input v-if="edit" :name="(owner||'')+field.name"
+	<input v-if="isEdit" 
+		:name="(owner||'')+field.zddm"
 		:value="nval"
   		@blur="setval"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
-		:placeholder="field.placeholder" 
+		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:class="field.classStr" 
 		:onfocus="field.onfocus"
@@ -34,7 +35,7 @@ Vue.component('my-label', {
 </script>
 <script type="text/javascript">
 Vue.component('my-inputn', {
-    props: ['field','index','value','owner','edit'],
+    props: ['field','index','value','owner','pagemodel'],
     data: function () {
       return {
       }
@@ -42,9 +43,9 @@ Vue.component('my-inputn', {
     template: '#my-inputn-tp',
     methods : {
         setval : function($event) {
-            if(!this.field.zdSelectPage){
-                if(this.field.enCodeing){
-                    $event.val=this.field.enCodeing($event.target.value);
+            if(!this.field.kjlx=='dict'){
+                if(this.field.fgshff){
+                    $event.val=this.field.fgshff($event.target.value);
                 }else{
                     $event.val = $event.target.value;
                 }
@@ -53,31 +54,36 @@ Vue.component('my-inputn', {
         }
 	},
     computed : {
+        isEdit:function(){
+            var pagemodel = this.pagemodel;
+            return (pagemodel=='edit'&&!(this.field.yxbj=='0'))
+            	||pagemodel=='add'||pagemodel=='search';
+        },
         nval:function (){
             var val=this.value;
-            if(!this.edit&&this.field.zdSelectPage){
-                val = zdMcByDm(this.field.zdlb,this.value);
+            if(!this.isEdit&&this.field.kjlx=='dict'){
+                val = zdMcByDm(this.field.zdzdlb,this.value);
             }
-            if(this.field.deCodeing){
-                val=this.field.deCodeing(val,this);
+            if(this.field.gshff){
+                val=this.field.gshff(val,this);
             }
            return val;
         },
         nvalTitle:function (){
             var val=this.value;
-            if(!this.edit&&this.field.zdSelectPage){
-                val = zdMcByDm(this.field.zdlb,this.value)+"["+this.value+"]";
+            if(!this.isEdit&&this.field.kjlx=='dict'){
+                val = zdMcByDm(this.field.zdzdlb,this.value)+"["+this.value+"]";
             }
            return val;
         }
     },
     mounted: function () {
-        if(this.field.zdSelectPage&&this.edit){
-            var _this =  this;
-            _this.target = this.$el;
+        var _this =  this;
+        _this.target = this.$el;
+        var field = this.field;
+        if(this.field.kjlx=='dict'&&this.isEdit){
             var zdObj = $(this.$el);
-            var field = this.field;
-            var zdlb = field.zdlb;
+            var zdlb = field.zdzdlb;
             var otherParam = field.otherParam||'';
             var data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map['zdlb']="
                     +zdlb+"&map['otherParam']="+otherParam;
@@ -115,48 +121,55 @@ Vue.component('my-inputn', {
                     }
                 },
                 //仅选择模式，不允许输入查询关键字
-                selectOnly : !(this.field.selectOnly==false),
+                selectOnly : !(this.field.zdfy=='1'),
                 //关闭分页栏，数据将会一次性在列表中展示，上限200个项目
-                pagination : (this.field.pagination==true),
+                pagination : (this.field.zdfy=='1'),
                 //关闭分页的状态下，列表显示的项目个数，其它的项目以滚动条滚动方式展现（默认10个）
                 listSize : this.field.listSize|10,
-                multiple : this.field.multiple
+                multiple : this.field.zddx=='1'
             });
             if(this.value){
                 var data = {dm:this.value,mc:zdMcByDm(zdlb,this.value)};
                 _this.val=data.dm;
                 _this.mc=data.mc;
-                _this.$emit('setval', field,_this);
                 field.value="";
                 if(field.eSelect){
                 	field.eSelect(data,_this,field);
                 }
             }
         }
+        //默认值不为空且非详情页面
+        if(_this.value&&this.pagemodel!='details'){
+            _this.val=_this.value;
+            _this.$emit('setval', field,_this);
+        }
       },
     updated: function () {
-        if(this.field.zdSelectPage){
+        if(this.field.kjlx=='dict'){
             $(this.$el).selectPageRefresh();
         }
       }
   });
 </script>
 <script type="text/x-tp" id="my-textaera-tp">
-	<textarea :name="(owner||'')+field.name" :id="(owner||'')+field.name" 
-		:value="nval" v-if="edit"
+	<textarea v-if="pagemodel!='details'" 
+		:name="(owner||'')+field.zddm" 
+		:id="(owner||'')+field.zddm" 
+		:value="nval" 
 		@blur="setval"
 		:index="index"
-		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
-		:placeholder="field.placeholder"
+		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="field.classStr" 
 		:onfocus="field.onfocus"
+		:style="(field.style||'')"
 		></textarea>
-	<span class="form-control" :title="value" v-html="nval" v-else></span>
+	<pre v-else class="form-control" :style="(field.style||'')" :title="value" v-html="nval"></pre>
 </script>
 <script type="text/javascript">
 Vue.component('my-textaera', {
-    props: ['field','index','value','owner','edit'],
+    props: ['field','index','value','owner','pagemodel'],
     data: function () {
       return {
       }
@@ -165,16 +178,16 @@ Vue.component('my-textaera', {
     computed : {
         nval:function (){
             var val=this.value;
-            if(this.field.deCodeing){
-                val=this.field.deCodeing(val,this);
+            if(this.field.gshff){
+                val=this.field.gshff(val,this);
             }
            return val;
         }
     },
     methods : {
         setval : function($event) {
-            if(this.field.enCodeing){
-                $event.val=this.field.enCodeing($event.target.value);
+            if(this.field.fgshff){
+                $event.val=this.field.fgshff($event.target.value);
             }else{
                 $event.val = $event.target.value;
             }
@@ -185,26 +198,26 @@ Vue.component('my-textaera', {
 </script>
 <!-- 时间范围 -->
 <script type="text/x-tp" id="my-timeaera-tp">
-<div v-if="edit">
-	<input :name="'map[\''+(owner||'')+field.name+'_start\']'" :id="(owner||'')+field.name+'Start'" 
+<div v-if="pagemodel='search'">
+	<input :name="'map[\''+(owner||'')+field.zddm+'_start\']'" :id="(owner||'')+field.zddm+'Start'" 
 		:value="nvalStart"
 		@blur="setvalStart"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
-		:placeholder="field.placeholder"
+		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="'Wdate time_scope '+(field.classStr||'')" 
 		@focus="wpStart"
 		></input>
 		<span class="timelate">~</span>
-		<input :name="'map[\''+(owner||'')+field.name+'_end\']'" :id="(owner||'')+field.name+'End'" 
+		<input :name="'map[\''+(owner||'')+field.zddm+'_end\']'" :id="(owner||'')+field.zddm+'End'" 
 		:value="nvalEnd"
 		@blur="setvalEnd"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.required?'required;':'')+(field.dataRule||'')"
-		:placeholder="field.placeholder"
+		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="'Wdate time_scope '+(field.classStr||'')" 
 		@focus="wpEnd"
@@ -214,7 +227,7 @@ Vue.component('my-textaera', {
 </script>
 <script type="text/javascript">
 Vue.component('my-timeaera', {
-    props: ['field','index','value','owner','edit'],
+    props: ['field','index','value','owner','pagemodel'],
     data: function () {
       return {
           startData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
@@ -231,10 +244,10 @@ Vue.component('my-timeaera', {
             }
             var val=this.times[0];
             if(val.indexOf('goDay:')==0){
-                val = new Date().addDays(val.substring(6)).format('yyyy-MM-dd');
+                val = new Date().addDays(val.substring(6)).format('yyyyMMddmmhhss');
             }
-            if(this.field.deCodeing){
-                val=this.field.deCodeing(val,this);
+            if(this.field.gshff){
+                val=this.field.gshff(val,this);
             }
            return val;
         },
@@ -245,10 +258,10 @@ Vue.component('my-timeaera', {
             }
             var val=this.times[1];
             if(val.indexOf('goDay:')==0){
-                val = new Date().addDays(val.substring(6)).format('yyyy-MM-dd');
+                val = new Date().addDays(val.substring(6)).format('yyyyMMddmmhhss');
             }
-            if(this.field.deCodeing){
-                val=this.field.deCodeing(val,this);
+            if(this.field.gshff){
+                val=this.field.gshff(val,this);
             }
            return val;
         }
@@ -256,8 +269,8 @@ Vue.component('my-timeaera', {
     methods : {
         setvalStart : function($event) {
             var times = this.times;
-            if(this.field.enCodeing){
-                times[0]=this.field.enCodeing($event.target.value);
+            if(this.field.fgshff){
+                times[0]=this.field.fgshff($event.target.value,this,$event);
             }else{
                 times[0] = $event.target.value;
             }
@@ -266,8 +279,8 @@ Vue.component('my-timeaera', {
         },
 	    setvalEnd : function($event) {
             var times = this.times;
-            if(this.field.enCodeing){
-                times[1]=this.field.enCodeing($event.target.value);
+            if(this.field.fgshff){
+                times[1]=this.field.fgshff($event.target.value,this,$event);
             }else{
                 times[1] = $event.target.value;
             }
@@ -284,31 +297,33 @@ Vue.component('my-timeaera', {
   });
 </script>
 <script type="text/x-tp" id="my-input-tp">
-<div class="row form-group" :class="'col-xs-'+(field.col||'4')" 
+<div class="row form-group" :class="'col-xs-'+(isCzd(field)?12:4)" 
 		:index="index" :value="value" :style="(fieldshow)?'':'display: none;'">
-	<label class="control-label" :class="'col-xs-'+(field.labelCol||'6')">
+	<label class="control-label" :class="'col-xs-'+(isCzd(field)?'2':'6')">
 	    <my-label :field="field" :index="index" :data="data"></my-label>
 	</label>
-	<div :class="'col-xs-'+(field.inputCol||'6')" v-if="(field.inputType||'input')=='input'">
-	    <my-inputn :field="field" :index="index" :value="value" :edit="edit"
+	<div :class="'col-xs-'+(isCzd(field)?'10':'6')">
+	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
   			@setval="setval" class="form-control"></my-inputn>
-	</div>
-	<div :class="'col-xs-'+(field.inputCol||'6')" v-else-if="field.inputType=='textarea'">
-	    <my-textaera :field="field" :index="index" :value="value" :edit="edit"
-			@setval="setval" class="form-control"></my-textaera>
-	</div>
-	<div :class="'col-xs-'+(field.inputCol||'6')" v-else-if="field.inputType=='timearea'">
-	    <my-timeaera :field="field" :index="index" :value="value" :edit="edit"
+	    <my-inputn v-else-if="field.kjlx=='time'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+  			@setval="setval" class="form-control"></my-inputn>
+	    <my-timeaera v-else-if="field.kjlx=='timearea'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
 			@setval="setval"></my-timeaera>
-	</div>
-	<div :class="'col-xs-'+(field.inputCol||'6')" v-else>
-	    没有控件{{field.inputType}}
+	    <my-textaera v-else-if="field.kjlx=='textarea'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			@setval="setval" class="form-control"></my-textaera>
+		<div v-else>
+	    	没有控件[{{field.kjlx}}]
+		</div>
 	</div>
 </div>
 </script>
 <script type="text/javascript">
 Vue.component('my-input', {
-    props : [ 'field', 'index', 'value', 'data','edit','fieldshow' ],
+    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow' ],
     data : function() {
         return {}
     },
@@ -316,11 +331,18 @@ Vue.component('my-input', {
     methods : {
         setval : function(field,event) {
             this.$emit('setval', field, event);
+        },
+        isCzd:function(field){
+            //判断长字段
+            if(field.zdkd=="auto"){
+                return true;
+            }
+            return ((field.zdkd||'200')>200);
         }
     },
     created : function() {
         console.log('初始化字段: ' + this.index + ":" 
-                + this.field.name + "=" + this.value);
+                + this.field.zddm + "=" + this.value);
     }
 });
 </script>
@@ -329,11 +351,11 @@ Vue.component('my-input', {
 	<div class="panel panel-info form-horizontal" role="form">
 		<div class="panel-body">
 			<div class="row gutter-1">
-				<my-input v-for=" (field,key,index) in data.fields" :key="field.name"
+				<my-input v-for=" (field,key,index) in data.fields" :key="field.zddm"
 					:field="field" :index="index" :data="data"
-					:edit="pagemodel!='details'"
-					:fieldshow="((pagemodel=='edit'&&!(field.editShow==false))||(pagemodel=='search'&&!(field.searchShow==false))||(pagemodel=='details'&&!(field.detailsShow==false)))"
-					:value="fromdata[field.name]?fromdata[field.name]:field.value"
+					:pagemodel="pagemodel"
+					:fieldshow="fieldshow(field)"
+					:value="fval(field)"
 					@setval="setval"></my-input>
 			</div>
 			<slot></slot>
@@ -352,25 +374,44 @@ Vue.component('my-from', {
         console.log('字段数量: ' + Object.keys(this.data.fields).length);
     },
     computed : {
+        
     },
     methods : {
         setval : function(field,event) {
             this.$emit('setval', field, event);
-        }
+        },
+	    fieldshow:function (field){
+	        var pagemodel = this.pagemodel;
+	        return ((pagemodel=='add'&&!(field.xzzs=='0'))
+	                ||(pagemodel=='edit'&&!(field.bjzs=='0'))
+	                ||(pagemodel=='search'&&!(field.cxzs=='0'))
+	                ||(pagemodel=='details'&&!(field.xqzs=='0')));
+	    },
+	    fval:function(field){
+	        var pagemodel = this.pagemodel;
+	        var fromdata = this.fromdata;
+	        if(fromdata[field.zddm]){
+	            return fromdata[field.zddm];
+	        }else if(pagemodel=='search'){
+	            return field.cxmrz;
+	        }else{
+	            return field.xzmrz;
+	        }
+	    }
     }
 });
 </script>
 
 <script type="text/x-tp" id="my-th-tp"> 
-<th :style="(field.width?'width: '+field.width+'px;':'')+(field.listShow==false?'display: none;':'')" 
-	:class="field.order?'filed-order':''" 
+<th :style="(field.zdkd?'width: '+field.zdkd+'px;':'')+(field.lbzs=='0'?'display: none;':'')" 
+	:class="(field.yxpx=='1')?'filed-order':''" 
 	class="ellipsis"
-	:data-filed="field.name" 
-	:title="field.label"
+	:data-filed="field.zddm" 
+	:title="field.zdmc"
 	data-order=""
 	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
-	><span class="required" v-if="field.required"
-	>*</span>{{field.label}}<i v-if="field.order" class="" title="点击可以设置排序方式"></i></th> 
+	><span class="required" v-if="field.bjbt=='1'"
+	>*</span>{{field.zdmc}}<i v-if="(field.yxpx=='1')" class="" title="点击可以设置排序方式"></i></th> 
 </script>
 <script type="text/javascript">
 Vue.component('my-th', {
@@ -385,9 +426,9 @@ Vue.component('my-th', {
   });
 </script>
 <script type="text/x-tp" id="my-td-tp"> 
-<td :style="(field.listShow==false)?'display: none;':''" :class="edit?'':'ellipsis'">
-	<my-inputn :field="field" :index="index" :ri="ri" :owner="owner" :edit="edit"
-		:value="row[field.name]||field.value" @setval="setval" 
+<td :style="(field.lbzs=='0')?'display: none;':''" :class="edit?'':'ellipsis'">
+	<my-inputn :field="field" :index="index" :ri="ri" :owner="owner" :pagemodel="edit?'edit':'details'"
+		:value="row[field.zddm]||field.value" @setval="setval" 
 		 :class="edit?'form-control':''"></my-inputn>
 </td>
 </script>
@@ -404,19 +445,26 @@ Vue.component('my-td', {
     methods : {
         setval : function(field,event) {
             this.$emit('setval', field, event);
-        }
+        },
+	    fval:function(field){
+	        if(row[field.zddm]){
+	            return row[field.zddm];
+	        }else{
+	            return field.xzmrz;
+	        }
+	    }
 	}
   });
 </script>
 <script type="text/x-tp" id="my-list-tp"> 
-<th :style="field.width?'width: '+field.width+'px;':''" 
-	:class="field.order?'filed-order':''" 
+<th :style="field.zdkd?'width: '+field.zdkd+'px;':''" 
+	:class="(field.yxpx=='1')?'filed-order':''" 
 	class="ellipsis"
-	:data-filed="field.name" 
-	:title="field.label"
+	:data-filed="field.zddm" 
+	:title="field.zdmc"
 	data-order=""
 	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
-	>{{field.label}}<i v-if="field.order" class="" title="点击可以设置排序方式"></i></th> 
+	>{{field.zdmc}}<i v-if="(field.yxpx=='1')" class="" title="点击可以设置排序方式"></i></th> 
 </script>
 <script type="text/javascript">
 Vue.component('my-list', {
@@ -430,7 +478,32 @@ Vue.component('my-list', {
         }
   });
 </script>
-
+<script type="text/javascript">
+//vue常用方法
+/**
+ * 时间格式化
+ */
+function vueTimeGsh(value,_this){
+    if(_this.pagemodel=='search'){
+        return time14Totime10(value);
+    }
+    var val = time14Totime19(value);
+    if(_this.pagemodel=='details'){
+        return "<span style='color:red;'>"+val+"<span>";
+    }else{
+        return val;
+    }
+}
+/**
+ * 时间反格式化
+ */
+function vueTimeFgsh(value,_this,event){
+    if(_this.pagemodel=='search'){
+        return time10Totime8(value);
+    }
+    return time18Totime14(value);
+}
+</script>
 <!-- 分页 -->
 <script type="text/x-tp" id="page-tp">
 <div class="col-xs-12">
