@@ -18,8 +18,55 @@ Vue.component('my-label', {
         }
   });
 </script>
+<script type="text/x-tp" id="my-textaera-tp">
+	<textarea v-if="edit" 
+		:name="(owner||'')+field.zddm" 
+		:id="(owner||'')+field.zddm" 
+		:value="nval" 
+		@blur="setval"
+		:index="index"
+		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:placeholder="field.zdts"
+		:disabled="field.disabled"
+		:class="field.classStr" 
+		:onfocus="field.onfocus"
+		:style="(field.style||'')"
+		></textarea>
+	<pre v-else class="form-control" :style="(field.style||'')" :title="value" v-html="nval"></pre>
+</script>
+<script type="text/javascript">
+Vue.component('my-textaera', {
+    props: ['field','index','value','owner','pagemodel','edit'],
+    data: function () {
+      return {
+      }
+    },
+    template: '#my-textaera-tp',
+    computed : {
+        nval:function (){
+            var val=this.value;
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }
+           return val;
+        }
+    },
+    methods : {
+        setval : function($event) {
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                $event.val=sf($event.target.value);
+            }else{
+                $event.val = $event.target.value;
+            }
+            this.$emit('setval', this.field, $event);
+        }
+ 	}
+  });
+</script>
 <script type="text/x-tp" id="my-inputn-tp">
-	<input v-if="isEdit" 
+	<input v-if="edit" 
 		:name="(owner||'')+field.zddm"
 		:value="nval"
   		@blur="setval"
@@ -28,14 +75,14 @@ Vue.component('my-label', {
 		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
-		:class="field.classStr" 
+		:class="field.classStr"
 		:onfocus="field.onfocus"
 		 />
 	<span v-else :class="field.classStr" :title="nvalTitle" v-html="nval"></span>
 </script>
 <script type="text/javascript">
 Vue.component('my-inputn', {
-    props: ['field','index','value','owner','pagemodel'],
+    props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
       }
@@ -44,8 +91,9 @@ Vue.component('my-inputn', {
     methods : {
         setval : function($event) {
             if(!this.field.kjlx=='dict'){
-                if(this.field.fgshff){
-                    $event.val=this.field.fgshff($event.target.value);
+                var sf = strFunToFun(this.field.fgshff);
+                if(sf){
+                    $event.val=sf($event.target.value);
                 }else{
                     $event.val = $event.target.value;
                 }
@@ -54,24 +102,20 @@ Vue.component('my-inputn', {
         }
 	},
     computed : {
-        isEdit:function(){
-            var pagemodel = this.pagemodel;
-            return (pagemodel=='edit'&&!(this.field.yxbj=='0'))
-            	||pagemodel=='add'||pagemodel=='search';
-        },
         nval:function (){
             var val=this.value;
-            if(!this.isEdit&&this.field.kjlx=='dict'){
+            if(!this.edit&&this.field.kjlx=='dict'){
                 val = zdMcByDm(this.field.zdzdlb,this.value);
             }
-            if(this.field.gshff){
-                val=this.field.gshff(val,this);
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
             }
            return val;
         },
         nvalTitle:function (){
             var val=this.value;
-            if(!this.isEdit&&this.field.kjlx=='dict'){
+            if(!this.edit&&this.field.kjlx=='dict'){
                 val = zdMcByDm(this.field.zdzdlb,this.value)+"["+this.value+"]";
             }
            return val;
@@ -81,7 +125,7 @@ Vue.component('my-inputn', {
         var _this =  this;
         _this.target = this.$el;
         var field = this.field;
-        if(this.field.kjlx=='dict'&&this.isEdit){
+        if(this.field.kjlx=='dict'&&this.edit){
             var zdObj = $(this.$el);
             var zdlb = field.zdzdlb;
             var otherParam = field.otherParam||'';
@@ -139,7 +183,7 @@ Vue.component('my-inputn', {
             }
         }
         //默认值不为空且非详情页面
-        if(_this.value&&this.pagemodel!='details'){
+        if(_this.value&&this.pagemodel!='details'&&this.pagemodel!='cklist'){
             _this.val=_this.value;
             _this.$emit('setval', field,_this);
         }
@@ -151,54 +195,97 @@ Vue.component('my-inputn', {
       }
   });
 </script>
-<script type="text/x-tp" id="my-textaera-tp">
-	<textarea v-if="pagemodel!='details'" 
-		:name="(owner||'')+field.zddm" 
-		:id="(owner||'')+field.zddm" 
-		:value="nval" 
-		@blur="setval"
+<script type="text/x-tp" id="my-time-tp">
+	<input v-if="edit" 
+		:name="(owner||'')+field.zddm"
+		:value="nval"
+  		@blur="setval"
 		:index="index"
+		:type="field.type||'text'"
 		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
-		:placeholder="field.zdts"
+		:placeholder="field.zdts" 
 		:disabled="field.disabled"
-		:class="field.classStr" 
-		:onfocus="field.onfocus"
-		:style="(field.style||'')"
-		></textarea>
-	<pre v-else class="form-control" :style="(field.style||'')" :title="value" v-html="nval"></pre>
+		:class="'Wdate '+(field.classStr||'')" 
+		:onfocus="onfocus"
+		 />
+	<span v-else :class="field.classStr" :title="nvalTitle" v-html="nval"></span>
 </script>
 <script type="text/javascript">
-Vue.component('my-textaera', {
-    props: ['field','index','value','owner','pagemodel'],
+Vue.component('my-time', {
+    props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
       }
     },
-    template: '#my-textaera-tp',
-    computed : {
-        nval:function (){
-            var val=this.value;
-            if(this.field.gshff){
-                val=this.field.gshff(val,this);
-            }
-           return val;
-        }
-    },
+    template: '#my-time-tp',
     methods : {
         setval : function($event) {
-            if(this.field.fgshff){
-                $event.val=this.field.fgshff($event.target.value);
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                $event.val=sf($event.target.value,this);
             }else{
                 $event.val = $event.target.value;
             }
             this.$emit('setval', this.field, $event);
         }
- 	}
+	},
+    computed : {
+        nval:function (){
+            var val=this.value;
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }
+            return val;
+        },
+        nvalTitle:function (){
+            var val=this.value;
+            return val;
+        },
+        onfocus:function (){
+            return "WdatePicker("+JSON.stringify(this.dateFmt)+")";
+        },
+        dateFmt:function (){
+            var hdgs = "yyyyMMddHHmmss";
+            var hdyzgz = this.field.hdyzgz;
+            if(hdyzgz){
+                var gzstrs = hdyzgz.replace("；",';').split(";");
+                for(idx in gzstrs){
+                    var gzs = gzstrs[idx].split(":");
+                    if(gzs[0]=='date'){
+                        if(gzs[1]){
+                            hdgs = gzs[1];
+                        }
+                        break;
+                    }
+                }
+            }
+            var dateFmt = 'yyyy-MM-dd';
+            var maxDate = '%y-%M-%d';
+            if(this.pagemodel!='search'){
+                dateFmt = "yyyy-MM-dd HH:mm:ss";
+                maxDate = "%y-%M-%d %H:%m:%s";
+            }
+            return {dateFmt:dateFmt,readOnly:true,maxDate:maxDate,hdgs:hdgs};
+        }
+    },
+    mounted: function () {
+        var _this =  this;
+        _this.target = this.$el;
+        var field = this.field;
+        //默认值不为空且非详情页面
+        if(_this.value&&this.pagemodel!='details'&&this.pagemodel!='cklist'){
+            _this.val=_this.value;
+            _this.$emit('setval', field,_this);
+        }
+      },
+    updated: function () {
+      }
   });
 </script>
 <!-- 时间范围 -->
 <script type="text/x-tp" id="my-timeaera-tp">
-<div v-if="pagemodel='search'">
+<div v-if="pagemodel=='search'">
 	<input :name="'map[\''+(owner||'')+field.zddm+'_start\']'" :id="(owner||'')+field.zddm+'Start'" 
 		:value="nvalStart"
 		@blur="setvalStart"
@@ -223,11 +310,11 @@ Vue.component('my-textaera', {
 		@focus="wpEnd"
 		></input>
 </div>
-<span class="form-control" v-html="nval" v-else></span>
+<span class="form-control" v-html="nvalStart+'~'+nvalEnd" v-else></span>
 </script>
 <script type="text/javascript">
 Vue.component('my-timeaera', {
-    props: ['field','index','value','owner','pagemodel'],
+    props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
           startData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
@@ -238,39 +325,42 @@ Vue.component('my-timeaera', {
     template: '#my-timeaera-tp',
     computed : {
         nvalStart:function (){
-            var times = this.times;
-            if(!this.times[0]){
+            var times = this.times.split(";");
+            if(!times[0]){
                 return "";
             }
-            var val=this.times[0];
+            var val=times[0];
             if(val.indexOf('goDay:')==0){
                 val = new Date().addDays(val.substring(6)).format('yyyyMMddmmhhss');
             }
-            if(this.field.gshff){
-                val=this.field.gshff(val,this);
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
             }
            return val;
         },
         nvalEnd:function (){
-            var times = this.times;
-            if(!this.times[1]){
+            var times = this.times.split(";");
+            if(!times[1]){
                 return "";
             }
-            var val=this.times[1];
+            var val=times[1];
             if(val.indexOf('goDay:')==0){
                 val = new Date().addDays(val.substring(6)).format('yyyyMMddmmhhss');
             }
-            if(this.field.gshff){
-                val=this.field.gshff(val,this);
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
             }
            return val;
         }
     },
     methods : {
         setvalStart : function($event) {
-            var times = this.times;
-            if(this.field.fgshff){
-                times[0]=this.field.fgshff($event.target.value,this,$event);
+            var times = this.times.split(";");
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                times[0]=sf($event.target.value,this,$event);
             }else{
                 times[0] = $event.target.value;
             }
@@ -278,9 +368,10 @@ Vue.component('my-timeaera', {
             this.$emit('setval', this.field, $event);
         },
 	    setvalEnd : function($event) {
-            var times = this.times;
-            if(this.field.fgshff){
-                times[1]=this.field.fgshff($event.target.value,this,$event);
+            var times = this.times.split(";");
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                times[1]=sf($event.target.value,this,$event);
             }else{
                 times[1] = $event.target.value;
             }
@@ -296,29 +387,76 @@ Vue.component('my-timeaera', {
  	}
   });
 </script>
+<script type="text/x-tp" id="my-srkj-tp">
+	<div>
+	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+  			:edit="isEdit" @setval="setval" :class="srkjClass"></my-inputn>
+	    <my-time v-else-if="field.kjlx=='time'&&pagemodel!='search'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+  			:edit="isEdit" @setval="setval" :class="srkjClass"></my-time>
+	    <my-timeaera v-else-if="field.kjlx=='timearea'||(field.kjlx=='time'&&pagemodel=='search')" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:edit="isEdit" @setval="setval"></my-timeaera>
+	    <my-textaera v-else-if="field.kjlx=='textarea'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
+		<div v-else>
+	    	没有控件[{{field.kjlx}}]
+		</div>
+	</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-srkj', {
+    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow' ],
+    data : function() {
+        return {}
+    },
+    computed : {
+        isEdit:function(){
+            var pagemodel = this.pagemodel;
+            return ((pagemodel=='bjlist'||pagemodel=='edit')&&!(this.field.yxbj=='0'))
+            	||pagemodel=='add'||pagemodel=='search';
+        },
+        srkjClass:function(){
+            //返回输入控件的class
+            //如果是查询列表或（编辑列表且该字段不允许编辑）
+            if(this.pagemodel=='cklist'||(this.pagemodel=='bjlist'&&(this.field.yxbj=='0'))){
+                return "";
+            }else{
+                return "form-control";
+            }
+        }
+    },
+    template : '#my-srkj-tp',
+    methods : {
+        setval : function(field,event) {
+            this.$emit('setval', field, event);
+        },
+        isCzd:function(field){
+            //判断长字段
+            if(field.zdkd=="auto"){
+                return true;
+            }
+            return ((field.zdkd||'200')>200);
+        }
+    },
+    created : function() {
+//         console.log('初始化字段: ' + this.index + ":" 
+//                 + this.field.zddm + "=" + this.value);
+    }
+});
+</script>
 <script type="text/x-tp" id="my-input-tp">
 <div class="row form-group" :class="'col-xs-'+(isCzd(field)?12:4)" 
 		:index="index" :value="value" :style="(fieldshow)?'':'display: none;'">
 	<label class="control-label" :class="'col-xs-'+(isCzd(field)?'2':'6')">
 	    <my-label :field="field" :index="index" :data="data"></my-label>
 	</label>
-	<div :class="'col-xs-'+(isCzd(field)?'10':'6')">
-	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
-  			@setval="setval" class="form-control"></my-inputn>
-	    <my-inputn v-else-if="field.kjlx=='time'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
-  			@setval="setval" class="form-control"></my-inputn>
-	    <my-timeaera v-else-if="field.kjlx=='timearea'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
-			@setval="setval"></my-timeaera>
-	    <my-textaera v-else-if="field.kjlx=='textarea'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
-			@setval="setval" class="form-control"></my-textaera>
-		<div v-else>
-	    	没有控件[{{field.kjlx}}]
-		</div>
-	</div>
+	<my-srkj :class="'col-xs-'+(isCzd(field)?'10':'6')"
+		:field="field" :index="index" :value="value"
+		:data="data" :pagemodel="pagemodel">
+	</my-srkj>
 </div>
 </script>
 <script type="text/javascript">
@@ -388,13 +526,17 @@ Vue.component('my-from', {
 	                ||(pagemodel=='details'&&!(field.xqzs=='0')));
 	    },
 	    fval:function(field){
+	        //获取字段值
 	        var pagemodel = this.pagemodel;
 	        var fromdata = this.fromdata;
 	        if(fromdata[field.zddm]){
+	            //存在传入的值
 	            return fromdata[field.zddm];
 	        }else if(pagemodel=='search'){
+	            //查询模式，显示查询默认值
 	            return field.cxmrz;
 	        }else{
+	            //其他模式，显示新增默认值
 	            return field.xzmrz;
 	        }
 	    }
@@ -426,15 +568,14 @@ Vue.component('my-th', {
   });
 </script>
 <script type="text/x-tp" id="my-td-tp"> 
-<td :style="(field.lbzs=='0')?'display: none;':''" :class="edit?'':'ellipsis'">
-	<my-inputn :field="field" :index="index" :ri="ri" :owner="owner" :pagemodel="edit?'edit':'details'"
-		:value="row[field.zddm]||field.value" @setval="setval" 
-		 :class="edit?'form-control':''"></my-inputn>
+<td :style="(field.lbzs=='0')?'display: none;':''" :class="pagemodel=='bjlist'?'':'ellipsis'">
+	<my-srkj :field="field" :index="index" :ri="ri" :owner="owner" :pagemodel="pagemodel"
+		:value="row[field.zddm]||field.value" @setval="setval"></my-srkj>
 </td>
 </script>
 <script type="text/javascript">
 Vue.component('my-td', {
-    props: ['field','ri','index','owner','row','edit'],
+    props: ['field','ri','index','owner','row','pagemodel'],
     data: function () {
       return {
       }
@@ -485,23 +626,25 @@ Vue.component('my-list', {
  */
 function vueTimeGsh(value,_this){
     if(_this.pagemodel=='search'){
+        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
         return time14Totime10(value);
     }
     var val = time14Totime19(value);
-    if(_this.pagemodel=='details'){
+    if(_this.pagemodel=='details'||_this.pagemodel=='cklist'){
         return "<span style='color:red;'>"+val+"<span>";
     }else{
         return val;
     }
 }
 /**
- * 时间反格式化
+ * 时间反格式化：默认处理所有时间在数据库中存储的都是14位字符串
  */
 function vueTimeFgsh(value,_this,event){
     if(_this.pagemodel=='search'){
+        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
         return time10Totime8(value);
     }
-    return time18Totime14(value);
+    return time19Totime14(value);
 }
 </script>
 <!-- 分页 -->

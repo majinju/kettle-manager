@@ -786,3 +786,23 @@ function preParam(_params){
 	}
     return _params;
 };
+/**
+ * 字符串的方法名转为方法
+ * @param strFun
+ * @returns 方法不存在：false，存在：方法本身
+ */
+function strFunToFun(strFun){
+    if(strFun){
+        try{
+            var f = eval(strFun);
+            if(typeof(f)!='function'){
+                alert(strFun+"不是一个方法");
+            }else{
+                return f;
+            }
+        }catch (e) {
+            alert(strFun+"不是一个方法:"+e.message);
+        }
+    }
+    return false;
+}
