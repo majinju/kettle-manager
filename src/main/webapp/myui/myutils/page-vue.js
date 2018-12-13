@@ -190,7 +190,7 @@ function PageAjax(){
             params.pageSize = self.pageSize;
             params.autoCount = self.autoCount;
         }
-        
+        self.listFrom.rows=[];
     	$.ajax({
     		url:url,
     		type:"post",
@@ -207,7 +207,7 @@ function PageAjax(){
     			if(!result.list){
     				result.list = [];
     			}
-    			listFrom.rows=self.rows = result.list;
+    			self.listFrom.rows=self.rows = result.list;
     		    self.setTotal(result.recordCount);
     		    self.pagination();
                 $(self.pageId+" .pageSize").val(self.pageSize);

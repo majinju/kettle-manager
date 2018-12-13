@@ -137,7 +137,7 @@ function ajaxBatchUpdate(selectedIds, linkClicked) {
     $.ajax({
         type: "POST",
         url: linkClicked.attr("href"),
-        data: { ids: selectedIds,'map["ids"]': selectedIds},
+        data: { ids: selectedIds,'map["ids"]': selectedIds,params:selectedIds},
         dataType: "json",
         success: function (data) {
             if (data.status) {

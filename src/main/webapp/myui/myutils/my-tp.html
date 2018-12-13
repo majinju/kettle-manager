@@ -1,6 +1,6 @@
 <script type="text/x-tp" id="my-label-tp">
 <span>
-    <span class="required" v-if="field.bjbt=='1'">*</span>
+    <span class="required" v-if="field.btzt">*</span>
     {{(data.index?(index+1)+"-":"")+field.zdmc}}：
 </span>
 </script>
@@ -25,7 +25,7 @@ Vue.component('my-label', {
 		:value="nval" 
 		@blur="setval"
 		:index="index"
-		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="field.classStr" 
@@ -72,7 +72,7 @@ Vue.component('my-textaera', {
   		@blur="setval"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:class="field.classStr"
@@ -131,7 +131,7 @@ Vue.component('my-inputn', {
             var otherParam = field.otherParam||'';
             var data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map['zdlb']="
                     +zdlb+"&map['otherParam']="+otherParam;
-            if(!field.ajax&&zdlb!="SYS_COMMON_ORG"){
+            if(!(this.field.zdfy=='1')&&zdlb!="SYS_COMMON_ORG"){
             	data = zdList(zdlb);
             }
             zdObj.selectPage({
@@ -149,7 +149,6 @@ Vue.component('my-inputn', {
                     _this.val=data.dm;
                     _this.mc=data.mc;
                     _this.$emit('setval', field,_this);
-                    field.value="";
                     if(field.eSelect){
                     	field.eSelect(data,_this,field);
                     }
@@ -159,7 +158,6 @@ Vue.component('my-inputn', {
                     _this.val="";
                     _this.mc="";
                     _this.$emit('setval', field,_this);
-                    field.value="";
                     if(field.eClear){
                     	field.eClear(_this,field);
                     }
@@ -176,7 +174,6 @@ Vue.component('my-inputn', {
                 var data = {dm:this.value,mc:zdMcByDm(zdlb,this.value)};
                 _this.val=data.dm;
                 _this.mc=data.mc;
-                field.value="";
                 if(field.eSelect){
                 	field.eSelect(data,_this,field);
                 }
@@ -190,7 +187,6 @@ Vue.component('my-inputn', {
       }
   });
 </script>
-
 <script type="text/x-tp" id="my-time-tp">
 	<input v-if="edit" 
 		:name="(owner||'')+field.zddm"
@@ -198,7 +194,7 @@ Vue.component('my-inputn', {
   		@blur="setval"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:class="'Wdate '+(field.classStr||'')" 
@@ -275,7 +271,7 @@ Vue.component('my-time', {
 		@blur="setvalStart"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="'Wdate time_scope '+(field.classStr||'')" 
@@ -287,7 +283,7 @@ Vue.component('my-time', {
 		@blur="setvalEnd"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.bjbt=='1'?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="'Wdate time_scope '+(field.classStr||'')" 
@@ -435,6 +431,7 @@ Vue.component('my-srkj', {
         //默认值不为空且非详情页面
         if(_this.value&&this.pagemodel!='details'&&this.pagemodel!='cklist'){
             _this.val=_this.value;
+            _this.target = _this;
             _this.$emit('setval', field,_this);
         }
     }
@@ -444,10 +441,11 @@ Vue.component('my-srkj', {
 <div class="row form-group" :class="'col-xs-'+(isCzd(field)?12:4)" 
 		:index="index" :value="value" :style="(fieldshow)?'':'display: none;'">
 	<label class="control-label" :class="'col-xs-'+(isCzd(field)?'2':'6')">
-	    <my-label :field="field" :index="index" :data="data"></my-label>
+	    <my-label :field="fieldBt" :index="index" :data="data"></my-label>
 	</label>
 	<my-srkj :class="'col-xs-'+(isCzd(field)?'10':'6')"
 		:field="field" :index="index" :value="value"
+		@setval="setval"
 		:data="data" :pagemodel="pagemodel">
 	</my-srkj>
 </div>
@@ -459,6 +457,15 @@ Vue.component('my-input', {
         return {}
     },
     template : '#my-input-tp',
+    computed : {
+        fieldBt:function(){
+            //判断是否必填
+            var pagemodel = this.pagemodel;
+            this.field.btzt = ((pagemodel=='bjlist'||pagemodel=='edit'||pagemodel=='add')&&(this.field.bjbt=='1'))
+            	||(pagemodel=='search'&&this.field.cxbt=='1');
+            return this.field;
+        }
+    },
     methods : {
         setval : function(field,event) {
             this.$emit('setval', field, event);
@@ -545,7 +552,7 @@ Vue.component('my-from', {
 	:title="field.zdmc"
 	data-order=""
 	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
-	><span class="required" v-if="field.bjbt=='1'"
+	><span class="required" v-if="field.btzt"
 	>*</span>{{field.zdmc}}<i v-if="(field.yxpx=='1')" class="" title="点击可以设置排序方式"></i></th> 
 </script>
 <script type="text/javascript">
@@ -555,6 +562,8 @@ Vue.component('my-th', {
       return {
       }
     },
+    computed : {
+    },
     template:"#my-th-tp",
     watch: {
         }
@@ -563,7 +572,7 @@ Vue.component('my-th', {
 <script type="text/x-tp" id="my-td-tp"> 
 <td :style="(field.lbzs=='0')?'display: none;':''" :class="pagemodel=='bjlist'?'':'ellipsis'">
 	<my-srkj :field="field" :index="index" :ri="ri" :owner="owner" :pagemodel="pagemodel"
-		:value="row[field.zddm]||field.value" @setval="setval"></my-srkj>
+		:value="fval(field)" @setval="setval"></my-srkj>
 </td>
 </script>
 <script type="text/javascript">
@@ -582,8 +591,8 @@ Vue.component('my-td', {
             this.$emit('setval', field, event);
         },
 	    fval:function(field){
-	        if(row[field.zddm]){
-	            return row[field.zddm];
+	        if(this.row[field.zddm]){
+	            return this.row[field.zddm];
 	        }else{
 	            return field.xzmrz;
 	        }
