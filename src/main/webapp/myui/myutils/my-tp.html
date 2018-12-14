@@ -661,6 +661,215 @@ Vue.component('my-expeb', {
     }
   });
 </script>
+<script type="text/x-tp" id="my-list-tp"> 
+<div class="wrap" v-cloak>
+<my-heading :title="sjdx.dxmc">
+</my-heading>
+<my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
+	:data="tdata" @setval="setval" onsubmit="return false;">
+  <div class="row btn-right">
+      <button class="btn btn-primary btn-sm" @click="listPage.queryPage()">
+          <i class="icon ion-ios-search-strong"></i> {{cxanmc}}
+      </button>
+  </div>
+</my-from>
+<div class="panel panel-default">
+	<my-listheading title="数据列表" :pcl="dcpcl">
+		<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
+        <button class="btn btn-primary btn-sm" :href="'sjdx/dxEdit.do?id='+sjdx.id+'&pageModel=add&params='+addUrl"
+			a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>新建</button>
+        <button class="btn btn-primary btn-sm" a-oper="batch"
+			:href="'sjdx/dxBatchDelete.do?id='+sjdx.id">批量删除</button>
+		<slot></slot>
+	</my-listheading>
+	<div class="panel-body exportDiv" style="overflow: auto;">
+	    <table class="table table-striped table-bordered table-hover">
+	        <thead>
+	            <tr class="listHard">
+	                <th style="width: 30px;" v-if="lbfxk!='0'">
+	                    <span class="checkbox">
+	                        <input type="checkbox" class="checkbox-input"
+											name="selectAllIds">
+	                        <span class="checkbox-inner"></span>
+	                    </span>
+	                </th>
+	                <th style="width: 50px;">序号</th>
+	                <th is="my-th" v-for="(field,key,index) in lbfields" :field="fieldBt(field)"></th>
+                    <th style="width: 150px;" v-if="mrcz!='0'">操作</th>
+	            </tr>
+	        </thead>
+	        <tbody class="listContent">
+		        <tr v-for="(row,ri) in rows" 
+		        	:class="'listrow '">
+					<th v-if="lbfxk!='0'">
+					    <span class="checkbox">
+					        <input type="checkbox" class="checkbox-input" :value="row[sjdx.zjzd]" name="chks">
+					        <span class="checkbox-inner"></span>
+					    </span>
+					</th>
+					<td>{{listPage.getHangHao(ri)}}</td>
+	                <td is="my-td"  v-for="(field,key,index) in lbfields"
+	                	:key="'led'+ri+field.zddm" 
+	                	:id="'led'+ri+field.zddm" 
+	                	:field="field" :ri="ri" :index="index"
+	                	:row="row" :pagemodel="lbkbj=='1'?'bjlist':'cklist'"
+	                	:owner="'led.'+ri+'.'" 
+	                	:class="((lbkbj=='1'&&listEditData[ri][field.zddm]!=null)?'edited':'')"
+		                @setval="setvalList"
+	                ></td>
+					<td v-if="mrcz!='0'">
+                        <a :href="'sjdx/dxEdit.do?pageModel=edit&id='+sjdx.id+'&params='+editUrl(row[sjdx.zjzd])" a-oper="update" title="编辑">编辑</a>
+                        <span class="divider"></span>
+						<a :href="'sjdx/dxDelete.do?id='+sjdx.id+'&params='+row[sjdx.zjzd]" a-oper="del">删除</a>
+						<span class="divider"></span>
+                        <a :href="'sjdx/dxEdit.do?pageModel=details&id='+sjdx.id+'&params='+editUrl(row[sjdx.zjzd])" a-oper="other" title="详情">详情</a>
+                    </td>
+				</tr>
+				<tr v-if="rows==0"><td :colspan="lbls">没有查询结果</td></tr>
+	        </tbody>
+	    </table>                   
+	</div>
+	<!--分页渲染后放到这个元素中 -->
+	<div class="row pagination width_100">
+	</div> 
+ </div>
+</div>
+</script>
+<script type="text/javascript">
+//导出excel按钮控件
+Vue.component('my-list', {
+    props: ['sjdx','fromdata','fields'],
+    template:"#my-list-tp",
+    data: function () {
+        return {
+            upurl:serviceAddr+"common/file/uploadFile.do",
+            downurl:serviceAddr+"common/file/downloadFile.do",
+            rows:[],
+            listPage:new PageAjax(),
+            listEditData:[]
+//             ,fields:fields,
+//             fromdata:fromdata,
+//             sjdx:sjdx
+        }
+      },
+	      computed : {
+	          action:function (){ return "sjdx/dxData.do?id="+sjdx.id},
+	          dcpcl:function (){ return fromdata.dcpcl||",操作,序号"},
+	          cxanmc:function (){ return fromdata.cxanmc||"查询"},
+	          lbfxk:function (){ return fromdata.lbfxk},
+	          mrcz:function (){ return fromdata.mrcz},
+	          lbkbj:function (){ return fromdata.lbkbj},
+	          lbfields : function (){ return clone(fields)},
+	          tdata:function(){
+	              var data = this.$data;
+	              data.action=this.action;
+	              data.dcpcl=this.dcpcl;
+	              data.cxanmc=this.cxanmc;
+	              data.lbfxk=this.lbfxk;
+	              data.mrcz=this.mrcz;
+	              data.lbkbj=this.lbkbj;
+	              data.fields = fields;
+	              data.lbfields = clone(fields);
+	             return data;
+	          },
+	          lbls:function (){
+	              var num=0;
+	              var sfs = this.fields;
+	              Object.keys(sfs).forEach(function(key){
+	                  if(!(sfs[key].lbzs==false)){
+	                      num++;
+	                  }
+	             });
+	             if(!(this.mrcz=='0')){
+                     num++;
+	             }
+	             if(!(this.lbfxk=='0')){
+                     num++;
+	             }
+	             return num+1;
+	          },
+	          addUrl:function(){
+	              return encodeURI(JSON.stringify({"sjdx":this.sjdx.id}));
+	          }
+	      },
+        methods : {
+	          editUrl:function(zj){
+	              var p = {};
+	              p[this.sjdx.zjzd]=zj;
+	              return encodeURI(JSON.stringify(p));
+	          },
+	        fieldBt:function(field){
+	            //判断是否必填
+	            field.btzt = (this.lbkbj=='1'&&field.bjbt=='1');
+	            return field;
+	        },
+            setval:function(field,event){
+                this.fromdata[field.zddm] = event.val;
+                if(event.target.mc){
+                    this.fromdata['map.'+field.zddm]=event.mc;
+                }
+                console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
+             },
+             setvalList:function(field,event){
+                var r = event.ri;
+                if(this.listPage.rows[r][field.zddm]!=event.val){
+                    Vue.set(this.listEditData[r],field.zddm,event.val);
+                    Vue.set(this.listEditData[r],'map.sysYbjd',"1");
+                    if(event.mc){
+                        this.listEditData[r]['map.'+field.zddm]=event.mc;
+                    }
+                    console.log(r+"-"+field.zdmc+ "=" + this.listEditData[r][field.zddm]);
+                }
+              },
+              saveListData:function(){
+                  var _this = this;
+  	    	   	layer.alert("你确定要提交吗？", {
+  	    	   		icon: 3,
+  	    	   		btn:["确定","取消"],
+  	    	   		yes:function(index,layero){
+  	                  	fromdata.fromData = JSON.stringify(_this.listEditData);
+  			    		$.post("sjdx/saveListData.do",
+  			    		    fromdata,
+  		    		        function(data){
+  				    			if(data.status){
+  				    			    _this.listPage.refreshPage();
+  				    	        	layer.alert(data.msg ? data.msg : "保存成功！", { 
+  				    	           		time: 3000, 
+  				    	    	   		icon:1
+  				    	    		});
+  				    			}else{
+  				    	        	layer.alert(data.msg ? data.msg : "操作失败！", { 
+  				    	    	   		icon:2       	   		
+  				    	    		});
+  				    			}
+  			    			});
+  	    	   		}
+  	    		});
+              }
+        },
+        mounted: function () {
+            var _this = this;
+            this.listPage.setPageId("#"+this.$el.id);
+            this.listPage.paramType = "jsonStr";
+            this.listPage.listFrom = _this;
+            if(typeof(initPage)=='function'){
+                initPage(this.listPage);
+            }
+            this.listPage.callback = function(data){
+                if(_this.lbkbj=='1'){
+                    var rows = data.list;
+                    _this.listEditData = [];
+                    for(var i=0;i<rows.length;i++){
+	      	              var p = {};
+	    	              p[_this.sjdx.zjzd]=rows[i][_this.sjdx.zjzd];
+                        _this.listEditData.push(p);
+                    }
+                }
+            }
+            this.listPage.queryPage();
+        }
+  });
+</script>
 <script type="text/x-tp" id="my-list1-tp"> 
  
 </script>
