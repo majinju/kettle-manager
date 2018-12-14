@@ -666,7 +666,7 @@ Vue.component('my-expeb', {
 <my-heading :title="sjdx.dxmc">
 </my-heading>
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
-	:data="tdata" @setval="setval" onsubmit="return false;">
+	:data="$data" @setval="setval" onsubmit="return false;">
   <div class="row btn-right">
       <button class="btn btn-primary btn-sm" @click="listPage.queryPage()">
           <i class="icon ion-ios-search-strong"></i> {{cxanmc}}
@@ -738,7 +738,7 @@ Vue.component('my-expeb', {
 <script type="text/javascript">
 //导出excel按钮控件
 Vue.component('my-list', {
-    props: ['sjdx','fromdata','fields'],
+    props: ['fromdata'],
     template:"#my-list-tp",
     data: function () {
         return {
@@ -747,31 +747,47 @@ Vue.component('my-list', {
             rows:[],
             listPage:new PageAjax(),
             listEditData:[]
-//             ,fields:fields,
-//             fromdata:fromdata,
-//             sjdx:sjdx
         }
       },
+      created : function(){
+          var data = this.$data;
+   		  $.ajax({url : "sjdx/sjdxData.do",
+	        type : "post",
+            async : false,
+            data : this.fromdata,
+            success:function(result){
+    			if(result.status){
+    			    var rd = result.data;
+    			    data.sjdx = rd.sjdx;
+    			    data.fields = rd.fields;
+    			    data.user = rd.user;
+    			}else{
+    	        	layer.alert(result.msg ? result.msg : "数据处理异常！", { 
+    	    	   		icon:2       	   		
+    	    		});
+    			}
+   			}});
+   		  delete this.fromdata.id;
+          data.action=this.action;
+          data.dcpcl=this.dcpcl;
+          data.cxanmc=this.cxanmc;
+          data.lbfxk=this.lbfxk;
+          data.mrcz=this.mrcz;
+          data.lbkbj=this.lbkbj;
+          data.lbfields = this.lbfields;
+      },
 	      computed : {
-	          action:function (){ return "sjdx/dxData.do?id="+sjdx.id},
 	          dcpcl:function (){ return fromdata.dcpcl||",操作,序号"},
 	          cxanmc:function (){ return fromdata.cxanmc||"查询"},
 	          lbfxk:function (){ return fromdata.lbfxk},
 	          mrcz:function (){ return fromdata.mrcz},
 	          lbkbj:function (){ return fromdata.lbkbj},
-	          lbfields : function (){ return clone(fields)},
-	          tdata:function(){
-	              var data = this.$data;
-	              data.action=this.action;
-	              data.dcpcl=this.dcpcl;
-	              data.cxanmc=this.cxanmc;
-	              data.lbfxk=this.lbfxk;
-	              data.mrcz=this.mrcz;
-	              data.lbkbj=this.lbkbj;
-	              data.fields = fields;
-	              data.lbfields = clone(fields);
-	             return data;
-	          },
+	          fields : function (){ return this._data.fields},
+	          lbfields : function (){ return clone(this._data.fields)},
+	          sjdx : function (){
+					return this._data.sjdx
+				},
+	          action:function (){ return "sjdx/dxData.do?id="+this._data.sjdx.id},
 	          lbls:function (){
 	              var num=0;
 	              var sfs = this.fields;
