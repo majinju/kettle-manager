@@ -182,7 +182,7 @@ function PageAjax(){
 
         var params = clone(self.params);
         if(self.paramType=="jsonStr"){
-            params = {"params":JSON.stringify(params),"pageIndex":self.pageIndex,
+            params = {"myparams":JSON.stringify(params),"pageIndex":self.pageIndex,
                     "pageSize":self.pageSize,"autoCount":self.autoCount};
         }else{
             //设置传到后台的参数

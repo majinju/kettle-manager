@@ -49,7 +49,7 @@ function autoSubmit(formId,opened,_url){
 		formId = "dataform";
 	}
 	var url = $("#"+formId).attr("action");
-    var param = dataform.fromData;
+    var param = dataform.fromdata;
 	$.post(url,param,function(data){
 		//表示暂存成功后，需要跳转。例如点击打印暂存后跳转。
 		if(opened!=""&&opened!=undefined){
@@ -81,8 +81,7 @@ function autoSubmit(formId,opened,_url){
 function formSubmit(formId,opened,_url){
 	
 	var url = $("#"+formId).attr("action");
-    var _params = {fromData:JSON.stringify(dataform.fromData)};
-		 
+    var _params = {myparams:JSON.stringify(dataform.fromdata)};
 	$.post(url,_params,function(data){
 		if(data.status){
 			layer.alert(data.msg ? data.msg : "操作成功！", { 
@@ -96,11 +95,11 @@ function formSubmit(formId,opened,_url){
         	   			var index = parent.layer.getFrameIndex(window.name);
         	   			parent.layer.close(index);
     	   				//判断是否跳转到其它页面
-    	   				if(_url==""||_url==undefined){    	   					 	   				    
+    	   				if(_url==""||_url==undefined){
             	   			parent.listFrom.listPage.queryPage(); //执行页面刷新函数    	          	   			
     	   				}else if(_url=="zglist"){
     	   					parent.zglist();//局部刷新父页面
-    	   				}else{   	   					
+    	   				}else{
     	   					//跳转到其它页面
     	   					window.parent.location.href = _url;  	   					
     	   				}
@@ -343,7 +342,7 @@ $(document).ready(function(){
     //手动保存
      $("[a-oper=submit]").click(function(){
          
-            var formId = $(this).attr("formId");
+            var formId = $(this).attr("formid");
             var opened = $(this).attr("opened");
             var url = $(this).attr("url");
             
