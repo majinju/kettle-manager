@@ -207,7 +207,8 @@ function PageAjax(){
     			if(!result.list){
     				result.list = [];
     			}
-    			self.listFrom.rows=self.rows = result.list;
+    			self.rows = result.list;
+    			self.listFrom.rows=self.rows;
     		    self.setTotal(result.recordCount);
     		    self.pagination();
                 $(self.pageId+" .pageSize").val(self.pageSize);
