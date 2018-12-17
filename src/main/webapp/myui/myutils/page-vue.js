@@ -197,10 +197,11 @@ function PageAjax(){
     		data:params,
             dataType: "json",
     		success:function(result){
-                if(!result.list){
+                if(!result.status){
                     layerTips(result.msg);
                     return;
                 }
+                result = result.data;
     			eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
                 self.callback(result);
     			self.getListHead().find("span.checkbox-checked").click();

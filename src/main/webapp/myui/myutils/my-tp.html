@@ -368,7 +368,7 @@ Vue.component('my-timeaera', {
   });
 </script>
 <script type="text/x-tp" id="my-srkj-tp">
-	<div :title="value">
+	<div :title="value||field.zdts">
 	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
   			:edit="isEdit" @setval="setval" :class="srkjClass"></my-inputn>
@@ -412,13 +412,6 @@ Vue.component('my-srkj', {
     methods : {
         setval : function(field,event) {
             this.$emit('setval', field, event);
-        },
-        isCzd:function(field){
-            //判断长字段
-            if(field.zdkd=="0"){
-                return true;
-            }
-            return ((field.zdkd||'200')>200);
         }
     },
     created : function() {
@@ -438,8 +431,8 @@ Vue.component('my-srkj', {
 });
 </script>
 <script type="text/x-tp" id="my-input-tp">
-<div class="row form-group" :class="'col-xs-'+(isCzd(field)?12:4)" 
-		:index="index" :value="value" :style="(fieldshow)?'':'display: none;'">
+<div v-if="fieldshow" class="row form-group" :class="'col-xs-'+(isCzd(field)?12:4)" 
+		:index="index" :value="value">
 	<label class="control-label" :class="'col-xs-'+(isCzd(field)?'2':'6')">
 	    <my-label :field="fieldBt" :index="index" :data="data"></my-label>
 	</label>
@@ -472,7 +465,7 @@ Vue.component('my-input', {
         },
         isCzd:function(field){
             //判断长字段
-            if(field.zdkd=="0"){
+            if(field.zdkd=="2"){
                 return true;
             }
             return ((field.zdkd||'200')>200);
@@ -545,8 +538,7 @@ Vue.component('my-from', {
 </script>
 
 <script type="text/x-tp" id="my-th-tp"> 
-<th :style="(field.zdkd?'width: '+field.zdkd+'px;':'')+(field.lbzs=='0'?'display: none;':'')" 
-	v-if="!(field.lbzs=='0')"
+<th v-if="!(field.lbzs=='0')" :style="((field.zdkd>10)?'width: '+field.zdkd+'px;':'')" 
 	:class="(field.yxpx=='1')?'filed-order':''" 
 	class="ellipsis"
 	:data-filed="field.zddm" 
@@ -571,8 +563,7 @@ Vue.component('my-th', {
   });
 </script>
 <script type="text/x-tp" id="my-td-tp"> 
-<td :style="(field.lbzs=='0')?'display: none;':''" :class="pagemodel=='bjlist'?'':'ellipsis'"
-	v-if="!(field.lbzs=='0')">
+<td v-if="!(field.lbzs=='0')" :class="pagemodel=='bjlist'?'':'ellipsis'">
 	<my-srkj :field="field" :index="index" :ri="ri" :owner="owner" :pagemodel="pagemodel"
 		:value="fval(field)" @setval="setval"></my-srkj>
 </td>
@@ -678,10 +669,10 @@ Vue.component('my-expeb', {
 <div class="panel panel-default">
 	<my-listheading title="数据列表" :pcl="dcpcl">
 		<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
-        <button class="btn btn-primary btn-sm" :href="'sjdx/dxEdit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
+        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
 			a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
         <button class="btn btn-primary btn-sm" a-oper="batch"
-			:href="'sjdx/dxBatchDelete.do?id='+sjdx.id">批量删除</button>
+			:href="'sjdx/batchDelete.do?id='+sjdx.id">批量删除</button>
 		<slot></slot>
 	</my-listheading>
 	<div class="panel-body exportDiv" style="overflow: auto;">
@@ -747,7 +738,7 @@ Vue.component('my-list', {
           var _this = this;
           this.$root.listPage = this.listPage;
           var data = this.$data;
-   		  $.ajax({url : "sjdx/sjdxData.do",
+   		  $.ajax({url : "sjdx/jcxx.do",
 	        type : "post",
             async : false,
             data : {id:this.sjdxid},
@@ -778,7 +769,7 @@ Vue.component('my-list', {
 					return this._data.sjdx;
 				},
 		      lbfields : function (){ return clone(this._data.fields);},
-	          action:function (){ return "sjdx/dxData.do?id="+this._data.sjdx.id;},
+	          action:function (){ return "sjdx/page.do?id="+this._data.sjdx.id;},
 	          lbls:function (){
 	              var num=0;
 	              var sfs = this.fields;
@@ -827,7 +818,7 @@ Vue.component('my-list', {
   	    	   		btn:["确定","取消"],
   	    	   		yes:function(index,layero){
   	                  	fromdata.myparams = JSON.stringify(_this.listEditData);
-  			    		$.post("sjdx/saveListData.do",
+  			    		$.post("sjdx/saveListData.do?id="+_this._data.sjdx.id,
   			    		    fromdata,
   		    		        function(data){
   				    			if(data.status){
@@ -870,7 +861,7 @@ Vue.component('my-list', {
   });
 </script>
 <script type="text/x-tp" id="my-edit-tp">
-<my-from :data="$data" :fromdata="$data.fromdata" :pagemodel="pagemodel"
+<my-from :data="_data" :fromdata="_data.fromdata" :pagemodel="pagemodel"
 	class="wrap" @setval="setval" v-cloak>
 	<div class="row btn-center">
 	<slot></slot>
@@ -889,10 +880,10 @@ Vue.component('my-edit', {
       }
     },
     created : function(){
-        var data = this.$data;
+        var data = this._data;
         var params = {id:this.sjdxid};
         params.myparams = JSON.stringify(fromdata);
- 		$.ajax({url : "sjdx/sjdxData.do",
+ 		$.ajax({url : "sjdx/jcxx.do",
 	      type : "post",
           async : false,
           data : params,
@@ -903,8 +894,12 @@ Vue.component('my-edit', {
   			    data.fields = rd.fields;
   			    data.user = rd.user;
   			    data.fromdata = rd.obj;
+  			    var zjzd = rd.sjdx.zjzd;
+  			    var zj = rd.obj[rd.sjdx.zjzd];
+  			    data.updatedata = {};
+  			    data.updatedata[zjzd]=zj;
   			}else{
-  	        	layer.alert(result.msg ? result.msg : "数据处理异常！", { 
+  	        	layer.alert(result.msg ? result.msg : "数据处理异常！", {
   	    	   		icon:2       	   		
   	    		});
   			  }
@@ -916,36 +911,61 @@ Vue.component('my-edit', {
     computed : {
         fields : function (){ return this._data.fields},
         sjdx : function (){ return this._data.sjdx },
-        action : function (){ return 'sjdx/dxEdit.do?id='+this.sjdxid },
+        action : function (){ return 'sjdx/save.do?id='+this.sjdxid },
         index : function (){ return this.fromdata['my-from-index']!='0'||true},
         formid:function(){
             return this.$root.$options.el;
         }
     },
+    watch: {
+        fromdata:function(val){
+            this._data.fromdata=$.extend(this._data.fromdata,val);
+        },
+        deep:true
+    },
     methods : {
           setval:function(field,event){
-              this.fromdata[field.zddm] = event.val;
-              if(event.target.mc){
-                  this.fromdata['map.'+field.zddm]=event.mc;
+              if(this.pagemodel=='edit'&&this._data.fromdata[field.zddm]==event.val){
+                  return;
               }
-              console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
+              debugger
+              this._data.updatedata[field.zddm] = event.val;
+              if(event.target.mc){
+                  this._data.updatedata['map.'+field.zddm]=event.mc;
+              }
+              console.log(field.zdmc + "=" + this._data.updatedata[field.zddm]); 
            },
            submit:function(){
                var _this = this;
-               debugger
                if(!$(_this.formid).isValid()){
                    return;
                }else{
+                   if(Object.keys(_this._data.updatedata).length==1){
+	    	        	layer.alert("你没有修改任何数据项", { 
+		    	    	   		icon:2       	   		
+		    	    		});
+                       return;
+                   }
+                   if(typeof(sjdxZdyjy)=='function'){
+                       if(!sjdxZdyjy(_this._data.updatedata,_this)){
+                           return;
+                       }
+                   }
                    layer.confirm("确定提交？",{
                     icon:3,
                     btn:['确定','取消'], 
                     yes:function(index,layero){
-                        var _params = {myparams:JSON.stringify(_this.fromdata)};
+                        var _params = {myparams:JSON.stringify(_this._data.updatedata)};
 	 		    		$.post(_this.action,_params,function(data){
 	 		    			if(data.status){
-	 	        	   			var index = parent.layer.getFrameIndex(window.name);
-	 	        	   			parent.layer.close(index);
-	 	        	   			parent.listFrom.listPage.queryPage();
+	 		    	        	layer.alert(data.msg ? data.msg : "操作成功！", {
+	 		    	    	   		icon:1,
+	 		    	    	   		yes:function(index,layero){
+	 		 	        	   			var index = parent.layer.getFrameIndex(window.name);
+	 		 	        	   			parent.layer.close(index);
+	 		 	        	   			parent.listFrom.listPage.queryPage();
+	 		    	    	   		}
+	 		    	    		});
 	 		    			}else{
 	 		    	        	layer.alert(data.msg ? data.msg : "操作失败！", { 
 	 		    	    	   		icon:2       	   		
@@ -961,7 +981,6 @@ Vue.component('my-edit', {
                   });
                    
                }
-               
            }
 	}
   });
@@ -1014,11 +1033,11 @@ function defaultLbcz(value,_this) {
 </script>
 <script type="text/x-tp" id="my-default-lbcz-tp">
 <span>
-<a href="sjdx/dxEdit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】">编辑</a>
+<a href="sjdx/edit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】">编辑</a>
 <span class="divider"></span>
-<a href="sjdx/dxDelete.do?id={{= sjdx.id}}&myparams={{= row[sjdx.zjzd]}}" a-oper="del">删除</a>
+<a href="sjdx/delete.do?id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="del">删除</a>
 <span class="divider"></span>
-<a href="sjdx/dxEdit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】">详情</a>
+<a href="sjdx/edit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】">详情</a>
 </span>
 </script>
 <!-- 分页 -->
