@@ -928,7 +928,6 @@ Vue.component('my-edit', {
               if(this.pagemodel=='edit'&&this._data.fromdata[field.zddm]==event.val){
                   return;
               }
-              debugger
               this._data.updatedata[field.zddm] = event.val;
               if(event.target.mc){
                   this._data.updatedata['map.'+field.zddm]=event.mc;
@@ -1029,6 +1028,12 @@ function defaultLbcz(value,_this) {
 		    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
     }
     return "非列表模式";
+}
+/**
+ * 格式化方法-pre包装
+ */
+function gshffPre(value,_this) {
+    return "<pre>"+value+"</pre>";
 }
 </script>
 <script type="text/x-tp" id="my-default-lbcz-tp">
