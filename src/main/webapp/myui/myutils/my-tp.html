@@ -32,7 +32,7 @@ Vue.component('my-label', {
 		:onfocus="field.onfocus"
 		:style="(field.style||'')"
 		></textarea>
-	<pre v-else class="form-control" :style="(field.style||'')" :title="value" v-html="nval"></pre>
+	<textarea v-else class="form-control" :style="(field.style||'')" :title="value" v-html="nval" readonly="readonly"></textarea>
 </script>
 <script type="text/javascript">
 Vue.component('my-textaera', {
@@ -1047,6 +1047,12 @@ function defaultLbcz(value,_this) {
  */
 function gshffPre(value,_this) {
     return "<pre>"+value+"</pre>";
+}
+/**
+ * 格式化方法-code包装
+ */
+function gshffCode(value,_this) {
+    return "<code>"+value+"</code>";
 }
 </script>
 <script type="text/x-tp" id="my-default-lbcz-tp">

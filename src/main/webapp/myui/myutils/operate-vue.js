@@ -18,7 +18,7 @@ function ajaxDxcl(_url){
             if (data.status) {              
         	   	layer.alert(data.msg ? data.msg : "操作成功！", { 
         	   		shade:0.3,
-        	   		time: 1500,    	   		
+        	   		time: 5000,    	   		
         	   		icon:1,
         	   		end:function(){
         	   		 listFrom.listPage.requestList(); //执行页面刷新函数    	   			
@@ -26,7 +26,7 @@ function ajaxDxcl(_url){
         		});
             }else {
             	layer.alert(data.msg ? data.msg : "操作失败！", { 
-        	   		time: 1500, 
+        	   		time: 5000, 
         	   		icon:2      	   		
         		});
             }
@@ -187,7 +187,7 @@ $(document).ready(function(){
 	 *    其它：other
 	 ************************************************************/	
 	
-	//1.删除事件：a-oper="del"
+	//1.删除事件：a-oper="dxcl"
 	$(".listContent").on("click","[a-oper=dxcl]",function(){		
 		var url = $(this).attr("href");
 	   	layer.alert("确定操作？", {
@@ -243,6 +243,18 @@ $(document).ready(function(){
         }
 	   	return false;
 	});
+    //1.删除事件：a-oper="dxcl"
+    $("[a-oper=dxcl]").click(function(){
+        var url = $(this).attr("href");
+        layer.alert("确定操作？", {
+            icon: 3,
+            btn:["确定","取消"],
+            yes:function(index,layero){
+                ajaxDxcl(url);
+            }
+        });
+        return false;
+    });
 	
 	//4.批量操作：a-oper="batch"
 	 $("[a-oper=batch]").click(function(){
