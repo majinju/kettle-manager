@@ -1,6 +1,6 @@
 function layerTips(_str){
 	layer.alert(_str, { 
-   		time: 1500, 
+   		time: 5000, 
    		icon:0      	   		
 	});
 }

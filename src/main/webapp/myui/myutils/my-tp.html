@@ -672,7 +672,12 @@ Vue.component('my-expeb', {
         <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
 			a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
         <button class="btn btn-primary btn-sm" a-oper="batch"
-			:href="'sjdx/batchDelete.do?id='+sjdx.id">批量删除</button>
+			:href="'sjdx/plcl.do?id='+sjdx.id+'&map[\'cllx\']=plsc'">批量删除</button>
+        <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
+			:href="'sjdx/list.do?id='+sjdx.id+'&myparams='+bjmsUrl"
+            a-oper="other">编辑模式</button>
+        <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
+            a-oper="other">配置字段</button>
 		<slot></slot>
 	</my-listheading>
 	<div class="panel-body exportDiv" style="overflow: auto;">
@@ -783,6 +788,14 @@ Vue.component('my-list', {
 	             }
 	             return num+1;
 	          },
+		      bjmsUrl:function(){
+		          var data = clone(fromdata);
+		          data.lbkbj = "1";
+	              return encodeURI(JSON.stringify(data));
+		      },
+		      pzzdUrl:function(){
+	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,dxmc:this.sjdx.dxmc,lbkbj:'1'}));
+		      },
 	          addUrl:function(){
 	              return encodeURI(JSON.stringify({"sjdx":this.sjdx.id}));
 	          }
@@ -1040,7 +1053,7 @@ function gshffPre(value,_this) {
 <span>
 <a href="sjdx/edit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】">编辑</a>
 <span class="divider"></span>
-<a href="sjdx/delete.do?id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="del">删除</a>
+<a href="sjdx/plcl.do?id{{= sjdx.id}}=&map['cllx']=delete&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl">删除</a>
 <span class="divider"></span>
 <a href="sjdx/edit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】">详情</a>
 </span>

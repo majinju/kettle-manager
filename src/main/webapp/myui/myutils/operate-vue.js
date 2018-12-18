@@ -9,14 +9,14 @@
 
 
 ///////////////////////删除执行函数////////////////////
-function ajaxDel(_url){	
+function ajaxDxcl(_url){	
     $.ajax({
         type: "POST",
         url: _url,
         dataType: "json",
         success: function (data) {
             if (data.status) {              
-        	   	layer.alert(data.msg ? data.msg : "删除成功！", { 
+        	   	layer.alert(data.msg ? data.msg : "操作成功！", { 
         	   		shade:0.3,
         	   		time: 1500,    	   		
         	   		icon:1,
@@ -25,7 +25,7 @@ function ajaxDel(_url){
 					}
         		});
             }else {
-            	layer.alert(data.msg ? data.msg : "删除失败！", { 
+            	layer.alert(data.msg ? data.msg : "操作失败！", { 
         	   		time: 1500, 
         	   		icon:2      	   		
         		});
@@ -136,7 +136,7 @@ function ajaxBatchUpdate(selectedIds, linkClicked) {
     $.ajax({
         type: "POST",
         url: linkClicked.attr("href"),
-        data: { ids: selectedIds,'map["ids"]': selectedIds,params:selectedIds},
+        data: { 'map["ids"]': selectedIds},
         dataType: "json",
         success: function (data) {
             if (data.status) {
@@ -188,13 +188,13 @@ $(document).ready(function(){
 	 ************************************************************/	
 	
 	//1.删除事件：a-oper="del"
-	$(".listContent").on("click","[a-oper=del]",function(){		
+	$(".listContent").on("click","[a-oper=dxcl]",function(){		
 		var url = $(this).attr("href");
-	   	layer.alert("确定删除？", {
+	   	layer.alert("确定操作？", {
 	   		icon: 3,
 	   		btn:["确定","取消"],
 	   		yes:function(index,layero){
-	   			ajaxDel(url);	   			
+	   			ajaxDxcl(url);	   			
 	   		}
 		});
 	   	return false;
