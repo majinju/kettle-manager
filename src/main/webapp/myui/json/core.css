@@ -1,0 +1,154 @@
+*{
+	border: 0px;
+	margin: 0 auto;
+}
+a{
+	color: #0084C8;
+	text-decoration: none;
+}
+body{
+	text-align: center;
+	font-family: Courier;
+	font-size: 13px;
+	background-color: #F8F8F8;
+}
+#body-wrapper{
+	width: 90%;
+	border-top: 11px solid #0084C8;
+}
+/* Top Navigator */
+#navigator-wrapper{
+	padding-top: 18px;
+	padding-bottom: 18px;
+	width: 100%;
+}
+#navigator-logo{
+	margin-left: 18px;
+	float: left;
+	width: 160px;
+	height: 160px;
+}
+#navigator-text-wrapper{
+	margin-left: 200px;
+	height: 160px;
+}
+#navigator-text{
+	margin-top: 18px;
+	width: 88%;
+	height: 118px;
+	line-height: 118px;
+	font-size: 35px;
+	border: 2px solid #C1C1C1;
+	background-color: #FFFFFF;
+}
+#navigator-text-sub{
+	margin-top: -26px;
+	height: 26px;
+	line-height: 26px;
+	font-size: 15px;
+}
+
+
+/* Top Navigator */
+#top-navigator{
+	width: 100%;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	border: 2px solid #B1B1B1;
+	font-size: 15px;
+	clear: both;
+}
+#top-navigator-link{
+	height: 18px;
+	list-style: none;
+	padding: 0px;
+	margin-left: 18px;
+}
+#top-navigator-link a{
+	color: #0084C8;
+}
+#top-navigator-link a:hover{
+	text-decoration: underline;
+}
+#top-navigator-link li{
+	float: left;
+	padding-right: 10px;
+	margin-right: 10px;
+	border-right: 1px solid #0084C8;
+}
+#top-navigator-link li.last{
+	border: 0px;
+}
+
+
+
+/* CopyRight */
+#copyright-wrapper{
+	margin-top: 8px;
+	padding-top: 18px;
+	padding-bottom: 18px;
+	width: 100%;
+	color: #FFFFFF;
+	font-size: 13px;
+	background-color: #0084C8;
+}
+#copyright{
+	padding-left: 18px;
+	text-align: left;
+}
+#copyright-link{
+	list-style: none;
+	padding: 0px;
+	margin-left: 0px;
+}
+#copyright-link a{
+	color: #FFFFFF;
+}
+#copyright-link a:hover{
+	text-decoration: underline;
+}
+#copyright-link li{
+	float: left;
+	padding-right: 10px;
+	margin-right: 10px;
+	margin-bottom: 7px;
+	border-right: 1px solid white;
+	height: 15px;
+	line-height: 15px;
+}
+#copyright-link li.last{
+	border: 0px;
+}
+#copyright-text{
+	margin-top: 18px;
+	clear: both;
+}
+
+/* Common Style */
+.courier{
+	font-family: Courier;
+}
+.gray{
+	color: #CCCCCC;
+}
+.blue{
+	color: #0000CC;
+}
+.red{
+	color: #FF0000;
+}
+.bold{
+	font-weight: bold;
+}
+.italic{
+	font-style: italic;
+}
+.underline{
+	text-decoration: underline;
+}
+.clear{
+	clear: both;
+}
+.hide{
+	display: none;
+}

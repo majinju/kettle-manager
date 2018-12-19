@@ -36,6 +36,12 @@
 					<li><a href="${serviceAddr}myui/editor.md/other/authStandard/authStandard.html" target="mainFrame">
 						<i class="circle"></i>权限开发规范</a>
 					</li>
+					<li><a href="${serviceAddr}myui/json/index.htm" target="mainFrame">
+						<i class="circle"></i>JSON处理</a>
+					</li>
+					<li><a href="${serviceAddr}myui/cron/index.htm" target="mainFrame">
+						<i class="circle"></i>cron表达式</a>
+					</li>
 					<li><a href="${serviceAddr}myui/vue/vue.html" target="mainFrame">
 						<i class="circle"></i>vue学习</a>
 					</li>

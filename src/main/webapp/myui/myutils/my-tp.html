@@ -1059,7 +1059,7 @@ function gshffCode(value,_this) {
 <span>
 <a href="sjdx/edit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】">编辑</a>
 <span class="divider"></span>
-<a href="sjdx/plcl.do?id{{= sjdx.id}}=&map['cllx']=delete&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl">删除</a>
+<a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=plsc&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl">删除</a>
 <span class="divider"></span>
 <a href="sjdx/edit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】">详情</a>
 </span>

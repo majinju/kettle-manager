@@ -1,0 +1,64 @@
+.icon-blank{
+	background:url("blank-1.gif"/*tpa=http://cron.qqe2.com/Cron/themes/icons/blank.gif*/) no-repeat center center;
+}
+.icon-add{
+	background:url("edit_add-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/edit_add.png*/) no-repeat center center;
+}
+.icon-edit{
+	background:url("pencil-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/pencil.png*/) no-repeat center center;
+}
+.icon-remove{
+	background:url("edit_remove-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/edit_remove.png*/) no-repeat center center;
+}
+.icon-save{
+	background:url("filesave-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/filesave.png*/) no-repeat center center;
+}
+.icon-cut{
+	background:url("cut-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/cut.png*/) no-repeat center center;
+}
+.icon-ok{
+	background:url("ok-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/ok.png*/) no-repeat center center;
+}
+.icon-no{
+	background:url("no-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/no.png*/) no-repeat center center;
+}
+.icon-cancel{
+	background:url("cancel-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/cancel.png*/) no-repeat center center;
+}
+.icon-reload{
+	background:url("reload-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/reload.png*/) no-repeat center center;
+}
+.icon-search{
+	background:url("search-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/search.png*/) no-repeat center center;
+}
+.icon-print{
+	background:url("print-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/print.png*/) no-repeat center center;
+}
+.icon-help{
+	background:url("help-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/help.png*/) no-repeat center center;
+}
+.icon-undo{
+	background:url("undo-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/undo.png*/) no-repeat center center;
+}
+.icon-redo{
+	background:url("redo-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/redo.png*/) no-repeat center center;
+}
+.icon-back{
+	background:url("back-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/back.png*/) no-repeat center center;
+}
+.icon-sum{
+	background:url("sum-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/sum.png*/) no-repeat center center;
+}
+.icon-tip{
+	background:url("tip-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/tip.png*/) no-repeat center center;
+}
+
+.icon-mini-add{
+	background:url("mini_add-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/mini_add.png*/) no-repeat center center;
+}
+.icon-mini-edit{
+	background:url("mini_edit-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/mini_edit.png*/) no-repeat center center;
+}
+.icon-mini-refresh{
+	background:url("mini_refresh-1.png"/*tpa=http://cron.qqe2.com/Cron/themes/icons/mini_refresh.png*/) no-repeat center center;
+}
