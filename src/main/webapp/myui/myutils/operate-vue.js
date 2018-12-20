@@ -143,7 +143,7 @@ function ajaxBatchUpdate(selectedIds, linkClicked) {
             	
         	   	layer.alert(data.msg ? data.msg : "操作成功！", { 
         	   		shade:0.3,
-        	   		time: 1500,    	   		
+        	   		time: 5000,    	   		
         	   		icon:1,
         	   		end:function(){
         	   		    listFrom.listPage.queryPage(); //执行页面刷新函数 

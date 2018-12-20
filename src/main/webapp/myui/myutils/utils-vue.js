@@ -490,6 +490,29 @@ function popUpFillWin(param) {
 							+ ',screenY=' + top + '');
 	// + ',left=' + left + ', top=' + top
 }
+/**
+ * 异常提示
+ * @param msg 提示消息
+ */
+function alertError(msg){
+    layer.alert(msg ? msg : "数据处理异常！", { 
+        icon:2                  
+    });
+}
+/**
+ * 一般提示
+ * @param msg 提示消息
+ */
+function alertInfo(msg){
+    layer.alert(msg, { 
+        time: 5000, 
+        icon:0                  
+    });
+}
+function redict(result){
+//    window.location=serviceAddr+"myui/common/"+result.data+".jsp?msg="+result.msg;
+    window.location=serviceAddr+"myui/common/500.jsp?msg="+result.msg;
+}
 
 function checkboxAll(obj){
 	var checked = obj.checked;

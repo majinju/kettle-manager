@@ -754,9 +754,7 @@ Vue.component('my-list', {
     			    _this.$root.fields = data.fields = rd.fields;
     			    data.user = rd.user;
     			}else{
-    	        	layer.alert(result.msg ? result.msg : "数据处理异常！", { 
-    	    	   		icon:2       	   		
-    	    		});
+    	        	redict(result);
     			}
    			}});
           data.action=this.action;
@@ -830,20 +828,15 @@ Vue.component('my-list', {
   	    	   		icon: 3,
   	    	   		btn:["确定","取消"],
   	    	   		yes:function(index,layero){
-  	                  	fromdata.myparams = JSON.stringify(_this.listEditData);
+  	                  	fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
   			    		$.post("sjdx/saveListData.do?id="+_this._data.sjdx.id,
   			    		    fromdata,
   		    		        function(data){
   				    			if(data.status){
   				    			    _this.listPage.refreshPage();
-  				    	        	layer.alert(data.msg ? data.msg : "保存成功！", { 
-  				    	           		time: 3000, 
-  				    	    	   		icon:1
-  				    	    		});
+  				    	        	alertInfo(data.msg);
   				    			}else{
-  				    	        	layer.alert(data.msg ? data.msg : "操作失败！", { 
-  				    	    	   		icon:2       	   		
-  				    	    		});
+  				    	        	alertError(data.msg);
   				    			}
   			    			});
   	    	   		}
@@ -912,9 +905,7 @@ Vue.component('my-edit', {
   			    data.updatedata = {};
   			    data.updatedata[zjzd]=zj;
   			}else{
-  	        	layer.alert(result.msg ? result.msg : "数据处理异常！", {
-  	    	   		icon:2       	   		
-  	    		});
+	        	redict(result);
   			  }
  			}
           });
@@ -953,9 +944,7 @@ Vue.component('my-edit', {
                    return;
                }else{
                    if(Object.keys(_this._data.updatedata).length==1){
-	    	        	layer.alert("你没有修改任何数据项", { 
-		    	    	   		icon:2       	   		
-		    	    		});
+	    	           alertInfo("你没有修改任何数据项");
                        return;
                    }
                    if(typeof(sjdxZdyjy)=='function'){
@@ -979,16 +968,14 @@ Vue.component('my-edit', {
 	 		    	    	   		}
 	 		    	    		});
 	 		    			}else{
-	 		    	        	layer.alert(data.msg ? data.msg : "操作失败！", { 
-	 		    	    	   		icon:2       	   		
-	 		    	    		});
+	 		    	           alertError(data.msg);
 	 		    			}
 	 		    			
 	 		    		});
                     },btn2:function(){//取消按钮事件
                         if(typeof qxbtn ==="function"){
                             qxbtn();
-                           }
+                        }
                     }
                   });
                    

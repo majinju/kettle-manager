@@ -1,10 +1,3 @@
-function layerTips(_str){
-	layer.alert(_str, { 
-   		time: 5000, 
-   		icon:0      	   		
-	});
-}
-
 /**
  * 本平台ajax分页对象的封装，按套路来就不需要参数配置。
  * 使用参考频繁进出车辆分析
@@ -103,7 +96,7 @@ function PageAjax(){
             $(self.pageId+" .paging-sure").on("click",function(){
                 var zhuanPage = $(self.pageId+" .zhuanPage").val();
                 if(!isNumber(zhuanPage)||zhuanPage>self.pageCount||zhuanPage<1){
-                    layerTips("请输入正确的页码");
+                    alertInfo("请输入正确的页码");
                     return;
                 }
                 self.pageIndex = new Number(zhuanPage);
@@ -114,7 +107,7 @@ function PageAjax(){
             //第一页
             $(self.pageId+" a.paging-prev").on("click",function(){
                 if(self.pageIndex==1){
-                    layerTips("已经是第一页了");
+                    alertInfo("已经是第一页了");
                 }else{
                     self.pageIndex = 1;
                     self.autoCount = false;
@@ -124,7 +117,7 @@ function PageAjax(){
             //上一页
             $(self.pageId+" a.paging-before").on("click",function(){
                 if(self.pageIndex==1){
-                    layerTips("已经是第一页了");
+                    alertInfo("已经是第一页了");
                 }else{
                     self.pageIndex = self.pageIndex - 1;
                     self.autoCount = false;
@@ -134,7 +127,7 @@ function PageAjax(){
             //下一页
             $(self.pageId+" a.paging-after").on("click",function(){
                 if(self.pageIndex==self.pageCount){
-                    layerTips("已经是最后一页了");
+                    alertInfo("已经是最后一页了");
                 }else{
                     self.pageIndex = self.pageIndex + 1;
                     self.autoCount = false;
@@ -144,7 +137,7 @@ function PageAjax(){
             //最后一页
             $(self.pageId+" a.paging-next").on("click",function(){
                 if(self.pageIndex==self.pageCount){
-                    layerTips("已经是最后一页了");
+                    alertInfo("已经是最后一页了");
                 }else{
                     self.pageIndex = self.pageCount;
                     self.autoCount = false;
@@ -198,7 +191,7 @@ function PageAjax(){
             dataType: "json",
     		success:function(result){
                 if(!result.status){
-                    layerTips(result.msg);
+                    alertInfo(result.msg);
                     return;
                 }
                 result = result.data;
@@ -216,7 +209,7 @@ function PageAjax(){
                 layer.close(loadindex);
     		},
     		error:function(errInfo){
-                layerTips("分页查询失败");        
+    		    alertError("分页查询失败");        
                 layer.close(loadindex);
     		}
     	});
@@ -252,7 +245,7 @@ function PageAjax(){
                 layer.close(loadindex);
     		},
     		error:function(errInfo){
-                layerTips("分页查询失败");
+    		    alertError("分页查询失败");
                 layer.close(loadindex);
     		}
     	});
@@ -360,7 +353,7 @@ saveAsExcel:function(page, title, hiddenCol)
 	}
 	var tableContent = $(page.pageId+" .exportDiv").html();
 	if(tableContent.indexOf("</td>",tableContent.indexOf("</td>")+1)==-1){
-		layerTips("没有数据可以导出！");
+	    alertError("没有数据可以导出！");
 		return;
 	}
 	document.getElementById('filename_1').value = title;
@@ -381,12 +374,12 @@ exportAll:function(page, title, hiddenCol)
 		$("#form1_1").attr("action",serviceAddr+action);
 	}
 	if(page.total == 0){
-		layerTips("没有数据可以导出！");
+		alertError("没有数据可以导出！");
 		return;
 	}
 	
 	if(page.total >page.maxPageSize){
-		layerTips("系统只能导出前"+page.maxPageSize+"条信息！");
+		alertInfo("系统只能导出前"+page.maxPageSize+"条信息！");
 	}
 	page.allData(function(result){
 	     var trs = page.getListTemplate().tmpl(result.list);

@@ -7,20 +7,20 @@
   <title>404</title>
   <meta http-equiv="X-UA-Compatible" content="IE=9">
   <!--[if lt IE 9]>
-    <script src="${serviceAddr}aui/common/js/plugin/html5shiv/html5shiv.min.js"></script>
-    <script src="${serviceAddr}aui/common/js/plugin/html5shiv/selectivizr.min.js"></script>
-    <script src="${serviceAddr}aui/common/js/plugin/html5shiv/PIE_IE678.js"></script>
+    <script src="${serviceAddr}myui/common/js/plugin/html5shiv/html5shiv.min.js"></script>
+    <script src="${serviceAddr}myui/common/js/plugin/html5shiv/selectivizr.min.js"></script>
+    <script src="${serviceAddr}myui/common/js/plugin/html5shiv/PIE_IE678.js"></script>
   <![endif]-->
   <!--[if IE 9]>
-    <script src="${serviceAddr}aui/common/js/plugin/html5shiv/PIE_IE9.js"></script>
+    <script src="${serviceAddr}myui/common/js/plugin/html5shiv/PIE_IE9.js"></script>
   <![endif]-->
-  <link rel="stylesheet" href="${serviceAddr}aui/common/style/siencestyle.css">
-  <script src="${serviceAddr}aui/common/js/plugin/jquery/jquery-1.9.1.js"></script>
+  <link rel="stylesheet" href="${serviceAddr}myui/common/style/siencestyle.css">
+  <script src="${serviceAddr}myui/common/js/plugin/jquery/jquery-1.9.1.js"></script>
 </head>
 <body>
   <section>
     <!--[if lt IE 9]>
-      <img class="bk-err" src="${serviceAddr}aui/common/img/err_bk.jpg" alt="">
+      <img class="bk-err" src="${serviceAddr}myui/common/img/err_bk.jpg" alt="">
     <![endif]-->
     <div class="bk-err">
       <p>
@@ -30,15 +30,15 @@
       </p>
       <p class="err-tip">
         <i class="icon icon-line-l"></i>
-        <span class="err-span">您访问的页面不存在，或页面已删除</span>
+        <span class="err-span">${param.msg!=null?param.msg:'您访问的页面不存在，或页面已删除' }</span>
         <i class="icon icon-line-r"></i>
       </p>
       <p>
-        <a class="err-a" href="#">请联系管理员</a>
+        <a class="err-a" href="javascript:alert('逗你玩呢');">请联系管理员</a>
       </p>
-<!--       <img class="err-man" src="${serviceAddr}aui/common/img/err_man.png" alt=""> -->
+<!--       <img class="err-man" src="${serviceAddr}myui/common/img/err_man.png" alt=""> -->
     </div>
   </section>
-  <script src="${serviceAddr}aui/common/js/err.js"></script>
+  <script src="${serviceAddr}myui/common/js/err.js"></script>
 </body>
 </html>
