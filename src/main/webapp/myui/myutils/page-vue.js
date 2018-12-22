@@ -197,7 +197,6 @@ function PageAjax(){
                 result = result.data;
     			eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
                 self.callback(result);
-    			self.getListHead().find("span.checkbox-checked").click();
     			if(!result.list){
     				result.list = [];
     			}

@@ -65,6 +65,63 @@ Vue.component('my-textaera', {
  	}
   });
 </script>
+<script type="text/x-tp" id="my-checkbox-tp">
+    <span class="checkbox" :class="(field.classStr||'')+(checked=='1'?' checkbox-checked':'')" 
+		:style="(field.style||'')" @click="setval">
+        <input type="checkbox" class="checkbox-input" 
+			:checked="checked=='1'?'checked':''"
+			:name="(owner||'')+field.zddm"
+			:id="(owner||'')+field.zddm" 
+			:placeholder="field.zdts"
+			:index="index"
+			:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+			>
+        <span class="checkbox-inner"></span>
+    </span>
+</script>
+<script type="text/javascript">
+Vue.component('my-checkbox', {
+    props: ['field','index','value','owner','pagemodel','edit'],
+    data: function () {
+      return {
+          checked:this.value
+      }
+    },
+    template: '#my-checkbox-tp',
+    computed : {
+        nval:function (){
+            var val=this.checked;
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }
+            debugger
+           return val=='1';
+        }
+    },
+    watch:{
+        value:function(newVal,oldVal){
+            this.checked=newVal;
+        }
+    },
+    methods : {
+        setval : function($event) {
+            if(!this.edit&&(this.field.zddm!='my-lbxz')){
+                //非编辑状态
+                return;
+            }
+            this.checked = (this.checked=='1'?'0':'1');
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                $event.val=sf(this.checked);
+            }else{
+                $event.val = this.checked;
+            }
+            this.$emit('setval', this.field, $event);
+        }
+ 	}
+  });
+</script>
 <script type="text/x-tp" id="my-inputn-tp">
 	<input v-if="edit" 
 		:name="(owner||'')+field.zddm"
@@ -378,6 +435,9 @@ Vue.component('my-timeaera', {
 	    <my-timeaera v-else-if="field.kjlx=='timearea'||(field.kjlx=='time'&&pagemodel=='search')" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
 			:edit="isEdit" @setval="setval"></my-timeaera>
+	    <my-checkbox v-else-if="field.kjlx=='checkbox'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:edit="isEdit" @setval="setval"></my-checkbox>
 	    <my-textaera v-else-if="field.kjlx=='textarea'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
@@ -545,32 +605,54 @@ Vue.component('my-from', {
 	:title="field.zdmc"
 	data-order=""
 	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
-	><span class="required" v-if="field.btzt"
-	>*</span>{{field.zdmc}}<i v-if="(field.yxpx=='1')" class="" title="点击可以设置排序方式"></i></th> 
+	>
+	<span class="checkbox" v-if="isCheckBox" @click="setvalTh"
+		:class="(field.classStr||'')+(val=='1'?' checkbox-checked':'')">
+	    <input type="checkbox" class="checkbox-input">
+	    <span class="checkbox-inner"></span>
+	</span>
+	<span class="required" v-if="field.btzt"
+	>*</span>
+    {{thName}}<i v-if="(field.yxpx=='1')" class="" title="点击可以设置排序方式"></i></th> 
 </script>
 <script type="text/javascript">
 Vue.component('my-th', {
     props: ['field'],
+    template:"#my-th-tp",
     data: function () {
       return {
+          val:''
       }
     },
     computed : {
+        isCheckBox:function(){
+            var field = this.field;
+            return (field.kjlx=='checkbox'&&field.lbkbj)||(field.zddm=='my-lbxz');
+        },
+        thName:function(){
+            var field = this.field;
+            return (field.zddm=='my-lbxz'?'':field.zdmc);
+        }
     },
-    template:"#my-th-tp",
+    methods : {
+        setvalTh:function(){
+            this.val=(this.val=='1'?'0':'1');
+            this.$emit('setvalTh', this.field, this);
+        }
+    },
     watch: {
         }
   });
 </script>
 <script type="text/x-tp" id="my-td-tp"> 
 <td v-if="!(field.lbzs=='0')" :class="pagemodel=='bjlist'?'':'ellipsis'">
-	<my-srkj :field="field" :index="index" :ri="ri" :owner="owner" :pagemodel="pagemodel"
-		:value="fval(field)" @setval="setval"></my-srkj>
+	<my-srkj :field="field" :index="index" :ri="ri" :owner="owner+field.zddm" :pagemodel="pagemodel"
+		:value="value" @setval="setval"></my-srkj>
 </td>
 </script>
 <script type="text/javascript">
 Vue.component('my-td', {
-    props: ['field','ri','index','owner','row','pagemodel'],
+    props: ['field','ri','index','owner','row','pagemodel','value'],
     data: function () {
       return {
       }
@@ -582,14 +664,7 @@ Vue.component('my-td', {
         setval : function(field,event) {
             event.ri = this.ri;
             this.$emit('setval', field, event);
-        },
-	    fval:function(field){
-	        if(this.row[field.zddm]){
-	            return this.row[field.zddm];
-	        }else{
-	            return field.xzmrz;
-	        }
-	    }
+        }
 	}
   });
 </script>
@@ -671,7 +746,7 @@ Vue.component('my-expeb', {
 		<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
 			a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
-        <button class="btn btn-primary btn-sm" a-oper="batch"
+        <button class="btn btn-primary btn-sm" @click="plcl('plsc')"
 			:href="'sjdx/plcl.do?id='+sjdx.id+'&map[\'cllx\']=plsc'">批量删除</button>
         <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
 			:href="'sjdx/list.do?id='+sjdx.id+'&myparams='+bjmsUrl"
@@ -684,33 +759,19 @@ Vue.component('my-expeb', {
 	    <table class="table table-striped table-bordered table-hover">
 	        <thead>
 	            <tr class="listHard">
-	                <th style="width: 30px;" v-if="lbfxk!='0'">
-	                    <span class="checkbox">
-	                        <input type="checkbox" class="checkbox-input"
-											name="selectAllIds">
-	                        <span class="checkbox-inner"></span>
-	                    </span>
-	                </th>
-	                <th style="width: 50px;">序号</th>
-	                <th is="my-th" v-for="(field,key,index) in lbfields" :field="fieldBt(field)"></th>
+	                <th is="my-th" v-for="(field,key,index) in lbfields" 
+						:field="fieldBt(field)" @setvalTh="setvalTh"></th>
 	            </tr>
 	        </thead>
 	        <tbody class="listContent">
-		        <tr v-for="(row,ri) in rows" 
-		        	:class="'listrow '">
-					<th v-if="lbfxk!='0'">
-					    <span class="checkbox">
-					        <input type="checkbox" class="checkbox-input" :value="row[sjdx.zjzd]" name="chks">
-					        <span class="checkbox-inner"></span>
-					    </span>
-					</th>
-					<td>{{listPage.getHangHao(ri)}}</td>
+		        <tr v-for="(row,ri) in rows" :class="'listrow '">
 	                <td is="my-td"  v-for="(field,key,index) in lbfields"
 	                	:key="'led'+ri+field.zddm" 
 	                	:id="'led'+ri+field.zddm" 
 	                	:field="field" :ri="ri" :index="index"
 	                	:row="row" :pagemodel="lbkbj=='1'?'bjlist':'cklist'"
 	                	:owner="'led.'+ri+'.'" 
+						:value="fval(row,field)"
 	                	:class="((lbkbj=='1'&&listEditData[ri][field.zddm]!=null)?'edited':'')"
 		                @setval="setvalList"
 	                ></td>
@@ -781,10 +842,7 @@ Vue.component('my-list', {
 	                      num++;
 	                  }
 	             });
-	             if(!(this.lbfxk=='0')){
-                     num++;
-	             }
-	             return num+1;
+	             return num;
 	          },
 		      bjmsUrl:function(){
 		          var data = clone(fromdata);
@@ -802,8 +860,16 @@ Vue.component('my-list', {
 	        fieldBt:function(field){
 	            //判断是否必填
 	            field.btzt = (this.lbkbj=='1'&&field.bjbt=='1');
+	            field.lbkbj=(this.lbkbj=='1');
 	            return field;
 	        },
+		    fval:function(row,field){
+		        if(row[field.zddm]){
+		            return row[field.zddm];
+		        }else{
+		            return field.xzmrz;
+		        }
+		    },
             setval:function(field,event){
                 this.fromdata[field.zddm] = event.val;
                 if(event.target.mc){
@@ -811,36 +877,67 @@ Vue.component('my-list', {
                 }
                 console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
              },
-             setvalList:function(field,event){
+             setvalTh:function(field,event){
+                 var _this = this;
+                 var ed = _this.listEditData;
+                 for(var i=0;i<ed.length;i++){
+                     event.ri=i;
+                     _this.setvalList(field, event,_this);
+                     _this.rows[i][field.zddm]=event.val;
+                 }
+             },
+             setvalList:function(field,event,_this){
+                 if(!_this){
+                     _this = this;
+                 }
                 var r = event.ri;
-                if(this.listPage.rows[r][field.zddm]!=event.val){
-                    Vue.set(this.listEditData[r],field.zddm,event.val);
-                    Vue.set(this.listEditData[r],'map.sys-ybj',"1");
-                    if(event.mc){
-                        this.listEditData[r]['map.'+field.zddm]=event.mc;
+                if(_this.listPage.rows[r][field.zddm]!=event.val){
+                    Vue.set(_this.listEditData[r],field.zddm,event.val);
+                    if(field.zdywlb!='99'){
+                        //非虚拟字段
+                        Vue.set(_this.listEditData[r],'my-ybj',"1");
                     }
-                    console.log(r+"-"+field.zdmc+ "=" + this.listEditData[r][field.zddm]);
+                    if(event.mc){
+                        _this.listEditData[r]['map.'+field.zddm]=event.mc;
+                    }
+                    console.log(r+"-"+field.zdmc+ "=" + _this.listEditData[r][field.zddm]);
                 }
               },
+	        plcl:function(cllx,_this){
+	            if(!_this){
+		            _this = this;
+	            }
+	            debugger
+                var ed = _this.listEditData;
+                var ids = "";
+                for(var i=0;i<ed.length;i++){
+					if(ed[i]['my-lbxz']=='1'){
+					    ids=ids+","+ed[i][_this.sjdx.zjzd];
+					}
+                }
+                if(ids==""){
+                    alertError("请选择要操作行");
+                    return;
+                }
+	            fromdata.id=_this.sjdx.id;
+	            fromdata['map["cllx"]']=cllx;
+	            fromdata['map["ids"]']=ids.substring(1);
+	            qrtsajax('sjdx/plcl.do',fromdata,function(data){
+            	   	alertInfoYes(data,function(){
+        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
+					});
+	            });
+	        },
               saveListData:function(){
                   var _this = this;
-  	    	   	layer.alert("你确定要提交吗？", {
-  	    	   		icon: 3,
-  	    	   		btn:["确定","取消"],
-  	    	   		yes:function(index,layero){
-  	                  	fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
-  			    		$.post("sjdx/saveListData.do?id="+_this._data.sjdx.id,
-  			    		    fromdata,
-  		    		        function(data){
-  				    			if(data.status){
-  				    			    _this.listPage.refreshPage();
-  				    	        	alertInfo(data.msg);
-  				    			}else{
-  				    	        	alertError(data.msg);
-  				    			}
-  			    			});
-  	    	   		}
-  	    		});
+                  fromdata.id=_this._data.sjdx.id;
+                  fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
+	              qrtsajax("sjdx/saveListData.do",fromdata,function(data){
+            	   	alertInfoYes(data,function(){
+	    			    _this.listPage.refreshPage();
+		    	        alertInfo(data.msg);
+					});
+	            });
               }
         },
         mounted: function () {
@@ -852,14 +949,13 @@ Vue.component('my-list', {
                 initPage(this.listPage);
             }
             this.listPage.callback = function(data){
-                if(_this.lbkbj=='1'){
-                    var rows = data.list;
-                    _this.listEditData = [];
-                    for(var i=0;i<rows.length;i++){
-	      	              var p = {};
-	    	              p[_this.sjdx.zjzd]=rows[i][_this.sjdx.zjzd];
-                        _this.listEditData.push(p);
-                    }
+                var rows = data.list;
+                _this.listEditData = [];
+                for(var i=0;i<rows.length;i++){
+   	              var p = {};
+ 	              p[_this.sjdx.zjzd]=rows[i][_this.sjdx.zjzd];
+                  _this.listEditData.push(p);
+                  rows[i]['my-lbxz']='0';
                 }
             }
             this.listPage.queryPage();
@@ -1029,17 +1125,12 @@ function defaultLbcz(value,_this) {
     }
     return "非列表模式";
 }
-/**
- * 格式化方法-pre包装
- */
-function gshffPre(value,_this) {
-    return "<pre>"+value+"</pre>";
+function gshffLbxh(value,_this) {
+    return _this.$root.listPage.getHangHao(_this.$parent.$parent.ri);
 }
-/**
- * 格式化方法-code包装
- */
-function gshffCode(value,_this) {
-    return "<code>"+value+"</code>";
+function gshffLbxz(value,_this) {
+    debugger
+    return value;
 }
 </script>
 <script type="text/x-tp" id="my-default-lbcz-tp">

@@ -6,7 +6,7 @@ var scriptList=[
       serviceAddr+"myui/jquery/jquery.tmpl.min.js",
       serviceAddr+"myui/myutils/idcard.js",
       serviceAddr+"myui/myutils/operate-vue.js",
-      serviceAddr+"myui/bootstrap/js/bootstrap.min.js",
+      serviceAddr+"myui/bootstrap/js/bootstrap.js",
       serviceAddr+"myui/SelectPag/selectpage.js?time=20171207",
       serviceAddr+"myui/myframe/frame.js?time=20171217",
       serviceAddr+"myui/layer/layer.js",
@@ -508,6 +508,47 @@ function alertInfo(msg){
         time: 5000, 
         icon:0                  
     });
+}
+/**
+ * 提示后，进行其他操作
+ * @param data
+ * @param end
+ */
+function alertInfoYes(data,end){
+    layer.alert(data.msg ? data.msg : "操作成功！", {
+        shade:0.3,
+        time: 5000,
+        icon:1,
+        end:end
+    });
+}
+/**
+ * 确认提示后发起ajax请求
+ */
+function qrtsajax(url,fromdata,success){
+    layer.alert("你确定要提交吗？", {
+        icon: 3,
+        btn:["确定","取消"],
+        yes:function(index,layero){
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: fromdata,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status) {
+                        success(data);
+                    } else {
+                        alertError(data.msg);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alertError("网络异常");
+                }
+            });
+        }
+    });
+    
 }
 function redict(result){
 //    window.location=serviceAddr+"myui/common/"+result.data+".jsp?msg="+result.msg;
