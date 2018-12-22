@@ -746,8 +746,7 @@ Vue.component('my-expeb', {
 		<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
 			a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
-        <button class="btn btn-primary btn-sm" @click="plcl('plsc')"
-			:href="'sjdx/plcl.do?id='+sjdx.id+'&map[\'cllx\']=plsc'">批量删除</button>
+        <button class="btn btn-primary btn-sm" @click="plcl('plsc')">批量删除</button>
         <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
 			:href="'sjdx/list.do?id='+sjdx.id+'&myparams='+bjmsUrl"
             a-oper="other">编辑模式</button>
@@ -922,7 +921,7 @@ Vue.component('my-list', {
 	            fromdata.id=_this.sjdx.id;
 	            fromdata['map["cllx"]']=cllx;
 	            fromdata['map["ids"]']=ids.substring(1);
-	            qrtsajax('sjdx/plcl.do',fromdata,function(data){
+	            qrtsAjax('sjdx/plcl.do',fromdata,function(data){
             	   	alertInfoYes(data,function(){
         	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
 					});
@@ -932,12 +931,11 @@ Vue.component('my-list', {
                   var _this = this;
                   fromdata.id=_this._data.sjdx.id;
                   fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
-	              qrtsajax("sjdx/saveListData.do",fromdata,function(data){
+	              qrtsAjax("sjdx/saveListData.do",fromdata,function(data){
             	   	alertInfoYes(data,function(){
 	    			    _this.listPage.refreshPage();
-		    	        alertInfo(data.msg);
 					});
-	            });
+	              });
               }
         },
         mounted: function () {
@@ -963,7 +961,7 @@ Vue.component('my-list', {
   });
 </script>
 <script type="text/x-tp" id="my-edit-tp">
-<my-from :data="_data" :fromdata="_data.fromdata" :pagemodel="pagemodel"
+<my-from :data="_data" :fromdata="editdata" :pagemodel="pagemodel"
 	class="wrap" @setval="setval" v-cloak>
 	<div class="row btn-center">
 	<slot></slot>
@@ -978,12 +976,15 @@ Vue.component('my-edit', {
     template:"#my-edit-tp",
     data: function () {
       return {
-       method : 'post'
+       method : 'post',
+       editdata:{},
+       updatedata:{}
       }
     },
     created : function(){
-        var data = this._data;
-        var params = {id:this.sjdxid};
+        var _this = this;
+        var data = _this._data;
+        var params = {id:_this.sjdxid};
         params.myparams = JSON.stringify(fromdata);
  		$.ajax({url : "sjdx/jcxx.do",
 	      type : "post",
@@ -995,11 +996,10 @@ Vue.component('my-edit', {
   			    data.sjdx = rd.sjdx;
   			    data.fields = rd.fields;
   			    data.user = rd.user;
-  			    data.fromdata = rd.obj;
   			    var zjzd = rd.sjdx.zjzd;
   			    var zj = rd.obj[rd.sjdx.zjzd];
-  			    data.updatedata = {};
-  			    data.updatedata[zjzd]=zj;
+  			    _this.updatedata[zjzd]=zj;
+  			    _this.editdata = rd.obj;
   			}else{
 	        	redict(result);
   			  }
@@ -1017,23 +1017,32 @@ Vue.component('my-edit', {
             return this.$root.$options.el;
         }
     },
-    watch: {
-        fromdata:function(val){
-            this._data.fromdata=$.extend(this._data.fromdata,val);
-        },
-        deep:true
-    },
     methods : {
           setval:function(field,event){
-              if(this.pagemodel=='edit'&&this._data.fromdata[field.zddm]==event.val){
+              if(this.pagemodel=='edit'&&this.editdata[field.zddm]==event.val){
                   return;
               }
-              this._data.updatedata[field.zddm] = event.val;
+              this.updatedata[field.zddm] = event.val;
               if(event.target.mc){
-                  this._data.updatedata['map.'+field.zddm]=event.mc;
+                  this.updatedata['map.'+field.zddm]=event.mc;
               }
-              console.log(field.zdmc + "=" + this._data.updatedata[field.zddm]); 
+              console.log(field.zdmc + "=" + this.updatedata[field.zddm]); 
            },
+	        plcl:function(cllx,success){
+		        _this = this;
+	            fromdata.id=_this.sjdx.id;
+	            fromdata['map["cllx"]']=cllx;
+	            fromdata.myparams=JSON.stringify(_this.updatedata);
+	            qrtsAjax('sjdx/plcl.do',fromdata,function(result){
+ 	            	   	alertInfoYes(result,function(){
+ 	            	   	    //必须是新对象vue才能监测到变化
+ 	            	   	    _this.editdata=$.extend({},_this.editdata,result.data);
+ 	            	   	    if(success){
+ 	            	   	        success(data);
+ 	            	   	    }
+ 						});
+ 		            });
+	        },
            submit:function(){
                var _this = this;
                if(!$(_this.formid).isValid()){
@@ -1048,33 +1057,14 @@ Vue.component('my-edit', {
                            return;
                        }
                    }
-                   layer.confirm("确定提交？",{
-                    icon:3,
-                    btn:['确定','取消'], 
-                    yes:function(index,layero){
-                        var _params = {myparams:JSON.stringify(_this._data.updatedata)};
-	 		    		$.post(_this.action,_params,function(data){
-	 		    			if(data.status){
-	 		    	        	layer.alert(data.msg ? data.msg : "操作成功！", {
-	 		    	    	   		icon:1,
-	 		    	    	   		yes:function(index,layero){
-	 		 	        	   			var index = parent.layer.getFrameIndex(window.name);
-	 		 	        	   			parent.layer.close(index);
-	 		 	        	   			parent.listFrom.listPage.queryPage();
-	 		    	    	   		}
-	 		    	    		});
-	 		    			}else{
-	 		    	           alertError(data.msg);
-	 		    			}
-	 		    			
-	 		    		});
-                    },btn2:function(){//取消按钮事件
-                        if(typeof qxbtn ==="function"){
-                            qxbtn();
-                        }
-                    }
-                  });
-                   
+                   var _params = {myparams:JSON.stringify(_this._data.updatedata)};
+ 	               qrtsAjax(_this.action,_params,function(data){
+ 	            	   	alertInfoYes(data,function(){
+ 	            	   	    parent.listFrom.listPage.refreshPage();
+	        	   			var index = parent.layer.getFrameIndex(window.name);
+ 	        	   			parent.layer.close(index);
+ 						});
+ 		            });
                }
            }
 	}

@@ -514,8 +514,8 @@ function alertInfo(msg){
  * @param data
  * @param end
  */
-function alertInfoYes(data,end){
-    layer.alert(data.msg ? data.msg : "操作成功！", {
+function alertInfoYes(result,end){
+    layer.alert(result.msg ? result.msg : "操作成功！", {
         shade:0.3,
         time: 5000,
         icon:1,
@@ -525,7 +525,7 @@ function alertInfoYes(data,end){
 /**
  * 确认提示后发起ajax请求
  */
-function qrtsajax(url,fromdata,success){
+function qrtsAjax(url,fromdata,success,qxbtn){
     layer.alert("你确定要提交吗？", {
         icon: 3,
         btn:["确定","取消"],
@@ -535,17 +535,21 @@ function qrtsajax(url,fromdata,success){
                 url: url,
                 data: fromdata,
                 dataType: "json",
-                success: function (data) {
-                    if (data.status) {
-                        success(data);
+                success: function (result) {
+                    if (result.status) {
+                        success(result);
                     } else {
-                        alertError(data.msg);
+                        alertError(result.msg);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alertError("网络异常");
                 }
             });
+        },btn2:function(){//取消按钮事件
+            if(typeof qxbtn ==="function"){
+                qxbtn();
+            }
         }
     });
     
