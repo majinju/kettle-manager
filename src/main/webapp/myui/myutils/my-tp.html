@@ -332,7 +332,7 @@ Vue.component('my-time', {
 <!-- 时间范围 -->
 <script type="text/x-tp" id="my-timeaera-tp">
 <div v-if="pagemodel=='search'">
-	<input :name="'map[\''+(owner||'')+field.zddm+'_start\']'" :id="(owner||'')+field.zddm+'Start'" 
+	<input :name="(owner||'')+field.zddm+'_start'" :id="(owner||'')+field.zddm+'Start'" 
 		:value="nvalStart"
 		@blur="setvalStart"
 		:index="index"
@@ -344,7 +344,7 @@ Vue.component('my-time', {
 		@focus="wpStart"
 		></input>
 		<span class="timelate">~</span>
-		<input :name="'map[\''+(owner||'')+field.zddm+'_end\']'" :id="(owner||'')+field.zddm+'End'" 
+		<input :name="(owner||'')+field.zddm+'_end'" :id="(owner||'')+field.zddm+'End'" 
 		:value="nvalEnd"
 		@blur="setvalEnd"
 		:index="index"
