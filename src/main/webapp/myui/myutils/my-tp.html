@@ -1,5 +1,5 @@
 <script type="text/x-tp" id="my-label-tp">
-<span>
+<span :title="title">
     <span class="required" v-if="field.btzt">*</span>
     {{(data.index?(index+1)+"-":"")+field.zdmc}}：
 </span>
@@ -12,6 +12,15 @@ Vue.component('my-label', {
       }
     },
     template:"#my-label-tp",
+    computed : {
+        title:function (){
+           var val=this.field.zddm;
+           if(this.field.zdms){
+               val+="["+this.field.zdms+"]";
+           }
+           return val;
+        }
+    },
     watch: {
 //      "field.bjbt": function (required) {
 //          }
@@ -426,7 +435,7 @@ Vue.component('my-timeaera', {
 </script>
 <script type="text/x-tp" id="my-srkj-tp">
 	<div :title="value||field.zdts">
-	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'" 
+	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'||(pagemodel=='search'&&field.kjlx=='textarea')" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
   			:edit="isEdit" @setval="setval" :class="srkjClass"></my-inputn>
 	    <my-time v-else-if="field.kjlx=='time'&&pagemodel!='search'" 
@@ -525,7 +534,7 @@ Vue.component('my-input', {
         },
         isCzd:function(field){
             //判断长字段
-            if(field.zdkd=="2"){
+            if(field.zdkd=="2"&&this.pagemodel!='search'){
                 return true;
             }
             return ((field.zdkd||'200')>200);
