@@ -752,15 +752,17 @@ Vue.component('my-expeb', {
 </my-from>
 <div class="panel panel-default">
 	<my-listheading title="数据列表" :pcl="dcpcl">
+		<template v-if="isAdmin">
 		<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
 			a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
         <button class="btn btn-primary btn-sm" @click="plcl('plsc')">批量删除</button>
         <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
-			:href="'sjdx/list.do?id='+sjdx.id+'&myparams='+bjmsUrl"
+			:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
             a-oper="other">编辑模式</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
             a-oper="other">配置字段</button>
+		</template>
 		<slot></slot>
 	</my-listheading>
 	<div class="panel-body exportDiv" style="overflow: auto;">
@@ -839,6 +841,10 @@ Vue.component('my-list', {
 	          fields : function (){ return this._data.fields;},
 	          sjdx : function (){
 					return this._data.sjdx;
+				},
+	          isAdmin : function (){
+					var user = this._data.user;
+					return user.yhdm=='admin';
 				},
 		      lbfields : function (){ return clone(this._data.fields);},
 	          action:function (){ return "sjdx/page.do?id="+this._data.sjdx.id;},
@@ -1119,8 +1125,11 @@ function editUrl(sjdx,row){
  */
 function defaultLbcz(value,_this) {
     if(_this.pagemodel=='cklist'||_this.pagemodel=='bjlist'){
-		return $("#my-default-lbcz-tp").tmpl({sjdx:_this.$root.sjdx,
-		    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+        debugger
+        var data = {sjdx:_this.$root.sjdx,
+    		    row:_this.$root.listPage.rows[_this.$parent.$parent.ri],
+    		    user:_this.$parent.$parent.$parent._data.user};
+		return $("#my-default-lbcz-tp").tmpl(data).html();
     }
     return "非列表模式";
 }
@@ -1134,10 +1143,12 @@ function gshffLbxz(value,_this) {
 </script>
 <script type="text/x-tp" id="my-default-lbcz-tp">
 <span>
+{{if user.yhdm=='admin'}}
 <a href="sjdx/edit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】">编辑</a>
 <span class="divider"></span>
 <a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=plsc&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl">删除</a>
 <span class="divider"></span>
+{{/if}}
 <a href="sjdx/edit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】">详情</a>
 </span>
 </script>
