@@ -212,7 +212,7 @@ Vue.component('my-inputn', {
                 //选中项目后的回调处理
                 //入参：data：选中行的原始数据对象
                 eSelect : function(data){
-                    _this.val=data.dm;
+                    _this.val=$("#"+field.zddm).val();
                     _this.mc=data.mc;
                     _this.$emit('setval', field,_this);
                     if(field.eSelect){
@@ -226,6 +226,14 @@ Vue.component('my-inputn', {
                     _this.$emit('setval', field,_this);
                     if(field.eClear){
                     	field.eClear(_this,field);
+                    }
+                },
+                eTagRemove: function(datas){
+                    _this.val=$("#"+field.zddm).val();
+                    _this.mc="";
+                    _this.$emit('setval', field,_this);
+                    if(field.eTagRemove){
+                    	field.eTagRemove(_this,field);
                     }
                 },
                 //仅选择模式，不允许输入查询关键字
@@ -761,7 +769,7 @@ Vue.component('my-expeb', {
 			:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
             a-oper="other">编辑模式</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
-            a-oper="other">配置字段</button>
+            a-oper="newTab">配置字段</button>
 		</template>
 		<slot></slot>
 	</my-listheading>
@@ -1125,7 +1133,6 @@ function editUrl(sjdx,row){
  */
 function defaultLbcz(value,_this) {
     if(_this.pagemodel=='cklist'||_this.pagemodel=='bjlist'){
-        debugger
         var data = {sjdx:_this.$root.sjdx,
     		    row:_this.$root.listPage.rows[_this.$parent.$parent.ri],
     		    user:_this.$parent.$parent.$parent._data.user};

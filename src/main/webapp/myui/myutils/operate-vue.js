@@ -312,6 +312,11 @@ $(document).ready(function(){
         }
 	   	return false;
 	});
+    $("[a-oper=newTab]").click(function(){       
+        var url = $(this).attr("href");
+        popUpFillWin({url:url});
+        return false;
+    });
 	
 	
 	/********************************FormFrame**************
