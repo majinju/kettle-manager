@@ -171,7 +171,7 @@ Vue.component('my-inputn', {
         nval:function (){
             var val=this.value;
             if(!this.edit&&this.field.kjlx=='dict'){
-                val = zdMcByDm(this.field.zdzdlb,this.value);
+                val = zdMcByDmMore(this.field.zdzdlb,this.value);
             }
             var sf = strFunToFun(this.field.gshff);
             if(sf){
@@ -182,7 +182,7 @@ Vue.component('my-inputn', {
         nvalTitle:function (){
             var val=this.value;
             if(!this.edit&&this.field.kjlx=='dict'){
-                val = zdMcByDm(this.field.zdzdlb,this.value)+"["+this.value+"]";
+                val = zdMcByDmMore(this.field.zdzdlb,this.value)+"["+this.value+"]";
             }
            return val;
         }
@@ -212,7 +212,6 @@ Vue.component('my-inputn', {
                 //选中项目后的回调处理
                 //入参：data：选中行的原始数据对象
                 eSelect : function(data){
-                    debugger
                     _this.val=$("[name='"+(_this.owner||'')+field.zddm+"']").val();
                     _this.mc=data.mc;
                     _this.$emit('setval', field,_this);
@@ -374,7 +373,7 @@ Vue.component('my-timeaera', {
       return {
           startData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
           endData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
-          times:this.value||[]
+          times:this.value||''
       }
     },
     template: '#my-timeaera-tp',
