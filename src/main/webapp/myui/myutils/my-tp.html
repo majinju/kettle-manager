@@ -212,7 +212,8 @@ Vue.component('my-inputn', {
                 //选中项目后的回调处理
                 //入参：data：选中行的原始数据对象
                 eSelect : function(data){
-                    _this.val=$("#"+field.zddm).val();
+                    debugger
+                    _this.val=$("[name='"+(_this.owner||'')+field.zddm+"']").val();
                     _this.mc=data.mc;
                     _this.$emit('setval', field,_this);
                     if(field.eSelect){
@@ -229,7 +230,7 @@ Vue.component('my-inputn', {
                     }
                 },
                 eTagRemove: function(datas){
-                    _this.val=$("#"+field.zddm).val();
+                    _this.val=$("[name='"+(_this.owner||'')+field.zddm+"']").val();
                     _this.mc="";
                     _this.$emit('setval', field,_this);
                     if(field.eTagRemove){
@@ -444,19 +445,19 @@ Vue.component('my-timeaera', {
 <script type="text/x-tp" id="my-srkj-tp">
 	<div :title="value||field.zdts">
 	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'||(pagemodel=='search'&&field.kjlx=='textarea')" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
   			:edit="isEdit" @setval="setval" :class="srkjClass"></my-inputn>
 	    <my-time v-else-if="field.kjlx=='time'&&pagemodel!='search'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
   			:edit="isEdit" @setval="setval" :class="srkjClass"></my-time>
 	    <my-timeaera v-else-if="field.kjlx=='timearea'||(field.kjlx=='time'&&pagemodel=='search')" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-timeaera>
 	    <my-checkbox v-else-if="field.kjlx=='checkbox'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-checkbox>
 	    <my-textaera v-else-if="field.kjlx=='textarea'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel"
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
 		<div v-else>
 	    	没有控件[{{field.kjlx}}]
@@ -465,7 +466,7 @@ Vue.component('my-timeaera', {
 </script>
 <script type="text/javascript">
 Vue.component('my-srkj', {
-    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow' ],
+    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow','owner' ],
     data : function() {
         return {}
     },
@@ -514,7 +515,7 @@ Vue.component('my-srkj', {
 	    <my-label :field="fieldBt" :index="index" :data="data"></my-label>
 	</label>
 	<my-srkj :class="'col-xs-'+(isCzd(field)?'10':'6')"
-		:field="field" :index="index" :value="value"
+		:field="field" :index="index" :value="value" :owner="owner"
 		@setval="setval"
 		:data="data" :pagemodel="pagemodel">
 	</my-srkj>
@@ -522,7 +523,7 @@ Vue.component('my-srkj', {
 </script>
 <script type="text/javascript">
 Vue.component('my-input', {
-    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow' ],
+    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow','owner' ],
     data : function() {
         return {}
     },
