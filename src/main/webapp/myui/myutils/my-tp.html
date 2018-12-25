@@ -61,6 +61,13 @@ Vue.component('my-textaera', {
            return val;
         }
     },
+    watch:{
+        value:function(newVal){
+            debugger
+            this.$el.val = newVal;
+            this.$emit('setval', this.field, this.$el);
+        }
+    },
     methods : {
         setval : function($event) {
             var sf = strFunToFun(this.field.fgshff);
@@ -1046,7 +1053,7 @@ Vue.component('my-edit', {
                   return;
               }
               this.updatedata[field.zddm] = event.val;
-              if(event.target.mc){
+              if(event.mc){
                   this.updatedata['map.'+field.zddm]=event.mc;
               }
               console.log(field.zdmc + "=" + this.updatedata[field.zddm]); 
