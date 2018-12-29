@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
 * 字典管理 <br/>
+* 路径以后调整
 * date: 2018年12月8日 <br/>
 * @author jingma
 * @version 
@@ -44,7 +45,7 @@ public class DictController extends BasicController {
     @RequestMapping(value = "/zdList.do")
     public void zdList(SysZdTyzd t, HttpServletResponse response) {
         String result = JSON.toJSONString(
-                DictManager.zdList(t.getMap().get("zdlb").toString()), true);
+                DictManager.zdList(t.get("zdlb").toString()), true);
         sendJson(response, result);
     }
 
@@ -58,9 +59,9 @@ public class DictController extends BasicController {
     @RequestMapping(value = "/zdSearch.do")
     public void zdSearch(PageInfo<JSONObject> page, SysZdTyzd t,
             HttpServletResponse response) {
-        Object searchValue = t.getMap().get("searchValue");
-        String otherParam = (String) t.getMap().get("otherParam");
-        String zdlb = t.getMap().get("zdlb").toString();
+        Object searchValue = t.get("searchValue");
+        String otherParam = (String) t.get("otherParam");
+        String zdlb = t.get("zdlb").toString();
         PageInfo<JSONObject> result;
         if (searchValue != null
                 && StringUtil.isNotBlank(searchValue.toString())) {

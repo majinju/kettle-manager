@@ -14,15 +14,58 @@
 		<ul class="J-level1-nav hy-lk-nav-level1">
 			<li>
 				<p class="hy-lk-nav-level1-tit active">
-				<i class="level1-icon icon1"></i>后台管理<i class="triggle"></i>
+				<i class="level1-icon icon1"></i>数据管理<i class="triggle"></i>
 				</p>
 				<ul class="hy-lk-nav-level2">
+					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJDX&userInfo=123@admin&myparams={"xjanmc":"导入对象"}' target="mainFrame">
+						<i class="circle"></i>数据对象</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams={"lbkbj":"0"}' target="mainFrame">
+						<i class="circle"></i>数据字段</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_ZD_TYZD' target="mainFrame">
+						<i class="circle"></i>字典管理</a>
+					</li>
 					<li><a href="common/dict/list.do" target="mainFrame">
 						<i class="circle"></i>统一字典</a>
 					</li>
 <!-- 					<li><a href="common/file/list.do" target="mainFrame"> -->
 <!-- 						<i class="circle"></i>文件管理</a> -->
 <!-- 					</li> -->
+					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJK' target="mainFrame">
+						<i class="circle"></i>数据库管理</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_LOG_FWZR' target="mainFrame">
+						<i class="circle"></i>访问日志</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_APP' target="mainFrame">
+						<i class="circle"></i>应用管理</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_YHXX' target="mainFrame">
+						<i class="circle"></i>用户信息</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_JGXX' target="mainFrame">
+						<i class="circle"></i>机构信息</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_FILE_RECORD' target="mainFrame">
+						<i class="circle"></i>文件管理</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<p class="hy-lk-nav-level1-tit">
+				<i class="level1-icon icon1"></i>运行监控<i class="triggle"></i>
+				</p>
+				<ul class="hy-lk-nav-level2 hide">
+					<li><a href='sjdx/list.do?dxdm=R_JOB' target="mainFrame">
+						<i class="circle"></i>作业管理</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_YXJK_JKRW' target="mainFrame">
+						<i class="circle"></i>监控任务</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_YXJK_XX' target="mainFrame">
+						<i class="circle"></i>监控消息</a>
+					</li>
 				</ul>
 			</li>
 			<li>

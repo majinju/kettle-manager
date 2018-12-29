@@ -58,7 +58,7 @@ public class FileService extends BasicService{
      * @return
      * @throws IOException
      */
-    public JSONObject uploadFiles(SysFileRecord t,MultipartFile file){
+    public JSONObject upload(SysFileRecord t,MultipartFile file){
         //文件名称
         String fileName = file.getOriginalFilename();
         //文件类型

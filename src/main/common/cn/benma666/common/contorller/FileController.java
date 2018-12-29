@@ -33,7 +33,7 @@ import com.alibaba.fastjson.JSONObject;
 * @version 
 */
 @Controller
-@RequestMapping(value = "/common/file")
+@RequestMapping(value = "/file")
 public class FileController extends BasicController{
     
     @Autowired
@@ -42,13 +42,13 @@ public class FileController extends BasicController{
     /**
      * @Description:文件上传
      */
-    @RequestMapping(value = "/uploadFile.do", method = RequestMethod.POST)
-    public void uploadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,SysFileRecord t){
+    @RequestMapping(value = "/upload.do", method = RequestMethod.POST)
+    public void upload(HttpServletRequest request,HttpServletResponse response, HttpSession session,SysFileRecord t){
         //获取文件
         MultipartFile file =((MultipartHttpServletRequest) request).getFile("file");
         try{
             //上传文件
-            JSONObject record = fileService.uploadFiles(t,file);
+            JSONObject record = fileService.upload(t,file);
             sendJson(response, success("",record));
         }catch(Exception e){
             log.error("数据处理出错", e);
@@ -64,8 +64,8 @@ public class FileController extends BasicController{
      * @param session
      * @param id
      */
-    @RequestMapping(value="/downloadFile.do")
-    public void downloadFile(HttpServletRequest request,HttpServletResponse response, HttpSession session,SysFileRecord t){
+    @RequestMapping(value="/download.do")
+    public void download(HttpServletRequest request,HttpServletResponse response, HttpSession session,SysFileRecord t){
         try {
             SysFileRecord record = sqlManager.single(SysFileRecord.class, t.getId());
             if(record!=null){
@@ -206,7 +206,7 @@ public class FileController extends BasicController{
     */
     @Override
     public String getFModulePath() {
-        return "common";
+        return "";
     }
 
     /**
