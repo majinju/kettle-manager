@@ -54,12 +54,19 @@
 			</li>
 			<li>
 				<p class="hy-lk-nav-level1-tit">
-				<i class="level1-icon icon1"></i>运行监控<i class="triggle"></i>
+				<i class="level1-icon icon1"></i>kettle增强<i class="triggle"></i>
 				</p>
 				<ul class="hy-lk-nav-level2 hide">
 					<li><a href='sjdx/list.do?dxdm=R_JOB' target="mainFrame">
 						<i class="circle"></i>作业管理</a>
 					</li>
+				</ul>
+			</li>
+			<li>
+				<p class="hy-lk-nav-level1-tit">
+				<i class="level1-icon icon1"></i>运行监控<i class="triggle"></i>
+				</p>
+				<ul class="hy-lk-nav-level2 hide">
 					<li><a href='sjdx/list.do?dxdm=SYS_YXJK_JKRW' target="mainFrame">
 						<i class="circle"></i>监控任务</a>
 					</li>
@@ -131,7 +138,7 @@
 				<i class="level1-icon icon1"></i>项目原型<i class="triggle"></i>
 				</p>
 				<ul class="hy-lk-nav-level2 hide">
-					<li><a href="###" target="_blank">
+					<li><a href="javascript:void(0);" target="_blank">
 						<i class="circle"></i>XXX</a>
 					</li>
 				</ul>

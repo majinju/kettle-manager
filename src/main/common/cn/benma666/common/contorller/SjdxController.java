@@ -31,7 +31,7 @@ public class SjdxController extends BasicController {
     private SjdxService sjdxService;
     /**
     * 对象查询 <br/>
-     * @param request 
+    * @param request 
     */
     @RequestMapping(value = "/list.do")
     public String list(SysSjglSjdx sjdx,String myparams, Model model, 
@@ -42,8 +42,7 @@ public class SjdxController extends BasicController {
             myparams = "{}";
         }
         model.addAttribute("myparams", myparams);
-        LjqManager.list(sjdx,model);
-        return getPathList();
+        return LjqManager.list(sjdx,model);
     }
     /**
     * 进入编辑新增页面 <br/>
@@ -57,7 +56,7 @@ public class SjdxController extends BasicController {
         }
         model.addAttribute("myparams", myparams);
         LjqManager.edit(sjdx,model);
-        return getPathEdit();
+        return LjqManager.edit(sjdx,model);
     }
     
     /**

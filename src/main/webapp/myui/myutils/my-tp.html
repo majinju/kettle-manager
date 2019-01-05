@@ -626,7 +626,7 @@ Vue.component('my-from', {
 	:class="(field.yxpx=='1')?'filed-order':''" 
 	class="ellipsis"
 	:data-filed="field.zddm" 
-	:title="field.zdmc"
+	:title="field.zdmc+'['+field.zddm+']'"
 	data-order=""
 	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
 	>
