@@ -214,6 +214,7 @@ Vue.component('my-inputn', {
                 searchField: "map['searchKey']",
                 orderBy : ['px asc','dm asc','mc'],
                 eAjaxSuccess: function(d){
+                    debugger
                     return d;
                 },
                 //选中项目后的回调处理
@@ -707,7 +708,7 @@ Vue.component('my-heading', {
     template:"#my-heading-tp",
     created : function() {
 //         console.log('my-heading: ' + this.title);
-    },
+    }
   });
 </script>
 <script type="text/x-tp" id="my-listheading-tp"> 
@@ -728,7 +729,7 @@ Vue.component('my-listheading', {
     template:"#my-listheading-tp",
     created : function() {
 //         console.log('xx: ' + this.title);
-    },
+    }
   });
 </script>
 <script type="text/x-tp" id="my-expeb-tp"> 
@@ -973,6 +974,7 @@ Vue.component('my-list', {
             this.listPage.setPageId("#"+this.$el.id);
             this.listPage.paramType = "jsonStr";
             this.listPage.listFrom = _this;
+            this.listPage.totalDelay = _this.sjdx.fytjxs;
             if(typeof(initPage)=='function'){
                 initPage(this.listPage);
             }
@@ -986,7 +988,9 @@ Vue.component('my-list', {
                   rows[i]['my-lbxz']='0';
                 }
             }
-            this.listPage.queryPage();
+            if(!(_this.sjdx.cscx=='0')){
+                this.listPage.queryPage();
+            }
         }
   });
 </script>

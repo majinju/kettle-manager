@@ -30,6 +30,12 @@ function PageAjax(){
     this.listHead = null;
     //显示页大小
     this.showPageSize = true;
+    //是否初始查询
+    this.initQuery=true;
+    //统计数据量延迟加载。
+    this.totalDelay = '1';
+    //执行默认分页模板处理方式
+    this.defaultPageTmpl = true;
     
     //自定义参数校验
     this.checkParam=function(_params){
@@ -173,15 +179,20 @@ function PageAjax(){
             self.params["orderWay"] = filedTh.attr("data-order");
         }
 
+        self.params.queryList = true;
         var params = clone(self.params);
+        params.autoCount = self.autoCount;
+        //如果需要统计总量且要求延迟统计
+        if(self.autoCount&&(self.totalDelay!='1')){
+            params.autoCount = false;
+        }
         if(self.paramType=="jsonStr"){
             params = {"myparams":JSON.stringify(params),"pageIndex":self.pageIndex,
-                    "pageSize":self.pageSize,"autoCount":self.autoCount};
+                    "pageSize":self.pageSize,"autoCount":params.autoCount,"queryList":params.queryList};
         }else{
             //设置传到后台的参数
             params.pageIndex = self.pageIndex;
             params.pageSize = self.pageSize;
-            params.autoCount = self.autoCount;
         }
         self.listFrom.rows=[];
     	$.ajax({
@@ -190,21 +201,30 @@ function PageAjax(){
     		data:params,
             dataType: "json",
     		success:function(result){
-                if(!result.status){
-                    alertInfo(result.msg);
-                    return;
+                if(self.defaultPageTmpl){
+                    if(!result.status){
+                        alertInfo(result.msg);
+                        return;
+                    }
+                    result = result.data;
+                    eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
+                    self.callback(result);
+                    if(!result.list){
+                        result.list = [];
+                    }
+                    self.rows = result.list;
+                    self.listFrom.rows=self.rows;
+
+                    //如果需要统计总量且要求延迟统计
+                    if(self.autoCount&&(self.totalDelay!='1')){
+                    }else{
+                        self.setTotal(result.recordCount);
+                        self.pagination();
+                        $(self.pageId+" .pageSize").val(self.pageSize);
+                    }
+                }else{
+                    self.callback(result);
                 }
-                result = result.data;
-    			eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
-                self.callback(result);
-    			if(!result.list){
-    				result.list = [];
-    			}
-    			self.rows = result.list;
-    			self.listFrom.rows=self.rows;
-    		    self.setTotal(result.recordCount);
-    		    self.pagination();
-                $(self.pageId+" .pageSize").val(self.pageSize);
                 layer.close(loadindex);
     		},
     		error:function(errInfo){
@@ -212,6 +232,44 @@ function PageAjax(){
                 layer.close(loadindex);
     		}
     	});
+
+        //如果需要统计总量且要求延迟统计
+        if(self.autoCount&&(self.totalDelay=='2')){
+            $(self.pageId +" .pagination").html('<div class="col-xs-12"><div class="pagination-group">数据量正在统计中...</div></div>');
+            var params = self.params;
+            params.autoCount = true;
+            params.queryList = false;
+            if(self.paramType=="jsonStr"){
+                params = {"myparams":JSON.stringify(params),"pageIndex":self.pageIndex,
+                        "pageSize":self.pageSize,"autoCount":true,"queryList":false};
+            }else{
+                //设置传到后台的参数
+                params.pageIndex = self.pageIndex;
+                params.pageSize = self.pageSize;
+                params.autoCount = self.autoCount;
+            }
+            $.ajax({
+                url:url,
+                type:"post",
+                data:params,
+                dataType: "json",
+                success:function(result){
+                    if(!result.status){
+                        alertInfo(result.msg);
+                        return;
+                    }
+                    result = result.data;
+                    self.setTotal(result.recordCount);
+                    self.pagination();
+                    $(self.pageId+" .pageSize").val(self.pageSize);
+                },
+                error:function(errInfo){
+                    alertError("统计总量失败");        
+                }
+            });
+        }else if(self.autoCount&&(self.totalDelay=='3')){
+            $(self.pageId +" div.row.pagination").html('<div class="col-xs-12"><div class="pagination-group">点击统计</div></div>');
+        }
     };
     
     /**
