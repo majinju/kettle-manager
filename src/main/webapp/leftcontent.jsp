@@ -92,6 +92,9 @@
 					<li><a href="${serviceAddr}myui/cron/index.htm" target="mainFrame">
 						<i class="circle"></i>cron表达式</a>
 					</li>
+					<li><a href="${serviceAddr}myui/websocket/stomptest.html" target="_blank">
+						<i class="circle"></i>ws学习</a>
+					</li>
 					<li><a href="${serviceAddr}myui/vue/vue.html" target="mainFrame">
 						<i class="circle"></i>vue学习</a>
 					</li>
