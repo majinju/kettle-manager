@@ -48,7 +48,7 @@ public class WebSocketController extends BasicController {
     @MessageMapping("/init")
     @SendTo("/topic/init")
     public JsonResult init(@RequestParam String msg) {
-        template.convertAndSend("/topic/init",error("测试失败"));
+//        template.convertAndSend("/topic/init",error("测试失败"));
         return success("测试init");
     }
 
