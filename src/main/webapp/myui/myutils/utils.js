@@ -241,7 +241,7 @@ function initValidator(){
             var zdObj = $(this);
             var zdlb = zdObj.attr("zdlb");
             var otherParam = zdObj.attr("other-param")||'';
-            var data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map['zdlb']="+zdlb+"&map['otherParam']="+otherParam;
+            var data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map%5B'zdlb'%5D="+zdlb+"&map%5B'otherParam'%5D="+otherParam;
             if(!(zdObj.attr("ajax")=="true")&&zdlb!="SYS_COMMON_ORG"){
             	data = zdList(zdlb);
             }

@@ -214,9 +214,9 @@ Vue.component('my-inputn', {
                 searchField: "map%5B'searchKey'%5D",
                 orderBy : ['px asc','dm asc','mc'],
                 eAjaxSuccess: function(d){
-                    for(var i in d.list){
-                        d.list[i].mc=d.list[i].mc+"["+d.list[i].dm+"]";
-                    }
+//                     for(var i in d.list){
+//                         d.list[i].mc=d.list[i].mc+"["+d.list[i].dm+"]";
+//                     }
                     return d;
                 },
                 //选中项目后的回调处理
