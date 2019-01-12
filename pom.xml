@@ -18,6 +18,11 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+		<dependency>
+		    <groupId>cn.benma666</groupId>
+		    <artifactId>KettleEasyExpand</artifactId>
+		    <version>1.0.1</version>
+		</dependency>
 
 		<!-- webSocket -->
 		<!-- 注意,scope必须为provided,否则runtime会冲突，如果使用tomcat 8,还需要将TOMCAT_HOME/lib下的javax.websocket-api.jar一并删除 -->

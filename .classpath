@@ -25,5 +25,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/kettle5.4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kettle UI"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
