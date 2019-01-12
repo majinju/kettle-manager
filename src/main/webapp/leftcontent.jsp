@@ -60,6 +60,9 @@
 					<li><a href='sjdx/list.do?dxdm=R_JOB' target="mainFrame">
 						<i class="circle"></i>作业管理</a>
 					</li>
+					<li><a href='sjdx/list.do?dxdm=R_JOB_JK' target="mainFrame">
+						<i class="circle"></i>作业监控</a>
+					</li>
 				</ul>
 			</li>
 			<li>

@@ -239,6 +239,9 @@ Vue.component('my-inputn', {
                     }
                 },
                 eTagRemove: function(datas){
+                    if(datas==0){
+                        return;
+                    }
                     _this.val=$("[name='"+(_this.owner||'')+field.zddm+"']").val();
                     _this.mc="";
                     _this.$emit('setval', field,_this);
