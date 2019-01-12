@@ -428,7 +428,7 @@ function PageAjax(){
      */
     this.getHangHao=function(index){
         var self = this;
-        return (self.params.pageIndex-1)*self.params.pageSize+index+1;
+        return (self.pageIndex-1)*self.pageSize+index+1;
     };
 }
 /**

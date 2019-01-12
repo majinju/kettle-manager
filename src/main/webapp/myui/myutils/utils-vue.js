@@ -391,7 +391,7 @@ function zdMcByDm(zdlb,dm){
 function zdMcByDmMore(zdlb,dm){
 	var mc = "";
 	if(dm){
-		var mcs = dm.split(",");
+		var mcs = (dm+"").split(",");
 		for(var i=0;i<mcs.length;i++){
 			if(mcs[i] != ""){
 				var zl = zdMap(zdlb);

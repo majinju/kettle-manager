@@ -28,12 +28,12 @@
       	//stomp请求与服务器建立连接 connet({},function(),function())第一个参数Map是请求的头信息，第二个参数是请求成功回调函数，第三个函数是请求失败回调函数
     	stompClient.connect(headers, function(frame) {
     	    console.log("connected------------");
-            stompClient.send("/myws/init",headers,"mjtest");
             stompClient.subscribe('/topic/init', function(message){
                 var json = JSON.parse(message.body);
                 alert(message);
                 //console.log(message);
             });
+            stompClient.send("/myws/init",headers,"mjtest");
         },function(error){
         	console.log(error);
         });
