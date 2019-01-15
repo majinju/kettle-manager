@@ -247,11 +247,13 @@ public class SjdxLjq extends DefaultLjq{
                 if(zdms1.length==2){
                     //配置了字典信息
                     zd.setZdzdlb(zdms1[1]);
-                    //自动进行字典的一些常见设置
-                    zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_DICT);
                     //逻辑判断类的字段一般都比较短
                     if("SYS_COMMON_LJPD".equals(zdms1[1])){
                         zd.setZdkd(BigDecimal.valueOf(80));
+                        zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_CHECKBOX);
+                    }else{
+                        //自动进行字典的一些常见设置
+                        zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_DICT);
                     }
                 }else if(zdms1[0].indexOf("时间")>-1){
                     //时间字段的默认设置

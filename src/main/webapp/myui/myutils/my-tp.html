@@ -163,7 +163,7 @@ Vue.component('my-inputn', {
     template: '#my-inputn-tp',
     methods : {
         setval : function($event) {
-            if(this.field.kjlx!='dict'){
+            if(!this.isDict){
                 var sf = strFunToFun(this.field.fgshff);
                 if(sf){
                     $event.val=sf($event.target.value);
@@ -177,7 +177,7 @@ Vue.component('my-inputn', {
     computed : {
         nval:function (){
             var val=this.value;
-            if(!this.edit&&this.field.kjlx=='dict'){
+            if(!this.edit&&this.isDict){
                 val = zdMcByDmMore(this.field.zdzdlb,this.value);
             }
             var sf = strFunToFun(this.field.gshff);
@@ -188,17 +188,20 @@ Vue.component('my-inputn', {
         },
         nvalTitle:function (){
             var val=this.value;
-            if(!this.edit&&this.field.kjlx=='dict'){
+            if(!this.edit&&this.isDict){
                 val = zdMcByDmMore(this.field.zdzdlb,this.value)+"["+this.value+"]";
             }
            return val;
+        },
+        isDict:function (){
+           return this.field.kjlx=='dict'||this.field.kjlx=='checkbox';
         }
     },
     mounted: function () {
         var _this =  this;
         _this.target = this.$el;
         var field = this.field;
-        if(this.field.kjlx=='dict'&&this.edit){
+        if(this.isDict&&this.edit){
             var zdObj = $(this.$el);
             var zdlb = field.zdzdlb;
             var otherParam = field.otherParam||'';
@@ -268,7 +271,7 @@ Vue.component('my-inputn', {
         }
       },
     updated: function () {
-        if(this.field.kjlx=='dict'){
+        if(this.isDict){
             $(this.$el).selectPageRefresh();
         }
       }
@@ -456,7 +459,13 @@ Vue.component('my-timeaera', {
 </script>
 <script type="text/x-tp" id="my-srkj-tp">
 	<div :title="value||field.zdts">
-	    <my-inputn v-if="(field.kjlx||'input')=='input'||field.kjlx=='dict'||(pagemodel=='search'&&field.kjlx=='textarea')" 
+	    <my-checkbox v-if="field.kjlx=='checkbox'&&(pagemodel=='cklist'||pagemodel=='bjlist')" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+			:edit="isEdit" @setval="setval"></my-checkbox>
+	    <my-textaera v-else-if="field.kjlx=='textarea'&&pagemodel!='search'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
+	    <my-inputn v-else-if="isInputn" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
   			:edit="isEdit" @setval="setval" :class="srkjClass"></my-inputn>
 	    <my-time v-else-if="field.kjlx=='time'&&pagemodel!='search'" 
@@ -465,12 +474,6 @@ Vue.component('my-timeaera', {
 	    <my-timeaera v-else-if="field.kjlx=='timearea'||(field.kjlx=='time'&&pagemodel=='search')" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-timeaera>
-	    <my-checkbox v-else-if="field.kjlx=='checkbox'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
-			:edit="isEdit" @setval="setval"></my-checkbox>
-	    <my-textaera v-else-if="field.kjlx=='textarea'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
-			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
 		<div v-else>
 	    	没有控件[{{field.kjlx}}]
 		</div>
@@ -487,6 +490,10 @@ Vue.component('my-srkj', {
             var pagemodel = this.pagemodel;
             return ((pagemodel=='bjlist'||pagemodel=='edit')&&!(this.field.yxbj=='0'))
             	||pagemodel=='add'||pagemodel=='search';
+        },
+        isInputn:function(){
+            var field = this.field;
+            return (field.kjlx||'input')=='input'||field.kjlx=='dict'||field.kjlx=='checkbox'||field.kjlx=='textarea';
         },
         srkjClass:function(){
             //返回输入控件的class
