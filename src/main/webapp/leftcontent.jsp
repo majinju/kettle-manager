@@ -29,14 +29,11 @@
 					<li><a href="common/dict/list.do" target="mainFrame">
 						<i class="circle"></i>统一字典</a>
 					</li>
-<!-- 					<li><a href="common/file/list.do" target="mainFrame"> -->
-<!-- 						<i class="circle"></i>文件管理</a> -->
-<!-- 					</li> -->
-					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJK' target="mainFrame">
-						<i class="circle"></i>数据库管理</a>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_FWQ' target="mainFrame">
+						<i class="circle"></i>服务器</a>
 					</li>
-					<li><a href='sjdx/list.do?dxdm=SYS_LOG_FWZR' target="mainFrame">
-						<i class="circle"></i>访问日志</a>
+					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJZT' target="mainFrame">
+						<i class="circle"></i>数据载体</a>
 					</li>
 					<li><a href='sjdx/list.do?dxdm=SYS_QX_APP' target="mainFrame">
 						<i class="circle"></i>应用管理</a>
@@ -49,6 +46,12 @@
 					</li>
 					<li><a href='sjdx/list.do?dxdm=SYS_FILE_RECORD' target="mainFrame">
 						<i class="circle"></i>文件管理</a>
+					</li>
+<!-- 					<li><a href="common/file/list.do" target="mainFrame"> -->
+<!-- 						<i class="circle"></i>文件管理</a> -->
+<!-- 					</li> -->
+					<li><a href='sjdx/list.do?dxdm=SYS_LOG_FWZR' target="mainFrame">
+						<i class="circle"></i>访问日志</a>
 					</li>
 				</ul>
 			</li>

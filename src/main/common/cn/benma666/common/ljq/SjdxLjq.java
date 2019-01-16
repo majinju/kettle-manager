@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.db.Db;
+import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -111,7 +112,7 @@ public class SjdxLjq extends DefaultLjq{
             result.addMsg("成功刷新对象个数："+count);
             return result;
         case "scdxst":
-            //刷新对象
+            //生成对象实体
             count = 0;
             result = success("");
             for(String id:(String[])params.get(KEY_IDS_ARRAY)){
@@ -121,7 +122,7 @@ public class SjdxLjq extends DefaultLjq{
                 result.addMsg(r.getMsg());
                 count++;
             }
-            result.addMsg("成功刷新对象个数："+count);
+            result.addMsg("成功生成对象实体个数："+count);
             return result;
         default:
             return super.plcl(sjdx, params);
@@ -137,6 +138,8 @@ public class SjdxLjq extends DefaultLjq{
     public JsonResult getDefaultImpSql(JSONObject params,String cllx) {
         JsonResult result;
         SysSjglSjdx ysjdx = JSON.parseObject(params.getJSONObject(KEY_YOBJ).toJSONString(), SysSjglSjdx.class);
+        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
+        ysjdx.setDxztlx(dbObj.getString("lx"));
         switch (ysjdx.getDxztlx()) {
         case JdbcUtils.ORACLE:
         case JdbcUtils.MYSQL:
@@ -184,17 +187,34 @@ public class SjdxLjq extends DefaultLjq{
     * @return 
     */
     public JsonResult impFields(SysSjglSjdx jtdx, JSONObject params, SysSjglSjdx sjdx) {
+        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
+        jtdx.setDxztlx(dbObj.getString("lx"));
         switch (jtdx.getDxztlx()) {
         case JdbcUtils.ORACLE:
         case JdbcUtils.MYSQL:
         case JdbcUtils.POSTGRESQL:
         case LjqInterface.ZD_SJZTLX_GREENPLUM:
             return impFieldsDB(jtdx,params,sjdx);
+        case LjqInterface.ZD_SJZTLX_FTP:
+        case LjqInterface.ZD_SJZTLX_BDWJ:
+            return impFieldsBdwj(jtdx,params,sjdx);
         default:
             throw new SjglException("不支持的对象载体类型："+jtdx.getDxztlx());
         }
     }
 
+    /**
+    *  <br/>
+    * @author jingma
+    * @param jtdx
+    * @param params
+    * @param sjdx
+    * @return
+    */
+    private JsonResult impFieldsBdwj(SysSjglSjdx jtdx, JSONObject params,
+            SysSjglSjdx sjdx) {
+        return success("文件字段导入待实现");
+    }
     /**
     * 获取默认导入sql-载体类型为数据库 <br/>
     * @author jingma

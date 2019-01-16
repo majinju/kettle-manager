@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import cn.benma666.constants.UtilConst;
+import cn.benma666.db.Db;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -22,12 +23,12 @@ import cn.benma666.web.SysQxYhxx;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 数据库拦截器 <br/>
+ * 数据载体拦截器 <br/>
  * date: 2018年12月16日 <br/>
  * @author jingma
  * @version 
  */
-public class SjkLjq extends DefaultLjq{
+public class SjztLjq extends DefaultLjq{
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
@@ -44,6 +45,7 @@ public class SjkLjq extends DefaultLjq{
             if(UtilConst.DEFAULT.equals(obj.getString("dm"))){
                 return error("配置文件中配置的数据库不能编辑");
             }
+            Db.use(obj.getString("dm")).close();
         }else{
             SysQxYhxx user = (SysQxYhxx) myJsonParams.get(KEY_USER);
             QxManager.setCjrInfo(user, yobj);
