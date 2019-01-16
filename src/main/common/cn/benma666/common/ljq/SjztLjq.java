@@ -22,12 +22,12 @@ import cn.benma666.web.SysQxYhxx;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 数据库拦截器 <br/>
+ * 数据载体拦截器 <br/>
  * date: 2018年12月16日 <br/>
  * @author jingma
  * @version 
  */
-public class SjkLjq extends DefaultLjq{
+public class SjztLjq extends DefaultLjq{
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
