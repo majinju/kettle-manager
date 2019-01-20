@@ -53,6 +53,9 @@
 					<li><a href='sjdx/list.do?dxdm=SYS_LOG_FWZR' target="mainFrame">
 						<i class="circle"></i>访问日志</a>
 					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_LOG_HTRZ' target="mainFrame">
+						<i class="circle"></i>后台日志</a>
+					</li>
 				</ul>
 			</li>
 			<li>

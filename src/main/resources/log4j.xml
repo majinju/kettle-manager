@@ -61,12 +61,31 @@
 			<param name="acceptOnMatch" value="true" />
 		</filter>
 	</appender>
+	
+	<appender name="error-db" class="org.apache.log4j.jdbc.JDBCAppender">
+		<param name="URL" value="jdbc:oracle:thin:@127.0.0.1:1521:mydb" />  
+		<param name="driver" value="oracle.jdbc.driver.OracleDriver" />  
+		<param name="user" value="sjsj" />  
+		<param name="password" value="sjsj" />  
+		<param name="Append" value="true" />  
+		<param name="Encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="INSERT INTO sys_log_htrz(CJSJ,XC,JB,SCL,XX,SCH) values('%d{yyyyMMddHHmmss}','%t','%-5p','%c','%m','%L')" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="ERROR" />
+			<param name="LevelMax" value="FATAL" />
+			<param name="acceptOnMatch" value="true" />
+		</filter>
+	</appender>
 
 	<logger name="cn.benma666" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="debug" />
 		<appender-ref ref="info" />
 		<appender-ref ref="error" />
+		<appender-ref ref="error-db" />
 		<appender-ref ref="console" />
 	</logger>
 	<logger name="org.apache.ibatis" additivity="false">
@@ -74,13 +93,14 @@
 		<appender-ref ref="debug" />
 		<appender-ref ref="info" />
 		<appender-ref ref="error" />
+		<appender-ref ref="error-db" />
 		<appender-ref ref="console" />
 	</logger>
 	<logger name="druid.sql.Statement" additivity="false">
 		<level value="ERROR" />
 		<appender-ref ref="debug" />
 		<appender-ref ref="info" />
-		<appender-ref ref="error" />
+		<appender-ref ref="error-db" />
 		<appender-ref ref="console" />
 	</logger>
 	<root>
@@ -88,6 +108,7 @@
 		<appender-ref ref="debug" />
 		<appender-ref ref="info" />
 		<appender-ref ref="error" />
+		<appender-ref ref="error-db" />
 		<appender-ref ref="console" />
 	</root>
 </log4j:configuration>
