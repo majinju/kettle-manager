@@ -13,7 +13,7 @@
 		</filter>
 	</appender>
 	<appender name="debug" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/benma666/logs/myservice/debug.log" />  
+		<param name="File" value="/benma666/logs/${projectCode}/debug.log" />  
 		<param name="Append" value="true" />  
 		<param name="Encoding" value="UTF-8" />
 		<param name="MaxBackupIndex" value="10" />  
@@ -29,7 +29,7 @@
 		</filter>
 	</appender>
 	<appender name="info" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/benma666/logs/myservice/info.log" />  
+		<param name="File" value="/benma666/logs/${projectCode}/info.log" />  
 		<param name="Append" value="true" />  
 		<param name="Encoding" value="UTF-8" />
 		<param name="MaxBackupIndex" value="10" />  
@@ -46,7 +46,7 @@
 	</appender>
 	
 	<appender name="error" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/benma666/logs/myservice/error.log" />  
+		<param name="File" value="/benma666/logs/${projectCode}/error.log" />  
 		<param name="Append" value="true" />  
 		<param name="Encoding" value="UTF-8" />
 		<param name="MaxBackupIndex" value="10" />  
@@ -62,16 +62,10 @@
 		</filter>
 	</appender>
 	
-	<appender name="error-db" class="org.apache.log4j.jdbc.JDBCAppender">
-		<param name="URL" value="jdbc:oracle:thin:@127.0.0.1:1521:mydb" />  
-		<param name="driver" value="oracle.jdbc.driver.OracleDriver" />  
-		<param name="user" value="sjsj" />  
-		<param name="password" value="sjsj" />  
-		<param name="Append" value="true" />  
-		<param name="Encoding" value="UTF-8" />
+	<appender name="error-db" class="cn.benma666.myutils.MyJDBCAppender">
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern"
-				value="INSERT INTO sys_log_htrz(CJSJ,XC,JB,SCL,XX,SCH) values('%d{yyyyMMddHHmmss}','%t','%-5p','%c','%m','%L')" />
+				value="INSERT INTO sys_log_htrz(CJSJ,SSXM,XC,JB,SCL,XX,SCH) values('%d{yyyyMMddHHmmss}','${projectCode}','%t','%-5p','%c','#msg#','%L')" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="LevelMin" value="ERROR" />
