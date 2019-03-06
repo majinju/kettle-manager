@@ -82,6 +82,9 @@
 					<li><a href='sjdx/list.do?dxdm=SYS_YXJK_XX' target="mainFrame">
 						<i class="circle"></i>监控消息</a>
 					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_YXJK_ZDYSQL' target="mainFrame">
+						<i class="circle"></i>自定义SQL</a>
+					</li>
 				</ul>
 			</li>
 			<li>

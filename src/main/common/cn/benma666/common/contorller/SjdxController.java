@@ -30,6 +30,11 @@ public class SjdxController extends BasicController {
     @Autowired
     private SjdxService sjdxService;
     /**
+     * Creates a new instance of SjdxController.
+     */
+    public SjdxController() {
+    }
+    /**
     * 对象查询 <br/>
     * @param request 
     */

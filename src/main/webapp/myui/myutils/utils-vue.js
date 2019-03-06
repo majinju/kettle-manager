@@ -475,7 +475,7 @@ function popUpFillWin(param) {
 	var left = param.left || 0;
 	var top = param.top || 0;
 	var width = param.width || screen.availWidth;
-	var height = param.height || screen.availHeight - 100;
+	var height = param.height || screen.availHeight - 50;
 	window.open(
 					param.url,
 					name,
