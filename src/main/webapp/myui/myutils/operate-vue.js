@@ -243,6 +243,12 @@ $(document).ready(function(){
         }
 	   	return false;
 	});
+    //3.其他事件:a-oper="other"
+    $(".listContent").on("click","[a-oper=newTab]",function(){   
+        var url = $(this).attr("href");
+        popUpFillWin({url:url});
+        return false;
+    });
     //1.删除事件：a-oper="dxcl"
     $("[a-oper=dxcl]").click(function(){
         var url = $(this).attr("href");

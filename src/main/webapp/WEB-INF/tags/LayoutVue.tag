@@ -4,6 +4,7 @@
 <%@ attribute name="js" fragment="true"%>
 <%@ attribute name="script" fragment="true" %>
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
+<c:set var="basicUrl" value="<%=WebUtil.getBasePath(request)%>"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,8 @@
      <script type="text/javascript">
 	     //设置全局服务地址
 	     var serviceAddr = "${serviceAddr}";
+	     //设置全局地址
+	     var basicUrl = "${basicUrl}";
      </script>
      
      <!-- jquery -->

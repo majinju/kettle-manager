@@ -7,6 +7,9 @@
     typeof define === 'function' && define.amd ? define(['jquery'], factory) :
     factory(jQuery);
 }(function($) {
+    if(!$.validator){
+        return;
+    }
 
     /* Global configuration
      */

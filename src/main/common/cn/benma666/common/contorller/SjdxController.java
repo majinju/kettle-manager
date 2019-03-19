@@ -51,16 +51,16 @@ public class SjdxController extends BasicController {
     }
     /**
     * 进入编辑新增页面 <br/>
+     * @param request 
     */
     @RequestMapping(value = "/edit.do")
-    public String edit(SysSjglSjdx sjdx,String myparams, Model model) {
-        sjdx = sqlManager.single(SysSjglSjdx.class, sjdx.getId());
-        model.addAttribute("sjdx", sjdx);
+    public String edit(SysSjglSjdx sjdx,String myparams, Model model, HttpServletRequest request) {
+        jcxx(sjdx,myparams,request);
+        model.addAttribute("sjdx", dbSjdx);
         if(StringUtil.isBlank(myparams)){
             myparams = "{}";
         }
         model.addAttribute("myparams", myparams);
-        LjqManager.edit(sjdx,model);
         return LjqManager.edit(sjdx,model);
     }
     
@@ -114,6 +114,25 @@ public class SjdxController extends BasicController {
         try {
             jcxx(sjdx,myparams,request);
             sendJson(response, sjdxService.txPlcl(dbSjdx,myJsonParams));
+        } catch (Exception e) {
+            log.error("数据处理异常"+sjdx, e);
+            sendJson(response, error("数据处理异常："+e.getMessage()));
+        }
+    }
+    /**
+    * 批量处理 <br/>
+    * @author jingma
+    * @param sjdx
+    * @param myparams
+    * @param response
+    * @param session
+    */
+    @RequestMapping(value = "/getdata.do")
+    public void getdata(SysSjglSjdx sjdx,String myparams,
+            HttpServletRequest request,HttpServletResponse response) {
+        try {
+            jcxx(sjdx,myparams,request);
+            sendJson(response, sjdxService.getdata(dbSjdx,myJsonParams));
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));

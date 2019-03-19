@@ -11,7 +11,7 @@ ${sjdx.bjymkz }
 </c:if>
 <script>
 var fromdata = ${myparams};
-var sjdxid = "${param.id}";
+var sjdxid = "${sjdx.id}";
 var pagemodel = "${param.pagemodel}";
 var vueParams = {
         el : '#dataform',

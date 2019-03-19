@@ -788,6 +788,8 @@ Vue.component('my-expeb', {
         <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
 			:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
             a-oper="newTab">编辑模式</button>
+        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&id=SYS_SJGL_SJDX&myparams='+pzdxUrl"
+            a-oper="newTab">配置对象</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
             a-oper="newTab">配置字段</button>
 		</template>
@@ -896,6 +898,9 @@ Vue.component('my-list', {
 		      },
 	          addUrl:function(){
 	              return encodeURI(JSON.stringify({"sjdx":this.sjdx.id}));
+	          },
+	          pzdxUrl:function(){
+	              return encodeURI(JSON.stringify({"id":this.sjdx.id}));
 	          }
 	      },
         methods : {

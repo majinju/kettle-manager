@@ -70,6 +70,29 @@ public class SjdxService extends BasicService{
         sjdx = (SysSjglSjdx)myJsonParams.get(LjqInterface.KEY_SJDX);
         return LjqManager.plcl(sjdx,myJsonParams);
     }
+
+    /**
+    *  <br/>
+    * @author jingma
+    * @param dbSjdx
+    * @param myJsonParams
+    * @return
+    */
+    public JsonResult getdata(SysSjglSjdx sjdx, JSONObject myJsonParams) {
+        Object ids = sjdx.get(LjqInterface.KEY_IDS);
+        if(ids!=null){
+            myJsonParams.put(LjqInterface.KEY_IDS_IN, " in ('"+ids.toString().replace(",", "','")+"')");
+            myJsonParams.put(LjqInterface.KEY_IDS_ARRAY, ids.toString().split(","));
+        }
+        Object cllxObj = sjdx.get(LjqInterface.KEY_CLLX);
+        if(cllxObj==null){
+            return error("操作失败：没有配置处理类型");
+        }else{
+            myJsonParams.put(LjqInterface.KEY_CLLX, cllxObj.toString());
+        }
+        sjdx = (SysSjglSjdx)myJsonParams.get(LjqInterface.KEY_SJDX);
+        return LjqManager.getdata(sjdx,myJsonParams);
+    }
     
     /**
     * 批量保存列表数据 <br/>

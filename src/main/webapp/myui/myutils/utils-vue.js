@@ -57,6 +57,9 @@ $(function() {
 	}
 });
 function initValidator(){
+    if(!$.validator){
+        return;
+    }
     $.validator.config({
         rules: {
             // 身份证
@@ -552,7 +555,6 @@ function qrtsAjax(url,fromdata,success,qxbtn){
             }
         }
     });
-    
 }
 function redict(result){
 //    window.location=serviceAddr+"myui/common/"+result.data+".jsp?msg="+result.msg;
