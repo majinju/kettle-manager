@@ -153,6 +153,10 @@ window.onload=function(){
     });
 }
 /**
+ * 已展示父节点
+ */
+var yzsfjd = {};
+/**
  * 得到父集关系
  */
 function fjgx(dqjd){
@@ -162,8 +166,13 @@ function fjgx(dqjd){
     var ylArr = dqjd.rwdx.ylrw.split(",");
     for(var ylIdx in ylArr){
         var rwdx = rwMap[ylArr[ylIdx]];
-        var jd={"name": rwdx.rwmc,
-                "id": dqjd.id+"_"+rwdx.id,
+        if(!yzsfjd[rwdx.id]){
+            yzsfjd[rwdx.id]=1;
+        }else{
+            yzsfjd[rwdx.id]++;
+        }
+        var jd={"name": yzsfjd[rwdx.id]+"_"+rwdx.rwmc,
+                "id": yzsfjd[rwdx.id]+"_"+rwdx.id,
                 "rwdx":rwdx,
                 "children": []};
         dqjd.children.push(jd);
@@ -171,17 +180,27 @@ function fjgx(dqjd){
     }
 }
 /**
+ * 已展示子节点 
+ */
+var yzszjd = {};
+/**
  * 得到子级关系
  */
 function zjgx(dqjd){
-    var ylArr = ylMap[dqjd.id];
+    var ylArr = ylMap[dqjd.rwdx.id];
     for(var ylIdx in ylArr){
         var rwdx = ylArr[ylIdx];
-        var jd={"name": rwdx.rwmc,
-                "id": dqjd.id+"_"+rwdx.id,
+        if(!yzsfjd[rwdx.id]){
+            yzsfjd[rwdx.id]=1;
+        }else{
+            yzsfjd[rwdx.id]++;
+        }
+        var jd={"name": yzsfjd[rwdx.id]+"_"+rwdx.rwmc,
+                "id": yzsfjd[rwdx.id]+"_"+rwdx.id,
                 "rwdx":rwdx,
                 "children": []};
         dqjd.children.push(jd);
+        yzszjd[rwdx.id]++;
         zjgx(jd);
     }
 }
@@ -199,13 +218,10 @@ function Relation(dom, menuOption) {
       series: [
           {
             type: 'tree',
-
             name: 'tree1',
-
             data: [],
-
             top: '0%',
-            left: '5%',
+            left: '15%',
             bottom: '0%',
             right: '50%',
             orient: 'RL',
@@ -222,7 +238,7 @@ function Relation(dom, menuOption) {
                     align: 'right',
                     formatter: function (value) {
                       value = value.name
-                      return (value.length > 6 ? (value.slice(0,6)+"...") : value )
+                      return (value.length > 14 ? (value.slice(0,12)+"...") : value )
                     }
                 }
             },
@@ -248,11 +264,10 @@ function Relation(dom, menuOption) {
             type: 'tree',
             name: 'tree2',
             data: [],
-
             top: '0%',
-            left: '55%',
+            left: '50%',
             bottom: '0%',
-            right: '5%',
+            right: '15%',
             orient: 'LR',
             symbol: 'arrow',
             symbolRotate: 270,
@@ -267,7 +282,7 @@ function Relation(dom, menuOption) {
                     align: 'right',
                     formatter: function (value) {
                       value = value.name
-                      return (value.length > 6 ? (value.slice(0,6)+"...") : value )
+                      return (value.length > 14 ? (value.slice(0,12)+"...") : value )
                     },
                     triggerEvent: true
                 }
@@ -352,11 +367,11 @@ function Relation(dom, menuOption) {
     var currentHeight = 20 * allNode
     var newHeight = Math.max(currentHeight, containerHeight)
     container.style.height = newHeight + 'px'
-    container.style.width = totalDepth * 150 + 'px'
+    container.style.width = totalDepth * 250 + 'px'
     this.myCharts.resize()
     this.myCharts.hideLoading()
 
-    document.querySelector('.relation-title').style.width = totalDepth * 150 + 'px'
+    document.querySelector('.relation-title').style.width = totalDepth * 250 + 'px'
 
     // 绑定菜单事件
     // 初始化右键菜单

@@ -4,7 +4,7 @@
 	<jsp:body>
     <link rel="stylesheet" type="text/css" href="${basicUrl }project/style/relation.css">
 		<div class="container">
-			<div class="relation-title">
+			<div class="relation-title" style="margin: auto;">
 				<p>
 					<i></i>
 					<span>父级关系</span>
@@ -14,7 +14,7 @@
 					<span>子级关系</span>
 				</p>
 			</div>
-			<div class="relation-charts" id="relation">
+			<div class="relation-charts" id="relation" style="margin: auto;">
 			</div>
 		</div>
 		<script type="text/javascript" src="${basicUrl }myui/jquery/jquery-1.9.1.min.js"></script>
