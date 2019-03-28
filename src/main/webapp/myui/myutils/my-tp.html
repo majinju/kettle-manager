@@ -862,9 +862,9 @@ Vue.component('my-list', {
       		},
 	      computed : {
 	          dcpcl:function (){ return fromdata.dcpcl||",操作,序号";},
-	          cxanmc:function (){ return fromdata.cxanmc;},
+	          cxanmc:function (){ return fromdata['my-cxanmc'];},
 	          xjanmc:function (){
-	              return fromdata.xjanmc;
+	              return fromdata['my-xjanmc'];
 	          },
 	          lbfxk:function (){ return fromdata.lbfxk;},
 	          lbkbj:function (){ return fromdata.lbkbj;},
@@ -1063,7 +1063,14 @@ Vue.component('my-edit', {
         fields : function (){ return this._data.fields},
         sjdx : function (){ return this._data.sjdx },
         action : function (){ return 'sjdx/save.do?id='+this.sjdxid },
-        index : function (){ return this.fromdata['my-from-index']!='0'||true},
+        index : function (){
+            debugger
+            if(this.fromdata['my-bjxh']!=undefined){
+                return this.fromdata['my-bjxh']!='0';
+            }else{
+                return this.sjdx.bjxh!='0';
+            }
+        },
         formid:function(){
             return this.$root.$options.el;
         }
@@ -1132,11 +1139,11 @@ function vueTimeGsh(value,_this){
         return time14Totime10(value);
     }
     var val = time14Totime19(value);
-    if(_this.pagemodel=='details'||_this.pagemodel=='cklist'){
-        return "<span style='color:red;'>"+val+"<span>";
-    }else{
+//     if(_this.pagemodel=='details'||_this.pagemodel=='cklist'){
+//         return "<span style='color:red;'>"+val+"<span>";
+//     }else{
         return val;
-    }
+//     }
 }
 /**
  * 时间反格式化：默认处理所有时间在数据库中存储的都是14位字符串
@@ -1247,7 +1254,7 @@ function gshffLbxz(value,_this) {
 </div>
 </script>
 <!-- 导出excel -->
-<form id='form1_1' name="form1_1" action="common/file/saveToExecl.do" method='post' style="display: hidden">
+<form id='form1_1' name="form1_1" action="file/saveToExecl.do" method='post' style="display: hidden">
 	<input type='hidden' name='content' id='content_1' />
 	<input type='hidden' name='filename' value="" id='filename_1' />
 	<input type='hidden' name='hiddenCol' value="" id='hiddenCol_1' />

@@ -204,6 +204,7 @@ function PageAjax(){
                 if(self.defaultPageTmpl){
                     if(!result.status){
                         alertInfo(result.msg);
+                        layer.close(loadindex);
                         return;
                     }
                     result = result.data;

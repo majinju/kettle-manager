@@ -17,7 +17,6 @@
 			<div class="relation-charts" id="relation" style="margin: auto;">
 			</div>
 		</div>
-		<script type="text/javascript" src="${basicUrl }myui/jquery/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="${basicUrl }myui/echarts/echarts-4.2.1-rc.1.js"></script>
 		<script type="text/javascript" src="${basicUrl }project/js/relation.js"></script>
 	</jsp:body>
