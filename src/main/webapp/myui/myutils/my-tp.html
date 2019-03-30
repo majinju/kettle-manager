@@ -81,6 +81,67 @@ Vue.component('my-textaera', {
  	}
   });
 </script>
+<script type="text/x-tp" id="my-jsoneditor-tp">
+<div :name="(owner||'')+field.zddm" 
+		:id="(owner||'')+field.zddm"
+		:style="(field.style||'height: 300px;')"></div>
+</script>
+<script type="text/javascript">
+Vue.component('my-jsoneditor', {
+    props: ['field','index','value','owner','pagemodel','edit'],
+    data: function () {
+      return {
+      }
+    },
+    template: '#my-jsoneditor-tp',
+    computed : {
+        nval:function (){
+            var val=this.value;
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }
+            if(!val){
+                val="{}";
+            }
+           return val;
+        }
+    },
+    methods : {
+        setval : function($event) {
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                $event.val=sf($event.target.value);
+            }else{
+                $event.val = $event.target.value;
+            }
+            this.$emit('setval', this.field, $event);
+        }
+ 	},
+    mounted: function () {
+        var _this =  this;
+        _this.target = this.$el;
+        var field = this.field;
+        var model = this.edit?"tree":"view";
+        var options = {
+          mode: model,
+          modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
+          onError: function (err) {
+            alert(err.toString());
+          },
+          onModeChange: function (newMode, oldMode) {
+            console.log('Mode switched from', oldMode, 'to', newMode);
+          },
+          onChange: function(){
+              _this.$el.val = JSON.stringify(_this.editor.get());
+              _this.$emit('setval', _this.field, _this.$el);
+          }
+        };
+        eval('var value='+(this.value?this.value:"{}"));
+        this.editor = new JSONEditor(this.$el, options, value );
+    }
+  });
+</script>
 <script type="text/x-tp" id="my-checkbox-tp">
     <span class="checkbox" :class="(field.classStr||'')+(checked=='1'?' checkbox-checked':'')" 
 		:style="(field.style||'')" @click="setval">
@@ -111,7 +172,6 @@ Vue.component('my-checkbox', {
             if(sf){
                 val=sf(val,this);
             }
-            debugger
            return val=='1';
         }
     },
@@ -136,6 +196,74 @@ Vue.component('my-checkbox', {
             this.$emit('setval', this.field, $event);
         }
  	}
+  });
+</script>
+<script type="text/x-tp" id="my-password-tp">
+<span>
+	<input v-if="edit"  type="password"
+		:name="(owner||'')+field.zddm"
+		:value="value"
+  		@blur="setval"
+		:index="index"
+		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+		:placeholder="field.zdts" 
+		:disabled="field.disabled"
+		style="width:calc((100% - 50px));display: inline;"
+		:class="field.classStr||'form-control'"
+		:onfocus="field.onfocus"
+		 />
+	<span v-else :class="field.classStr" style="width:calc((100% - 40px));" 
+		:title="nvalTitle" v-html="nval"></span>
+	<button type="button" class="btn btn-primary btn-sm" @click="ckmm">查看</button>
+</span>
+</script>
+<script type="text/javascript">
+Vue.component('my-password', {
+    props: ['field','index','value','owner','pagemodel','edit'],
+    data: function () {
+      return {
+      }
+    },
+    template: '#my-password-tp',
+    methods : {
+        setval : function($event) {
+            if(!this.isDict){
+                var sf = strFunToFun(this.field.fgshff);
+                if(sf){
+                    $event.val=sf($event.target.value);
+                }else{
+                    $event.val = $event.target.value;
+                }
+                this.$emit('setval', this.field, $event);
+            }
+        },
+        ckmm:function($event){
+            alertInfo("密码是："+this.value);
+        }
+	},
+    computed : {
+        nval:function (){
+            var val=this.value;
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }else{
+                val = "******";
+            }
+           return val;
+        },
+        nvalTitle:function (){
+           var val=this.value;
+           return val;
+        }
+    },
+    mounted: function () {
+        var _this =  this;
+        _this.target = _this.$el;
+        $(_this.$el).removeAttr("class");
+      },
+    updated: function () {
+      }
   });
 </script>
 <script type="text/x-tp" id="my-inputn-tp">
@@ -163,7 +291,7 @@ Vue.component('my-inputn', {
     template: '#my-inputn-tp',
     methods : {
         setval : function($event) {
-            if(!this.isDict){
+            if(!this.isDict||this.field.kjlx=='suggest'){
                 var sf = strFunToFun(this.field.fgshff);
                 if(sf){
                     $event.val=sf($event.target.value);
@@ -194,7 +322,7 @@ Vue.component('my-inputn', {
            return val;
         },
         isDict:function (){
-           return this.field.kjlx=='dict'||this.field.kjlx=='checkbox';
+           return this.field.kjlx=='dict'||this.field.kjlx=='checkbox'||this.field.kjlx=='suggest';
         }
     },
     mounted: function () {
@@ -210,10 +338,14 @@ Vue.component('my-inputn', {
             if(!(this.field.zdfy=='1')&&zdlb!="SYS_COMMON_ORG"){
             	data = zdList(zdlb);
             }
+            var keyField = "dm";
+            if(field.kjlx=='suggest'){
+                keyField = "mc";
+            }
             zdObj.selectPage({
             	data:data,
                 showField: 'mc',
-                keyField: 'dm',
+                keyField: keyField,
                 searchField: "map['searchKey']",
                 orderBy : ['px asc','dm asc','mc'],
                 eAjaxSuccess: function(d){
@@ -462,6 +594,12 @@ Vue.component('my-timeaera', {
 	    <my-checkbox v-if="field.kjlx=='checkbox'&&(pagemodel=='cklist'||pagemodel=='bjlist')" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-checkbox>
+	    <my-jsoneditor v-else-if="field.kjlx=='jsoneditor'&&(pagemodel=='edit'||pagemodel=='add'||pagemodel=='details')" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+			:edit="isEdit" @setval="setval" :class="srkjClass"></my-jsoneditor>
+	    <my-password v-else-if="field.kjlx=='password'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+			:edit="isEdit" @setval="setval" :class="srkjClass"></my-password>
 	    <my-textaera v-else-if="field.kjlx=='textarea'&&pagemodel!='search'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
@@ -493,7 +631,8 @@ Vue.component('my-srkj', {
         },
         isInputn:function(){
             var field = this.field;
-            return (field.kjlx||'input')=='input'||field.kjlx=='dict'||field.kjlx=='checkbox'||field.kjlx=='textarea';
+            return (field.kjlx||'input')=='input'||field.kjlx=='dict'
+            	||field.kjlx=='checkbox'||field.kjlx=='suggest'||field.kjlx=='textarea';
         },
         srkjClass:function(){
             //返回输入控件的class
@@ -1068,7 +1207,7 @@ Vue.component('my-edit', {
           success:function(result){
   			if(result.status){
   			    var rd = result.data;
-  			    data.sjdx = rd.sjdx;
+			    _this.$root.sjdx = data.sjdx = rd.sjdx;
   			    data.fields = rd.fields;
   			    data.user = rd.user;
   			    var zjzd = rd.sjdx.zjzd;

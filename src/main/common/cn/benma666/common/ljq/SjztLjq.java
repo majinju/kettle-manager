@@ -32,7 +32,7 @@ public class SjztLjq extends DefaultLjq{
         String cllx = myJsonParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
         String vs = "validationQuery."+yobj.getString("lx");
-        if(StringUtil.isBlank(yobj.getString("csyj"))&&vs.equals(SConf.getVal(vs))){
+        if(StringUtil.isBlank(yobj.getString("csyj"))&&!vs.equals(SConf.getVal(vs))){
             yobj.put("csyj", SConf.getVal(vs));
         }
         if(KEY_CLLX_UPDATE.equals(cllx)){
