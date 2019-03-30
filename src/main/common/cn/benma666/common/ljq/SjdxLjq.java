@@ -22,8 +22,6 @@ import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.SjglException;
 import cn.benma666.sjgl.SysSjglSjdx;
 import cn.benma666.sjgl.SysSjglSjzd;
-import cn.benma666.web.QxManager;
-import cn.benma666.web.SysQxYhxx;
 
 import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSON;
@@ -51,7 +49,6 @@ public class SjdxLjq extends DefaultLjq{
         case KEY_CLLX_INSERT:
             SysSjglSjdx jtdx = JSON.parseObject(params.get(KEY_OBJ).toString(), SysSjglSjdx.class);
             jtdx.setId(StringUtil.getUUIDUpperStr());
-            QxManager.setCjrInfo((SysQxYhxx) params.get(KEY_USER), jtdx);
             sqlManager.insertTemplate(jtdx);
             //新增
             JsonResult r = impFields(jtdx,params,sjdx);

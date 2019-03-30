@@ -14,7 +14,7 @@
 		<ul class="J-level1-nav hy-lk-nav-level1">
 			<li>
 				<p class="hy-lk-nav-level1-tit active">
-				<i class="level1-icon icon1"></i>数据管理<i class="triggle"></i>
+				<i class="level1-icon icon1"></i>平台管理<i class="triggle"></i>
 				</p>
 				<ul class="hy-lk-nav-level2">
 					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJDX&userInfo=123@admin' target="mainFrame">
@@ -38,12 +38,6 @@
 					<li><a href='sjdx/list.do?dxdm=SYS_QX_APP' target="mainFrame">
 						<i class="circle"></i>应用管理</a>
 					</li>
-					<li><a href='sjdx/list.do?dxdm=SYS_QX_YHXX' target="mainFrame">
-						<i class="circle"></i>用户信息</a>
-					</li>
-					<li><a href='sjdx/list.do?dxdm=SYS_QX_JGXX' target="mainFrame">
-						<i class="circle"></i>机构信息</a>
-					</li>
 					<li><a href='sjdx/list.do?dxdm=SYS_FILE_RECORD' target="mainFrame">
 						<i class="circle"></i>文件管理</a>
 					</li>
@@ -55,6 +49,31 @@
 					</li>
 					<li><a href='sjdx/list.do?dxdm=SYS_LOG_HTRZ' target="mainFrame">
 						<i class="circle"></i>后台日志</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<p class="hy-lk-nav-level1-tit">
+				<i class="level1-icon icon1"></i>权限管理<i class="triggle"></i>
+				</p>
+				<ul class="hy-lk-nav-level2 hide">
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_YHXX' target="mainFrame">
+						<i class="circle"></i>用户信息</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_JGXX' target="mainFrame">
+						<i class="circle"></i>机构信息</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_JSXX' target="mainFrame">
+						<i class="circle"></i>角色信息</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_QXXX' target="mainFrame">
+						<i class="circle"></i>权限信息</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_YHJSGL' target="mainFrame">
+						<i class="circle"></i>用户角色关联</a>
+					</li>
+					<li><a href='sjdx/list.do?dxdm=SYS_QX_JSQXGL' target="mainFrame">
+						<i class="circle"></i>角色权限关联</a>
 					</li>
 				</ul>
 			</li>

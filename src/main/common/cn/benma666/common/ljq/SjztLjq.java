@@ -12,9 +12,7 @@ import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.SysSjglSjdx;
-import cn.benma666.web.QxManager;
 import cn.benma666.web.SConf;
-import cn.benma666.web.SysQxYhxx;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -43,8 +41,8 @@ public class SjztLjq extends DefaultLjq{
                 Db.use(obj.getString("dm")).close();
             }
         }else{
-            SysQxYhxx user = (SysQxYhxx) myJsonParams.get(KEY_USER);
-            QxManager.setCjrInfo(user, yobj);
+//            SysQxYhxx user = (SysQxYhxx) myJsonParams.get(KEY_USER);
+//            QxManager.setCjrInfo(user, yobj);
         }
         return super.save(sjdx, myJsonParams);
     }
