@@ -11,8 +11,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import cn.benma666.common.domain.SysZdTyzd;
 import cn.benma666.constants.UtilConst;
+import cn.benma666.domain.SysZdTyzd;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;

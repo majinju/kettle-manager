@@ -771,7 +771,7 @@ Vue.component('my-expeb', {
 <my-heading :title="sjdx.dxmc">
 </my-heading>
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
-	:data="$data" @setval="setval" onsubmit="return false;">
+	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
       <button class="btn btn-primary btn-sm" @click="listPage.queryPage()">
           <i class="icon ion-ios-search-strong"></i> {{cxanmc||'查询'}}
@@ -789,7 +789,7 @@ Vue.component('my-expeb', {
 			:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
             a-oper="newTab">编辑模式</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&id=SYS_SJGL_SJDX&myparams='+pzdxUrl"
-            a-oper="newTab">配置对象</button>
+            a-oper="other">配置对象</button>
         <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
             a-oper="newTab">配置字段</button>
 		</template>
@@ -854,6 +854,7 @@ Vue.component('my-list', {
     			    _this.$root.sjdx = data.sjdx = rd.sjdx;
     			    _this.$root.fields = data.fields = rd.fields;
     			    data.user = rd.user;
+    			    data.kzxx = rd.kzxx;
     			}else{
     	        	redict(result);
     			}
@@ -862,9 +863,19 @@ Vue.component('my-list', {
       		},
 	      computed : {
 	          dcpcl:function (){ return fromdata.dcpcl||",操作,序号";},
-	          cxanmc:function (){ return fromdata['my-cxanmc'];},
+	          cxanmc:function (){
+	              var anmc = fromdata['my-cxanmc'];
+	              if(!anmc&&this._data.kzxx.lbymkz){
+	                  anmc = this._data.kzxx.lbymkz['my-cxanmc'];
+	              }
+	              return anmc;
+	          },
 	          xjanmc:function (){
-	              return fromdata['my-xjanmc'];
+	              var anmc = fromdata['my-xjanmc'];
+	              if(!anmc&&this._data.kzxx.lbymkz){
+	                  anmc = this._data.kzxx.lbymkz['my-xjanmc'];
+	              }
+	              return anmc;
 	          },
 	          lbfxk:function (){ return fromdata.lbfxk;},
 	          lbkbj:function (){ return fromdata.lbkbj;},
@@ -875,6 +886,19 @@ Vue.component('my-list', {
 	          isAdmin : function (){
 					var user = this._data.user;
 					return user.yhdm=='admin';
+				},
+			  myFromStyle : function (){
+			      var style = "";
+			      var isCxtj = true;
+	              if(fromdata['my-cxtj']!=undefined){
+	                  isCxtj = fromdata['my-cxtj']!='0';
+	              }else{
+	                  isCxtj = this._data.sjdx.cxtj!='0';
+	              }
+	              if(!isCxtj){
+	                  style+="display: none;";
+	              }
+	              return style;
 				},
 		      lbfields : function (){ return clone(this._data.fields);},
 	          action:function (){ return "sjdx/page.do?id="+this._data.sjdx.id;},
@@ -1064,7 +1088,6 @@ Vue.component('my-edit', {
         sjdx : function (){ return this._data.sjdx },
         action : function (){ return 'sjdx/save.do?id='+this.sjdxid },
         index : function (){
-            debugger
             if(this.fromdata['my-bjxh']!=undefined){
                 return this.fromdata['my-bjxh']!='0';
             }else{

@@ -12,8 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.benma666.common.domain.SysZdTyzd;
 import cn.benma666.common.service.DictService;
+import cn.benma666.domain.SysZdTyzd;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;

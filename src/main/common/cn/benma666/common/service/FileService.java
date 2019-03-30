@@ -8,8 +8,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import cn.benma666.common.domain.SysFileRecord;
 import cn.benma666.constants.UtilConst;
+import cn.benma666.domain.SysFileRecord;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.FileUtil;
 import cn.benma666.myutils.JsonResult;

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import cn.benma666.common.domain.SysFileRecord;
 import cn.benma666.common.service.FileService;
 import cn.benma666.constants.UtilConst;
+import cn.benma666.domain.SysFileRecord;
 import cn.benma666.myutils.ExportToExecl;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
@@ -71,7 +71,10 @@ public class FileController extends BasicController{
             if(record!=null){
                 File file = new File(record.getSclj());
                 WebUtil.sendFile(response, file, record.getWjm());
-            }                                                           
+            }else{
+                log.debug("下载的文件不存在："+t);
+                WebUtil.sendJson(response,error("下载的文件不存在："+t));
+            }
         } catch (Exception e) {
             log.error("数据处理出错", e);
             WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));

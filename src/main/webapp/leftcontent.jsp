@@ -17,7 +17,7 @@
 				<i class="level1-icon icon1"></i>数据管理<i class="triggle"></i>
 				</p>
 				<ul class="hy-lk-nav-level2">
-					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJDX&userInfo=123@admin&myparams={"my-xjanmc":"导入对象"}' target="mainFrame">
+					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJDX&userInfo=123@admin' target="mainFrame">
 						<i class="circle"></i>数据对象</a>
 					</li>
 					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams={"lbkbj":"0"}' target="mainFrame">
@@ -112,6 +112,12 @@
 					</li>
 					<li><a href="https://cn.vuejs.org/v2/guide/list.html" target="mainFrame">
 						<i class="circle"></i>vue文档</a>
+					</li>
+					<li><a href="${serviceAddr}myui/plupload-3.1.2/examples/custom.html" target="mainFrame">
+						<i class="circle"></i>plupload自定义</a>
+					</li>
+					<li><a href="${serviceAddr}myui/plupload-3.1.2/examples/events.html" target="mainFrame">
+						<i class="circle"></i>plupload事件</a>
 					</li>
 					<li><a href="https://validator.niceue.com/docs/" target="mainFrame">
 						<i class="circle"></i>验证框架</a>

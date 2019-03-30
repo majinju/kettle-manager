@@ -866,12 +866,12 @@ function strFunToFun(strFun){
         try{
             var f = eval(strFun);
             if(typeof(f)!='function'){
-                alert(strFun+"不是一个方法");
+                console.warn(strFun+"不是一个方法");
             }else{
                 return f;
             }
         }catch (e) {
-            alert(strFun+"不是一个方法:"+e.message);
+            console.warn(strFun+"不是一个方法:"+e.message);
         }
     }
     return false;

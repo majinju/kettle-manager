@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +28,7 @@
       </p>
       <p class="err-tip-500">
         <i class="icon icon-line-l"></i>
-        <span class="err-span">${param.msg!=null?param.msg:'系统内部发生错误' }</span>
+        <span class="err-span">${param.msg!=null?param.msg:'系统内部发生错误：' }<%= exception.getMessage() %></span>
         <i class="icon icon-line-r"></i>
       </p>
       <p>
