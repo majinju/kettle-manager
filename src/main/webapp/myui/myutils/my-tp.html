@@ -844,71 +844,14 @@ Vue.component('my-td', {
 	}
   });
 </script>
-<script type="text/x-tp" id="my-heading-tp"> 
-    <div class="panel-heading">
-        <h3 class="panel-title">
-             {{title}}
-        </h3>
-		<slot></slot>
-	</div>
-</script>
-<script type="text/javascript">
-//区块的头
-Vue.component('my-heading', {
-    props: ['title'],
-    template:"#my-heading-tp",
-    created : function() {
-//         console.log('my-heading: ' + this.title);
-    }
-  });
-</script>
-<script type="text/x-tp" id="my-listheading-tp"> 
-	<my-heading :title="title">
-        <div class="btn-table-left">
-			<slot></slot>
-        </div>
-        <div class="btn-table-right">
-			<my-expeb v-if="dcdqy!='0'" name="导出当前页" :listname="title" :pcl="pcl"></my-expeb>
-			<my-expeb v-if="dcqb=='1'" name="导出全部" :listname="title+'全部'" :pcl="pcl" all="1"></my-expeb>
-    	</div>
-	</my-heading>
-</script>
-<script type="text/javascript">
-//列表区块的头
-Vue.component('my-listheading', {
-    props: ['title','dcdqy','dcqb','pcl'],
-    template:"#my-listheading-tp",
-    created : function() {
-//         console.log('xx: ' + this.title);
-    }
-  });
-</script>
-<script type="text/x-tp" id="my-expeb-tp"> 
-<button class="btn btn-default btn-sm" type="button"
-	:title="title" @click="expe">
-	{{name}}
-</button>
-</script>
-<script type="text/javascript">
-//导出excel按钮控件
-Vue.component('my-expeb', {
-    props: ['name','title','listname','pcl','all'],
-    template:"#my-expeb-tp",
-    methods : {
-        expe:function(){
-            if(this.all=='1'){
-                ExportExcel.exportAll(this.$root.listPage,this.listname,this.pcl);
-            }else{
-                ExportExcel.saveAsExcel(this.$root.listPage,this.listname,this.pcl);
-            }
-        }
-    }
-  });
-</script>
 <script type="text/x-tp" id="my-list-tp"> 
 <div class="wrap" v-cloak>
-<my-heading :title="sjdx.dxmc">
-</my-heading>
+<ol class="breadcrumb">
+    <li>
+        <i class="icon ion-home"></i>
+    </li>
+    <li class="active">{{sjdx.dxmc}}</li>
+</ol>
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
 	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
@@ -918,22 +861,31 @@ Vue.component('my-expeb', {
   </div>
 </my-from>
 <div class="panel panel-default">
-	<my-listheading title="数据列表" :pcl="dcpcl">
-		<template v-if="isAdmin">
-		<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
-        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
-			a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
-        <button class="btn btn-primary btn-sm" @click="plcl('plsc')">批量删除</button>
-        <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
-			:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
-            a-oper="newTab">编辑模式</button>
-        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&id=SYS_SJGL_SJDX&myparams='+pzdxUrl"
-            a-oper="other">配置对象</button>
-        <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
-            a-oper="newTab">配置字段</button>
-		</template>
-		<slot></slot>
-	</my-listheading>
+    <div class="panel-heading">
+        <h3 class="panel-title">数据列表</h3>
+        <div class="btn-table-left">
+			<template v-if="isAdmin">
+			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
+	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
+				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
+	        <button class="btn btn-primary btn-sm" @click="plcl('plsc')">批量删除</button>
+	        <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
+				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
+	            a-oper="newTab">编辑模式</button>
+	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&id=SYS_SJGL_SJDX&myparams='+pzdxUrl"
+	            a-oper="other">配置对象</button>
+	        <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
+	            a-oper="newTab">配置字段</button>
+			</template>
+			<slot></slot>
+        </div>
+        <div class="btn-table-right">
+			<button class="btn btn-default btn-sm" type="button"
+				@click="expe">导出当前页</button>
+			<button class="btn btn-default btn-sm" type="button"
+				@click="expeAll">导出全部</button>
+    	</div>
+	</div>
 	<div class="panel-body exportDiv" style="overflow: auto;">
 	    <table class="table table-striped table-bordered table-hover">
 	        <thead>
@@ -1001,7 +953,13 @@ Vue.component('my-list', {
           data.action=this.action;
       		},
 	      computed : {
-	          dcpcl:function (){ return fromdata.dcpcl||",操作,序号";},
+	          dcpcl:function (){
+	              var dcpcl = fromdata['my-dcpcl'];
+	              if(!dcpcl&&this._data.kzxx.lbymkz){
+	                  dcpcl = this._data.kzxx.lbymkz['my-dcpcl'];
+	              }
+	              return dcpcl||",操作,序号";
+	          },
 	          cxanmc:function (){
 	              var anmc = fromdata['my-cxanmc'];
 	              if(!anmc&&this._data.kzxx.lbymkz){
@@ -1016,8 +974,13 @@ Vue.component('my-list', {
 	              }
 	              return anmc;
 	          },
-	          lbfxk:function (){ return fromdata.lbfxk;},
-	          lbkbj:function (){ return fromdata.lbkbj;},
+	          lbkbj:function (){
+	              var lbkbj = fromdata['my-lbkbj'];
+	              if(!lbkbj&&this._data.kzxx.lbymkz){
+	                  lbkbj = this._data.kzxx.lbymkz['my-lbkbj'];
+	              }
+	              return lbkbj;
+	          },
 	          fields : function (){ return this._data.fields;},
 	          sjdx : function (){
 					return this._data.sjdx;
@@ -1040,7 +1003,7 @@ Vue.component('my-list', {
 	              return style;
 				},
 		      lbfields : function (){ return clone(this._data.fields);},
-	          action:function (){ return "sjdx/page.do?id="+this._data.sjdx.id;},
+	          action:function (){ return "sjdx/page.do?dxdm="+this._data.sjdx.dxdm;},
 	          lbls:function (){
 	              var num=0;
 	              var sfs = this.fields;
@@ -1053,7 +1016,7 @@ Vue.component('my-list', {
 	          },
 		      bjmsUrl:function(){
 		          var data = clone(fromdata);
-		          data.lbkbj = "1";
+		          data["my-lbkbj"] = "1";
 	              return encodeURI(JSON.stringify(data));
 		      },
 		      pzzdUrl:function(){
@@ -1067,6 +1030,12 @@ Vue.component('my-list', {
 	          }
 	      },
         methods : {
+	        expe:function(){
+	            ExportExcel.saveAsExcel(this.$root.listPage,this.sjdx.dxmc+"-当前页",this.dcpcl);
+	        },
+	        expeAll:function(){
+	            ExportExcel.exportAll(this.$root.listPage,this.sjdx.dxmc+"-全部",this.dcpcl);
+	        },
 	        fieldBt:function(field){
 	            //判断是否必填
 	            field.btzt = (this.lbkbj=='1'&&field.bjbt=='1');
@@ -1154,6 +1123,7 @@ Vue.component('my-list', {
             this.listPage.setPageId("#"+this.$el.id);
             this.listPage.paramType = "jsonStr";
             this.listPage.listFrom = _this;
+            this.listPage.exportUrl = "sjdx/export.do?dxdm="+_this.sjdx.dxdm;
             this.listPage.totalDelay = _this.sjdx.fytjxs;
             if(typeof(initPage)=='function'){
                 initPage(this.listPage);

@@ -75,7 +75,7 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             jcxx(sjdx,myparams,request);
-            myJsonParams.remove(LjqInterface.KEY_FIELD_LIST);
+            myParams.remove(LjqInterface.KEY_FIELD_LIST);
             sendJson(response, result);
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
@@ -94,7 +94,25 @@ public class SjdxController extends BasicController {
             PageInfo<JSONObject> page) {
         try {
             jcxx(sjdx,myparams,request);
-            sendJson(response, sjdxService.page(dbSjdx,myJsonParams, page));
+            sendJson(response, LjqManager.page(dbSjdx,myParams, page));
+        } catch (Exception e) {
+            log.error("数据处理异常"+sjdx, e);
+            sendJson(response, error("数据处理异常："+e.getMessage()));
+        }
+    }
+    /**
+    * 对象查询请求数据 <br/>
+    * @author jingma
+    * @param sjdx
+    * @param response
+    */
+    @RequestMapping(value = "/export.do")
+    public void export(SysSjglSjdx sjdx,String myparams,
+            HttpServletRequest request,HttpServletResponse response,
+            PageInfo<JSONObject> page) {
+        try {
+            jcxx(sjdx,myparams.replace("%34", "\""),request);
+            LjqManager.export(dbSjdx,myParams, page,response);
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
@@ -113,7 +131,7 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             jcxx(sjdx,myparams,request);
-            sendJson(response, sjdxService.txPlcl(dbSjdx,myJsonParams));
+            sendJson(response, sjdxService.txPlcl(dbSjdx,myParams));
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
@@ -132,7 +150,7 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             jcxx(sjdx,myparams,request);
-            sendJson(response, sjdxService.getdata(dbSjdx,myJsonParams));
+            sendJson(response, sjdxService.getdata(dbSjdx,myParams));
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
@@ -151,7 +169,7 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             jcxx(sjdx,myparams,request);
-            sendJson(response, LjqManager.save(dbSjdx, myJsonParams));
+            sendJson(response, LjqManager.save(dbSjdx, myParams));
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
@@ -169,7 +187,7 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             jcxx(sjdx,myparams,request);
-            sendJson(response, sjdxService.txSaveListData(dbSjdx,myJsonParams));
+            sendJson(response, sjdxService.txSaveListData(dbSjdx,myParams));
         } catch (Exception e) {
             log.error("数据处理异常", e);
             sendJson(response, error("数据处理异常："+e.getMessage()));

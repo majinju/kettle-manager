@@ -12,9 +12,9 @@ function PageAjax(){
 	//页大小
     this.pageSize = 10;
 	//最大页大小，用于现在导出全部
-    this.maxPageSize = 5000;
+    this.maxPageSize = 50000;
 	//页大小列表
-    this.pageSizeList=[10,20,50,100,200,500];
+    this.pageSizeList=[5,10,20,50,100,200,500,1000,2000,5000];
 	//当前页
     this.pageIndex = 1;
 	//是否自动统计总数，只有查询按钮才会统计总量，分页跳转条件不变，数据量不会变
@@ -274,39 +274,41 @@ function PageAjax(){
     };
     
     /**
-     * 获取全部数据
-     * @param params 查询参数
-     * @param callback 数据处理回调函数
+     * 导出全部
+     * @param title 文件名
+     * @param callback 隐藏列
      */
-    this.allData=function(callback){
+    this.exportAll=function(title,hiddenCol){
     	var loadindex = layer.load(0,{
     		shade: [0.3]
     	});
         var self = this;
-        var url = self.getUrl();
-        self.params.pageIndex = 1;
-        self.params.pageSize = self.maxPageSize;
-        //不统计总量
-        self.params.autoCount = false;
         var params = self.params;
         if(self.paramType=="jsonStr"){
-            params = {"params":JSON.stringify(params),"pageIndex":params.pageIndex,
-                    "pageSize":params.pageSize,"autoCount":params.autoCount};
+            params = {"myparams":JSON.stringify(params),"pageIndex":self.pageIndex,
+                    "pageSize":self.maxPageSize,"autoCount":false};
+        }else{
+            //就按当前页号导出
+            params.pageIndex = self.pageIndex;
+            //设置页大小
+            params.pageSize = self.maxPageSize;
+            //不统计总量
+            params.autoCount = false;
         }
-    	$.ajax({
-    		url:url,
-    		type:"post",
-    		data:params,
-            dataType: "json",
-    		success:function(result){
-                callback(result);
-                layer.close(loadindex);
-    		},
-    		error:function(errInfo){
-    		    alertError("分页查询失败");
-                layer.close(loadindex);
-    		}
-    	});
+        params["map['title']"]=title;
+        params["map['hiddenCol']"]=hiddenCol;
+        var inputs = '';
+        jQuery.each(Object.keys(params), function() {
+            var val = params[this];
+            if((typeof val == 'string')&&val.indexOf("\"")>-1){
+                val = val.replace(/"/g,"%34");
+            }
+            inputs += '<input type="hidden" name="'+ this + '" value="' + val + '" />';
+            
+        });
+        jQuery('<form action="' + self.exportUrl + '" method="post">' + inputs + '</form>')
+        .appendTo('body').submit().remove();
+        layer.close(loadindex);
     };
     /**
      * 字段排序
@@ -427,37 +429,13 @@ saveAsExcel:function(page, title, hiddenCol)
 //导出全部
 exportAll:function(page, title, hiddenCol)
 {
-	var action = $("#form1_1").attr("action");
-	if(!(action.indexOf("http://")>-1||action.indexOf("/")==0)){
-		$("#form1_1").attr("action",serviceAddr+action);
-	}
 	if(page.total == 0){
 		alertError("没有数据可以导出！");
 		return;
 	}
-	
 	if(page.total >page.maxPageSize){
 		alertInfo("系统只能导出前"+page.maxPageSize+"条信息！");
 	}
-	page.allData(function(result){
-	     var trs = page.getListTemplate().tmpl(result.list);
-	     var content = "<table><tr>"+page.getListHead().html()+"</tr>";
-	     for(var i=0;i<trs.length;i++){
-		     content += "<tr>"+trs[i].innerHTML+"</tr>";
-	     }
-	     content += "</table>";
-		 document.getElementById('content_1').value = content;
-		 document.getElementById('filename_1').value = title;
-		 if(hiddenCol == null || hiddenCol == undefined || hiddenCol == "undefined") {
-			document.getElementById('hiddenCol_1').value = "";
-		 } else {
-			document.getElementById('hiddenCol_1').value = hiddenCol;
-		 }
-		 $.ajaxSetup({    
-		     async : false    
-		 }); 
-		 document.forms["form1_1"].submit();
-		 return ;
-	});
+	page.exportAll(title,hiddenCol);
 }
 };

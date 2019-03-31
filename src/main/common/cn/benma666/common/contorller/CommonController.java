@@ -29,7 +29,7 @@ public class CommonController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             jcxx(sjdx,myparams,request);
-            myJsonParams.remove(LjqInterface.KEY_FIELD_LIST);
+            myParams.remove(LjqInterface.KEY_FIELD_LIST);
             sendJson(response, result);
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
