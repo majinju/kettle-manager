@@ -852,10 +852,12 @@ Vue.component('my-td', {
     </li>
     <li class="active">{{sjdx.dxmc}}</li>
 </ol>
-<div v-if="lbymkz('my-istree')" style="float: left;width: 250px;">
+<table>
+<td v-if="lbymkz('my-istree')" style="width: 200px;">
 <ul id="leftTree" class="ztree"></ul>
-</div>
-<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 250px));':''">
+</td>
+<td>
+<div>
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
 	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
@@ -920,6 +922,8 @@ Vue.component('my-td', {
 	</div> 
  </div>
 </div>
+</td>
+</table>
 </div>
 </script>
 <script type="text/javascript">

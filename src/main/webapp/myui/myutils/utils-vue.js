@@ -21,7 +21,6 @@ var scriptList=[
       serviceAddr+"myui/myutils/page-vue.js",
       serviceAddr+"myui/jsoneditor/jsoneditor.js",
       serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js"
-//      serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js"
    ];
 /**
  * 需要引入的css脚本文件
@@ -34,8 +33,6 @@ var cssList=[
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
       serviceAddr+"myui/jsoneditor/jsoneditor.css",
       serviceAddr+"myui/zTree_v3/css/zTreeStyle/zTreeStyle.css"
-//      serviceAddr+"myui/zTree_v3/css/zTreeStyle/zTreeStyle.css",
-//      serviceAddr+"myui/zTree_v3/css/demo.css"
    ];
 
 //执行引入css脚本操作
