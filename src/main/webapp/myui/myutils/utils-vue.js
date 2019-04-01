@@ -19,7 +19,8 @@ var scriptList=[
       serviceAddr+"myui/ueditor/zh-cn.js",
       serviceAddr+"myui/myutils/shuiyin.js",
       serviceAddr+"myui/myutils/page-vue.js",
-      serviceAddr+"myui/jsoneditor/jsoneditor.js"
+      serviceAddr+"myui/jsoneditor/jsoneditor.js",
+      serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js"
 //      serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js"
    ];
 /**
@@ -31,7 +32,8 @@ var cssList=[
       serviceAddr+"myui/myframe/frame.css?time=20171111",
       serviceAddr+"myui/font-awesome/css/font-awesome.css",
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
-      serviceAddr+"myui/jsoneditor/jsoneditor.css"
+      serviceAddr+"myui/jsoneditor/jsoneditor.css",
+      serviceAddr+"myui/zTree_v3/css/zTreeStyle/zTreeStyle.css"
 //      serviceAddr+"myui/zTree_v3/css/zTreeStyle/zTreeStyle.css",
 //      serviceAddr+"myui/zTree_v3/css/demo.css"
    ];

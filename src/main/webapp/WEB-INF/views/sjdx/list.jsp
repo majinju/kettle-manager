@@ -3,8 +3,7 @@
 <gd:LayoutVue title="${sjdx.dxmc }">
 <jsp:body>
 <c:if test="${sjdx.cxlbkz==null}">
-<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
-</my-list>
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid"></my-list>
 </c:if>
 <c:if test="${sjdx.cxlbkz!=null}">
 ${sjdx.cxlbkz }

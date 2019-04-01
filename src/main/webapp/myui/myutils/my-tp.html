@@ -852,6 +852,10 @@ Vue.component('my-td', {
     </li>
     <li class="active">{{sjdx.dxmc}}</li>
 </ol>
+<div v-if="lbymkz('my-istree')" style="float: left;width: 250px;">
+<ul id="leftTree" class="ztree"></ul>
+</div>
+<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 250px));':''">
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
 	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
@@ -865,25 +869,25 @@ Vue.component('my-td', {
         <h3 class="panel-title">数据列表</h3>
         <div class="btn-table-left">
 			<template v-if="isAdmin">
-			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData">保存数据</button>
+			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData"><i class="glyphicon glyphicon-floppy-disk"></i> 保存数据</button>
 	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
-				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'>{{xjanmc||'新建'}}</button>
-	        <button class="btn btn-primary btn-sm" @click="plcl('plsc')">批量删除</button>
+				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'><i class="icon ion-ios-plus-outline"></i> {{xjanmc||'新建'}}</button>
+	        <button class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> 批量删除</button>
 	        <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
-	            a-oper="newTab">编辑模式</button>
+	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
 	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&id=SYS_SJGL_SJDX&myparams='+pzdxUrl"
-	            a-oper="other">配置对象</button>
+	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
 	        <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
-	            a-oper="newTab">配置字段</button>
+	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
 			</template>
 			<slot></slot>
         </div>
         <div class="btn-table-right">
 			<button class="btn btn-default btn-sm" type="button"
-				@click="expe">导出当前页</button>
+				@click="expe"><i class="icon ion-ios-redo-outline"></i> 导出当前页</button>
 			<button class="btn btn-default btn-sm" type="button"
-				@click="expeAll">导出全部</button>
+				@click="expeAll"><i class="icon ion-ios-redo"></i> 导出全部</button>
     	</div>
 	</div>
 	<div class="panel-body exportDiv" style="overflow: auto;">
@@ -915,6 +919,7 @@ Vue.component('my-td', {
 	<div class="row pagination width_100">
 	</div> 
  </div>
+</div>
 </div>
 </script>
 <script type="text/javascript">
@@ -1020,7 +1025,7 @@ Vue.component('my-list', {
 	              return encodeURI(JSON.stringify(data));
 		      },
 		      pzzdUrl:function(){
-	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,dxmc:this.sjdx.dxmc,lbkbj:'1'}));
+	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,dxmc:this.sjdx.dxmc,'my-lbkbj':'1'}));
 		      },
 	          addUrl:function(){
 	              return encodeURI(JSON.stringify({"sjdx":this.sjdx.id}));
@@ -1036,6 +1041,13 @@ Vue.component('my-list', {
 	        expeAll:function(){
 	            ExportExcel.exportAll(this.$root.listPage,this.sjdx.dxmc+"-全部",this.dcpcl);
 	        },
+	          lbymkz:function (kznr){
+	              var k = fromdata[kznr];
+	              if(!k&&this._data.kzxx.lbymkz){
+	                  k = this._data.kzxx.lbymkz[kznr];
+	              }
+	              return k;
+	          },
 	        fieldBt:function(field){
 	            //判断是否必填
 	            field.btzt = (this.lbkbj=='1'&&field.bjbt=='1');
@@ -1140,6 +1152,57 @@ Vue.component('my-list', {
             }
             if(!(_this.sjdx.cscx=='0')){
                 this.listPage.queryPage();
+            }
+			
+            var setting = {	};
+            var zNodes =[
+            	{ name:"父节点1 - 展开", open:true,
+            		children: [
+            			{ name:"父节点11 - 折叠",
+            				children: [
+            					{ name:"叶子节点111"},
+            					{ name:"叶子节点112"},
+            					{ name:"叶子节点113"},
+            					{ name:"叶子节点114"}
+            				]},
+            			{ name:"父节点12 - 折叠",
+            				children: [
+            					{ name:"叶子节点121"},
+            					{ name:"叶子节点122"},
+            					{ name:"叶子节点123"},
+            					{ name:"叶子节点124"}
+            				]},
+            			{ name:"父节点13 - 没有子节点", isParent:true}
+            		]},
+            	{ name:"父节点2 - 折叠",
+            		children: [
+            			{ name:"父节点21 - 展开", open:true,
+            				children: [
+            					{ name:"叶子节点211"},
+            					{ name:"叶子节点212"},
+            					{ name:"叶子节点213"},
+            					{ name:"叶子节点214"}
+            				]},
+            			{ name:"父节点22 - 折叠",
+            				children: [
+            					{ name:"叶子节点221"},
+            					{ name:"叶子节点222"},
+            					{ name:"叶子节点223"},
+            					{ name:"叶子节点224"}
+            				]},
+            			{ name:"父节点23 - 折叠",
+            				children: [
+            					{ name:"叶子节点231"},
+            					{ name:"叶子节点232"},
+            					{ name:"叶子节点233"},
+            					{ name:"叶子节点234"}
+            				]}
+            		]},
+            	{ name:"父节点3 - 没有子节点", isParent:true}
+
+            ];
+            if(_this.lbymkz("my-istree")){
+                $.fn.zTree.init($("#leftTree"), setting, zNodes);
             }
         }
   });
@@ -1318,12 +1381,12 @@ function gshffLbxz(value,_this) {
 <script type="text/x-tp" id="my-default-lbcz-tp">
 <span>
 {{if user.yhdm=='admin'}}
-<a href="sjdx/edit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】">编辑</a>
+<a href="sjdx/edit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】"><i class="icon ion-compose"></i></a>
 <span class="divider"></span>
-<a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=plsc&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl">删除</a>
+<a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=plsc&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl" title="删除【{{= sjdx.dxmc}}】"><i class="icon ion-android-delete"></i></a>
 <span class="divider"></span>
 {{/if}}
-<a href="sjdx/edit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】">详情</a>
+<a href="sjdx/edit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-round"></i></a>
 </span>
 </script>
 <!-- 分页 -->

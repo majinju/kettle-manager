@@ -49,11 +49,14 @@ body {
     margin-right: 8px;
 }
 /*------------查询样例1-------------*/
+.panel-heading .panel-title {
+    margin-top: 7px;
+}
 /* 表单上的按钮 - 左边按钮 */
 .btn-table-left {
-    position:absolute;
-    margin-top:-22px;
-    left:110px;
+    margin-left: 80px;
+    position: relative;
+    margin-top:-20px;
 }
 .btn-table-left button:not(:first-child) {
     margin-left: 8px;
@@ -61,7 +64,7 @@ body {
 /* 表单上的按钮 - 右边按钮 */
 .btn-table-right {
     float: right;
-    margin-top:-22px;
+    margin-top:-27px;
 }
 .btn-table-right button:not(:first-child) {
     margin-left: 8px;
