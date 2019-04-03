@@ -144,6 +144,9 @@
 					<li><a href="http://120.55.47.26:8090/doc.html" target="mainFrame">
 						<i class="circle"></i>BootstrapEase</a>
 					</li>
+					<li><a href="https://v3.bootcss.com/components/#glyphicons" target="mainFrame">
+						<i class="circle"></i>Bootstrap3组件</a>
+					</li>
 					<li><a href="http://www.my97.net/demo/index.htm" target="mainFrame">
 						<i class="circle"></i>my97日期控件</a>
 					</li>
@@ -158,6 +161,9 @@
 					</li>
 					<li><a href="myui/layer/test.html" target="mainFrame">
 						<i class="circle"></i>layer弹窗</a>
+					</li>
+					<li><a href="http://www.runoob.com/ionic/ionic-icon.html" target="mainFrame">
+						<i class="circle"></i>ionic文字图标</a>
 					</li>
 					<li><a href="myui/editor.md/examples/index.html" target="mainFrame">
 						<i class="circle"></i>md编辑器</a>
