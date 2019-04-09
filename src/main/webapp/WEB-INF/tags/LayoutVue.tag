@@ -10,6 +10,7 @@
 <head>
      <base href="<%=WebUtil.getBasePath(request)%>"></base>
 	 <meta charset="utf-8" />
+	 <link rel="shortcut icon" href="favicon-seting.ico" type="image/x-icon">
 	 <!-- <meta http-equiv="cache-control" content="no-cache" /> -->
 	 <title>${title}</title>
      

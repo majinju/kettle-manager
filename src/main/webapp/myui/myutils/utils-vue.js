@@ -534,22 +534,7 @@ function qrtsAjax(url,fromdata,success,qxbtn){
         icon: 3,
         btn:["确定","取消"],
         yes:function(index,layero){
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: fromdata,
-                dataType: "json",
-                success: function (result) {
-                    if (result.status) {
-                        success(result);
-                    } else {
-                        alertError(result.msg);
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alertError("网络异常");
-                }
-            });
+            myAjax(url,fromdata,success);
         },btn2:function(){//取消按钮事件
             if(typeof qxbtn ==="function"){
                 qxbtn();
@@ -557,6 +542,25 @@ function qrtsAjax(url,fromdata,success,qxbtn){
         }
     });
 }
+function myAjax(url,fromdata,success){
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: fromdata,
+        dataType: "json",
+        success: function (result) {
+            if (result.status) {
+                success(result);
+            } else {
+                alertError(result.msg);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alertError("网络异常");
+        }
+    });
+}
+
 function redict(result){
 //    window.location=serviceAddr+"myui/common/"+result.data+".jsp?msg="+result.msg;
     window.location=serviceAddr+"myui/common/500.jsp?msg="+result.msg;

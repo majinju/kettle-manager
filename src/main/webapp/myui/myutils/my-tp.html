@@ -208,13 +208,13 @@ Vue.component('my-checkbox', {
 		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
-		style="width:calc((100% - 50px));display: inline;"
+		:style="pagemodel!='add'?'width:calc((100% - 50px));display: inline;':''"
 		:class="field.classStr||'form-control'"
 		:onfocus="field.onfocus"
 		 />
 	<span v-else :class="field.classStr" style="width:calc((100% - 40px));" 
 		:title="nvalTitle" v-html="nval"></span>
-	<button type="button" class="btn btn-primary btn-sm" @click="ckmm">查看</button>
+	<button v-if="pagemodel!='add'" type="button" class="btn btn-primary btn-sm" @click="ckmm">查看</button>
 </span>
 </script>
 <script type="text/javascript">
@@ -403,7 +403,10 @@ Vue.component('my-inputn', {
         }
       },
     updated: function () {
-        if(this.isDict){
+        if(this.isDict&&this.edit){
+            var _this = this;
+            $(this.$el).val(this.value);
+            $("[name='"+(_this.owner||'')+_this.field.zddm+"']").val(this.value);
             $(this.$el).selectPageRefresh();
         }
       }
@@ -852,12 +855,11 @@ Vue.component('my-td', {
     </li>
     <li class="active">{{sjdx.dxmc}}</li>
 </ol>
-<table>
-<td v-if="lbymkz('my-istree')" style="width: 200px;">
-<ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
-</td>
-<td>
 <div>
+<div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;">
+<ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
+</div>
+<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 200px));':''">
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
 	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
@@ -870,9 +872,12 @@ Vue.component('my-td', {
     <div class="panel-heading">
         <h3 class="panel-title">数据列表</h3>
         <div class="btn-table-left">
+			<button v-if="lbymkz('my-istree')" class="btn btn-primary btn-sm" @click="reloadTree">
+        		<i class="icon ion-refresh"></i> 重载树
+    		</button>
 			<template v-if="isAdmin">
 			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData"><i class="glyphicon glyphicon-floppy-disk"></i> 保存数据</button>
-	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?id='+sjdx.id+'&pagemodel=add&myparams='+addUrl"
+	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?dxdm='+sjdx.dxdm+'&pagemodel=add'"
 				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'><i class="icon ion-ios-plus-outline"></i> {{xjanmc||'新建'}}</button>
 	        <button class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> 批量删除</button>
 	        <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
@@ -922,8 +927,7 @@ Vue.component('my-td', {
 	</div> 
  </div>
 </div>
-</td>
-</table>
+</div>
 </div>
 </script>
 <script type="text/javascript">
@@ -1132,6 +1136,73 @@ Vue.component('my-list', {
 	    			    _this.listPage.refreshPage();
 					});
 	              });
+              },
+              reloadTree:function(){
+                  var _this = this;
+                  var zTree = $.fn.zTree.getZTreeObj('leftTree-'+_this.sjdx.id),
+					type = "refresh",
+					silent = false,
+					nodes = zTree.getSelectedNodes();
+					if (nodes.length == 0) {
+						alertInfo("请先选择一个父节点");
+					}
+					for (var i=0, l=nodes.length; i<l; i++) {
+						zTree.reAsyncChildNodes(nodes[i], type, silent);
+						if (!silent) zTree.selectNode(nodes[i]);
+					}
+              },
+              initTree:function(){
+                    var _this = this;
+		            if(!_this.lbymkz("my-istree")){
+		                return;
+		            }
+                  	var setting = {
+              			data: {
+              				simpleData: {
+              					enable: true
+              				}
+              			},
+              			view:{
+          				    fontCss: setNode,
+              			    showLine:true,
+              			    showIcon:true,
+              			    nameIsHTML:true
+              			},
+              			async: {
+              				enable: true,
+              				url:"sjdx/getdata.do?dxdm="+_this.sjdx.dxdm,
+              				autoParam:["dm=map['fqx']"],
+              				otherParam:{"map['cllx']":"getTreeCN"},
+              				dataFilter: treefilter
+              			},
+              			callback: {
+              				onClick: treeClick
+              			}
+              		};
+					//树节点的单击事件
+	          		function treeClick(event, treeId, treeNode, clickFlag) {
+					    Vue.set(_this.fromdata,'fqx',treeNode.dm);
+	          		}
+	          		//处理后台返回的数据
+	          		function treefilter(treeId, parentNode, rep) {
+	          			if (!rep.status) return null;
+	          			var list = rep.data.list;
+	          			for (var i=0, l=list.length; i<l; i++) {
+	          				list[i].isParent=(list[i].parent>0)
+	          			}
+	          			return list;
+	          		}
+	          		//节点展示前的处理
+	                function setNode(treeId, node) {
+	                    if(node.myIcon){
+	                        node.name='<i class="icon '+node.myIcon+'" style="color:red;"></i> '+node.name;
+	                    }
+	                    if(node.icon){
+	                        node.icon="file/download.do?id="+node.icon;
+	                    }
+	          			return {};
+	          		}
+		            $.fn.zTree.init($('#leftTree-'+_this.sjdx.id), setting);
               }
         },
         mounted: function () {
@@ -1157,83 +1228,8 @@ Vue.component('my-list', {
             if(!(_this.sjdx.cscx=='0')){
                 this.listPage.queryPage();
             }
-            var setting = {
-        			data: {
-        				simpleData: {
-        					enable: true,
-        					idKey: "id",
-        					pIdKey: "fqx"
-        				}
-        			},
-        			view:{
-//     				    fontCss: setNode,
-        			    showLine:true,
-        			    showIcon:true,
-        			    nameIsHTML:true
-        			},
-        			async: {
-        				enable: true,
-        				url:"sjdx/getdata.do?dxdm="+_this.sjdx.dxdm,
-        				autoParam:["dm=map['fqx']"],
-        				otherParam:{"map['cllx']":"getTreeCN"},
-        				dataFilter: treefilter
-        			},
-        			callback: {
-        				onClick: treeClick
-        			}
-        		};
-
-    		function treeClick(event, treeId, treeNode, clickFlag) {
-    			alert("[  onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "普通选中": (clickFlag===0 ? "<b>取消选中</b>" : "<b>追加选中</b>")) + ")");
-    		}		
-    		function treefilter(treeId, parentNode, rep) {
-    			if (!rep.status) return null;
-    			var list = rep.data.list;
-    			for (var i=0, l=list.length; i<l; i++) {
-    				list[i].isParent=(list[i].parent>0)
-    			}
-    			return list;
-    		}
-            function setNode(treeId, node) {
-                if(node.myIcon){
-                    node.name='<i class="icon '+node.myIcon+'" style="color:red;"></i> '+node.name;
-                }
-    			return {};
-    		}
-       		var zNodes =[
-       			{ id:1, pId:0, name:'父节点111 - 展开', open:true, icon:"file/download.do?id=D80C0CEA602745A3BACB8D3F0DA9DA26"},
-       			{ id:11, pId:1, name:"父节点11 - 折叠",myIcon:"ion-arrow-return-left"},
-       			{ id:111, pId:11, name:"叶子节点111",myIcon:"ion-arrow-expand"},
-       			{ id:112, pId:11, name:"叶子节点112",myIcon:"glyphicon glyphicon-eur"},
-       			{ id:113, pId:11, name:"叶子节点113",myIcon:"ion-camera"},
-       			{ id:114, pId:11, name:"叶子节点114", url:"http://www.treejs.cn/", target:"_blank"},
-       			{ id:12, pId:1, name:"父节点12 - 折叠"},
-       			{ id:121, pId:12, name:"叶子节点121"},
-       			{ id:122, pId:12, name:"叶子节点122"},
-       			{ id:123, pId:12, name:"叶子节点123"},
-       			{ id:124, pId:12, name:"叶子节点124"},
-       			{ id:13, pId:1, name:"父节点13 - 没有子节点", isParent:true},
-       			{ id:2, pId:0, name:"父节点2 - 折叠"},
-       			{ id:21, pId:2, name:"父节点21 - 展开", open:true},
-       			{ id:211, pId:21, name:"叶子节点211"},
-       			{ id:212, pId:21, name:"叶子节点212"},
-       			{ id:213, pId:21, name:"叶子节点213"},
-       			{ id:214, pId:21, name:"叶子节点214"},
-       			{ id:22, pId:2, name:"父节点22 - 折叠"},
-       			{ id:221, pId:22, name:"叶子节点221"},
-       			{ id:222, pId:22, name:"叶子节点222"},
-       			{ id:223, pId:22, name:"叶子节点223"},
-       			{ id:224, pId:22, name:"叶子节点224"},
-       			{ id:23, pId:2, name:"父节点23 - 折叠"},
-       			{ id:231, pId:23, name:"叶子节点231"},
-       			{ id:232, pId:23, name:"叶子节点232"},
-       			{ id:233, pId:23, name:"叶子节点233"},
-       			{ id:234, pId:23, name:"叶子节点234"},
-       			{ id:3, pId:0, name:"父节点3 - 没有子节点", isParent:true}
-       		];
-            if(_this.lbymkz("my-istree")){
-                $.fn.zTree.init($('#leftTree-'+_this.sjdx.id), setting);
-            }
+            //初始化左侧树
+            _this.initTree();
         }
   });
 </script>
@@ -1242,8 +1238,9 @@ Vue.component('my-list', {
 	class="wrap" @setval="setval" v-cloak>
 	<div class="row btn-center">
 	<slot></slot>
-    <button type="button" v-if="pagemodel=='add'||pagemodel=='edit'" class="btn btn-primary btn-sm" @click="submit">确定</button>
-    <button type="button" class="btn btn-default btn-sm" :a-oper="pagemodel=='details'?'allColse':'colse'">关闭</button>
+    <button type="button" v-if="pagemodel=='add'||pagemodel=='edit'" 
+		class="btn btn-primary btn-sm" @click="submit">{{ mydqan || '确定' }}</button>
+    <button v-if="bjymkz('my-xsgban')!='0'" type="button" class="btn btn-default btn-sm" :a-oper="pagemodel=='details'?'allColse':'colse'">关闭</button>
 </div>
 </my-from>
 </script>
@@ -1271,6 +1268,7 @@ Vue.component('my-edit', {
   			if(result.status){
   			    var rd = result.data;
 			    _this.$root.sjdx = data.sjdx = rd.sjdx;
+			    data.kzxx = rd.kzxx;
   			    data.fields = rd.fields;
   			    data.user = rd.user;
   			    var zjzd = rd.sjdx.zjzd;
@@ -1289,6 +1287,9 @@ Vue.component('my-edit', {
         fields : function (){ return this._data.fields},
         sjdx : function (){ return this._data.sjdx },
         action : function (){ return 'sjdx/save.do?id='+this.sjdxid },
+        mydqan : function(){
+			return this.bjymkz('my-qdan');
+        },
         index : function (){
             if(this.fromdata['my-bjxh']!=undefined){
                 return this.fromdata['my-bjxh']!='0';
@@ -1311,6 +1312,13 @@ Vue.component('my-edit', {
               }
               console.log(field.zdmc + "=" + this.updatedata[field.zddm]); 
            },
+	          bjymkz:function (kznr){
+	              var k = fromdata[kznr];
+	              if(!k&&this._data.kzxx.bjymkz){
+	                  k = this._data.kzxx.bjymkz[kznr];
+	              }
+	              return k;
+	          },
 	        plcl:function(cllx,success){
 		        _this = this;
 	            fromdata.id=_this.sjdx.id;
@@ -1341,15 +1349,188 @@ Vue.component('my-edit', {
                        }
                    }
                    var _params = {myparams:JSON.stringify(_this._data.updatedata)};
- 	               qrtsAjax(_this.action,_params,function(data){
- 	            	   	alertInfoYes(data,function(){
- 	            	   	    parent.listFrom.listPage.refreshPage();
-	        	   			var index = parent.layer.getFrameIndex(window.name);
- 	        	   			parent.layer.close(index);
- 						});
- 		            });
+                   if(_this.bjymkz("my-qdbts")=='1'){
+                       myAjax(_this.action,_params,function(data){
+                           if(_this.fromdata.qdzdyFun){
+                               _this.fromdata.qdzdyFun(data);
+                           }else{
+	    	            	   	alertInfoYes(data,function(){
+	    	            	   	    parent.listFrom.listPage.refreshPage();
+	   	        	   				var index = parent.layer.getFrameIndex(window.name);
+	    	        	   			parent.layer.close(index);
+	    						});
+                           }
+                       });
+                   }else{
+     	               qrtsAjax(_this.action,_params,function(data){
+                           if(_this.fromdata.qdzdyFun){
+                               _this.fromdata.qdzdyFun(data);
+                           }else{
+	    	            	   	alertInfoYes(data,function(){
+	    	            	   	    parent.listFrom.listPage.refreshPage();
+	   	        	   				var index = parent.layer.getFrameIndex(window.name);
+	    	        	   			parent.layer.close(index);
+	    						});
+                           }
+    		            });
+                   }
                }
            }
+	}
+  });
+</script>
+<script type="text/x-tp" id="my-dlym-tp">
+<div style="background-image: url(myui/myframe/img/bg1.jpg);height: 100vh;">
+	<div style="width: 500px; margin: auto;padding-top: 100px;">
+		<div style="text-align: center;color: floralwhite; font-size: xx-large;background-color: #81b0e4a6;    margin: 0 -20px;">
+			<img src="project/img/icon-emblem.png"/>
+			<span style="vertical-align: middle;">开发者服务平台</span>
+		</div>
+		<my-edit :fromdata="dlfromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
+		</my-edit>
+	</div>
+</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-dlym', {
+    props: ['fromdata','sjdxid','pagemodel'],
+    template:"#my-dlym-tp",
+    data: function () {
+      return {
+      }
+    },
+    created : function(){
+        var _this = this;
+        var data = _this._data;
+    },
+    computed : {
+        dlfromdata:function(){
+            this.fromdata.qdzdyFun=function(result){
+            	alertInfo(result.data.yhxm+":"+result.msg);
+            }
+            return this.fromdata;
+        }
+    },
+    methods : {
+	}
+  });
+</script>
+<script type="text/x-tp" id="my-cdym-tp">
+<div class="cdkj" style="width: 100%;height: 100vh;">
+	<div class="top" style="height: 80px; width: 100%;background-color: lavenderblush;">
+		<div style="float:left;margin-left: 10px;">
+			<img src="project/img/icon-emblem.png" style="height: 80px;">
+			<span style="font-size: 2.5em;vertical-align: middle;color: lightcoral;">开发者服务平台</span>
+		</div>
+		<div style="float:right;margin-right: 20px;margin-top: 10px;">
+			<img src="project/img/icon-emblem.png" style="height: 50px;">
+			<span style="vertical-align: middle;color: chocolate;">管理员</span>
+		</div>
+	</div>
+	<div class="center" style="height: calc(( 100vh - 110px )); width: 100%;">
+		<div class="left" style="height: 100%; width: 150px;background-color: floralwhite;float: left;">
+			<div style="background-color: lavender;text-align: center;font-size: large;">
+				<i class="icon ion-ios-list-outline" style="vertical-align: top;"></i> 功能菜单
+			</div>
+			<ul :id="'leftTree-'+sjdxid" class="ztree"></ul>
+		</div>
+		<div class="right" style="height: 100%;width: calc(( 100% - 150px ));float: left;">
+			<iframe id="gnIframe" style="width: 100%;height: 100%;overflow: scroll;border: snow;"></iframe>
+		</div>
+	</div>
+	<div class="bottom" style="height: 30px;width: 100%;background-color: azure;text-align: center;">
+		<span style="font-size: initial;vertical-align: text-top;">版权所有@马进举</span>
+	</div>
+</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-cdym', {
+    props: ['fromdata','sjdxid','pagemodel','treeroot'],
+    template:"#my-cdym-tp",
+    data: function () {
+      return {
+      }
+    },
+    created : function(){
+        var _this = this;
+        var data = _this._data;
+    },
+    computed : {
+        dlfromdata:function(){
+            this.fromdata.qdzdyFun=function(result){
+            	alertInfo(result.data.yhxm+":"+result.msg);
+            }
+            return this.fromdata;
+        }
+    },
+    methods : {
+        initTree:function(){
+            var _this = this;
+        	var setting = {
+        		data: {
+        			simpleData: {
+        				enable: true
+        			}
+        		},
+        		view:{
+        			fontCss: setNode,
+        			showLine:true,
+        			showIcon:true,
+        			nameIsHTML:true
+        		},
+        		async: {
+        			enable: true,
+        			url:"sjdx/getdata.do?dxdm=SYS_QX_QXXX",
+        			autoParam:["dm=map['fqx']"],
+        			otherParam:{"map['cllx']":"getTreeCN","map['treeRoot']":this.treeroot},
+        			dataFilter: treefilter
+        		},
+        		callback: {
+        			onClick: treeClick
+        		}
+        	};
+        	//树节点的单击事件
+        	function treeClick(event, treeId, treeNode, clickFlag) {
+        		if(treeNode.lx=='02'){
+        			console.info('这是目录');
+        		}else if(treeNode.dzlx=='02'){
+        			//数据对象
+        			$("#gnIframe").attr("src",treeNode.dz);
+        		}else if(treeNode.dzlx=='04'){
+        			//数据对象
+        			$("#gnIframe").attr("src","sjdx/list.do?dxdm="+treeNode.dz);
+        		}else{
+        			alert('暂未实现');
+        		}
+        	}
+        	//处理后台返回的数据
+        	function treefilter(treeId, parentNode, rep) {
+        		if (!rep.status) return null;
+        		var list = rep.data.list;
+        		var cdList = [];
+        		for (var i=0, l=list.length; i<l; i++) {
+        			if(list[i].lx!='03'){
+        				list[i].isParent=(list[i].parent>0);
+        				cdList.push(list[i]);
+        			}
+        		}
+        		return cdList;
+        	}
+        	//节点展示前的处理
+        	function setNode(treeId, node) {
+        		if(node.myIcon){
+        			node.name='<i class="icon '+node.myIcon+'" style="color:red;"></i> '+node.name;
+        		}
+        		if(node.icon){
+        			node.icon="file/download.do?id="+node.icon;
+        		}
+        		return {};
+        	}
+        	$.fn.zTree.init($('#leftTree-'+this.sjdxid), setting);
+        }
+	},
+	mounted:function(){
+        this.initTree();
 	}
   });
 </script>

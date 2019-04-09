@@ -20,7 +20,7 @@
 					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJDX&userInfo=123@admin' target="mainFrame">
 						<i class="circle"></i>数据对象</a>
 					</li>
-					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams={"lbkbj":"0"}' target="mainFrame">
+					<li><a href='sjdx/list.do?dxdm=SYS_SJGL_SJZD' target="mainFrame">
 						<i class="circle"></i>数据字段</a>
 					</li>
 					<li><a href='sjdx/list.do?dxdm=SYS_ZD_TYZD' target="mainFrame">
@@ -59,6 +59,9 @@
 				<ul class="hy-lk-nav-level2 hide">
 					<li><a href='sjdx/list.do?dxdm=SYS_QX_YHXX' target="mainFrame">
 						<i class="circle"></i>用户信息</a>
+					</li>
+					<li><a href='sjdx/edit.do?dxdm=SYS_QX_YHXX_MRDL&pagemodel=add' target="mainFrame">
+						<i class="circle"></i>系统登录</a>
 					</li>
 					<li><a href='sjdx/list.do?dxdm=SYS_QX_JGXX' target="mainFrame">
 						<i class="circle"></i>机构信息</a>
