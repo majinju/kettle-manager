@@ -1,0 +1,26 @@
+<!-- 角色列表扩展 -->
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+</my-list>
+<script type="text/x-tp" id="my-sjdx-lbcz-tp">
+<span>
+<span class="divider"></span>
+<a href='sjdx/list.do?dxdm=SYS_QX_JSQXGL_SQS&myparams={{= encodeURI(JSON.stringify({"dqjs":row.dm}))}}' a-oper="other" title="授权管理"><i class="icon ion-toggle-filled"></i></a>
+</span>
+</script>
+<script>
+function sjdxZdy(vp){
+    vp.el="#listPage";
+    vp.methods.plcl=function(cllx){
+          this.$children[0].plcl(cllx);
+    }
+}
+function sjdxlbcz(value,_this) {
+    var cz = defaultLbcz(value,_this);
+    if("非列表模式"==cz){
+        return cz;
+    }
+    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({sjdx:_this.$root.sjdx,
+	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+    return cz+qtcz;
+}
+</script>

@@ -169,7 +169,6 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             jcxx(sjdx,myparams,request);
-            myParams.put(LjqInterface.KEY_REQUEST, request);
             sendJson(response, LjqManager.save(dbSjdx, myParams));
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);

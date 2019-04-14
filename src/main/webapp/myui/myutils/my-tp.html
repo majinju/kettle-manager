@@ -349,9 +349,6 @@ Vue.component('my-inputn', {
                 searchField: "map['searchKey']",
                 orderBy : ['px asc','dm asc','mc'],
                 eAjaxSuccess: function(d){
-//                     for(var i in d.list){
-//                         d.list[i].mc=d.list[i].mc+"["+d.list[i].dm+"]";
-//                     }
                     return d;
                 },
                 //选中项目后的回调处理
@@ -883,9 +880,9 @@ Vue.component('my-td', {
 	        <button v-if="!(lbkbj=='1')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
-	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&id=SYS_SJGL_SJDX&myparams='+pzdxUrl"
+	        <button class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
-	        <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?id=SYS_SJGL_SJZD&myparams='+pzzdUrl"
+	        <button class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
 	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
 			</template>
 			<slot></slot>
@@ -1240,7 +1237,8 @@ Vue.component('my-list', {
 	<slot></slot>
     <button type="button" v-if="pagemodel=='add'||pagemodel=='edit'" 
 		class="btn btn-primary btn-sm" @click="submit">{{ mydqan || '确定' }}</button>
-    <button v-if="bjymkz('my-xsgban')!='0'" type="button" class="btn btn-default btn-sm" :a-oper="pagemodel=='details'?'allColse':'colse'">关闭</button>
+    <button v-if="bjymkz('my-xsgban')!='0'" type="button" class="btn btn-default btn-sm" 
+		:a-oper="pagemodel=='details'?'allColse':'colse'">关闭</button>
 </div>
 </my-from>
 </script>
@@ -1406,7 +1404,12 @@ Vue.component('my-dlym', {
     computed : {
         dlfromdata:function(){
             this.fromdata.qdzdyFun=function(result){
-            	alertInfo(result.data.yhxm+":"+result.msg);
+                if(result.status){
+                    console.info(result.data.yhxm+":"+result.msg);
+                    window.location.href="sjdx/list.do?dxdm=SYS_QX_QXXX_MRCD";
+                }else{
+                	alertInfo(result.msg);
+                }
             }
             return this.fromdata;
         }
@@ -1416,8 +1419,8 @@ Vue.component('my-dlym', {
   });
 </script>
 <script type="text/x-tp" id="my-cdym-tp">
-<div class="cdkj" style="width: 100%;height: 100vh;">
-	<div class="top" style="height: 80px; width: 100%;background-color: lavenderblush;">
+<div class="cdkj" style="width: 100%;height: 100vh;background-image: url('myui/myframe/img/bg2.jpg');">
+	<div class="top" style="height: 80px; width: 100%;border-bottom: solid #c9bdf6;">
 		<div style="float:left;margin-left: 10px;">
 			<img src="project/img/icon-emblem.png" style="height: 80px;">
 			<span style="font-size: 2.5em;vertical-align: middle;color: lightcoral;">开发者服务平台</span>
@@ -1425,20 +1428,23 @@ Vue.component('my-dlym', {
 		<div style="float:right;margin-right: 20px;margin-top: 10px;">
 			<img src="project/img/icon-emblem.png" style="height: 50px;">
 			<span style="vertical-align: middle;color: chocolate;">管理员</span>
+			<a href="sjdx/edit.do?dxdm=SYS_QX_YHXX_MRDL&pagemodel=add" 
+				style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
 		</div>
 	</div>
 	<div class="center" style="height: calc(( 100vh - 110px )); width: 100%;">
-		<div class="left" style="height: 100%; width: 150px;background-color: floralwhite;float: left;">
-			<div style="background-color: lavender;text-align: center;font-size: large;">
+		<div class="left" style="height: 100%; width: 150px;float: left;border-right: solid #c9bdf6;">
+			<div style="text-align: center;font-size: large;height: 30px;border-bottom: solid #c9bdf6;color: azure;">
 				<i class="icon ion-ios-list-outline" style="vertical-align: top;"></i> 功能菜单
 			</div>
-			<ul :id="'leftTree-'+sjdxid" class="ztree"></ul>
+			<ul :id="'leftTree-'+sjdxid" class="ztree" style="overflow-y: auto; height: calc(( 100% - 30px));background-color: lightyellow;"></ul>
 		</div>
 		<div class="right" style="height: 100%;width: calc(( 100% - 150px ));float: left;">
-			<iframe id="gnIframe" style="width: 100%;height: 100%;overflow: scroll;border: snow;"></iframe>
+			<iframe id="gnIframe" style="width: 100%;height: 100%;overflow: scroll;border: snow;"
+				@load="centerLoad"></iframe>
 		</div>
 	</div>
-	<div class="bottom" style="height: 30px;width: 100%;background-color: azure;text-align: center;">
+	<div class="bottom" style="height: 30px;width: 100%;text-align: center;border-top: solid #c9bdf6;">
 		<span style="font-size: initial;vertical-align: text-top;">版权所有@马进举</span>
 	</div>
 </div>
@@ -1464,6 +1470,14 @@ Vue.component('my-cdym', {
         }
     },
     methods : {
+        centerLoading:function(){
+            this.centerLoadingId = layer.load(0,{
+        		shade: [0.3]
+        	});
+        },
+        centerLoad:function(){
+            layer.close(this.centerLoadingId);
+        },
         initTree:function(){
             var _this = this;
         	var setting = {
@@ -1482,7 +1496,11 @@ Vue.component('my-cdym', {
         			enable: true,
         			url:"sjdx/getdata.do?dxdm=SYS_QX_QXXX",
         			autoParam:["dm=map['fqx']"],
-        			otherParam:{"map['cllx']":"getTreeCN","map['treeRoot']":this.treeroot},
+        			otherParam:{"map['cllx']":"getTreeCN",
+        			    //树模式=菜单树
+        			    "map['treeModel']":'cds',
+        			    //菜单树根节点
+        			    "map['treeRoot']":this.treeroot},
         			dataFilter: treefilter
         		},
         		callback: {
@@ -1491,16 +1509,28 @@ Vue.component('my-cdym', {
         	};
         	//树节点的单击事件
         	function treeClick(event, treeId, treeNode, clickFlag) {
+        	    var mbdz = null;
         		if(treeNode.lx=='02'){
         			console.info('这是目录');
         		}else if(treeNode.dzlx=='02'){
-        			//数据对象
-        			$("#gnIframe").attr("src",treeNode.dz);
+        			//绝对地址
+        		    mbdz = treeNode.dz;
         		}else if(treeNode.dzlx=='04'){
         			//数据对象
-        			$("#gnIframe").attr("src","sjdx/list.do?dxdm="+treeNode.dz);
+        			mbdz = "sjdx/list.do?dxdm="+treeNode.dz;
         		}else{
         			alert('暂未实现');
+        		}
+        		if(mbdz!=null){
+					if(mbdz.indexOf("?")==-1){
+					    mbdz += "?";
+					}else{
+					    mbdz += "&";
+					}
+        		    //添加权限编码
+				    mbdz += "authCode="+treeNode.dm;
+				    _this.centerLoading();
+        			$("#gnIframe").attr("src",mbdz);
         		}
         	}
         	//处理后台返回的数据
@@ -1509,10 +1539,8 @@ Vue.component('my-cdym', {
         		var list = rep.data.list;
         		var cdList = [];
         		for (var i=0, l=list.length; i<l; i++) {
-        			if(list[i].lx!='03'){
-        				list[i].isParent=(list[i].parent>0);
-        				cdList.push(list[i]);
-        			}
+       				list[i].isParent=(list[i].parent>0);
+       				cdList.push(list[i]);
         		}
         		return cdList;
         	}
@@ -1592,12 +1620,12 @@ function gshffLbxz(value,_this) {
 <script type="text/x-tp" id="my-default-lbcz-tp">
 <span>
 {{if user.yhdm=='admin'}}
-<a href="sjdx/edit.do?pagemodel=edit&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】"><i class="icon ion-compose"></i></a>
+<a href="sjdx/edit.do?pagemodel=edit&dxdm={{= sjdx.dxdm}}&myparams={{= editUrl(sjdx,row)}}" a-oper="update" title="编辑【{{= sjdx.dxmc}}】"><i class="icon ion-compose"></i></a>
 <span class="divider"></span>
-<a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=plsc&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl" title="删除【{{= sjdx.dxmc}}】"><i class="icon ion-android-delete"></i></a>
+<a href="sjdx/plcl.do?dxdm={{= sjdx.dxdm}}&map['cllx']=plsc&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl" title="删除【{{= sjdx.dxmc}}】"><i class="icon ion-android-delete"></i></a>
 <span class="divider"></span>
 {{/if}}
-<a href="sjdx/edit.do?pagemodel=details&id={{= sjdx.id}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-round"></i></a>
+<a href="sjdx/edit.do?pagemodel=details&dxdm={{= sjdx.dxdm}}&myparams={{= editUrl(sjdx,row)}}" a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-round"></i></a>
 </span>
 </script>
 <!-- 分页 -->

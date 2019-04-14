@@ -1240,14 +1240,16 @@
 				}
 				json.cnt_page = json.originalResult.length;
 				for (var i = 0; i < json.cnt_page; i++) {
-					for (var key in json.originalResult[i]) {
-						if (key == p.keyField) {
-							json.keyField.push(json.originalResult[i][key]);
-						}
-						if (key == p.showField) {
-							json.candidate.push(json.originalResult[i][key]);
-						}
-					}
+//					for (var key in json.originalResult[i]) {
+//						if (key == p.keyField) {
+//							json.keyField.push(json.originalResult[i][key]);
+//						}
+//						if (key == p.showField) {
+//							json.candidate.push(json.originalResult[i][key]);
+//						}
+//					}
+                    json.keyField.push(json.originalResult[i][p.keyField]);
+                    json.candidate.push(json.originalResult[i][p.showField]);
 				}
 				self.prepareResults(self, json, q_word, which_page_num);
 			},
@@ -1552,7 +1554,7 @@
                 }else itemText = arr_candidate[i];
                 var list = $('<li>').html(itemText).attr({
                     pkey: arr_primary_key[i],
-                    title: itemText
+                    title: itemText+"["+arr_primary_key[i]+"]"
                 });
 
                 //Set selected item highlight
