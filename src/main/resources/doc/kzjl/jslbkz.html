@@ -3,8 +3,10 @@
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">
 <span>
+{{if isYqx(user,sjdx,'QXS')}}
 <span class="divider"></span>
 <a href='sjdx/list.do?dxdm=SYS_QX_JSQXGL_SQS&myparams={{= encodeURI(JSON.stringify({"dqjs":row.dm}))}}' a-oper="other" title="授权管理"><i class="icon ion-toggle-filled"></i></a>
+{{/if}}
 </span>
 </script>
 <script>
@@ -20,6 +22,7 @@ function sjdxlbcz(value,_this) {
         return cz;
     }
     var qtcz = $("#my-sjdx-lbcz-tp").tmpl({sjdx:_this.$root.sjdx,
+        user:_this.$parent.$parent.$parent._data.user,
 	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
     return cz+qtcz;
 }

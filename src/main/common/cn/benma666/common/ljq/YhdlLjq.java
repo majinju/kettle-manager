@@ -46,6 +46,7 @@ public class YhdlLjq extends DefaultLjq{
                     return error("你未不在授权的ip范围内登录");
                 }else{
                     SysQxYhxx user = UserManager.getUserBydYhdm(yobj.getString("yhdm"));
+                    //复制旧用的客户端ip到新用户
                     user.setClientIp(oldUser.getClientIp());
                     UserManager.addUser(oldUser.getToken(), user);
                     return success("登录成功",yhxx);

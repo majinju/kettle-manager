@@ -5,7 +5,7 @@ yhqxxx
  select jq.qx from sys_qx_jsqxgl jq
  inner join sys_qx_yhjsgl yj on jq.js=yj.js
  inner join sys_qx_jsxx js on js.dm=yj.js
- where yj.yh=#p_1# and js.yxx='1' and yj.yxx='1' and jq.yxx='1'
+ where (yj.yh=#p_1# or js.dm='lsyh') and js.yxx='1' and yj.yxx='1' and jq.yxx='1'
  )
 
 insertJsqx

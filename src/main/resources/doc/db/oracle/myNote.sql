@@ -5,7 +5,7 @@
 --批量给数据对象添加基础权限
 insert into sys_qx_qxxx
   ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '110','管理员','admin','临时机构','99000001','基础权限',t.dm||'_JCQX','','03','myservice',
+select '110','管理员','admin','临时机构','99000001','详情权限',t.dm||'_XQQX','','03','myservice',
 '',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
 insert into sys_qx_qxxx
   ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
