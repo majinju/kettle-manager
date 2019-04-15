@@ -888,9 +888,9 @@ Vue.component('my-td', {
 			<slot></slot>
         </div>
         <div class="btn-table-right">
-			<button class="btn btn-default btn-sm" type="button"
+			<button v-if="qxByQxm('DCDQY')" class="btn btn-default btn-sm" type="button"
 				@click="expe"><i class="icon ion-ios-redo-outline"></i> 导出当前页</button>
-			<button class="btn btn-default btn-sm" type="button"
+			<button v-if="qxByQxm('DCQB')" class="btn btn-default btn-sm" type="button"
 				@click="expeAll"><i class="icon ion-ios-redo"></i> 导出全部</button>
     	</div>
 	</div>

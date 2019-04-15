@@ -509,7 +509,7 @@ function alertError(msg){
  */
 function alertInfo(msg){
     layer.alert(msg, { 
-        time: 5000, 
+        time: 10000, 
         icon:0                  
     });
 }

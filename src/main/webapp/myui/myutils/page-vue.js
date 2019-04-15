@@ -433,8 +433,8 @@ exportAll:function(page, title, hiddenCol)
 		alertError("没有数据可以导出！");
 		return;
 	}
-	if(page.total >page.maxPageSize){
-		alertInfo("系统只能导出前"+page.maxPageSize+"条信息！");
+	if(page.total > 5000||page.total > page.maxPageSize){
+		alertInfo("系统只能导出前"+page.maxPageSize+"条信息,导出全部功能比较耗时，根据数据量不同，数据量越大耗时越长，请耐心等待！！！");
 	}
 	page.exportAll(title,hiddenCol);
 }

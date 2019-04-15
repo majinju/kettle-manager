@@ -1,6 +1,6 @@
 --导出之前清理日志表
 --truncate table  SYS_LOG_FWZR;
---truncate table  SYS_LOG_HTZR;
+--truncate table  SYS_LOG_HTRZ;
 
 --批量给数据对象添加基础权限
 insert into sys_qx_qxxx
@@ -38,4 +38,12 @@ select '180','管理员','admin','临时机构','99000001','配置对象',t.dm||
 insert into sys_qx_qxxx
   ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
 select '190','管理员','admin','临时机构','99000001','配置字段',t.dm||'_PZZD','','03','myservice',
+'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
+insert into sys_qx_qxxx
+  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
+select '210','管理员','admin','临时机构','99000001','导出当前页',t.dm||'_DCDQY','','03','myservice',
+'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
+insert into sys_qx_qxxx
+  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
+select '220','管理员','admin','临时机构','99000001','导出全部',t.dm||'_DCQB','','03','myservice',
 '',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';

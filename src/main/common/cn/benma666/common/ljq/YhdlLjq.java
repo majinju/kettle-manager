@@ -49,6 +49,8 @@ public class YhdlLjq extends DefaultLjq{
                     //复制旧用的客户端ip到新用户
                     user.setClientIp(oldUser.getClientIp());
                     UserManager.addUser(oldUser.getToken(), user);
+                    //将登陆凭证存入用户信息中返回前端，便于app类接口做后续请求
+                    yhxx.put(UserManager.TOKEN, oldUser.getToken());
                     return success("登录成功",yhxx);
                 }
             }else{

@@ -3,9 +3,10 @@
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">
 <span>
-{{if isYqx(user,sjdx,'QXS')}}
+{{if qxByQxm(user,sjdx,'QXS')}}
 <span class="divider"></span>
-<a href='sjdx/list.do?dxdm=SYS_QX_JSQXGL_SQS&myparams={{= encodeURI(JSON.stringify({"dqjs":row.dm}))}}' a-oper="other" title="授权管理"><i class="icon ion-toggle-filled"></i></a>
+<a href='sjdx/list.do?dxdm=SYS_QX_JSQXGL_SQS&myparams={{= encodeURI(JSON.stringify({"dqjs":row.dm}))}}' 
+a-oper="other" title="授权管理"><i class="icon ion-toggle-filled"></i></a>
 {{/if}}
 </span>
 </script>
