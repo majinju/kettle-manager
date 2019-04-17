@@ -7,11 +7,11 @@
 package cn.benma666.common.ljq;
 
 import cn.benma666.constants.UtilConst;
+import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.DefaultLjq;
-import cn.benma666.sjgl.SysSjglSjdx;
 import cn.benma666.web.QxManager;
-import cn.benma666.web.SysQxYhxx;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 public class QxxxLjq extends DefaultLjq{
     /**
     * 
-    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {
@@ -41,7 +41,7 @@ public class QxxxLjq extends DefaultLjq{
             for(JSONObject node:changeNodes.toArray(new JSONObject[]{})){
                 if(node.getBooleanValue("checked")){
                     JSONObject jsqx = new JSONObject();
-                    QxManager.setCjrInfo(user, jsqx);
+                    QxManager.setCjrInfoMap(user, jsqx);
                     jsqx.put("js", dqjs);
                     jsqx.put("qx", node.getString("dm"));
 
@@ -68,5 +68,22 @@ public class QxxxLjq extends DefaultLjq{
             //执行默认操作
             return super.plcl(sjdx, params);
         }
+    }
+    /**
+    * 
+    * @see cn.benma666.sjgl.DefaultLjq#saveDb(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    */
+    @Override
+    protected JsonResult saveDb(SysSjglSjdx t, JSONObject myparams) {
+        String cllx = myparams.getString(KEY_CLLX);
+        JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
+        if(KEY_CLLX_INSERT.equals(cllx)&&"01".equals(yobj.getString("lx"))
+                &&"04".equals(yobj.getString("dzlx"))
+                &&UtilConst.WHETHER_TRUE.equals(yobj.getString("sczqx"))){
+            //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
+            JsonResult r = DefaultLjq.getDefaultSql(t, "sczqx",myparams);
+            sqlManager.executeUpdate(r.getMsg(), myparams);
+        }
+        return super.saveDb(t, myparams);
     }
 }

@@ -9,10 +9,10 @@ package cn.benma666.common.service;
 import org.springframework.stereotype.Service;
 
 import cn.benma666.constants.UtilConst;
+import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
-import cn.benma666.sjgl.SysSjglSjdx;
 import cn.benma666.web.BasicService;
 
 import com.alibaba.fastjson.JSONArray;

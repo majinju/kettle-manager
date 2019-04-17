@@ -6,10 +6,11 @@
 
 package cn.benma666.common.ljq;
 
+import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
-import cn.benma666.sjgl.SysSjglSjdx;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -22,16 +23,34 @@ import com.alibaba.fastjson.JSONObject;
 public class TyzdLjq extends DefaultLjq{
     /**
     * 
-    * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult save(SysSjglSjdx sjdx, JSONObject myJsonParams) {
-        String cllx = myJsonParams.getString(LjqInterface.KEY_CLLX);
-//        JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
+    public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
+        String cllx = myParams.getString(LjqInterface.KEY_CLLX);
+        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         if(KEY_CLLX_UPDATE.equals(cllx)){
-//            JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
+            JSONObject obj = myParams.getJSONObject(KEY_OBJ);
+            DictManager.clearDict(obj.getString("zdlb"));
         }else{
+            DictManager.clearDict(yobj.getString("zdlb"));
         }
-        return super.save(sjdx, myJsonParams);
+        return super.save(sjdx, myParams);
+    }
+    /**
+    * 
+    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    */
+    @Override
+    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {
+        String cllx = params.getString(KEY_CLLX);
+        switch (cllx) {
+        case "qchc":
+            DictManager.clearDict();
+            return success("清除缓存成功");
+        default:
+            //执行默认操作
+            return super.plcl(sjdx, params);
+        }
     }
 }

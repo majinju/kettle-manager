@@ -6,12 +6,12 @@
 
 package cn.benma666.common.ljq;
 
+import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
-import cn.benma666.sjgl.SysSjglSjdx;
-import cn.benma666.web.SysQxYhxx;
 import cn.benma666.web.UserManager;
 
 import com.alibaba.fastjson.JSONObject;
@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 public class YhdlLjq extends DefaultLjq{
     /**
     * 
-    * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
     public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {

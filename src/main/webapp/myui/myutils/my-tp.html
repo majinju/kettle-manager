@@ -333,10 +333,10 @@ Vue.component('my-inputn', {
             var zdObj = $(this.$el);
             var zdlb = field.zdzdlb;
             var otherParam = field.otherParam||'';
-            var data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map['zdlb']="
-                    +zdlb+"&map['otherParam']="+otherParam;
+            var data = serviceAddr+"common/zdSearch.do?autoCount=true&zdlb="
+                    +zdlb+"&otherParam="+otherParam;
             if(!(this.field.zdfy=='1')&&zdlb!="SYS_COMMON_ORG"){
-            	data = zdList(zdlb);
+            	data = Object.values(zdList(zdlb));
             }
             var keyField = "dm";
             if(field.kjlx=='suggest'){
@@ -346,7 +346,7 @@ Vue.component('my-inputn', {
             	data:data,
                 showField: 'mc',
                 keyField: keyField,
-                searchField: "map['searchKey']",
+                searchField: "searchKey",
                 orderBy : ['px asc','dm asc','mc'],
                 eAjaxSuccess: function(d){
                     return d;
@@ -1103,11 +1103,13 @@ Vue.component('my-list', {
                     console.log(r+"-"+field.zdmc+ "=" + _this.listEditData[r][field.zddm]);
                 }
               },
-	        plcl:function(cllx,_this){
+	        plcl:function(cllx,_this,options){
 	            if(!_this){
 		            _this = this;
 	            }
-	            debugger
+	            if(!options){
+	                options={};
+	            }
                 var ed = _this.listEditData;
                 var ids = "";
                 for(var i=0;i<ed.length;i++){
@@ -1115,17 +1117,22 @@ Vue.component('my-list', {
 					    ids=ids+","+ed[i][_this.sjdx.zjzd];
 					}
                 }
-                if(ids==""){
+                if(ids==""&&!(options.bxlbh==false)){
                     alertError("请选择要操作行");
                     return;
                 }
 	            fromdata.id=_this.sjdx.id;
 	            fromdata['map["cllx"]']=cllx;
 	            fromdata['map["ids"]']=ids.substring(1);
-	            qrtsAjax('sjdx/plcl.do',fromdata,function(data){
-            	   	alertInfoYes(data,function(){
-        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
-					});
+	            ajax('sjdx/plcl.do',{
+	                fromdata:fromdata,
+	                qrts:options.qrts,
+	                success:function(data){
+		                alertInfoYes(data,function(){
+	        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
+						}
+		                );
+	                }
 	            });
 	        },
               saveListData:function(){
@@ -1382,11 +1389,11 @@ Vue.component('my-edit', {
   });
 </script>
 <script type="text/x-tp" id="my-dlym-tp">
-<div style="background-image: url(myui/myframe/img/bg1.jpg);height: 100vh;" @keydown="denglu">
+<div :style="'background-image: url('+fileUrl('背景图片')+');height: 100vh;'" @keydown="denglu">
 	<div style="width: 500px; margin: auto;padding-top: 100px;">
 		<div style="text-align: center;color: floralwhite; font-size: xx-large;background-color: #81b0e4a6;margin: 0 -20px;">
-			<img src="project/img/icon-emblem.png"/>
-			<span style="vertical-align: middle;">开发者服务平台</span>
+			<img :src="fileUrl('图标')"/>
+			<span style="vertical-align: middle;">{{kzxx['登陆信息']['系统名称']}}</span>
 		</div>
 		<my-edit :fromdata="dlfromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
 		</my-edit>
@@ -1399,6 +1406,7 @@ Vue.component('my-dlym', {
     template:"#my-dlym-tp",
     data: function () {
       return {
+          kzxx:{"登陆信息":{}}
       }
     },
     created : function(){
@@ -1407,10 +1415,11 @@ Vue.component('my-dlym', {
     },
     computed : {
         dlfromdata:function(){
+            var _this = this;
             this.fromdata.qdzdyFun=function(result){
                 if(result.status){
                     console.info(result.data.yhxm+":"+result.msg);
-                    window.location.href="sjdx/list.do?dxdm=SYS_QX_QXXX_MRCD";
+                    window.location.href="sjdx/list.do?dxdm="+_this.kzxx['登陆信息']['菜单对象'];
                 }else{
                 	alertInfo(result.msg);
                 }
@@ -1424,21 +1433,31 @@ Vue.component('my-dlym', {
             if(e && e.keyCode==13){ // enter 键
                 this.$children[0].submit();
             }
+        },
+        fileUrl:function(key){
+            if(this.kzxx['登陆信息'][key]){
+                return 'file/download.do?id='+this.kzxx['登陆信息'][key];
+            }else{
+                return "";
+            }
         }
-	}
+	},
+    mounted: function () {
+        Vue.set(this,"kzxx",this.$children[0]._data.kzxx);
+    }
   });
 </script>
 <script type="text/x-tp" id="my-cdym-tp">
-<div class="cdkj" style="width: 100%;height: 100vh;background-image: url('myui/myframe/img/bg2.jpg');">
+<div class="cdkj" :style="'width: 100%;height: 100vh;background-image: url('+fileUrl('背景图片')+');'">
 	<div class="top" style="height: 80px; width: 100%;border-bottom: solid #c9bdf6;">
 		<div style="float:left;margin-left: 10px;">
-			<img src="project/img/icon-emblem.png" style="height: 80px;">
-			<span style="font-size: 2.5em;vertical-align: middle;color: lightcoral;">开发者服务平台</span>
+			<img :src="fileUrl('系统图标')" style="height: 80px;">
+			<span style="font-size: 2.5em;vertical-align: middle;color: lightcoral;">{{kzxx['菜单信息']['系统名称']}}</span>
 		</div>
 		<div style="float:right;margin-right: 20px;margin-top: 10px;">
 			<img src="project/img/icon-emblem.png" style="height: 50px;">
-			<span style="vertical-align: middle;color: chocolate;">管理员</span>
-			<a href="sjdx/edit.do?dxdm=SYS_QX_YHXX_MRDL&pagemodel=add" 
+			<span style="vertical-align: middle;color: chocolate;">{{user.yhxm}}</span>
+			<a href="javascript:void(0);" @click="tuichu" 
 				style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
 		</div>
 	</div>
@@ -1455,13 +1474,13 @@ Vue.component('my-dlym', {
 		</div>
 	</div>
 	<div class="bottom" style="height: 30px;width: 100%;text-align: center;border-top: solid #c9bdf6;">
-		<span style="font-size: initial;vertical-align: text-top;">版权所有@马进举</span>
+		<span style="font-size: initial;vertical-align: text-top;">系统软件版权所有@马进举</span>
 	</div>
 </div>
 </script>
 <script type="text/javascript">
 Vue.component('my-cdym', {
-    props: ['fromdata','sjdxid','pagemodel','treeroot'],
+    props: ['fromdata','sjdxid','pagemodel'],
     template:"#my-cdym-tp",
     data: function () {
       return {
@@ -1470,6 +1489,23 @@ Vue.component('my-cdym', {
     created : function(){
         var _this = this;
         var data = _this._data;
+        var params = {id:_this.sjdxid};
+        params.myparams = JSON.stringify(fromdata);
+ 		$.ajax({url : "sjdx/jcxx.do",
+	      type : "post",
+          async : false,
+          data : params,
+          success:function(result){
+  			if(result.status){
+  			    var rd = result.data;
+			    _this.$root.sjdx = data.sjdx = rd.sjdx;
+			    _this.kzxx = rd.kzxx;
+  			    _this.user = rd.user;
+  			}else{
+	        	redict(result);
+  			  }
+ 			}
+          });
     },
     computed : {
         dlfromdata:function(){
@@ -1484,6 +1520,16 @@ Vue.component('my-cdym', {
             this.centerLoadingId = layer.load(0,{
         		shade: [0.3]
         	});
+        },
+        tuichu:function(){
+            window.location.href="sjdx/edit.do?pagemodel=add&dxdm="+this.kzxx['菜单信息']['登陆对象'];
+        },
+        fileUrl:function(key){
+            if(this.kzxx['菜单信息'][key]){
+                return 'file/download.do?id='+this.kzxx['菜单信息'][key];
+            }else{
+                return "";
+            }
         },
         centerLoad:function(){
             layer.close(this.centerLoadingId);
@@ -1510,7 +1556,7 @@ Vue.component('my-cdym', {
         			    //树模式=菜单树
         			    "map['treeModel']":'cds',
         			    //菜单树根节点
-        			    "map['treeRoot']":this.treeroot},
+        			    "map['treeRoot']":this.kzxx['菜单信息']['菜单根节点']},
         			dataFilter: treefilter
         		},
         		callback: {

@@ -14,14 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.db.Db;
+import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.domain.SysSjglSjzd;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.SjglException;
-import cn.benma666.sjgl.SysSjglSjdx;
-import cn.benma666.sjgl.SysSjglSjzd;
 
 import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSON;
@@ -36,7 +36,7 @@ import com.alibaba.fastjson.JSONObject;
 public class SjdxLjq extends DefaultLjq{
     /**
     * 
-    * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.sjgl.SysSjglSjdx, java.util.Map)
+    * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, java.util.Map)
     */
     @Override
     @Transactional
@@ -59,7 +59,7 @@ public class SjdxLjq extends DefaultLjq{
     }
     /**
     * 
-    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {
@@ -135,7 +135,7 @@ public class SjdxLjq extends DefaultLjq{
     public JsonResult getDefaultImpSql(JSONObject params,String cllx) {
         JsonResult result;
         SysSjglSjdx ysjdx = JSON.parseObject(params.getJSONObject(KEY_YOBJ).toJSONString(), SysSjglSjdx.class);
-        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
         ysjdx.setDxztlx(dbObj.getString("lx"));
         switch (ysjdx.getDxztlx()) {
         case JdbcUtils.ORACLE:
@@ -166,7 +166,7 @@ public class SjdxLjq extends DefaultLjq{
     /**
     * 
     * @return 
-     * @see cn.benma666.sjgl.DefaultLjq#wlscByYxx(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+     * @see cn.benma666.sjgl.DefaultLjq#wlscByYxx(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
     public JsonResult wlscByYxx(SysSjglSjdx sjdx, JSONObject params) {
@@ -184,7 +184,7 @@ public class SjdxLjq extends DefaultLjq{
     * @return 
     */
     public JsonResult impFields(SysSjglSjdx jtdx, JSONObject params, SysSjglSjdx sjdx) {
-        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
         jtdx.setDxztlx(dbObj.getString("lx"));
         switch (jtdx.getDxztlx()) {
         case JdbcUtils.ORACLE:

@@ -9,10 +9,10 @@ package cn.benma666.common.ljq;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
-import cn.benma666.sjgl.SysSjglSjdx;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 public class SjzdLjq extends DefaultLjq{
     /**
     * 
-    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.sjgl.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {

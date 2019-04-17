@@ -9,11 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.benma666.common.service.SjdxService;
+import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
-import cn.benma666.sjgl.SysSjglSjdx;
 import cn.benma666.web.BasicController;
 
 import com.alibaba.fastjson.JSONObject;
@@ -54,7 +54,8 @@ public class SjdxController extends BasicController {
      * @param request 
     */
     @RequestMapping(value = "/edit.do")
-    public String edit(SysSjglSjdx sjdx,String myparams, Model model, HttpServletRequest request) {
+    public String edit(SysSjglSjdx sjdx,String myparams, Model model, 
+            HttpServletRequest request) {
         jcxx(sjdx,myparams,request);
         model.addAttribute("sjdx", dbSjdx);
         if(StringUtil.isBlank(myparams)){

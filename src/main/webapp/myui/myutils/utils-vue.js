@@ -167,7 +167,7 @@ function initValidator(){
             $.ajax({
                    type:"POST",
                    data:{"map['zdlb']":zdlb},
-                   url:serviceAddr+"common/dict/zdList.do",
+                   url:serviceAddr+"common/zdList.do",
                    dataType: "json",
                    success:function(data){
                        for(var i = 0;i<data.length;i++){
@@ -206,7 +206,7 @@ function initValidator(){
             $.ajax({
                    type:"POST",
                    data:{"map['zdlb']":zdlb},
-                   url:serviceAddr+"common/dict/zdList.do",
+                   url:serviceAddr+"common/zdList.do",
                    dataType: "json",
                    success:function(data){
                        for(var i = 0;i<data.length;i++){
@@ -244,7 +244,7 @@ function initValidator(){
      */
     $.fn.changeSelectPageData = function(zdlb,otherParam) {
 		var _this = $(this);
-		_this.getPlugin().option.data = serviceAddr+"common/dict/zdSearch.do?autoCount=true&map['zdlb']="+zdlb+"&map['otherParam']="+encodeURI(otherParam||"")+"&map['noCache']="+encodeURI(otherParam||"");
+		_this.getPlugin().option.data = serviceAddr+"common/zdSearch.do?autoCount=true&zdlb="+zdlb+"&otherParam="+encodeURI(otherParam||"")+"&otherParam="+encodeURI(otherParam||"");
     };
     
     /**
@@ -326,65 +326,96 @@ function initValidator(){
  */
 var zdListCache = {};
 /**
- * 字典缓存，避免频繁向后台请求
- */
-var zdCache = {};
-/**
  * 获取字典列表
  * @param zdlb 字典类别
  */
 function zdList(zdlb){
+    if(zdListCache[zdlb+"_cache"]){
+        //不支持获取列表
+        return null;
+    }
     if(zdListCache[zdlb]==null){
         $.ajax({
             type:"POST",
             async:false,
-            data:{"map['zdlb']":zdlb},
-            url:serviceAddr+"common/dict/zdList.do",
+            data:{"zdlb":zdlb},
+            url:serviceAddr+"common/zdList.do",
             dataType: "json",
-            success:function(data){
-            	zdListCache[zdlb] = data;
+            success:function(result){
+                if(result.status){
+                    zdListCache[zdlb] = result.data;
+                }else{
+                    //不支持获取列表
+                    zdListCache[zdlb+"_cache"] = true;
+                    zdListCache[zdlb] = {};
+                }
             },
             error:function(){
                 alert("加载字典失败："+zdlb);
             }
             });
     }
-    return zdListCache[zdlb];
+    if(zdListCache[zdlb+"_cache"]){
+        //不支持获取列表
+        return null;
+    }else{
+        return zdListCache[zdlb];
+    }
 }
 /**
- * 获取字典Map
+ * 获取字典对象
  * @param zdlb 字典类别
+ * @param dm 字典代码
  */
-function zdMap(zdlb){
-    if(zdCache[zdlb]==null){
-    	var data = zdList(zdlb);
-        zdCache[zdlb] = {};
-        if(data){
-            for(var i=0;i<data.length;i++){
-                zdCache[zdlb][data[i].dm]=data[i].mc;
-            }
+function zdObjByDm(zdlb,dm){
+	if(!dm||!zdlb){
+	    return null;
+	}
+    var obj = null;
+    var zl = zdList(zdlb);
+    if(zl){
+        if(!isEmpty(zl[dm])){
+            obj = zl[dm];
         }
+    }else if(zdListCache[zdlb][dm]){
+        obj = zdListCache[zdlb][dm];
+    }else{
+        //不支持获取列表
+        $.ajax({
+            type:"POST",
+            async:false,
+            data:{"zdlb":zdlb,"dm":dm},
+            url:serviceAddr+"common/zdObjByDm.do",
+            dataType: "json",
+            success:function(result){
+                if(result.status){
+                    zdListCache[zdlb][dm] = result.data;
+                    obj = result.data;
+                }else{
+                    obj = {"dm":dm,"mc":dm};
+                    zdListCache[zdlb][dm] = obj;
+                }
+            },
+            error:function(){
+                alertInfo("加载字典失败："+zdlb+"->"+dm);
+            }
+         });
     }
-    return zdCache[zdlb];
+    return obj;
 }
+
 /**
  * 获取字典名称
  * @param zdlb 字典类别
  * @param dm 字典代码
  */
 function zdMcByDm(zdlb,dm){
-	if(dm){
-	    var mc = dm;
-	    var zl = zdMap(zdlb);
-	    if(isEmpty(zl[dm])){
-	    	return mc;
-	    }
-	    if(!isEmpty(zl[dm])){
-	        mc = zl[dm];
-	    }
-	    return mc;
-	}
-	return "";
+    var obj = zdObjByDm(zdlb,dm);
+    if(obj==null){
+        return dm;
+    }else{
+        return obj.mc;
+    }
 }
 
 /**
@@ -395,51 +426,16 @@ function zdMcByDm(zdlb,dm){
 function zdMcByDmMore(zdlb,dm){
 	var mc = "";
 	if(dm){
-		var mcs = (dm+"").split(",");
-		for(var i=0;i<mcs.length;i++){
-			if(mcs[i] != ""){
-				var zl = zdMap(zdlb);
-			    if(!isEmpty(zl[mcs[i]])){
-			    	if(mc!=""){
-			    		mc += "、" + zl[mcs[i]];
-			    	}else{
-			    		mc = zl[mcs[i]];
-			    	}
-			    }else{
-			    	if(mc != ""){
-			    		mc += "、" + mcs[i];
-			    	}else{
-			    		mc += mcs[i];
-			    	}
-			    }
-			}else{
-				mc += mcs[i];
-			}
+		var dms = (dm+"").split(",");
+		for(var i=0;i<dms.length;i++){
+		    if(isEmpty(dms[i])){
+                mc += "、";
+                continue;
+		    }
+		    mc += "、"+zdMcByDm(zdlb,dms[i]);
 		}
 	}
-    return mc;
-}
-
-/**
- * 字典与其他选项用：组合
- * @param zdlb 字典类别
- * @param dm 字典代码
- */
-function zdMcByDmMoreOther(zdlb,dm){
-	if(dm){
-		var mc = dm.split(":");
-		dm = mc[0];
-		if(dm){
-			var zl = zdMap(zdlb);
-		    if(isEmpty(zl[dm])){
-		    	return "";
-		    }
-		    if(!isEmpty(zl[dm])){
-		        mc = zl[dm] + ":" + mc[1];
-		    }
-		}
-	    return mc;
-	}
+    return mc.substring(1);
 }
 
 /**
@@ -526,6 +522,17 @@ function alertInfoYes(result,end){
         end:end
     });
 }
+
+function ajax(url,options){
+    if(!options){
+        options = {};
+    }
+    if(options.qrts){
+        qrtsAjax(url,options.fromdata,options.success,options.qxbtn);
+    }else{
+        myAjax(url,options.fromdata,options.success);
+    }
+}
 /**
  * 确认提示后发起ajax请求
  */
@@ -556,7 +563,7 @@ function myAjax(url,fromdata,success){
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alertError("网络异常");
+            alertError("请求异常");
         }
     });
 }
