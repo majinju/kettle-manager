@@ -248,7 +248,7 @@ ul.sp_element_box{
 	list-style: none;
 	height: auto;
 	min-height: 25px;
-	font-size: 14px;
+	font-size: 12px;
 }
 ul.sp_element_box > li{
 	list-style: none;
@@ -273,20 +273,23 @@ ul.sp_element_box li.selected_tag {
 	cursor: pointer;
 	max-width: 100%;
 	box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-	height: 24px;
-	line-height: 24px;
+	height: 20px;
+	line-height: 20px;
 }
 ul.sp_element_box li.input_box {
 	padding: 0px;
 	/* margin: 0px; */
 	margin-top: 0px;
-	height: 26px;
-	min-height: 26px;
+	height: 22px;
+	min-height: 22px;
 }
 ul.sp_element_box li.input_box input {
-	height: 26px !important;
-	line-height: 26px !important;
-	min-height: 26px !important;
+	height: 22px !important;
+	line-height: 22px !important;
+	min-height: 22px !important;
+}
+ul.sp_element_box li.input_box input.sp_input {
+	font-size: 12px;
 }
 ul.sp_element_box li.selected_tag span.tag_close {
 	cursor: pointer;

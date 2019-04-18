@@ -676,7 +676,7 @@
 					data: {
 						searchTable: p.dbTable,
 						searchKey: p.keyField,
-						"map['searchValue']": key
+						"searchValue": key
 					},
 					success: function(json) {
 					    var d = null;
