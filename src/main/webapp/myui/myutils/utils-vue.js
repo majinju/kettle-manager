@@ -53,8 +53,8 @@ $(function() {
 //    $(".zdSelectPage").zdSelectPage();
     $(".zdTranslate").zdTranslate();
     // 绑定图片上传事件
-	if($("div.uploadFile").length > 0){
-		$("div.uploadFile").uploadFile();		
+	if($(".uploadFile").length > 0){
+		$(".uploadFile").uploadFile();
 	}
 });
 function initValidator(){
@@ -244,7 +244,8 @@ function initValidator(){
      */
     $.fn.changeSelectPageData = function(zdlb,otherParam) {
 		var _this = $(this);
-		_this.getPlugin().option.data = serviceAddr+"common/zdSearch.do?autoCount=true&zdlb="+zdlb+"&otherParam="+encodeURI(otherParam||"")+"&otherParam="+encodeURI(otherParam||"");
+		_this.getPlugin().option.data = serviceAddr+"common/zdSearch.do?autoCount=true&zdlb="
+		    +zdlb+"&otherParam="+encodeURI(otherParam||"")+"&otherParam="+encodeURI(otherParam||"");
     };
     
     /**
@@ -253,8 +254,9 @@ function initValidator(){
     $.fn.uploadFile = function() {
         this.each(function(){
             var _this = $(this);
-        	var upurl = serviceAddr+"common/file/uploadFile.do";
+        	var upurl = serviceAddr+"common/upload.do";
         	var ywdm = _this.attr("ywdm");
+            var wjlb = _this.attr("wjlb");
         	var glid = _this.attr("glid");
         	
         	new Ajax_upload(_this, {
@@ -266,27 +268,17 @@ function initValidator(){
         		onSubmit : function(file, ext) {
         			var type = ext[0];
         			//获取附加类型
-    				var wjlb = $("#wjlb").val();
         			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt)$/.test(type.toLowerCase()))) {
         				//alert("文件格式不正确，仅支持jpg,jpeg,gif,png,bmp,doc,docx,xlsx,xls,mp4,txt格式");
-        				layer.alert("文件格式不正确", { 
-        					time:3000,    	   		
-        					icon:6
-        				});
+        			    alertInfo("该文件格式不支持上传");
         				return false;
         			}
         			if(!wjlb){
-    					layer.alert("请选择附件类型", { 
-    						time:3000,    	   		
-    						icon:6
-    					});
+        			    alertInfo("请设置文件类别");
     					return false;
     				}
         			if(!ywdm){
-        				layer.alert("请传入业务代码", { 
-        					time:3000,    	   		
-        					icon:6
-        				});
+        			    alertInfo("请设置业务代码");
         				return false;
         			}
         			if(glid==null){
@@ -304,16 +296,10 @@ function initValidator(){
                         if(_this.attr("callBack")){
                         	eval(_this.attr("callBack")+'(data.data)');
                         }else{
-                        	layer.alert("上传成功", { 
-	        					time:3000, 
-	        					icon:1       	   		
-        					});
+                        	alertInfo("上传成功");
                         }                        
         			}else{
-        				layer.alert(data.msg||"上传失败", { 
-        					time:3000, 
-        					icon:5       	   		
-        				});
+                        alertError("上传失败："+data.msg);
         			}
         		}
         	});

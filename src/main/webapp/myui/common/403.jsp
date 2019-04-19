@@ -37,7 +37,7 @@
         <a class="err-a" href="javascript:alert('逗你玩呢');">请联系管理员</a>
       </p>
       <p>
-        <a class="err-a" href="sjdx/edit.do?dxdm=SYS_QX_YHXX_MRDL&pagemodel=add">返回登陆页</a>
+        <a class="err-a" href="">返回登陆页</a>
       </p>
 <!--       <img class="err-man" src="${serviceAddr}myui/common/img/err_man.png" alt=""> -->
     </div>

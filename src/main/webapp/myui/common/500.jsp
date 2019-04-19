@@ -28,12 +28,13 @@
       </p>
       <p class="err-tip-500">
         <i class="icon icon-line-l"></i>
-        <span class="err-span">${param.msg!=null?param.msg:'系统内部发生错误：' }<%= exception.getMessage() %></span>
+        <span class="err-span">${param.msg!=null?param.msg:'系统内部发生错误' }</span>
+        <span style="display: none;"><%= exception.getMessage() %></span>
         <i class="icon icon-line-r"></i>
       </p>
       <p>
         <a class="err-a" href="javascript:alert('逗你玩呢');">请联系管理员</a>
-        <a class="err-a" href="sjdx/edit.do?dxdm=SYS_QX_YHXX_MRDL&pagemodel=add">返回登陆页</a>
+        <a class="err-a" href="">返回登陆页</a>
       </p>
 <!--       <img class="err-man" src="${serviceAddr}myui/common/img/err_man.png" alt=""> -->
     </div>
