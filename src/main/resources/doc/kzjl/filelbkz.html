@@ -1,13 +1,11 @@
 <!-- 文件管理列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+	<my-file style="display: none;" :id="'wjsc-'+sjdxid" edit="true" :field="field"></my-file>
 	<span :id="'lbplcz-'+sjdxid"></span>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
 <span>
 {{if qxByQxm(user,sjdx,'WJSC')}}
-<button class="btn btn-primary btn-sm uploadFile" wjlb="other" ywdm="common">
-	<i class="icon ion-arrow-up-a"></i> {{= qxByQxm(user,sjdx,'WJSC').mc}}
-</button>
 {{/if}}
 </span>
 </script>
@@ -28,14 +26,28 @@ function sjdxZdy(vp){
     vp.mounted=function(){
         lbplcz(this);
     }
+    vp.data.field={
+        kzxx:{
+            file:{
+                ywdm:"common",
+                wjlb:"other"
+            }
+        }
+    }
 }
 function plcl(cllx,_this,options){
     listFrom.plcl(cllx,_this,options);
 }
 function lbplcz(_this){
-    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl({sjdx:_this.sjdx,
-        user:_this.$children[0]._data.user}).html();
+    var param = {
+        sjdx:_this.sjdx,
+        user:_this.$children[0]._data.user
+        }
+    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl(param).html();
     $('#lbplcz-'+_this.sjdxid).html(qtcz);
+	if(qxByQxm(param.user,param.sjdx,'WJSC')){
+	    $('#wjsc-'+sjdxid).show();
+	}
 }
 function sjdxlbcz(value,_this) {
     var cz = defaultLbcz(value,_this);
@@ -47,16 +59,5 @@ function sjdxlbcz(value,_this) {
         user:_this.$parent.$parent.$parent._data.user,
 	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
     return cz+qtcz;
-}
-function tpzs(value,_this) {
-    if(!_this.$root.listPage.rows||!_this.$root.listPage.rows[_this.$parent.$parent.ri]){
-        return "";
-    }
-    var row = _this.$root.listPage.rows[_this.$parent.$parent.ri];
-    var nr = "查看";
-    if(row.wjlx=="png"||row.wjlx=="jpg"){
-        nr = "<img style='width:60px;' src='common/download.do?xzms=false&id="+row.id+"'/>";
-    }
-    return "<a href='common/download.do?xzms=false&id="+row.id+"' target='_blank'>"+nr+"</a>";
 }
 </script>
