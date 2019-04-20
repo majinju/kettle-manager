@@ -87,13 +87,14 @@ public class CommonService extends BasicService{
         fileObj.setSclb(SConf.getVal(SYS_SCLB));
         QxManager.setCjrInfo(user, fileObj);
         //如果表中存在此去重码则把这个文件删除
-        JSONObject f = db.findFirst("select * from sys_sjgl_file t where t.qcm = ?", fileObj.getQcm());
+        JSONObject f = db.findFirst("select * from sys_sjgl_file t where t.yxx='1' and t.qcm = ?", fileObj.getQcm());
         if(f!=null){
             log.info(f+"文件已经存在");
             files.delete();
             return f;
         }else{
             //保存文件信息
+            fileObj.setId(null);
             sqlManager.insertTemplate(fileObj);
             log.info(fileObj+"文件上传成功");
         }

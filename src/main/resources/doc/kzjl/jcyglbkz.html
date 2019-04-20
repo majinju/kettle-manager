@@ -1,15 +1,25 @@
-<!-- 统一字典列表扩展 -->
+<!-- 机场员工列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
 	<span :id="'lbplcz-'+sjdxid"></span>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
 <span>
 {{if qxByQxm(user,sjdx,'SJPLSC')}}
-<button class="btn btn-primary btn-sm" onclick="plcl('qchc',null,{bxlbh:false})"><i class="icon ion-arrow-up-a"></i> {{= qxByQxm(user,sjdx,'SJPLSC').mc}}</button>
+<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" callBack="clygsj">
+	{{= qxByQxm(user,sjdx,'SJPLSC').mc}}
+	<i  style="margin-left: 5px;" 
+    	class="icon ion-ios-help-outline" 
+    	id="plscTitle"
+    	onmouseover="plscTitle(this)"></i></button>
 {{/if}}
 <span>
 {{if qxByQxm(user,sjdx,'MBXZ')}}
-<button class="btn btn-primary btn-sm" onclick="plcl('qchc',null,{bxlbh:false})"><i class="icon ion-archive"></i> {{= qxByQxm(user,sjdx,'MBXZ').mc}}</button>
+<button class="btn btn-primary btn-sm" onclick="downloadRyhcTemplate()">{{= qxByQxm(user,sjdx,'MBXZ').mc}}
+	<i style="margin-left: 5px;" 
+    	class="icon ion-ios-help-outline" 
+    	id="plscmbTitle"
+    	onmouseover="plscmbTitle(this)"></i>
+</button>
 {{/if}}
 </span>
 </script>
@@ -23,7 +33,7 @@
 function sjdxZdy(vp){
     vp.el="#listPage";
     vp.methods.plcl=function(cllx,_this,options){
-          this.$children[0].plcl(cllx,_this,options);
+         this.$children[0].plcl(cllx,_this,options);
     }
     vp.mounted=function(){
         lbplcz(this);
@@ -47,5 +57,32 @@ function sjdxlbcz(value,_this) {
         user:_this.$parent.$parent.$parent._data.user,
 	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
     return cz+qtcz;
+}
+
+function plscTitle(_this){
+	layer.tips("批量上传需要核查的数据,请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功","#plscTitle");
+}
+function plscmbTitle(_this){
+	layer.tips("请严格按照模板填充数据，注意模板中的提示信息","#plscmbTitle");
+}
+function downloadRyhcTemplate(){
+	//下载人员核查模板
+	$.download("common/download.do",{id:"676B387B1780492E823BCADA76C62477"});
+}
+function clygsj(fileObj){
+    var params = {};
+    params.id=listFrom.sjdx.id;
+    params['map["cllx"]']="clygsj";
+    params.myparams = JSON.stringify({"fileObj":fileObj});
+    ajax('sjdx/plcl.do',{
+        fromdata:params,
+        qrts:false,
+        success:function(data){
+            alertInfoYes(data,function(){
+                listFrom.$children[0].listPage.queryPage(); //执行页面刷新函数 
+			}
+            );
+        }
+    });
 }
 </script>

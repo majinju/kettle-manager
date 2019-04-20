@@ -27,6 +27,104 @@ Vue.component('my-label', {
         }
   });
 </script>
+<script type="text/x-tp" id="my-file-tp">
+<button type="button" v-if="edit" class="btn btn-primary btn-sm">
+	<i class="icon ion-arrow-up-a"></i> 文件上传
+</button>
+<span v-else v-html="ck"></span>
+</script>
+<script type="text/javascript">
+Vue.component('my-file', {
+    props: ['field','index','value','owner','pagemodel','edit'],
+    data: function () {
+      return {
+      }
+    },
+    template:"#my-file-tp",
+    computed : {
+        ck:function (){
+            var _this = this;
+            var nr = "查看";
+            var wjlx = null;
+            var id = null;
+            var astyle="";
+            var istyle="width:100%;";
+            if(_this.$root.listPage){
+                var row = _this.$root.listPage.rows[_this.$parent.$parent.ri];
+                wjlx = row.wjlx;
+                id = row.id;
+            }else{
+                var editdata = _this.$root.$children["0"].editdata;
+                wjlx = editdata.wjlx;
+                id = editdata.id;
+                astyle = "padding-top: 5px;position: absolute;";
+            }
+            if(wjlx=="png"||wjlx=="jpg"){
+                nr = "<img style='"+istyle+"' src='common/download.do?xzms=false&id="+id+"'/>";
+                astyle="";
+            }
+            return "<a style='"+astyle+"' href='common/download.do?xzms=false&id="+id+"' target='_blank'>"+nr+"</a>";
+        }
+    },
+    mounted: function () {
+        var _this =  this;
+        _this.target = this.$el;
+        if(!_this.$root.listPage&&!_this.edit){
+            $(_this.$el).removeAttr("class");
+        }
+        var field = this.field;
+        if(this.edit){
+            var kzxx = field.kzxx;
+            if(typeof(kzxx) == "string"){
+                eval("kzxx="+kzxx);
+            }
+            if(!kzxx.file){
+                kzxx.file={
+                        ywdm:"other",
+                        wjlb:field.sjdx,
+                        zdsc:true
+                }
+            }
+            field.ajaxUpload = _this.ajaxUpload = new Ajax_upload(this.$el, {
+                action : serviceAddr+"common/upload.do",
+        		data: {}, 
+        		name : 'file',
+        		autoSubmit : kzxx.file.zdsc!=false,
+        		justClicked:false,
+        		responseType : 'json',
+        		onSubmit : function(file, ext) {
+        			var type = ext[0];
+        			//获取附加类型
+        			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt)$/.test(type.toLowerCase()))) {
+        				//alert("文件格式不正确，仅支持jpg,jpeg,gif,png,bmp,doc,docx,xlsx,xls,mp4,txt格式");
+        			    alertInfo("该文件格式不支持上传");
+        				return false;
+        			}
+        			var mydata = _this.ajaxUpload.mydata;
+        			if(!mydata){
+        			    mydata = kzxx.file;
+        			}
+        			this.setData(mydata);
+        			// 上传中
+            		this.disable();
+        		},
+        		onComplete : function(file, data) {
+        			this.enable();        			
+        			if (data.status ){
+        			    if(_this.ajaxUpload.callback){
+        			        _this.ajaxUpload.callback(file, data);
+        			    }else{
+                            alertInfo("上传成功");
+        			    }
+        			}else{
+                        alertError("上传失败："+data.msg);
+        			}
+        		}
+        	});
+        }
+    }
+  });
+</script>
 <script type="text/x-tp" id="my-textaera-tp">
 	<textarea v-if="edit" 
 		:name="(owner||'')+field.zddm" 
@@ -600,6 +698,9 @@ Vue.component('my-timeaera', {
 	    <my-password v-else-if="field.kjlx=='password'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-password>
+	    <my-file v-else-if="field.kjlx=='file'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+			:edit="isEdit" @setval="setval" :class="srkjClass"></my-file>
 	    <my-textaera v-else-if="field.kjlx=='textarea'&&pagemodel!='search'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
@@ -872,11 +973,10 @@ Vue.component('my-td', {
 			<button v-if="lbymkz('my-istree')" class="btn btn-primary btn-sm" @click="reloadTree">
         		<i class="icon ion-refresh"></i> 重载树
     		</button>
-			<template v-if="isAdmin">
 			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData"><i class="glyphicon glyphicon-floppy-disk"></i> 保存数据</button>
 	        <button v-if="qxByQxm('XZQX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?dxdm='+sjdx.dxdm+'&pagemodel=add'"
 				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'><i class="icon ion-ios-plus-outline"></i> {{xjanmc||'新建'}}</button>
-	        <button v-if="qxByQxm('PLSC')" class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> 批量删除</button>
+	        <button v-if="qxByQxm('PLSC')" class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> {{plscanmc||'批量删除'}}</button>
 	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
@@ -884,7 +984,6 @@ Vue.component('my-td', {
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
 	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
 	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
-			</template>
 			<slot></slot>
         </div>
         <div class="btn-table-right">
@@ -984,6 +1083,13 @@ Vue.component('my-list', {
 	              }
 	              return anmc;
 	          },
+	          plscanmc:function (){
+	              var anmc = fromdata['my-plscanmc'];
+	              if(!anmc&&this._data.kzxx.lbymkz){
+	                  anmc = this._data.kzxx.lbymkz['my-plscanmc'];
+	              }
+	              return anmc;
+	          },
 	          lbkbj:function (){
 	              var lbkbj = fromdata['my-lbkbj'];
 	              if(!lbkbj&&this._data.kzxx.lbymkz){
@@ -994,10 +1100,6 @@ Vue.component('my-list', {
 	          fields : function (){ return this._data.fields;},
 	          sjdx : function (){
 					return this._data.sjdx;
-				},
-	          isAdmin : function (){
-					var user = this._data.user;
-					return user.yhdm=='admin';
 				},
 			  myFromStyle : function (){
 			      var style = "";
@@ -1165,6 +1267,10 @@ Vue.component('my-list', {
 		            if(!_this.lbymkz("my-istree")){
 		                return;
 		            }
+		            var fjd = "fjd";
+		            if(_this.lbymkz("fjdzddm")){
+		                fjd = _this.lbymkz("fjdzddm");
+		            }
                   	var setting = {
               			data: {
               				simpleData: {
@@ -1180,7 +1286,7 @@ Vue.component('my-list', {
               			async: {
               				enable: true,
               				url:"sjdx/getdata.do?dxdm="+_this.sjdx.dxdm,
-              				autoParam:["dm=map['fqx']"],
+              				autoParam:["dm=map['"+fjd+"']"],
               				otherParam:{"map['cllx']":"getTreeCN"},
               				dataFilter: treefilter
               			},
@@ -1190,7 +1296,7 @@ Vue.component('my-list', {
               		};
 					//树节点的单击事件
 	          		function treeClick(event, treeId, treeNode, clickFlag) {
-					    Vue.set(_this.fromdata,'fqx',treeNode.dm);
+					    Vue.set(_this.fromdata,fjd,treeNode.dm);
 	          		}
 	          		//处理后台返回的数据
 	          		function treefilter(treeId, parentNode, rep) {
@@ -1354,6 +1460,7 @@ Vue.component('my-edit', {
                        return;
                    }
                    if(typeof(sjdxZdyjy)=='function'){
+                       //自定义校验
                        if(!sjdxZdyjy(_this._data.updatedata,_this)){
                            return;
                        }
@@ -1552,7 +1659,7 @@ Vue.component('my-cdym', {
         		async: {
         			enable: true,
         			url:"sjdx/getdata.do?dxdm=SYS_QX_QTQX",
-        			autoParam:["dm=map['fqx']"],
+        			autoParam:["dm=map['fjd']"],
         			otherParam:{"map['cllx']":"getTreeCN",
         			    //树模式=菜单树
         			    "map['treeModel']":'cds',

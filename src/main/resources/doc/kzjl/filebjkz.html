@@ -1,0 +1,26 @@
+<!-- 文件管理编辑扩展 -->
+<my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
+</my-edit>
+<script>
+function sjdxZdy(vp){
+    vp.methods.plcl=function(cllx){
+          this.$children[0].plcl(cllx);
+    }
+}
+function sjdxZdyjy(data,_this){
+    var wjnr = _this.fields.wjnr;
+    if(wjnr.ajaxUpload._input.files.length==0){
+        alertInfo("请先上传文件");
+    }else{
+        wjnr.ajaxUpload.mydata = data;
+        wjnr.ajaxUpload.callback = function(file, data){
+	   	    parent.listFrom.listPage.refreshPage();
+  				var index = parent.layer.getFrameIndex(window.name);
+   			parent.layer.close(index);
+            alertInfo("上传成功");
+        };
+        wjnr.ajaxUpload.submit();
+    }
+    return false;
+}
+</script>

@@ -1,0 +1,88 @@
+<!-- 人员核查列表扩展 -->
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+<button class="btn btn-primary btn-sm"  id="scwj">数据上传<i 
+    	style="margin-left: 5px;" 
+    	class="icon ion-ios-help-outline" 
+    	id="plscTitle"
+    	@mouseover="plscTitle(this)"></i></button>
+<button class="btn btn-primary btn-sm" @click="downloadRyhcTemplate">模板下载<i 
+    	style="margin-left: 5px;" 
+    	class="icon ion-ios-help-outline" 
+    	id="plscmbTitle"
+    	@mouseover="plscmbTitle(this)"></i></button>
+</my-list>
+<script>
+function sjdxZdy(vp){
+	vp.el="#listPage";
+	vp.methods.plcl=function(cllx){
+	 this.$children[0].plcl(cllx);
+	}
+	vp.methods.plscTitle=function(_this){
+	 layer.tips("批量上传需要核查的数据,请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功","#plscTitle");
+	}
+	vp.methods.plscmbTitle=function(_this){
+	 layer.tips("请严格按照模板填充数据，注意模板中的提示信息","#plscmbTitle");
+	}
+	vp.methods.downloadRyhcTemplate=function(){
+	 //下载人员核查模板
+	 $.download("common/download.do",{id:"jcygxxmb"});
+	}
+ }
+ $(function(){
+	//文件上传
+	vueParams.ajaxUpload = new Ajax_upload("#scwj", {
+			action : serviceAddr+"common/upload.do",
+			data: {"ywdm":"common","wjlb":"wjmb"}, 
+			name : 'file',
+			autoSubmit : true,
+			responseType:'json',
+			onSubmit : function(file, ext) {
+				var type = ext[0];
+				if($(this._input).prop("files")[0].size>30*1024*1024){
+					layer.msg("文件大小超过30M", { 
+						time: 1500,    	   		
+						icon:6
+					});
+					return false;
+				}
+				if (!(type && /^(xlsx|xls|txt)$/.test(type.toLowerCase()))) {
+					layer.msg("文件格式不正确，仅支持xlsx,xls,txt格式", { 
+						time: 1500,    	   		
+						icon:6
+					});
+					return false;
+				}
+				this.disable();
+				vueParams.loadindex = layer.load(0,{
+					shade: [0.3]
+				});
+			},
+			onComplete : function(file, resp) {
+				this.enable();
+				if (!resp.status) {
+					layer.msg(resp.msg, { 
+						time: 1500,    	   		
+						icon:6
+					});
+					return false;
+				}else{
+					$.post("/cqqb2/ryhc/queryList.do",resp.data,function(data,status){
+						if(data.status==false){
+							layer.msg(data.msg, { 
+								time: 10000,    	   		
+								icon:6
+							});
+						}else{
+							listFrom.$children[0].rows = data.data;
+							layer.alert("核查成功", { 
+								time: 3000,
+								icon:1
+							});
+						}
+						layer.close(vueParams.loadindex);
+					});
+				}
+			}
+		});
+ });
+</script>
