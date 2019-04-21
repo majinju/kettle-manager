@@ -225,7 +225,7 @@ public class SjdxLjq extends DefaultLjq{
         int idx = 0;
         String zddrsql = jtdx.getZddrsql();
         if(StringUtil.isBlank(zddrsql)){
-            zddrsql = DefaultLjq.getDefaultSql(jtdx, "dis", null).getMsg();
+            zddrsql = DefaultLjq.getDefaultSql(jtdx, "dis", params).getMsg();
         }
         Map<String, JSONObject> oldFiledMap = Db.listToMap(
                 db.find("select * from sys_sjgl_sjzd t where t.sjdx=?", 

@@ -980,6 +980,18 @@ Vue.component('my-td', {
 	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
+			<button v-if="qxByQxm('SJPLSC')" class="btn btn-primary btn-sm uploadFile" ywdm="other" wjlb="other">
+				批量上传
+				<i  style="margin-left: 5px;" 
+			    	class="icon ion-ios-help-outline" 
+			    	id="plscTitle"
+			    	@mouseover="plscTitle(this)"></i></button>
+			<button v-if="qxByQxm('MBXZ')" class="btn btn-primary btn-sm" @click="downloadTemplate()"> 模板下载
+				<i style="margin-left: 5px;" 
+			    	class="icon ion-ios-help-outline" 
+			    	id="plscmbTitle"
+			    	@mouseover="plscmbTitle(this)"></i>
+			</button>
 	        <button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
 	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
@@ -1142,6 +1154,17 @@ Vue.component('my-list', {
 	          }
 	      },
         methods : {
+            plscTitle:function(_this){
+//             	layer.tips("批量上传需要核查的数据,请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功",_this);
+            },
+	        plscmbTitle:function(_this){
+// 	            debugger
+//             	layer.tips("请严格按照模板填充数据，注意模板中的提示信息",_this);
+            },
+            downloadTemplate:function(){
+            	//下载模板
+            	$.download("sjdx/getMb.do?dxdm="+this._data.sjdx.dxdm,{});
+            },
 	        expe:function(){
 	            ExportExcel.saveAsExcel(this.$root.listPage,this.sjdx.dxmc+"-当前页",this.dcpcl);
 	        },

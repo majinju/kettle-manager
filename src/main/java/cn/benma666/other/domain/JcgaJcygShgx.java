@@ -29,7 +29,7 @@ public class JcgaJcygShgx extends BasicBean{
 	public JcgaJcygShgx() {
 	}
 
-	/**
+    /**
 	 * 主键
 	 */
 	@Id

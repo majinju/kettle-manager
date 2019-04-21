@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.benma666.common.service.SjdxService;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
@@ -114,6 +115,26 @@ public class SjdxController extends BasicController {
         try {
             jcxx(sjdx,myparams.replace("%34", "\""),request);
             LjqManager.export(dbSjdx,myParams, page,response);
+        } catch (Exception e) {
+            log.error("数据处理异常"+sjdx, e);
+            sendJson(response, error("数据处理异常："+e.getMessage()));
+        }
+    }
+    /**
+    * 获取数据模板 <br/>
+    * @author jingma
+    * @param sjdx
+    * @param response
+    */
+    @RequestMapping(value = "/getMb.do")
+    public void getMb(SysSjglSjdx sjdx,String myparams,
+            HttpServletRequest request,HttpServletResponse response) {
+        try {
+            jcxx(sjdx,myparams,request);
+            JsonResult r = LjqManager.getMb(dbSjdx,myParams, response);
+            if(!r.isStatus()){
+                sendJson(response, r);
+            }
         } catch (Exception e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));

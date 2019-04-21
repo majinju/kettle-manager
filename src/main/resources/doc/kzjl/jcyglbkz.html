@@ -4,17 +4,17 @@
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
 <span>
-{{if qxByQxm(user,sjdx,'SJPLSC')}}
+{{if qxByQxm(user,sjdx,'YGPLSC')}}
 <button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" callBack="clygsj">
-	{{= qxByQxm(user,sjdx,'SJPLSC').mc}}
+	{{= qxByQxm(user,sjdx,'YGPLSC').mc}}
 	<i  style="margin-left: 5px;" 
     	class="icon ion-ios-help-outline" 
     	id="plscTitle"
     	onmouseover="plscTitle(this)"></i></button>
 {{/if}}
 <span>
-{{if qxByQxm(user,sjdx,'MBXZ')}}
-<button class="btn btn-primary btn-sm" onclick="downloadRyhcTemplate()">{{= qxByQxm(user,sjdx,'MBXZ').mc}}
+{{if qxByQxm(user,sjdx,'YGMBXZ')}}
+<button class="btn btn-primary btn-sm" onclick="downloadRyhcTemplate()">{{= qxByQxm(user,sjdx,'YGMBXZ').mc}}
 	<i style="margin-left: 5px;" 
     	class="icon ion-ios-help-outline" 
     	id="plscmbTitle"
@@ -67,7 +67,7 @@ function plscmbTitle(_this){
 }
 function downloadRyhcTemplate(){
 	//下载人员核查模板
-	$.download("common/download.do",{id:"676B387B1780492E823BCADA76C62477"});
+	$.download("common/download.do",{id:"A730742FE4EA47E986C6A54858DAA122"});
 }
 function clygsj(fileObj){
     var params = {};
