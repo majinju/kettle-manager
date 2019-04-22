@@ -47,7 +47,14 @@ insert into sys_qx_qxxx
   ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
 select '220','管理员','admin','临时机构','99000001','导出全部',t.dm||'_DCQB','','03','myservice',
 '',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-
+insert into sys_qx_qxxx
+  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
+select '230','管理员','admin','临时机构','99000001','批量上传',t.dm||'_SJPLSC','','03','myservice',
+'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
+insert into sys_qx_qxxx
+  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
+select '240','管理员','admin','临时机构','99000001','模板下载',t.dm||'_MBXZ','','03','myservice',
+'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
 
 --字典迁移
 insert into sys_sjgl_tyzd

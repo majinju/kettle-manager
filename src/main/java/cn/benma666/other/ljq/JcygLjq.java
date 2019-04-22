@@ -7,7 +7,6 @@
 package cn.benma666.other.ljq;
 
 import cn.benma666.db.Db;
-import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonResult;
@@ -80,7 +79,7 @@ public class JcygLjq extends DefaultLjq{
     @Override
     public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
+//        SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         if(StringUtil.isNotBlank(yobj.getString("gmsfhm"))){
             //自动根据身份证号不全信息
             yobj.put("csrq", SfzhUtil.getBirthByIdCard(yobj.getString("gmsfhm")));
@@ -92,7 +91,6 @@ public class JcygLjq extends DefaultLjq{
         if(KEY_CLLX_INSERT.equals(cllx)){
             //新增时生成员工编号
             yobj.put("ygbh", "CQJC"+DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14+"SSS"));
-            yobj.put("dw", user.getJgxx().getId());
         }
         
         //社会关系对象,及参数对象构建
