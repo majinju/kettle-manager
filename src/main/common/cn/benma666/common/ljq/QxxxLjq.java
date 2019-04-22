@@ -77,8 +77,7 @@ public class QxxxLjq extends DefaultLjq{
     protected JsonResult saveDb(SysSjglSjdx t, JSONObject myparams) {
         String cllx = myparams.getString(KEY_CLLX);
         JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
-        if(KEY_CLLX_INSERT.equals(cllx)&&"01".equals(yobj.getString("lx"))
-                &&"04".equals(yobj.getString("dzlx"))
+        if(KEY_CLLX_INSERT.equals(cllx)&&"04".equals(yobj.getString("dzlx"))
                 &&UtilConst.WHETHER_TRUE.equals(yobj.getString("sczqx"))){
             //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
             JsonResult r = DefaultLjq.getDefaultSql(t, "sczqx",myparams);

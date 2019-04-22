@@ -6,6 +6,7 @@
 
 package cn.benma666.other.ljq;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -22,7 +23,6 @@ import cn.benma666.sjgl.LjqInterface;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.tools.jdi.LinkedHashMap;
 
 /**
  * 机场员工excel处理<br/>
@@ -75,7 +75,7 @@ public class JcygExcel extends ExcelReader {
                 this.fields.put(f.getString("zddm"),f);
             }
         }
-        shgxmbField = new LinkedHashMap();
+        shgxmbField = new LinkedHashMap<String, JSONObject>();
         for(JSONObject f:shgxFields.values()){
             if(f.getBooleanValue("mbzs")){
                 shgxmbField.put(f.getString("zddm"),(JSONObject) f.clone());

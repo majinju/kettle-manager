@@ -8,6 +8,7 @@ package cn.benma666.other.ljq;
 
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.myutils.AutoId;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.SfzhUtil;
@@ -25,6 +26,10 @@ import com.alibaba.fastjson.JSONObject;
  * @version 
  */
 public class JcygLjq extends DefaultLjq{
+    /**
+    * 员工编号自增id
+    */
+    private static AutoId ygbh = new AutoId(0,9999);
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
@@ -90,7 +95,7 @@ public class JcygLjq extends DefaultLjq{
         String cllx = myParams.getString(KEY_CLLX);
         if(KEY_CLLX_INSERT.equals(cllx)){
             //新增时生成员工编号
-            yobj.put("ygbh", "CQJC"+DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14+"SSS"));
+            yobj.put("ygbh", "CQJC"+DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14)+ygbh.next(4));
         }
         
         //社会关系对象,及参数对象构建
