@@ -1475,6 +1475,11 @@ Vue.component('my-edit', {
 	        },
            submit:function(){
                var _this = this;
+               if(this.fromdata.submitBefore){
+                   if(!this.fromdata.submitBefore(_this)){
+                       return false;
+                   }
+               }
                if(!$(_this.formid).isValid()){
                    return;
                }else{
@@ -1555,6 +1560,11 @@ Vue.component('my-dlym', {
                 	alertInfo(result.msg);
                 }
             }
+            this.fromdata.submitBefore = function(_t){
+                _t.updatedata.yhdm = $("[name='yhdm']").val();
+                _t.updatedata.yhmm = $("[name='yhmm']").val();
+                return true;
+            }
             return this.fromdata;
         }
     },
@@ -1574,7 +1584,9 @@ Vue.component('my-dlym', {
         }
 	},
     mounted: function () {
-        Vue.set(this,"kzxx",this.$children[0]._data.kzxx);
+        var kzxx = this.$children[0]._data.kzxx;
+        Vue.set(this,"kzxx",kzxx);
+        $("head > title").text(kzxx['登陆信息']['系统名称']);
     }
   });
 </script>
@@ -1632,6 +1644,7 @@ Vue.component('my-cdym', {
 			    _this.$root.sjdx = data.sjdx = rd.sjdx;
 			    _this.kzxx = rd.kzxx;
   			    _this.user = rd.user;
+  		        $("head > title").text(rd.kzxx['菜单信息']['系统名称']);
   			}else{
 	        	redict(result);
   			  }

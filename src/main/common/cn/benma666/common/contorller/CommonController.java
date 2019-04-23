@@ -22,6 +22,7 @@ import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.ExportToExecl;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
+import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.web.BasicController;
 import cn.benma666.web.WebUtil;
 
@@ -49,8 +50,11 @@ public class CommonController extends BasicController {
     * @param response
     */
     @RequestMapping(value = "/zdList.do")
-    public void zdList(SysSjglTyzd obj, HttpServletResponse response) {
-        JSONObject map = DictManager.zdMapByCache(obj.getZdlb());
+    public void zdList(SysSjglTyzd obj,HttpServletRequest request, 
+            HttpServletResponse response) {
+        setEParam(obj, request);
+        obj.set(LjqInterface.KEY_USER, getUser(request));
+        JSONObject map = DictManager.zdMapByCache(obj);
         if(map==null){
             sendJson(response, error("该字典类别不支持获取列表"));
         }else{
@@ -66,8 +70,11 @@ public class CommonController extends BasicController {
     * @param response
     */
     @RequestMapping(value = "/zdObjByDm.do")
-    public void zdObjByDm(SysSjglTyzd obj, HttpServletResponse response) {
-        JSONObject result = DictManager.zdObjByDmByCache(obj.getZdlb(), obj.getDm());
+    public void zdObjByDm(SysSjglTyzd obj, HttpServletRequest request, 
+            HttpServletResponse response) {
+        setEParam(obj, request);
+        obj.set(LjqInterface.KEY_USER, getUser(request));
+        JSONObject result = DictManager.zdObjByDmByCache(obj);
         if(result==null){
             sendJson(response, error("该字典项不存在"));
         }else{
@@ -79,25 +86,27 @@ public class CommonController extends BasicController {
     * 字典搜索 <br/>
     * @author jingma
     * @param page
-    * @param zd
+    * @param obj
     * @param response
     */
     @RequestMapping(value = "/zdSearch.do")
-    public void zdSearch(PageInfo<JSONObject> page, SysSjglTyzd zd,
-            HttpServletResponse response) {
-        String searchValue = zd.getSearchValue();
+    public void zdSearch(PageInfo<JSONObject> page, SysSjglTyzd obj,
+            HttpServletRequest request, HttpServletResponse response) {
+        setEParam(obj, request);
+        obj.set(LjqInterface.KEY_USER, getUser(request));
+        String searchValue = obj.getSearchValue();
         PageInfo<JSONObject> result;
         if (StringUtil.isNotBlank(searchValue)) {
             //此时为翻译
             List<JSONObject> list = new ArrayList<JSONObject>();
             for (String dm : searchValue.split(",")) {
-                zd.setDm(dm);
-                list.add(DictManager.zdObjByDm(zd));
+                obj.setDm(dm);
+                list.add(DictManager.zdObjByDm(obj));
             }
             page.setList(list);
             result = page;
         } else {
-            result = DictManager.zdSearch(page,zd);
+            result = DictManager.zdSearch(page,obj);
         }
         sendPage(response, result);
     }
