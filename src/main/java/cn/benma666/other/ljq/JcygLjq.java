@@ -7,6 +7,7 @@
 package cn.benma666.other.ljq;
 
 import cn.benma666.db.Db;
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.AutoId;
 import cn.benma666.myutils.DateUtil;
@@ -42,6 +43,8 @@ public class JcygLjq extends DefaultLjq{
         case "clygsj":
             JSONObject fileObj = yobj.getJSONObject("fileObj");
             JcygExcel er = new JcygExcel(sjdx,myParams,fileObj);
+            //传入用户信息辅助数据校验
+            er.setUser((SysQxYhxx) myParams.get(KEY_USER));
             try {
                 er.disposeExcel();
             } catch (Exception e) {
@@ -96,6 +99,7 @@ public class JcygLjq extends DefaultLjq{
         if(KEY_CLLX_INSERT.equals(cllx)){
             //新增时生成员工编号
             yobj.put("ygbh", "CQJC"+DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14)+ygbh.next(4));
+//            yobj.put("dw", user.getJgxx().getId());
         }
         
         //社会关系对象,及参数对象构建

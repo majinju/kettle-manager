@@ -93,3 +93,15 @@ update sys_xmgl_rwxx    t set t.cjrdm='BC5D77315CA84C6C807988E3CD17E70D',t.cjrxm
 update sys_yxjk_jkrw    t set t.cjrdm='BC5D77315CA84C6C807988E3CD17E70D',t.cjrxm='系统管理员',t.cjrdwdm='141B1AFC7E634176BDA7DB7F491A9004',t.cjrdwmc='临时机构';
 update sys_yxjk_xx      t set t.cjrdm='BC5D77315CA84C6C807988E3CD17E70D',t.cjrxm='系统管理员',t.cjrdwdm='141B1AFC7E634176BDA7DB7F491A9004',t.cjrdwmc='临时机构';
 update sys_yxjk_zdysql  t set t.cjrdm='BC5D77315CA84C6C807988E3CD17E70D',t.cjrxm='系统管理员',t.cjrdwdm='141B1AFC7E634176BDA7DB7F491A9004',t.cjrdwmc='临时机构';
+
+--机构层级修正
+select * from sys_qx_jgxx t ;
+update sys_qx_jgxx t set t.jgcj=1 where t.sjjg is null;
+update sys_qx_jgxx t set t.jgcj=2 where t.sjjg in(
+select t1.id from sys_qx_jgxx t1 where t1.jgcj=1
+);
+update sys_qx_jgxx t set t.jgcj=3 where t.sjjg in(
+select t1.id from sys_qx_jgxx t1 where t1.jgcj=2
+);
+
+

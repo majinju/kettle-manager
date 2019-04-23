@@ -95,7 +95,7 @@ Vue.component('my-file', {
         		onSubmit : function(file, ext) {
         			var type = ext[0];
         			//获取附加类型
-        			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt)$/.test(type.toLowerCase()))) {
+        			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip)$/.test(type.toLowerCase()))) {
         				//alert("文件格式不正确，仅支持jpg,jpeg,gif,png,bmp,doc,docx,xlsx,xls,mp4,txt格式");
         			    alertInfo("该文件格式不支持上传");
         				return false;
@@ -368,7 +368,7 @@ Vue.component('my-password', {
 	<input v-if="edit" 
 		:name="(owner||'')+field.zddm"
 		:value="nval"
-  		@change="setval"
+  		@blur="setval"
 		:index="index"
 		:type="field.type||'text'"
 		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
@@ -748,7 +748,9 @@ Vue.component('my-srkj', {
     template : '#my-srkj-tp',
     methods : {
         setval : function(field,event) {
-            this.$emit('setval', field, event);
+            if(zdyyzgz(field, event)){
+                this.$emit('setval', field, event);
+            }
         }
     },
     created : function() {
@@ -1480,7 +1482,9 @@ Vue.component('my-edit', {
                        return false;
                    }
                }
-               if(!$(_this.formid).isValid()){
+               if(!myValidFrom(_this)){
+                   return;
+               }else if(!$(_this.formid).isValid()){
                    return;
                }else{
                    if(Object.keys(_this._data.updatedata).length==1){
@@ -1533,6 +1537,10 @@ Vue.component('my-edit', {
 		</div>
 		<my-edit :fromdata="dlfromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
 		</my-edit>
+		<div style="background-color: rgba(136, 155, 205, 0.84);padding: 10px;">
+			<span>请使用谷歌浏览器为你带来更好的使用体验</span>
+			<a href="javascript:download('AEA6F13EAD28484080A8E47FADFDB125')" style="color: azure;text-decoration: underline;">下载浏览器</a>
+		</div>
 	</div>
 </div>
 </script>
@@ -1597,11 +1605,16 @@ Vue.component('my-dlym', {
 			<img :src="fileUrl('系统图标')" style="height: 80px;">
 			<span style="font-size: 2.5em;vertical-align: middle;color: lightcoral;">{{kzxx['菜单信息']['系统名称']}}</span>
 		</div>
-		<div style="float:right;margin-right: 20px;margin-top: 10px;">
-			<img src="project/img/icon-emblem.png" style="height: 50px;">
+		<div style="float:right;margin-right: 20px;margin-top: 5px;">
+			<div>
+			<img src="project/img/icon-emblem.png" style="height: 45px;width: 35px;">
 			<span style="vertical-align: middle;color: chocolate;">{{user.yhxm}}</span>
 			<a href="javascript:void(0);" @click="tuichu" 
 				style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
+			</div>
+			<div style="text-align: right;">
+				<span style="color: greenyellow;">{{user.jgxx.jgmc}}</span>
+			</div>
 		</div>
 	</div>
 	<div class="center" style="height: calc(( 100vh - 110px )); width: 100%;">

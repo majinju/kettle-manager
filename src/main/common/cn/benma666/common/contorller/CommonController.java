@@ -74,7 +74,12 @@ public class CommonController extends BasicController {
             HttpServletResponse response) {
         setEParam(obj, request);
         obj.set(LjqInterface.KEY_USER, getUser(request));
-        JSONObject result = DictManager.zdObjByDmByCache(obj);
+        JSONObject result = null;
+        if(obj.getMap().containsKey("cache")){
+            result = DictManager.zdObjByDm(obj);
+        }else{
+            result = DictManager.zdObjByDmByCache(obj);
+        }
         if(result==null){
             sendJson(response, error("该字典项不存在"));
         }else{

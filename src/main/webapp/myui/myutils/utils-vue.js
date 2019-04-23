@@ -353,17 +353,20 @@ function zdList(zdlb){
  * @param zdlb 字典类别
  * @param dm 字典代码
  */
-function zdObjByDm(zdlb,dm){
+function zdObjByDm(zdlb,dm,cache){
 	if(!dm||!zdlb){
+	    //参数为空
 	    return null;
 	}
     var obj = null;
     var zl = zdList(zdlb);
     if(zl){
+        //获取了字典列表
         if(!isEmpty(zl[dm])){
             obj = zl[dm];
         }
-    }else if(zdListCache[zdlb][dm]){
+    }else if(zdListCache[zdlb][dm]&&cache!=false){
+        //存在字典项缓存
         obj = zdListCache[zdlb][dm];
     }else{
         //不支持获取列表
@@ -873,4 +876,67 @@ function strFunToFun(strFun){
         }
     }
     return false;
+}
+/**
+ * 自定义验证规则
+ * @param field 字段信息
+ * @param event 事件对象
+ */
+function zdyyzgz(field, event){
+    var value = event.val;
+    var rules = field.hdyzgz;
+    if(!rules){
+        return true;
+    }
+    var msg = "";
+    if(!value){
+        if(rules.indexOf("notNull")>-1){
+            msg = "该值不能为空";
+        }
+    }else{
+        var ruleArr = rules.replace("；", ";").split(";");
+        for(var i in ruleArr){
+            var rule = ruleArr[i];
+            if(!rule){
+                continue;
+            }
+            var rr = rule.split(":");
+            switch (rr[0]) {
+            case "notNull":
+                break;
+            case "sfzh":
+                if(!idCardNoUtil.checkIdCardNo(value)){
+                    msg = "该值不是正确的身份证号码";
+                }
+                break;
+            case "zdpd":
+                //字典判断
+                if(zdObjByDm(rr[1],value,false).mc=='0'){
+                    msg = "远程判断未通过:"+rr[2];
+                }
+                break;
+            default:
+                msg = "规则不支持:"+rr[0];
+            }
+            if(msg){
+                break;
+            }
+        }
+    }
+    if(msg){
+        layer.tips(msg, event.currentTarget, {tips:[2, '#c00'],shift:6});
+        return false;
+    }else{
+        return true;
+    }
+}
+/**
+ * 对整个表单进行校验
+ * @param _this vue对象
+ */
+function myValidFrom(_this){
+    var fields = _this.fields;
+    var updatedata = _this._data.updatedata;
+    var pagemodel = _this.pagemodel;
+    
 }
