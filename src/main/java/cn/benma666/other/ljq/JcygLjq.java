@@ -30,7 +30,7 @@ public class JcygLjq extends DefaultLjq{
     /**
     * 员工编号自增id
     */
-    private static AutoId ygbh = new AutoId(0,9999);
+    private static AutoId ygbh = new AutoId("JCGA_JCYG_YGBH");
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
@@ -98,7 +98,7 @@ public class JcygLjq extends DefaultLjq{
         String cllx = myParams.getString(KEY_CLLX);
         if(KEY_CLLX_INSERT.equals(cllx)){
             //新增时生成员工编号
-            yobj.put("ygbh", "CQJC"+DateUtil.getDateTimeStr(DateUtil.DATE_FORMATTER14)+ygbh.next(4));
+            yobj.put("ygbh", DateUtil.getDateTimeStr("yyyy")+ygbh.next(5));
 //            yobj.put("dw", user.getJgxx().getId());
         }
         

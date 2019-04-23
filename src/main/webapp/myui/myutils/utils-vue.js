@@ -915,6 +915,12 @@ function zdyyzgz(field, event){
                     msg = "远程判断未通过:"+rr[2];
                 }
                 break;
+            case "zd":
+                //字典判断
+                if(zdObjByDm(rr[1],value).mc==value){
+                    msg = "远程判断未通过:"+rr[2];
+                }
+                break;
             default:
                 msg = "规则不支持:"+rr[0];
             }
@@ -924,7 +930,7 @@ function zdyyzgz(field, event){
         }
     }
     if(msg){
-        layer.tips(msg, event.currentTarget, {tips:[2, '#c00'],shift:6});
+        layer.tips(msg, event.target, {tips:[2, '#c00'],shift:6});
         return false;
     }else{
         return true;
@@ -938,5 +944,5 @@ function myValidFrom(_this){
     var fields = _this.fields;
     var updatedata = _this._data.updatedata;
     var pagemodel = _this.pagemodel;
-    
+    return true;
 }
