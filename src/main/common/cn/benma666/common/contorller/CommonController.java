@@ -16,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.benma666.common.service.CommonService;
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglTyzd;
+import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.ExportToExecl;
 import cn.benma666.myutils.PageInfo;
@@ -44,6 +46,24 @@ public class CommonController extends BasicController {
     private SjdxController sjdxController;
 
     /**
+    * 清除缓存 <br/>
+    * @author jingma
+    * @param obj
+    * @param response
+    */
+    @RequestMapping(value = "/clearCache.do")
+    public void clearCache(SysSjglTyzd obj,HttpServletRequest request, 
+            HttpServletResponse response) {
+        setEParam(obj, request);
+        SysQxYhxx user = getUser(request);
+        if(!"admin".equals(user.getYhdm())){
+            sendJson(response, error("你无权清除缓存"));
+        }else{
+            CacheFactory.clear();
+            sendJson(response, success("清除缓存成功"));
+        }
+    }
+    /**
     * 获取字典列表 <br/>
     * @author jingma
     * @param obj
@@ -69,14 +89,14 @@ public class CommonController extends BasicController {
     * @param obj
     * @param response
     */
-    @RequestMapping(value = "/zdObjByDm.do")
+    @RequestMapping(value = "/zdObj.do")
     public void zdObjByDm(SysSjglTyzd obj, HttpServletRequest request, 
             HttpServletResponse response) {
         setEParam(obj, request);
         obj.set(LjqInterface.KEY_USER, getUser(request));
         JSONObject result = null;
         if(obj.getMap().containsKey("cache")){
-            result = DictManager.zdObjByDm(obj);
+            result = DictManager.zdObj(obj);
         }else{
             result = DictManager.zdObjByDmByCache(obj);
         }
@@ -106,7 +126,7 @@ public class CommonController extends BasicController {
             List<JSONObject> list = new ArrayList<JSONObject>();
             for (String dm : searchValue.split(",")) {
                 obj.setDm(dm);
-                list.add(DictManager.zdObjByDm(obj));
+                list.add(DictManager.zdObj(obj));
             }
             page.setList(list);
             result = page;

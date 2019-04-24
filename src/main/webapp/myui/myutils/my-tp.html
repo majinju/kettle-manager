@@ -132,7 +132,7 @@ Vue.component('my-file', {
 		:value="nval" 
 		@blur="setval"
 		:index="index"
-		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="field.classStr" 
@@ -249,7 +249,7 @@ Vue.component('my-jsoneditor', {
 			:id="(owner||'')+field.zddm" 
 			:placeholder="field.zdts"
 			:index="index"
-			:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+			:data-rule="(field.qdyzgz||'')"
 			>
         <span class="checkbox-inner"></span>
     </span>
@@ -303,7 +303,7 @@ Vue.component('my-checkbox', {
 		:value="value"
   		@blur="setval"
 		:index="index"
-		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:style="pagemodel!='add'?'width:calc((100% - 50px));display: inline;':''"
@@ -371,7 +371,7 @@ Vue.component('my-password', {
   		@blur="setval"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:class="field.classStr"
@@ -514,7 +514,7 @@ Vue.component('my-inputn', {
   		@blur="setval"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:class="'Wdate '+(field.classStr||'')" 
@@ -573,12 +573,9 @@ Vue.component('my-time', {
                 }
             }
             var dateFmt = 'yyyy-MM-dd';
-            var maxDate = '%y-%M-%d';
-            if(this.pagemodel!='search'){
-                dateFmt = "yyyy-MM-dd HH:mm:ss";
-                maxDate = "%y-%M-%d %H:%m:%s";
-            }
-            return {dateFmt:dateFmt,readOnly:true,maxDate:maxDate,hdgs:hdgs};
+//             var minDate = '%y-%M-%d';
+//             minDate:minDate,
+            return {dateFmt:dateFmt,readOnly:true,hdgs:hdgs};
         }
     }
   });
@@ -591,7 +588,7 @@ Vue.component('my-time', {
 		@blur="setvalStart"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="'Wdate time_scope '+(field.classStr||'')" 
@@ -603,7 +600,7 @@ Vue.component('my-time', {
 		@blur="setvalEnd"
 		:index="index"
 		:type="field.type||'text'"
-		:data-rule="(field.btzt?'required;':'')+(field.qdyzgz||'')"
+		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
 		:class="'Wdate time_scope '+(field.classStr||'')" 
@@ -732,7 +729,7 @@ Vue.component('my-srkj', {
         },
         isInputn:function(){
             var field = this.field;
-            return (field.kjlx||'input')=='input'||field.kjlx=='dict'
+            return (field.kjlx||'input')=='input'||field.kjlx=='dict'||field.kjlx=='jsoneditor'
             	||field.kjlx=='checkbox'||field.kjlx=='suggest'||field.kjlx=='textarea';
         },
         srkjClass:function(){
@@ -954,7 +951,7 @@ Vue.component('my-td', {
   });
 </script>
 <script type="text/x-tp" id="my-list-tp"> 
-<div class="wrap" v-cloak>
+<div class="wrap" v-cloak @keydown="zdcx">
 <ol class="breadcrumb">
     <li>
         <i class="icon ion-home"></i>
@@ -1167,6 +1164,12 @@ Vue.component('my-list', {
 	          }
 	      },
         methods : {
+            zdcx:function(){
+                var e = event || window.event || arguments.callee.caller.arguments[0];
+                if(e && e.keyCode==13){ // enter 键
+                    this.listPage.queryPage();
+                }
+            },
             plscTitle:function(_this){
 //             	layer.tips("批量上传需要核查的数据,请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功",_this);
             },

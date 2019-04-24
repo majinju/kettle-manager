@@ -353,12 +353,14 @@ function zdList(zdlb){
  * @param zdlb 字典类别
  * @param dm 字典代码
  */
-function zdObjByDm(zdlb,dm,cache){
-	if(!dm||!zdlb){
+function zdObj(zd,cache){
+    var zdlb = zd.zdlb;
+	if(!zdlb){
 	    //参数为空
 	    return null;
 	}
     var obj = null;
+    var dm = zd.dm;
     var zl = zdList(zdlb);
     if(zl){
         //获取了字典列表
@@ -373,8 +375,8 @@ function zdObjByDm(zdlb,dm,cache){
         $.ajax({
             type:"POST",
             async:false,
-            data:{"zdlb":zdlb,"dm":dm},
-            url:serviceAddr+"common/zdObjByDm.do",
+            data:zd,
+            url:serviceAddr+"common/zdObj.do",
             dataType: "json",
             success:function(result){
                 if(result.status){
@@ -399,7 +401,7 @@ function zdObjByDm(zdlb,dm,cache){
  * @param dm 字典代码
  */
 function zdMcByDm(zdlb,dm){
-    var obj = zdObjByDm(zdlb,dm);
+    var obj = zdObj({zdlb:zdlb,dm:dm});
     if(obj==null){
         return dm;
     }else{
@@ -940,13 +942,13 @@ function myGzyz(value,rules){
                 break;
             case "zdpd":
                 //字典判断
-                if(zdObjByDm(rr[1],value,false).mc=='0'){
+                if(zdObj({zdlb:rr[1],dm:value},false).mc=='0'){
                     msg = "远程判断未通过:"+rr[2];
                 }
                 break;
             case "zd":
                 //字典判断
-                if(zdObjByDm(rr[1],value).mc==value){
+                if(zdObj({zdlb:rr[1],dm:value}).mc==value){
                     msg = "该字典项不存在:"+value;
                 }
                 break;

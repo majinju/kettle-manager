@@ -6,9 +6,13 @@
 
 package cn.benma666.other.ljq;
 
+import java.util.Arrays;
+
+import cn.benma666.constants.UtilConst;
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.exception.ExcelReadException;
 import cn.benma666.myutils.AutoId;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonResult;
@@ -47,6 +51,8 @@ public class JcygLjq extends DefaultLjq{
             er.setUser((SysQxYhxx) myParams.get(KEY_USER));
             try {
                 er.disposeExcel();
+            } catch (ExcelReadException e) {
+                return error(e.getMessage());
             } catch (Exception e) {
                 log.error("文件处理失败："+myParams+"->"+e.getMessage(), e);
                 return error("文件处理失败："+e.getMessage());
@@ -57,7 +63,11 @@ public class JcygLjq extends DefaultLjq{
                 myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
                 save(sjdx,myParams);
             }
-            return success("成功上传员工数："+er.getResult().size());
+            String msg = "成功上传员工数："+er.getResult().size();
+            if(er.getCfscryList().size()>0){
+                msg += "。<br/>如下员工已存在，系统已自动忽略：<br/>"+Arrays.toString(er.getCfscryList().toArray());
+            }
+            return success(msg);
         case KEY_CLLX_PLSC:
             //批量删除时，同步删除对应社会关系
             JsonResult result = super.plcl(sjdx, myParams);
@@ -100,6 +110,12 @@ public class JcygLjq extends DefaultLjq{
             //新增时生成员工编号
             yobj.put("ygbh", DateUtil.getDateTimeStr("yyyy")+ygbh.next(5));
 //            yobj.put("dw", user.getJgxx().getId());
+        }else{
+            if(StringUtil.isBlank(yobj.getString("gmsfhm"))){
+                yobj.put("bjhc", UtilConst.WHETHER_FALSE);
+            }else{
+                yobj.put("bjhc", UtilConst.WHETHER_TRUE);
+            }
         }
         
         //社会关系对象,及参数对象构建

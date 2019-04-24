@@ -6,6 +6,7 @@
 
 package cn.benma666.other.ljq;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,11 @@ import java.util.Map.Entry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.exception.ExcelReadException;
+import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.ExcelReader;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -52,6 +56,15 @@ public class JcygExcel extends ExcelReader {
     * 社会关系模板字段
     */
     private Map<String,JSONObject> shgxmbField;
+    
+    /**
+    * 重复上传人员列表
+    */
+    private List<String> cfscryList = new ArrayList<String>();
+    /**
+    * 已处理人员列表
+    */
+    private List<String> yclList = new ArrayList<String>();
     
 
     public JcygExcel() {
@@ -93,6 +106,8 @@ public class JcygExcel extends ExcelReader {
             }
         }
         startRow=1;
+        //批量时不进行身份证查重
+        pcgzMap.put("gmsfhm", "zdpd");
     }
 
     /**
@@ -102,9 +117,21 @@ public class JcygExcel extends ExcelReader {
      */
     protected JSONObject doRow(List<String> rowList) throws RuntimeException {
         JSONObject jcyg = super.doRow(rowList);
+        String gmsfhm = jcyg.getString("gmsfhm");
+        SysSjglTyzd zdObj = new SysSjglTyzd();
+        zdObj.set(LjqInterface.KEY_USER, user);
+        zdObj.setZdlb("JCGA_JCYG_SFZHCQ");
+        zdObj.setDm(gmsfhm);
+        if(UtilConst.WHETHER_FALSE.equals(DictManager.zdObj(zdObj).getString("mc"))||yclList.contains(gmsfhm)){
+            //已经存在的员工,记录为重复，直接忽略
+            cfscryList.add(gmsfhm);
+            result.remove(jcyg);
+            return jcyg;
+        }else{
+            yclList.add(gmsfhm);
+        }
         //开始包装数据
         int idx = ygmbzds;
-        
         //读取社会关系
         JSONArray shgxs = new JSONArray();
         int gxs=0;
@@ -127,6 +154,34 @@ public class JcygExcel extends ExcelReader {
         }
         jcyg.put("shgxs", shgxs);
         return jcyg;
+    }
+
+    /**
+     * @return cfscryList 
+     */
+    public List<String> getCfscryList() {
+        return cfscryList;
+    }
+
+    /**
+     * @param cfscryList the cfscryList to set
+     */
+    public void setCfscryList(List<String> cfscryList) {
+        this.cfscryList = cfscryList;
+    }
+
+    /**
+     * @return yclList 
+     */
+    public List<String> getYclList() {
+        return yclList;
+    }
+
+    /**
+     * @param yclList the yclList to set
+     */
+    public void setYclList(List<String> yclList) {
+        this.yclList = yclList;
     }
 
 }
