@@ -720,7 +720,7 @@ Vue.component('my-timeaera', {
 </script>
 <script type="text/javascript">
 Vue.component('my-srkj', {
-    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow','owner' ],
+    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow','owner' ,'fromid'],
     data : function() {
         return {}
     },
@@ -748,9 +748,8 @@ Vue.component('my-srkj', {
     template : '#my-srkj-tp',
     methods : {
         setval : function(field,event) {
-            if(zdyyzgz(field, event)){
-                this.$emit('setval', field, event);
-            }
+            this.$emit('setval', field, event);
+            zdyyzgz(field, event.val,this);
         }
     },
     created : function() {
@@ -760,6 +759,13 @@ Vue.component('my-srkj', {
     mounted: function () {
         var _this =  this;
         var field = this.field;
+        //在此记录需要进行统一校验的信息，在表单提交时统一校验，需要考虑一个页面有多个表单的场景
+        if(_this.fromid&&_this.isEdit){
+            _this.$root.frommap[_this.fromid][(_this.owner||'')+_this.field.zddm]={
+                    field:_this.field,
+                    srkj:_this
+            };
+        }
         //默认值不为空且非详情页面
         if(_this.value&&this.pagemodel!='details'&&this.pagemodel!='cklist'){
             _this.val=_this.value;
@@ -777,14 +783,14 @@ Vue.component('my-srkj', {
 	</label>
 	<my-srkj :class="'col-xs-'+(isCzd(field)?'10':'6')"
 		:field="field" :index="index" :value="value" :owner="owner"
-		@setval="setval"
+		@setval="setval" :fromid='fromid'
 		:data="data" :pagemodel="pagemodel">
 	</my-srkj>
 </div>
 </script>
 <script type="text/javascript">
 Vue.component('my-input', {
-    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow','owner' ],
+    props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow','owner','fromid' ],
     data : function() {
         return {}
     },
@@ -823,7 +829,7 @@ Vue.component('my-input', {
 			<div class="row gutter-1">
 				<my-input v-for=" (field,key,index) in data.fields" :key="field.zddm"
 					:field="field" :index="index" :data="data"
-					:pagemodel="pagemodel"
+					:pagemodel="pagemodel" :fromid='fromid'
 					:fieldshow="fieldshow(field)"
 					:value="fval(field)"
 					@setval="setval"></my-input>
@@ -835,7 +841,7 @@ Vue.component('my-input', {
 </script>
 <script type="text/javascript">
 Vue.component('my-from', {
-    props : [ 'data', 'fromdata','pagemodel' ],
+    props : [ 'data', 'fromdata','pagemodel','fromid' ],
     data : function() {
         return {}
     },
@@ -925,13 +931,13 @@ Vue.component('my-th', {
 </script>
 <script type="text/x-tp" id="my-td-tp"> 
 <td v-if="!(field.lbzs=='0')" :class="pagemodel=='bjlist'?'':'ellipsis'">
-	<my-srkj :field="field" :index="index" :ri="ri" :owner="owner+field.zddm" :pagemodel="pagemodel"
-		:value="value" @setval="setval"></my-srkj>
+	<my-srkj :field="field" :index="index" :ri="ri" :owner="owner" :pagemodel="pagemodel"
+		:value="value" @setval="setval" :fromid='fromid'></my-srkj>
 </td>
 </script>
 <script type="text/javascript">
 Vue.component('my-td', {
-    props: ['field','ri','index','owner','row','pagemodel','value'],
+    props: ['field','ri','index','owner','row','pagemodel','value','fromid'],
     data: function () {
       return {
       }
@@ -960,10 +966,10 @@ Vue.component('my-td', {
 <ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
 </div>
 <div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 200px));':''">
-<my-from class="queryForm" :fromdata="fromdata" pagemodel="search"
+<my-from class="queryForm" :fromdata="fromdata" pagemodel="search" :fromid='queryFromid'
 	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
-      <button class="btn btn-primary btn-sm" @click="listPage.queryPage()">
+      <button class="btn btn-primary btn-sm" type="button" @click="listPage.queryPage()">
           <i class="icon ion-ios-search-strong"></i> {{cxanmc||'查询'}}
       </button>
   </div>
@@ -1020,6 +1026,7 @@ Vue.component('my-td', {
 	                <td is="my-td"  v-for="(field,key,index) in lbfields"
 	                	:key="'led'+ri+field.zddm" 
 	                	:id="'led'+ri+field.zddm" 
+						:fromid="listFromid"
 	                	:field="field" :ri="ri" :index="index"
 	                	:row="row" :pagemodel="lbkbj=='1'?'bjlist':'cklist'"
 	                	:owner="'led.'+ri+'.'" 
@@ -1069,12 +1076,14 @@ Vue.component('my-list', {
     			    _this.$root.fields = data.fields = rd.fields;
     			    data.user = rd.user;
     			    data.kzxx = rd.kzxx;
+      			    _this.$root.frommap[_this.queryFromid]={};
+      			    _this.$root.frommap[_this.listFromid]={};
     			}else{
     	        	redict(result);
     			}
    			}});
           data.action=this.action;
-      		},
+      	},
 	      computed : {
 	          dcpcl:function (){
 	              var dcpcl = fromdata['my-dcpcl'];
@@ -1115,6 +1124,8 @@ Vue.component('my-list', {
 	          sjdx : function (){
 					return this._data.sjdx;
 				},
+	          queryFromid : function (){ return "queryFromid-"+this.sjdx.id;},
+	          listFromid : function (){ return "listFromid-"+this.sjdx.id;},
 			  myFromStyle : function (){
 			      var style = "";
 			      var isCxtj = true;
@@ -1218,7 +1229,7 @@ Vue.component('my-list', {
                      _this = this;
                  }
                 var r = event.ri;
-                if(_this.listPage.rows[r][field.zddm]!=event.val){
+                if(_this.listEditData[r][field.zddm]||_this.listPage.rows[r][field.zddm]!=event.val){
                     Vue.set(_this.listEditData[r],field.zddm,event.val);
                     if(field.zdywlb!='99'){
                         //非虚拟字段
@@ -1266,6 +1277,9 @@ Vue.component('my-list', {
               saveListData:function(){
                   var _this = this;
                   fromdata.id=_this._data.sjdx.id;
+                  if(!myValidFrom(_this,'saveList')){
+                      return;
+                  }
                   fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
 	              qrtsAjax("sjdx/saveListData.do",fromdata,function(data){
             	   	alertInfoYes(data,function(){
@@ -1375,14 +1389,14 @@ Vue.component('my-list', {
 </script>
 <script type="text/x-tp" id="my-edit-tp">
 <my-from :data="_data" :fromdata="editdata" :pagemodel="pagemodel"
-	class="wrap" @setval="setval" v-cloak>
+	class="wrap" @setval="setval" :fromid="fromid" v-cloak>
 	<div class="row btn-center">
 	<slot></slot>
     <button type="button" v-if="pagemodel=='add'||pagemodel=='edit'" 
 		class="btn btn-primary btn-sm" @click="submit">{{ mydqan || '确定' }}</button>
     <button v-if="bjymkz('my-xsgban')!='0'" type="button" class="btn btn-default btn-sm" 
 		:a-oper="pagemodel=='details'?'allColse':'colse'">关闭</button>
-</div>
+	</div>
 </my-from>
 </script>
 <script type="text/javascript">
@@ -1416,6 +1430,7 @@ Vue.component('my-edit', {
   			    var zj = rd.obj[rd.sjdx.zjzd];
   			    _this.updatedata[zjzd]=zj;
   			    _this.editdata = rd.obj;
+  			    _this.$root.frommap[_this.fromid]={};
   			}else{
 	        	redict(result);
   			  }
@@ -1438,7 +1453,7 @@ Vue.component('my-edit', {
                 return this.sjdx.bjxh!='0';
             }
         },
-        formid:function(){
+        fromid:function(){
             return this.$root.$options.el;
         }
     },
@@ -1484,7 +1499,7 @@ Vue.component('my-edit', {
                }
                if(!myValidFrom(_this)){
                    return;
-               }else if(!$(_this.formid).isValid()){
+               }else if(!$(_this.fromid).isValid()){
                    return;
                }else{
                    if(Object.keys(_this._data.updatedata).length==1){
@@ -1525,7 +1540,9 @@ Vue.component('my-edit', {
                    }
                }
            }
-	}
+	},
+    mounted: function () {
+    }
   });
 </script>
 <script type="text/x-tp" id="my-dlym-tp">
@@ -1595,6 +1612,8 @@ Vue.component('my-dlym', {
         var kzxx = this.$children[0]._data.kzxx;
         Vue.set(this,"kzxx",kzxx);
         $("head > title").text(kzxx['登陆信息']['系统名称']);
+        //设置输入焦点到用户名输入框
+        $("[name='yhdm']").focus();
     }
   });
 </script>

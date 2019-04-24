@@ -18,7 +18,8 @@ var vueParams = {
         data: {
                 fromdata:fromdata,
                 sjdxid:sjdxid,
-                pagemodel:pagemodel
+                pagemodel:pagemodel,
+                frommap:{}
         },
         methods:{
         }

@@ -15,7 +15,8 @@ var vueParams = {
    el : '#listPage',
    data: {
            fromdata:fromdata,
-           sjdxid:sjdxid
+           sjdxid:sjdxid,
+           frommap:{}
        },
        methods:{
        }

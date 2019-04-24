@@ -47,11 +47,14 @@ function PageAjax(){
     };
     this.queryPage=function(){
         var self = this;
-        //常规验证
-    	if(!self.getQueryForm().isValid()){
-    		return;
-    	}
         var _params = self.getQueryForm().formToJson();
+        //常规验证
+//    	if(!self.getQueryForm().isValid()){
+//    		return;
+//    	}
+        if(!myValidFrom(self.listFrom,'queryFrom',_params)){
+            return;
+        }
         _params = preParam(_params);
         //特殊验证
         if(!_params||!self.checkParam(_params)){

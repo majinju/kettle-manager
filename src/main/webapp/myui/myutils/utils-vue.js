@@ -516,7 +516,7 @@ function ajax(url,options){
     if(!options){
         options = {};
     }
-    if(options.qrts){
+    if(options.qrts!=false){
         qrtsAjax(url,options.fromdata,options.success,options.qxbtn);
     }else{
         myAjax(url,options.fromdata,options.success);
@@ -878,17 +878,16 @@ function strFunToFun(strFun){
     return false;
 }
 /**
- * 自定义验证规则
- * @param field 字段信息
- * @param event 事件对象
+ * 我的规则验证
+ * @param value 值
+ * @param rules 规则
+ * @returns {String} 消息内容，为空时表示验证通过
  */
-function zdyyzgz(field, event){
-    var value = event.val;
-    var rules = field.hdyzgz;
+function myGzyz(value,rules){
     if(!rules){
-        return true;
+        return;
     }
-    var msg = "";
+    var msg = null;
     if(!value){
         if(rules.indexOf("notNull")>-1){
             msg = "该值不能为空";
@@ -904,6 +903,36 @@ function zdyyzgz(field, event){
             switch (rr[0]) {
             case "notNull":
                 break;
+            case "mustBe":
+                if(value!=rr[1]){
+                    msg = "该值必须为："+rr[1];
+                }
+                break;
+            case "length":
+                if(value.length<rr[1]){
+                    msg = "该值长度不得小于："+rr[1];
+                }else if(value.length>rr[2]){
+                    msg = "该值长度不得大于："+rr[2];
+                }
+                break;
+            case "number":
+                if(!isNumber(value)){
+                    msg = "该值要求是数字";
+                }else if(value>rr[1]){
+                    msg = "该值超出大小限制："+rr[1];
+                }
+                break;
+            case "null":
+                if(value){
+                    msg = "该值必须为空";
+                }
+                break;
+            case "date":
+                if(valve.length==8||value==14){
+                }else{
+                    msg = "该值必须是时间格式";
+                }
+                break;
             case "sfzh":
                 if(!idCardNoUtil.checkIdCardNo(value)){
                     msg = "该值不是正确的身份证号码";
@@ -918,7 +947,7 @@ function zdyyzgz(field, event){
             case "zd":
                 //字典判断
                 if(zdObjByDm(rr[1],value).mc==value){
-                    msg = "远程判断未通过:"+rr[2];
+                    msg = "该字典项不存在:"+value;
                 }
                 break;
             default:
@@ -929,8 +958,33 @@ function zdyyzgz(field, event){
             }
         }
     }
+    return msg;
+}
+/**
+ * 当前输入焦点
+ */
+var dqsrjd = null;
+/**
+ * 自定义验证规则
+ * @param field 字段信息
+ * @param event 事件对象
+ */
+function zdyyzgz(field, value,srkj){
+    var pagemodel = srkj.pagemodel;
+    var rules = field.hdyzgz;
+    var msg;
+    if(pagemodel!='search'){
+        msg = myGzyz(value,rules);
+    }else{
+        eval("var kzxx="+field.kzxx);
+        msg = myGzyz(value,kzxx['查询验证规则']);
+    }
     if(msg){
-        layer.tips(msg, event.target, {tips:[2, '#c00'],shift:6});
+        layer.tips(msg, srkj.$el, {tips:[2, '#c00'],shift:6});
+        if(dqsrjd!=srkj){
+            dqsrjd=srkj;
+            $(srkj.$el).find("input:first").focus();
+        }
         return false;
     }else{
         return true;
@@ -940,9 +994,72 @@ function zdyyzgz(field, event){
  * 对整个表单进行校验
  * @param _this vue对象
  */
-function myValidFrom(_this){
+function myValidFrom(_this,module,fromdata){
     var fields = _this.fields;
-    var updatedata = _this._data.updatedata;
     var pagemodel = _this.pagemodel;
-    return true;
+    var msg = null;
+    var srkj = null;
+    if(pagemodel=='add'){
+        var fromid = _this.fromid;
+        var fromTarget = _this.$root.frommap[fromid];
+        var updatedata = _this._data.updatedata;
+        for(var i in fromTarget){
+            msg = myGzyz(updatedata[i],fromTarget[i].field.hdyzgz);
+            if(msg){
+                srkj = fromTarget[i].srkj;
+                break;
+            }
+        }
+    }else if(pagemodel=='edit'){
+        var fromid = _this.fromid;
+        var fromTarget = _this.$root.frommap[fromid];
+        var updatedata = _this._data.updatedata;
+        for(var i in updatedata){
+            if(fromTarget[i]){
+                msg = myGzyz(updatedata[i],fromTarget[i].field.hdyzgz);
+                if(msg){
+                    srkj = fromTarget[i].srkj;
+                    break;
+                }
+            }
+        }
+    }else if("saveList"==module){
+        var fromid = _this.listFromid;
+        var fromTarget = _this.$root.frommap[fromid];
+        var listEditData = _this.listEditData;
+        for(var row in listEditData){
+            for(var i in listEditData[row]){
+                var target = fromTarget["led."+row+"."+i];
+                if(target){
+                    msg = myGzyz(listEditData[row][i],target.field.hdyzgz);
+                    if(msg){
+                        srkj = target.srkj;
+                        break;
+                    }
+                }
+            }
+            if(msg){
+                break;
+            }
+        }
+    }else if("queryFrom"==module){
+        var fromid = _this.queryFromid;
+        var fromTarget = _this.$root.frommap[fromid];
+        for(var i in fromTarget){
+            eval("var kzxx="+fromTarget[i].field.kzxx);
+            msg = myGzyz(fromdata[i],kzxx['查询验证规则']);
+            if(msg){
+                srkj = fromTarget[i].srkj;
+                break;
+            }
+        }
+    }
+    if(msg){
+        dqsrjd=srkj;
+        $(srkj.$el).find("input:first").focus();
+        layer.tips(msg, srkj.$el, {tips:[2, '#c00'],shift:6});
+        return false;
+    }else{
+        return true;
+    }
 }
