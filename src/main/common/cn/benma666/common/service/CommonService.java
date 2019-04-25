@@ -100,5 +100,4 @@ public class CommonService extends BasicService{
         }
         return (JSONObject) JSON.toJSON(fileObj);
     }
-    
 }

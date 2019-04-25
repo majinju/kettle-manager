@@ -26,6 +26,7 @@ import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.web.BasicController;
+import cn.benma666.web.UserManager;
 import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -192,6 +193,27 @@ public class CommonController extends BasicController {
         } catch (Exception e) {
             log.error("数据处理出错", e);
             WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
+        }
+    }
+    /**
+    * 将用户信息加密，然后重定向到指定url <br/>
+    * @author jingma
+    * @param request
+    * @param url
+    * @param userid
+    * @param projectCode
+    * @param response
+    */
+    @RequestMapping(value = "/common/doDesEncryptUrl.do")
+    public void doDesEncryptUrl(HttpServletRequest request,String url,
+            String userid,String projectCode, HttpServletResponse response){
+        try {
+            url = UserManager.doDesEncryptUrl(url,projectCode,getUser(request).getSfzh());
+            response.sendRedirect(url);
+        } catch (Exception e) {
+            log.error("用户信息编码失败", e);
+            WebUtil.sendJson(response, error("用户信息编码失败:"+e.getMessage()));
+            return;
         }
     }
     

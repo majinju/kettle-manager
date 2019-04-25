@@ -1651,7 +1651,7 @@ Vue.component('my-dlym', {
 		</div>
 		<div style="float:right;margin-right: 20px;margin-top: 5px;">
 			<div>
-			<img src="project/img/icon-emblem.png" style="height: 45px;width: 35px;">
+			<img :src="fileUrl('系统图标')" style="height: 45px;width: 35px;">
 			<span style="vertical-align: middle;color: chocolate;">{{user.yhxm}}</span>
 			<a href="javascript:void(0);" @click="tuichu" 
 				style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
@@ -1786,8 +1786,23 @@ Vue.component('my-cdym', {
 					}
         		    //添加权限编码
 				    mbdz += "authCode="+treeNode.dm;
-				    _this.centerLoading();
-        			$("#gnIframe").attr("src",mbdz);
+        		    if(treeNode.dkfs=='01'){
+    				    _this.centerLoading();
+            			$("#gnIframe").attr("src",mbdz);
+        		    }else if(treeNode.dkfs=='02'){
+            			window.open(mbdz);
+        		    }else if(treeNode.dkfs=='03'){
+        		        var perContent  = layer.open({
+      				      type: 2,
+      				      title: treeNode.mc,
+      				      shadeClose: true,
+      				      shade: false,
+      				      maxmin: true, //开启最大化最小化按钮
+      				      area: ['800px', '500px'],
+      				      content: mbdz
+			      		});
+			            layer.full(perContent);
+        		    }
         		}
         	}
         	//处理后台返回的数据
