@@ -527,17 +527,22 @@ Vue.component('my-time', {
     props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
+          dqz:""
       }
     },
     template: '#my-time-tp',
     methods : {
         setval : function($event) {
+            if($event.target.value==this.dqz){
+                return;
+            }
             var sf = strFunToFun(this.field.fgshff);
             if(sf){
                 $event.val=sf($event.target.value,this);
             }else{
                 $event.val = $event.target.value;
             }
+            this.dqz=$event.val;
             this.$emit('setval', this.field, $event);
         }
 	},
@@ -576,6 +581,12 @@ Vue.component('my-time', {
 //             var minDate = '%y-%M-%d';
 //             minDate:minDate,
             return {dateFmt:dateFmt,readOnly:true,hdgs:hdgs};
+        }
+    },
+    mounted: function () {
+        var _this =  this;
+        if(_this.value){
+            _this.dqz=_this.value;
         }
     }
   });

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.iframe.CacheFactory;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
@@ -46,5 +47,14 @@ public class SjzdLjq extends DefaultLjq{
         default:
             return super.plcl(sjdx, params);
         }
+    }
+    /**
+    * 
+    * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    */
+    @Override
+    public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
+        CacheFactory.clear(KEY_CACHE_SJDXJCXX);
+        return super.save(sjdx, myParams);
     }
 }

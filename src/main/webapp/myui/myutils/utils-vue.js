@@ -895,6 +895,7 @@ function myGzyz(value,rules){
             msg = "该值不能为空";
         }
     }else{
+        var zdlb = null;
         var ruleArr = rules.replace("；", ";").split(";");
         for(var i in ruleArr){
             var rule = ruleArr[i];
@@ -907,7 +908,11 @@ function myGzyz(value,rules){
                 break;
             case "mustBe":
                 if(value!=rr[1]){
-                    msg = "该值必须为："+rr[1];
+                    var val = rr[1];
+                    if(zdlb){
+                        val = zdObj({zdlb:zdlb,dm:val}).mc;
+                    }
+                    msg = "该值必须为："+val;
                 }
                 break;
             case "length":
@@ -930,7 +935,7 @@ function myGzyz(value,rules){
                 }
                 break;
             case "date":
-                if(valve.length==8||value==14){
+                if(value.length==8||value.length==10||value.length==14||value.length==19){
                 }else{
                     msg = "该值必须是时间格式";
                 }
@@ -951,6 +956,7 @@ function myGzyz(value,rules){
                 if(zdObj({zdlb:rr[1],dm:value}).mc==value){
                     msg = "该字典项不存在:"+value;
                 }
+                zdlb = rr[1];
                 break;
             default:
                 msg = "规则不支持:"+rr[0];
