@@ -383,8 +383,8 @@ function zdObj(zd,cache){
                     zdListCache[zdlb][dm] = result.data;
                     obj = result.data;
                 }else{
-                    obj = {"dm":dm,"mc":dm};
-                    zdListCache[zdlb][dm] = obj;
+//                    obj = {"dm":dm,"mc":dm};
+//                    zdListCache[zdlb][dm] = obj;
                 }
             },
             error:function(){
@@ -895,7 +895,7 @@ function myGzyz(value,rules){
                 break;
             case "zd":
                 //字典判断
-                if(zdObj({zdlb:rr[1],dm:value}).mc==value){
+                if(zdObj({zdlb:rr[1],dm:value})==null){
                     msg = "该字典项不存在:"+value;
                 }
                 zdlb = rr[1];
@@ -1021,7 +1021,7 @@ function vueTimeGsh(value,_this){
         //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
         return dateFormat(value,'yyyy-MM-dd');
     }
-    var qdgs = _this.qdgs;
+    var qdgs = _this.WdatePicker.dateFmt;
     return dateFormat(value,qdgs);
 }
 /**
@@ -1032,7 +1032,7 @@ function vueTimeFgsh(value,_this,event){
         //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
         return dateFormat(value,'yyyyMMdd');
     }
-    var hdgs = _this.hdgs;
+    var hdgs = _this.WdatePicker.hdgs;
     return dateFormat(value,hdgs);
 }
 /**

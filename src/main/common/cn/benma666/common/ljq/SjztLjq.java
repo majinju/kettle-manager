@@ -8,6 +8,7 @@ package cn.benma666.common.ljq;
 
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -35,6 +36,7 @@ public class SjztLjq extends DefaultLjq{
         if(StringUtil.isBlank(yobj.getString("csyj"))&&!vs.equals(SConf.getVal(vs))){
             yobj.put("csyj", SConf.getVal(vs));
         }
+        DictManager.clearDict(ZD_SYS_COMMON_SJZT);
         if(KEY_CLLX_UPDATE.equals(cllx)){
             JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
             if(Db.isCz(obj.getString("dm"))){

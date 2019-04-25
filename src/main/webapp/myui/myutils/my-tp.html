@@ -29,7 +29,8 @@ Vue.component('my-label', {
 </script>
 <script type="text/x-tp" id="my-file-tp">
 <button type="button" v-if="edit" class="btn btn-primary btn-sm">
-	<i class="icon ion-arrow-up-a"></i> 文件上传
+	<i class="icon ion-arrow-up-a"></i>
+	<slot></slot>
 </button>
 <span v-else v-html="ck"></span>
 </script>
@@ -108,13 +109,17 @@ Vue.component('my-file', {
         			// 上传中
             		this.disable();
         		},
-        		onComplete : function(file, data) {
+        		onComplete : function(file, rep) {
         			this.enable();        			
-        			if (data.status ){
+        			if (rep.status ){
         			    if(_this.ajaxUpload.callback){
-        			        _this.ajaxUpload.callback(file, data);
+        			        _this.ajaxUpload.callback(file, rep.data);
         			    }else{
-                            alertInfo("上传成功");
+//                             alertInfo("上传成功");
+            			    _this.$el.val = rep.data.id;
+            			    _this.$el.file = file;
+            			    _this.$el.rep = rep.data;
+            			    _this.$emit('setval', _this.field, _this.$el);
         			    }
         			}else{
                         alertError("上传失败："+data.msg);
@@ -161,7 +166,6 @@ Vue.component('my-textaera', {
     },
     watch:{
         value:function(newVal){
-            debugger
             this.$el.val = newVal;
             this.$emit('setval', this.field, this.$el);
         }
@@ -528,8 +532,11 @@ Vue.component('my-time', {
     data: function () {
       return {
           dqz:this.value||"",
-          hdgs:"yyyyMMddHHmmss",
-          qdgs:'yyyy-MM-dd'
+          WdatePicker:{
+              hdgs:"yyyyMMddHHmmss",
+              dateFmt:'yyyy-MM-dd HH:mm:ss',
+              readOnly:true
+          }
       }
     },
     template: '#my-time-tp',
@@ -562,15 +569,13 @@ Vue.component('my-time', {
             return val;
         },
         onfocus:function (){
-            return "WdatePicker("+JSON.stringify(this.dateFmt)+")";
-        },
-        dateFmt:function (){
-//             var minDate = '%y-%M-%d';
-//             minDate:minDate,
-            return {dateFmt:this.qdgs,readOnly:true};
+            return "WdatePicker("+JSON.stringify(this.WdatePicker)+")";
         }
     },
     mounted: function () {
+        
+    },
+    created: function () {
         var _this =  this;
         var hdyzgz = this.field.hdyzgz;
         if(hdyzgz){
@@ -579,11 +584,15 @@ Vue.component('my-time', {
                 var gzs = gzstrs[idx].split(":");
                 if(gzs[0]=='date'){
                     if(gzs[1]){
-                        this.hdgs = gzs[1];
+                        this.WdatePicker.hdgs = gzs[1];
                     }
                     break;
                 }
             }
+        }
+        eval("var kzxx="+this.field.kzxx);
+        if(kzxx["时间控件"]){
+            this.WdatePicker = Object.assign(this.WdatePicker, kzxx["时间控件"]);
         }
     }
   });
@@ -1007,17 +1016,16 @@ Vue.component('my-td', {
 	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
-			<button v-if="qxByQxm('SJPLSC')" class="btn btn-primary btn-sm uploadFile" ywdm="other" wjlb="other">
-				批量上传
-				<i  style="margin-left: 5px;" 
-			    	class="icon ion-ios-help-outline" 
-			    	id="plscTitle"
-			    	@mouseover="plscTitle(this)"></i></button>
-			<button v-if="qxByQxm('MBXZ')" class="btn btn-primary btn-sm" @click="downloadTemplate()"> 模板下载
-				<i style="margin-left: 5px;" 
-			    	class="icon ion-ios-help-outline" 
-			    	id="plscmbTitle"
-			    	@mouseover="plscmbTitle(this)"></i>
+			<my-file v-if="qxByQxm('SJPLSC')" edit="true" :field="field" @setval="sjplsc">
+				批量上传<i style="margin-left: 5px;" 
+			    	class="icon ion-ios-help-outline plscTitle" 
+			    	@mouseover="plscTitle(this)"></i>
+			</my-file>	
+			<button v-if="qxByQxm('MBXZ')" class="btn btn-primary btn-sm" @click="downloadTemplate()">
+				<i class="icon ion-arrow-down-a"></i> 
+				模板下载<i style="margin-left: 5px;" 
+			    	class="icon ion-ios-help-outline plscmbTitle" 
+			    	@mouseover="plscmbTitle()"></i>
 			</button>
 	        <button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
@@ -1077,7 +1085,15 @@ Vue.component('my-list', {
             downurl:serviceAddr+"common/common/downloadFile.do",
             rows:[],
             listPage:new PageAjax(),
-            listEditData:[]
+            listEditData:[],
+            field:{
+                    kzxx:{
+                        file:{
+                            ywdm:"other",
+                            wjlb:"other"
+                        }
+                    }
+                }
         }
       },
       created : function(){
@@ -1192,12 +1208,12 @@ Vue.component('my-list', {
                     this.listPage.queryPage();
                 }
             },
-            plscTitle:function(_this){
-//             	layer.tips("批量上传需要核查的数据,请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功",_this);
+            plscTitle:function(){
+            	layer.tips("请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功",
+            	        $(this.$el).find(".plscTitle"));
             },
-	        plscmbTitle:function(_this){
-// 	            debugger
-//             	layer.tips("请严格按照模板填充数据，注意模板中的提示信息",_this);
+	        plscmbTitle:function(){
+            	layer.tips("请严格按照模板填充数据，注意模板中的提示信息",$(this.$el).find(".plscmbTitle"));
             },
             downloadTemplate:function(){
             	//下载模板
@@ -1284,12 +1300,11 @@ Vue.component('my-list', {
                     alertError("请选择要操作行");
                     return;
                 }
-                var params = {};
-                params.id=_this.sjdx.id;
-                params['map["cllx"]']=cllx;
-                params['map["ids"]']=ids.substring(1);
+                options.id=_this.sjdx.id;
+                options['map["cllx"]']=cllx;
+                options['map["ids"]']=ids.substring(1);
 	            ajax('sjdx/plcl.do',{
-	                fromdata:params,
+	                fromdata:options,
 	                qrts:options.qrts,
 	                success:function(data){
 		                alertInfoYes(data,function(){
@@ -1299,6 +1314,9 @@ Vue.component('my-list', {
 	                }
 	            });
 	        },
+            sjplsc:function(field,e){
+                this.plcl("sjplsc",null,{"e_file":JSON.stringify(e.rep),"bxlbh":false,"qrts":false});
+            },
               saveListData:function(){
                   var _this = this;
                   fromdata.id=_this._data.sjdx.id;
