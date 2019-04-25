@@ -527,7 +527,7 @@ Vue.component('my-time', {
     props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
-          dqz:"",
+          dqz:this.value||"",
           hdgs:"yyyyMMddHHmmss",
           qdgs:'yyyy-MM-dd'
       }
@@ -585,9 +585,6 @@ Vue.component('my-time', {
                 }
             }
         }
-        if(_this.value){
-            _this.dqz=_this.value;
-        }
     }
   });
 </script>
@@ -631,6 +628,24 @@ Vue.component('my-timeaera', {
       }
     },
     template: '#my-timeaera-tp',
+    created : function(){
+        var times = this.times.split(";");
+        var val1="";
+        if(times[0]){
+            val1=times[0];
+            if(val1.indexOf('goDay:')==0){
+                val1 = new Date().addDays(val1.substring(6)).format('yyyyMMddmmHHss');
+            }
+        }
+        var val2="";
+        if(times[1]){
+            var val2=times[1];
+            if(val2.indexOf('goDay:')==0){
+                val2 = new Date().addDays(val2.substring(6)).format('yyyyMMddmmhhss');
+            }
+        }
+        this.times = val1 + ";"+val2;
+    },
     computed : {
         nvalStart:function (){
             var times = this.times.split(";");
@@ -638,9 +653,6 @@ Vue.component('my-timeaera', {
                 return "";
             }
             var val=times[0];
-            if(val.indexOf('goDay:')==0){
-                val = new Date().addDays(val.substring(6)).format('yyyyMMddmmHHss');
-            }
             var sf = strFunToFun(this.field.gshff);
             if(sf){
                 val=sf(val,this);
@@ -653,9 +665,6 @@ Vue.component('my-timeaera', {
                 return "";
             }
             var val=times[1];
-            if(val.indexOf('goDay:')==0){
-                val = new Date().addDays(val.substring(6)).format('yyyyMMddmmhhss');
-            }
             var sf = strFunToFun(this.field.gshff);
             if(sf){
                 val=sf(val,this);
@@ -672,7 +681,8 @@ Vue.component('my-timeaera', {
             }else{
                 times[0] = $event.target.value;
             }
-            $event.val=times;
+            this.times = times[0]+";"+times[1];
+            $event.val=this.times;
             this.$emit('setval', this.field, $event);
         },
 	    setvalEnd : function($event) {
@@ -683,7 +693,8 @@ Vue.component('my-timeaera', {
             }else{
                 times[1] = $event.target.value;
             }
-            $event.val=times;
+            this.times = times[0]+";"+times[1];
+            $event.val=this.times;
 	        this.$emit('setval', this.field, $event);
 	    },
 	    wpStart:function(){
