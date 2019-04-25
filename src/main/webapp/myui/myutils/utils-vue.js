@@ -667,13 +667,40 @@ Date.prototype.addHours = function (hours) {
     return nd;
 };
 /**
+ * 时间字符串解析为date
+ * @param dataStr
+ */
+Date.parseDate = function(dateStr) {
+    if(!dateStr){
+        return null;
+    }
+    var d = new Date();
+    if(dateStr.length==8){
+        d.setFullYear(dateStr.substring(0, 4),dateStr.substring(4, 6)-1,dateStr.substring(6, 8));
+        d.setHours(0,0,0);
+    }else if(dateStr.length==10){
+        d.setFullYear(dateStr.substring(0, 4),dateStr.substring(5, 7)-1,dateStr.substring(8, 10));
+        d.setHours(0,0,0);
+    }else if(dateStr.length==12){
+        d.setFullYear(dateStr.substring(0, 4),dateStr.substring(4, 6)-1,dateStr.substring(6, 8));
+        d.setHours(str.substring(8, 10),dateStr.substring(10, 12),0);
+    }else if(dateStr.length==14){
+        d.setFullYear(dateStr.substring(0, 4),dateStr.substring(4, 6)-1,dateStr.substring(6, 8));
+        d.setHours(dateStr.substring(8, 10),dateStr.substring(10, 12),dateStr.substring(12, 14));
+    }else if(dateStr.length==19){
+        d.setFullYear(dateStr.substring(0, 4),dateStr.substring(5, 7)-1,dateStr.substring(8, 10));
+        d.setHours(dateStr.substring(11, 13),dateStr.substring(14, 16),dateStr.substring(17, 19));
+    }
+    return d;
+}
+/**
  * 时间对象的格式化
  */
 Date.prototype.format = function(format) {
 	var o = {
 		"M+" : this.getMonth() + 1, // month
 		"d+" : this.getDate(), // day
-		"h+" : this.getHours(), // hour
+		"H+" : this.getHours(), // hour
 		"m+" : this.getMinutes(), // minute
 		"s+" : this.getSeconds(), // second
 		"q+" : Math.floor((this.getMonth() + 3) / 3), // quarter
@@ -691,103 +718,18 @@ Date.prototype.format = function(format) {
 	}
 	return format;
 };
-function time14Totime19(dateStr){
-    if(dateStr==null){
-        return "";
-    }
-    if(dateStr.length!=14){
-        return dateStr;
-    }
-    return dateStr.time14Totime19();
-}
-function time14Totime10(dateStr){
-    if(dateStr==null){
-        return "";
-    }
-    if(dateStr.length!=14){
-        return dateStr;
-    }
-    return dateStr.time14Totime10();
-}
-function time19Totime14(dateStr){
-    if(dateStr==null){
-        return "";
-    }
-    if(dateStr.length!=19){
-        return dateStr;
-    }
-    var result = dateStr.replace(/-/g,'');
-    result = result.replace(/ /g,'');
-    result = result.replace(/:/g,'');
-    return result;
-}
-function time8Totime10(dateStr){
-    if(dateStr==null){
-        return "";
-    }
-    if(dateStr.length!=8){
-        return dateStr;
-    }
-    return dateStr.time8Totime10();
-}
-function time10Totime8(dateStr){
-    if(dateStr==null){
-        return "";
-    }
-    if(dateStr.length!=10){
-        return dateStr;
-    }
-    return dateStr.replace(/-/g,'');
-}
 /**
- * 将公安标准时间字符串转为普通显示时间格式
- * @returns {String} 转换结果
+ * 时间格式化
  */
-String.prototype.time14Totime19 = function () {
-	var str = this;
-    var result = str.substring(0, 4)+"-"
-    +str.substring(4, 6)+"-"
-    +str.substring(6, 8)+" "
-    +str.substring(8, 10)+":"
-    +str.substring(10, 12)+":"
-    +str.substring(12, 14);
-    return result;
-};
-/**
- * 将公安标准时间字符串转为10位普通显示时间格式
- * @returns 转换结果
- */
-String.prototype.time14Totime10 = function () {
-	var str = this;
-    var result = str.substring(0, 4)+"-"
-    +str.substring(4, 6)+"-"
-    +str.substring(6, 8);
-    return result;
-};
-/**
- * 将公安标准时间字符串转为12位普通显示时间格式
- * @returns 转换结果 add by nanzhou
- */
-String.prototype.time12Totime14 = function () {
-	var str = this;
-    var result = str.substring(0, 4)+"-"
-    +str.substring(4, 6)+"-"
-    +str.substring(6, 8)+" "
-    +str.substring(8, 10)+":"
-    +str.substring(10, 12)+":00";
-    return result;
-};
-/**
- * 将公安标准时间字符串转为10位普通显示时间格式
- * @returns 转换结果 add by nanzhou
- */
-String.prototype.time8Totime10 = function () {
-	var str = this;
-    var result = str.substring(0, 4)+"-"
-    +str.substring(4, 6)+"-"
-    +str.substring(6, 8);
-    return result;
-};
+function dateFormat(dateStr,fmt){
+    var d = Date.parseDate(dateStr);
+    if(d){
+        return d.format(fmt);
+    }else{
+        return "";
+    }
+}
+
 String.prototype.startWith=function(str){     
   var reg=new RegExp("^"+str);     
   return reg.test(this);        
@@ -1070,4 +1012,40 @@ function myValidFrom(_this,module,fromdata){
     }else{
         return true;
     }
+}
+/**
+ * 时间格式化
+ */
+function vueTimeGsh(value,_this){
+    if(_this.pagemodel=='search'){
+        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
+        return dateFormat(value,'yyyy-MM-dd');
+    }
+    var qdgs = _this.qdgs;
+    return dateFormat(value,qdgs);
+}
+/**
+ * 时间反格式化：默认处理所有时间在数据库中存储的都是14位字符串
+ */
+function vueTimeFgsh(value,_this,event){
+    if(_this.pagemodel=='search'){
+        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
+        return dateFormat(value,'yyyyMMdd');
+    }
+    var hdgs = _this.hdgs;
+    return dateFormat(value,hdgs);
+}
+/**
+ * 组建编辑参数
+ */
+function editUrl(sjdx,row){
+    var p = {};
+    p[sjdx.zjzd]=row[sjdx.zjzd];
+    return encodeURI(JSON.stringify(p));
+}
+/**
+ * json对象编码
+ */
+function jsonEncode(obj){
+    return encodeURI(JSON.stringify(obj));
 }

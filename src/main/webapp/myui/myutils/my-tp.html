@@ -527,7 +527,9 @@ Vue.component('my-time', {
     props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
-          dqz:""
+          dqz:"",
+          hdgs:"yyyyMMddHHmmss",
+          qdgs:'yyyy-MM-dd'
       }
     },
     template: '#my-time-tp',
@@ -563,28 +565,26 @@ Vue.component('my-time', {
             return "WdatePicker("+JSON.stringify(this.dateFmt)+")";
         },
         dateFmt:function (){
-            var hdgs = "yyyyMMddHHmmss";
-            var hdyzgz = this.field.hdyzgz;
-            if(hdyzgz){
-                var gzstrs = hdyzgz.replace("；",';').split(";");
-                for(idx in gzstrs){
-                    var gzs = gzstrs[idx].split(":");
-                    if(gzs[0]=='date'){
-                        if(gzs[1]){
-                            hdgs = gzs[1];
-                        }
-                        break;
-                    }
-                }
-            }
-            var dateFmt = 'yyyy-MM-dd';
 //             var minDate = '%y-%M-%d';
 //             minDate:minDate,
-            return {dateFmt:dateFmt,readOnly:true,hdgs:hdgs};
+            return {dateFmt:this.qdgs,readOnly:true};
         }
     },
     mounted: function () {
         var _this =  this;
+        var hdyzgz = this.field.hdyzgz;
+        if(hdyzgz){
+            var gzstrs = hdyzgz.replace("；",';').split(";");
+            for(idx in gzstrs){
+                var gzs = gzstrs[idx].split(":");
+                if(gzs[0]=='date'){
+                    if(gzs[1]){
+                        this.hdgs = gzs[1];
+                    }
+                    break;
+                }
+            }
+        }
         if(_this.value){
             _this.dqz=_this.value;
         }
@@ -639,7 +639,7 @@ Vue.component('my-timeaera', {
             }
             var val=times[0];
             if(val.indexOf('goDay:')==0){
-                val = new Date().addDays(val.substring(6)).format('yyyyMMddmmhhss');
+                val = new Date().addDays(val.substring(6)).format('yyyyMMddmmHHss');
             }
             var sf = strFunToFun(this.field.gshff);
             if(sf){
@@ -1810,45 +1810,6 @@ Vue.component('my-cdym', {
 </script>
 <script type="text/javascript">
 //vue常用方法
-/**
- * 时间格式化
- */
-function vueTimeGsh(value,_this){
-    if(_this.pagemodel=='search'){
-        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
-        return time14Totime10(value);
-    }
-    var val = time14Totime19(value);
-//     if(_this.pagemodel=='details'||_this.pagemodel=='cklist'){
-//         return "<span style='color:red;'>"+val+"<span>";
-//     }else{
-        return val;
-//     }
-}
-/**
- * 时间反格式化：默认处理所有时间在数据库中存储的都是14位字符串
- */
-function vueTimeFgsh(value,_this,event){
-    if(_this.pagemodel=='search'){
-        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
-        return time10Totime8(value);
-    }
-    return time19Totime14(value);
-}
-/**
- * 组建编辑参数
- */
-function editUrl(sjdx,row){
-    var p = {};
-    p[sjdx.zjzd]=row[sjdx.zjzd];
-    return encodeURI(JSON.stringify(p));
-}
-/**
- * json对象编码
- */
-function jsonEncode(obj){
-    return encodeURI(JSON.stringify(obj));
-}
 /**
  * 默认列表操作
  */
