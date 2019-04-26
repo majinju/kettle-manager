@@ -8,6 +8,9 @@ function sjdxZdy(vp){
     }
 }
 function sjdxZdyjy(data,_this){
+    if(_this.pagemodel!='add'){
+        return true;
+    }
     var wjnr = _this.fields.wjnr;
     if(wjnr.ajaxUpload._input.files.length==0){
         alertInfo("请先上传文件");

@@ -438,7 +438,10 @@ Vue.component('my-inputn', {
             var data = serviceAddr+"common/zdSearch.do?autoCount=true&zdlb="
                     +zdlb+"&otherParam="+otherParam;
             if(!(this.field.zdfy=='1')&&zdlb!="SYS_COMMON_ORG"){
-            	data = Object.values(zdList(zdlb));
+                var list = zdList(zdlb);
+                if(list){
+                	data = Object.values(list);
+                }
             }
             var keyField = "dm";
             if(field.kjlx=='suggest'){
@@ -1591,7 +1594,7 @@ Vue.component('my-edit', {
 <script type="text/x-tp" id="my-dlym-tp">
 <div :style="'background-image: url('+fileUrl('背景图片')+');height: 100vh;'" @keydown="denglu">
 	<div style="width: 500px; margin: auto;padding-top: 100px;">
-		<div style="text-align: center;color: floralwhite; font-size: xx-large;background-color: #81b0e4a6;margin: 0 -20px;">
+		<div style="text-align: center;color: floralwhite; font-size: xx-large;background-color:rgba(129, 176, 228, 0.65);margin: 0 -20px;">
 			<img :src="fileUrl('图标')"/>
 			<span style="vertical-align: middle;">{{kzxx['登陆信息']['系统名称']}}</span>
 		</div>
@@ -1599,7 +1602,7 @@ Vue.component('my-edit', {
 		</my-edit>
 		<div style="background-color: rgba(136, 155, 205, 0.84);padding: 10px;">
 			<span>请使用谷歌浏览器为你带来更好的使用体验</span>
-			<a href="javascript:download('AEA6F13EAD28484080A8E47FADFDB125')" style="color: azure;text-decoration: underline;">下载浏览器</a>
+			<a href="javascript:download('850F792CDB0443B1AB4EB75E8B868B7F')" style="color: azure;text-decoration: underline;">下载浏览器</a>
 		</div>
 	</div>
 </div>

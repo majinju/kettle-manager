@@ -7,7 +7,7 @@
 insert into sjsj.sys_sjgl_bhsc
 select * from sys_sjgl_bhsc t
 where not exists (
-select 1 from sjsj.sys_qx_yhjsgl t1 where t1.id=t.id
+select 1 from sjsj.sys_sjgl_bhsc t1 where t1.id=t.id
 )
 ;
 --清空本库

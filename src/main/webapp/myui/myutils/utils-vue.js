@@ -625,6 +625,23 @@ function clone(obj) {
 }
 
 /**
+ * 部分低版本浏览器不支持Object.values方法
+ * @param obj
+ * @returns {Array}
+ */
+if (!Object.values) Object.values = function(obj) {
+    if (obj !== Object(obj))
+        throw new TypeError('Object.values called on a non-object');
+    var val=[],key;
+    for (key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj,key)) {
+            val.push(obj[key]);
+        }
+    }
+    return val;
+}
+
+/**
  * 判断字符串是否为空
  * @param str 要判断的字符串
  * @returns 空：true，非空：false
