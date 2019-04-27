@@ -36,6 +36,19 @@ public class RyhcLjq extends DefaultLjq{
     public static JSONObject ryhcjg = CacheFactory.use("RYHCJG");
     /**
     * 
+    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    */
+    @Override
+    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+        String cllx = myParams.getString(KEY_CLLX);
+        if(KEY_CLLX_SJPLSC.equals(cllx)){
+            SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
+            ryhcjg.remove(user.getId());
+        }
+        return super.plcl(sjdx, myParams);
+    }
+    /**
+    * 
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @SuppressWarnings("unchecked")
@@ -67,7 +80,7 @@ public class RyhcLjq extends DefaultLjq{
             String param;
             try {
                   param = URLEncoder.encode(JSON.toJSONString(list), "UTF-8");
-                  JSONObject app = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_QX_APP, "cqqb2");
+                  JSONObject app = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_QX_APP, "CQQB2");
                   JSONObject result = HttpUtil.doUrl(app.getString("dz")+"ryhc/doRyhc.do",
                           "hcList="+param);
                   if(result.getBooleanValue("status")){

@@ -29,7 +29,7 @@
       <p class="err-tip-500">
         <i class="icon icon-line-l"></i>
         <span class="err-span">${param.msg!=null?param.msg:'系统内部发生错误' }</span>
-        <span style="display: none;"><%= exception.getMessage() %></span>
+        <span style="display: none;"><%= exception!=null?exception.getMessage():"" %></span>
         <i class="icon icon-line-r"></i>
       </p>
       <p>
