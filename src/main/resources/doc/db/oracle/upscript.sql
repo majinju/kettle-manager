@@ -11,7 +11,7 @@ select 1 from sjsj.sys_sjgl_bhsc t1 where t1.id=t.id
 )
 ;
 --清空本库
---truncate table sys_sjgl_bhsc;
+truncate table sys_sjgl_bhsc;
 --全量更新原库数据到本库
 insert into sys_sjgl_bhsc
 select * from sjsj.sys_sjgl_bhsc;

@@ -904,9 +904,12 @@ Vue.component('my-from', {
 	        }else if(pagemodel=='search'){
 	            //查询模式，显示查询默认值
 	            return field.cxmrz;
+	        }else if(pagemodel=='add'){
+	            //新增模式，显示新增默认值
+	            return field.xzmrz;
 	        }else{
 	            //其他模式，显示新增默认值
-	            return field.xzmrz;
+	            return "";
 	        }
 	    }
     }
