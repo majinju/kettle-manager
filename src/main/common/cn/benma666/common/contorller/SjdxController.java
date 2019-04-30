@@ -1,7 +1,5 @@
 package cn.benma666.common.contorller;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -64,7 +62,7 @@ public class SjdxController extends BasicController {
                 try {
                     String url = WebUtil.getBasePath(request);
                     response.sendRedirect(url);
-                } catch (IOException e) {
+                } catch (Throwable e) {
                     log.error("重定向异常"+sjdx, e);
                 }
             }
@@ -95,7 +93,7 @@ public class SjdxController extends BasicController {
                 try {
                     String url = WebUtil.getBasePath(request);
                     response.sendRedirect(url);
-                } catch (IOException e) {
+                } catch (Throwable e) {
                     log.error("重定向异常"+sjdx, e);
                 }
             }
@@ -117,7 +115,7 @@ public class SjdxController extends BasicController {
                 myParams.remove(LjqInterface.KEY_FIELD_LIST);
                 sendJson(response, result);
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }
@@ -136,7 +134,7 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, LjqManager.page(dbSjdx,myParams, page));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }
@@ -155,7 +153,7 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams.replace("%34", "\""),request,response)){
                 LjqManager.export(dbSjdx,myParams, page,response);
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }
@@ -176,7 +174,7 @@ public class SjdxController extends BasicController {
                     sendJson(response, r);
                 }
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }
@@ -196,7 +194,7 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, sjdxService.txPlcl(dbSjdx,myParams));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }
@@ -216,7 +214,7 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, sjdxService.getdata(dbSjdx,myParams));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }
@@ -236,7 +234,7 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, LjqManager.save(dbSjdx, myParams));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }
@@ -255,7 +253,7 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, sjdxService.txSaveListData(dbSjdx,myParams));
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("数据处理异常", e);
             sendJson(response, error("数据处理异常："+e.getMessage()));
         }

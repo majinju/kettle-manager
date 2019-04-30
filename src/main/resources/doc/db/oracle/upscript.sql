@@ -1,7 +1,7 @@
 
 --系统升级部署脚本
 
-----将本地新增的插入线上库，然后清空本地库，将线上库数据全量插入本地库----------
+----本地会新增，线上存在的数据全部以线上为准的场景，将本地新增的插入线上库，然后清空本地库，将线上库数据全量插入本地库----------
 --编号生成
 --将新增变化插入原库
 insert into sjsj.sys_sjgl_bhsc
@@ -16,6 +16,20 @@ truncate table sys_sjgl_bhsc;
 insert into sys_sjgl_bhsc
 select * from sjsj.sys_sjgl_bhsc;
 
+----线上存在修改部分数据的场景，且应以线上为准的，先在本地表中删除线上存在的数据项，再增量导入线上增量数据----------
+--项目配置类字典应以线上为准,先删除应用配置类别的且线上存在的字典项
+delete from sys_sjgl_tyzd t where t.zdlb like '%_APPCONFIG'
+and exists (
+select 1 from sjsj.sys_sjgl_tyzd t1 where t1.id=t.id
+)
+;
+--导入线上新增的字典
+insert into sys_sjgl_tyzd
+select * from sjsj.sys_sjgl_tyzd t
+where not exists (
+select 1 from sys_sjgl_tyzd t1 where t1.id=t.id
+)
+;
 
 -----增量相关表数据，本地开发过程中不能全量删除，只能进行逻辑删除，不然升级时无法判断删除的数据，会反向更新回来。
 -----增量：通过主键过滤只导入线上新增的数据，本地存在的，线上进行修改时必须同步修改本地相关数据----------
@@ -66,13 +80,6 @@ insert into sys_qx_qxxx
 select * from sjsj.sys_qx_qxxx t
 where not exists (
 select 1 from sys_qx_qxxx t1 where t1.id=t.id
-)
-;
---导入线上新增的字典
-insert into sys_sjgl_tyzd
-select * from sjsj.sys_sjgl_tyzd t
-where not exists (
-select 1 from sys_sjgl_tyzd t1 where t1.id=t.id
 )
 ;
 --导入线上新增的文件

@@ -1307,16 +1307,19 @@ Vue.component('my-list', {
                     return;
                 }
                 options.id=_this.sjdx.id;
-                options['map["cllx"]']=cllx;
-                options['map["ids"]']=ids.substring(1);
+                options['e_cllx']=cllx;
+                options['e_ids']=ids.substring(1);
+            	var loadindex = layer.load(0,{
+            		shade: [0.3]
+            	});
 	            ajax('sjdx/plcl.do',{
 	                fromdata:options,
 	                qrts:options.qrts,
 	                success:function(data){
 		                alertInfoYes(data,function(){
 	        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
-						}
-		                );
+						});
+		                layer.close(loadindex);
 	                }
 	            });
 	        },
@@ -1374,8 +1377,8 @@ Vue.component('my-list', {
               			async: {
               				enable: true,
               				url:"sjdx/getdata.do?dxdm="+_this.sjdx.dxdm,
-              				autoParam:["dm=map['"+fjd+"']"],
-              				otherParam:{"map['cllx']":"getTreeCN"},
+              				autoParam:["dm=e_"+fjd],
+              				otherParam:{"e_cllx":"getTreeCN"},
               				dataFilter: treefilter
               			},
               			callback: {
@@ -1527,7 +1530,7 @@ Vue.component('my-edit', {
 	        plcl:function(cllx,success){
 		        _this = this;
 	            fromdata.id=_this.sjdx.id;
-	            fromdata['map["cllx"]']=cllx;
+	            fromdata['e_cllx']=cllx;
 	            fromdata.myparams=JSON.stringify(_this.updatedata);
 	            qrtsAjax('sjdx/plcl.do',fromdata,function(result){
  	            	   	alertInfoYes(result,function(){
@@ -1776,12 +1779,12 @@ Vue.component('my-cdym', {
         		async: {
         			enable: true,
         			url:"sjdx/getdata.do?dxdm=SYS_QX_QTQX",
-        			autoParam:["dm=map['fjd']"],
-        			otherParam:{"map['cllx']":"getTreeCN",
+        			autoParam:["dm=e_fjd"],
+        			otherParam:{"e_cllx":"getTreeCN",
         			    //树模式=菜单树
-        			    "map['treeModel']":'cds',
+        			    "e_treeModel":'cds',
         			    //菜单树根节点
-        			    "map['treeRoot']":this.kzxx['菜单信息']['菜单根节点']},
+        			    "e_treeRoot":this.kzxx['菜单信息']['菜单根节点']},
         			dataFilter: treefilter
         		},
         		callback: {
@@ -1900,7 +1903,7 @@ a-oper="update" title="编辑【{{= sjdx.dxmc}}】"><i class="icon ion-compose">
 <span class="divider"></span>
 {{/if}}
 {{if qxByQxm(user,sjdx,'SCQX')}}
-<a href="sjdx/plcl.do?dxdm={{= sjdx.dxdm}}&map['cllx']=plsc&map['ids']={{= row[sjdx.zjzd]}}" 
+<a href="sjdx/plcl.do?dxdm={{= sjdx.dxdm}}&e_cllx=plsc&e_ids={{= row[sjdx.zjzd]}}" 
 a-oper="dxcl" title="删除【{{= sjdx.dxmc}}】"><i class="icon ion-android-delete"></i></a>
 <span class="divider"></span>
 {{/if}}

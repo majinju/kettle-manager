@@ -6,7 +6,6 @@
 
 package cn.benma666.other.ljq;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +16,9 @@ import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.HttpUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
+import cn.benma666.myutils.SfzhUtil;
+import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
-import cn.benma666.sjgl.LjqInterface;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -64,6 +64,35 @@ public class RyhcLjq extends DefaultLjq{
             ryhcjg.put(user.getId(), l);
         }
         l.add(yobj);
+        String zjhm = yobj.getString("zjhm");
+        if (!SfzhUtil.validateCard(zjhm)) {
+            yobj.put("hcjg","证件号码无效");
+            return error("证件号码无效");
+        }
+        if(l.size()>Integer.parseInt(DictManager.zdMcByDm("OTHER_HCXT_APPCONFIG", "ryhc.maxsize"))){
+            yobj.put("hcjg","超出数量限制");
+            return error("超出数量限制");
+        }
+        try {
+            JSONObject qqjg = HttpUtil.doUrl(
+                    DictManager.zdMcByDm("OTHER_HCXT_APPCONFIG", "cqqbryhc.url")+zjhm);
+            if(qqjg.getBooleanValue("state")){
+                JSONObject hcjg = JSON.parseArray(qqjg.getString("data")).getJSONObject(0);
+                yobj.put("hcxm",hcjg.getString("xm"));
+                yobj.put("hchjdz",hcjg.getString("hjd"));
+                if (StringUtil.isNotBlank(yobj.getString("xm")) 
+                        && !yobj.getString("xm").equals(yobj.getString("hcxm"))) {
+                    yobj.put("hcjg","姓名不一致");
+                } else {
+                    yobj.put("hcjg","正确");
+                }
+            }else{
+                yobj.put("hcjg","核查失败1，请重新核查:"+qqjg);
+            }
+        } catch (Exception e) {
+            log.error("核查异常："+yobj, e);
+            yobj.put("hcjg","核查异常："+e.getMessage());
+        }
         return success("核查成功");
     }
     /**
@@ -77,23 +106,8 @@ public class RyhcLjq extends DefaultLjq{
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         if(ryhcjg.containsKey(user.getId())){
             List<JSONObject> list = (List<JSONObject>) ryhcjg.get(user.getId());
-            String param;
-            try {
-                  param = URLEncoder.encode(JSON.toJSONString(list), "UTF-8");
-                  JSONObject app = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_QX_APP, "CQQB2");
-                  JSONObject result = HttpUtil.doUrl(app.getString("dz")+"ryhc/doRyhc.do",
-                          "hcList="+param);
-                  if(result.getBooleanValue("status")){
-                      PageInfo<Object> page1 = new PageInfo<Object>();
-                      page1.setList(result.getJSONArray("data"));
-                      return success("核查成功",page1);
-                  }else{
-                      return error("核查失败"+result.getString("msg"));
-                  }
-            } catch (Exception e) {
-                log.error("核查失败："+JSON.toJSONString(list), e);
-                return error("核查失败"+e.getMessage());
-            }
+            page.setList(list);
+            return success("核查成功",page);
         }else{
             return error("你还没有上传核查名单");
         }

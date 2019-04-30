@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.benma666.common.service.CommonService;
+import cn.benma666.domain.BasicBean;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglTyzd;
@@ -24,7 +25,6 @@ import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.ExportToExecl;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
-import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.web.BasicController;
 import cn.benma666.web.UserManager;
 import cn.benma666.web.WebUtil;
@@ -55,8 +55,7 @@ public class CommonController extends BasicController {
     @RequestMapping(value = "/clearCache.do")
     public void clearCache(SysSjglTyzd obj,HttpServletRequest request, 
             HttpServletResponse response) {
-        setEParam(obj, request);
-        SysQxYhxx user = getUser(request);
+        SysQxYhxx user = jkInit(obj, request);
         if(!"admin".equals(user.getYhdm())){
             sendJson(response, error("你无权清除缓存"));
         }else{
@@ -73,8 +72,7 @@ public class CommonController extends BasicController {
     @RequestMapping(value = "/zdList.do")
     public void zdList(SysSjglTyzd obj,HttpServletRequest request, 
             HttpServletResponse response) {
-        setEParam(obj, request);
-        obj.set(LjqInterface.KEY_USER, getUser(request));
+        jkInit(obj, request);
         JSONObject map = DictManager.zdMapByCache(obj);
         if(map==null){
             sendJson(response, error("该字典类别不支持获取列表"));
@@ -93,8 +91,7 @@ public class CommonController extends BasicController {
     @RequestMapping(value = "/zdObj.do")
     public void zdObjByDm(SysSjglTyzd obj, HttpServletRequest request, 
             HttpServletResponse response) {
-        setEParam(obj, request);
-        obj.set(LjqInterface.KEY_USER, getUser(request));
+        jkInit(obj, request);
         JSONObject result = null;
         if(obj.getMap().containsKey("cache")){
             result = DictManager.zdObj(obj);
@@ -118,8 +115,7 @@ public class CommonController extends BasicController {
     @RequestMapping(value = "/zdSearch.do")
     public void zdSearch(PageInfo<JSONObject> page, SysSjglTyzd obj,
             HttpServletRequest request, HttpServletResponse response) {
-        setEParam(obj, request);
-        obj.set(LjqInterface.KEY_USER, getUser(request));
+        jkInit(obj, request);
         String searchValue = obj.getSearchValue();
         PageInfo<JSONObject> result;
         if (StringUtil.isNotBlank(searchValue)) {
@@ -136,7 +132,6 @@ public class CommonController extends BasicController {
         }
         sendPage(response, result);
     }
-    
     /**
      * 导出Excel
      * @param request
@@ -158,6 +153,7 @@ public class CommonController extends BasicController {
     @RequestMapping(value = "/upload.do", method = RequestMethod.POST)
     public void upload(HttpServletRequest request,HttpServletResponse response, 
             HttpSession session,SysSjglFile fileObj){
+        jkInit(fileObj, request);
         //获取文件
         MultipartFile file =((MultipartHttpServletRequest) request).getFile("file");
         try{
@@ -181,6 +177,7 @@ public class CommonController extends BasicController {
     @RequestMapping(value="/download.do")
     public void download(HttpServletRequest request,HttpServletResponse response, SysSjglFile obj){
         try {
+            jkInit(obj, request);
             SysSjglFile fileObj = sqlManager.single(SysSjglFile.class, obj.getId());
             if(fileObj!=null){
                 fileObj.setXzms(obj.isXzms());
@@ -194,6 +191,19 @@ public class CommonController extends BasicController {
             log.error("数据处理出错", e);
             WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
+    }
+    /**
+    * 接口初始化 <br/>
+    * @author jingma
+    * @param obj
+    * @param request
+    * @return
+    */
+    public SysQxYhxx jkInit(BasicBean obj, HttpServletRequest request) {
+        setEParam(obj, request);
+        SysQxYhxx user = getUser(request);
+        //TODO 进行权限鉴定，字典类别、数据库、应用、服务器等重要字典类别添加权限控制，没控制的默认可用。
+        return user;
     }
     /**
     * 将用户信息加密，然后重定向到指定url <br/>
