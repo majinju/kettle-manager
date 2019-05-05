@@ -780,7 +780,12 @@ Vue.component('my-srkj', {
     methods : {
         setval : function(field,event) {
             this.$emit('setval', field, event);
-            zdyyzgz(field, event.val,this);
+            if(zdyyzgz(field, event.val,this)&&field.szhd){
+                var sf = strFunToFun(this.field.szhd);
+                if(sf){
+                    sf(event.val,this,event);
+                }
+            }
         }
     },
     created : function() {

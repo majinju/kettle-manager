@@ -20,7 +20,8 @@ var scriptList=[
       serviceAddr+"myui/myutils/shuiyin.js",
       serviceAddr+"myui/myutils/page-vue.js",
       serviceAddr+"myui/jsoneditor/jsoneditor.js",
-      serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js"
+      serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js",
+      serviceAddr+"myui/echarts/echarts-4.2.1-rc.1.js"
    ];
 /**
  * 需要引入的css脚本文件

@@ -10,6 +10,7 @@ import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
+import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.web.QxManager;
 
@@ -64,6 +65,8 @@ public class QxxxLjq extends DefaultLjq{
                 }
             }
             return success("成功修改授权信息数:"+count);
+        case KEY_CLLX_PLSC:
+            return super.plcl(sjdx, params);
         default:
             //执行默认操作
             return super.plcl(sjdx, params);
@@ -78,10 +81,22 @@ public class QxxxLjq extends DefaultLjq{
         String cllx = myparams.getString(KEY_CLLX);
         JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
         if(KEY_CLLX_INSERT.equals(cllx)&&"04".equals(yobj.getString("dzlx"))
-                &&UtilConst.WHETHER_TRUE.equals(yobj.getString("sczqx"))){
+                &&UtilConst.WHETHER_TRUE.equals(yobj.getString("sczqx"))
+                &&StringUtil.isNotBlank(yobj.getString("dz"))){
             //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
             JsonResult r = DefaultLjq.getDefaultSql(t, "sczqx",myparams);
             sqlManager.executeUpdate(r.getMsg(), myparams);
+        }else{
+            String dm = yobj.getString("dm");
+            JSONObject obj = myparams.getJSONObject(KEY_OBJ);
+            if(StringUtil.isNotBlank(dm)){
+                //权限代码调整时，联动调整子权限的代码
+                db.update("update sys_qx_qxxx t set t.dm=replace(t.dm,'"
+                        +obj.getString("dm")+"_','"+dm+"_'),t.fqx=replace(t.fqx,'"
+                        +obj.getString("dm")+"','"+dm
+                        +"'),t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.dm like ?", 
+                        obj.getString("dm")+"_%");
+            }
         }
         return super.saveDb(t, myparams);
     }

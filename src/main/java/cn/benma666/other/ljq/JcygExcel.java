@@ -149,8 +149,9 @@ public class JcygExcel extends ExcelReader {
             shgxs.add(shgx);
             gxs++;
         }
-        if(gxs<2){
-            throw new ExcelReadException("最少录入两个关系信息");
+        String glqtxzlx = jcyg.getString("glqtxzlx");
+        if("1".equals(glqtxzlx)&&gxs<2){
+            throw new ExcelReadException("办理长期证至少需要录入两个关系信息");
         }
         jcyg.put("shgxs", shgxs);
         return jcyg;

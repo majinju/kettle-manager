@@ -11,7 +11,7 @@ function sjdxZdy(vp){
     }
 	vp.methods.getDefaultImpSql=function(){
         var _this=this;
-   	if(!$(_this.$options.el).isValid()){
+   	    if(!$(_this.$options.el).isValid()){
     		return;
     	}else{
                 var _params = {myparams:JSON.stringify(_this.$children[0]._data.updatedata)};
@@ -22,7 +22,7 @@ function sjdxZdy(vp){
     			    Vue.set(_this.fromdata,"zddrsql",data.msg);
     			}else{
     	        	layer.alert(data.msg ? data.msg : "操作失败！", { 
-    	    	   		icon:2       	   		
+    	    	   		icon:2
     	    		});
     			}
     		});

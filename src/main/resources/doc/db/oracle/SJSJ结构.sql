@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2019-04-26 09:27:47
+Date: 2019-04-30 17:21:08
 */
 
 
@@ -378,7 +378,7 @@ CREATE TABLE "SJSJ"."SYS_QX_JGXX" (
 "CJRDWDM" VARCHAR2(32 BYTE) NULL ,
 "JGDM" VARCHAR2(32 BYTE) NULL ,
 "JGMC" VARCHAR2(256 BYTE) NULL ,
-"MCJP" VARCHAR2(128 BYTE) NULL ,
+"MCJP" VARCHAR2(1024 BYTE) NULL ,
 "JGBM" VARCHAR2(256 BYTE) NULL ,
 "JGJC" VARCHAR2(256 BYTE) NULL ,
 "JCJP" VARCHAR2(128 BYTE) NULL ,
@@ -1211,8 +1211,8 @@ CREATE TABLE "SJSJ"."SYS_YXJK_JKRW" (
 "CJRDWDM" VARCHAR2(32 BYTE) NULL ,
 "RWLX" VARCHAR2(32 BYTE) NULL ,
 "JTRW" VARCHAR2(32 BYTE) NULL ,
-"LXRXM" VARCHAR2(64 BYTE) NULL ,
-"LXRDM" VARCHAR2(32 BYTE) NULL ,
+"LXRXM" VARCHAR2(1024 BYTE) NULL ,
+"LXRDM" VARCHAR2(1024 BYTE) NULL ,
 "LXDWMC" VARCHAR2(256 BYTE) NULL ,
 "LXDWDM" VARCHAR2(32 BYTE) NULL ,
 "YLRW" VARCHAR2(512 BYTE) NULL ,
@@ -1317,7 +1317,8 @@ CREATE TABLE "SJSJ"."SYS_YXJK_ZDYSQL" (
 "JP" VARCHAR2(512 BYTE) NULL ,
 "QP" VARCHAR2(512 BYTE) NULL ,
 "SQL" VARCHAR2(4000 BYTE) NULL ,
-"ZT" VARCHAR2(32 BYTE) NULL 
+"ZT" VARCHAR2(32 BYTE) NULL ,
+"SJK" VARCHAR2(128 BYTE) NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -1342,6 +1343,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."JP" IS '简拼';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."QP" IS '全拼';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."SQL" IS '自定义sql';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."ZT" IS '状态@SYS_COMMON_ZT';
+COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."SJK" IS '数据库@SYS_COMMON_SJZT';
 
 -- ----------------------------
 -- View structure for V_XNDX
@@ -1670,9 +1672,18 @@ ALTER TABLE "SJSJ"."SYS_SJGL_YHZDY" ADD CHECK ("ID" IS NOT NULL);
 ALTER TABLE "SJSJ"."SYS_SJGL_YHZDY" ADD PRIMARY KEY ("ID");
 
 -- ----------------------------
+-- Indexes structure for table SYS_XMGL_RWXX
+-- ----------------------------
+
+-- ----------------------------
 -- Checks structure for table SYS_XMGL_RWXX
 -- ----------------------------
 ALTER TABLE "SJSJ"."SYS_XMGL_RWXX" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_XMGL_RWXX
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_XMGL_RWXX" ADD PRIMARY KEY ("ID");
 
 -- ----------------------------
 -- Indexes structure for table SYS_YXJK_JKRW
@@ -1703,6 +1714,15 @@ ALTER TABLE "SJSJ"."SYS_YXJK_XX" ADD CHECK ("ID" IS NOT NULL);
 ALTER TABLE "SJSJ"."SYS_YXJK_XX" ADD PRIMARY KEY ("ID");
 
 -- ----------------------------
+-- Indexes structure for table SYS_YXJK_ZDYSQL
+-- ----------------------------
+
+-- ----------------------------
 -- Checks structure for table SYS_YXJK_ZDYSQL
 -- ----------------------------
 ALTER TABLE "SJSJ"."SYS_YXJK_ZDYSQL" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_YXJK_ZDYSQL
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_YXJK_ZDYSQL" ADD PRIMARY KEY ("ID");
