@@ -1866,6 +1866,183 @@ Vue.component('my-cdym', {
 	}
   });
 </script>
+
+<script type="text/x-tp" id="my-echarts-tp"> 
+<div style="width: 100%;height:100%;position: absolute;"></div>
+</script>
+<script type="text/javascript">
+Vue.component('my-echarts', {
+    props: ['fromdata','sjdxid','pagemodel'],
+    template:"#my-echarts-tp",
+    data: function () {
+      return {
+      }
+    },
+    created : function(){
+        var _this = this;
+        var data = _this._data;
+        var params = {id:_this.sjdxid};
+        params.myparams = JSON.stringify(fromdata);
+ 		$.ajax({url : "sjdx/jcxx.do",
+	      type : "post",
+          async : false,
+          data : params,
+          success:function(result){
+  			if(result.status){
+  			    var rd = result.data;
+			    _this.$root.sjdx = data.sjdx = rd.sjdx;
+			    _this.kzxx = rd.kzxx;
+  			    _this.user = rd.user;
+  			}else{
+	        	redict(result);
+  			  }
+ 			}
+          });
+    },
+    computed : {
+    },
+    methods : {
+        initEcharts:function(){
+          var _this = this;
+
+          //基于准备好的dom，初始化echarts实例
+          var myChart = echarts.init(_this.$el);
+          myChart.showLoading();
+          var data = genData(50);
+
+          option = {
+              title : {
+                  text: '同名数量统计',
+                  subtext: '纯属虚构',
+                  x:'center'
+              },
+              tooltip : {
+                  trigger: 'item',
+                  formatter: "{a} <br/>{b} : {c} ({d}%)"
+              },
+              legend: {
+                  type: 'scroll',
+                  orient: 'vertical',
+                  right: 10,
+                  top: 20,
+                  bottom: 20,
+                  data: data.legendData,
+
+                  selected: data.selected
+              },
+              series : [
+                  {
+                      name: '姓名',
+                      type: 'pie',
+                      //南丁格尔图会通过半径表示数据的大小。
+//                       roseType: 'angle',
+                      radius : '55%',
+                      center: ['40%', '50%'],
+                      data: data.seriesData,
+                      itemStyle: {
+                          emphasis: {
+                              shadowBlur: 10,
+                              shadowOffsetX: 0,
+                              shadowColor: 'rgba(0, 0, 0, 0.5)'
+                          }
+                      }
+                  }
+              ],
+              textStyle: {
+//                   color: 'rgba(255, 255, 255, 0.3)'
+              },
+              label: {
+                  textStyle: {
+//                       color: 'rgba(255, 255, 255, 0.3)'
+                  }
+              },
+              labelLine: {
+                  lineStyle: {
+                      color: 'rgba(0, 0, 255, 0.9)'
+                  }
+              },
+              itemStyle: {
+                  // 设置扇形的颜色
+//                   color: '#c23531',
+                  // 阴影的大小
+                  shadowBlur: 200,
+                  // 阴影水平方向上的偏移
+                  shadowOffsetX: 200,
+                  // 阴影垂直方向上的偏移
+                  shadowOffsetY: 0,
+                  // 阴影颜色
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  //itemStyle的emphasis是鼠标 hover 时候的高亮样式。这个示例里是正常的样式下加阴影，但是可能更多的时候是 hover 的时候通过阴影突出
+                  emphasis: {
+                      shadowBlur: 200,
+                      shadowColor: 'rgba(0, 0, 0, 0.5)'
+                  }
+              },
+//               visualMap: {
+//                   // 不显示 visualMap 组件，只用于明暗度的映射
+//                   show: false,
+//                   // 映射的最小值为 80
+//                   min: 80,
+//                   // 映射的最大值为 600
+//                   max: 600,
+//                   inRange: {
+//                       // 明暗度的范围是 0 到 1
+//                       colorLightness: [0, 1]
+//                   }
+//               }
+          };
+          // 使用刚指定的配置项和数据显示图表。
+          myChart.setOption(option);
+          myChart.setOption({
+//               backgroundColor: '#2c343c'
+          });
+          myChart.hideLoading();
+          
+          function genData(count) {
+              var nameList = [
+                  '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章', '云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '俞', '任', '袁', '柳', '酆', '鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐', '于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚', '邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊', '纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危'
+              ];
+              var legendData = [];
+              var seriesData = [];
+              var selected = {};
+              for (var i = 0; i < 50; i++) {
+                  name = Math.random() > 0.65
+                      ? makeWord(4, 1) + '·' + makeWord(3, 0)
+                      : makeWord(2, 1);
+                  legendData.push(name);
+                  seriesData.push({
+                      name: name,
+                      value: Math.round(Math.random() * 100000),
+                      itemStyle: {
+// 					        color: '#c23531'
+					    }
+                  });
+                  selected[name] = i < 6;
+              }
+
+              return {
+                  legendData: legendData,
+                  seriesData: seriesData,
+                  selected: selected
+              };
+
+              function makeWord(max, min) {
+                  var nameLen = Math.ceil(Math.random() * max + min);
+                  var name = [];
+                  for (var i = 0; i < nameLen; i++) {
+                      name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
+                  }
+                  return name.join('');
+              }
+          }
+        }
+	},
+	mounted:function(){
+        this.initEcharts();
+	}
+  });
+</script>
+
 <script type="text/javascript">
 //vue常用方法
 /**
