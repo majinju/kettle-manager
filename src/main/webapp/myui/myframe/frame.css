@@ -66,7 +66,7 @@ body {
 /* 表单上的按钮 - 右边按钮 */
 .btn-table-right {
     float: right;
-    margin-top:-20px;
+    margin-top:-24px;
 }
 .btn-table-right button:not(:first-child) {
     margin-left: 8px;

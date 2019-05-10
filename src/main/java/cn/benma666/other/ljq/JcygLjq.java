@@ -35,6 +35,7 @@ public class JcygLjq extends DefaultLjq{
     * 员工编号自增id
     */
     private static AutoId ygbh = new AutoId("JCGA_JCYG_YGBH");
+    private JcygExcel er;
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
@@ -45,8 +46,9 @@ public class JcygLjq extends DefaultLjq{
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         switch (cllx) {
         case "clygsj":
+            er = new JcygExcel(sjdx,myParams);
             JSONObject fileObj = yobj.getJSONObject("fileObj");
-            JcygExcel er = new JcygExcel(sjdx,myParams,fileObj);
+            er.setExcelPath(fileObj.getString("sclj"));
             //传入用户信息辅助数据校验
             er.setUser((SysQxYhxx) myParams.get(KEY_USER));
             try {

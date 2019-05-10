@@ -75,11 +75,9 @@ public class JcygExcel extends ExcelReader {
     * Creates a new instance of JcygExcel.
     * @param sjdx 数据对象
     * @param myParams 相关参数
-    * @param fileObj 文件对象
     */
     @SuppressWarnings("unchecked")
-    public JcygExcel(SysSjglSjdx sjdx, JSONObject myParams, JSONObject fileObj) {
-        excelPath = fileObj.getString("sclj");
+    public JcygExcel(SysSjglSjdx sjdx, JSONObject myParams) {
         ygFields = (Map<String, JSONObject>) myParams.get(LjqInterface.KEY_FIELDS);
         shgxParams = (JSONObject) DefaultLjq.getJcxxByDxdm("JCGA_JCYG_SHGX").getData();
         shgxFields = (Map<String, JSONObject>) shgxParams.get(LjqInterface.KEY_FIELDS);
@@ -97,12 +95,11 @@ public class JcygExcel extends ExcelReader {
         ygmbzds = this.fields.size();
         for(int i=0;i<5;i++){
             //模板中支持五个关系
-            for(JSONObject f:shgxFields.values()){
-                if(f.getBooleanValue("mbzs")){
-                    //关系移除非空判断
-                    f.put("hdyzgz", f.getString("hdyzgz").replace("notNull", ""));
-                    this.fields.put(i+"_"+f.getString("zddm"),f);
-                }
+            for(JSONObject f:shgxmbField.values()){
+                f=(JSONObject) f.clone();
+                //关系移除非空判断
+                f.put("hdyzgz", f.getString("hdyzgz").replace("notNull", ""));
+                this.fields.put(i+"_"+f.getString("zddm"),f);
             }
         }
         startRow=1;

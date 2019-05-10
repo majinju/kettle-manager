@@ -45,6 +45,7 @@ public class SjdxController extends BasicController {
     @RequestMapping(value = "/list.do")
     public String list(SysSjglSjdx sjdx,String myparams, Model model, 
             HttpServletRequest request,HttpServletResponse response) {
+        setEParam(sjdx, request);
         result = LjqManager.jcxx(sjdx,myparams,request);
         if(result.isStatus()){
             myParams = (JSONObject) result.getData();
@@ -76,6 +77,7 @@ public class SjdxController extends BasicController {
     @RequestMapping(value = "/edit.do")
     public String edit(SysSjglSjdx sjdx,String myparams, Model model, 
             HttpServletRequest request,HttpServletResponse response) {
+        setEParam(sjdx, request);
         result = LjqManager.jcxx(sjdx,myparams,request);
         if(result.isStatus()){
             myParams = (JSONObject) result.getData();

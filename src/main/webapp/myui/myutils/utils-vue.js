@@ -845,7 +845,7 @@ function strFunToFun(strFun){
  * @param rules 规则
  * @returns {String} 消息内容，为空时表示验证通过
  */
-function myGzyz(value,rules){
+function myGzyz(value,rules,field){
     if(!rules){
         return;
     }
@@ -913,6 +913,14 @@ function myGzyz(value,rules){
                 break;
             case "zd":
                 //字典判断
+                var kzxx = field.kzxx;
+                if(typeof kzxx == "string"){
+                    eval("kzxx="+kzxx);
+                    field.kzxx = kzxx;
+                }
+                if(field&&field.kzxx["字典数据"]){
+                    break;
+                }
                 if(zdObj({zdlb:rr[1],dm:value})==null){
                     msg = "该字典项不存在:"+value;
                 }
@@ -942,10 +950,14 @@ function zdyyzgz(field, value,srkj){
     var rules = field.hdyzgz;
     var msg;
     if(pagemodel!='search'){
-        msg = myGzyz(value,rules);
+        msg = myGzyz(value,rules,field);
     }else{
-        eval("var kzxx="+field.kzxx);
-        msg = myGzyz(value,kzxx['查询验证规则']);
+        var kzxx = field.kzxx;
+        if(typeof kzxx == "string"){
+            eval("kzxx="+kzxx);
+            field.kzxx = kzxx;
+        }
+        msg = myGzyz(value,kzxx['查询验证规则'],field);
     }
     if(msg){
         layer.tips(msg, srkj.$el, {tips:[2, '#c00'],shift:6});
@@ -972,7 +984,7 @@ function myValidFrom(_this,module,fromdata){
         var fromTarget = _this.$root.frommap[fromid];
         var updatedata = _this._data.updatedata;
         for(var i in fromTarget){
-            msg = myGzyz(updatedata[i],fromTarget[i].field.hdyzgz);
+            msg = myGzyz(updatedata[i],fromTarget[i].field.hdyzgz,fromTarget[i].field);
             if(msg){
                 srkj = fromTarget[i].srkj;
                 break;
@@ -984,7 +996,7 @@ function myValidFrom(_this,module,fromdata){
         var updatedata = _this._data.updatedata;
         for(var i in updatedata){
             if(fromTarget[i]){
-                msg = myGzyz(updatedata[i],fromTarget[i].field.hdyzgz);
+                msg = myGzyz(updatedata[i],fromTarget[i].field.hdyzgz,fromTarget[i].field);
                 if(msg){
                     srkj = fromTarget[i].srkj;
                     break;
@@ -999,7 +1011,7 @@ function myValidFrom(_this,module,fromdata){
             for(var i in listEditData[row]){
                 var target = fromTarget["led."+row+"."+i];
                 if(target){
-                    msg = myGzyz(listEditData[row][i],target.field.hdyzgz);
+                    msg = myGzyz(listEditData[row][i],target.field.hdyzgz,target.field);
                     if(msg){
                         srkj = target.srkj;
                         break;
@@ -1014,8 +1026,12 @@ function myValidFrom(_this,module,fromdata){
         var fromid = _this.queryFromid;
         var fromTarget = _this.$root.frommap[fromid];
         for(var i in fromTarget){
-            eval("var kzxx="+fromTarget[i].field.kzxx);
-            msg = myGzyz(fromdata[i],kzxx['查询验证规则']);
+            var kzxx = fromTarget[i].field.kzxx;
+            if(typeof kzxx == "string"){
+                eval("kzxx="+kzxx);
+                field.kzxx = kzxx;
+            }
+            msg = myGzyz(fromdata[i],kzxx['查询验证规则'],fromTarget[i].field);
             if(msg){
                 srkj = fromTarget[i].srkj;
                 break;

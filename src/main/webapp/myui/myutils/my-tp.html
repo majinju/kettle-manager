@@ -431,13 +431,20 @@ Vue.component('my-inputn', {
         var _this =  this;
         _this.target = this.$el;
         var field = this.field;
+        var kzxx = field.kzxx;
+        if(typeof kzxx == "string"){
+            eval("kzxx="+kzxx);
+            field.kzxx = kzxx;
+        }
         if(this.isDict&&this.edit){
             var zdObj = $(this.$el);
             var zdlb = field.zdzdlb;
             var otherParam = field.otherParam||'';
             var data = serviceAddr+"common/zdSearch.do?autoCount=true&zdlb="
                     +zdlb+"&otherParam="+otherParam;
-            if(!(this.field.zdfy=='1')&&zdlb!="SYS_COMMON_ORG"){
+            if(kzxx["字典数据"]){
+                data = kzxx["字典数据"];
+            }else if(!(this.field.zdfy=='1')&&zdlb!="SYS_COMMON_ORG"){
                 var list = zdList(zdlb);
                 if(list){
                 	data = Object.values(list);
@@ -992,6 +999,619 @@ Vue.component('my-td', {
 	}
   });
 </script>
+
+<script type="text/x-tp" id="my-echarts-tp"> 
+<div></div>
+</script>
+<script type="text/javascript">
+Vue.component('my-echarts', {
+    props: ['sjdx','lbmsinfo','rows'],
+    template:"#my-echarts-tp",
+    data: function () {
+      return {
+      }
+    },
+    created : function(){
+        var _this = this;
+    },
+    computed : {
+        kzxx:function(){
+            eval("var kzxx = "+this.sjdx.kzxx);
+            return kzxx;
+        }
+    },
+    watch:{
+        rows:function(newVal,oldVal){
+            var _this = this;
+    		var list = newVal;
+    		var lbmsinfo = _this.lbmsinfo;
+      		var legend = [];
+      		var seriesData = [];
+      		for(var i in list){
+      		    var o = list[i];
+      		    legend.push(o.cjrxm);
+      		  	seriesData.push({name:o.cjrxm,value:o.fwcs});
+      		}
+    		
+    		if(lbmsinfo.dm=='pie'){
+                 _this.myChart.setOption({
+                     legend: {
+                         data: legend,
+                         selected: legend
+                     },
+                     series : [
+                         {
+                             data: seriesData
+                         }
+                     ]
+                 });
+    		}else if(lbmsinfo.dm=='bar'){
+                 _this.myChart.setOption({
+                     xAxis: {
+                         data: legend
+                     },
+                     series : [
+                         {
+                             data: seriesData
+                         }
+                     ]
+                 });
+    		}
+        }
+    },
+    methods : {
+        initEcharts:function(){
+          var _this = this;
+          var sjdx = _this.sjdx;
+
+          //基于准备好的dom，初始化echarts实例
+          _this.myChart = echarts.init(_this.$el);
+          _this.myChart.setOption({"title": {
+              "text": sjdx.dxmc
+            }});
+          if(_this.lbmsinfo.options){
+              _this.myChart.setOption(_this.lbmsinfo.options);
+          }
+        }
+	},
+	mounted:function(){
+        this.initEcharts();
+	}
+  });
+</script>
+<script type="text/x-tp" id="my-zssjdx-tp"> 
+<div class="wrap" v-cloak @keydown="zdcx">
+<ol class="breadcrumb">
+    <li>
+        <i class="icon ion-home"></i>
+    </li>
+    <li class="active">{{sjdx.dxmc}}</li>
+</ol>
+<div>
+<div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;">
+<ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
+</div>
+<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 200px));':''">
+<my-from class="queryForm" :fromdata="fromdata" pagemodel="search" :fromid='queryFromid'
+	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
+  <div class="row btn-right">
+      <button class="btn btn-primary btn-sm" type="button" @click="listPage.queryPage()">
+          <i class="icon ion-ios-search-strong"></i> {{cxanmc||'查询'}}
+      </button>
+  </div>
+</my-from>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">数据展示</h3>
+        <div class="btn-table-left">
+			<button v-if="lbymkz('my-istree')" class="btn btn-primary btn-sm" @click="reloadTree">
+        		<i class="icon ion-refresh"></i> 重载树
+    		</button>
+			<button v-if="lbkbj=='1'&&lbms=='list'" class="btn btn-primary btn-sm" @click="saveListData"><i class="glyphicon glyphicon-floppy-disk"></i> 保存数据</button>
+	        <button v-if="qxByQxm('XZQX')&&lbms=='list'" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?dxdm='+sjdx.dxdm+'&pagemodel=add'"
+				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'><i class="icon ion-ios-plus-outline"></i> {{xjanmc||'新建'}}</button>
+	        <button v-if="qxByQxm('PLSC')&&lbms=='list'" class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> {{plscanmc||'批量删除'}}</button>
+	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')&&lbmsVal=='list'" class="btn btn-primary btn-sm" 
+				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
+	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
+			<my-file v-if="qxByQxm('SJPLSC')&&lbms=='list'" edit="true" :field="sjplscfield" @setval="sjplsc">
+				批量上传<i style="margin-left: 5px;" 
+			    	class="icon ion-ios-help-outline plscTitle" 
+			    	@mouseover="plscTitle(this)"></i>
+			</my-file>
+			<button v-if="qxByQxm('MBXZ')&&lbms=='list'" class="btn btn-primary btn-sm" @click="downloadTemplate()">
+				<i class="icon ion-arrow-down-a"></i> 
+				模板下载<i style="margin-left: 5px;" 
+			    	class="icon ion-ios-help-outline plscmbTitle" 
+			    	@mouseover="plscmbTitle()"></i>
+			</button>
+	        <button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
+	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
+	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
+	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
+			<slot></slot>
+        </div>
+        <div class="btn-table-right">
+			<button v-if="qxByQxm('DCDQY')&&lbms=='list'" class="btn btn-default btn-sm" type="button"
+				@click="expe"><i class="icon ion-ios-redo-outline"></i> 导出当前页</button>
+			<button v-if="qxByQxm('DCQB')&&lbms=='list'" class="btn btn-default btn-sm" type="button"
+				@click="expeAll"><i class="icon ion-ios-redo"></i> 导出全部</button>
+			<my-srkj v-if="lbmsfield.kzxx['字典数据']" :field="lbmsfield" index="1" 
+				@setval="lbmssetval" :value="lbms" pagemodel="add" 
+				style="display: inline-block;width: 80px;margin-left: 8px;">
+			</my-srkj>
+    	</div>
+	</div>
+	<!--查询结果展示区 -->
+	<div :style="lbms=='list'?'':'display: none;'" class="panel-body exportDiv" style="overflow: auto;">
+	    <table class="table table-striped table-bordered table-hover">
+	        <thead>
+	            <tr class="listHard">
+	                <th is="my-th" v-for="(field,key,index) in lbfields" 
+						:field="fieldBt(field)" @setvalTh="setvalTh"></th>
+	            </tr>
+	        </thead>
+	        <tbody class="listContent">
+		        <tr v-for="(row,ri) in rows" :class="'listrow '">
+	                <td is="my-td"  v-for="(field,key,index) in lbfields"
+	                	:key="'led'+ri+field.zddm" 
+	                	:id="'led'+ri+field.zddm" 
+						:fromid="listFromid"
+	                	:field="field" :ri="ri" :index="index"
+	                	:row="row" :pagemodel="lbkbj=='1'?'bjlist':'cklist'"
+	                	:owner="'led.'+ri+'.'" 
+						:value="fval(row,field)"
+	                	:class="((lbkbj=='1'&&listEditData[ri][field.zddm]!=null)?'edited':'')"
+		                @setval="setvalList"
+	                ></td>
+				</tr>
+				<tr v-if="rows==0"><td :colspan="lbls">没有查询结果</td></tr>
+	        </tbody>
+	    </table>
+	</div>
+	<div :style="lbms=='pie'?'':'display: none;'">
+		<my-echarts :sjdx="sjdx" :lbmsinfo="lbmsinfo('pie')" :rows="rows"
+			style="width: 500px;height:500px;position: absolute;margin-left: 100px;">
+		</my-echarts>
+	</div>
+	<div :style="lbms=='bar'?'':'display: none;'">
+		<my-echarts :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar')" :rows="rows"
+			style="width: 500px;height:500px;position: absolute;margin-left: 100px;">
+		</my-echarts>
+	</div>
+	<!--分页渲染后放到这个元素中 -->
+	<div :style="lbmsVal=='list'?'':'display: none;'"
+		 class="row pagination width_100">
+	</div> 
+ </div>
+</div>
+</div>
+</div>
+</script>
+<script type="text/javascript">
+//导出excel按钮控件
+Vue.component('my-zssjdx', {
+    props: ['fromdata','sjdxid'],
+    template:"#my-zssjdx-tp",
+    data: function () {
+        return {
+            rows:[],
+            listPage:new PageAjax(),
+            listEditData:[],
+            sjplscfield:{
+                    kzxx:{
+                        file:{
+                            ywdm:"other",
+                            wjlb:"other"
+                        }
+                    }
+                },
+                lbmsVal:null,
+             lbmsfield:{
+                "bjzs": "1",
+                "gxsj": "20181219101612",
+                "xzmrz": "list",
+                "cjsj": "20181211224727",
+                "kzxx": {},
+                "id": "862C5DD21DFD4E03ABE18D5431A34369",
+                "xzzs": "1",
+                "zdlx": "VARCHAR2",
+                "zdzdlb": "SYS_SJGL_LBMS",
+                "sjdx": "SYS_SJGL_SJDX",
+                "hdyzgz": "notNull;zd:SYS_SJGL_LBMS;",
+                "zdcd": 8,
+                "yxx": "1",
+                "zddm": "my-lbms",
+                "yxpx": "0",
+                "zdqp": "YOUXIAOXING",
+                "zdmc": "列表模式",
+                "zdkd": 80,
+                "cxbt": "0",
+                "mbzs": "1",
+                "cxzs": "1",
+                "zdfy": "0",
+                "zddx": "0",
+                "lbzs": "0",
+                "cxmrz": "1",
+                "zdjp": "YXX",
+                "yxbj": "1",
+                "xqzs": "1",
+                "kjlx": "dict",
+                "px": 370,
+                "bjbt": "1"
+            }
+        }
+      },
+      created : function(){
+          var _this = this;
+          this.$root.listPage = this.listPage;
+          var data = this.$data;
+   		  $.ajax({url : "sjdx/jcxx.do",
+	        type : "post",
+            async : false,
+            data : {id:this.sjdxid},
+            success:function(result){
+    			if(result.status){
+    			    var rd = result.data;
+    			    _this.$root.sjdx = data.sjdx = rd.sjdx;
+    			    _this.$root.fields = data.fields = rd.fields;
+    			    data.user = rd.user;
+    			    data.kzxx = rd.kzxx;
+    			    var lbymkz = rd.kzxx.lbymkz;
+    			    if(lbymkz&&lbymkz["列表模式字典数据"]){
+    			        data.lbmsfield.kzxx["字典数据"]=lbymkz["列表模式字典数据"];
+    			    }
+      			    _this.$root.frommap[_this.queryFromid]={};
+      			    _this.$root.frommap[_this.listFromid]={};
+    			}else{
+    	        	redict(result);
+    			}
+   			}});
+          data.action=this.action;
+      	},
+	      computed : {
+	          dcpcl:function (){
+	              var dcpcl = fromdata['my-dcpcl'];
+	              if(!dcpcl&&this._data.kzxx.lbymkz){
+	                  dcpcl = this._data.kzxx.lbymkz['my-dcpcl'];
+	              }
+	              return dcpcl||",操作,序号";
+	          },
+	             defaultLbms:function (){
+		              var lbmsVal = fromdata['my-lbms'];
+		              if(!lbmsVal&&this._data.kzxx.lbymkz){
+		                  lbmsVal = this._data.kzxx.lbymkz['my-lbms'];
+		              }
+		              if(!lbmsVal){
+		                  lbmsVal = "list";
+		              }
+		              return lbmsVal;
+		          },
+		          lbms:function(){
+		              if(this.lbmsVal){
+		                  return this.lbmsVal;
+		              }else{
+		                  return this.defaultLbms;
+		              }
+		          },
+	          cxanmc:function (){
+	              var anmc = fromdata['my-cxanmc'];
+	              if(!anmc&&this._data.kzxx.lbymkz){
+	                  anmc = this._data.kzxx.lbymkz['my-cxanmc'];
+	              }
+	              return anmc;
+	          },
+	          xjanmc:function (){
+	              var anmc = fromdata['my-xjanmc'];
+	              if(!anmc&&this._data.kzxx.lbymkz){
+	                  anmc = this._data.kzxx.lbymkz['my-xjanmc'];
+	              }
+	              return anmc;
+	          },
+	          plscanmc:function (){
+	              var anmc = fromdata['my-plscanmc'];
+	              if(!anmc&&this._data.kzxx.lbymkz){
+	                  anmc = this._data.kzxx.lbymkz['my-plscanmc'];
+	              }
+	              return anmc;
+	          },
+	          lbkbj:function (){
+	              var lbkbj = fromdata['my-lbkbj'];
+	              if(!lbkbj&&this._data.kzxx.lbymkz){
+	                  lbkbj = this._data.kzxx.lbymkz['my-lbkbj'];
+	              }
+	              return lbkbj;
+	          },
+	          fields : function (){ return this._data.fields;},
+	          sjdx : function (){
+					return this._data.sjdx;
+				},
+	          queryFromid : function (){ return "queryFromid-"+this.sjdx.id;},
+	          listFromid : function (){ return "listFromid-"+this.sjdx.id;},
+			  myFromStyle : function (){
+			      var style = "";
+			      var isCxtj = true;
+	              if(fromdata['my-cxtj']!=undefined){
+	                  isCxtj = fromdata['my-cxtj']!='0';
+	              }else{
+	                  isCxtj = this._data.sjdx.cxtj!='0';
+	              }
+	              if(!isCxtj||!this.qxByQxm("CXQX")){
+	                  style+="display: none;";
+	              }
+	              return style;
+				},
+		      lbfields : function (){ return clone(this._data.fields);},
+	          action:function (){ return "sjdx/page.do?dxdm="+this._data.sjdx.dxdm;},
+	          lbls:function (){
+	              var num=0;
+	              var sfs = this.fields;
+	              Object.keys(sfs).forEach(function(key){
+	                  if(!(sfs[key].lbzs==false)){
+	                      num++;
+	                  }
+	             });
+	             return num;
+	          },
+		      bjmsUrl:function(){
+		          var data = clone(fromdata);
+		          data["my-lbkbj"] = "1";
+	              return encodeURI(JSON.stringify(data));
+		      },
+		      pzzdUrl:function(){
+	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,dxmc:this.sjdx.dxmc,'my-lbkbj':'1'}));
+		      },
+	          addUrl:function(){
+	              return encodeURI(JSON.stringify({"sjdx":this.sjdx.id}));
+	          },
+	          pzdxUrl:function(){
+	              return encodeURI(JSON.stringify({"id":this.sjdx.id}));
+	          }
+	      },
+        methods : {
+            zdcx:function(){
+                var e = event || window.event || arguments.callee.caller.arguments[0];
+                if(e && e.keyCode==13){ // enter 键
+                    this.listPage.queryPage();
+                }
+            },
+	          lbmsinfo:function(lbms){
+	              var lbmszd = this.lbmsfield.kzxx["字典数据"];
+	              for(var i in lbmszd){
+	                  if(lbmszd[i].dm==lbms){
+	                      return lbmszd[i];
+	                  }
+	              }
+	              return {};
+	          },
+            plscTitle:function(){
+            	layer.tips("请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功",
+            	        $(this.$el).find(".plscTitle"));
+            },
+	        plscmbTitle:function(){
+            	layer.tips("请严格按照模板填充数据，注意模板中的提示信息",$(this.$el).find(".plscmbTitle"));
+            },
+            downloadTemplate:function(){
+            	//下载模板
+            	$.download("sjdx/getMb.do?dxdm="+this._data.sjdx.dxdm,{});
+            },
+	        expe:function(){
+	            ExportExcel.saveAsExcel(this.$root.listPage,this.sjdx.dxmc+"-当前页",this.dcpcl);
+	        },
+	        expeAll:function(){
+	            ExportExcel.exportAll(this.$root.listPage,this.sjdx.dxmc+"-全部",this.dcpcl);
+	        },
+	          qxByQxm : function (qxm){
+					var user = this._data.user;
+					return user.qxMap[user.map[this.sjdx.dxdm]+"_"+qxm];
+				},
+	          lbymkz:function (kznr){
+	              var k = fromdata[kznr];
+	              if(!k&&this._data.kzxx.lbymkz){
+	                  k = this._data.kzxx.lbymkz[kznr];
+	              }
+	              return k;
+	          },
+	        fieldBt:function(field){
+	            //判断是否必填
+	            field.btzt = (this.lbkbj=='1'&&field.bjbt=='1');
+	            field.lbkbj=(this.lbkbj=='1');
+	            return field;
+	        },
+		    fval:function(row,field){
+		        if(row[field.zddm]){
+		            return row[field.zddm];
+		        }else{
+		            return field.xzmrz;
+		        }
+		    },
+            setval:function(field,event){
+                this.fromdata[field.zddm] = event.val;
+                if(event.target.mc){
+                    this.fromdata['map.'+field.zddm]=event.mc;
+                }
+                console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
+             },
+             lbmssetval:function(field,event){
+                this.lbmsVal = event.val;
+             },
+             setvalTh:function(field,event){
+                 var _this = this;
+                 var ed = _this.listEditData;
+                 for(var i=0;i<ed.length;i++){
+                     event.ri=i;
+                     _this.setvalList(field, event,_this);
+                     _this.rows[i][field.zddm]=event.val;
+                 }
+             },
+             setvalList:function(field,event,_this){
+                 if(!_this){
+                     _this = this;
+                 }
+                var r = event.ri;
+                if(_this.listEditData[r][field.zddm]||_this.listPage.rows[r][field.zddm]!=event.val){
+                    Vue.set(_this.listEditData[r],field.zddm,event.val);
+                    if(field.zdywlb!='99'){
+                        //非虚拟字段
+                        Vue.set(_this.listEditData[r],'my-ybj',"1");
+                    }
+                    if(event.mc){
+                        _this.listEditData[r]['map.'+field.zddm]=event.mc;
+                    }
+                    console.log(r+"-"+field.zdmc+ "=" + _this.listEditData[r][field.zddm]);
+                }
+              },
+	        plcl:function(cllx,_this,options){
+	            if(!_this){
+		            _this = this;
+	            }
+	            if(!options){
+	                options={};
+	            }
+                var ed = _this.listEditData;
+                var ids = "";
+                for(var i=0;i<ed.length;i++){
+					if(ed[i]['my-lbxz']=='1'){
+					    ids=ids+","+ed[i][_this.sjdx.zjzd];
+					}
+                }
+                if(ids==""&&!(options.bxlbh==false)){
+                    alertError("请选择要操作行");
+                    return;
+                }
+                options.id=_this.sjdx.id;
+                options['e_cllx']=cllx;
+                options['e_ids']=ids.substring(1);
+            	var loadindex = layer.load(0,{
+            		shade: [0.3]
+            	});
+	            ajax('sjdx/plcl.do',{
+	                fromdata:options,
+	                qrts:options.qrts,
+	                success:function(data){
+		                alertInfoYes(data,function(){
+	        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
+						});
+		                layer.close(loadindex);
+	                }
+	            });
+	        },
+            sjplsc:function(field,e){
+                this.plcl("sjplsc",null,{"e_file":JSON.stringify(e.rep),"bxlbh":false,"qrts":false});
+            },
+              saveListData:function(){
+                  var _this = this;
+                  fromdata.id=_this._data.sjdx.id;
+                  if(!myValidFrom(_this,'saveList')){
+                      return;
+                  }
+                  fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
+	              qrtsAjax("sjdx/saveListData.do",fromdata,function(data){
+            	   	alertInfoYes(data,function(){
+	    			    _this.listPage.refreshPage();
+					});
+	              });
+              },
+              reloadTree:function(){
+                  var _this = this;
+                  var zTree = $.fn.zTree.getZTreeObj('leftTree-'+_this.sjdx.id),
+					type = "refresh",
+					silent = false,
+					nodes = zTree.getSelectedNodes();
+					if (nodes.length == 0) {
+						alertInfo("请先选择一个父节点");
+					}
+					for (var i=0, l=nodes.length; i<l; i++) {
+						zTree.reAsyncChildNodes(nodes[i], type, silent);
+						if (!silent) zTree.selectNode(nodes[i]);
+					}
+              },
+              initTree:function(){
+                    var _this = this;
+		            if(!_this.lbymkz("my-istree")){
+		                return;
+		            }
+		            var fjd = "fjd";
+		            if(_this.lbymkz("fjdzddm")){
+		                fjd = _this.lbymkz("fjdzddm");
+		            }
+                  	var setting = {
+              			data: {
+              				simpleData: {
+              					enable: true
+              				}
+              			},
+              			view:{
+          				    fontCss: setNode,
+              			    showLine:true,
+              			    showIcon:true,
+              			    nameIsHTML:true
+              			},
+              			async: {
+              				enable: true,
+              				url:"sjdx/getdata.do?dxdm="+_this.sjdx.dxdm,
+              				autoParam:["dm=e_"+fjd],
+              				otherParam:{"e_cllx":"getTreeCN"},
+              				dataFilter: treefilter
+              			},
+              			callback: {
+              				onClick: treeClick
+              			}
+              		};
+					//树节点的单击事件
+	          		function treeClick(event, treeId, treeNode, clickFlag) {
+					    Vue.set(_this.fromdata,fjd,treeNode.dm);
+	          		}
+	          		//处理后台返回的数据
+	          		function treefilter(treeId, parentNode, rep) {
+	          			if (!rep.status) return null;
+	          			var list = rep.data.list;
+	          			for (var i=0, l=list.length; i<l; i++) {
+	          				list[i].isParent=(list[i].parent>0)
+	          			}
+	          			return list;
+	          		}
+	          		//节点展示前的处理
+	                function setNode(treeId, node) {
+	                    if(node.myIcon){
+	                        node.name='<i class="icon '+node.myIcon+'" style="color:red;"></i> '+node.name;
+	                    }
+	                    if(node.icon){
+	                        node.icon="common/download.do?id="+node.icon;
+	                    }
+	          			return {};
+	          		}
+		            $.fn.zTree.init($('#leftTree-'+_this.sjdx.id), setting);
+              }
+        },
+        mounted: function () {
+            var _this = this;
+            this.listPage.setPageId("#"+this.$el.id);
+            this.listPage.paramType = "jsonStr";
+            this.listPage.listFrom = _this;
+            this.listPage.exportUrl = "sjdx/export.do?dxdm="+_this.sjdx.dxdm;
+            this.listPage.totalDelay = _this.sjdx.fytjxs;
+            if(typeof(initPage)=='function'){
+                initPage(this.listPage);
+            }
+            this.listPage.callback = function(data){
+                var rows = data.list;
+                _this.listEditData = [];
+                for(var i=0;i<rows.length;i++){
+   	              var p = {};
+ 	              p[_this.sjdx.zjzd]=rows[i][_this.sjdx.zjzd];
+                  _this.listEditData.push(p);
+                  rows[i]['my-lbxz']='0';
+                }
+            }
+            if(!(_this.sjdx.cscx=='0')){
+                this.listPage.queryPage();
+            }
+            //初始化左侧树
+            _this.initTree();
+        }
+  });
+</script>
 <script type="text/x-tp" id="my-list-tp"> 
 <div class="wrap" v-cloak @keydown="zdcx">
 <ol class="breadcrumb">
@@ -1015,7 +1635,7 @@ Vue.component('my-td', {
 </my-from>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">数据列表</h3>
+        <h3 class="panel-title">数据展示</h3>
         <div class="btn-table-left">
 			<button v-if="lbymkz('my-istree')" class="btn btn-primary btn-sm" @click="reloadTree">
         		<i class="icon ion-refresh"></i> 重载树
@@ -1027,11 +1647,11 @@ Vue.component('my-td', {
 	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
-			<my-file v-if="qxByQxm('SJPLSC')" edit="true" :field="field" @setval="sjplsc">
+			<my-file v-if="qxByQxm('SJPLSC')" edit="true" :field="sjplscfield" @setval="sjplsc">
 				批量上传<i style="margin-left: 5px;" 
 			    	class="icon ion-ios-help-outline plscTitle" 
 			    	@mouseover="plscTitle(this)"></i>
-			</my-file>	
+			</my-file>
 			<button v-if="qxByQxm('MBXZ')" class="btn btn-primary btn-sm" @click="downloadTemplate()">
 				<i class="icon ion-arrow-down-a"></i> 
 				模板下载<i style="margin-left: 5px;" 
@@ -1075,7 +1695,7 @@ Vue.component('my-td', {
 				</tr>
 				<tr v-if="rows==0"><td :colspan="lbls">没有查询结果</td></tr>
 	        </tbody>
-	    </table>                   
+	    </table>
 	</div>
 	<!--分页渲染后放到这个元素中 -->
 	<div class="row pagination width_100">
@@ -1092,12 +1712,10 @@ Vue.component('my-list', {
     template:"#my-list-tp",
     data: function () {
         return {
-            upurl:serviceAddr+"common/common/uploadFile.do",
-            downurl:serviceAddr+"common/common/downloadFile.do",
             rows:[],
             listPage:new PageAjax(),
             listEditData:[],
-            field:{
+            sjplscfield:{
                     kzxx:{
                         file:{
                             ywdm:"other",
@@ -1261,6 +1879,13 @@ Vue.component('my-list', {
 		        }
 		    },
             setval:function(field,event){
+                this.fromdata[field.zddm] = event.val;
+                if(event.target.mc){
+                    this.fromdata['map.'+field.zddm]=event.mc;
+                }
+                console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
+             },
+             lbmssetval:function(field,event){
                 this.fromdata[field.zddm] = event.val;
                 if(event.target.mc){
                     this.fromdata['map.'+field.zddm]=event.mc;
@@ -1701,8 +2326,8 @@ Vue.component('my-dlym', {
 			<ul :id="'leftTree-'+sjdxid" class="ztree" style="overflow-y: auto; height: calc(( 100% - 30px));background-color: lightyellow;"></ul>
 		</div>
 		<div class="right" style="height: 100%;width: calc(( 100% - 150px ));float: left;">
-			<iframe id="gnIframe" style="width: 100%;height: 100%;overflow: scroll;border: snow;"
-				@load="centerLoad"></iframe>
+			<iframe v-for="(cd,ri) in openCd" :class="'gnIframe '+cd.id"
+				:style="cdRightStyle(cd.id)" :src="cd.src" @load="centerLoad"></iframe>
 		</div>
 	</div>
 	<div class="bottom" style="height: 30px;width: 100%;text-align: center;border-top: solid #c9bdf6;">
@@ -1716,6 +2341,8 @@ Vue.component('my-cdym', {
     template:"#my-cdym-tp",
     data: function () {
       return {
+          openCd:[],
+          showCd:""
       }
     },
     created : function(){
@@ -1753,6 +2380,13 @@ Vue.component('my-cdym', {
             this.centerLoadingId = layer.load(0,{
         		shade: [0.3]
         	});
+        },
+        cdRightStyle:function(dm){
+            var style = "width: 100%;height: 100%;overflow: scroll;border: snow;";
+            if(dm!=this.showCd){
+                style+="display: none;";
+            }
+            return style;
         },
         tuichu:function(){
             window.location.href="sjdx/edit.do?pagemodel=add&dxdm="+this.kzxx['菜单信息']['登陆对象'];
@@ -1804,8 +2438,11 @@ Vue.component('my-cdym', {
         		}else if(treeNode.dzlx=='02'){
         			//绝对地址
         		    mbdz = treeNode.dz;
-        		}else if(treeNode.dzlx=='04'){
+        		}else if(treeNode.dzlx=='03'){
         			//数据对象
+        			mbdz = "sjdx.do?dxdm="+treeNode.dz;
+        		}else if(treeNode.dzlx=='04'){
+        			//数据对象列表
         			mbdz = "sjdx/list.do?dxdm="+treeNode.dz;
         		}else{
         			alert('暂未实现');
@@ -1819,8 +2456,14 @@ Vue.component('my-cdym', {
         		    //添加权限编码
 				    mbdz += "authCode="+treeNode.dm;
         		    if(treeNode.dkfs=='01'){
-    				    _this.centerLoading();
-            			$("#gnIframe").attr("src",mbdz);
+        		        if($(_this.$el).find(".gnIframe."+treeNode.id).length==0){
+        		            _this.centerLoading();
+        		            _this.openCd.push({id:treeNode.id,src:mbdz});
+        		        }else if(_this.showCd == treeNode.id){
+        		            _this.centerLoading();
+        		            $(_this.$el).find(".gnIframe."+treeNode.id).attr("src",mbdz);
+        		        }
+    		            _this.showCd = treeNode.id;
         		    }else if(treeNode.dkfs=='02'){
             			window.open(mbdz);
         		    }else if(treeNode.dkfs=='03'){
@@ -1863,182 +2506,6 @@ Vue.component('my-cdym', {
 	},
 	mounted:function(){
         this.initTree();
-	}
-  });
-</script>
-
-<script type="text/x-tp" id="my-echarts-tp"> 
-<div style="width: 100%;height:100%;position: absolute;"></div>
-</script>
-<script type="text/javascript">
-Vue.component('my-echarts', {
-    props: ['fromdata','sjdxid','pagemodel'],
-    template:"#my-echarts-tp",
-    data: function () {
-      return {
-      }
-    },
-    created : function(){
-        var _this = this;
-        var data = _this._data;
-        var params = {id:_this.sjdxid};
-        params.myparams = JSON.stringify(fromdata);
- 		$.ajax({url : "sjdx/jcxx.do",
-	      type : "post",
-          async : false,
-          data : params,
-          success:function(result){
-  			if(result.status){
-  			    var rd = result.data;
-			    _this.$root.sjdx = data.sjdx = rd.sjdx;
-			    _this.kzxx = rd.kzxx;
-  			    _this.user = rd.user;
-  			}else{
-	        	redict(result);
-  			  }
- 			}
-          });
-    },
-    computed : {
-    },
-    methods : {
-        initEcharts:function(){
-          var _this = this;
-
-          //基于准备好的dom，初始化echarts实例
-          var myChart = echarts.init(_this.$el);
-          myChart.showLoading();
-          var data = genData(50);
-
-          option = {
-              title : {
-                  text: '同名数量统计',
-                  subtext: '纯属虚构',
-                  x:'center'
-              },
-              tooltip : {
-                  trigger: 'item',
-                  formatter: "{a} <br/>{b} : {c} ({d}%)"
-              },
-              legend: {
-                  type: 'scroll',
-                  orient: 'vertical',
-                  right: 10,
-                  top: 20,
-                  bottom: 20,
-                  data: data.legendData,
-
-                  selected: data.selected
-              },
-              series : [
-                  {
-                      name: '姓名',
-                      type: 'pie',
-                      //南丁格尔图会通过半径表示数据的大小。
-//                       roseType: 'angle',
-                      radius : '55%',
-                      center: ['40%', '50%'],
-                      data: data.seriesData,
-                      itemStyle: {
-                          emphasis: {
-                              shadowBlur: 10,
-                              shadowOffsetX: 0,
-                              shadowColor: 'rgba(0, 0, 0, 0.5)'
-                          }
-                      }
-                  }
-              ],
-              textStyle: {
-//                   color: 'rgba(255, 255, 255, 0.3)'
-              },
-              label: {
-                  textStyle: {
-//                       color: 'rgba(255, 255, 255, 0.3)'
-                  }
-              },
-              labelLine: {
-                  lineStyle: {
-                      color: 'rgba(0, 0, 255, 0.9)'
-                  }
-              },
-              itemStyle: {
-                  // 设置扇形的颜色
-//                   color: '#c23531',
-                  // 阴影的大小
-                  shadowBlur: 200,
-                  // 阴影水平方向上的偏移
-                  shadowOffsetX: 200,
-                  // 阴影垂直方向上的偏移
-                  shadowOffsetY: 0,
-                  // 阴影颜色
-                  shadowColor: 'rgba(0, 0, 0, 0.5)',
-                  //itemStyle的emphasis是鼠标 hover 时候的高亮样式。这个示例里是正常的样式下加阴影，但是可能更多的时候是 hover 的时候通过阴影突出
-                  emphasis: {
-                      shadowBlur: 200,
-                      shadowColor: 'rgba(0, 0, 0, 0.5)'
-                  }
-              },
-//               visualMap: {
-//                   // 不显示 visualMap 组件，只用于明暗度的映射
-//                   show: false,
-//                   // 映射的最小值为 80
-//                   min: 80,
-//                   // 映射的最大值为 600
-//                   max: 600,
-//                   inRange: {
-//                       // 明暗度的范围是 0 到 1
-//                       colorLightness: [0, 1]
-//                   }
-//               }
-          };
-          // 使用刚指定的配置项和数据显示图表。
-          myChart.setOption(option);
-          myChart.setOption({
-//               backgroundColor: '#2c343c'
-          });
-          myChart.hideLoading();
-          
-          function genData(count) {
-              var nameList = [
-                  '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章', '云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '俞', '任', '袁', '柳', '酆', '鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐', '于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚', '邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊', '纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危'
-              ];
-              var legendData = [];
-              var seriesData = [];
-              var selected = {};
-              for (var i = 0; i < 50; i++) {
-                  name = Math.random() > 0.65
-                      ? makeWord(4, 1) + '·' + makeWord(3, 0)
-                      : makeWord(2, 1);
-                  legendData.push(name);
-                  seriesData.push({
-                      name: name,
-                      value: Math.round(Math.random() * 100000),
-                      itemStyle: {
-// 					        color: '#c23531'
-					    }
-                  });
-                  selected[name] = i < 6;
-              }
-
-              return {
-                  legendData: legendData,
-                  seriesData: seriesData,
-                  selected: selected
-              };
-
-              function makeWord(max, min) {
-                  var nameLen = Math.ceil(Math.random() * max + min);
-                  var name = [];
-                  for (var i = 0; i < nameLen; i++) {
-                      name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
-                  }
-                  return name.join('');
-              }
-          }
-        }
-	},
-	mounted:function(){
-        this.initEcharts();
 	}
   });
 </script>

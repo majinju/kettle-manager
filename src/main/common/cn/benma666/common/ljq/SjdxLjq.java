@@ -272,6 +272,7 @@ public class SjdxLjq extends DefaultLjq{
                         //自动进行字典的一些常见设置
                         zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_DICT);
                     }
+                    zd.setZdms(zdms1[0]);
                 }else if(zdms1[0].indexOf("时间")>-1){
                     //时间字段的默认设置
                     zd.setKjlx("time");

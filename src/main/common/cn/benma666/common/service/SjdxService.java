@@ -33,39 +33,39 @@ public class SjdxService extends BasicService{
     * @author jingma
     * @param sjdx
     * @param user 
-    * @param myJsonParams
+    * @param myParams
     */
-    public JsonResult txPlcl(SysSjglSjdx sjdx, JSONObject myJsonParams) {
+    public JsonResult txPlcl(SysSjglSjdx sjdx, JSONObject myParams) {
         Object ids = sjdx.get(LjqInterface.KEY_IDS);
         if(ids!=null){
-            myJsonParams.put(LjqInterface.KEY_IDS_IN, " in ('"+ids.toString().replace(",", "','")+"')");
-            myJsonParams.put(LjqInterface.KEY_IDS_ARRAY, ids.toString().split(","));
+            myParams.put(LjqInterface.KEY_IDS_IN, " in ('"+ids.toString().replace(",", "','")+"')");
+            myParams.put(LjqInterface.KEY_IDS_ARRAY, ids.toString().split(","));
         }
         Object cllxObj = sjdx.get(LjqInterface.KEY_CLLX);
         if(cllxObj==null){
             return error("操作失败：没有配置处理类型");
         }else{
-            myJsonParams.put(LjqInterface.KEY_CLLX, cllxObj.toString());
+            myParams.put(LjqInterface.KEY_CLLX, cllxObj.toString());
         }
-        sjdx = (SysSjglSjdx)myJsonParams.get(LjqInterface.KEY_SJDX);
-        return LjqManager.plcl(sjdx,myJsonParams);
+        sjdx = (SysSjglSjdx)myParams.get(LjqInterface.KEY_SJDX);
+        return LjqManager.plcl(sjdx,myParams);
     }
     
     /**
     * 批量保存列表数据 <br/>
     * @author jingma
     * @param dbSjdx
-    * @param myJsonParams
+    * @param myParams
     * @return
     */
-    public JsonResult txSaveListData(SysSjglSjdx dbSjdx, JSONObject myJsonParams) {
+    public JsonResult txSaveListData(SysSjglSjdx dbSjdx, JSONObject myParams) {
         //JSON对象
-        JSONArray dataArr = myJsonParams.getJSONObject(LjqInterface.KEY_YOBJ).getJSONArray("listEditData");
+        JSONArray dataArr = myParams.getJSONObject(LjqInterface.KEY_YOBJ).getJSONArray("listEditData");
         int count=0;
         for(JSONObject obj:dataArr.toArray(new JSONObject[]{})){
             if(UtilConst.WHETHER_TRUE.equals(obj.getString("my-ybj"))){
-                myJsonParams.put(LjqInterface.KEY_YOBJ, obj);
-                LjqManager.save(dbSjdx, myJsonParams);
+                myParams.put(LjqInterface.KEY_YOBJ, obj);
+                LjqManager.save(dbSjdx, myParams);
                 count++;
             }
         }
@@ -76,23 +76,22 @@ public class SjdxService extends BasicService{
     *  <br/>
     * @author jingma
     * @param dbSjdx
-    * @param myJsonParams
+    * @param myParams
     * @return
     */
-    public JsonResult getdata(SysSjglSjdx sjdx, JSONObject myJsonParams) {
+    public JsonResult getdata(SysSjglSjdx sjdx, JSONObject myParams) {
         Object ids = sjdx.get(LjqInterface.KEY_IDS);
         if(ids!=null){
-            myJsonParams.put(LjqInterface.KEY_IDS_IN, " in ('"+ids.toString().replace(",", "','")+"')");
-            myJsonParams.put(LjqInterface.KEY_IDS_ARRAY, ids.toString().split(","));
+            myParams.put(LjqInterface.KEY_IDS_IN, " in ('"+ids.toString().replace(",", "','")+"')");
+            myParams.put(LjqInterface.KEY_IDS_ARRAY, ids.toString().split(","));
         }
         Object cllxObj = sjdx.get(LjqInterface.KEY_CLLX);
         if(cllxObj==null){
-            return error("操作失败：没有配置处理类型");
-        }else{
-            myJsonParams.put(LjqInterface.KEY_CLLX, cllxObj.toString());
+            cllxObj = LjqInterface.KEY_CLLX_GETDATA;
         }
-        sjdx = (SysSjglSjdx)myJsonParams.get(LjqInterface.KEY_SJDX);
-        return LjqManager.getdata(sjdx,myJsonParams);
+        myParams.put(LjqInterface.KEY_CLLX, cllxObj.toString());
+        sjdx = (SysSjglSjdx)myParams.get(LjqInterface.KEY_SJDX);
+        return LjqManager.getdata(sjdx,myParams);
     }
 
 }
