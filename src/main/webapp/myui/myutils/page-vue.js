@@ -28,12 +28,12 @@ function PageAjax(){
 	//列表页数据模板id，默认：listPageTemplate
     this.listPageTemplate = null;
     this.listHead = null;
-    //显示页大小
-    this.showPageSize = true;
     //是否初始查询
     this.initQuery=true;
-    //统计数据量延迟加载。
-    this.totalDelay = '1';
+    //分页统计方式：1、默认统计，2、异步统计，3、默认不统计
+    this.fytjxs = '1';
+    //数据量是否已经统计
+    this.isSjlytj = false;
     //执行默认分页模板处理方式
     this.defaultPageTmpl = true;
     
@@ -63,6 +63,7 @@ function PageAjax(){
         self.params = _params;
         self.pageIndex = 1;
         self.autoCount = true;
+        self.isSjlytj = false;
         self.requestList();
     };
     /**
@@ -112,6 +113,12 @@ function PageAjax(){
                 //没有修改查询条件，不需要统计数据总量
                 self.autoCount = false;
                 self.requestList();
+            });
+            //数据量统计
+            $(self.pageId+" .sjltj").on("click",function(){
+                self.isSjlytj = true;
+//                listPage.html($("#page-tp").tmpl(self));
+                self.sjltj();
             });
             //第一页
             $(self.pageId+" a.paging-prev").on("click",function(){
@@ -186,7 +193,7 @@ function PageAjax(){
         var params = clone(self.params);
         params.autoCount = self.autoCount;
         //如果需要统计总量且要求延迟统计
-        if(self.autoCount&&(self.totalDelay!='1')){
+        if(self.autoCount&&(self.fytjxs!='1')){
             params.autoCount = false;
         }
         if(self.paramType=="jsonStr"){
@@ -220,7 +227,7 @@ function PageAjax(){
                     self.listFrom.rows=self.rows;
 
                     //如果需要统计总量且要求延迟统计
-                    if(self.autoCount&&(self.totalDelay!='1')){
+                    if(self.autoCount&&(self.fytjxs!='1')){
                     }else{
                         self.setTotal(result.recordCount);
                         self.pagination();
@@ -238,44 +245,50 @@ function PageAjax(){
     	});
 
         //如果需要统计总量且要求延迟统计
-        if(self.autoCount&&(self.totalDelay=='2')){
-            $(self.pageId +" .pagination").html('<div class="col-xs-12"><div class="pagination-group">数据量正在统计中...</div></div>');
-            var params = self.params;
-            params.autoCount = true;
-            params.queryList = false;
-            if(self.paramType=="jsonStr"){
-                params = {"myparams":JSON.stringify(params),"pageIndex":self.pageIndex,
-                        "pageSize":self.pageSize,"autoCount":true,"queryList":false};
-            }else{
-                //设置传到后台的参数
-                params.pageIndex = self.pageIndex;
-                params.pageSize = self.pageSize;
-                params.autoCount = self.autoCount;
-            }
-            $.ajax({
-                url:url,
-                type:"post",
-                data:params,
-                dataType: "json",
-                success:function(result){
-                    if(!result.status){
-                        alertError(result.msg);
-                        return;
-                    }
-                    result = result.data;
-                    self.setTotal(result.recordCount);
-                    self.pagination();
-                    $(self.pageId+" .pageSize").val(self.pageSize);
-                },
-                error:function(errInfo){
-                    alertError("统计总量失败");        
-                }
-            });
-        }else if(self.autoCount&&(self.totalDelay=='3')){
-            $(self.pageId +" div.row.pagination").html('<div class="col-xs-12"><div class="pagination-group">点击统计</div></div>');
+        if(self.autoCount&&(self.fytjxs=='2')){
+            sjltj();
+        }else if(self.autoCount&&(self.fytjxs=='3')){
+            self.setTotal(99999999);
+            self.pagination();
+            $(self.pageId+" .pageSize").val(self.pageSize);
         }
     };
-    
+    this.sjltj=function(){
+        var self = this;
+        var url = self.getUrl();
+        $(self.pageId +" .pagination").html('<div class="col-xs-12"><div class="pagination-group">数据量正在统计中...</div></div>');
+        var params = self.params;
+        params.autoCount = true;
+        params.queryList = false;
+        if(self.paramType=="jsonStr"){
+            params = {"myparams":JSON.stringify(params),"pageIndex":self.pageIndex,
+                    "pageSize":self.pageSize,"autoCount":true,"queryList":false};
+        }else{
+            //设置传到后台的参数
+            params.pageIndex = self.pageIndex;
+            params.pageSize = self.pageSize;
+            params.autoCount = self.autoCount;
+        }
+        $.ajax({
+            url:url,
+            type:"post",
+            data:params,
+            dataType: "json",
+            success:function(result){
+                if(!result.status){
+                    alertError(result.msg);
+                    return;
+                }
+                result = result.data;
+                self.setTotal(result.recordCount);
+                self.pagination();
+                $(self.pageId+" .pageSize").val(self.pageSize);
+            },
+            error:function(errInfo){
+                alertError("统计总量失败");        
+            }
+        });
+    };
     /**
      * 导出全部
      * @param title 文件名
@@ -316,30 +329,38 @@ function PageAjax(){
     /**
      * 字段排序
      */
-    this.fieldOrder = function(_this) {
+    this.fieldOrder = function() {
         var self = this;
-        var fi = $(_this).find("i");
-        var ficlass = fi.attr("class");
-        $("th i.desc").removeClass("desc");
-        $("th i.asc").removeClass("asc");
-        $(".order-current").removeClass("order-current");
-        $(_this).addClass("order-current");
-        if (!ficlass) {
-            fi.addClass("desc");
-            fi.attr("title", "当前是降序");
-            $(_this).attr("data-order", "desc");
-        } else if (ficlass == 'desc') {
-            fi.removeClass("desc");
-            fi.addClass("asc");
-            fi.attr("title", "当前是升序");
-            $(_this).attr("data-order", "asc");
-        } else if (ficlass == 'asc') {
-            fi.removeClass("asc");
-            fi.attr("title", "点击可以设置排序方式");
-            $(_this).attr("data-order", "");
-            $(".order-current").removeClass("order-current");
-        }
-        self.queryPage();
+        $(self.pageId +" .filed-order").each(function() {
+//          $(this).attr("title", "点击可以设置排序方式");
+//          $(this).css("color", "#2D8CF0");
+            $(this).append('<i class="" title="点击可以设置排序方式"></i>');
+            $(this).attr("data-order", "");
+            $(this).click(function() {
+                var fi = $(this).find("i");
+                var ficlass = fi.attr("class");
+                $("th i.desc").removeClass("desc");
+                $("th i.asc").removeClass("asc");
+                $(".order-current").removeClass("order-current");
+                $(this).addClass("order-current");
+                if (ficlass == '') {
+                    fi.addClass("desc");
+                    fi.attr("title", "当前是降序");
+                    $(this).attr("data-order", "desc");
+                } else if (ficlass == 'desc') {
+                    fi.removeClass("desc");
+                    fi.addClass("asc");
+                    fi.attr("title", "当前是升序");
+                    $(this).attr("data-order", "asc");
+                } else if (ficlass == 'asc') {
+                    fi.removeClass("asc");
+                    fi.attr("title", "点击可以设置排序方式");
+                    $(this).attr("data-order", "");
+                    $(".order-current").removeClass("order-current");
+                }
+                self.queryPage();
+            });
+        });
     };
     this.setTotal=function(t){
         if(t>=0){
@@ -354,6 +375,8 @@ function PageAjax(){
     this.setPageId=function(pageid){
         var self = this;
         self.pageId = pageid;
+        //字段排序
+        self.fieldOrder();
         //设置值改变校验
         self.getQueryForm().validator({
         	//实时验证关闭，只在提交表单的时候执行验证

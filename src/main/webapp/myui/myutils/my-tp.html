@@ -944,7 +944,8 @@ Vue.component('my-from', {
 	</span>
 	<span class="required" v-if="field.btzt"
 	>*</span>
-    {{thName}}<i v-if="(field.yxpx=='1')" class="" title="点击可以设置排序方式"></i></th> 
+    {{thName}}
+</th> 
 </script>
 <script type="text/javascript">
 Vue.component('my-th', {
@@ -1009,6 +1010,91 @@ Vue.component('my-echarts', {
     template:"#my-echarts-tp",
     data: function () {
       return {
+          "pie":{
+              "title": {
+                  "x": "center"
+                },
+                "tooltip": {
+                  "trigger": "item",
+                  "formatter": "{a} <br/>{b} : {c} ({d}%)"
+                },
+                "legend": {
+                  "type": "scroll",
+                  "orient": "vertical",
+                  "right": 10,
+                  "top": 20,
+                  "bottom": 20,
+                  "data": [],
+                  "selected": []
+                },
+                "series": [
+                  {
+                    "name": "姓名",
+                    "type": "pie",
+                    "radius": "55%",
+                    "center": [
+                      "40%",
+                      "50%"
+                    ],
+                    "data": [],
+                    "itemStyle": {
+                      "emphasis": {
+                        "shadowBlur": 10,
+                        "shadowOffsetX": 0,
+                        "shadowColor": "rgba(0, 0, 0, 0.5)"
+                      }
+                    }
+                  }
+                ]
+              },
+          "bar":{
+              "title": {
+                  "x": "center"
+                },
+                "tooltip": {
+                  "trigger": "item",
+                  "formatter": "{b0}: {c0}"
+                },
+                "legend": {
+                    "type": "scroll",
+                    "orient": "vertical",
+                    "right": 10,
+                    "top": 20,
+                    "bottom": 20,
+                    "data": [],
+                    "selected": []
+                  },
+                "xAxis": {
+                  "type": "category",
+                  "data": [
+                    "Mon",
+                    "Tue",
+                    "Wed",
+                    "Thu",
+                    "Fri",
+                    "Sat",
+                    "Sun"
+                  ]
+                },
+                "yAxis": {
+                  "type": "value"
+                },
+                "series": [
+                  {
+                    "data": [
+                      120,
+                      200,
+                      150,
+                      80,
+                      70,
+                      110,
+                      130
+                    ],
+                    "type": "bar"
+                  }
+                ]
+              }
+              
       }
     },
     created : function(){
@@ -1027,45 +1113,42 @@ Vue.component('my-echarts', {
     		var lbmsinfo = _this.lbmsinfo;
       		var legend = [];
       		var seriesData = [];
+      		if(list.length==0){
+      		}
       		for(var i in list){
       		    var o = list[i];
-      		    legend.push(o.cjrxm);
-      		  	seriesData.push({name:o.cjrxm,value:o.fwcs});
+      		    legend.push(o[lbmsinfo.data.name]);
+      		  	seriesData.push({name:o[lbmsinfo.data.name],
+      		  	    value:o[lbmsinfo.data.value]});
       		}
-    		
-    		if(lbmsinfo.dm=='pie'){
-                 _this.myChart.setOption({
-                     legend: {
-                         data: legend,
-                         selected: legend
-                     },
-                     series : [
-                         {
-                             data: seriesData
-                         }
-                     ]
-                 });
-    		}else if(lbmsinfo.dm=='bar'){
-                 _this.myChart.setOption({
-                     xAxis: {
-                         data: legend
-                     },
-                     series : [
-                         {
-                             data: seriesData
-                         }
-                     ]
-                 });
+    		var data = {
+                    legend: {
+                        data: legend,
+                        selected: legend
+                    },
+                    series : [
+                        {
+                            data: seriesData
+                        }
+                    ]
+                };
+    		if(lbmsinfo.dm=='bar'){
+    		    data.xAxis={
+                    data: legend
+                };
     		}
+            _this.myChart.setOption(data);
         }
     },
     methods : {
         initEcharts:function(){
           var _this = this;
           var sjdx = _this.sjdx;
+  		  var lbmsinfo = _this.lbmsinfo;
 
           //基于准备好的dom，初始化echarts实例
           _this.myChart = echarts.init(_this.$el);
+          _this.myChart.setOption(_this[lbmsinfo.dm]);
           _this.myChart.setOption({"title": {
               "text": sjdx.dxmc
             }});
@@ -1076,6 +1159,67 @@ Vue.component('my-echarts', {
 	},
 	mounted:function(){
         this.initEcharts();
+	}
+  });
+</script>
+<script type="text/x-tp" id="my-table-tp"> 
+	<div class="panel-body exportDiv" style="overflow: auto;">
+	    <table class="table table-striped table-bordered table-hover">
+	        <thead>
+	            <tr class="listHard">
+	                <th is="my-th" v-for="(field,key,index) in lbfields" 
+						:field="fieldBt(field)" @setvalTh="setvalTh"></th>
+	            </tr>
+	        </thead>
+	        <tbody class="listContent">
+		        <tr v-for="(row,ri) in rows" :class="'listrow '">
+	                <td is="my-td"  v-for="(field,key,index) in lbfields"
+	                	:key="'led'+ri+field.zddm" 
+	                	:id="'led'+ri+field.zddm" 
+						:fromid="listFromid"
+	                	:field="field" :ri="ri" :index="index"
+	                	:row="row" :pagemodel="lbkbj=='1'?'bjlist':'cklist'"
+	                	:owner="'led.'+ri+'.'" 
+						:value="fval(row,field)"
+	                	:class="((lbkbj=='1'&&listEditData[ri][field.zddm]!=null)?'edited':'')"
+		                @setval="setvalList"
+	                ></td>
+				</tr>
+				<tr v-if="rows==0"><td :colspan="lbls">没有查询结果</td></tr>
+	        </tbody>
+	    </table>
+	</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-table', {
+    props: ['lbfields','rows','listFromid','lbkbj','listEditData','lbls'],
+    data: function () {
+      return {
+      }
+    },
+    template:"#my-table-tp",
+    watch: {
+        },
+    methods : {
+	    fval:function(row,field){
+	        if(row[field.zddm]){
+	            return row[field.zddm];
+	        }else{
+	            return field.xzmrz;
+	        }
+	    },
+        setvalTh:function(field,event){
+            this.$emit('setvalTh', field, event);
+        },
+        setvalList:function(field,event){
+            this.$emit('setvalList', field, event);
+        },
+        fieldBt:function(field){
+            //判断是否必填
+            field.btzt = (this.lbkbj=='1'&&field.bjbt=='1');
+            field.lbkbj=(this.lbkbj=='1');
+            return field;
+        }
 	}
   });
 </script>
@@ -1143,41 +1287,27 @@ Vue.component('my-echarts', {
     	</div>
 	</div>
 	<!--查询结果展示区 -->
-	<div :style="lbms=='list'?'':'display: none;'" class="panel-body exportDiv" style="overflow: auto;">
-	    <table class="table table-striped table-bordered table-hover">
-	        <thead>
-	            <tr class="listHard">
-	                <th is="my-th" v-for="(field,key,index) in lbfields" 
-						:field="fieldBt(field)" @setvalTh="setvalTh"></th>
-	            </tr>
-	        </thead>
-	        <tbody class="listContent">
-		        <tr v-for="(row,ri) in rows" :class="'listrow '">
-	                <td is="my-td"  v-for="(field,key,index) in lbfields"
-	                	:key="'led'+ri+field.zddm" 
-	                	:id="'led'+ri+field.zddm" 
-						:fromid="listFromid"
-	                	:field="field" :ri="ri" :index="index"
-	                	:row="row" :pagemodel="lbkbj=='1'?'bjlist':'cklist'"
-	                	:owner="'led.'+ri+'.'" 
-						:value="fval(row,field)"
-	                	:class="((lbkbj=='1'&&listEditData[ri][field.zddm]!=null)?'edited':'')"
-		                @setval="setvalList"
-	                ></td>
-				</tr>
-				<tr v-if="rows==0"><td :colspan="lbls">没有查询结果</td></tr>
-	        </tbody>
-	    </table>
+	<div v-if="lbmsinfo('list')" :style="lbms=='list'?'':'display: none;'">
+		<my-table :lbfields="lbfields" :rows='rows' :lbls="lbls"
+			:listFromid = 'listFromid' :lbkbj = 'lbkbj' :listEditData = 'listEditData'
+			@setvalList="setvalList" @setvalTh="setvalTh" >
+		</my-table>
 	</div>
-	<div :style="lbms=='pie'?'':'display: none;'">
+	<div v-if="lbmsinfo('pie')" :style="lbms=='pie'?'':'display: none;'">
 		<my-echarts :sjdx="sjdx" :lbmsinfo="lbmsinfo('pie')" :rows="rows"
-			style="width: 500px;height:500px;position: absolute;margin-left: 100px;">
+			style="width: 900px;height:500px;position: absolute;margin-left: 100px;">
 		</my-echarts>
 	</div>
-	<div :style="lbms=='bar'?'':'display: none;'">
+	<div v-if="lbmsinfo('bar')" :style="lbms=='bar'?'':'display: none;'">
 		<my-echarts :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar')" :rows="rows"
-			style="width: 500px;height:500px;position: absolute;margin-left: 100px;">
+			style="width: 900px;height:500px;position: absolute;margin-left: 100px;">
 		</my-echarts>
+	</div>
+	<div v-if="lbmsinfo('zdy')" :style="lbms=='zdy'?'':'display: none;'">
+		<my-table-zdy :lbfields="lbfields" :rows='rows' :lbls="lbls"
+			:listFromid = 'listFromid' :lbkbj = 'lbkbj' :listEditData = 'listEditData'
+			@setvalList="setvalList" @setvalTh="setvalTh" >
+		</my-table-zdy>
 	</div>
 	<!--分页渲染后放到这个元素中 -->
 	<div :style="lbmsVal=='list'?'':'display: none;'"
@@ -1255,8 +1385,8 @@ Vue.component('my-zssjdx', {
     			    var rd = result.data;
     			    _this.$root.sjdx = data.sjdx = rd.sjdx;
     			    _this.$root.fields = data.fields = rd.fields;
-    			    data.user = rd.user;
-    			    data.kzxx = rd.kzxx;
+    			    _this.$root.user = data.user = rd.user;
+    			    _this.$root.kzxx = data.kzxx = rd.kzxx;
     			    var lbymkz = rd.kzxx.lbymkz;
     			    if(lbymkz&&lbymkz["列表模式字典数据"]){
     			        data.lbmsfield.kzxx["字典数据"]=lbymkz["列表模式字典数据"];
@@ -1382,7 +1512,6 @@ Vue.component('my-zssjdx', {
 	                      return lbmszd[i];
 	                  }
 	              }
-	              return {};
 	          },
             plscTitle:function(){
             	layer.tips("请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功",
@@ -1590,7 +1719,7 @@ Vue.component('my-zssjdx', {
             this.listPage.paramType = "jsonStr";
             this.listPage.listFrom = _this;
             this.listPage.exportUrl = "sjdx/export.do?dxdm="+_this.sjdx.dxdm;
-            this.listPage.totalDelay = _this.sjdx.fytjxs;
+            this.listPage.fytjxs = _this.sjdx.fytjxs;
             if(typeof(initPage)=='function'){
                 initPage(this.listPage);
             }
@@ -1738,8 +1867,8 @@ Vue.component('my-list', {
     			    var rd = result.data;
     			    _this.$root.sjdx = data.sjdx = rd.sjdx;
     			    _this.$root.fields = data.fields = rd.fields;
-    			    data.user = rd.user;
-    			    data.kzxx = rd.kzxx;
+    			    _this.$root.user = data.user = rd.user;
+    			    _this.$root.kzxx = data.kzxx = rd.kzxx;
       			    _this.$root.frommap[_this.queryFromid]={};
       			    _this.$root.frommap[_this.listFromid]={};
     			}else{
@@ -2047,7 +2176,7 @@ Vue.component('my-list', {
             this.listPage.paramType = "jsonStr";
             this.listPage.listFrom = _this;
             this.listPage.exportUrl = "sjdx/export.do?dxdm="+_this.sjdx.dxdm;
-            this.listPage.totalDelay = _this.sjdx.fytjxs;
+            this.listPage.fytjxs = _this.sjdx.fytjxs;
             if(typeof(initPage)=='function'){
                 initPage(this.listPage);
             }
@@ -2519,7 +2648,7 @@ function defaultLbcz(value,_this) {
     if(_this.pagemodel=='cklist'||_this.pagemodel=='bjlist'){
         var data = {sjdx:_this.$root.sjdx,
     		    row:_this.$root.listPage.rows[_this.$parent.$parent.ri],
-    		    user:_this.$parent.$parent.$parent._data.user};
+    		    user:_this.$root.user};
 		return $("#my-default-lbcz-tp").tmpl(data).html();
     }
     return "非列表模式";
@@ -2567,7 +2696,6 @@ a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-ro
 <div class="col-xs-12">
 <div class="col-xs-12">
        <div class="pagination-group">
-       			{{if showPageSize}}
                  <div class="pagination-text">
                                                                               每页
                  </div>
@@ -2584,15 +2712,10 @@ a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-ro
 						 {{/each}}
                      </ul>
                  </div>
+       			{{if fytjxs!='3'||isSjlytj}}
                  <div class="pagination-text">
                                                                                条，共 {{= pageCount}} 页，共 {{= total}} 条记录
                  </div>
-                 {{/if}}
-       			 {{if !showPageSize}}
-                 	<i class="pageSize" style="display: none;">{{= pageSize}}</i>
-                 	<div class="pagination-text">
-                                                                               共 {{= pageCount}} 页，共 {{= total}} 条记录
-                 	</div>
                  {{/if}}
                  <ul class="pagination">
                      <li>
@@ -2604,9 +2727,11 @@ a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-ro
                      <li>
                          <a class="paging-after">></a>
                      </li>
+       			{{if fytjxs!='3'||isSjlytj}}
                      <li>
                          <a class="paging-next">&raquo;</a>
                      </li>
+                 {{/if}}
                  </ul>
                  <div class="pagination-text">
                                                                                   跳至
@@ -2618,6 +2743,9 @@ a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-ro
                                                                                  页
         </div>
         <button class="btn btn-default btn-sm paging-sure">确定</button>
+       	{{if fytjxs=='3'&&!isSjlytj}}
+        <button class="btn btn-default btn-sm sjltj">统计</button>
+        {{/if}}
    </div>
 </div>
 </script>

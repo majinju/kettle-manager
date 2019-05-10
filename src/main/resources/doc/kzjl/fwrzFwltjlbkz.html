@@ -1,0 +1,54 @@
+<!-- 访问日志-访问量列表扩展 -->
+<my-zssjdx id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+</my-zssjdx>
+<script>
+function sjdxZdy(vp){
+    vp.el="#listPage";
+}
+</script>
+
+<script type="text/x-tp" id="my-table-zdy-tp"> 
+	<div class="panel-body exportDiv" style="overflow: auto;">
+	    <table class="table table-striped table-bordered table-hover">
+	        <tbody class="listContent">
+		        <tr v-for="(row,ri) in rows" :class="'listrow '">
+	                <td>[{{row.cjrxm}}]访问系统：{{row.fwcs}}次</td>
+				</tr>
+				<tr v-if="rows==0"><td >没有查询结果1</td></tr>
+	        </tbody>
+	    </table>
+	</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-table-zdy', {
+    props: ['lbfields','rows','listFromid','lbkbj','listEditData','lbls'],
+    data: function () {
+      return {
+      }
+    },
+    template:"#my-table-zdy-tp",
+    watch: {
+        },
+    methods : {
+	    fval:function(row,field){
+	        if(row[field.zddm]){
+	            return row[field.zddm];
+	        }else{
+	            return field.xzmrz;
+	        }
+	    },
+        setvalTh:function(field,event){
+            this.$emit('setvalTh', field, event);
+        },
+        setvalList:function(field,event){
+            this.$emit('setvalList', field, event);
+        },
+        fieldBt:function(field){
+            //判断是否必填
+            field.btzt = (this.lbkbj=='1'&&field.bjbt=='1');
+            field.lbkbj=(this.lbkbj=='1');
+            return field;
+        }
+	}
+  });
+</script>

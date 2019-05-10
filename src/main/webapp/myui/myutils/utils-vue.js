@@ -1029,7 +1029,7 @@ function myValidFrom(_this,module,fromdata){
             var kzxx = fromTarget[i].field.kzxx;
             if(typeof kzxx == "string"){
                 eval("kzxx="+kzxx);
-                field.kzxx = kzxx;
+                fromTarget[i].field.kzxx = kzxx;
             }
             msg = myGzyz(fromdata[i],kzxx['查询验证规则'],fromTarget[i].field);
             if(msg){
