@@ -2,8 +2,8 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <gd:LayoutVue title="${sjdx.dxmc }">
 <jsp:body>
-<div id="sjdx">
 <c:if test="${sjdx.cxlbkz==null}">
+<div id="sjdx">
 <my-zssjdx v-if="!pagemodel||pagemodel == 'zssjdx'" id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
 </my-zssjdx>
 <my-edit v-else-if="pagemodel == 'add'" id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
@@ -12,11 +12,11 @@
 </my-edit>
 <my-list v-else id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
 </my-list>
+</div>
 </c:if>
 <c:if test="${sjdx.cxlbkz!=null}">
 ${sjdx.cxlbkz }
 </c:if>
-</div>
 <script type="text/javascript">
 var fromdata = ${myparams};
 var sjdxid = "${sjdx.id}";

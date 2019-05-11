@@ -1,0 +1,21 @@
+<!-- 密码查看扩展 -->
+<div id="sjdx">
+<my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
+</my-edit>
+</div>
+<script>
+function sjdxZdy(vp){
+    vp.data.fromdata.qdzdyFun=function(result){
+        alertInfo(result.msg);
+    }
+    vp.data.fromdata.submitBefore = function(_t){
+        yjmm = $("[name='yjmm']").val();
+        ejmm = $("[name='ejmm']").val();
+        if(!yjmm&&!ejmm){
+            alertError("两个密码至少填一个");
+            return false;
+        }
+        return true;
+    }
+}
+</script>

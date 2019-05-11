@@ -1081,5 +1081,5 @@ function editUrl(sjdx,row){
  * json对象编码
  */
 function jsonEncode(obj){
-    return encodeURI(JSON.stringify(obj));
+    return encodeURI(JSON.stringify(obj)).replace("+","%2B");
 }

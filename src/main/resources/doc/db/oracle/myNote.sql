@@ -2,6 +2,25 @@
 --truncate table  SYS_LOG_FWZR;
 --truncate table  SYS_LOG_HTRZ;
 
+----------密码加密解密-------
+select des_en('zxcvbnm,.','123asdzxc') from dual;
+--数据载体
+--update sys_sjgl_sjzt t set t.mm=des_en(t.mm,'5zIcmw5qVZs=');
+select des_de(t.mm,'5zIcmw5qVZs='),t.* from sys_sjgl_sjzt t;
+
+--用户
+--update sys_qx_yhxx t set t.yhmm=des_en(t.yhmm,'YA3EPe3fj/XrUtXDBr0y/Q==');
+select des_de(t.yhmm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_yhxx t;
+
+--应用
+--update sys_qx_app t set t.mm=des_en(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q==') where t.mm is not null;
+select des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_app t;
+
+--服务器
+--update sys_qx_fwq t set t.mm=des_en(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q==') where t.mm is not null;
+select des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_fwq t;
+
+
 --因为Navicat导出没有导出主键，需要单独执行此语句建立主键
 alter table JCGA_JCYG_JCXX  add constraint PK_JCGA_JCYG_JCXX  primary key (ID);
 alter table JCGA_JCYG_SHGX  add constraint PK_JCGA_JCYG_SHGX  primary key (ID);

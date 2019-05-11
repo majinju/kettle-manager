@@ -8,10 +8,12 @@ package cn.benma666.common.ljq;
 
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.myutils.DesUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
+import cn.benma666.web.SConf;
 import cn.benma666.web.UserManager;
 
 import com.alibaba.fastjson.JSONObject;
@@ -40,7 +42,14 @@ public class YhdlLjq extends DefaultLjq{
                     yobj.getString("yhdm"));
             if(yhxx==null){
                 return error("用户不存在");
-            }else if(yobj.getString("yhmm").equals(yhxx.getString("yhmm"))){
+            }
+            String yhmm = null;
+            try {
+                yhmm = DesUtil.decrypt(yhxx.getString("yhmm"), SConf.getVal("yhxx.yhmm.ejmm"));
+            } catch (Exception e) {
+                return error("用户密码解析出错："+e.getMessage());
+            }
+            if(yobj.getString("yhmm").equals(yhmm)){
                 if(StringUtil.isNotBlank(yhxx.getString("xzip"))
                         &&!oldUser.getClientIp().matches(yhxx.getString("xzip"))){
                     return error("你未不在授权的ip范围内登录");
