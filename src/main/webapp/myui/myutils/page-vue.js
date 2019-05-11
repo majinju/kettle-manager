@@ -48,7 +48,6 @@ function PageAjax(){
     this.queryPage=function(){
         var self = this;
         var _params = self.getQueryForm().formToJson();
-        debugger
         _params = Object.assign({},self.listFrom.fromdata, _params);
         //常规验证
 //    	if(!self.getQueryForm().isValid()){

@@ -110,7 +110,7 @@ Vue.component('my-file', {
             		this.disable();
         		},
         		onComplete : function(file, rep) {
-        			this.enable();        			
+        			this.enable();
         			if (rep.status ){
         			    if(_this.ajaxUpload.callback){
         			        _this.ajaxUpload.callback(file, rep.data);
@@ -122,7 +122,7 @@ Vue.component('my-file', {
             			    _this.$emit('setval', _this.field, _this.$el);
         			    }
         			}else{
-                        alertError("上传失败："+data.msg);
+                        alertError("上传失败："+rep.msg);
         			}
         		}
         	});

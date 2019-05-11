@@ -18,7 +18,7 @@ function sjdxZdyjy(data,_this){
         wjnr.ajaxUpload.mydata = data;
         wjnr.ajaxUpload.callback = function(file, data){
 	   	    parent.listFrom.listPage.refreshPage();
-  				var index = parent.layer.getFrameIndex(window.name);
+  			var index = parent.layer.getFrameIndex(window.name);
    			parent.layer.close(index);
             alertInfo("上传成功");
         };

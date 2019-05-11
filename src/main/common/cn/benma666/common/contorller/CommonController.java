@@ -1,6 +1,5 @@
 package cn.benma666.common.contorller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,15 +177,7 @@ public class CommonController extends BasicController {
     public void download(HttpServletRequest request,HttpServletResponse response, SysSjglFile obj){
         try {
             jkInit(obj, request);
-            SysSjglFile fileObj = sqlManager.single(SysSjglFile.class, obj.getId());
-            if(fileObj!=null){
-                fileObj.setXzms(obj.isXzms());
-                File file = new File(fileObj.getSclj());
-                WebUtil.sendFile(response, file, fileObj);
-            }else{
-                log.debug("下载的文件不存在："+obj);
-                WebUtil.sendJson(response,error("下载的文件不存在："+obj));
-            }
+            commonService.download(response, obj);
         } catch (Exception e) {
             log.error("数据处理出错", e);
             WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
