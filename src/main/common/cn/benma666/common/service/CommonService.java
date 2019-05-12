@@ -130,7 +130,14 @@ public class CommonService extends BasicService{
                 }
             }else if("ftp".equals(sjzt.getString("lx"))){
                 //数据载体为ftp
-                
+
+            }else if("qtzt".equals(sjzt.getString("lx"))){
+                //数据载体为其他载体
+                if("wywztb".equals(sjzt.getString("dm"))){
+                    //网页文字图标
+                    WebUtil.sendDirectToClient(response, fileObj.getSclj(),
+                            WebUtil.CONTENTTYPE_TEXTHTML, WebUtil.CONTENT_CHARSET_UTF8);
+                }
             }
         }else{
             log.debug("下载的文件不存在："+obj);

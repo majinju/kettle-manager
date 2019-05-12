@@ -48,21 +48,26 @@ Vue.component('my-file', {
             var nr = "查看";
             var wjlx = null;
             var id = null;
+            var sjlj = null;
             var astyle="";
             var istyle="width:100%;";
             if(_this.$root.listPage){
                 var row = _this.$root.listPage.rows[_this.$parent.$parent.ri];
                 wjlx = row.wjlx;
                 id = row.id;
+                sclj = row.sclj;
             }else{
                 var editdata = _this.$root.$children["0"].editdata;
                 wjlx = editdata.wjlx;
                 id = editdata.id;
+                sclj = editdata.sclj;
                 astyle = "padding-top: 5px;position: absolute;";
             }
             if(wjlx=="png"||wjlx=="jpg"){
                 nr = "<img style='"+istyle+"' src='common/download.do?xzms=false&id="+id+"'/>";
                 astyle="";
+            }else if(wjlx=="icon"){
+                return sclj;
             }
             return "<a style='"+astyle+"' href='common/download.do?xzms=false&id="+id+"' target='_blank'>"+nr+"</a>";
         }
@@ -505,6 +510,15 @@ Vue.component('my-inputn', {
                     	field.eTagRemove(_this,field);
                     }
                 },
+                //格式化显示项目，提供源数据进行使用
+                formatItem : function(data){
+                	var formatItem = keyExist(kzxx,"字典控件.formatItem");
+                	if(formatItem){
+                	    return eval(formatItem+"(data)");
+                	}else{
+                	    return data.mc;
+                	}
+                },
                 //仅选择模式，不允许输入查询关键字
                 selectOnly : !(this.field.zdfy=='1'),
                 //关闭分页栏，数据将会一次性在列表中展示，上限200个项目

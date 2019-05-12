@@ -13,7 +13,8 @@ function sjdxZdyjy(data,_this){
     }
     var wjnr = _this.fields.wjnr;
     if(wjnr.ajaxUpload._input.files.length==0){
-        alertInfo("请先上传文件");
+//         alertInfo("请先上传文件");
+		return true;
     }else{
         wjnr.ajaxUpload.mydata = data;
         wjnr.ajaxUpload.callback = function(file, data){

@@ -9,9 +9,12 @@ package cn.benma666.common.ljq;
 import java.io.File;
 import java.util.List;
 
+import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.DefaultLjq;
+import cn.benma666.sjgl.LjqInterface;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -37,10 +40,17 @@ public class FileLjq extends DefaultLjq{
                     +params.getString("idsIn"));
             int count = 0;
             for(JSONObject fileObj:list){
-                File file = new File(fileObj.getString("sclj"));
-                if(file.exists()){
-                    file.delete();
-                    count++;
+                JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getString("sjzt"));
+                if("bdwj".equals(sjzt.getString("lx"))){
+                    File file = new File(fileObj.getString("sclj"));
+                    if(file.exists()){
+                        file.delete();
+                        count++;
+                    }
+                }else if("oracle".equals(sjzt.getString("lx"))){
+                    Db wjdb = Db.use(sjzt.getString("dm"));
+                    String where = fileObj.getString("sclj");
+                    count += wjdb.update("delete from "+fileObj.getString("ywdm")+" t where "+where);
                 }
             }
             msg = "删除文件数："+count;

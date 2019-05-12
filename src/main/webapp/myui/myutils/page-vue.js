@@ -219,7 +219,7 @@ function PageAjax(){
                         return;
                     }
                     result = result.data;
-                    eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
+//                    eval("result.list = "+JSON.stringify(result.list).replace(/ /g,"")+"");
                     self.callback(result);
                     if(!result.list){
                         result.list = [];

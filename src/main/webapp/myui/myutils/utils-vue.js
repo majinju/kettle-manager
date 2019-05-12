@@ -1083,3 +1083,33 @@ function editUrl(sjdx,row){
 function jsonEncode(obj){
     return encodeURI(JSON.stringify(obj)).replace("+","%2B");
 }
+/**
+ * 多级key是否在对象中存在
+ * @param obj
+ * @param keys
+ */
+function keyExist(obj,keys){
+    var keyArr = keys.split(".");
+    for(var i in keyArr){
+        if(obj[keyArr[i]]){
+            obj = obj[keyArr[i]];
+        }else{
+            return null;
+        }
+    }
+    return obj;
+}
+/**
+ * 字典格式化-图标
+ * @param data
+ * @returns {String}
+ */
+function zdFormatIcon(data){
+    var val = data.mc;
+    if(data.wjlx=='icon'){
+        val = data.sclj+" "+data.mc;
+    }else{
+        val = "<img src='common/download.do?id="+data.dm+"' style='height:16px;'/> "+data.mc;
+    }
+    return val;
+}
