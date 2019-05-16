@@ -764,7 +764,7 @@ Vue.component('my-timeaera', {
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-password>
 	    <my-file v-else-if="field.kjlx=='file'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
-			:edit="isEdit" @setval="setval" :class="srkjClass"></my-file>
+			:edit="isEdit" @setval="setval" :class="srkjClass">文件上传</my-file>
 	    <my-textaera v-else-if="field.kjlx=='textarea'&&pagemodel!='search'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>

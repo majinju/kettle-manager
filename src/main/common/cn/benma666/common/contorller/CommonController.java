@@ -1,11 +1,13 @@
 package cn.benma666.common.contorller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,7 @@ import com.alibaba.fastjson.JSONObject;
 * @author jingma
 * @version 
 */
+@Api(tags="公共服务接口")
 @Controller
 @RequestMapping(value="/common")
 public class CommonController extends BasicController {
@@ -46,12 +49,14 @@ public class CommonController extends BasicController {
     private SjdxController sjdxController;
 
     /**
-    * 清除缓存 <br/>
     * @author jingma
     * @param obj
     * @param response
     */
+    @ApiOperation(value="清理缓存",httpMethod="POST",
+        notes="全部缓存，包含用户缓存、字典缓存、数据对象缓存等")
     @RequestMapping(value = "/clearCache.do")
+    //@ModelAttribute SysSjglTyzd obj,
     public void clearCache(SysSjglTyzd obj,HttpServletRequest request, 
             HttpServletResponse response) {
         SysQxYhxx user = jkInit(obj, request);
@@ -63,12 +68,15 @@ public class CommonController extends BasicController {
         }
     }
     /**
-    * 获取字典列表 <br/>
     * @author jingma
     * @param obj
     * @param response
     */
+    @ApiOperation(value="获取字典列表",httpMethod="POST")
+//    @ApiImplicitParam(name = "zdlb", value = "字典类别", required = true,paramType="query", dataType = "String")
+//    @ApiImplicitParam(name = "obj", value = "字典对象", required = true, dataType = "SysSjglTyzd")
     @RequestMapping(value = "/zdList.do")
+    //@RequestBody SysSjglTyzd obj,
     public void zdList(SysSjglTyzd obj,HttpServletRequest request, 
             HttpServletResponse response) {
         jkInit(obj, request);
@@ -82,11 +90,11 @@ public class CommonController extends BasicController {
     }
 
     /**
-    * 获取字典项 <br/>
     * @author jingma
     * @param obj
     * @param response
     */
+    @ApiOperation(value="获取字典项",httpMethod="POST")
     @RequestMapping(value = "/zdObj.do")
     public void zdObjByDm(SysSjglTyzd obj, HttpServletRequest request, 
             HttpServletResponse response) {
@@ -105,12 +113,12 @@ public class CommonController extends BasicController {
     }
 
     /**
-    * 字典搜索 <br/>
     * @author jingma
     * @param page
     * @param obj
     * @param response
     */
+    @ApiOperation(value="字典搜索",httpMethod="POST")
     @RequestMapping(value = "/zdSearch.do")
     public void zdSearch(PageInfo<JSONObject> page, SysSjglTyzd obj,
             HttpServletRequest request, HttpServletResponse response) {
@@ -136,6 +144,7 @@ public class CommonController extends BasicController {
      * @param request
      * @param response
      */
+    @ApiOperation(value="导出Excel",httpMethod="POST")
     @RequestMapping(value="/saveToExecl.do")
     public void saveToExecl(HttpServletRequest request,HttpServletResponse response){
         try {
@@ -145,13 +154,11 @@ public class CommonController extends BasicController {
             WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
         }
     }
-    
-    /**
-     * @Description:文件上传
-     */
+   
+    @ApiOperation(value="文件上传",httpMethod="POST")
     @RequestMapping(value = "/upload.do", method = RequestMethod.POST)
     public void upload(HttpServletRequest request,HttpServletResponse response, 
-            HttpSession session,SysSjglFile fileObj){
+            SysSjglFile fileObj){
         jkInit(fileObj, request);
         //获取文件
         MultipartFile file =((MultipartHttpServletRequest) request).getFile("file");
@@ -167,12 +174,12 @@ public class CommonController extends BasicController {
     }
 
     /**
-    * 下载文件 <br/>
     * @author jingma
     * @param request
     * @param response
     * @param obj
     */
+    @ApiOperation(value="下载文件",httpMethod="POST")
     @RequestMapping(value="/download.do")
     public void download(HttpServletRequest request,HttpServletResponse response, SysSjglFile obj){
         try {
@@ -197,7 +204,6 @@ public class CommonController extends BasicController {
         return user;
     }
     /**
-    * 将用户信息加密，然后重定向到指定url <br/>
     * @author jingma
     * @param request
     * @param url
@@ -206,10 +212,14 @@ public class CommonController extends BasicController {
     * @param response
     */
     @RequestMapping(value = "/common/doDesEncryptUrl.do")
+    @ApiOperation(value="用户信息转发",notes="将用户信息加密，然后重定向到指定url",httpMethod="GET")
     public void doDesEncryptUrl(HttpServletRequest request,String url,
             String userid,String projectCode, HttpServletResponse response){
         try {
-            url = UserManager.doDesEncryptUrl(url,projectCode,getUser(request).getSfzh());
+            if(StringUtil.isBlank(userid)){
+                userid = getUser(request).getSfzh();
+            }
+            url = UserManager.doDesEncryptUrl(url,projectCode,userid);
             response.sendRedirect(url);
         } catch (Exception e) {
             log.error("用户信息编码失败", e);
