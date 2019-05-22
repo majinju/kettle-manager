@@ -16,7 +16,6 @@ import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
 import cn.benma666.web.BasicController;
 import cn.benma666.web.QxManager;
-import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -55,8 +54,7 @@ public class IndexController extends BasicController {
                 throw new MyException(result.getMsg());
             }else{
                 try {
-                    String url = WebUtil.getBasePath(request);
-                    response.sendRedirect(url);
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, result.getMsg());
                 } catch (Throwable e) {
                     log.error("重定向异常"+sjdx, e);
                 }

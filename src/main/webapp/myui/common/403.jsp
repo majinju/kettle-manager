@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isErrorPage="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +30,7 @@
       </p>
       <p class="err-tip">
         <i class="icon icon-line-l"></i>
-        <span class="err-span">${param.msg!=null?param.msg:'您访问的地址受权限控制' }</span>
+        <span class="err-span">${param.msg!=null?param.msg:'您访问的地址没有权限，请重新登陆' }</span>
         <i class="icon icon-line-r"></i>
       </p>
       <p>
