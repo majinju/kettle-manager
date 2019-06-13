@@ -122,3 +122,15 @@ select * from sys_sjgl_file t
 where not exists (
 select 1 from sjsj1.sys_sjgl_file t1 where t1.id=t.id
 );
+
+--删除本地存在的大字段表数据
+delete from sjsj1.sys_sjgl_blob t where 
+exists (
+select 1 from sys_sjgl_blob t1 where t1.id=t.id
+);
+--导入本地大字段表数据
+insert into sjsj1.sys_sjgl_blob
+select * from sys_sjgl_blob t
+where not exists (
+select 1 from sjsj1.sys_sjgl_blob t1 where t1.id=t.id
+);
