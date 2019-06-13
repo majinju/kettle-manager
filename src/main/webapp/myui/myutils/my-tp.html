@@ -101,7 +101,7 @@ Vue.component('my-file', {
         		onSubmit : function(file, ext) {
         			var type = ext[0];
         			//获取附加类型
-        			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip)$/.test(type.toLowerCase()))) {
+        			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pptx|xmind)$/.test(type.toLowerCase()))) {
         				//alert("文件格式不正确，仅支持jpg,jpeg,gif,png,bmp,doc,docx,xlsx,xls,mp4,txt格式");
         			    alertInfo("该文件格式不支持上传");
         				return false;
@@ -1923,7 +1923,7 @@ Vue.component('my-list', {
    		  $.ajax({url : "sjdx/jcxx.do",
 	        type : "post",
             async : false,
-            data : {id:this.sjdxid},
+            data : {id:this.sjdxid,userInfo:_this.fromdata.userInfo},
             success:function(result){
     			if(result.status){
     			    var rd = result.data;

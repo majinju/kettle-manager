@@ -11,6 +11,7 @@ ${sjdx.cxlbkz }
 <script type="text/javascript">
 var fromdata = ${myparams};
 var sjdxid = "${sjdx.id}";
+fromdata.userInfo = "${param.userInfo}";
 var vueParams = {
    el : '#listPage',
    data: {

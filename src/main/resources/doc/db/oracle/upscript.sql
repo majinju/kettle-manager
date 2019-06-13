@@ -75,7 +75,7 @@ where not exists (
 select 1 from sys_qx_yhxx t1 where t1.id=t.id
 )
 ;
---导入线上新增的用户
+--导入线上新增的权限
 insert into sys_qx_qxxx
 select * from sjsj.sys_qx_qxxx t
 where not exists (
