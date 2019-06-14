@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2019-04-30 17:21:08
+Date: 2019-06-14 20:11:05
 */
 
 
@@ -733,11 +733,34 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_BHSC"."MC" IS '名称';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_BHSC"."MS" IS '描述';
 
 -- ----------------------------
+-- Table structure for SYS_SJGL_BLOB
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_SJGL_BLOB";
+CREATE TABLE "SJSJ"."SYS_SJGL_BLOB" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"NR" BLOB NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_SJGL_BLOB" IS '系统-数据管理-BLOB';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_BLOB"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_BLOB"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_BLOB"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_BLOB"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_BLOB"."NR" IS '内容';
+
+-- ----------------------------
 -- Table structure for SYS_SJGL_FILE
 -- ----------------------------
 DROP TABLE "SJSJ"."SYS_SJGL_FILE";
 CREATE TABLE "SJSJ"."SYS_SJGL_FILE" (
-"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"ID" VARCHAR2(256 BYTE) DEFAULT sys_guid()  NOT NULL ,
 "CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
 "GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
 "YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
@@ -751,10 +774,11 @@ CREATE TABLE "SJSJ"."SYS_SJGL_FILE" (
 "GLID" VARCHAR2(32 BYTE) NULL ,
 "WJM" VARCHAR2(500 BYTE) NULL ,
 "QCM" VARCHAR2(100 BYTE) NULL ,
-"SCLB" VARCHAR2(10 BYTE) NULL ,
+"SJZT" VARCHAR2(10 BYTE) NULL ,
 "SCLJ" VARCHAR2(1000 BYTE) NULL ,
 "WJLX" VARCHAR2(10 BYTE) NULL ,
-"WJLB" VARCHAR2(100 BYTE) NULL 
+"WJLB" VARCHAR2(100 BYTE) NULL ,
+"SJDJ" VARCHAR2(10 BYTE) DEFAULT '2'  NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -776,10 +800,11 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."YWDM" IS '业务代码;ZDRY_RYGL';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."GLID" IS '关联id;前端传';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."WJM" IS '文件名';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."QCM" IS '去重码';
-COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."SCLB" IS '上传类别;LOCAL,FASTDFS';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."SJZT" IS '数据载体@SYS_SJGL_SJZT';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."SCLJ" IS '上传路径;ZDRY_RYGL/去重码.wjlx';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."WJLX" IS '文件类型';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."WJLB" IS '文件类别';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_FILE"."SJDJ" IS '数据等级';
 
 -- ----------------------------
 -- Table structure for SYS_SJGL_SJDX
@@ -1064,7 +1089,8 @@ CREATE TABLE "SJSJ"."SYS_SJGL_TYZD" (
 "LBSQL" VARCHAR2(500 BYTE) NULL ,
 "SJLY" VARCHAR2(300 BYTE) NULL ,
 "UPNODE" VARCHAR2(100 BYTE) NULL ,
-"CACHE" VARCHAR2(10 BYTE) DEFAULT '1'  NULL 
+"CACHE" VARCHAR2(10 BYTE) DEFAULT '1'  NULL ,
+"SJDJ" VARCHAR2(10 BYTE) DEFAULT '3'  NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -1093,6 +1119,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_TYZD"."LBSQL" IS '类别SQL;当次SQL为空�
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_TYZD"."SJLY" IS '数据来源';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_TYZD"."UPNODE" IS '父节点';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_TYZD"."CACHE" IS '是否缓存';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_TYZD"."SJDJ" IS '数据等级';
 
 -- ----------------------------
 -- Table structure for SYS_SJGL_YHZDY
@@ -1136,6 +1163,83 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_YHZDY"."SJZD" IS '数据字段';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_YHZDY"."MRZ" IS '默认值';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_YHZDY"."LBZS" IS '列表展示@SYS_COMMON_LJPD';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_YHZDY"."CXZS" IS '查询展示@SYS_COMMON_LJPD';
+
+-- ----------------------------
+-- Table structure for SYS_TEST_USER
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_TEST_USER";
+CREATE TABLE "SJSJ"."SYS_TEST_USER" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"YHXM" VARCHAR2(32 BYTE) NOT NULL ,
+"YHDM" VARCHAR2(32 BYTE) NOT NULL ,
+"YHMM" VARCHAR2(64 BYTE) NULL ,
+"SFZH" VARCHAR2(18 BYTE) NULL ,
+"YXQKS" VARCHAR2(64 BYTE) NULL ,
+"YXQJS" VARCHAR2(64 BYTE) NULL ,
+"SSJG" VARCHAR2(32 BYTE) NULL ,
+"THLX" VARCHAR2(2 BYTE) NULL ,
+"YHDJ" VARCHAR2(2 BYTE) NULL ,
+"YHMS" VARCHAR2(1024 BYTE) NULL ,
+"YHYX" VARCHAR2(32 BYTE) NULL ,
+"LXDH" VARCHAR2(32 BYTE) NULL ,
+"LXDZ" VARCHAR2(256 BYTE) NULL ,
+"MZ" VARCHAR2(2 BYTE) NULL ,
+"GJ" VARCHAR2(5 BYTE) NULL ,
+"XL" VARCHAR2(2 BYTE) NULL ,
+"ZZMM" VARCHAR2(2 BYTE) NULL ,
+"ZW" VARCHAR2(2 BYTE) NULL ,
+"ZJ" VARCHAR2(2 BYTE) NULL ,
+"BZ" VARCHAR2(1024 BYTE) NULL ,
+"TX" VARCHAR2(32 BYTE) NULL ,
+"XZIP" VARCHAR2(1024 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_TEST_USER" IS '系统-测试-用户';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YHXM" IS '用户姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YHDM" IS '用户代码';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YHMM" IS '用户密码';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."SFZH" IS '身份证号';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YXQKS" IS '有效期开始';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YXQJS" IS '有效期结束';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."SSJG" IS '所属机构@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."THLX" IS '用户类型@SYS_QX_YHLX';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YHDJ" IS '用户等级@SYS_QX_YHDJ';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YHMS" IS '用户描述';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."YHYX" IS '用户邮箱';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."LXDH" IS '联系电话';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."LXDZ" IS '联系地址';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."MZ" IS '民族@SYS_COMMON_MZ';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."GJ" IS '国籍@SYS_COMMON_GJ';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."XL" IS '学历@SYS_COMMON_XL';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."ZZMM" IS '政治面貌@SYS_COMMON_ZZMM';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."ZW" IS '职务@SYS_QX_ZW';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."ZJ" IS '职级@SYS_QX_ZJ';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."BZ" IS '备注';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."TX" IS '头像;对应文件管理的主键';
+COMMENT ON COLUMN "SJSJ"."SYS_TEST_USER"."XZIP" IS '限制IP';
 
 -- ----------------------------
 -- Table structure for SYS_XMGL_RWXX
@@ -1349,7 +1453,48 @@ COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."SJK" IS '数据库@SYS_COMMON_SJZT';
 -- View structure for V_XNDX
 -- ----------------------------
 CREATE OR REPLACE FORCE VIEW "SJSJ"."V_XNDX" AS 
-select '' sfzh, '' xm,'' hcjg,'' hcxm,'' hchjdz,'' qtjg from dual;
+select '' id,'' yjmm,'' erjm from dual;
+
+-- ----------------------------
+-- Function structure for DES_DE
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "SJSJ"."DES_DE" (p_text IN STRING,p_pwd IN STRING)
+   RETURN String
+IS
+   LANGUAGE JAVA
+   NAME 'Desutil.decrypt(java.lang.String,java.lang.String) return String';
+/
+
+-- ----------------------------
+-- Function structure for DES_EN
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "SJSJ"."DES_EN" (p_text IN STRING,p_pwd IN STRING)
+   RETURN String
+IS
+   LANGUAGE JAVA
+   NAME 'Desutil.encrypt(java.lang.String,java.lang.String) return String';
+/
+
+-- ----------------------------
+-- Function structure for LONG_TO_CHAR
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "SJSJ"."LONG_TO_CHAR"( in_rowid rowid,in_owner
+varchar,in_table_name varchar,in_column varchar2)
+RETURN varchar AS
+text_c1 varchar2(32767);
+sql_cur varchar2(2000);
+--
+begin
+  sql_cur := 'select '||in_column||' from
+'||in_owner||'.'||in_table_name||' where rowid =
+'||chr(39)||in_rowid||chr(39);
+  dbms_output.put_line (sql_cur);
+  execute immediate sql_cur into text_c1;
+
+  text_c1 := substr(text_c1, 1, 4000);
+  RETURN TEXT_C1;
+END;
+/
 
 -- ----------------------------
 -- Function structure for MD5
@@ -1569,6 +1714,20 @@ ALTER TABLE "SJSJ"."SYS_SJGL_BHSC" ADD CHECK ("ID" IS NOT NULL);
 ALTER TABLE "SJSJ"."SYS_SJGL_BHSC" ADD PRIMARY KEY ("ID");
 
 -- ----------------------------
+-- Indexes structure for table SYS_SJGL_BLOB
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table SYS_SJGL_BLOB
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_SJGL_BLOB" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_SJGL_BLOB
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_SJGL_BLOB" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
 -- Indexes structure for table SYS_SJGL_FILE
 -- ----------------------------
 
@@ -1670,6 +1829,13 @@ ALTER TABLE "SJSJ"."SYS_SJGL_YHZDY" ADD CHECK ("ID" IS NOT NULL);
 -- Primary Key structure for table SYS_SJGL_YHZDY
 -- ----------------------------
 ALTER TABLE "SJSJ"."SYS_SJGL_YHZDY" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table SYS_TEST_USER
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_TEST_USER" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_TEST_USER" ADD CHECK ("YHXM" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_TEST_USER" ADD CHECK ("YHDM" IS NOT NULL);
 
 -- ----------------------------
 -- Indexes structure for table SYS_XMGL_RWXX
