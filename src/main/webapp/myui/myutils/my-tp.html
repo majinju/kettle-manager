@@ -628,7 +628,7 @@ Vue.component('my-time', {
         }
         eval("var kzxx="+this.field.kzxx);
         if(kzxx["时间控件"]){
-            this.WdatePicker = Object.assign(this.WdatePicker, kzxx["时间控件"]);
+            this.WdatePicker = $.extend(this.WdatePicker, kzxx["时间控件"]);
         }
     }
   });
@@ -2385,7 +2385,7 @@ Vue.component('my-edit', {
                            return;
                        }
                    }
-                   var _params = {myparams:JSON.stringify(Object.assign({},this.fromdata, _this._data.updatedata))};
+                   var _params = {myparams:JSON.stringify($.extend({},this.fromdata, _this._data.updatedata))};
                    if(_this.bjymkz("my-qdbts")=='1'){
                        myAjax(_this.action,_params,function(data){
                            if(_this.fromdata.qdzdyFun){

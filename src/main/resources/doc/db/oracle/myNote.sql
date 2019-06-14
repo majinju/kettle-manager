@@ -45,6 +45,7 @@ alter table SYS_XMGL_RWXX   add constraint PK_SYS_XMGL_RWXX   primary key (ID);
 alter table SYS_YXJK_JKRW   add constraint PK_SYS_YXJK_JKRW   primary key (ID);
 alter table SYS_YXJK_XX     add constraint PK_SYS_YXJK_XX     primary key (ID);
 alter table SYS_YXJK_ZDYSQL add constraint PK_SYS_YXJK_ZDYSQL primary key (ID);
+alter table sys_sjgl_blob add constraint PK_sys_sjgl_blob primary key (ID);
 
 --批量给数据对象添加基础权限
 insert into sys_qx_qxxx
