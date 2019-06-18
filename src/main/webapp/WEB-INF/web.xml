@@ -78,8 +78,18 @@
     <servlet-mapping>   
        <servlet-name>DruidStatView</servlet-name>
        <url-pattern>/druid/*</url-pattern>
-     </servlet-mapping> 
-	
+     </servlet-mapping>
+     
+	 <servlet>
+      	<servlet-name>axis</servlet-name>
+      	<servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
+      	<load-on-startup>2</load-on-startup>
+    </servlet>
+   	<servlet-mapping>
+    	<servlet-name>axis</servlet-name>
+    	<url-pattern>/services/*</url-pattern>
+  	</servlet-mapping>
+  	
 	<session-config>
 		<session-timeout>600</session-timeout>
 	</session-config>
