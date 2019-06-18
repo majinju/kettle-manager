@@ -2350,6 +2350,7 @@ Vue.component('my-edit', {
 	          },
 	        plcl:function(cllx,success){
 		        _this = this;
+		        var fromdata = {};
 	            fromdata.id=_this.sjdx.id;
 	            fromdata['e_cllx']=cllx;
 	            fromdata.myparams=JSON.stringify(_this.updatedata);
