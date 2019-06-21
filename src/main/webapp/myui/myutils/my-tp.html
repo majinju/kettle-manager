@@ -1989,9 +1989,9 @@ Vue.component('my-list', {
 	              }else{
 	                  isCxtj = this._data.sjdx.cxtj!='0';
 	              }
-	              if(!isCxtj||!this.qxByQxm("CXQX")){
-	                  style+="display: none;";
-	              }
+// 	              if(!isCxtj||!this.qxByQxm("CXQX")){
+// 	                  style+="display: none;";
+// 	              }
 	              return style;
 				},
 		      lbfields : function (){ return clone(this._data.fields);},
@@ -2140,6 +2140,9 @@ Vue.component('my-list', {
 		                alertInfoYes(data,function(){
 	        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
 						});
+		                layer.close(loadindex);
+	                },
+	                qxbtn:function(){
 		                layer.close(loadindex);
 	                }
 	            });

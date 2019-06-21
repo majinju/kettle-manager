@@ -6,6 +6,8 @@
 
 package cn.benma666.test;
 
+import cn.benma666.myutils.JsonResult;
+
 /**
  *  <br/>
  * date: 2019年6月18日 <br/>
@@ -20,7 +22,7 @@ public class HelloServiceImpl implements HelloService{
     */
     @Override
     public String sayHello(String info) {
-        return "sayHello:"+info;
+        return JsonResult.error(info).toString();
     }
 
 }
