@@ -149,7 +149,7 @@ body {
 }
 /* 展示型页面，label 使用辅助色 */
 .control-label {
-    max-width: 150px;
+/*     max-width: 150px; */
     /* color: #80848f; */
 }
 .info-box {

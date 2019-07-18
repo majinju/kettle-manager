@@ -211,7 +211,7 @@ public class CommonController extends BasicController {
     * @param projectCode
     * @param response
     */
-    @RequestMapping(value = "/common/doDesEncryptUrl.do")
+    @RequestMapping(value = "/doDesEncryptUrl.do")
     @ApiOperation(value="用户信息转发",notes="将用户信息加密，然后重定向到指定url",httpMethod="GET")
     public void doDesEncryptUrl(HttpServletRequest request,String url,
             String userid,String projectCode, HttpServletResponse response){
@@ -220,6 +220,7 @@ public class CommonController extends BasicController {
                 userid = getUser(request).getSfzh();
             }
             url = UserManager.doDesEncryptUrl(url,projectCode,userid);
+            log.debug(userid+"转发到："+url);
             response.sendRedirect(url);
         } catch (Exception e) {
             log.error("用户信息编码失败", e);
