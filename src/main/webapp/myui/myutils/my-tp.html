@@ -894,7 +894,7 @@ Vue.component('my-input', {
 <script type="text/x-tp" id="my-from-tp">
 <form :action="data.action" :method="data.method" onsubmit="return false;">
 	<div class="panel panel-info form-horizontal" role="form">
-		<div class="panel-body">
+		<div class="panel-body" style="margin-right: 1%;">
 			<div class="row gutter-1">
 				<my-input v-for=" (field,key,index) in data.fields" :key="field.zddm"
 					:field="field" :index="index" :data="data"
