@@ -3,7 +3,7 @@
 <gd:LayoutVue title="编辑[${sjdx.dxmc}]">
 <jsp:body>
 <c:if test="${sjdx.bjymkz==null}">
-<my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
+<my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel" v-cloak>
 </my-edit>
 </c:if>
 <c:if test="${sjdx.bjymkz!=null}">

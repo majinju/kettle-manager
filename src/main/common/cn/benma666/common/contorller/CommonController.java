@@ -200,6 +200,7 @@ public class CommonController extends BasicController {
     public SysQxYhxx jkInit(BasicBean obj, HttpServletRequest request) {
         setEParam(obj, request);
         SysQxYhxx user = getUser(request);
+        obj.set("user", user);
         //TODO 进行权限鉴定，字典类别、数据库、应用、服务器等重要字典类别添加权限控制，没控制的默认可用。
         return user;
     }

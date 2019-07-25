@@ -3,7 +3,7 @@
 <gd:LayoutVue title="${sjdx.dxmc }">
 <jsp:body>
 <c:if test="${sjdx.cxlbkz==null}">
-<div id="sjdx">
+<div id="sjdx" v-cloak>
 <my-zssjdx v-if="!pagemodel||pagemodel == 'zssjdx'" id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
 </my-zssjdx>
 <my-edit v-else-if="pagemodel == 'add'" id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
