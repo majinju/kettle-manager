@@ -1,0 +1,31 @@
+{
+  "name": "selectmenu",
+  "version": "2.1.0",
+  "description": "Simple, easily and diversity menu solution",
+  "main": "selectmenu.js",
+  "scripts": {
+    "test": "grunt eslint"
+  },
+  "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TerryZ/SelectMenu.git"
+  },
+  "keywords": [
+    "select",
+    "menu",
+    "easy",
+	"jquery-plugin",
+	"jquery",
+	"ui",
+	"form",
+	"input"
+  ],
+  "author": "TerryZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TerryZ/SelectMenu/issues"
+  },
+  "homepage": "https://github.com/TerryZ/SelectMenu#readme"
+}

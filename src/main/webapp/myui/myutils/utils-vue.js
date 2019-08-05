@@ -8,6 +8,7 @@ var scriptList=[
       serviceAddr+"myui/myutils/operate-vue.js",
       serviceAddr+"myui/bootstrap/js/bootstrap.js",
       serviceAddr+"myui/SelectPag/selectpage.js?time=20171207",
+//      serviceAddr+"myui/SelectMenu/selectmenu.js",
       serviceAddr+"myui/myframe/frame.js?time=20171217",
       serviceAddr+"myui/layer/layer.js",
       serviceAddr+"myui/My97DatePicker/WdatePicker.js",
@@ -33,6 +34,7 @@ var cssList=[
       serviceAddr+"myui/font-awesome/css/font-awesome.css",
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
       serviceAddr+"myui/jsoneditor/jsoneditor.css",
+//      serviceAddr+"myui/SelectMenu/selectmenu.css",
       serviceAddr+"myui/zTree_v3/css/zTreeStyle/zTreeStyle.css"
    ];
 

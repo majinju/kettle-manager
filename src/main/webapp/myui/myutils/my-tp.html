@@ -2705,6 +2705,85 @@ Vue.component('my-cdym', {
 	}
   });
 </script>
+<style>
+.mytab{
+font-size: large;
+border-bottom: 2px solid #bdb1b1;
+text-align: center;
+}
+.mytab button.btn-default{
+/* color: black; */
+}
+</style>
+<script type="text/x-tp" id="my-tab-tp">
+<div class="mytab" style="height: calc(100vh - 50px);">
+<div class="btn-group btn-group-lg" role="group" aria-label="31232" style="margin-top: 3px;width: 100%;padding-bottom: 2px;border-bottom: solid 1px #0066ff;">
+  	<button v-for="(cd,key,index) in cdlist" type="button" @click="cdClick(cd)"
+		:class="'btn btn-'+(selectedCd.dm!=cd.dm?'default':'info')"
+		>{{cd.dm}}</button>
+  <div v-if="gdcdList.length>0" class="btn-group  btn-group-lg" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" 
+		aria-haspopup="true" aria-expanded="false">
+                更多
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li v-for="(cd,key,index) in gdcdList" @click="cdClick(cd)" 
+		:style="selectedCd.dm!=cd.dm?'':'background-color: cornflowerblue;'">
+		<a href="javascript:void(0);" >{{cd.dm}}</a></li>
+    </ul>
+  </div>
+</div>
+<iframe name="content" style="width: 100%;height: 100%;overflow: scroll;border: snow;" 
+	:src="selectedCd.mc"></iframe>
+</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-tab', {
+    props: ['fromdata','sjdxid','pagemodel'],
+    template:"#my-tab-tp",
+    data: function () {
+      return {
+          cdlist:[],
+          gdcdList:[],
+          zkcds:7,
+          selectedCd:{}
+      }
+    },
+    created : function(){
+        var _this = this;
+        var zdlb = getUrlString("zdlb");
+        var list = zdList(zdlb);
+        var count=0;
+        for(var i in list){
+            var cd = list[i];
+            eval("cd.kzxx = "+cd.kzxx);
+            count++;
+            if(count==1){
+                _this.selectedCd = cd;
+            }
+            if(count<=_this.zkcds){
+                _this.cdlist.push(cd);
+            }else{
+                _this.gdcdList.push(cd);
+            }
+        }
+        console.info(_this.cdlist);
+        console.info(_this.gdcdList);
+        
+    },
+    computed : {
+    },
+    methods : {
+        cdClick:function(cd){
+            this.selectedCd = cd;
+            
+        }
+	},
+	mounted:function(){
+	}
+  });
+</script>
 
 <script type="text/javascript">
 //vue常用方法

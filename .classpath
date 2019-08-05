@@ -12,7 +12,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry including="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry excluding="com/iflytek/qb/yxjk/|doc/file/yxjk/" including="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/main/common"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
