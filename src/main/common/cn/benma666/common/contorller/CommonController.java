@@ -84,7 +84,7 @@ public class CommonController extends BasicController {
         if(map==null){
             sendJson(response, error("该字典类别不支持获取列表"));
         }else{
-            String result = JSON.toJSONString(success("获取成功",map), obj.isJsongsh());
+            String result = JSON.toJSONString(success("获取成功",map.values()), obj.isJsongsh());
             sendJson(response, result);
         }
     }

@@ -462,10 +462,7 @@ Vue.component('my-inputn', {
             if(kzxx["字典数据"]){
                 data = kzxx["字典数据"];
             }else if(!(this.field.zdfy=='1')&&zdlb!="SYS_COMMON_ORG"){
-                var list = zdList(zdlb);
-                if(list){
-                	data = Object.values(list);
-                }
+                var data = zdList(zdlb);
             }
             var keyField = "dm";
             if(field.kjlx=='suggest'){
@@ -2717,7 +2714,7 @@ text-align: center;
 </style>
 <script type="text/x-tp" id="my-tab-tp">
 <div class="mytab" style="height: calc(100vh - 50px);">
-<div class="btn-group btn-group-lg" role="group" aria-label="31232" style="margin-top: 3px;width: 100%;padding-bottom: 2px;border-bottom: solid 1px #0066ff;">
+<div class="btn-group btn-group-lg" role="group" aria-label="31232" style="margin-top: 3px;width: 100%;padding-bottom: 2px;border-bottom: solid 1px #0066ff;padding-left: 5px;">
   	<button v-for="(cd,key,index) in cdlist" type="button" @click="cdClick(cd)"
 		:class="'btn btn-'+(selectedCd.dm!=cd.dm?'default':'info')"
 		>{{cd.dm}}</button>
@@ -2752,10 +2749,14 @@ Vue.component('my-tab', {
     },
     created : function(){
         var _this = this;
+        var zkcds = getUrlString("zkcds");
+        if(zkcds){
+            _this.zkcds = zkcds;
+        }
         var zdlb = getUrlString("zdlb");
         var list = zdList(zdlb);
         var count=0;
-        for(var i in list){
+        for (var i in list){
             var cd = list[i];
             eval("cd.kzxx = "+cd.kzxx);
             count++;
@@ -2768,16 +2769,12 @@ Vue.component('my-tab', {
                 _this.gdcdList.push(cd);
             }
         }
-        console.info(_this.cdlist);
-        console.info(_this.gdcdList);
-        
     },
     computed : {
     },
     methods : {
         cdClick:function(cd){
             this.selectedCd = cd;
-            
         }
 	},
 	mounted:function(){

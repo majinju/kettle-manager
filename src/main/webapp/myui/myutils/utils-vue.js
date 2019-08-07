@@ -51,7 +51,6 @@ $(function() {
 	//必填标记
 	$("label.required").prepend("<span class='required'>*</span>");
 	//zdlb字典
-	$(".zdSelect").zdSelect();
     $(".zdRecord").zdRecord();
 //    $(".zdSelectPage").zdSelectPage();
     $(".zdTranslate").zdTranslate();
@@ -186,41 +185,6 @@ function initValidator(){
                            zdObj.before(zd.mc+" ");
                        }
                        zdObj.remove();
-                   },
-                   error:function(){
-                       alert("加载字典失败："+zdlb);
-                   }
-            });
-        });
-    };
-	/**
-	 * 根据zdlb生成字典选择
-	 */
-    $.fn.zdSelect = function() {
-        this.each(function(){
-            var zdObj = $(this);
-            var zdlb = zdObj.attr("zdlb");
-            var selectedVal = zdObj.attr("selectedVal");
-            var empty = zdObj.attr("empty");
-            if(empty){
-                var option = "<option value=''>"+empty+"</option>";
-                zdObj.append(option);
-            }
-            $.ajax({
-                   type:"POST",
-                   data:{"map['zdlb']":zdlb},
-                   url:serviceAddr+"common/zdList.do",
-                   dataType: "json",
-                   success:function(data){
-                       for(var i = 0;i<data.length;i++){
-                           var zd = data[i];
-                           var option = "<option value='"+zd.dm+"'";
-                           if(zd.dm == selectedVal){
-                               option += " selected='selected'";
-                           }
-                           option += ">"+zd.mc+"</option>";
-                           zdObj.append(option);
-                       }
                    },
                    error:function(){
                        alert("加载字典失败："+zdlb);
@@ -367,12 +331,11 @@ function zdObj(zd,cache){
     var zl = zdList(zdlb);
     if(zl){
         //获取了字典列表
-        if(!isEmpty(zl[dm])){
-            obj = zl[dm];
+        for(var i in zl){
+            if(zl[i].dm==dm){
+                obj = zl[i];
+            }
         }
-    }else if(zdListCache[zdlb][dm]&&cache!=false){
-        //存在字典项缓存
-        obj = zdListCache[zdlb][dm];
     }else{
         //不支持获取列表
         $.ajax({
@@ -443,19 +406,16 @@ function popUpWin(param) {
 	var height = param.height || 500;
 	var left = param.left || (screen.availWidth - width) / 2;
 	var top = param.top || (screen.availHeight - height) / 2;
-	window
-			.open(
-					param.url,
-					name,
-					'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable='
-							+ resizable
-							+ ',copyhistory=yes,width='
-							+ width
-							+ ',height='
-							+ height
-							+ ',screenX='
-							+ left
-							+ ',screenY=' + top + '');
+	window.open(param.url,name,
+		'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable='
+				+ resizable
+				+ ',copyhistory=yes,width='
+				+ width
+				+ ',height='
+				+ height
+				+ ',screenX='
+				+ left
+				+ ',screenY=' + top + '');
 	// + ',left='+ left + ', top=' + top
 }
 
