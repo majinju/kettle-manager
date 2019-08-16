@@ -247,7 +247,7 @@ function PageAjax(){
 
         //如果需要统计总量且要求延迟统计
         if(self.autoCount&&(self.fytjxs=='2')){
-            sjltj();
+            self.sjltj();
         }else if(self.autoCount&&(self.fytjxs=='3')){
             self.setTotal(99999999);
             self.pagination();
