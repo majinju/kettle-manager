@@ -883,8 +883,11 @@ function myGzyz(value,rules,field){
                 if(field&&field.kzxx["字典数据"]){
                     break;
                 }
-                if(zdObj({zdlb:rr[1],dm:value})==null){
-                    msg = "该字典项不存在:"+value;
+                var zdArr = value.split(",");
+                for(var i in zdArr){
+                    if(zdObj({zdlb:rr[1],dm:zdArr[i]})==null){
+                        msg = "该字典项不存在:"+zdArr[i];
+                    }
                 }
                 zdlb = rr[1];
                 break;

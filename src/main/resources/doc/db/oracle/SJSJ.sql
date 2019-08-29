@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2019-08-07 09:20:05
+Date: 2019-08-16 14:38:20
 */
 
 
@@ -6318,7 +6318,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('DD811C0C47584583A26F4F56EF16629A', '
  where a.table_name = upper(''SYS_QX_QXXX'')
    and a.owner = upper(''sjsj'')
 ', null, '<my-cdym id="listPage" :fromdata="fromdata" :sjdxid="sjdxid"></my-cdym>', null, null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('SYS_SJGL_SJDX', '20181210203129', '20190805155348', '1', '10', '{"fields":{"sszzd":{"zddm":"dxmc","zdms":"搜索主字段"},"pyjp":{"zdms":"拼音简拼","zddm":"dxjp"},"pyqp":{"zdms":"拼音全拼","zddm":"dxqp"},"sszdlb":{"zdms":"搜索字段列表","zddm":"dxms"},"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{"my-xjanmc":"导入对象","my-cxanmc":"Query","my-lbkbj":0,"my-istree":false}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJDX', '系统-数据管理-数据对象', '1', 'XT-SJGL-SJDX1', 'XITONG-SHUJUGUANLI-SHUJUDUIXIANG1', '02', 'table', null, 'oracle', 'default', null, 'SYS_SJGL_SJDX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px asc,id', '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.SjdxLjq', 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('SYS_SJGL_SJDX', '20181210203129', '20190816143527', '1', '10', '{"fields":{"sszzd":{"zddm":"dxmc","zdms":"搜索主字段"},"pyjp":{"zdms":"拼音简拼","zddm":"dxjp"},"pyqp":{"zdms":"拼音全拼","zddm":"dxqp"},"sszdlb":{"zdms":"搜索字段列表","zddm":"dxms"},"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{"my-xjanmc":"导入对象","my-cxanmc":"Query","my-lbkbj":0,"my-istree":false}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJDX', '系统-数据管理-数据对象', '1', 'XT-SJGL-SJDX1', 'XITONG-SHUJUGUANLI-SHUJUDUIXIANG1', '02', 'table', null, 'oracle', 'default', null, 'SYS_SJGL_SJDX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px asc,gxsj desc', '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.SjdxLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
