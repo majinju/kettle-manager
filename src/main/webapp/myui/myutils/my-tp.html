@@ -2258,6 +2258,8 @@ Vue.component('my-list', {
             }
             //初始化左侧树
             _this.initTree();
+       		//水印
+       		watermark({"watermark_txt":this._data.user.yhxm+","+this._data.user.sfzh});
         }
   });
 </script>
@@ -2417,6 +2419,8 @@ Vue.component('my-edit', {
            }
 	},
     mounted: function () {
+		//水印
+		watermark({"watermark_txt":this._data.user.yhxm+","+this._data.user.sfzh});
     }
   });
 </script>
