@@ -9,12 +9,12 @@
         watermark_x_space: 20, //水印x轴间隔
         watermark_y_space: 30, //水印y轴间隔
         watermark_color: '#20B8E4', //水印字体颜色
-        watermark_alpha: 0.2, //水印透明度
+        watermark_alpha: 0.25, //水印透明度
         watermark_fontsize: '18px', //水印字体大小
-        watermark_font: '微软雅黑', //水印字体
+        watermark_font: 'Vedana', //水印字体
         watermark_width: 300, //水印宽度
-        watermark_height: 80, //水印长度
-        watermark_angle: 20 //水印倾斜度数
+        watermark_height: 120, //水印长度
+        watermark_angle: 25 //水印倾斜度数
     };
     //采用配置项替换默认值，作用类似jquery.extend
     if (arguments.length === 1 && typeof arguments[0] === "object") {
