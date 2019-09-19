@@ -471,7 +471,6 @@ function alertInfo(msg){
 function alertInfoYes(result,end){
     layer.alert(result.msg ? result.msg : "操作成功！", {
         shade:0.3,
-        time: 5000,
         icon:1,
         end:end
     });
@@ -1018,7 +1017,7 @@ function myValidFrom(_this,module,fromdata){
 function vueTimeGsh(value,_this){
     if(_this.pagemodel=='search'){
         //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
-        return dateFormat(value,'yyyy-MM-dd');
+        return dateFormat(value,'yyyy-MM-dd HH:mm:ss');
     }
     var qdgs = _this.WdatePicker.dateFmt;
     return dateFormat(value,qdgs);
@@ -1029,7 +1028,7 @@ function vueTimeGsh(value,_this){
 function vueTimeFgsh(value,_this,event){
     if(_this.pagemodel=='search'){
         //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
-        return dateFormat(value,'yyyyMMdd');
+        return dateFormat(value,'yyyyMMddHHmmss');
     }
     var hdgs = _this.WdatePicker.hdgs;
     return dateFormat(value,hdgs);

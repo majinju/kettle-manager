@@ -32,20 +32,40 @@ public class SjztLjq extends DefaultLjq{
     public JsonResult save(SysSjglSjdx sjdx, JSONObject myJsonParams) {
         String cllx = myJsonParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
-        String vs = "validationQuery."+yobj.getString("lx");
-        if(StringUtil.isBlank(yobj.getString("csyj"))&&!vs.equals(SConf.getVal(vs))){
-            yobj.put("csyj", SConf.getVal(vs));
-        }
-        DictManager.clearDict(ZD_SYS_COMMON_SJZT);
+        JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
+        String dbdm = obj.getString("dm");
         if(KEY_CLLX_UPDATE.equals(cllx)){
-            JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
             if(Db.isCz(obj.getString("dm"))){
                 Db.use(obj.getString("dm")).close();
             }
         }else{
-//            SysQxYhxx user = (SysQxYhxx) myJsonParams.get(KEY_USER);
-//            QxManager.setCjrInfo(user, yobj);
+            dbdm = yobj.getString("dm");
+            String vs = "validationQuery."+yobj.getString("lx");
+            //处理测试语句
+            if(StringUtil.isBlank(yobj.getString("csyj"))&&!vs.equals(SConf.getVal(vs))){
+                yobj.put("csyj", SConf.getVal(vs));
+            }
+            //处理驱动
+            if(StringUtil.isBlank(yobj.getString("sjkqd"))){
+                yobj.put("sjkqd", Db.getDriverClassName(yobj.getString("lx"), yobj.getString("ljc")));
+            }
         }
-        return super.save(sjdx, myJsonParams);
+        JsonResult result = super.save(sjdx, myJsonParams);
+        DictManager.clearDict(ZD_SYS_COMMON_SJZT);
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, dbdm);
+        //数据库型数据载体才进行测试
+        if(SConf.getVal("sjkxsjzt").indexOf(dbObj.getString("lx"))>-1){
+            String zt = "1";
+            try {
+                    Db.use(dbdm);
+            } catch (Exception e) {
+                zt = "2";
+                result = error("该数据源当前不可用："+obj.getString("dm"),e);
+                log.debug(result.getMsg(),e);
+            }
+            //更新数据源状态
+            db.update("update SYS_SJGL_SJZT t set t.zt=?,t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.id=?", zt,yobj.getString("id"));
+        }
+        return result;
     }
 }

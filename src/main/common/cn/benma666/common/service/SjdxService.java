@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
+import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
 import cn.benma666.web.BasicService;
@@ -29,7 +30,7 @@ import com.alibaba.fastjson.JSONObject;
 public class SjdxService extends BasicService{
 
     /**
-    *  <br/>
+    * 批量处理，该方法是一个事务 <br/>
     * @author jingma
     * @param sjdx
     * @param user 
@@ -37,9 +38,12 @@ public class SjdxService extends BasicService{
     */
     public JsonResult txPlcl(SysSjglSjdx sjdx, JSONObject myParams) {
         Object ids = sjdx.get(LjqInterface.KEY_IDS);
-        if(ids!=null){
+        if(ids!=null&&StringUtil.isNotBlank(ids.toString())){
             myParams.put(LjqInterface.KEY_IDS_IN, " in ('"+ids.toString().replace(",", "','")+"')");
             myParams.put(LjqInterface.KEY_IDS_ARRAY, ids.toString().split(","));
+        }else{
+            myParams.remove(LjqInterface.KEY_IDS_IN);
+            myParams.remove(LjqInterface.KEY_IDS_ARRAY);
         }
         Object cllxObj = sjdx.get(LjqInterface.KEY_CLLX);
         if(cllxObj==null){
@@ -73,7 +77,7 @@ public class SjdxService extends BasicService{
     }
 
     /**
-    *  <br/>
+    * 通用获取数据接口 <br/>
     * @author jingma
     * @param dbSjdx
     * @param myParams
@@ -81,9 +85,12 @@ public class SjdxService extends BasicService{
     */
     public JsonResult getdata(SysSjglSjdx sjdx, JSONObject myParams) {
         Object ids = sjdx.get(LjqInterface.KEY_IDS);
-        if(ids!=null){
+        if(ids!=null&&StringUtil.isNotBlank(ids.toString())){
             myParams.put(LjqInterface.KEY_IDS_IN, " in ('"+ids.toString().replace(",", "','")+"')");
             myParams.put(LjqInterface.KEY_IDS_ARRAY, ids.toString().split(","));
+        }else{
+            myParams.remove(LjqInterface.KEY_IDS_IN);
+            myParams.remove(LjqInterface.KEY_IDS_ARRAY);
         }
         Object cllxObj = sjdx.get(LjqInterface.KEY_CLLX);
         if(cllxObj==null){

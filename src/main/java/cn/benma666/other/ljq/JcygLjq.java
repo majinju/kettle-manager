@@ -44,10 +44,12 @@ public class JcygLjq extends DefaultLjq{
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+        JSONObject fileObj;
+        String msg;
         switch (cllx) {
         case "clygsj":
             er = new JcygExcel(sjdx,myParams);
-            JSONObject fileObj = yobj.getJSONObject("fileObj");
+            fileObj = yobj.getJSONObject("fileObj");
             er.setExcelPath(fileObj.getString("sclj"));
             //传入用户信息辅助数据校验
             er.setUser((SysQxYhxx) myParams.get(KEY_USER));
@@ -65,7 +67,7 @@ public class JcygLjq extends DefaultLjq{
                 myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
                 save(sjdx,myParams);
             }
-            String msg = "成功上传员工数："+er.getResult().size();
+            msg = "成功上传员工数："+er.getResult().size();
             if(er.getCfscryList().size()>0){
                 msg += "。<br/>如下员工已存在，系统已自动忽略：<br/>"+Arrays.toString(er.getCfscryList().toArray());
             }

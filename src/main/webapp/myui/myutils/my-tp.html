@@ -664,8 +664,8 @@ Vue.component('my-timeaera', {
     props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
-          startData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
-          endData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
+          startData:{dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true,maxDate:'%y-%M-%d %H:%m:%s'},
+          endData:{dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true,maxDate:'%y-%M-%d %H:%m:%s'},
           times:this.value||''
       }
     },
@@ -676,14 +676,14 @@ Vue.component('my-timeaera', {
         if(times[0]){
             val1=times[0];
             if(val1.indexOf('goDay:')==0){
-                val1 = new Date().addDays(val1.substring(6)).format('yyyyMMddmmHHss');
+                val1 = new Date().addDays(val1.substring(6)).format('yyyyMMddHHmmss');
             }
         }
         var val2="";
         if(times[1]){
             var val2=times[1];
             if(val2.indexOf('goDay:')==0){
-                val2 = new Date().addDays(val2.substring(6)).format('yyyyMMddmmhhss');
+                val2 = new Date().addDays(val2.substring(6)).format('yyyyMMddHHmmss');
             }
         }
         this.times = val1 + ";"+val2;
@@ -1853,9 +1853,9 @@ Vue.component('my-zssjdx', {
 			<slot></slot>
         </div>
         <div class="btn-table-right">
-			<button v-if="qxByQxm('DCDQY')" class="btn btn-default btn-sm" type="button"
+			<button v-if="" class="btn btn-default btn-sm" type="button"
 				@click="expe"><i class="icon ion-ios-redo-outline"></i> 导出当前页</button>
-			<button v-if="qxByQxm('DCQB')" class="btn btn-default btn-sm" type="button"
+			<button v-if="" class="btn btn-default btn-sm" type="button"
 				@click="expeAll"><i class="icon ion-ios-redo"></i> 导出全部</button>
     	</div>
 	</div>
@@ -2121,6 +2121,7 @@ Vue.component('my-list', {
 					    ids=ids+","+ed[i][_this.sjdx.zjzd];
 					}
                 }
+                //选择的id为空且需列表行
                 if(ids==""&&!(options.bxlbh==false)){
                     alertError("请选择要操作行");
                     return;
@@ -2753,11 +2754,11 @@ Vue.component('my-tab', {
     },
     created : function(){
         var _this = this;
-        var zkcds = getUrlString("zkcds");
+        var zkcds = getUrlString("e_zkcds");
         if(zkcds){
             _this.zkcds = zkcds;
         }
-        var zdlb = getUrlString("zdlb");
+        var zdlb = getUrlString("e_zdlb");
         var list = zdList(zdlb);
         var count=0;
         for (var i in list){
@@ -2832,10 +2833,8 @@ a-oper="update" title="编辑【{{= sjdx.dxmc}}】"><i class="icon ion-compose">
 a-oper="dxcl" title="删除【{{= sjdx.dxmc}}】"><i class="icon ion-android-delete"></i></a>
 <span class="divider"></span>
 {{/if}}
-{{if qxByQxm(user,sjdx,'XQQX')}}
 <a href="sjdx/edit.do?pagemodel=details&dxdm={{= sjdx.dxdm}}&myparams={{= editUrl(sjdx,row)}}" 
 a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-round"></i></a>
-{{/if}}
 </span>
 </script>
 <!-- 分页 -->

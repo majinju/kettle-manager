@@ -49,9 +49,10 @@ public class SjdxLjq extends DefaultLjq{
         case KEY_CLLX_INSERT:
             SysSjglSjdx jtdx = JSON.parseObject(params.get(KEY_OBJ).toString(), SysSjglSjdx.class);
             jtdx.setId(StringUtil.getUUIDUpperStr());
-            sqlManager.insertTemplate(jtdx);
+//            sqlManager.insertTemplate(jtdx);
+            JsonResult r = super.save(sjdx, params);
             //新增
-            JsonResult r = impFields(jtdx,params,sjdx);
+            r.addMsg(impFields(jtdx,params,sjdx).getMsg());
             return success("编辑成功,"+r.getMsg());
         default:
             return super.save(sjdx, params);
@@ -280,7 +281,7 @@ public class SjdxLjq extends DefaultLjq{
                     zd.setGshff("vueTimeGsh");
                     zd.setFgshff("vueTimeFgsh");
                     zd.setZdkd(BigDecimal.valueOf(130));
-                    zd.setHdyzgz("zd:yyyyMMddHHmmss");
+                    zd.setHdyzgz("date:yyyyMMddHHmmss");
                 }
                 if(zdms.length==2){
                     //存在单独的字段描述信息

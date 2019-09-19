@@ -12,9 +12,24 @@
     	id="plscTitle"
     	onmouseover="plscTitle(this)"></i></button>
 {{/if}}
-<span>
 {{if qxByQxm(user,sjdx,'YGMBXZ')}}
-<button class="btn btn-primary btn-sm" onclick="downloadRyhcTemplate()">{{= qxByQxm(user,sjdx,'YGMBXZ').mc}}
+<button class="btn btn-primary btn-sm" onclick="downloadYgscTemplate()">{{= qxByQxm(user,sjdx,'YGMBXZ').mc}}
+	<i style="margin-left: 5px;" 
+    	class="icon ion-ios-help-outline" 
+    	id="plscmbTitle"
+    	onmouseover="plscmbTitle(this)"></i>
+</button>
+{{/if}}
+{{if qxByQxm(user,sjdx,'LZYGSC')}}
+<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="yglzsj" callBack="lzygcl">
+	{{= qxByQxm(user,sjdx,'LZYGSC').mc}}
+	<i  style="margin-left: 5px;" 
+    	class="icon ion-ios-help-outline" 
+    	id="plscTitle"
+    	onmouseover="plscTitle(this)"></i></button>
+{{/if}}
+{{if qxByQxm(user,sjdx,'LZMBXZ')}}
+<button class="btn btn-primary btn-sm" onclick="downloadLzmbTemplate()">{{= qxByQxm(user,sjdx,'LZMBXZ').mc}}
 	<i style="margin-left: 5px;" 
     	class="icon ion-ios-help-outline" 
     	id="plscmbTitle"
@@ -65,14 +80,40 @@ function plscTitle(_this){
 function plscmbTitle(_this){
 	layer.tips("请严格按照模板填充数据，注意模板中的提示信息","#plscmbTitle");
 }
-function downloadRyhcTemplate(){
-	//下载人员核查模板
-	$.download("common/download.do",{id:"A730742FE4EA47E986C6A54858DAA122"});
+function downloadYgscTemplate(){
+	//下载员工上传模板
+	$.download("common/download.do",{id:"D6B55EC32CBA49D0B9D7CE8767C1121A"});
 }
+function downloadLzmbTemplate(){
+	//下载离职模板
+	$.download("sjdx/getMb.do",{dxdm:"JCGA_JCYG_JCXX_LZZY"});
+}
+/**
+ * 处理员工数据
+ */
 function clygsj(fileObj){
     var params = {};
     params.id=listFrom.sjdx.id;
     params['map["cllx"]']="clygsj";
+    params.myparams = JSON.stringify({"fileObj":fileObj});
+    ajax('sjdx/plcl.do',{
+        fromdata:params,
+        qrts:false,
+        success:function(data){
+            alertInfoYes(data,function(){
+                listFrom.$children[0].listPage.queryPage(); //执行页面刷新函数 
+			}
+            );
+        }
+    });
+}
+/**
+ * 离职员工处理
+ */
+function lzygcl(fileObj){
+    var params = {};
+    params.dxdm="JCGA_JCYG_JCXX_LZZY";
+    params['map["cllx"]']="lzygcl";
     params.myparams = JSON.stringify({"fileObj":fileObj});
     ajax('sjdx/plcl.do',{
         fromdata:params,
