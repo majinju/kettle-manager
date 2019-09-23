@@ -15,6 +15,10 @@ function sjdxZdyjy(data,_this){
         alertError("单个填报只支持非长期证类型填报，申办长期隔离区通行证请使用批量上传功能进行填报！");
         return false;
     }
+    if(data.sbglqtxz=='1'&&isEmpty(data.glqtxzlx)){
+        alertError("申办隔离区同行证必须选择申办隔离区同行证类型！");
+        return false;
+    }
     return true;
 }
 </script>
