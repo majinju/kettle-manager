@@ -128,7 +128,8 @@ public class JcygExcel extends ExcelReader {
             yclList.add(gmsfhm);
         }
         String sbglqtxz = jcyg.getString("sbglqtxz");
-        if(UtilConst.WHETHER_TRUE.equals(sbglqtxz)&&StringUtil.isBlank(jcyg.getString("glqtxzlx"))){
+        String glqtxzlx = jcyg.getString("glqtxzlx");
+        if(UtilConst.WHETHER_TRUE.equals(sbglqtxz)&&StringUtil.isBlank(glqtxzlx)){
             throw new ExcelReadException("申办隔离区同行证必须选择申办隔离区同行证类型");
         }
         //开始包装数据
@@ -150,8 +151,7 @@ public class JcygExcel extends ExcelReader {
             shgxs.add(shgx);
             gxs++;
         }
-        String glqtxzlx = jcyg.getString("glqtxzlx");
-        if(UtilConst.WHETHER_TRUE.equals(glqtxzlx)&&gxs<2){
+        if("1".equals(glqtxzlx)&&gxs<2){
             throw new ExcelReadException("办理长期证至少需要录入两个关系信息");
         }
         jcyg.put("shgxs", shgxs);

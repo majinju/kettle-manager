@@ -31,7 +31,7 @@
 
     //获取页面最大宽度
     var page_width = Math.max(document.body.scrollWidth, document.body.clientWidth);
-    var cutWidth = page_width * 0.0150;
+    var cutWidth = page_width * 0.0350;
     var page_width = page_width - cutWidth;
     //获取页面最大高度
     var page_height = Math.max(document.body.scrollHeight, document.documentElement.clientHeight) * 0.9;

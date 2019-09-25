@@ -14,7 +14,7 @@ function PageAjax(){
 	//最大页大小，用于现在导出全部
     this.maxPageSize = 50000;
 	//页大小列表
-    this.pageSizeList=[5,10,20,50,100,200,500,1000,2000,5000];
+    this.pageSizeList=[5,10,20,50,100,200,500];
 	//当前页
     this.pageIndex = 1;
 	//是否自动统计总数，只有查询按钮才会统计总量，分页跳转条件不变，数据量不会变

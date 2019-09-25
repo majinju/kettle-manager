@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2019-09-20 09:59:07
+Date: 2019-09-25 19:05:03
 */
 
 
@@ -6104,7 +6104,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJDX"."PLYMKZ" IS '批量页面扩展;主要�
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('A64429A425F2418F93B6BAD1912C824F', '20190116215020', '20190116215020', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'TEST_BDWJ_FILE1', '测试-本地文件-文件1', null, null, null, '02', 'txt', null, null, 'bdlsml', 'file1/file2', '*.txt', 'id', null, null, null, null, null, null, '1', null, '1', '1', '1', '1', '0', '1', null, 'id,主键
 xx1,测试1
 xx2,测试2', null, null, null, null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('2CAACF7B795F4CB9B79E26F4236EE9B3', '20190118200404', '20190614194702', '1', '99999', '{
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('2CAACF7B795F4CB9B79E26F4236EE9B3', '20190118200404', '20190925183311', '1', '99999', '{
     "fields": {
         "cjrdm": {
             "zdms": "创建人代码",
@@ -6135,7 +6135,47 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('2CAACF7B795F4CB9B79E26F4236EE9B3', '
    and a.owner = c.owner
  where a.table_name = upper(''SYS_QX_FWQ'')
    and a.owner = upper(''sjsj'')
-', null, null, null, null);
+', null, '<!-- 作业监控配置列表扩展 -->
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+	<span :id="''lbplcz-''+sjdxid"></span>
+</my-list>
+<script type="text/x-tp" id="my-sjdx-lbplcz-tp">
+<span>
+<button class="btn btn-primary btn-sm" onclick="plcl(''scjkrw'',null,{bxlbh:false})"><i class="icon ion-pull-request"></i> 生成监控任务</button>
+</span>
+</script>
+<script type="text/x-tp" id="my-sjdx-lbcz-tp">
+</script>
+<script>
+function sjdxZdy(vp){
+    vp.el="#listPage";
+    vp.methods.plcl=function(cllx,_this,options){
+          this.$children[0].plcl(cllx,_this,options);
+    }
+    vp.mounted=function(){
+        lbplcz(this);
+    }
+}
+function plcl(cllx,_this,options){
+    listFrom.plcl(cllx,_this,options);
+}
+function lbplcz(_this){
+    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl({sjdx:_this.sjdx,
+        user:_this.$children[0]._data.user}).html();
+    $(''#lbplcz-''+_this.sjdxid).html(qtcz);
+}
+function sjdxlbcz(value,_this) {
+    var cz = defaultLbcz(value,_this);
+    if("非列表模式"==cz){
+        return cz;
+    }
+    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({
+        sjdx:_this.$root.sjdx,
+        user:_this.$parent.$parent.$parent._data.user,
+	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+    return cz+qtcz;
+}
+</script>', null, null);
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('485FA230F432435A9532084ADC02C447', '20181225214005', '20190427130457', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_XX', '系统-运行监控-消息', null, null, null, '02', 'table', null, 'oracle', 'default', null, 'SYS_YXJK_XX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'cjsj desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
@@ -6242,7 +6282,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('A1ABCD9F2CAD4BB9B212380FD90E4C12', '
  where a.table_name = upper(''SYS_LOG_HTRZ'')
    and a.owner = upper(''sjsj'')
 ', null, null, null, null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('5B27F00C6D854795B63F67520AF0738E', '20181223120433', '20190417104857', '1', '1000', '{
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('5B27F00C6D854795B63F67520AF0738E', '20181223120433', '20190925183053', '1', '1000', '{
     "fields": {
         "cjrdm": {
             "zdms": "创建人代码",
@@ -6261,7 +6301,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('5B27F00C6D854795B63F67520AF0738E', '
             "zddm": "cjrdwmc"
         }
     }
-}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_APP', '系统-权限-应用', null, null, null, '02', 'table', null, 'oracle', 'default', null, 'SYS_QX_APP', 'id', null, 'gxsj', null, null, null, 'yxx', '1', null, '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
+}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_APP', '系统-权限-应用', null, null, null, '02', 'table', null, 'oracle', 'default', null, 'SYS_QX_APP', 'id', null, 'gxsj', null, null, null, 'yxx', '1', null, '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.AppLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -6273,15 +6313,52 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('5B27F00C6D854795B63F67520AF0738E', '
    and a.owner = c.owner
  where a.table_name = ''SYS_QX_APP''
    and a.owner = upper(''sjsj'')
-', null, '<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+', null, '<!-- 作业监控配置列表扩展 -->
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+	<span :id="''lbplcz-''+sjdxid"></span>
 </my-list>
+<script type="text/x-tp" id="my-sjdx-lbplcz-tp">
+<span>
+<button class="btn btn-primary btn-sm" onclick="plcl(''scjkrw'',null,{bxlbh:false})"><i class="icon ion-pull-request"></i> 生成监控任务</button>
+</span>
+</script>
+<script type="text/x-tp" id="my-sjdx-lbcz-tp">
+</script>
 <script>
+function sjdxZdy(vp){
+    vp.el="#listPage";
+    vp.methods.plcl=function(cllx,_this,options){
+          this.$children[0].plcl(cllx,_this,options);
+    }
+    vp.mounted=function(){
+        lbplcz(this);
+    }
+}
+function plcl(cllx,_this,options){
+    listFrom.plcl(cllx,_this,options);
+}
+function lbplcz(_this){
+    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl({sjdx:_this.sjdx,
+        user:_this.$children[0]._data.user}).html();
+    $(''#lbplcz-''+_this.sjdxid).html(qtcz);
+}
+function sjdxlbcz(value,_this) {
+    var cz = defaultLbcz(value,_this);
+    if("非列表模式"==cz){
+        return cz;
+    }
+    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({
+        sjdx:_this.$root.sjdx,
+        user:_this.$parent.$parent.$parent._data.user,
+	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+    return cz+qtcz;
+}
 function yydz(value,_this) {
-   if(value){
-    return "<a href=''"+value+"'' target=''_blank''>"+value+"</a>";
+    if(value){
+     return "<a href=''"+value+"'' target=''_blank''>"+value+"</a>";
+ 	}
 }
-}
-</script>                         ', null, null);
+</script>', null, null);
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('123190AB67534D9A93A54BA2114B1D67', '20181225130731', '20190427125413', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'OTHER_KETTLE_ZYGL', '其他-kettle-作业管理', 'cn.benma666.kettle.ljq.JobLjq', 'QT-KETTLE-ZYGL', 'QITA-KETTLE-ZUOYEGUANLI', '02', 'table', null, 'oracle', 'default', 'kettle_test', 'R_JOB', 'id_job', null, 'gxsj', null, null, null, 'yxx', '1', null, '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
@@ -6505,37 +6582,6 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('AD6FF4C358284A8DB3954B3E32A51E86', '
    and a.column_name = c.column_name
    and a.owner = c.owner
  where a.table_name = ''SYS_QX_YHXX'' and a.owner=''SJSJ''
-', null, null, null, null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('7C53F02FC43043FEAD8653541617710F', '20181222180901', '20190330170720', '1', '30', '{
-    "fields": {
-        "cjrdm": {
-            "zdms": "创建人代码",
-            "zddm": "cjrdm"
-        },
-        "cjrxm": {
-            "zdms": "创建人姓名",
-            "zddm": "cjrxm"
-        },
-        "cjrdwdm": {
-            "zdms": "创建人单位代码",
-            "zddm": "cjrdwdm"
-        },
-        "cjrdwmc": {
-            "zdms": "创建人单位名称",
-            "zddm": "cjrdwmc"
-        }
-    }
-}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJZT', '系统-数据管理-数据载体', null, 'XT-SJGL-SJZT', 'XITONG-SHUJUGUANLI-SHUJUZAITI', '02', 'table', null, 'oracle', 'default', null, 'SYS_SJGL_SJZT', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px', '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.SjztLjq', 'select a.column_name as zddm,
-       a.comments    as zdms,
-       c.data_type   as zdlx,
-       c.data_length as zdcd
-  from all_col_comments a
-  left join all_tab_columns c
-    on a.table_name = c.table_name
-   and a.owner = c.owner
-   and a.column_name = c.column_name
-   and a.owner = c.owner
- where a.table_name = ''SYS_SJGL_SJZT''
 ', null, null, null, null);
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('07DCAFB42634494C85B1F90A442489F1', '20181220215058', '20190510162249', '1', '40', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_LOG_FWZR', '系统-日志-访问日志', null, null, null, '02', 'table', null, 'oracle', 'default', null, 'SYS_LOG_FWZR', 'id', null, 'gxsj', null, null, null, 'yxx', '3', 'cjsj desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
        a.comments    as zdms,
@@ -6842,19 +6888,6 @@ html,body{
 	background: url(common/download.do?id=D80C0CEA602745A3BACB8D3F0DA9DA26) no-repeat;
 }
 </style>', null, null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('772FA408CDD743EDA4146728DBA4B24A', '20190306190340', '20190306190340', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_ZDYSQL', '系统-运行监控-自定义sql', null, null, null, '02', 'table', null, null, 'default', null, 'SYS_YXJK_ZDYSQL', 'id', null, 'gxsj', null, null, null, 'yxx', '1', null, '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
-       a.comments    as zdms,
-       c.data_type   as zdlx,
-       c.data_length as zdcd
-  from all_col_comments a
-  left join all_tab_columns c
-    on a.table_name = c.table_name
-   and a.owner = c.owner
-   and a.column_name = c.column_name
-   and a.owner = c.owner
- where a.table_name = upper(''SYS_YXJK_ZDYSQL'')
-   and a.owner = upper(''sjsj'')
-', null, null, null, null);
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('67EE27632E714E0681A7C08001311E93', '20190328150534', '20190425192118', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'QT_HCFW_RYHC', '其他-核查服务-人员核查', null, null, null, '02', 'table', null, null, 'default', null, 'v_xndx', 'sfzh', null, 'gxsj', null, null, null, 'yxx', '1', null, '0', '1', '0', '1', '0', '1', 'cn.benma666.other.ljq.RyhcLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
@@ -7191,7 +7224,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('D350756A26634C82AE3181B0B549A973', '
  where a.table_name = upper(''v_xndx'')
    and a.owner = upper(''sjsj'')
 ', null, '<my-tab id="listPage" :fromdata="fromdata" :sjdxid="sjdxid"></my-tab>', null, null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('33A39C954BA7458FB67AD1F3FA32B5B8', '20190418202237', '20190918194611', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'JCGA_JCYG_JCXX', '机场公安-机场用工-基础信息', null, null, null, '02', 'table', null, null, 'default', null, 'JCGA_JCYG_JCXX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'gxsj desc', '1', '1', '1', '1', '0', '0', 'cn.benma666.other.ljq.JcygLjq', 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('33A39C954BA7458FB67AD1F3FA32B5B8', '20190418202237', '20190923101819', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'JCGA_JCYG_JCXX', '机场公安-机场用工-基础信息', null, null, null, '02', 'table', null, null, 'default', null, 'JCGA_JCYG_JCXX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'gxsj desc', '1', '1', '1', '1', '0', '0', 'cn.benma666.other.ljq.JcygLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -7355,10 +7388,14 @@ function sjdxZdyjy(data,_this){
         alertError("单个填报只支持非长期证类型填报，申办长期隔离区通行证请使用批量上传功能进行填报！");
         return false;
     }
+    if(data.sbglqtxz==''1''&&isEmpty(data.glqtxzlx)){
+        alertError("申办隔离区同行证必须选择申办隔离区同行证类型！");
+        return false;
+    }
     return true;
 }
 </script>', null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('A8046D1B8FCC4534BDF2481F1D8E5E75', '20181225212709', '20190430170333', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_JKRW', '系统-运行监控-监控任务', null, null, null, '02', 'table', null, 'oracle', 'default', null, 'SYS_YXJK_JKRW', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('A8046D1B8FCC4534BDF2481F1D8E5E75', '20181225212709', '20190925112358', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_JKRW', '系统-运行监控-监控任务', null, null, null, '02', 'table', null, 'oracle', 'default', null, 'SYS_YXJK_JKRW', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -7511,7 +7548,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('B9EC979D34354140A865495BBD6D55B7', '
  where a.table_name = upper(''SYS_QX_QXXX'')
    and a.owner = upper(''sjsj'')
 ', null, '<my-cdym id="listPage" :fromdata="fromdata" :sjdxid="sjdxid"></my-cdym>', null, null);
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('1235FBE3A502406C9393AF038DAF6996', '20181225130731', '20190919110158', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'OTHER_KETTLE_ZYJKPZ', '其他-kettle-作业监控配置', null, 'QT-KETTLE-ZYJKPZ', 'QITA-KETTLE-ZUOYEJIANKONGPEIZHI', '02', 'table', null, 'oracle', 'default', 'kettle_test', 'R_JOB', 'id_job', null, null, null, null, null, null, '1', null, '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.ZyjkpzLjq', 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('1235FBE3A502406C9393AF038DAF6996', '20181225130731', '20190925175305', '1', '99999', '{"运行监控任务默认配置":{"rwlb":"01","ylrw":"319A6972576D4933BD8F60DF18895FA2,24B786B50A9F49ABACF94548A6DD2F17,01D11637082948209910C9C842192906","rwdj":1}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'OTHER_KETTLE_ZYJKPZ', '其他-kettle-作业监控配置', null, 'QT-KETTLE-ZYJKPZ', 'QITA-KETTLE-ZUOYEJIANKONGPEIZHI', '02', 'table', null, 'oracle', 'default', 'kettle_test', 'R_JOB', 'id_job', null, null, null, null, null, null, '1', null, '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.ZyjkpzLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -7684,6 +7721,130 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('977C0B3D641C467CBC324D36B405A429', '
           /*}*/
          group by t.cjrdm
          order by count(1) desc', null, null, null);
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('772FA408CDD743EDA4146728DBA4B24A', '20190306190340', '20190925190124', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_ZDYSQL', '系统-运行监控-自定义sql', null, null, null, '02', 'table', null, null, 'default', null, 'SYS_YXJK_ZDYSQL', 'id', null, 'gxsj', null, null, null, 'yxx', '1', null, '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.ZdysqlLjq', 'select a.column_name as zddm,
+       a.comments    as zdms,
+       c.data_type   as zdlx,
+       c.data_length as zdcd
+  from all_col_comments a
+  left join all_tab_columns c
+    on a.table_name = c.table_name
+   and a.owner = c.owner
+   and a.column_name = c.column_name
+   and a.owner = c.owner
+ where a.table_name = upper(''SYS_YXJK_ZDYSQL'')
+   and a.owner = upper(''sjsj'')
+', null, '<!-- 作业监控配置列表扩展 -->
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+	<span :id="''lbplcz-''+sjdxid"></span>
+</my-list>
+<script type="text/x-tp" id="my-sjdx-lbplcz-tp">
+<span>
+<button class="btn btn-primary btn-sm" onclick="plcl(''scjkrw'',null,{bxlbh:false})"><i class="icon ion-pull-request"></i> 生成监控任务</button>
+</span>
+</script>
+<script type="text/x-tp" id="my-sjdx-lbcz-tp">
+</script>
+<script>
+function sjdxZdy(vp){
+    vp.el="#listPage";
+    vp.methods.plcl=function(cllx,_this,options){
+          this.$children[0].plcl(cllx,_this,options);
+    }
+    vp.mounted=function(){
+        lbplcz(this);
+    }
+}
+function plcl(cllx,_this,options){
+    listFrom.plcl(cllx,_this,options);
+}
+function lbplcz(_this){
+    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl({sjdx:_this.sjdx,
+        user:_this.$children[0]._data.user}).html();
+    $(''#lbplcz-''+_this.sjdxid).html(qtcz);
+}
+function sjdxlbcz(value,_this) {
+    var cz = defaultLbcz(value,_this);
+    if("非列表模式"==cz){
+        return cz;
+    }
+    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({
+        sjdx:_this.$root.sjdx,
+        user:_this.$parent.$parent.$parent._data.user,
+	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+    return cz+qtcz;
+}
+</script>', null, null);
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('7C53F02FC43043FEAD8653541617710F', '20181222180901', '20190925180437', '1', '30', '{
+    "fields": {
+        "cjrdm": {
+            "zdms": "创建人代码",
+            "zddm": "cjrdm"
+        },
+        "cjrxm": {
+            "zdms": "创建人姓名",
+            "zddm": "cjrxm"
+        },
+        "cjrdwdm": {
+            "zdms": "创建人单位代码",
+            "zddm": "cjrdwdm"
+        },
+        "cjrdwmc": {
+            "zdms": "创建人单位名称",
+            "zddm": "cjrdwmc"
+        }
+    }
+}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJZT', '系统-数据管理-数据载体', null, 'XT-SJGL-SJZT', 'XITONG-SHUJUGUANLI-SHUJUZAITI', '02', 'table', null, 'oracle', 'default', null, 'SYS_SJGL_SJZT', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px', '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.SjztLjq', 'select a.column_name as zddm,
+       a.comments    as zdms,
+       c.data_type   as zdlx,
+       c.data_length as zdcd
+  from all_col_comments a
+  left join all_tab_columns c
+    on a.table_name = c.table_name
+   and a.owner = c.owner
+   and a.column_name = c.column_name
+   and a.owner = c.owner
+ where a.table_name = ''SYS_SJGL_SJZT''
+', null, '<!-- 作业监控配置列表扩展 -->
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+	<span :id="''lbplcz-''+sjdxid"></span>
+</my-list>
+<script type="text/x-tp" id="my-sjdx-lbplcz-tp">
+<span>
+<button class="btn btn-primary btn-sm" onclick="plcl(''scjkrw'',null,{bxlbh:false})"><i class="icon ion-pull-request"></i> 生成监控任务</button>
+</span>
+</script>
+<script type="text/x-tp" id="my-sjdx-lbcz-tp">
+</script>
+<script>
+function sjdxZdy(vp){
+    vp.el="#listPage";
+    vp.methods.plcl=function(cllx,_this,options){
+          this.$children[0].plcl(cllx,_this,options);
+    }
+    vp.mounted=function(){
+        lbplcz(this);
+    }
+}
+function plcl(cllx,_this,options){
+    listFrom.plcl(cllx,_this,options);
+}
+function lbplcz(_this){
+    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl({sjdx:_this.sjdx,
+        user:_this.$children[0]._data.user}).html();
+    $(''#lbplcz-''+_this.sjdxid).html(qtcz);
+}
+function sjdxlbcz(value,_this) {
+    var cz = defaultLbcz(value,_this);
+    if("非列表模式"==cz){
+        return cz;
+    }
+    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({
+        sjdx:_this.$root.sjdx,
+        user:_this.$parent.$parent.$parent._data.user,
+	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+    return cz+qtcz;
+}
+</script>', null, null);
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('D739F41EBDFE4F7389114338309745E4', '20190511191347', '20190511195623', '1', '99999', '{"bjymkz":{"my-qdbts":1,"my-xsgban":0}}', null, null, null, null, 'SYS_SJGL_MMCK', '系统-数据管理-密码查看', null, null, null, '02', 'table', null, null, 'default', null, 'v_xndx', 'id', null, null, null, null, null, null, '1', null, '1', '1', '1', '1', '0', '0', 'cn.benma666.common.ljq.MmcxLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
@@ -8469,7 +8630,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('10C4E8C021A247FE9904ADA16FDD4EBF', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('65D95C5AB76541EEA7E866D5017316A7', '20190218152233', '20190218152459', '1', '130', '{}', 'A6B0538B20B5471CB4D8A15742577AE3', 'rwms', '任务描述', '任务描述', 'RWMS', 'RENWUMIAOSHU', 'CLOB', '4000', '80', null, null, null, 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('72A5A04322B64ADDA33FDBED746679B8', '20190218152233', '20190218152459', '1', '140', '{}', 'A6B0538B20B5471CB4D8A15742577AE3', 'rwdj', '任务等级', '任务等级@SYS_COMMON_DJ', 'RWDJ', 'RENWUDENGJI', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_DJ', null, null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('82F2CB81CEB249209742AFF5058EFF87', '20190218152233', '20190218152459', '1', '150', '{}', 'A6B0538B20B5471CB4D8A15742577AE3', 'kssj', '开始时间', '开始时间', 'KSSJ', 'KAISHISHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('59DBF0020C0F4A44A1C2EEA30DF748A1', '20181224210021', '20190120161938', '1', '150', '{}', '5B27F00C6D854795B63F67520AF0738E', 'jcgjz', '监测关键字', '监测关键字', 'JCGJZ', 'JIANCEGUANJIANZI', 'VARCHAR2', '32', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('59DBF0020C0F4A44A1C2EEA30DF748A1', '20181224210021', '20190924103526', '0', '150', '{}', '5B27F00C6D854795B63F67520AF0738E', 'jcgjz', '监测关键字', '监测关键字', 'JCGJZ', 'JIANCEGUANJIANZI', 'VARCHAR2', '32', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('53F78D4D3F8370042A5FC0A4414B1D67', '20181225130731', '20190401195904', '1', '290', '{}', '123190AB67534D9A93A54BA2114B1D67', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '150', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'sjdxlbcz', null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('4E2C5D449D899ECBD44B3479854B1D67', '20181225130731', '20181225142648', '1', '10', '{}', '123190AB67534D9A93A54BA2114B1D67', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1', null, '99', null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('EFF4B6421B9D5B24054A683EF64B1D67', '20181225130731', '20190112162505', '1', '20', '{}', '123190AB67534D9A93A54BA2114B1D67', 'my-lbxh', '序号', null, 'XH', 'XUHAO', 'VARCHAR2', '0', '50', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, '99', 'gshffLbxh', null, null, null, null, null, null, null, null, null, '1');
@@ -8936,8 +9097,8 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('0DEB314EDBBD4B2890383E9821972956', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('FB383A462E8F4215B23CEB810D8781E6', '20190912145159', '20190912145159', '1', '190', '{}', 'A8E2AF3B9C724C06A43571F93AC72CEA', 'end_date', '结束时间', '结束时间', 'JSSJ', 'JIESHUSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'zd:yyyyMMddHHmmss', null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('91542F4B02504616A44BF2B501ACD7BC', '20190912145159', '20190912145159', '1', '200', '{}', 'A8E2AF3B9C724C06A43571F93AC72CEA', 'result', '运行结果', '运行结果', 'YXJG', 'YUNXINGJIEGUO', 'VARCHAR2', '200', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('D88155AC9F914D1385EA3D24DB908AC5', '20190912145159', '20190912145159', '1', '210', '{}', 'A8E2AF3B9C724C06A43571F93AC72CEA', 'log_file', '日志文件', '日志文件', 'RZWJ', 'RIZHIWENJIAN', 'VARCHAR2', '1000', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1EBF8A513324499AAEC82F2BE188E023', '20190917094106', '20190918192041', '1', '210', '{}', '33A39C954BA7458FB67AD1F3FA32B5B8', 'lzsj', '离职时间', '离职时间', 'LZSJ', 'LIZHISHIJIAN', 'VARCHAR2', '128', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('455EC2EEBEAB4AA5B9EBFEBC4E1F3C05', '20190917094106', '20190917094258', '1', '220', '{}', '33A39C954BA7458FB67AD1F3FA32B5B8', 'lzyy', '离职原因', '离职原因', 'LZYY', 'LIZHIYUANYIN', 'VARCHAR2', '1024', '2', null, null, null, 'textarea', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1EBF8A513324499AAEC82F2BE188E023', '20190917094106', '20190925150145', '1', '212', '{}', '33A39C954BA7458FB67AD1F3FA32B5B8', 'lzsj', '离职时间', '离职时间', 'LZSJ', 'LIZHISHIJIAN', 'VARCHAR2', '128', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('455EC2EEBEAB4AA5B9EBFEBC4E1F3C05', '20190917094106', '20190925150145', '1', '213', '{}', '33A39C954BA7458FB67AD1F3FA32B5B8', 'lzyy', '离职原因', '离职原因', 'LZYY', 'LIZHIYUANYIN', 'VARCHAR2', '1024', '2', null, null, null, 'textarea', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '0');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('4EC972A7ACAD46429B7EC5C0C4997DB3', '20190917094909', '20190917095108', '1', '410', '{}', 'B0C1988A3086427CBDAE38817BEA7F70', 'cjrdwmc', '创建人单位名称', '创建人单位名称', 'CJRDWMC', 'CHUANGJIANRENDANWEIMINGCHENG', 'VARCHAR2', '256', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '0');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BAA1E1D025814D4D80712E833CCC39D2', '20190917094909', '20190917095108', '1', '420', '{}', 'B0C1988A3086427CBDAE38817BEA7F70', 'cjrdwdm', '创建人单位代码', '创建人单位代码@SYS_COMMON_ORG', 'CJRDWDM', 'CHUANGJIANRENDANWEIDAIMA', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'SYS_COMMON_ORG', null, null, null, null, null, null, null, null, null, null, null, '0');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('A9D9985C89664113932C994B2FC381BC', '20190917094909', '20190917095108', '1', '30', '{}', 'B0C1988A3086427CBDAE38817BEA7F70', 'dw', '单位', '单位', 'DW', 'DANWEI', 'VARCHAR2', '128', '2', null, null, null, 'dict', '0', '1', '0', '1', '1', '1', '1', '1', '0', '1', '1', 'JCGA_COMMON_ORG', null, null, null, null, null, null, null, null, null, null, null, '0');
@@ -8967,7 +9128,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('50F9276BFCD14059804A382840F7EB51', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('37AAE002DB154EB38B5D3EAFF400E674', '20190510160520', '20190510160520', '1', '40', '{}', '977C0B3D641C467CBC324D36B405A429', 'cjrxm', '姓名', null, 'XM', 'XINGMING', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('25AD4848A3254D41816E8BE145AA31A3', '20190510160520', '20190510160520', '1', '50', '{}', '977C0B3D641C467CBC324D36B405A429', 'fwcs', '访问次数', null, 'FWCS', 'FANGWENCISHU', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BE3CD612234841F780E3890016C4E032', '20190917154422', '20190917154535', '1', '165', '{}', '7C53F02FC43043FEAD8653541617710F', 'sjkqd', '数据库驱动', '数据库驱动', 'SJKQD', 'SHUJUKUQUDONG', 'VARCHAR2', '100', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1F44266CD05A4CCF8720230BC7C157DE', '20190918194743', '20190918201102', '1', '230', '{}', '33A39C954BA7458FB67AD1F3FA32B5B8', 'zzzt', '在职状态', '在职状态', 'ZZZT', 'ZAIZHIZHUANGTAI', 'VARCHAR2', '128', '80', null, '1', null, 'checkbox', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1F44266CD05A4CCF8720230BC7C157DE', '20190918194743', '20190925150145', '1', '211', '{}', '33A39C954BA7458FB67AD1F3FA32B5B8', 'zzzt', '在职状态', '在职状态', 'ZZZT', 'ZAIZHIZHUANGTAI', 'VARCHAR2', '128', '80', null, '1', '1', 'checkbox', '0', '0', '0', '0', '1', '1', '1', '1', '0', '1', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '0');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E0DAA247A88647689CF28702C11D66B5', '20190421130111', '20190421130221', '1', '135', '{}', 'SYS_SJGL_SJZD', 'mbzs', '模板展示', '模板展示@SYS_COMMON_LJPD', 'MBZS', 'MOBANZHANSHI', 'VARCHAR2', '8', '80', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('C1FAAC752B64403B958491F9A40BEDC2', '20190506182549', '20190506182549', '1', '60', '{}', 'C379D106C9DF49408628266184B229B8', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '90', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'defaultLbcz', null, null, null, null, null, null, null, null, null, '0');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DD78A91674CC42F8BE9EECA9E3B7334D', '20190506182549', '20190506201003', '1', '10', '{}', 'C379D106C9DF49408628266184B229B8', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1', null, '99', null, null, null, null, null, null, null, null, null, null, '0');
@@ -10442,12 +10603,12 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('512D5CFF5F834441872A8286BC5B0B67', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CA9C1B3412444BCEB5D75C85B9B12A69', '20170630102223', '20170630102223', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '674', '圣马力诺', null, 'SMLN', 'SHENGMALINUO', 'SYS_COMMON_GJ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('5E990A18CB3F4204BE0FD0DF86D2D529', '20170630102223', '20170630102223', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '706', '索马里', null, 'SML', 'SUOMALI', 'SYS_COMMON_GJ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('438EC6CF15ED49AC9134E1D5555B3967', '20170630102223', '20170630102223', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '792', '土耳其', null, 'TEQ', 'TUERQI', 'SYS_COMMON_GJ', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('EE3187B646AC47DF8E2E3BDD941CD1DC', '20181213112333', '20190511184221', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'DEFAULT.insert', '/*
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('EE3187B646AC47DF8E2E3BDD941CD1DC', '20181213112333', '20190925174312', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'DEFAULT.insert', '/*
 var insertf = "";
 var values = "";
 //循环生成字段
 for(field in fieldList){
-     if(su.isNotBlank(yobj[field.zddm])&&"99"!=field.zdywlb){
+     if(!isEmpty(yobj[field.zddm])&&"99"!=field.zdywlb){
           insertf = insertf+","+field.zddm;
           if(field.kjlx==''password''){
              values = values+",''"+su.desEnByField(yobj[field.zddm],field)+"''";
@@ -14378,20 +14539,52 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('FB7E4C3A6CB4400E86163B3DA9557AC7', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('728DCA3A5C944227A20936CA4C2CD7A8', '20190917175157', '20190917175157', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'driverClassName.hwmpp', 'org.postgresql.Driver', null, 'ORG.POSTGRESQL.DRIVER', 'ORG.POSTGRESQL.DRIVER', 'SYS_COMMON_APPCONFIG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('BE962CC7117442C3830140E7EF0F199D', '20190511214738', '20190511214738', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'icon', '图标', null, 'TB', 'TUBIAO', 'SYS_SJGL_KJLX', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('672EBFF67A764A759001A320C7B9CB3F', '20190511220928', '20190605195824', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'wjsc.mrsjzt', 'wjmrzt', null, 'WJMRZT', 'WJMRZT', 'SYS_MYSERVICE_APPCONFIG', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('8202CBA9C66043708FCDA21EACDF7831', '20190919152120', '20190919152720', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'DEFAULT.scjkrw', 'select id_job jtrw,name rwdm,description rwmc
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('6E3B2146A76B40CD95509CA63AC7FEB3', '20190925180744', '20190925185018', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJZT.scjkrw', 'select id jtrw,dm rwdm,mc rwmc
+   from sys_sjgl_sjzt t 
+   where 1=1 
+   /*if (has(idsIn)){*/
+   and t.id ${idsIn}
+   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC
+   FROM SYS_SJGL_SJZT T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC
+   FROM SYS_SJGL_SJZT T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('4ECB7B2A821342739EF1892901EBF6E2', '20190925183224', '20190925184954', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_APP.scjkrw', 'select id jtrw,dm rwdm,mc rwmc
+   from sys_qx_app t 
+   where 1=1 
+   /*if (has(idsIn)){*/
+   and t.id ${idsIn}
+   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC
+   FROM SYS_QX_APP T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC
+   FROM SYS_QX_APP T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('8202CBA9C66043708FCDA21EACDF7831', '20190919152120', '20190925180046', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'DEFAULT.scjkrw', 'select id_job jtrw,name rwdm,nvl(to_char(description),name) rwmc
    from ${owner}.${tableName} t 
    where 1=1 
-   /*if (idsIn!=null){*/
+   /*if (has(idsIn)){*/
    and t.id_job ${idsIn}
-   /*}*/', '生成监控任务', 'SELECT ID_JOB JTRW,NAME RWDM,DESCRIPTION RWMC
+   /*}*/', '生成监控任务', 'SELECT ID_JOB JTRW,NAME RWDM,NVL(TO_CHAR(DESCRIPTION),NAME) RWMC
    FROM ${OWNER}.${TABLENAME} T 
    WHERE 1=1 
-   /*IF (IDSIN!=NULL){*/
+   /*IF (HAS(IDSIN)){*/
    AND T.ID_JOB ${IDSIN}
-   /*}*/', 'SELECT ID_JOB JTRW,NAME RWDM,DESCRIPTION RWMC
+   /*}*/', 'SELECT ID_JOB JTRW,NAME RWDM,NVL(TO_CHAR(DESCRIPTION),NAME) RWMC
    FROM ${OWNER}.${TABLENAME} T 
    WHERE 1=1 
-   /*IF (IDSIN!=NULL){*/
+   /*IF (HAS(IDSIN)){*/
    AND T.ID_JOB ${IDSIN}
    /*}*/', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('8ADECA652BAC483A83C30EF77ECA6045', '20190426204810', '20190426204810', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'OTHER_KETTLE_ZYLX', '其他-kettle-作业类型', null, 'QT-KETTLE-ZYLX', 'QITA-KETTLE-ZUOYELEIXING', 'SYS_COMMON_ZDLB', null, null, null, null, '1', '3');
@@ -14454,6 +14647,38 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('037D7A111AAD4F97A023133AFDE0033D', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('5BC85BB3C620419898B1240A9DF1C3B3', '20190918183543', '20190919092437', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'date', '必须是时间${p_2}', null, 'BXSSJ${P_2}', 'BIXUSHISHIJIAN${P_2}', 'SYS_SJGL_YZGZ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('E372A2C299104227BEA204BEC7619F9C', '20190918183612', '20190918183612', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'sfzh', '必须是身份证号', null, 'BXSSFZH', 'BIXUSHISHENFENZHENGHAO', 'SYS_SJGL_YZGZ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('17F5449DC1074B84898488881DB9D490', '20190918183640', '20190919100931', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'zdpd', '后台判断：${p_2}', null, 'HTPD：${P_2}', 'HOUTAIPANDUAN：${P_2}', 'SYS_SJGL_YZGZ', null, null, null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CC291F6C42F04098A740DCBCC11A260C', '20190925185138', '20190925185159', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_FWQ.scjkrw', 'select id jtrw,ip rwdm,mc rwmc
+   from SYS_QX_FWQ t 
+   where 1=1 
+   /*if (has(idsIn)){*/
+   and t.id ${idsIn}
+   /*}*/', null, 'SELECT ID JTRW,IP RWDM,MC RWMC
+   FROM SYS_QX_FWQ T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SELECT ID JTRW,IP RWDM,MC RWMC
+   FROM SYS_QX_FWQ T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('A4619F3A6921465C9ADF789B8E87E8CE', '20190925190216', '20190925190216', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_ZDYSQL.scjkrw', 'select id jtrw,dm rwdm,mc rwmc
+   from SYS_YXJK_ZDYSQL t 
+   where 1=1 
+   /*if (has(idsIn)){*/
+   and t.id ${idsIn}
+   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC
+   FROM SYS_YXJK_ZDYSQL T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC
+   FROM SYS_YXJK_ZDYSQL T 
+   WHERE 1=1 
+   /*IF (HAS(IDSIN)){*/
+   AND T.ID ${IDSIN}
+   /*}*/', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('35B168C8FC1140C3BD4201F6400A9C32', '20190424221725', '20190424221725', '1', '99999', '{}', null, null, null, null, '341324', '安徽泗县', null, 'AHSX', null, 'SYS_COMMON_JG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('DB0A5462326F4F07AE0A3E92A94C7F7A', '20190424221725', '20190424221725', '1', '99999', '{}', null, null, null, null, '350825', '福建连城县', null, 'FJLCX', null, 'SYS_COMMON_JG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CB09BD695C544D7385D7F881060E9BF3', '20190424221725', '20190424221725', '1', '99999', '{}', null, null, null, null, '352201', '福建宁德地区宁德市', null, 'FJNDDQNDS', null, 'SYS_COMMON_JG', null, null, null, null, '1', '3');
@@ -14685,23 +14910,23 @@ CREATE TABLE "SJSJ"."SYS_YXJK_JKRW" (
 "CJRDM" VARCHAR2(32 BYTE) NULL ,
 "CJRDWMC" VARCHAR2(256 BYTE) NULL ,
 "CJRDWDM" VARCHAR2(32 BYTE) NULL ,
-"RWLX" VARCHAR2(32 BYTE) NULL ,
-"JTRW" VARCHAR2(32 BYTE) NULL ,
+"RWLX" VARCHAR2(32 BYTE) NOT NULL ,
+"JTRW" VARCHAR2(32 BYTE) NOT NULL ,
 "LXRXM" VARCHAR2(1024 BYTE) NULL ,
 "LXRDM" VARCHAR2(1024 BYTE) NULL ,
 "LXDWMC" VARCHAR2(256 BYTE) NULL ,
 "LXDWDM" VARCHAR2(32 BYTE) NULL ,
 "YLRW" VARCHAR2(512 BYTE) NULL ,
-"RWZT" VARCHAR2(32 BYTE) NULL ,
-"RWDJ" VARCHAR2(32 BYTE) NULL ,
+"RWZT" VARCHAR2(32 BYTE) DEFAULT '0'  NOT NULL ,
+"RWDJ" VARCHAR2(32 BYTE) DEFAULT '1'  NOT NULL ,
 "CLFK" VARCHAR2(256 BYTE) NULL ,
-"JCSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"JCSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NOT NULL ,
 "XXMB" VARCHAR2(512 BYTE) NULL ,
 "YCYY" VARCHAR2(4000 BYTE) NULL ,
-"RWMC" VARCHAR2(256 BYTE) NULL ,
-"RWLB" VARCHAR2(32 BYTE) NULL ,
+"RWMC" VARCHAR2(256 BYTE) NOT NULL ,
+"RWLB" VARCHAR2(32 BYTE) DEFAULT '99'  NULL ,
 "RWPCH" VARCHAR2(64 BYTE) NULL ,
-"RWDM" VARCHAR2(64 BYTE) NULL ,
+"RWDM" VARCHAR2(64 BYTE) NOT NULL ,
 "RWDS" VARCHAR2(64 BYTE) NULL 
 )
 LOGGING
@@ -14742,12 +14967,17 @@ COMMENT ON COLUMN "SJSJ"."SYS_YXJK_JKRW"."RWDS" IS '任务定时;为空表示持
 -- ----------------------------
 -- Records of SYS_YXJK_JKRW
 -- ----------------------------
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('989AB2CFF7AB4EC192C9FC3BC1DD7C78', '20190925175330', '20190925175330', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'OTHER_KETTLE_ZYJKPZ#3', null, null, null, null, '319A6972576D4933BD8F60DF18895FA2,24B786B50A9F49ABACF94548A6DD2F17,01D11637082948209910C9C842192906', '0', '1', null, '20190925175330', null, null, '样例-增量抽取', '01', null, 'DEMO_ZLCQ', null);
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('9335B8130D7D4B629DBB17DD4FD85B24', '20190925180054', '20190925180054', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'OTHER_KETTLE_ZYJKPZ#2', null, null, null, null, '319A6972576D4933BD8F60DF18895FA2,24B786B50A9F49ABACF94548A6DD2F17,01D11637082948209910C9C842192906', '0', '1', null, '20190925180054', null, null, '增量公用作业', '01', null, '增量公用作业', null);
 INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('01D11637082948209910C9C842192906', '20190111205224', '20190319093625', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '1', '394A0D538356436E83D3F9AC390D1514', '小马', '116EF03719B74690BB8FBFB0DD6D229A', null, '141B1AFC7E634176BDA7DB7F491A9004', '24B786B50A9F49ABACF94548A6DD2F17', '1', '3', '这个很ok呀1', '20190111205224', '可以引用变量，通过该模板渲染生成消息', '系统自动生成，帮助排查问题', '默认数据库', '01', null, 'cerw1', null);
-INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('1E849864EE2046F58A74BFFC21BB82E7', '20190112155600', '20190430170017', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'OTHER_KETTLE_ZYJKPZ#4', null, 'B15FEE07E9C247DAB42058902AB28C99', null, '141B1AFC7E634176BDA7DB7F491A9004', '01D11637082948209910C9C842192906,319A6972576D4933BD8F60DF18895FA2,EF1BE7D28D594C018D099CC810D24B13', '2', '重要', '已恢复正常1132', '20190112155600', null, null, '测试kette作业监控1', '01', null, 'TEST_KETTLEJK1', '0 0/1 0-2 1-2 * ? ');
-INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('24B786B50A9F49ABACF94548A6DD2F17', '20190319092535', '20190319092535', '1', '9999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '4', '796528F4AE094486B45A6CE208CF7CF3', null, null, null, null, null, '1', '3', null, '20190319092535', null, null, '本地服务器1', '03', null, 'bdfwq1', null);
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('1E849864EE2046F58A74BFFC21BB82E7', '20190112155600', '20190925152725', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'OTHER_KETTLE_ZYJKPZ#4', null, 'B15FEE07E9C247DAB42058902AB28C99', null, '141B1AFC7E634176BDA7DB7F491A9004', '319A6972576D4933BD8F60DF18895FA2,EF1BE7D28D594C018D099CC810D24B13', '2', '重要', '已恢复正常1132', '20190112155600', null, null, '测试kette作业监控1', '01', null, 'TEST_KETTLEJK1', '0 0/1 0-2 1-2 * ? ');
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('3AC03F2CD5614B438854BB8F129D9DE5', '20190925190329', '20190925190329', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '5', '2A0F5E2222B347329B053B1D06FA6FF3', null, null, null, null, null, '0', '1', null, '20190925190329', null, null, '自定义监控sql', '99', null, 'zdysqljk', null);
 INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('EF1BE7D28D594C018D099CC810D24B13', '20190319092855', '20190319092855', '1', '9999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '1', '531D1805FACC48688B383700B799F013', null, null, null, null, '24B786B50A9F49ABACF94548A6DD2F17', '1', '3', null, '20190319092855', null, null, 'km数据库1', '03', null, 'KM1', null);
-INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('66DD8B070BDA40ABAD59D4546237BBCC', '20190319093245', '20190321092205', '1', '9999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'R_JOB_JK#3', null, null, null, null, '1E849864EE2046F58A74BFFC21BB82E7,EF1BE7D28D594C018D099CC810D24B13,01D11637082948209910C9C842192906', '1', '3', null, '20190319093245', null, null, 'kettle抽取流测试2', '03', null, 'kettle_cs2', null);
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('C90CC3C9A2704B8D99CC3C0ABDF10F25', '20190925184337', '20190925184337', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '2', '9A4B33C656F54AE2B1F98C1B9AA26B22', null, null, null, null, null, '0', '1', null, '20190925184337', null, null, '数据管理平台', '99', null, 'sjgl', null);
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('BFCD36D693BD48809C424E47056E3BF3', '20190925184337', '20190925184337', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '2', '6EC94BDCEA7748AF839819C4D5DFA90C', null, null, null, null, null, '0', '1', null, '20190925184337', null, null, 'cqqb2', '99', null, 'CQQB2', null);
 INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('319A6972576D4933BD8F60DF18895FA2', '20190112155429', '20190319093532', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '2', '9AC5AE4999A74044B58D387431DC7AF9', null, '116EF03719B74690BB8FBFB0DD6D229A', null, '141B1AFC7E634176BDA7DB7F491A9004', '01D11637082948209910C9C842192906', '0', '一般', '正在处理中', '20190112155429', null, null, 'kettle调度平台1', '02', null, 'cerw2', null);
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('5E791FE843B04368A5AE7169ACCB8120', '20190925185256', '20190925185256', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '4', '796528F4AE094486B45A6CE208CF7CF3', null, null, null, null, null, '0', '1', null, '20190925185256', null, null, '本地机器', '99', null, '127.0.0.1', null);
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('132CB05ACE0441DEB35A26CFA830B2DA', '20190925185320', '20190925185320', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '1', 'EE875A2C15834047A4862F041E05E5EF', null, null, null, null, null, '0', '1', null, '20190925185320', null, null, 'zdry', '99', null, 'zdry', null);
 
 -- ----------------------------
 -- Table structure for SYS_YXJK_XX
@@ -15263,6 +15493,13 @@ ALTER TABLE "SJSJ"."SYS_XMGL_RWXX" ADD PRIMARY KEY ("ID");
 -- Checks structure for table SYS_YXJK_JKRW
 -- ----------------------------
 ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("ID" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("RWLX" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("JTRW" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("RWZT" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("RWDJ" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("JCSJ" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("RWMC" IS NOT NULL);
+ALTER TABLE "SJSJ"."SYS_YXJK_JKRW" ADD CHECK ("RWDM" IS NOT NULL);
 
 -- ----------------------------
 -- Primary Key structure for table SYS_YXJK_JKRW

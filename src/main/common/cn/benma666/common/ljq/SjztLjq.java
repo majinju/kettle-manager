@@ -15,6 +15,7 @@ import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.web.SConf;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -24,6 +25,53 @@ import com.alibaba.fastjson.JSONObject;
  * @version 
  */
 public class SjztLjq extends DefaultLjq{
+    /**
+    * 
+    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    */
+    @Override
+    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+        String cllx = myParams.getString(KEY_CLLX);
+        JSONObject kzxx = myParams.getJSONObject(FIELD_KZXX);
+        JSONObject jkpz = kzxx.getJSONObject("运行监控任务默认配置");
+        switch (cllx) {
+        case "scjkrw":
+            //监控任务对象,及参数对象构建
+            JSONObject jkrw = (JSONObject) myParams.clone();
+            JSONObject p = (JSONObject) getJcxxByDxdm("SYS_YXJK_JKRW").getData();
+            SysSjglSjdx jkrwdx = (SysSjglSjdx) p.get(KEY_SJDX);
+            jkrw.putAll(p);
+            
+            //已存在任务
+            int yczrw = 0;
+            //生成的任务
+            int scrw = 0;
+            JSONArray list = ((JSONObject)getdata(sjdx, myParams).getData()).getJSONArray("list");
+            for(JSONObject job:list.toArray(new JSONObject[]{})){
+                JSONObject oldrw = db.findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx='1'", 
+                        job.getString("jtrw"));
+                if(oldrw==null){
+                    job.put("rwlb", "99");
+                    job.put("rwlx", "1");
+                    job.put("rwdj", "1");
+                    if(jkpz!=null){
+                        job.putAll(jkpz);
+                    }
+                    jkrw.put(KEY_YOBJ, job);
+                    jkrw.put(KEY_CLLX, KEY_CLLX_INSERT);
+                    save(jkrwdx, jkrw);
+                    scrw++;
+                }else{
+                    yczrw++;
+                }
+            }
+            return success("已经存在监控任务数："+yczrw+",新生成监控任务数："+scrw);
+        default:
+            //执行默认操作
+            return super.plcl(sjdx, myParams);
+        }
+    }
+
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)

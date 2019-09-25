@@ -14,12 +14,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 作业监控配置拦截器 <br/>
+ * 自定义sql拦截器 <br/>
  * date: 2019年9月19日 <br/>
  * @author jingma
  * @version 
  */
-public class ZyjkpzLjq extends DefaultLjq {
+public class ZdysqlLjq extends DefaultLjq {
 /**
 * 
 * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
@@ -43,12 +43,12 @@ public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         int scrw = 0;
         JSONArray list = ((JSONObject)getdata(sjdx, myParams).getData()).getJSONArray("list");
         for(JSONObject job:list.toArray(new JSONObject[]{})){
-            String jtrw = sjdx.getDxdm()+"#"+job.getString("jtrw");
-            JSONObject oldrw = db.findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx='3'", jtrw);
+            String jtrw = job.getString("jtrw");
+            JSONObject oldrw = db.findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx='5'", jtrw);
             if(oldrw==null){
                 job.put("jtrw", jtrw);
                 job.put("rwlb", "99");
-                job.put("rwlx", "3");
+                job.put("rwlx", "5");
                 job.put("rwdj", "1");
                 if(jkpz!=null){
                     job.putAll(jkpz);
