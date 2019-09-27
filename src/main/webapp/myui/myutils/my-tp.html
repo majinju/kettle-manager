@@ -2337,6 +2337,7 @@ Vue.component('my-edit', {
     methods : {
           setval:function(field,event){
               if(this.pagemodel=='edit'&&this.editdata[field.zddm]==event.val){
+                  this.updatedata[field.zddm] = undefined;
                   return;
               }
               this.updatedata[field.zddm] = event.val;
