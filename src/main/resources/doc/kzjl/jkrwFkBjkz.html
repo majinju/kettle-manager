@@ -9,7 +9,7 @@ function sjdxZdy(vp){
     }
 }
 function sjdxZdyjy(data,_this){
-    if(data.rwzt==undefined||data.rwzt==_this.editdata.rwzt){
+    if(data.rwzt==undefined){
         //没有修改任务状态
         return true;
     }else if((data.rwzt=='2'||data.rwzt=='4')&&

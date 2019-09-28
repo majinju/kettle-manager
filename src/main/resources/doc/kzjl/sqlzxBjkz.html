@@ -1,0 +1,17 @@
+<!-- SQL执行编辑扩展 -->
+<my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
+</my-edit>
+<script>
+function sjdxZdy(vp){
+    vp.methods.plcl=function(cllx){
+          this.$children[0].plcl(cllx);
+    }
+    vp.data.fromdata.zxjg='{"提示":"请执行sql,如：select to_char(sysdate,\'yyyymmddhh24miss\') dqsj from dual"}';
+    vp.data.fromdata.qdzdyFun=function(data,_this){
+	    Vue.set(_this.editdata,"zxjg",JSON.stringify(data));
+    }
+}
+function sjdxZdyjy(data,_this){
+    return true;
+}
+</script>

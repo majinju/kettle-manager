@@ -225,6 +225,13 @@ Vue.component('my-jsoneditor', {
             this.$emit('setval', this.field, $event);
         }
  	},
+    watch:{
+        value:function(newVal){
+            this.$el.val = newVal;
+            this.editor.setText(newVal);
+            this.$emit('setval', this.field, this.$el);
+        }
+    },
     mounted: function () {
         var _this =  this;
         _this.target = this.$el;
@@ -876,7 +883,13 @@ Vue.component('my-input', {
         },
         isCzd:function(field){
             //判断长字段
+            //字段宽度10以内时，列表展示时自动伸缩。
+            //为2时：列表自动伸缩、编辑详情占整行、搜索框还是三分之一。
+            //为3时：列表自动伸缩、编辑详情占整行、搜索框占整行。
+            //大于200时编辑详情页面占整行。
             if(field.zdkd=="2"&&this.pagemodel!='search'){
+                return true;
+            }else if(field.zdkd=="3"){
                 return true;
             }
             return ((field.zdkd||'200')>200);
@@ -2337,7 +2350,13 @@ Vue.component('my-edit', {
     methods : {
           setval:function(field,event){
               if(this.pagemodel=='edit'&&this.editdata[field.zddm]==event.val){
-                  this.updatedata[field.zddm] = undefined;
+				  if(this.updatedata[field.zddm]!=event.val){
+				      //修改过，又还原了，就删除该属性
+	                   delete this.updatedata[field.zddm];
+	                   if(event.mc){
+	                       delete this.updatedata['map.'+field.zddm];
+	                   }
+				  }
                   return;
               }
               this.updatedata[field.zddm] = event.val;
@@ -2395,7 +2414,7 @@ Vue.component('my-edit', {
                    if(_this.bjymkz("my-qdbts")=='1'){
                        myAjax(_this.action,_params,function(data){
                            if(_this.fromdata.qdzdyFun){
-                               _this.fromdata.qdzdyFun(data);
+                               _this.fromdata.qdzdyFun(data,_this);
                            }else{
 	    	            	   	alertInfoYes(data,function(){
 	    	            	   	    parent.listFrom.listPage.refreshPage();
@@ -2407,7 +2426,7 @@ Vue.component('my-edit', {
                    }else{
      	               qrtsAjax(_this.action,_params,function(data){
                            if(_this.fromdata.qdzdyFun){
-                               _this.fromdata.qdzdyFun(data);
+                               _this.fromdata.qdzdyFun(data,_this);
                            }else{
 	    	            	   	alertInfoYes(data,function(){
 	    	            	   	    parent.listFrom.listPage.refreshPage();
