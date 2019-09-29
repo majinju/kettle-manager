@@ -1,8 +1,3 @@
-/**
-* Project Name:hl_2018
-* Date:2018年5月24日
-* Copyright (c) 2018, jingma All Rights Reserved.
-*/
 
 package cn.benma666.common.service;
 

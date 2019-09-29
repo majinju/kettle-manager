@@ -13,6 +13,7 @@ import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.web.QxManager;
+import cn.benma666.web.UserManager;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -64,6 +65,7 @@ public class QxxxLjq extends DefaultLjq{
                     }
                 }
             }
+            UserManager.flushUserQxxx();
             return success("成功修改授权信息数:"+count);
         case KEY_CLLX_PLSC:
             return super.plcl(sjdx, params);
