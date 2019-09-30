@@ -68,4 +68,20 @@ public class YhdlLjq extends DefaultLjq{
         }
         return error("弄啥呢");
     }
+    /**
+    * 
+    * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
+    */
+    @Override
+    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+        String cllx = myParams.getString(KEY_CLLX);
+        switch (cllx) {
+        case "yhtc":
+            SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
+            return UserManager.removeUser(oldUser);
+        default:
+            //执行默认操作
+            return super.plcl(sjdx, myParams);
+        }
+    }
 }

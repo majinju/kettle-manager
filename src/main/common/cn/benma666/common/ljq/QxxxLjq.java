@@ -67,6 +67,10 @@ public class QxxxLjq extends DefaultLjq{
             }
             UserManager.flushUserQxxx();
             return success("成功修改授权信息数:"+count);
+        case "sxyhqx":
+            //刷新用户权限信息
+            UserManager.flushUserQxxx();
+            return success("刷新用户权限成功！");
         case KEY_CLLX_PLSC:
             return super.plcl(sjdx, params);
         default:

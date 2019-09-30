@@ -205,7 +205,8 @@ public class CommonController extends BasicController {
         return user;
     }
     /**
-    * eg:http://127.0.0.1:88/myservice/common/doDesEncryptUrl.do?projectCode=kp&url=/plcl.do?id=21C74221753145F6A3B690042E0B563A%26e_cllx=qchc
+    * eg:http://127.0.0.1:88/myservice/common/doDesEncryptUrl.do?projectCode=
+    * kp&url=/plcl.do?id=21C74221753145F6A3B690042E0B563A%26e_cllx=qchc
     * @author jingma
     * @param request
     * @param url

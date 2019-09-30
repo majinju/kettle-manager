@@ -30,11 +30,15 @@ public class SqlzxLjq extends DefaultLjq{
         String zxsql = yobj.getString("zxsql");
         Db db = Db.use(yobj.getString("sjzt"));
         try {
+            long start = System.currentTimeMillis();
+            JsonResult r = null;
             if(zxsql.toLowerCase().trim().startsWith("select")){
-                return success("查询成功",db.find(zxsql));
+                r = success("查询成功",db.find(zxsql));
             }else{
-                return success("执行成功",db.update(zxsql));
+                r = success("执行成功",db.update(zxsql));
             }
+            r.addMsg("耗时："+(System.currentTimeMillis()-start)+"毫秒");
+            return r;
         } catch (Exception e) {
             log.debug("sql执行失败",e);
             return error("执行失败："+e.getMessage());

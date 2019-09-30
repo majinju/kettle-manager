@@ -481,20 +481,20 @@ function ajax(url,options){
         options = {};
     }
     if(options.qrts!=false){
-        qrtsAjax(url,options.fromdata,options.success,options.qxbtn);
+        qrtsAjax(url,options.fromdata,options.success,options.qxbtn,options.error);
     }else{
-        myAjax(url,options.fromdata,options.success);
+        myAjax(url,options.fromdata,options.success,options.error);
     }
 }
 /**
  * 确认提示后发起ajax请求
  */
-function qrtsAjax(url,fromdata,success,qxbtn){
+function qrtsAjax(url,fromdata,success,qxbtn,error){
     layer.alert("你确定要提交吗？", {
         icon: 3,
         btn:["确定","取消"],
         yes:function(index,layero){
-            myAjax(url,fromdata,success);
+            myAjax(url,fromdata,success,error);
         },btn2:function(){//取消按钮事件
             if(typeof qxbtn ==="function"){
                 qxbtn();
@@ -502,7 +502,7 @@ function qrtsAjax(url,fromdata,success,qxbtn){
         }
     });
 }
-function myAjax(url,fromdata,success){
+function myAjax(url,fromdata,success,error){
     $.ajax({
         type: "POST",
         url: url,
@@ -513,10 +513,16 @@ function myAjax(url,fromdata,success){
                 success(result);
             } else {
                 alertError(result.msg);
+                if(error){
+                    error();
+                }
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alertError("请求异常");
+            if(error){
+                error();
+            }
         }
     });
 }

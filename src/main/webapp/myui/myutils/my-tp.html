@@ -2154,6 +2154,9 @@ Vue.component('my-list', {
 						});
 		                layer.close(loadindex);
 	                },
+	                error:function(data){
+		                layer.close(loadindex);
+	                },
 	                qxbtn:function(){
 		                layer.close(loadindex);
 	                }
@@ -2472,7 +2475,9 @@ Vue.component('my-dlym', {
     },
     created : function(){
         var _this = this;
-        var data = _this._data;
+        if(window!=top){
+            parent.location.href=window.location.href;
+        }
     },
     computed : {
         dlfromdata:function(){
@@ -2509,7 +2514,12 @@ Vue.component('my-dlym', {
         }
 	},
     mounted: function () {
+        var _this = this;
+        var user = this.$children[0]._data.user;
         var kzxx = this.$children[0]._data.kzxx;
+        if(user.yhdm!="lsyh"){
+            window.location.href="sjdx/list.do?dxdm="+kzxx['登陆信息']['菜单对象'];
+        }
         Vue.set(this,"kzxx",kzxx);
         $("head > title").text(kzxx['登陆信息']['系统名称']);
         //设置输入焦点到用户名输入框
@@ -2565,6 +2575,9 @@ Vue.component('my-cdym', {
     },
     created : function(){
         var _this = this;
+        if(window!=top){
+            parent.location.href=window.location.href;
+        }
         var data = _this._data;
         var params = {id:_this.sjdxid};
         params.myparams = JSON.stringify(fromdata);
@@ -2607,7 +2620,13 @@ Vue.component('my-cdym', {
             return style;
         },
         tuichu:function(){
-            window.location.href="sjdx/edit.do?pagemodel=add&dxdm="+this.kzxx['菜单信息']['登陆对象'];
+            var _this = this;
+            ajax("sjdx/plcl.do?dxdm=SYS_QX_YHXX_MRDL&e_cllx=yhtc",
+                {success:function(r){
+                		window.location.href="sjdx/edit.do?pagemodel=add&dxdm="+_this.kzxx['菜单信息']['登陆对象'];
+            		}
+            	}
+            );
         },
         fileUrl:function(key){
             if(this.kzxx['菜单信息'][key]){
@@ -2723,7 +2742,10 @@ Vue.component('my-cdym', {
         }
 	},
 	mounted:function(){
-        this.initTree();
+        var _this = this;
+   		//水印
+       	watermark({"watermark_txt":_this.user.yhxm+","+_this.user.sfzh}); 
+       	_this.initTree();
 	}
   });
 </script>
