@@ -322,20 +322,24 @@ function zdList(zdlb){
  */
 function zdObj(zd,cache){
     var zdlb = zd.zdlb;
+    var dm = zd.dm;
+    var obj = null;
 	if(!zdlb){
 	    //参数为空
 	    return null;
 	}
-    var obj = null;
-    var dm = zd.dm;
     var zl = zdList(zdlb);
     if(zl){
         //获取了字典列表
         for(var i in zl){
             if(zl[i].dm==dm){
                 obj = zl[i];
+                break;
             }
         }
+    }else if(zdListCache[zdlb][dm]){
+        //该字典的具体字典项已经缓存。
+        obj = zdListCache[zdlb][dm];
     }else{
         //不支持获取列表
         $.ajax({
@@ -349,8 +353,8 @@ function zdObj(zd,cache){
                     zdListCache[zdlb][dm] = result.data;
                     obj = result.data;
                 }else{
-//                    obj = {"dm":dm,"mc":dm};
-//                    zdListCache[zdlb][dm] = obj;
+                    obj = {"dm":dm,"mc":dm};
+                    zdListCache[zdlb][dm] = obj;
                 }
             },
             error:function(){

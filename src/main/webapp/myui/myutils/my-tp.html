@@ -2672,6 +2672,10 @@ Vue.component('my-cdym', {
         	    var mbdz = null;
         		if(treeNode.lx=='02'){
         			console.info('这是目录');
+        		}else if(treeNode.dzlx=='01'){
+        			//应用地址
+        			var app = zdObj({"zdlb":"SYS_QX_APP","dm":treeNode.ssyy});
+        		    mbdz = app.dz+treeNode.dz;
         		}else if(treeNode.dzlx=='02'){
         			//绝对地址
         		    mbdz = treeNode.dz;
