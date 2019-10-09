@@ -16,6 +16,8 @@ import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
 import cn.benma666.web.BasicController;
 import cn.benma666.web.QxManager;
+import cn.benma666.web.UserManager;
+import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -54,7 +56,12 @@ public class IndexController extends BasicController {
                 throw new MyException(result.getMsg());
             }else{
                 try {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, result.getMsg());
+                    if(getUser(request).getYhdm().equals(UserManager.LSYH)){
+                        //临时用户访问没权限的页面则自动跳转到首页
+                        response.sendRedirect(WebUtil.getBasePath(request));
+                    }else{
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN, result.getMsg());
+                    }
                 } catch (Throwable e) {
                     log.error("重定向异常"+sjdx, e);
                 }

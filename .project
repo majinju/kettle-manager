@@ -3,6 +3,9 @@
 	<name>myservice</name>
 	<comment></comment>
 	<projects>
+		<project>Kettle UI</project>
+		<project>Kettle Engine</project>
+		<project>Kettle Core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

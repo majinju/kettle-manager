@@ -35,6 +35,7 @@
 				<value>SYS_COMMON_APPCONFIG</value>
 				<value>SYS_MYSERVICE_APPCONFIG</value>
 				<value>SYS_SJGL_APPCONFIG</value>
+				<value>SYS_KP_APPCONFIG</value>
 			</list>
 		</property>
 	</bean>

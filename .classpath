@@ -6,14 +6,14 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry including="**/*.java" kind="src" path="src/main/java">
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="com/iflytek/qb/yxjk/|doc/file/yxjk/" including="**/*.java" kind="src" path="src/main/resources"/>
-	<classpathentry kind="src" path="src/main/common"/>
+	<classpathentry excluding="doc/file/yxjk/" including="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry including="**/*.java" kind="src" path="src/main/common"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -25,5 +25,13 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/kettle5.4-myservice">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kettle Engine"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Kettle UI"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

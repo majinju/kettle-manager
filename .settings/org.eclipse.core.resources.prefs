@@ -1,7 +1,9 @@
 eclipse.preferences.version=1
 encoding//WebContent/index.jsp=UTF-8
+encoding//src/main/common=UTF-8
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/resources/beetl.properties_=UTF-8
 encoding//src/main/resources/config/myservice.properties=UTF-8
 encoding//src/main/webapp/myui/common/403.jsp=UTF-8
 encoding//src/main/webapp/myui/common/404.jsp=UTF-8
