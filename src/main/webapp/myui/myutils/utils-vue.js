@@ -5,7 +5,7 @@ var scriptList=[
       serviceAddr+"myui/vue/vue.js",
       serviceAddr+"myui/jquery/jquery.tmpl.min.js",
       serviceAddr+"myui/myutils/idcard.js",
-      serviceAddr+"myui/myutils/operate-vue.js",
+      serviceAddr+"myui/myutils/operate-vue.js?time=20191012",
       serviceAddr+"myui/bootstrap/js/bootstrap.js",
       serviceAddr+"myui/SelectPag/selectpage.js?time=20171207",
 //      serviceAddr+"myui/SelectMenu/selectmenu.js",

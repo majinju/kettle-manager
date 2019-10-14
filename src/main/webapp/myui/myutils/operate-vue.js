@@ -8,7 +8,7 @@
 \*****************************************************/
 
 
-///////////////////////删除执行函数////////////////////
+///////////////////////执行对象处理函数////////////////////
 function ajaxDxcl(_url){	
     $.ajax({
         type: "POST",
@@ -18,7 +18,6 @@ function ajaxDxcl(_url){
             if (data.status) {              
         	   	layer.alert(data.msg ? data.msg : "操作成功！", { 
         	   		shade:0.3,
-        	   		time: 5000,    	   		
         	   		icon:1,
         	   		end:function(){
         	   		 listFrom.listPage.requestList(); //执行页面刷新函数    	   			
@@ -33,7 +32,6 @@ function ajaxDxcl(_url){
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         	layer.alert("出现未知错误！", { 
-    	   		time: 1500, 
     	   		icon:2
     		});
         }
@@ -59,7 +57,6 @@ function autoSubmit(formId,opened,_url){
 				}else if(opened=="zancun"){
 					layer.alert("暂存成功！",{					
 						shade:0.3,
-		    	   		time: 1500,    	   		
 		    	   		icon:1
 					});
 				}
@@ -67,7 +64,6 @@ function autoSubmit(formId,opened,_url){
 				//给出失败提示
 				layer.alert(data.msg ? data.msg : "操作失败！",{					
 					shade:0.3,
-	    	   		time: 1500,    	   		
 	    	   		icon:1
 				});
 			}
@@ -86,7 +82,6 @@ function formSubmit(formId,opened,_url){
 		if(data.status){
 			layer.alert(data.msg ? data.msg : "操作成功！", { 
     	   		shade:0.3,
-    	   		time: 1500,    	   		
     	   		icon:1,
     	   		end:function(){
     	   			//判断是否设置打开弹层
@@ -119,7 +114,6 @@ function formSubmit(formId,opened,_url){
     		});
 		}else{
         	layer.alert(data.msg ? data.msg : "操作失败！", { 
-    	   		time: 1500, 
     	   		icon:2       	   		
     		});
         	subnum=subnum-1;
@@ -143,7 +137,6 @@ function ajaxBatchUpdate(selectedIds, linkClicked) {
             	
         	   	layer.alert(data.msg ? data.msg : "操作成功！", { 
         	   		shade:0.3,
-        	   		time: 5000,    	   		
         	   		icon:1,
         	   		end:function(){
         	   		    listFrom.listPage.queryPage(); //执行页面刷新函数 
@@ -153,7 +146,6 @@ function ajaxBatchUpdate(selectedIds, linkClicked) {
             } else {
             	linkClicked.attr("style","");
                	layer.alert(data.msg ? data.msg : "操作失败！", { 
-        	   		time: 1500, 
         	   		icon:2       	   		
         		});
             }
@@ -161,7 +153,6 @@ function ajaxBatchUpdate(selectedIds, linkClicked) {
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         	linkClicked.attr("style","");
            	layer.alert("网络异常！", { 
-    	   		time: 1500, 
     	   		icon:2       	   		
     		});
         }
@@ -187,16 +178,21 @@ $(document).ready(function(){
 	 *    其它：other
 	 ************************************************************/	
 	
-	//1.删除事件：a-oper="dxcl"
-	$(".listContent").on("click","[a-oper=dxcl]",function(){		
+	//1.对象处理：a-oper="dxcl"
+	$(".listContent").on("click","[a-oper=dxcl]",function(){
 		var url = $(this).attr("href");
-	   	layer.alert("确定操作？", {
-	   		icon: 3,
-	   		btn:["确定","取消"],
-	   		yes:function(index,layero){
-	   			ajaxDxcl(url);	   			
-	   		}
-		});
+        var qrts = $(this).attr("qrts");
+        if(qrts=='false'){
+            ajaxDxcl(url);
+        }else{
+            layer.alert("确定操作？", {
+                icon: 3,
+                btn:["确定","取消"],
+                yes:function(index,layero){
+                    ajaxDxcl(url);
+                }
+            });
+        }
 	   	return false;
 	});
 	
@@ -249,18 +245,6 @@ $(document).ready(function(){
         popUpFillWin({url:url});
         return false;
     });
-    //1.删除事件：a-oper="dxcl"
-    $("[a-oper=dxcl]").click(function(){
-        var url = $(this).attr("href");
-        layer.alert("确定操作？", {
-            icon: 3,
-            btn:["确定","取消"],
-            yes:function(index,layero){
-                ajaxDxcl(url);
-            }
-        });
-        return false;
-    });
 	
 	//4.批量操作：a-oper="batch"
 	 $("[a-oper=batch]").click(function(){
@@ -272,7 +256,6 @@ $(document).ready(function(){
 	        if (idArray.length === 0) {
 				layer.alert("请选择相关信息！", { 
 	    	   		shade:0.3,
-	    	   		time: 1500,    	   		
 	    	   		icon:0
 	    		});
 	        }else {
