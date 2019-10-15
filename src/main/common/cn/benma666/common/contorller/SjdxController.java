@@ -9,17 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.benma666.common.service.SjdxService;
+import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.exception.MyException;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
-import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
 import cn.benma666.web.BasicController;
-import cn.benma666.web.QxManager;
-import cn.benma666.web.UserManager;
-import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -51,29 +47,12 @@ public class SjdxController extends BasicController {
         if(result.isStatus()){
             myParams = (JSONObject) result.getData();
             dbSjdx = (SysSjglSjdx)myParams.get(LjqInterface.KEY_SJDX);
-            model.addAttribute("sjdx", dbSjdx);
-            if(StringUtil.isBlank(myparams)){
-                myparams = "{}";
+            result = LjqManager.list(dbSjdx,myParams,model);
+            if(result.isStatus()){
+                return result.getMsg();
             }
-            model.addAttribute("myparams", myparams);
-            return LjqManager.list(sjdx,model);
-        }else{
-            if(!QxManager.AUTH_CODE_WQX.equals(result.getCode())){
-                throw new MyException(result.getMsg());
-            }else{
-                try {
-                    if(getUser(request).getYhdm().equals(UserManager.LSYH)){
-                        //临时用户访问没权限的页面则自动跳转到首页
-                        response.sendRedirect(WebUtil.getBasePath(request));
-                    }else{
-                        response.sendError(HttpServletResponse.SC_FORBIDDEN, result.getMsg());
-                    }
-                } catch (Throwable e) {
-                    log.error("重定向异常"+sjdx, e);
-                }
-            }
-            return null;
         }
+        return pageError(sjdx, request, response);
     }
     /**
     * 进入编辑新增页面 <br/>
@@ -87,29 +66,12 @@ public class SjdxController extends BasicController {
         if(result.isStatus()){
             myParams = (JSONObject) result.getData();
             dbSjdx = (SysSjglSjdx)myParams.get(LjqInterface.KEY_SJDX);
-            model.addAttribute("sjdx", dbSjdx);
-            if(StringUtil.isBlank(myparams)){
-                myparams = "{}";
+            result = LjqManager.edit(dbSjdx, myParams,model);
+            if(result.isStatus()){
+                return result.getMsg();
             }
-            model.addAttribute("myparams", myparams);
-            return LjqManager.edit(sjdx,model);
-        }else{
-            if(!QxManager.AUTH_CODE_WQX.equals(result.getCode())){
-                throw new MyException(result.getMsg());
-            }else{
-                try {
-                    if(getUser(request).getYhdm().equals(UserManager.LSYH)){
-                        //临时用户访问没权限的页面则自动跳转到首页
-                        response.sendRedirect(WebUtil.getBasePath(request));
-                    }else{
-                        response.sendError(HttpServletResponse.SC_FORBIDDEN, result.getMsg());
-                    }
-                } catch (Throwable e) {
-                    log.error("重定向异常"+sjdx, e);
-                }
-            }
-            return null;
         }
+        return pageError(sjdx, request, response);
     }
     
     /**
@@ -211,7 +173,35 @@ public class SjdxController extends BasicController {
         }
     }
     /**
-    * 批量处理 <br/>
+    * 获取文件<br/>
+    * @author jingma
+    * @param sjdx
+    * @param myparams
+    * @param response
+    * @param session
+    */
+    @RequestMapping(value = "/getFile.do")
+    public void getFile(SysSjglSjdx sjdx,String myparams,
+            HttpServletRequest request,HttpServletResponse response) {
+        try {
+            if(basicJcxx(sjdx,myparams,request,response)){
+                //后台还是走批量处理接口
+                JsonResult r = sjdxService.txPlcl(dbSjdx,myParams);
+                if(r.isStatus()){
+                    JSONObject data = (JSONObject) r.getData();
+                    sendFile(response, data.getBytes(LjqInterface.KEY_FILE_BYTES),
+                            (SysSjglFile) data.get(LjqInterface.KEY_FILE_OBJ));
+                }else{
+                    sendJson(response, r);
+                }
+            }
+        } catch (Throwable e) {
+            log.error("数据处理异常"+sjdx, e);
+            sendJson(response, error("数据处理异常："+e.getMessage()));
+        }
+    }
+    /**
+    * 获取数据 <br/>
     * @author jingma
     * @param sjdx
     * @param myparams

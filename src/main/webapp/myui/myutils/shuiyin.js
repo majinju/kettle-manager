@@ -34,7 +34,7 @@
     var cutWidth = page_width * 0.0350;
     var page_width = page_width - cutWidth;
     //获取页面最大高度
-    var page_height = Math.max(document.body.scrollHeight, document.documentElement.clientHeight) * 0.9;
+    var page_height = Math.max(document.body.scrollHeight, document.documentElement.clientHeight) * 0.9-50;
     //如果将水印列数设置为0，或水印列数设置过大，超过页面最大宽度，则重新计算水印列数和水印x轴间隔
     if (defaultSettings.watermark_cols == 0 || (parseInt(defaultSettings.watermark_x + defaultSettings.watermark_width * defaultSettings.watermark_cols + defaultSettings.watermark_x_space * (defaultSettings.watermark_cols - 1)) > page_width)) {
         defaultSettings.watermark_cols = parseInt((page_width - defaultSettings.watermark_x + defaultSettings.watermark_x_space) / (defaultSettings.watermark_width + defaultSettings.watermark_x_space));

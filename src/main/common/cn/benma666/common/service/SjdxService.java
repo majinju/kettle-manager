@@ -49,27 +49,6 @@ public class SjdxService extends BasicService{
         sjdx = (SysSjglSjdx)myParams.get(LjqInterface.KEY_SJDX);
         return LjqManager.plcl(sjdx,myParams);
     }
-    
-    /**
-    * 批量保存列表数据 <br/>
-    * @author jingma
-    * @param dbSjdx
-    * @param myParams
-    * @return
-    */
-    public JsonResult txSaveListData(SysSjglSjdx dbSjdx, JSONObject myParams) {
-        //JSON对象
-        JSONArray dataArr = myParams.getJSONObject(LjqInterface.KEY_YOBJ).getJSONArray("listEditData");
-        int count=0;
-        for(JSONObject obj:dataArr.toArray(new JSONObject[]{})){
-            if(UtilConst.WHETHER_TRUE.equals(obj.getString("my-ybj"))){
-                myParams.put(LjqInterface.KEY_YOBJ, obj);
-                LjqManager.save(dbSjdx, myParams);
-                count++;
-            }
-        }
-        return success("保存成功数据条数："+count);
-    }
 
     /**
     * 通用获取数据接口 <br/>
@@ -94,6 +73,27 @@ public class SjdxService extends BasicService{
         myParams.put(LjqInterface.KEY_CLLX, cllxObj.toString());
         sjdx = (SysSjglSjdx)myParams.get(LjqInterface.KEY_SJDX);
         return LjqManager.getdata(sjdx,myParams);
+    }
+    
+    /**
+    * 批量保存列表数据 <br/>
+    * @author jingma
+    * @param dbSjdx
+    * @param myParams
+    * @return
+    */
+    public JsonResult txSaveListData(SysSjglSjdx dbSjdx, JSONObject myParams) {
+        //JSON对象
+        JSONArray dataArr = myParams.getJSONObject(LjqInterface.KEY_YOBJ).getJSONArray("listEditData");
+        int count=0;
+        for(JSONObject obj:dataArr.toArray(new JSONObject[]{})){
+            if(UtilConst.WHETHER_TRUE.equals(obj.getString("my-ybj"))){
+                myParams.put(LjqInterface.KEY_YOBJ, obj);
+                LjqManager.save(dbSjdx, myParams);
+                count++;
+            }
+        }
+        return success("保存成功数据条数："+count);
     }
 
 }
