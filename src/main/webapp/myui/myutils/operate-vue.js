@@ -179,7 +179,7 @@ $(document).ready(function(){
 	 ************************************************************/	
 	
 	//1.对象处理：a-oper="dxcl"
-	$(".listContent").on("click","[a-oper=dxcl]",function(){
+	$("body").on("click","[a-oper=dxcl]",function(){
 		var url = $(this).attr("href");
         var qrts = $(this).attr("qrts");
         if(qrts=='false'){

@@ -6,15 +6,10 @@ function sjdxZdy(vp){
     vp.methods.plcl=function(cllx){
           this.$children[0].plcl(cllx);
     }
-    vp.mounted=function () {
-        lxSzhd($("[name='schedulerType']").val());
-    }
 }
-/**
- * 类型设置回调
- */
-function lxSzhd(value,_this,event){
-    $(".dslx").attr("disabled","disabled");
-    $(".dslx"+value).removeAttr("disabled");
+function sjdxZdyjy(data,_this){
+    data.ids=_this.fromdata.ids;
+    data.zykdm=_this.fromdata.zykdm;
+    return true;
 }
 </script>

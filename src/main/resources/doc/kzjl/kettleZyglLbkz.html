@@ -9,16 +9,18 @@
 <span class="divider"></span>
 <a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=ml&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl" qrts='false' title="目录"><i class="icon ion-ios-folder"></i></a>
 <span class="divider"></span>
-<a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=rz&map['ids']={{= row[sjdx.zjzd]}}" a-oper="other" title="【{{= row.description}}】日志"><i class="icon ion-ios-paper-outline"></i></a>
+<a href="sjdx/edit.do?pagemodel=details&dxdm=OTHER_KETTLE_ZYGL_YXRZ&e_zykdm={{= sjdx.dxdm}}&e_ids={{= row[sjdx.zjzd]}}" 
+	a-oper="other" title="【{{= row.description}}】日志"><i class="icon ion-ios-paper-outline"></i></a>
 <br/>
 <a href="sjdx/edit.do?pagemodel=edit&dxdm=OTHER_KETTLE_ZYGL_DSSZ&e_zykdm={{= sjdx.dxdm}}&e_ids={{= row[sjdx.zjzd]}}" 
 	a-oper="other" width="1000px" height="500px" title="【{{= row.description}}】定时设置"><i class="icon ion-calendar"></i></a>
 <span class="divider"></span>
-<a href="sjdx/list.do?dxdm={{= row.dxdm}}" target="_blank" title="【{{= row.description}}】参数设置"><i class="icon ion-levels"></i></a>
+<a href="sjdx/list.do?dxdm=OTHER_KETTLE_CSSZ&&e_id_job={{= row.id_job}}"  a-oper="other" title="【{{= row.description}}】参数设置"><i class="icon ion-levels"></i></a>
 <span class="divider"></span>
 <a href="sjdx/getFile.do?id={{= sjdx.id}}&map['cllx']=zyt&map['ids']={{= row[sjdx.zjzd]}}" a-oper="other" title="【{{= row.description}}】作业图"><i class="icon ion-network"></i></a>
 <span class="divider"></span>
-<a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=fz&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl" title="复制"><i class="icon ion-ios-copy"></i></a>
+<a href="sjdx/edit.do?pagemodel=add&dxdm=OTHER_KETTLE_ZYGL_FZZY&e_zykdm={{= sjdx.dxdm}}&e_ids={{= row[sjdx.zjzd]}}" 
+	a-oper="other" title="【{{= row.description}}】复制"><i class="icon ion-ios-copy"></i></a>
 <span class="divider"></span>
 <a href="sjdx/plcl.do?id={{= sjdx.id}}&map['cllx']=cz&map['ids']={{= row[sjdx.zjzd]}}" a-oper="dxcl" title="重置"><i class="icon ion-android-refresh"></i></a>
 </span>

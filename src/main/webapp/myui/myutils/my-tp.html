@@ -28,7 +28,8 @@ Vue.component('my-label', {
   });
 </script>
 <script type="text/x-tp" id="my-file-tp">
-<button v-if="edit" type="button" class="btn btn-primary btn-sm">
+<button v-if="edit" type="button" class="btn btn-primary btn-sm"
+		:class="field.cssl" >
 	<i class="icon ion-arrow-up-a"></i>
 	<slot></slot>
 </button>
@@ -145,11 +146,11 @@ Vue.component('my-file', {
 		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
-		:class="field.classStr" 
+		:class="field.cssl" 
 		:onfocus="field.onfocus"
 		:style="(field.style||'')"
 		></textarea>
-	<textarea v-else class="form-control" :style="(field.style||'')" :title="value" v-html="nval" readonly="readonly"></textarea>
+	<textarea v-else class="form-control" :name="(owner||'')+field.zddm" :style="(field.style||'')" :title="value" v-html="nval" readonly="readonly"></textarea>
 </script>
 <script type="text/javascript">
 Vue.component('my-textaera', {
@@ -191,6 +192,7 @@ Vue.component('my-textaera', {
 <script type="text/x-tp" id="my-jsoneditor-tp">
 <div :name="(owner||'')+field.zddm" 
 		:id="(owner||'')+field.zddm"
+		:class="field.cssl" 
 		:style="(field.style||'height: 300px;')"></div>
 </script>
 <script type="text/javascript">
@@ -257,7 +259,7 @@ Vue.component('my-jsoneditor', {
   });
 </script>
 <script type="text/x-tp" id="my-checkbox-tp">
-    <span class="checkbox" :class="(field.classStr||'')+(checked=='1'?' checkbox-checked':'')" 
+    <span class="checkbox" :class="(field.cssl||'')+(checked=='1'?' checkbox-checked':'')" 
 		:style="(field.style||'')" @click="setval">
         <input type="checkbox" class="checkbox-input" 
 			:checked="checked=='1'?'checked':''"
@@ -265,6 +267,7 @@ Vue.component('my-jsoneditor', {
 			:id="(owner||'')+field.zddm" 
 			:placeholder="field.zdts"
 			:index="index"
+			:class="field.cssl" 
 			:data-rule="(field.qdyzgz||'')"
 			>
         <span class="checkbox-inner"></span>
@@ -322,10 +325,10 @@ Vue.component('my-checkbox', {
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:style="pagemodel=='details'?'width:calc((100% - 50px));display: inline;':''"
-		:class="field.classStr||'form-control'"
+		:class="field.cssl||'form-control'"
 		:onfocus="field.onfocus"
 		 />
-	<span v-else :class="field.classStr" style="width:calc((100% - 40px));" 
+	<span v-else :class="field.cssl" style="width:calc((100% - 40px));" 
 		v-html="nval"></span>
 	<button v-if="pagemodel=='details'" style="height: 30px;" type="button" class="btn btn-primary btn-sm" @click="ckmm">查看</button>
 </span>
@@ -402,10 +405,10 @@ Vue.component('my-password', {
 		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
-		:class="field.classStr"
+		:class="field.cssl"
 		:onfocus="field.onfocus"
 		 />
-	<span v-else :class="field.classStr" :title="nvalTitle" v-html="nval"></span>
+	<span v-else :class="field.cssl" :title="nvalTitle" v-html="nval"></span>
 </script>
 <script type="text/javascript">
 Vue.component('my-inputn', {
@@ -561,10 +564,10 @@ Vue.component('my-inputn', {
 		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
-		:class="'Wdate '+(field.classStr||'')" 
+		:class="'Wdate '+(field.cssl||'')" 
 		:onfocus="onfocus"
 		 />
-	<span v-else :class="field.classStr" :title="nvalTitle" v-html="nval"></span>
+	<span v-else :class="field.cssl" :title="nvalTitle" v-html="nval"></span>
 </script>
 <script type="text/javascript">
 Vue.component('my-time', {
@@ -648,7 +651,7 @@ Vue.component('my-time', {
 		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
-		:class="'Wdate time_scope '+(field.classStr||'')" 
+		:class="'Wdate time_scope '+(field.cssl||'')" 
 		@focus="wpStart"
 		></input>
 		<span class="timelate">~</span>
@@ -660,7 +663,7 @@ Vue.component('my-time', {
 		:data-rule="(field.qdyzgz||'')"
 		:placeholder="field.zdts"
 		:disabled="field.disabled"
-		:class="'Wdate time_scope '+(field.classStr||'')" 
+		:class="'Wdate time_scope '+(field.cssl||'')" 
 		@focus="wpEnd"
 		></input>
 </div>
@@ -769,7 +772,7 @@ Vue.component('my-timeaera', {
 	    <my-file v-else-if="field.kjlx=='file'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass">文件上传</my-file>
-	    <my-textaera v-else-if="field.kjlx=='textarea'&&pagemodel!='search'" 
+	    <my-textaera v-else-if="field.kjlx=='textarea'&&pagemodel!='search'&&pagemodel!='cklist'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
 	    <my-inputn v-else-if="isInputn" 
@@ -849,7 +852,7 @@ Vue.component('my-srkj', {
 });
 </script>
 <script type="text/x-tp" id="my-input-tp">
-<div v-if="fieldshow" class="row form-group" :class="'col-xs-'+(isCzd(field)?12:4)" 
+<div v-if="fieldshow" class="row form-group my-input" :class="'col-xs-'+(isCzd(field)?12:4)" 
 		:index="index" :value="value">
 	<label class="control-label" :class="'col-xs-'+(isCzd(field)?'2':'6')">
 	    <my-label :field="fieldBt" :index="index" :data="data"></my-label>
@@ -974,7 +977,7 @@ Vue.component('my-from', {
 	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
 	>
 	<span class="checkbox" v-if="isCheckBox" @click="setvalTh"
-		:class="(field.classStr||'')+(val=='1'?' checkbox-checked':'')">
+		:class="(field.cssl||'')+(val=='1'?' checkbox-checked':'')">
 	    <input type="checkbox" class="checkbox-input">
 	    <span class="checkbox-inner"></span>
 	</span>
@@ -2167,12 +2170,12 @@ Vue.component('my-list', {
             },
               saveListData:function(){
                   var _this = this;
-                  fromdata.id=_this._data.sjdx.id;
+                  var _params = $.extend({},fromdata, {id:_this._data.sjdx.id});
                   if(!myValidFrom(_this,'saveList')){
                       return;
                   }
-                  fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
-	              qrtsAjax("sjdx/saveListData.do",fromdata,function(data){
+                  _params.myparams = JSON.stringify({"listEditData":_this.listEditData});
+	              qrtsAjax("sjdx/saveListData.do",_params,function(data){
             	   	alertInfoYes(data,function(){
 	    			    _this.listPage.refreshPage();
 					});
@@ -2386,7 +2389,7 @@ Vue.component('my-edit', {
  	            	   	    //必须是新对象vue才能监测到变化
  	            	   	    _this.editdata=$.extend({},_this.editdata,result.data);
  	            	   	    if(success){
- 	            	   	        success(data);
+ 	            	   	        success(result.data);
  	            	   	    }
  						});
  		            });

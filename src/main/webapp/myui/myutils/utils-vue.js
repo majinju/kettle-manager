@@ -908,6 +908,9 @@ function myGzyz(value,rules,field){
             }
         }
     }
+    if(msg){
+        console.info(field.zdmc+"验证未通过："+msg);
+    }
     return msg;
 }
 /**

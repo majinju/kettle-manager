@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import cn.benma666.constants.UtilConst;
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
@@ -39,7 +37,6 @@ public class SjdxLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, java.util.Map)
     */
     @Override
-    @Transactional
     public JsonResult save(SysSjglSjdx sjdx, JSONObject params) {
         JSONObject jsonObj = (JSONObject) params.get(KEY_OBJ);
         if(StringUtil.isNotBlank(jsonObj.getString(FIELD_DXDM))){

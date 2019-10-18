@@ -1,0 +1,37 @@
+<!-- 基础日志列表扩展 -->
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+</my-list>
+<script type="text/x-tp" id="my-sjdx-lbcz-tp">
+<span>
+<span class="divider"></span>
+<a href="javascript:downloadRz('{{= row.oid}}');" title="日志下载"><i class="icon ion-arrow-down-a"></i></a>
+</span>
+</script>
+<script>
+function sjdxZdy(vp){
+    vp.el="#listPage";
+    vp.methods.plcl=function(cllx,_this,options){
+          this.$children[0].plcl(cllx,_this,options);
+    }
+}
+function plcl(cllx,_this,options){
+    listFrom.plcl(cllx,_this,options);
+}
+function sjdxlbcz(value,_this) {
+    var cz = defaultLbcz(value,_this);
+    if("非列表模式"==cz){
+        return cz;
+    }
+    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({
+        sjdx:_this.$root.sjdx,
+        user:_this.$parent.$parent.$parent._data.user,
+	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+    return cz+qtcz;
+}
+/**
+ * 下载
+ */
+function downloadRz(id){
+    $.download("sjdx/getFile.do?id="+sjdxid+"&e_cllx=getfile",{e_oid:id});
+}
+</script>
