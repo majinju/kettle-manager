@@ -24,6 +24,7 @@ import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.ExportToExecl;
+import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.web.BasicController;
@@ -60,12 +61,15 @@ public class CommonController extends BasicController {
     public void clearCache(SysSjglTyzd obj,HttpServletRequest request, 
             HttpServletResponse response) {
         SysQxYhxx user = jkInit(obj, request);
-        if(!"admin".equals(user.getYhdm())){
-            sendJson(response, error("你无权清除缓存"));
-        }else{
-            CacheFactory.clear();
-            sendJson(response, success("清除缓存成功"));
+        JsonResult r = error("你无权清除缓存");
+        if("admin".equals(user.getYhdm())){
+            if(StringUtil.isBlank(obj.getDm())){
+                r = CacheFactory.clear();
+            }else{
+                r = CacheFactory.clear(obj.getDm());
+            }
         }
+        sendJson(response, r);
     }
     /**
     * @author jingma

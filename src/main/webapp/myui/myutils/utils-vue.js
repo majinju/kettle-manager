@@ -328,8 +328,12 @@ function zdObj(zd,cache){
 	    //参数为空
 	    return null;
 	}
+	if(cache==undefined){
+	    //默认走缓存
+	    cache=true;
+	}
     var zl = zdList(zdlb);
-    if(zl){
+    if(zl&&cache){
         //获取了字典列表
         for(var i in zl){
             if(zl[i].dm==dm){
@@ -337,10 +341,11 @@ function zdObj(zd,cache){
                 break;
             }
         }
-    }else if(zdListCache[zdlb][dm]){
+    }else if(zdListCache[zdlb][dm]&&cache){
         //该字典的具体字典项已经缓存。
         obj = zdListCache[zdlb][dm];
     }else{
+        zd['e_cache']=cache;
         //不支持获取列表
         $.ajax({
             type:"POST",

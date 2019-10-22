@@ -6,6 +6,8 @@
 
 package cn.benma666.common.ljq;
 
+import java.util.List;
+
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
@@ -34,7 +36,31 @@ public class SjztLjq extends DefaultLjq{
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject kzxx = myParams.getJSONObject(FIELD_KZXX);
         JSONObject jkpz = kzxx.getJSONObject("运行监控任务默认配置");
+        JSONArray list = null;
         switch (cllx) {
+        case "cszt":
+            //测试载体
+            if(myParams.containsKey(KEY_IDS_IN)){
+                List<JSONObject> ztList = Db.use(sjdx.getDxzt()).find("select * from sys_sjgl_sjzt t where t.id "+myParams.getString(KEY_IDS_IN));
+                JsonResult r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
+                for(JSONObject obj:ztList){
+                    if(!testSjzt(obj,true).isStatus()){
+                        r.addMsg(obj.getString("dm"));
+                    }
+                }
+                r.setMsg(r.getMsg().replace("：,", "："));
+                return r;
+            }else{
+                JSONObject obj = myParams.getJSONObject(KEY_OBJ);
+                JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+                boolean mmjm = true;
+                if(StringUtil.isNotBlank(yobj.getString("mm"))){
+                    mmjm = false;
+                }
+                obj.putAll(yobj);
+                return testSjzt(obj, mmjm);
+                
+            }
         case "scjkrw":
             //监控任务对象,及参数对象构建
             JSONObject jkrw = (JSONObject) myParams.clone();
@@ -46,7 +72,7 @@ public class SjztLjq extends DefaultLjq{
             int yczrw = 0;
             //生成的任务
             int scrw = 0;
-            JSONArray list = ((JSONObject)getdata(sjdx, myParams).getData()).getJSONArray("list");
+            list = ((JSONObject)getdata(sjdx, myParams).getData()).getJSONArray("list");
             for(JSONObject job:list.toArray(new JSONObject[]{})){
                 JSONObject oldrw = db.findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx='1'", 
                         job.getString("jtrw"));
@@ -88,32 +114,43 @@ public class SjztLjq extends DefaultLjq{
             }
         }else{
             dbdm = yobj.getString("dm");
-            String vs = "validationQuery."+yobj.getString("lx");
-            //处理测试语句
-            if(StringUtil.isBlank(yobj.getString("csyj"))&&!vs.equals(SConf.getVal(vs))){
-                yobj.put("csyj", SConf.getVal(vs));
-            }
+            yobj.put("csyj", Db.getDbCsyj(yobj.getString("lx"),yobj.getString("csyj")));
             //处理驱动
-            if(StringUtil.isBlank(yobj.getString("sjkqd"))){
-                yobj.put("sjkqd", Db.getDriverClassName(yobj.getString("lx"), yobj.getString("ljc")));
-            }
+            yobj.put("sjkqd", Db.getDbQd(yobj.getString("lx"), yobj.getString("ljc"),yobj.getString("sjkqd")));
         }
         JsonResult result = super.save(sjdx, myJsonParams);
         DictManager.clearDict(ZD_SYS_COMMON_SJZT);
         JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, dbdm);
         //数据库型数据载体才进行测试
+        result = testSjzt(dbObj,true);
+        return result;
+    }
+
+    /**
+    * 测试数据载体是否可用 <br/>
+    * @author jingma
+    * @param dbObj 数据载体对象
+    * @param mmjm 是否密码加密
+    * @return
+    */
+    public JsonResult testSjzt(JSONObject dbObj,boolean mmjm) {
+        JsonResult result = success("该数据载体可用");
+        String zt = "1";
         if(SConf.getVal("sjkxsjzt").indexOf(dbObj.getString("lx"))>-1){
-            String zt = "1";
+            //数据库型数据载体
             try {
-                    Db.use(dbdm);
+                result = Db.testDb(dbObj, mmjm);
             } catch (Exception e) {
                 zt = "2";
-                result = error("该数据源当前不可用："+obj.getString("dm"),e);
+                result = error("该数据载体当前不可用："+dbObj.getString("dm"),e);
                 log.debug(result.getMsg(),e);
             }
-            //更新数据源状态
-            db.update("update SYS_SJGL_SJZT t set t.zt=?,t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.id=?", zt,yobj.getString("id"));
+        }else{
+            //TODO 其他类型载体后续添加测试功能
         }
+        //更新数据源状态
+        db.update("update SYS_SJGL_SJZT t set t.zt=?,t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.id=?", 
+                zt,dbObj.getString("id"));
         return result;
     }
 }

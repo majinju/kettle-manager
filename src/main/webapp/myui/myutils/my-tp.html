@@ -148,9 +148,10 @@ Vue.component('my-file', {
 		:disabled="field.disabled"
 		:class="field.cssl" 
 		:onfocus="field.onfocus"
-		:style="(field.style||'')"
+		:style="pagemodel=='search'?'':(field.style||'')"
 		></textarea>
-	<textarea v-else class="form-control" :name="(owner||'')+field.zddm" :style="(field.style||'')" :title="value" v-html="nval" readonly="readonly"></textarea>
+	<textarea v-else class="form-control" :name="(owner||'')+field.zddm" :style="(field.style||'')" 
+		:class="field.cssl" :title="value" v-html="nval" readonly="readonly"></textarea>
 </script>
 <script type="text/javascript">
 Vue.component('my-textaera', {
@@ -406,6 +407,7 @@ Vue.component('my-password', {
 		:placeholder="field.zdts" 
 		:disabled="field.disabled"
 		:class="field.cssl"
+		:style="pagemodel=='search'?'':(field.style||'')"
 		:onfocus="field.onfocus"
 		 />
 	<span v-else :class="field.cssl" :title="nvalTitle" v-html="nval"></span>
@@ -2153,7 +2155,11 @@ Vue.component('my-list', {
 	                qrts:options.qrts,
 	                success:function(data){
 		                alertInfoYes(data,function(){
-	        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
+		                    if(options.success){
+		                        options.success(data,_this);
+		                    }else{
+		        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
+		                    }
 						});
 		                layer.close(loadindex);
 	                },
@@ -2384,7 +2390,10 @@ Vue.component('my-edit', {
 	            fromdata.id=_this.sjdx.id;
 	            fromdata['e_cllx']=cllx;
 	            fromdata.myparams=JSON.stringify(_this.updatedata);
-	            qrtsAjax('sjdx/plcl.do',fromdata,function(result){
+            	var loadindex = layer.load(0,{
+            		shade: [0.3]
+            	});
+	            myAjax('sjdx/plcl.do',fromdata,function(result){
  	            	   	alertInfoYes(result,function(){
  	            	   	    //必须是新对象vue才能监测到变化
  	            	   	    _this.editdata=$.extend({},_this.editdata,result.data);
@@ -2392,6 +2401,7 @@ Vue.component('my-edit', {
  	            	   	        success(result.data);
  	            	   	    }
  						});
+	                    layer.close(loadindex);
  		            });
 	        },
            submit:function(){
@@ -2416,6 +2426,9 @@ Vue.component('my-edit', {
                            return;
                        }
                    }
+	            	var loadindex = layer.load(0,{
+	            		shade: [0.3]
+	            	});
                    var _params = {myparams:JSON.stringify($.extend({},this.fromdata, _this._data.updatedata))};
                    if(_this.bjymkz("my-qdbts")=='1'){
                        myAjax(_this.action,_params,function(data){
@@ -2428,6 +2441,7 @@ Vue.component('my-edit', {
 	    	        	   			parent.layer.close(index);
 	    						});
                            }
+       	                layer.close(loadindex);
                        });
                    }else{
      	               qrtsAjax(_this.action,_params,function(data){

@@ -271,7 +271,7 @@ public class SjdxLjq extends DefaultLjq{
                         zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_DICT);
                     }
                     zd.setZdms(zdms1[0]);
-                }else if(zdms1[0].indexOf("时间")>-1){
+                }else if(zdms1[0].indexOf("时间")>-1||zdms1[0].indexOf("日期")>-1){
                     //时间字段的默认设置
                     zd.setKjlx("time");
                     zd.setCxmrz("goDay:-30");
