@@ -140,6 +140,9 @@ public class SjztLjq extends DefaultLjq{
             //数据库型数据载体
             try {
                 result = Db.testDb(dbObj, mmjm);
+                if(!result.isStatus()){
+                    zt = "2";
+                }
             } catch (Exception e) {
                 zt = "2";
                 result = error("该数据载体当前不可用："+dbObj.getString("dm"),e);

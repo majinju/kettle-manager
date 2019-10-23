@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2019-09-27 11:32:19
+Date: 2019-10-23 19:11:36
 */
 
 
@@ -254,6 +254,49 @@ COMMENT ON COLUMN "SJSJ"."SYS_LOG_HTRZ"."SCL" IS '输出类';
 COMMENT ON COLUMN "SJSJ"."SYS_LOG_HTRZ"."SCH" IS '输出行';
 COMMENT ON COLUMN "SJSJ"."SYS_LOG_HTRZ"."XX" IS '消息';
 COMMENT ON COLUMN "SJSJ"."SYS_LOG_HTRZ"."SSXM" IS '所属项目';
+
+-- ----------------------------
+-- Table structure for SYS_LOG_SJLZRZ
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_LOG_SJLZRZ";
+CREATE TABLE "SJSJ"."SYS_LOG_SJLZRZ" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"SJDX" VARCHAR2(32 BYTE) NULL ,
+"SJZD" VARCHAR2(32 BYTE) NULL ,
+"ZY" VARCHAR2(100 BYTE) NULL ,
+"KSSJ" VARCHAR2(14 BYTE) NULL ,
+"JSSJ" VARCHAR2(14 BYTE) NULL ,
+"ZLSJC" VARCHAR2(100 BYTE) NULL ,
+"JG" VARCHAR2(100 BYTE) NULL ,
+"DQL" NUMBER DEFAULT 0  NULL ,
+"XZL" NUMBER DEFAULT 0  NULL ,
+"CFL" NUMBER DEFAULT 0  NULL ,
+"WXL" NUMBER DEFAULT 0  NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_LOG_SJLZRZ" IS '系统-日志-数据流转日志';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."SJDX" IS '数据对象';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."SJZD" IS '数据账单';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."ZY" IS '作业';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."KSSJ" IS '开始时间';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."JSSJ" IS '结束时间';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."ZLSJC" IS '抽取标志';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."JG" IS '结果';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."DQL" IS '读取量';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."XZL" IS '新增量';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."CFL" IS '重复量';
+COMMENT ON COLUMN "SJSJ"."SYS_LOG_SJLZRZ"."WXL" IS '无效量';
 
 -- ----------------------------
 -- Table structure for SYS_QX_APP
@@ -934,7 +977,7 @@ CREATE TABLE "SJSJ"."SYS_SJGL_SJZD" (
 "ZDKD" NUMBER DEFAULT 80  NULL ,
 "ZDGD" NUMBER NULL ,
 "CXMRZ" VARCHAR2(64 BYTE) NULL ,
-"XZMRZ" VARCHAR2(64 BYTE) NULL ,
+"XZMRZ" VARCHAR2(1024 BYTE) NULL ,
 "KJLX" VARCHAR2(32 BYTE) DEFAULT 'input'  NULL ,
 "ZDDX" VARCHAR2(32 BYTE) DEFAULT '0'  NULL ,
 "ZDFY" VARCHAR2(32 BYTE) DEFAULT '0'  NULL ,
@@ -1458,10 +1501,64 @@ COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."ZT" IS '状态@SYS_COMMON_ZT';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_ZDYSQL"."SJK" IS '数据库@SYS_COMMON_SJZT';
 
 -- ----------------------------
+-- Table structure for TEMP_LOG_FWZR
+-- ----------------------------
+DROP TABLE "SJSJ"."TEMP_LOG_FWZR";
+CREATE TABLE "SJSJ"."TEMP_LOG_FWZR" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"SJDX" VARCHAR2(32 BYTE) NULL ,
+"CZIP" VARCHAR2(32 BYTE) NULL ,
+"CZLX" VARCHAR2(32 BYTE) NULL ,
+"URL" VARCHAR2(4000 BYTE) NULL ,
+"XGCS" VARCHAR2(4000 BYTE) NULL ,
+"TOKEN" VARCHAR2(32 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."TEMP_LOG_FWZR" IS '系统-日志-访问日志';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."SJDX" IS '数据对象';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."CZIP" IS '操作ip';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."CZLX" IS '操作类型';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."URL" IS 'URL';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."XGCS" IS '相关参数';
+COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."TOKEN" IS '权限id';
+
+-- ----------------------------
 -- View structure for V_XNDX
 -- ----------------------------
 CREATE OR REPLACE FORCE VIEW "SJSJ"."V_XNDX" AS 
-select '' id,'' yjmm,'' erjm from dual;
+select '' id,1 repeat
+,1 initStart
+,1 schedulerType
+,1 intervalSeconds
+,1 intervalMinutes
+,1 dayOfMonth
+,1 weekDay
+,1 minutes
+,1 hour
+,'' cron from dual;
 
 -- ----------------------------
 -- Function structure for DES_DE
@@ -1574,6 +1671,11 @@ ALTER TABLE "SJSJ"."SYS_LOG_HTRZ" ADD CHECK ("ID" IS NOT NULL);
 -- Primary Key structure for table SYS_LOG_HTRZ
 -- ----------------------------
 ALTER TABLE "SJSJ"."SYS_LOG_HTRZ" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Checks structure for table SYS_LOG_SJLZRZ
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_LOG_SJLZRZ" ADD CHECK ("ID" IS NOT NULL);
 
 -- ----------------------------
 -- Indexes structure for table SYS_QX_APP
@@ -1907,3 +2009,17 @@ ALTER TABLE "SJSJ"."SYS_YXJK_ZDYSQL" ADD CHECK ("ID" IS NOT NULL);
 -- Primary Key structure for table SYS_YXJK_ZDYSQL
 -- ----------------------------
 ALTER TABLE "SJSJ"."SYS_YXJK_ZDYSQL" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table TEMP_LOG_FWZR
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table TEMP_LOG_FWZR
+-- ----------------------------
+ALTER TABLE "SJSJ"."TEMP_LOG_FWZR" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table TEMP_LOG_FWZR
+-- ----------------------------
+ALTER TABLE "SJSJ"."TEMP_LOG_FWZR" ADD PRIMARY KEY ("ID");
