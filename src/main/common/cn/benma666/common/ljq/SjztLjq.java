@@ -6,11 +6,16 @@
 
 package cn.benma666.common.ljq;
 
+import java.io.File;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.exception.MyException;
 import cn.benma666.iframe.DictManager;
+import cn.benma666.myutils.FtpUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -129,31 +134,62 @@ public class SjztLjq extends DefaultLjq{
     /**
     * 测试数据载体是否可用 <br/>
     * @author jingma
-    * @param dbObj 数据载体对象
+    * @param sjztObj 数据载体对象
     * @param mmjm 是否密码加密
     * @return
     */
-    public JsonResult testSjzt(JSONObject dbObj,boolean mmjm) {
+    public JsonResult testSjzt(JSONObject sjztObj,boolean mmjm) {
         JsonResult result = success("该数据载体可用");
         String zt = "1";
-        if(SConf.getVal("sjkxsjzt").indexOf(dbObj.getString("lx"))>-1){
-            //数据库型数据载体
-            try {
-                result = Db.testDb(dbObj, mmjm);
-                if(!result.isStatus()){
-                    zt = "2";
+        try {
+            if(SConf.getVal("sjkxsjzt").indexOf(sjztObj.getString("lx"))>-1){
+                //数据库型数据载体
+                result = Db.testDb(sjztObj, mmjm);
+            }else if("ftp".equals(sjztObj.getString("lx"))){
+                //ftp测试
+                JSONObject ftpObj = paseFtpUrl(sjztObj);
+                new FtpUtil(sjztObj.getString("dm"), true, ftpObj);
+                result = success("测试通过");
+            }else if("bdwj".equals(sjztObj.getString("lx"))){
+                //本地文件测试
+                File f = new File(sjztObj.getString("ljc"));
+                if(!f.exists()){
+                    result = error("该文件不存在");
                 }
-            } catch (Exception e) {
-                zt = "2";
-                result = error("该数据载体当前不可用："+dbObj.getString("dm"),e);
-                log.debug(result.getMsg(),e);
+            }else{
+                //TODO 其他类型载体后续添加测试功能
             }
-        }else{
-            //TODO 其他类型载体后续添加测试功能
+        } catch (Exception e) {
+            zt = "2";
+            result = error("该数据载体当前不可用："+sjztObj.getString("dm"),e);
+            log.debug(result.getMsg(),e);
+        }
+        if(!result.isStatus()){
+            zt = "2";
         }
         //更新数据源状态
         db.update("update SYS_SJGL_SJZT t set t.zt=?,t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.id=?", 
-                zt,dbObj.getString("id"));
+                zt,sjztObj.getString("id"));
         return result;
+    }
+
+    /**
+    * 解析ftp连接 <br/>
+    * @author jingma
+    * @param sjztObj
+    * @return
+    */
+    private JSONObject paseFtpUrl(JSONObject sjztObj) {
+        Pattern pat = Pattern.compile("ftp://(.*):(\\d*)");
+        Matcher m = pat.matcher(sjztObj.getString("ljc"));
+        if(m.find()&&m.groupCount()==2){
+            sjztObj.put("ip", m.group(1));
+            sjztObj.put("port", m.group(2));
+        }else{
+            throw new MyException("ftp连接串解析出错");
+        }
+        JSONObject kzxx = JSONObject.parseObject(sjztObj.getString(LjqInterface.FIELD_KZXX));
+        sjztObj.put("encodeing", StringUtil.getJsonKeys(kzxx, "ftppz","encodeing"));
+        return sjztObj;
     }
 }
