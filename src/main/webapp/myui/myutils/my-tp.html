@@ -1853,18 +1853,22 @@ Vue.component('my-zssjdx', {
 	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
-			<my-file v-if="qxByQxm('SJPLSC')" edit="true" :field="sjplscfield" @setval="sjplsc">
-				批量上传<i style="margin-left: 5px;" 
+			<my-file v-if="qxByQxm('SJPLSC')" edit="true" :field="sjplscfield" @setval="sjplsc"
+ 				title="请先下载模板，不要修改模板格式，按照模板要求进行数据填充">
+				批量上传<!--<i style="margin-left: 5px;"
 			    	class="icon ion-ios-help-outline plscTitle" 
-			    	@mouseover="plscTitle(this)"></i>
+			    	@mouseover="plscTitle(this)"></i>-->
 			</my-file>
-			<button v-if="qxByQxm('MBXZ')" class="btn btn-primary btn-sm" @click="downloadTemplate()">
+			<button v-if="qxByQxm('MBXZ')" class="btn btn-primary btn-sm" @click="downloadTemplate()"
+				title="模板中包含了字段相关校验规则，请按规则填写，部分字典数据及详细校验规则请参考单个新增功能">
 				<i class="icon ion-arrow-down-a"></i> 
-				模板下载<i style="margin-left: 5px;" 
+				模板下载<!--<i style="margin-left: 5px;" 
 			    	class="icon ion-ios-help-outline plscmbTitle" 
-			    	@mouseover="plscmbTitle()"></i>
+			    	mouseover="plscmbTitle()"></i>-->
 			</button>
-	        <button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
+	        <button v-if="qxByQxm('FZJL')" class="btn btn-primary btn-sm" @click="plcl('fzjl')">
+				<i class="icon ion-ios-copy-outline"></i> 复制</button>
+			<button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
 	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
 	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
@@ -2028,7 +2032,7 @@ Vue.component('my-list', {
 	              return encodeURI(JSON.stringify(data));
 		      },
 		      pzzdUrl:function(){
-	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,dxmc:this.sjdx.dxmc,'my-lbkbj':'1'}));
+	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,'my-lbkbj':'1'}));
 		      },
 	          addUrl:function(){
 	              return encodeURI(JSON.stringify({"sjdx":this.sjdx.id}));
@@ -2086,11 +2090,11 @@ Vue.component('my-list', {
 		        }
 		    },
             setval:function(field,event){
-                this.fromdata[field.zddm] = event.val;
-                if(event.target.mc){
-                    this.fromdata['map.'+field.zddm]=event.mc;
-                }
-                console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
+//                 this.fromdata[field.zddm] = event.val;
+//                 if(event.target.mc){
+//                     this.fromdata['map.'+field.zddm]=event.mc;
+//                 }
+//                 console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
              },
              lbmssetval:function(field,event){
                 this.fromdata[field.zddm] = event.val;

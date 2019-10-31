@@ -10,14 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.benma666.common.service.CommonService;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.exception.MyException;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
 import cn.benma666.web.BasicController;
-import cn.benma666.web.QxManager;
-import cn.benma666.web.UserManager;
-import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -50,24 +46,12 @@ public class IndexController extends BasicController {
                 myparams = "{}";
             }
             model.addAttribute("myparams", myparams);
-            return LjqManager.sjdx(sjdx,model);
-        }else{
-            if(!QxManager.AUTH_CODE_WQX.equals(result.getCode())){
-                throw new MyException(result.getMsg());
-            }else{
-                try {
-                    if(getUser(request).getYhdm().equals(UserManager.LSYH)){
-                        //临时用户访问没权限的页面则自动跳转到首页
-                        response.sendRedirect(WebUtil.getBasePath(request));
-                    }else{
-                        response.sendError(HttpServletResponse.SC_FORBIDDEN, result.getMsg());
-                    }
-                } catch (Throwable e) {
-                    log.error("重定向异常"+sjdx, e);
-                }
+            result = LjqManager.sjdx(dbSjdx,myParams,model);
+            if(result.isStatus()){
+                return result.getMsg();
             }
-            return null;
         }
+        return pageError(dbSjdx, request, response);
     }
     
     @Override
