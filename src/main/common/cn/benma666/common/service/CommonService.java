@@ -95,6 +95,7 @@ public class CommonService extends BasicService{
         }
         //保存文件信息
         fileObj.setId(null);
+        fileObj.set("user", null);
         sqlManager.insertTemplate(fileObj);
         log.info(fileObj+"文件上传成功");
         return (JSONObject) JSON.toJSON(fileObj);

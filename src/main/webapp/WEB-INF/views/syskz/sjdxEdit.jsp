@@ -12,25 +12,6 @@ function sjdxZdy(vp){
     vp.methods.plcl=function(cllx){
           this.$children[0].plcl(cllx);
     }
-	vp.methods.getDefaultImpSql=function(){
-        var _this=this;
-   	if(!$(_this.$options.el).isValid()){
-    		return;
-    	}else{
-                var _params = {myparams:JSON.stringify(_this.$children[0]._data.updatedata)};
-                _params['map["sqlType"]']="dis";
-                _params['id']=_this.sjdxid;
-    		$.post("sjdx/getDefaultSql.do",_params,function(data){
-    			if(data.status){
-    			    Vue.set(_this.fromdata,"zddrsql",data.msg);
-    			}else{
-    	        	layer.alert(data.msg ? data.msg : "操作失败！", { 
-                           icon:2                      
-                    });
-                }
-            });
-        }
-    }
 }
 function sjdxZdyjy(data,_this){
     if(!((_this.pagemodel=='edit'&&data.zddrsql==undefined)||!isEmpty(data.zddrsql))){

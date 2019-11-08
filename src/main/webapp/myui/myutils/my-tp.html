@@ -2445,7 +2445,9 @@ Vue.component('my-edit', {
 	    	        	   			parent.layer.close(index);
 	    						});
                            }
-       	                layer.close(loadindex);
+       	                	layer.close(loadindex);
+                       },function(){
+          	                layer.close(loadindex);
                        });
                    }else{
      	               qrtsAjax(_this.action,_params,function(data){
@@ -2458,6 +2460,8 @@ Vue.component('my-edit', {
 	    	        	   			parent.layer.close(index);
 	    						});
                            }
+    		            },null,function(){
+          	                layer.close(loadindex);
     		            });
                    }
                }

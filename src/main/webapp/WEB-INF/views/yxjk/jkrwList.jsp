@@ -8,7 +8,7 @@
     	<i class="icon ion-checkmark-round"></i> 设为无效</button>
     <button style="display: none;" :id="'swyx-'+sjdxid" class="btn btn-primary btn-sm"  @click="plcl('swyx')">
     	<i class="icon ion-close-round"></i> 设为有效</button>
-    <button class="btn btn-primary btn-sm"  @click="szyj()" title="暂停后所有监控将转为三级任务进行监控，恢复后则恢复为设置级别">
+    <button style="display: none;" :id="'szyj-'+sjdxid" class="btn btn-primary btn-sm"  @click="szyj()" title="暂停后所有监控将转为四级任务进行监控，恢复后则恢复为设置级别">
     	<i class="icon ion-alert-circled"></i> {{ sfyj=='1'?'暂停':'恢复' }}预警</button>
 	<span :id="'lbplcz-'+sjdxid"></span>
 </my-list>
@@ -75,6 +75,9 @@ function lbplcz(_this){
 	}
 	if(qxByQxm(param.user,param.sjdx,'SWYX')){
 	    $('#swyx-'+sjdxid).show();
+	}
+	if(qxByQxm(param.user,param.sjdx,'SZYJ')){
+	    $('#szyj-'+sjdxid).show();
 	}
 }
 function sjdxlbcz(value,_this) {

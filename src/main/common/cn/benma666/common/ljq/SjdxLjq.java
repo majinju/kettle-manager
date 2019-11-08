@@ -7,6 +7,7 @@
 package cn.benma666.common.ljq;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +45,10 @@ public class SjdxLjq extends DefaultLjq{
         }
         switch (params.getString(KEY_CLLX)) {
         case KEY_CLLX_INSERT:
-            SysSjglSjdx jtdx = JSON.parseObject(params.get(KEY_OBJ).toString(), SysSjglSjdx.class);
+            JSONObject yobj = params.getJSONObject(KEY_OBJ);
+            SysSjglSjdx jtdx = JSON.parseObject(yobj.toString(), SysSjglSjdx.class);
             jtdx.setId(StringUtil.getUUIDUpperStr());
+            yobj.put("id", jtdx.getId());
 //            sqlManager.insertTemplate(jtdx);
             JsonResult r = super.save(sjdx, params);
             //新增
@@ -140,6 +143,7 @@ public class SjdxLjq extends DefaultLjq{
         case JdbcUtils.MYSQL:
         case JdbcUtils.POSTGRESQL:
         case LjqInterface.ZD_SJZTLX_GREENPLUM:
+        case LjqInterface.ZD_SJZTLX_HWMPP:
             result = DefaultLjq.getDefaultSql(ysjdx, cllx, params);
             if(!result.isStatus()){
                 return result;
@@ -183,18 +187,39 @@ public class SjdxLjq extends DefaultLjq{
     */
     public JsonResult impFields(SysSjglSjdx jtdx, JSONObject params, SysSjglSjdx sjdx) {
         JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
-        jtdx.setDxztlx(dbObj.getString("lx"));
-        switch (jtdx.getDxztlx()) {
-        case JdbcUtils.ORACLE:
-        case JdbcUtils.MYSQL:
-        case JdbcUtils.POSTGRESQL:
-        case LjqInterface.ZD_SJZTLX_GREENPLUM:
-            return impFieldsDB(jtdx,params,sjdx);
-        case LjqInterface.ZD_SJZTLX_FTP:
-        case LjqInterface.ZD_SJZTLX_BDWJ:
-            return impFieldsBdwj(jtdx,params,sjdx);
-        default:
-            throw new SjglException("不支持的对象载体类型："+jtdx.getDxztlx());
+        String zddrsql = jtdx.getZddrsql();
+        if(StringUtil.isBlank(zddrsql)){
+            zddrsql = DefaultLjq.getDefaultSql(jtdx, "dis", params).getMsg();
+            jtdx.setZddrsql(zddrsql);
+        }
+        if(!zddrsql.startsWith("select")){
+            //非查询语句则按自定义字段规则导入。
+            List<JSONObject> fieldsList = new ArrayList<JSONObject>();
+            for(String row:zddrsql.split("\n")){
+                JSONObject zdObj = new JSONObject();
+                String[] sxs = row.split("\\|");
+                zdObj.put("zddm", sxs[0]);
+                zdObj.put("zdms", sxs[1]);
+                zdObj.put("zdlx", sxs[2]);
+                zdObj.put("zdcd", sxs[3]);
+                fieldsList.add(zdObj);
+            }
+            return crzd(jtdx, params, sjdx, fieldsList);
+        }else{
+            jtdx.setDxztlx(dbObj.getString("lx"));
+            switch (jtdx.getDxztlx()) {
+            case JdbcUtils.ORACLE:
+            case JdbcUtils.MYSQL:
+            case JdbcUtils.POSTGRESQL:
+            case LjqInterface.ZD_SJZTLX_GREENPLUM:
+            case LjqInterface.ZD_SJZTLX_HWMPP:
+                return impFieldsDB(jtdx,params,sjdx);
+            case LjqInterface.ZD_SJZTLX_FTP:
+            case LjqInterface.ZD_SJZTLX_BDWJ:
+                return impFieldsBdwj(jtdx,params,sjdx);
+            default:
+                throw new SjglException("不支持的对象载体类型："+jtdx.getDxztlx());
+            }
         }
     }
 
@@ -220,11 +245,21 @@ public class SjdxLjq extends DefaultLjq{
     */
     private JsonResult impFieldsDB(SysSjglSjdx jtdx, JSONObject params, SysSjglSjdx sjdx) {
         Db tdb = Db.use(jtdx.getDxzt());
-        int idx = 0;
-        String zddrsql = jtdx.getZddrsql();
-        if(StringUtil.isBlank(zddrsql)){
-            zddrsql = DefaultLjq.getDefaultSql(jtdx, "dis", params).getMsg();
-        }
+        List<JSONObject> fieldsList = tdb.find(jtdx.getZddrsql());
+        return crzd(jtdx, params, sjdx, fieldsList);
+    }
+    /**
+    * 插入字段 <br/>
+    * @author jingma
+    * @param jtdx
+    * @param params
+    * @param sjdx
+    * @param fieldsList
+    * @return
+    */
+    public JsonResult crzd(SysSjglSjdx jtdx, JSONObject params,
+            SysSjglSjdx sjdx, List<JSONObject> fieldsList) {
+        int idx = 20;
         Map<String, JSONObject> oldFiledMap = Db.listToMap(
                 db.find("select * from sys_sjgl_sjzd t where t.sjdx=?", 
                         jtdx.getId()), "zddm");
@@ -237,7 +272,6 @@ public class SjdxLjq extends DefaultLjq{
             JsonResult r = getDefaultSql(sjdx, "fzzd", params);
             count = sqlManager.executeUpdate(r.getMsg(), params);
         }
-        List<JSONObject> fieldsList = tdb.find(zddrsql);
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
             SysSjglSjzd zd = JSON.parseObject(fieldObj.toJSONString(), SysSjglSjzd.class);
