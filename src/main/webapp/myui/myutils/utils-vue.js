@@ -21,6 +21,16 @@ var scriptList=[
       serviceAddr+"myui/myutils/shuiyin.js",
       serviceAddr+"myui/myutils/page-vue.js",
       serviceAddr+"myui/jsoneditor/jsoneditor.js",
+      //md编辑器相关 satrt
+      serviceAddr+"myui/editor.md/editormd.js",
+      serviceAddr+"myui/editor.md/lib/marked.min.js",
+      serviceAddr+"myui/editor.md/lib/prettify.min.js",
+      serviceAddr+"myui/editor.md/lib/raphael.min.js",
+      serviceAddr+"myui/editor.md/lib/underscore.min.js",
+      serviceAddr+"myui/editor.md/lib/sequence-diagram.min.js",
+      serviceAddr+"myui/editor.md/lib/flowchart.min.js",
+      serviceAddr+"myui/editor.md/lib/jquery.flowchart.min.js",
+      //md编辑器相关 end
       serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js",
       serviceAddr+"myui/echarts/echarts-4.2.1-rc.1.js"
    ];
@@ -34,6 +44,7 @@ var cssList=[
       serviceAddr+"myui/font-awesome/css/font-awesome.css",
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
       serviceAddr+"myui/jsoneditor/jsoneditor.css",
+      serviceAddr+"myui/editor.md/css/editormd.css",
 //      serviceAddr+"myui/SelectMenu/selectmenu.css",
       serviceAddr+"myui/zTree_v3/css/zTreeStyle/zTreeStyle.css"
    ];
@@ -874,6 +885,13 @@ function myGzyz(value,rules,field){
                 if(value.length==8||value.length==10||value.length==14||value.length==19){
                 }else{
                     msg = "该值必须是时间格式";
+                }
+                break;
+            case "zzbds":
+                //正则表达式
+                eval("var bds = /"+rr[1]+"/gm");
+                if(!bds.test(value)){
+                    msg = rr[2];
                 }
                 break;
             case "sfzh":

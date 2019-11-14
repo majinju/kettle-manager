@@ -270,6 +270,7 @@ public class SjdxLjq extends DefaultLjq{
             params.put("newSjdx", jtdx);
             params.put("mrzd", UtilConst.WHETHER_TRUE);
             JsonResult r = getDefaultSql(sjdx, "fzzd", params);
+            params.remove("mrzd");
             count = sqlManager.executeUpdate(r.getMsg(), params);
         }
         for(JSONObject fieldObj:fieldsList){

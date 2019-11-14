@@ -14,12 +14,12 @@ function sjdxZdy(vp){
     }
 }
 function sjdxZdyjy(data,_this){
-    if(!((_this.pagemodel=='edit'&&data.zddrsql==undefined)||!isEmpty(data.zddrsql))){
-        layer.alert("字段导入SQL不能为空", { 
-               icon:2                      
-        });
-        return false;
-    }
+//     if(!((_this.pagemodel=='edit'&&data.zddrsql==undefined)||!isEmpty(data.zddrsql))){
+//         layer.alert("字段导入SQL不能为空", { 
+//                icon:2                      
+//         });
+//         return false;
+//     }
     return true;
 }
 </script>
