@@ -6,6 +6,9 @@
         <button class="btn btn-primary btn-sm"  @click="plcl('qd',null,{qrts:false})"><i class="icon ion-play"></i> 启动</button>
         <button class="btn btn-primary btn-sm" @click="plcl('tz')"><i class="icon ion-pause"></i> 停止</button>
         <button class="btn btn-primary btn-sm" @click="plcl('js')"><i class="icon ion-stop"></i> 结束</button>
+        <button class="btn btn-primary btn-sm" @click="plcl('cxsc')" title="针对对象流转类型的作业，根据模板重新生成作业。">
+        	<i class="icon ion-ios-refresh-outline"></i> 重新生成
+        </button>
         <button class="btn btn-primary btn-sm" @click="plcl('drzy',null,{bxlbh:false,qrts:false})"><i class="icon ion-upload"></i> 导入作业</button>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">

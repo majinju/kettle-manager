@@ -17,6 +17,10 @@ function sjdxZdy(vp){
           this.$children[0].plcl(cllx);
     }
     vp.mounted=function () {
+        if(pagemodel=='details'){
+            //详情时不处理
+            return;
+        }
         var zylx = this.$children[0].editdata.zylx;
         if(!zylx){
             zylx = $("[name='zylx']").val();
@@ -32,8 +36,13 @@ function sjdxZdy(vp){
         mbdxEl.attr("style",$("[name='mbdx_text']").attr("style"));
         mbdxEl.after($("#my-sjdx-czan-tp").tmpl({onpzdx:"pzmbdx()",onpzzd:"pzmbzd()"}).html());
         //添加获取流转配置信息按钮
-        var lzmbEl = $("[name='lzmb_text']").parent();
-        lzmbEl.attr("style",$("[name='lzmb_text']").attr("style"));
+        var lzmbEl = $("[name='lzmb']");
+        if(pagemodel=='add'){
+            lzmbEl = $("[name='lzmb_text']").parent();
+            lzmbEl.attr("style",$("[name='lzmb_text']").attr("style"));
+        }else{
+            lzmbEl.attr("style","width: calc(100% - 100px); display: inline-block;");
+        }
         lzmbEl.after('<button class="btn btn-primary btn-sm" style="float: right;" type="button" onclick="getDxlzMrpz()">获取默认配置</button>');
         
         lxSzhd(zylx,this);
@@ -42,7 +51,7 @@ function sjdxZdy(vp){
 function pzlydx(){
     var lydx = $("[name='lydx']").val();
     if(lydx){
-        popUpFillWin({url:'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams=%7B"id":"'+lydx+'"%7D'});
+        popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&e_id='+lydx});
     }else{
         popUpFillWin({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
     }
@@ -50,7 +59,7 @@ function pzlydx(){
 function pzmbdx(){
     var lydx = $("[name='mbdx']").val();
     if(lydx){
-        popUpFillWin({url:'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams=%7B"id":"'+lydx+'"%7D'});
+        popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&e_id='+lydx});
     }else{
         popUpFillWin({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
     }
@@ -58,15 +67,15 @@ function pzmbdx(){
 function pzlyzd(){
     var lydx = $("[name='lydx']").val();
     if(lydx){
-        popUpFillWin({url:'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams=%7B%22sjdx%22:%22'+lydx+'%22%7D'});
+        popUpFillWin({url:'sjdx/list.do?dxdm=SYS_SJGL_SJZD&e_sjdx='+lydx});
     }else{
         alertError("请先选择数据对象");
     }
 }
 function pzmbzd(){
-    var lydx = $("[name='mbdx']").val();
+    var mbdx = $("[name='mbdx']").val();
     if(lydx){
-        popUpFillWin({url:'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams=%7B%22sjdx%22:%22'+lydx+'%22%7D'});
+        popUpFillWin({url:'sjdx/list.do?dxdm=SYS_SJGL_SJZD&e_sjdx='+mbdx});
     }else{
         alertError("请先选择数据对象");
     }

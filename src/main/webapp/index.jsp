@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="shortcut icon" href="favicon-seting.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <base href="<%=cn.benma666.web.WebUtil.getBasePath(request)%>"></base>
 </head>

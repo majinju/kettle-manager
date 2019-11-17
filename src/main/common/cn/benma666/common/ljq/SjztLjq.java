@@ -8,12 +8,9 @@ package cn.benma666.common.ljq;
 
 import java.io.File;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.exception.MyException;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.FtpUtil;
 import cn.benma666.myutils.JsonResult;
@@ -147,7 +144,7 @@ public class SjztLjq extends DefaultLjq{
                 result = Db.testDb(sjztObj, mmjm);
             }else if("ftp".equals(sjztObj.getString("lx"))){
                 //ftp测试
-                JSONObject ftpObj = paseFtpUrl(sjztObj);
+                JSONObject ftpObj = FtpUtil.paseFtpUrl(sjztObj);
                 new FtpUtil(sjztObj.getString("dm"), true, ftpObj);
                 result = success("测试通过");
             }else if("bdwj".equals(sjztObj.getString("lx"))){
@@ -173,23 +170,4 @@ public class SjztLjq extends DefaultLjq{
         return result;
     }
 
-    /**
-    * 解析ftp连接 <br/>
-    * @author jingma
-    * @param sjztObj
-    * @return
-    */
-    private JSONObject paseFtpUrl(JSONObject sjztObj) {
-        Pattern pat = Pattern.compile("ftp://(.*):(\\d*)");
-        Matcher m = pat.matcher(sjztObj.getString("ljc"));
-        if(m.find()&&m.groupCount()==2){
-            sjztObj.put("ip", m.group(1));
-            sjztObj.put("port", m.group(2));
-        }else{
-            throw new MyException("ftp连接串解析出错");
-        }
-        JSONObject kzxx = JSONObject.parseObject(sjztObj.getString(LjqInterface.FIELD_KZXX));
-        sjztObj.put("encodeing", StringUtil.getJsonKeys(kzxx, "ftppz","encodeing"));
-        return sjztObj;
-    }
 }

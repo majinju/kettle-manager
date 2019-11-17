@@ -543,7 +543,8 @@ Vue.component('my-password', {
 		:style="pagemodel=='search'?'':(field.style||'')"
 		:onfocus="field.onfocus"
 		 />
-	<span v-else :class="field.cssl" :title="nvalTitle" v-html="nval"></span>
+	<span v-else :name="(owner||'')+field.zddm" :index="index" :class="field.cssl" 
+		:title="nvalTitle" v-html="nval"></span>
 </script>
 <script type="text/javascript">
 Vue.component('my-inputn', {
@@ -2538,6 +2539,7 @@ Vue.component('my-edit', {
  	            	   	alertInfoYes(result,function(){
  	            	   	    //必须是新对象vue才能监测到变化
  	            	   	    _this.editdata=$.extend({},_this.editdata,result.data);
+ 	            	   		_this._data.updatedata=$.extend({},_this._data.updatedata,result.data);
  	            	   	    if(success){
  	            	   	        success(result.data);
  	            	   	    }

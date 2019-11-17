@@ -91,7 +91,7 @@ public class SjdxLjq extends DefaultLjq{
                 //复制字段
                 params.put("oldSjdxId", id);
                 params.put("newSjdx", newsjdx);
-                result = DefaultLjq.getDefaultSql(newsjdx, "fzzd", params);
+                result = DefaultLjq.getDefaultSql(sjdx, "fzzd", params);
                 sqlManager.executeUpdate(result.getMsg(), params);
                 count++;
             }

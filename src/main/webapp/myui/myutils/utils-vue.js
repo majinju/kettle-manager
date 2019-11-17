@@ -414,7 +414,29 @@ function zdMcByDmMore(zdlb,dm){
 	}
     return mc.substring(1);
 }
-
+/**
+ * 打开layer弹窗
+ * @param param 包含参数的对象{"url":url,"name":name,"width":1000,"height":600}
+ */
+function popUpWinLayer(param){
+    var width = param.width || "800px";
+    var height = param.height || "500px";
+    var perContent  = layer.open({
+                  type: 2,
+                  title: param.name||'',
+                  shadeClose: true,
+                  shade: false,
+                  maxmin: true, //开启最大化最小化按钮
+                  area: [width, height],
+                  content: param.url
+            });
+    return perContent;
+}
+function popUpFullWinLayer(param){
+    perContent = popUpWinLayer(param);
+    layer.full(perContent);
+    return perContent;
+}
 /**
  * 弹出窗口
  * @param param 包含参数的对象{"url":url,"name":name,"width":1000,"height":600}
@@ -444,25 +466,11 @@ function popUpWin(param) {
  * @param param 包含参数的对象{"url":url,"name":name,"width":1000,"height":600}
  */
 function popUpFillWin(param) {
-	var name = param.name || '';
-	var resizable = param.resizable || 'yes';
-	var left = param.left || 0;
-	var top = param.top || 0;
-	var width = param.width || screen.availWidth;
-	var height = param.height || screen.availHeight - 50;
-	window.open(
-					param.url,
-					name,
-					'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable='
-							+ resizable
-							+ ',copyhistory=yes,width='
-							+ width
-							+ ',height='
-							+ height
-							+ ',screenX='
-							+ left
-							+ ',screenY=' + top + '');
-	// + ',left=' + left + ', top=' + top
+    param.left = param.left || 0;
+    param.top = param.top || 0;
+    param.width = param.width || screen.availWidth;
+    param.height = param.height || screen.availHeight - 50;
+    popUpWin(param);
 }
 /**
  * 异常提示
@@ -523,6 +531,9 @@ function qrtsAjax(url,fromdata,success,qxbtn,error){
     });
 }
 function myAjax(url,fromdata,success,error){
+    var loadindex = layer.load(0,{
+        shade: [0.3]
+    });
     $.ajax({
         type: "POST",
         url: url,
@@ -537,12 +548,14 @@ function myAjax(url,fromdata,success,error){
                     error();
                 }
             }
+            layer.close(loadindex);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alertError("请求异常");
             if(error){
                 error();
             }
+            layer.close(loadindex);
         }
     });
 }
