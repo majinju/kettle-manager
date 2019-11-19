@@ -53,7 +53,7 @@ function pzlydx(){
     if(lydx){
         popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&e_id='+lydx});
     }else{
-        popUpFillWin({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
+        popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
     }
 }
 function pzmbdx(){
@@ -61,7 +61,7 @@ function pzmbdx(){
     if(lydx){
         popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&e_id='+lydx});
     }else{
-        popUpFillWin({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
+        popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
     }
 }
 function pzlyzd(){

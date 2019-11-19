@@ -3,7 +3,7 @@
 <gd:LayoutVue title="编辑[${sjdx.dxmc}]">
 <jsp:body>
 <my-edit id="dataform1" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
-      <button type="button" v-if="pagemodel=='add'" class="btn btn-primary btn-sm" 
+      <button type="button" v-if="pagemodel=='add'||pagemodel=='edit'" class="btn btn-primary btn-sm" 
     	     title="获取默认字段导入SQL" @click="plcl('dis')">默认SQL</button>
 </my-edit>
 <script>

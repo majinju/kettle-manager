@@ -158,7 +158,7 @@ public class SjztLjq extends DefaultLjq{
             }
         } catch (Exception e) {
             zt = "2";
-            result = error("该数据载体当前不可用："+sjztObj.getString("dm"),e);
+            result = error("该数据载体当前不可用："+sjztObj.getString("dm")+","+e.getMessage(),e);
             log.debug(result.getMsg(),e);
         }
         if(!result.isStatus()){
