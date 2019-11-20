@@ -17,9 +17,7 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.exception.ExcelReadException;
-import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.ExcelReader;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -114,19 +112,6 @@ public class JcygExcel extends ExcelReader {
      */
     protected JSONObject doRow(List<String> rowList) throws RuntimeException {
         JSONObject jcyg = super.doRow(rowList);
-        String gmsfhm = jcyg.getString("gmsfhm");
-        SysSjglTyzd zdObj = new SysSjglTyzd();
-        zdObj.set(LjqInterface.KEY_USER, user);
-        zdObj.setZdlb("JCGA_JCYG_SFZHCQ");
-        zdObj.setDm(gmsfhm);
-        if(UtilConst.WHETHER_FALSE.equals(DictManager.zdObj(zdObj).getString("mc"))||yclList.contains(gmsfhm)){
-            //已经存在的员工,记录为重复，直接忽略
-            cfscryList.add(gmsfhm);
-            result.remove(jcyg);
-            return jcyg;
-        }else{
-            yclList.add(gmsfhm);
-        }
         String sbglqtxz = jcyg.getString("sbglqtxz");
         String glqtxzlx = jcyg.getString("glqtxzlx");
         if(UtilConst.WHETHER_TRUE.equals(sbglqtxz)&&StringUtil.isBlank(glqtxzlx)){
@@ -151,7 +136,7 @@ public class JcygExcel extends ExcelReader {
             shgxs.add(shgx);
             gxs++;
         }
-        if("1".equals(glqtxzlx)&&gxs<2){
+        if(StringUtil.isNotBlank(glqtxzlx)&&glqtxzlx.indexOf("1")>-1&&gxs<2){
             throw new ExcelReadException("办理长期证至少需要录入两个关系信息");
         }
         jcyg.put("shgxs", shgxs);

@@ -65,6 +65,7 @@ public class SjdxLjq extends DefaultLjq{
     @Override
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {
         String cllx = params.getString(LjqInterface.KEY_CLLX);
+        JSONObject yobj = params.getJSONObject(KEY_YOBJ);
         int count = 0;
         JsonResult result = error("未处理");
         switch (cllx) {
@@ -80,13 +81,21 @@ public class SjdxLjq extends DefaultLjq{
             return getDefaultImpSql(params, cllx);
         case "fzdx":
             //复制对象
+            String dmhz = "_"+db.getCurrentDateStr14();
+            String mchz = "-复制品";
+            if(StringUtil.isNotBlank(yobj.getString("dmhz"))){
+                dmhz = "_"+yobj.getString("dmhz");
+            }
+            if(StringUtil.isNotBlank(yobj.getString("mchz"))){
+                mchz = "-"+yobj.getString("mchz");
+            }
             count = 0;
             for(String id:(String[])params.get(KEY_IDS_ARRAY)){
                 //获取对象
                 SysSjglSjdx newsjdx = sqlManager.single(SysSjglSjdx.class, id);
                 newsjdx.setId(StringUtil.getUUIDUpperStr());
-                newsjdx.setDxdm(newsjdx.getDxdm()+"_"+db.getCurrentDateStr14());
-                newsjdx.setDxmc(newsjdx.getDxmc()+"-复制品");
+                newsjdx.setDxdm(newsjdx.getDxdm()+dmhz);
+                newsjdx.setDxmc(newsjdx.getDxmc()+mchz);
                 sqlManager.insert(newsjdx);
                 //复制字段
                 params.put("oldSjdxId", id);

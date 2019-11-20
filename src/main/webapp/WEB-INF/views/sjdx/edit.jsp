@@ -16,10 +16,15 @@ var pagemodel = "${param.pagemodel}";
 var vueParams = {
         el : '#dataform',
         data: {
-                fromdata:fromdata,
-                sjdxid:sjdxid,
-                pagemodel:pagemodel,
-                frommap:{}
+            fromdata:fromdata,
+            sjdxid:sjdxid,
+            pagemodel:pagemodel,
+            frommap:{}
+        },
+        methods:{
+	        plcl:function(cllx){
+	            this.$children[0].plcl(cllx);
+	        }
         },
         methods:{
         }
