@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.ExcelReader;
 import cn.benma666.sjgl.LjqInterface;
@@ -41,7 +42,8 @@ public class JcygLzExcel extends ExcelReader {
     * @param myParams 相关参数
     */
     @SuppressWarnings("unchecked")
-    public JcygLzExcel(SysSjglSjdx sjdx, JSONObject myParams) {
+    public JcygLzExcel(SysSjglSjdx sjdx, JSONObject myParams,JSONObject fileObj,SysQxYhxx user) {
+        super(sjdx, myParams, fileObj, user);
         ygFields = (Map<String, JSONObject>) myParams.get(LjqInterface.KEY_FIELDS);
         for(JSONObject f:ygFields.values()){
             if(f.getBooleanValue("mbzs")){

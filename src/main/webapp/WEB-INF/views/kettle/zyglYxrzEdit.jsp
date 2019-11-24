@@ -22,14 +22,16 @@ function sjdxZdy(vp){
 		_params['e_id_job']=_this.fromdata.ids;
 		_params['e_startLineNr']=_this.fromdata.startLineNr||0;
 		_params['e_cllx']="rz";
-		myAjax("sjdx/plcl.do",_params,function(result){
-		   var _t = $("[name='yxrz']");
-		   var xrz = result.data.data;
-		   if(xrz==""){
-		       xrz = (new Date())+"暂无新日志\n"
-		   }
-		   _t.val(_t.val()+xrz);
-		   _this.fromdata.startLineNr = result.data.lastLineNr;
+		ajax("sjdx/plcl.do",{fromdata:_params,qrts:false,jgts:false,
+		    success:function(result){
+			   var _t = $("[name='yxrz']");
+			   var xrz = result.data.data;
+			   if(xrz==""){
+			       xrz = (new Date())+"暂无新日志\n"
+			   }
+			   _t.val(_t.val()+xrz);
+			   _this.fromdata.startLineNr = result.data.lastLineNr;
+			}
 		});
 	}
 }

@@ -1855,9 +1855,7 @@ Vue.component('my-zssjdx', {
 	                fromdata:options,
 	                qrts:options.qrts,
 	                success:function(data){
-		                alertInfoYes(data,function(){
-	        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
-						});
+        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
 		                layer.close(loadindex);
 	                }
 	            });
@@ -1872,10 +1870,10 @@ Vue.component('my-zssjdx', {
                       return;
                   }
                   fromdata.myparams = JSON.stringify({"listEditData":_this.listEditData});
-	              qrtsAjax("sjdx/saveListData.do",fromdata,function(data){
-            	   	alertInfoYes(data,function(){
-	    			    _this.listPage.refreshPage();
-					});
+	              ajax("sjdx/saveListData.do",{fromdata:fromdata,
+	                  success:function(data){
+		    			  _this.listPage.refreshPage();
+		              }
 	              });
               },
               reloadTree:function(){
@@ -2314,20 +2312,23 @@ Vue.component('my-list', {
             	var loadindex = layer.load(0,{
             		shade: [0.3]
             	});
+            	var end = options.end;
+            	options.end = null;
 	            ajax('sjdx/plcl.do',{
 	                fromdata:options,
 	                qrts:options.qrts,
 	                success:function(data){
-		                alertInfoYes(data,function(){
-		                    if(options.success){
-		                        options.success(data,_this);
-		                    }else{
-		        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
-		                    }
-						});
+	                    if(end){
+	                        end(data,_this);
+	                    }else{
+	        	   		 	_this.listPage.queryPage(); //执行页面刷新函数 
+	                    }
 		                layer.close(loadindex);
 	                },
 	                error:function(data){
+	                    if(end){
+	                        end(data,_this);
+	                    }
 		                layer.close(loadindex);
 	                },
 	                qxbtn:function(){
@@ -2336,7 +2337,13 @@ Vue.component('my-list', {
 	            });
 	        },
             sjplsc:function(field,e){
-                this.plcl("sjplsc",null,{"e_file":JSON.stringify(e.rep),"bxlbh":false,"qrts":false});
+                this.plcl("sjplsc",null,{"e_file":JSON.stringify(e.rep),"bxlbh":false,"qrts":false,
+                    end:function(data,_this){
+                    	if(!data.status&&data.code=='sjnrcw'){
+                    		popUpFullWinLayer({"url":"sjdx/list.do?dxdm=SYS_LOG_SJSCCW&e_sjwj="+e.val,
+                    	        "name":"数据上传错误信息列表"});
+                    	}
+                    }});
             },
               saveListData:function(){
                   var _this = this;
@@ -2345,10 +2352,10 @@ Vue.component('my-list', {
                       return;
                   }
                   _params.myparams = JSON.stringify({"listEditData":_this.listEditData});
-	              qrtsAjax("sjdx/saveListData.do",_params,function(data){
-            	   	alertInfoYes(data,function(){
-	    			    _this.listPage.refreshPage();
-					});
+	              ajax("sjdx/saveListData.do",{fromdata:_params,
+	                  success:function(data){
+		    			  _this.listPage.refreshPage();
+		              }
 	              });
               },
               reloadTree:function(){
@@ -2557,17 +2564,18 @@ Vue.component('my-edit', {
             	var loadindex = layer.load(0,{
             		shade: [0.3]
             	});
-	            myAjax('sjdx/plcl.do',fromdata,function(result){
- 	            	   	alertInfoYes(result,function(){
- 	            	   	    //必须是新对象vue才能监测到变化
- 	            	   	    _this.editdata=$.extend({},_this.editdata,result.data);
- 	            	   		_this._data.updatedata=$.extend({},_this._data.updatedata,result.data);
- 	            	   	    if(success){
- 	            	   	        success(result.data);
- 	            	   	    }
- 						});
+	            ajax('sjdx/plcl.do',{
+	                	fromdata:fromdata,
+	                    success:function(result){
+	         	   	    //必须是新对象vue才能监测到变化
+	         	   	    _this.editdata=$.extend({},_this.editdata,result.data);
+	         	   		_this._data.updatedata=$.extend({},_this._data.updatedata,result.data);
+	         	   	    if(success){
+	         	   	        success(result.data);
+	         	   	    }
 	                    layer.close(loadindex);
- 		            });
+ 		            }
+	            });
 	        },
            submit:function(){
                var _this = this;
@@ -2595,43 +2603,26 @@ Vue.component('my-edit', {
 	            		shade: [0.3]
 	            	});
                    var _params = {myparams:JSON.stringify($.extend({},this.fromdata, _this._data.updatedata))};
-                   if(_this.bjymkz("my-qdbts")=='1'){
-                       myAjax(_this.action,_params,function(data){
-                           debugger
+                   ajax(_this.action,{qrts:(!(_this.bjymkz("my-qdbts")=='1')),
+                       jgts:(!(_this.bjymkz("my-jgts")=='0')),
+                       fromdata:_params,success:function(data){
                            if(_this.fromdata.qdzdyFun){
                                _this.fromdata.qdzdyFun(data,_this);
                            }else{
-	    	            	   	alertInfoYes(data,function(){
-	    	            	   	    if(parent.listFrom&&parent.listFrom.listPage){
-		    	            	   	    parent.listFrom.listPage.refreshPage();
-	    	            	   	    }
-	   	        	   				var index = parent.layer.getFrameIndex(window.name);
-	    	        	   			parent.layer.close(index);
-	    						});
+    	            	   	    if(parent.listFrom&&parent.listFrom.listPage){
+	    	            	   	    parent.listFrom.listPage.refreshPage();
+    	            	   	    }
+   	        	   				var index = parent.layer.getFrameIndex(window.name);
+    	        	   			parent.layer.close(index);
                            }
-       	                	layer.close(loadindex);
-                       },function(){
+    		            },
+    		            qxbtn:function(){
           	                layer.close(loadindex);
-                       });
-                   }else{
-     	               qrtsAjax(_this.action,_params,function(data){
-                           if(_this.fromdata.qdzdyFun){
-                               _this.fromdata.qdzdyFun(data,_this);
-                           }else{
-	    	            	   	alertInfoYes(data,function(){
-	    	            	   	    if(parent.listFrom&&parent.listFrom.listPage){
-		    	            	   	    parent.listFrom.listPage.refreshPage();
-	    	            	   	    }
-	   	        	   				var index = parent.layer.getFrameIndex(window.name);
-	    	        	   			parent.layer.close(index);
-	    						});
-                           }
-    		            },function(){
+    		            },
+    		            error:function(){
           	                layer.close(loadindex);
-    		            },function(){
-          	                layer.close(loadindex);
-    		            });
-                   }
+    		            }
+                   });
                }
            }
 	},
@@ -2688,6 +2679,7 @@ Vue.component('my-dlym', {
                 _t.updatedata.yhmm = $("[name='yhmm']").val();
                 return true;
             }
+            this.fromdata['my-jgts']="0";
             return this.fromdata;
         }
     },

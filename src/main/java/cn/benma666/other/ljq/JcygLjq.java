@@ -44,17 +44,15 @@ public class JcygLjq extends DefaultLjq{
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        JSONObject fileObj;
         String msg;
         switch (cllx) {
         case "clygsj":
-            er = new JcygExcel(sjdx,myParams);
-            fileObj = yobj.getJSONObject("fileObj");
-            er.setExcelPath(fileObj.getString("sclj"));
-            //传入用户信息辅助数据校验
-            er.setUser((SysQxYhxx) myParams.get(KEY_USER));
+            er = new JcygExcel(sjdx,myParams,yobj.getJSONObject("fileObj"),(SysQxYhxx) myParams.get(KEY_USER));
             try {
-                er.disposeExcel();
+                JsonResult r = er.disposeExcel();
+                if(!r.isStatus()){
+                    return r;
+                }
             } catch (ExcelReadException e) {
                 return error(e.getMessage());
             } catch (Exception e) {

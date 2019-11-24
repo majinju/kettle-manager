@@ -24,7 +24,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 机场员工拦截器 <br/>
+ * 背景核查拦截器 <br/>
  * date: 2018年12月16日 <br/>
  * @author jingma
  * @version 

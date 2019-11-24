@@ -23,13 +23,17 @@ function sjdxZdy(vp){
         df['e_cllx']='cszt';
         df['e_id']=fromdata.id;
         if(pagemodel == 'details'){
-            myAjax("sjdx/plcl.do",df,function(data){
-                alertInfo(data.msg);
-            });
+            ajax("sjdx/plcl.do",{
+                fromdata:df,
+                success:function(data){
+	            }
+           	}
+            );
         }else{
             df.myparams=JSON.stringify(_this.$children[0].updatedata);
-            myAjax("sjdx/plcl.do",df,function(data){
-                alertInfo(data.msg);
+            ajax("sjdx/plcl.do",{fromdata:df,
+                success:function(data){
+	            }
             });
         }
     }

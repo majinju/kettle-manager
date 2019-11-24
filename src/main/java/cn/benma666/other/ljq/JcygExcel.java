@@ -16,8 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import cn.benma666.constants.UtilConst;
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.exception.ExcelReadException;
 import cn.benma666.myutils.ExcelReader;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -75,7 +75,8 @@ public class JcygExcel extends ExcelReader {
     * @param myParams 相关参数
     */
     @SuppressWarnings("unchecked")
-    public JcygExcel(SysSjglSjdx sjdx, JSONObject myParams) {
+    public JcygExcel(SysSjglSjdx sjdx, JSONObject myParams,JSONObject fileObj,SysQxYhxx user) {
+        super(sjdx, myParams, fileObj, user);
         ygFields = (Map<String, JSONObject>) myParams.get(LjqInterface.KEY_FIELDS);
         shgxParams = (JSONObject) DefaultLjq.getJcxxByDxdm("JCGA_JCYG_SHGX").getData();
         shgxFields = (Map<String, JSONObject>) shgxParams.get(LjqInterface.KEY_FIELDS);
@@ -100,9 +101,11 @@ public class JcygExcel extends ExcelReader {
                 this.fields.put(i+"_"+f.getString("zddm"),f);
             }
         }
-        startRow=1;
+        //表头多了一行，从第一行开始
+        setStartRow(1);
         //批量时不进行身份证查重
         pcgzMap.put("gmsfhm", "zdpd");
+        
     }
 
     /**
@@ -115,7 +118,7 @@ public class JcygExcel extends ExcelReader {
         String sbglqtxz = jcyg.getString("sbglqtxz");
         String glqtxzlx = jcyg.getString("glqtxzlx");
         if(UtilConst.WHETHER_TRUE.equals(sbglqtxz)&&StringUtil.isBlank(glqtxzlx)){
-            throw new ExcelReadException("申办隔离区同行证必须选择申办隔离区同行证类型");
+            addError(-1, null, "申办隔离区通行证类型", "申办隔离区通行证必须选择申办隔离区通行证类型");
         }
         //开始包装数据
         int idx = ygmbzds;
@@ -137,7 +140,7 @@ public class JcygExcel extends ExcelReader {
             gxs++;
         }
         if(StringUtil.isNotBlank(glqtxzlx)&&glqtxzlx.indexOf("1")>-1&&gxs<2){
-            throw new ExcelReadException("办理长期证至少需要录入两个关系信息");
+            addError(-1, null, "关系人", "办理长期证至少需要录入两个关系信息");
         }
         jcyg.put("shgxs", shgxs);
         return jcyg;

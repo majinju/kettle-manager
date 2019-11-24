@@ -35,19 +35,17 @@ public class JcygLzLjq extends DefaultLjq{
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        JSONObject fileObj;
+        SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         String msg;
         switch (cllx) {
         case "lzygcl":
             //离职员工处理
-            er = new JcygLzExcel(sjdx,myParams);
-            fileObj = yobj.getJSONObject("fileObj");
-            er.setExcelPath(fileObj.getString("sclj"));
-            //传入用户信息辅助数据校验
-            SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-            er.setUser(user);
+            er = new JcygLzExcel(sjdx,myParams,yobj.getJSONObject("fileObj"),user);
             try {
-                er.disposeExcel();
+                JsonResult r = er.disposeExcel();
+                if(!r.isStatus()){
+                    return r;
+                }
             } catch (ExcelReadException e) {
                 return error(e.getMessage());
             } catch (Exception e) {
@@ -62,20 +60,22 @@ public class JcygLzLjq extends DefaultLjq{
             int count = 0;
             for(JSONObject j:er.getResult().toArray(new JSONObject[]{})){
                 //查询是否存在
-                JSONObject yg = db.findFirst("select * from JCGA_JCYG_JCXX t where t.gmsfhm=? and t.cjrdwdm=? and t.yxx='1' and zzzt<>'0'", 
+                List<JSONObject> ygList = db.find("select * from JCGA_JCYG_JCXX t where t.gmsfhm=? and t.cjrdwdm=? and t.yxx='1' and zzzt<>'0'", 
                         j.getString("gmsfhm"),user.getJgxx().getId());
-                if(yg!=null){
-                    j.put("id", yg.getString("id"));
-                    j.put("zzzt", UtilConst.WHETHER_FALSE);
-                    myParams.put(KEY_YOBJ, j);
-                    myParams.put(KEY_CLLX, KEY_CLLX_UPDATE);
-                    save(sjdx,myParams);
-                    count++;
-                }else{
-                    wxryList.add(j.getString("gmsfhm"));
+                for(JSONObject yg:ygList){
+                    if(yg!=null){
+                        j.put("id", yg.getString("id"));
+                        j.put("zzzt", UtilConst.WHETHER_FALSE);
+                        myParams.put(KEY_YOBJ, j);
+                        myParams.put(KEY_CLLX, KEY_CLLX_UPDATE);
+                        save(sjdx,myParams);
+                        count++;
+                    }else{
+                        wxryList.add(j.getString("gmsfhm"));
+                    }
                 }
             }
-            msg = "上传人数："+er.getResult().size()+",成功处理人数："+count;
+            msg = "上传人数："+er.getResult().size()+",成功处理人次（存在一人多条记录的情况）："+count;
             if(wxryList.size()>0){
                 msg += "。<br/>如下员工不存在或不处于在职状态，系统已自动忽略："+Arrays.toString(wxryList.toArray());
             }

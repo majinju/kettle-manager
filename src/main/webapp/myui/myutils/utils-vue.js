@@ -432,8 +432,13 @@ function popUpWinLayer(param){
             });
     return perContent;
 }
+/**
+ * 
+ * @param param {"url":url,"name":name}
+ * @returns {___anonymous_perContent}
+ */
 function popUpFullWinLayer(param){
-    perContent = popUpWinLayer(param);
+    var perContent = popUpWinLayer(param);
     layer.full(perContent);
     return perContent;
 }
@@ -496,12 +501,19 @@ function alertInfo(msg){
  * @param data
  * @param end
  */
-function alertInfoYes(result,end){
-    layer.alert(result.msg ? result.msg : "操作成功！", {
-        shade:0.3,
-        icon:1,
-        end:end
-    });
+function alertByResult(result,end,options){
+    if(options&&options.jgts==false){
+        //结果不提示
+        if(end){
+            end();
+        }
+    }else{
+        layer.alert(result.msg ? result.msg : "操作成功！", {
+            shade:0.3,
+            icon:result.status?1:2,
+            end:end
+        });
+    }
 }
 
 function ajax(url,options){
@@ -509,55 +521,58 @@ function ajax(url,options){
         options = {};
     }
     if(options.qrts!=false){
-        qrtsAjax(url,options.fromdata,options.success,options.qxbtn,options.error);
+        layer.alert("你确定要提交吗？", {
+            icon: 3,
+            btn:["确定","取消"],
+            yes:function(index,layero){
+                myAjax(url,options);
+            },btn2:function(){//取消按钮事件
+                if(typeof options.qxbtn ==="function"){
+                    options.qxbtn();
+                }
+            }
+        });
     }else{
-        myAjax(url,options.fromdata,options.success,options.error);
+        myAjax(url,options);
     }
 }
-/**
- * 确认提示后发起ajax请求
- */
-function qrtsAjax(url,fromdata,success,qxbtn,error){
-    layer.alert("你确定要提交吗？", {
-        icon: 3,
-        btn:["确定","取消"],
-        yes:function(index,layero){
-            myAjax(url,fromdata,success,error);
-        },btn2:function(){//取消按钮事件
-            if(typeof qxbtn ==="function"){
-                qxbtn();
-            }
-        }
-    });
-}
-function myAjax(url,fromdata,success,error){
+function myAjax(url,options){
     var loadindex = layer.load(0,{
         shade: [0.3]
     });
     $.ajax({
         type: "POST",
         url: url,
-        data: fromdata,
+        data: options.fromdata,
         dataType: "json",
         success: function (result) {
-            if (result.status) {
-                success(result);
-            } else {
-                alertError(result.msg);
-                if(error){
-                    error();
-                }
-            }
-            layer.close(loadindex);
+            qqjgcl(result,options,loadindex)
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            alertError("请求异常");
-            if(error){
-                error();
-            }
-            layer.close(loadindex);
+            var result = {status:false,msg:"请求出错"};
+            qqjgcl(result,options,loadindex);
         }
     });
+}
+/**
+ * 请求结果处理
+ * @param result
+ * @param options
+ * @param loadindex
+ */
+function qqjgcl(result,options,loadindex){
+    alertByResult(result,function(){
+        if (result.status) {
+            if(options.success){
+                options.success(result);
+            }
+        } else {
+            if(options.error){
+                options.error(result);
+            }
+        }
+    },options);
+    layer.close(loadindex);
 }
 
 function redict(result){
@@ -1094,7 +1109,7 @@ function editUrl(sjdx,row){
  * json对象编码
  */
 function jsonEncode(obj){
-    return encodeURI(JSON.stringify(obj)).replace("+","%2B");
+    return encodeURI(JSON.stringify(obj)).replace(/\+/g,"%2B");
 }
 /**
  * 多级key是否在对象中存在

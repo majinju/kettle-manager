@@ -94,7 +94,7 @@ public class CommonService extends BasicService{
             //ftp也需要一个类似Db的工具类
         }
         //保存文件信息
-        fileObj.setId(null);
+        fileObj.setId(StringUtil.getUUIDUpperStr());
         fileObj.set("user", null);
         sqlManager.insertTemplate(fileObj);
         log.info(fileObj+"文件上传成功");
