@@ -56,7 +56,7 @@ public class JcygLjq extends DefaultLjq{
             } catch (ExcelReadException e) {
                 return error(e.getMessage());
             } catch (Exception e) {
-                log.error("文件处理失败："+myParams+"->"+e.getMessage(), e);
+                log.error("文件处理失败："+yobj+"->"+e.getMessage(), e);
                 return error("文件处理失败："+e.getMessage());
             }
             for(JSONObject j:er.getResult().toArray(new JSONObject[]{})){
@@ -99,8 +99,8 @@ public class JcygLjq extends DefaultLjq{
     @Override
     public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-//        SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-        if(StringUtil.isNotBlank(yobj.getString("gmsfhm"))){
+        if(StringUtil.isNotBlank(yobj.getString("gmsfhm"))
+                &&SfzhUtil.validateCard(yobj.getString("gmsfhm"))){
             //自动根据身份证号不全信息
             yobj.put("csrq", SfzhUtil.getBirthByIdCard(yobj.getString("gmsfhm")));
             yobj.put("nl", SfzhUtil.getAgeByIdCard(yobj.getString("gmsfhm"))+"");
@@ -111,7 +111,6 @@ public class JcygLjq extends DefaultLjq{
         if(KEY_CLLX_INSERT.equals(cllx)){
             //新增时生成员工编号
             yobj.put("ygbh", DateUtil.getDateTimeStr("yyyy")+ygbh.next(5));
-//            yobj.put("dw", user.getJgxx().getId());
         }else{
             if(StringUtil.isBlank(yobj.getString("gmsfhm"))){
                 yobj.put("bjhc", UtilConst.WHETHER_FALSE);

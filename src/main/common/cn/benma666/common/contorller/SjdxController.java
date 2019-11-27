@@ -13,6 +13,7 @@ import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
+import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
 import cn.benma666.web.BasicController;
@@ -123,7 +124,10 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response,
             PageInfo<JSONObject> page) {
         try {
-            if(basicJcxx(sjdx,myparams.replace("%34", "\""),request,response)){
+            if(StringUtil.isNotBlank(myparams)){
+                myparams = myparams.replace("%34", "\"");
+            }
+            if(basicJcxx(sjdx,myparams,request,response)){
                 LjqManager.export(dbSjdx,myParams, page,response);
             }
         } catch (Throwable e) {

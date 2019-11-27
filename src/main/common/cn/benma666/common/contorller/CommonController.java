@@ -169,7 +169,7 @@ public class CommonController extends BasicController {
         try{
             //上传文件
             JSONObject record = commonService.upload(fileObj,file,getUser(request));
-            sendJson(response, success("",record));
+            sendJson(response, success("上传成功",record));
         }catch(Exception e){
             log.error("数据处理出错", e);
             WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));

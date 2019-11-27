@@ -120,6 +120,10 @@ public class JcygExcel extends ExcelReader {
         if(UtilConst.WHETHER_TRUE.equals(sbglqtxz)&&StringUtil.isBlank(glqtxzlx)){
             addError(-1, null, "申办隔离区通行证类型", "申办隔离区通行证必须选择申办隔离区通行证类型");
         }
+        String kzqtxzlx = jcyg.getString("kzqtxzlx");
+        if(UtilConst.WHETHER_TRUE.equals(jcyg.getString("kzqtxz"))&&StringUtil.isBlank(kzqtxzlx)){
+            addError(-1, null, "已办隔离区证类型", "已办隔离区通行证必须选择已办隔离区通行证类型");
+        }
         //开始包装数据
         int idx = ygmbzds;
         //读取社会关系
@@ -130,17 +134,31 @@ public class JcygExcel extends ExcelReader {
                 //关系为空则认为没有关系了
                 break;
             }
+            //获取备注信息
+            boolean sfjy = true;
+            String value = jcyg.getString(gxs+"_bz");
+            if(StringUtil.isNotBlank(value)&&(value.startsWith("已经去世")
+                    ||value.startsWith("已经离异")||value.startsWith("无法获取证件号码其他情况"))){
+                sfjy = false;
+            }
             JSONObject shgx = new JSONObject();
             for(Entry<String, JSONObject> e:shgxmbField.entrySet()){
-                shgx.put(e.getKey(), ruleVerify(idx,jcyg.getString(gxs+"_"+e.getKey()),e.getValue()));
+                value = jcyg.getString(gxs+"_"+e.getKey());
+                if(StringUtil.isNotBlank(value)||sfjy){
+                    //不为空或需要校验
+                    value = ruleVerify(idx,value,e.getValue());
+                }
+                shgx.put(e.getKey(), value);
                 jcyg.remove(gxs+"_"+e.getKey());
                 idx++;
             }
             shgxs.add(shgx);
             gxs++;
         }
-        if(StringUtil.isNotBlank(glqtxzlx)&&glqtxzlx.indexOf("1")>-1&&gxs<2){
-            addError(-1, null, "关系人", "办理长期证至少需要录入两个关系信息");
+        if(((StringUtil.isNotBlank(glqtxzlx)&&glqtxzlx.indexOf("1")>-1)
+                ||(StringUtil.isNotBlank(kzqtxzlx)&&kzqtxzlx.indexOf("1")>-1))
+                &&gxs<2){
+            addError(-1, null, "关系人", "长期证至少需要录入两个关系信息");
         }
         jcyg.put("shgxs", shgxs);
         return jcyg;

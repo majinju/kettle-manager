@@ -236,7 +236,10 @@ function initValidator(){
         	var ywdm = _this.attr("ywdm");
             var wjlb = _this.attr("wjlb");
         	var glid = _this.attr("glid");
-        	
+            var wjlx = _this.attr("wjlx");
+        	if(!wjlx){
+        	    wjlx = "jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt";
+        	}
         	new Ajax_upload(_this, {
                 action : upurl,
         		data: {}, 
@@ -246,7 +249,8 @@ function initValidator(){
         		onSubmit : function(file, ext) {
         			var type = ext[0];
         			//获取附加类型
-        			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt)$/.test(type.toLowerCase()))) {
+                    eval("var bds = /^("+wjlx+")$/");
+        			if (!(type && bds.test(type.toLowerCase()))) {
         				//alert("文件格式不正确，仅支持jpg,jpeg,gif,png,bmp,doc,docx,xlsx,xls,mp4,txt格式");
         			    alertInfo("该文件格式不支持上传");
         				return false;
@@ -502,7 +506,7 @@ function alertInfo(msg){
  * @param end
  */
 function alertByResult(result,end,options){
-    if(options&&options.jgts==false){
+    if(options&&options.jgts==false&&result.status){
         //结果不提示
         if(end){
             end();

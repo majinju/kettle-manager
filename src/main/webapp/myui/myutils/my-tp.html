@@ -89,7 +89,8 @@ Vue.component('my-file', {
                 kzxx.file={
                         ywdm:"other",
                         wjlb:field.sjdx,
-                        zdsc:true
+                        zdsc:true,
+                        wjlx:"jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pptx|xmind"
                 }
             }
             field.ajaxUpload = _this.ajaxUpload = new Ajax_upload(this.$el, {
@@ -101,8 +102,9 @@ Vue.component('my-file', {
         		responseType : 'json',
         		onSubmit : function(file, ext) {
         			var type = ext[0];
+                    eval("var bds = /^("+kzxx.file.wjlx+")$/");
         			//获取附加类型
-        			if (!(type && /^(jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pptx|xmind)$/.test(type.toLowerCase()))) {
+        			if (!(type && bds.test(type.toLowerCase()))) {
         				//alert("文件格式不正确，仅支持jpg,jpeg,gif,png,bmp,doc,docx,xlsx,xls,mp4,txt格式");
         			    alertInfo("该文件格式不支持上传");
         				return false;
@@ -2087,7 +2089,8 @@ Vue.component('my-list', {
                     kzxx:{
                         file:{
                             ywdm:"other",
-                            wjlb:"other"
+                            wjlb:"other",
+                            wjlx:"xls|xlsx"
                         }
                     }
                 }
@@ -2456,7 +2459,11 @@ Vue.component('my-list', {
             //初始化左侧树
             _this.initTree();
        		//水印
-           	watermark({"watermark_txt":_this._data.user.yhxm+","+_this._data.user.sfzh}); 
+           	watermark({"watermark_txt":_this._data.user.yhxm+","+_this._data.user.yhdm});
+       		if(this.lbymkz("my-tzgg")){
+       		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.lbymkz("my-tzgg");
+       			popUpWinLayer({url:url,name:"通知公告"});
+       		}
         }
   });
 </script>
@@ -2628,7 +2635,11 @@ Vue.component('my-edit', {
 	},
     mounted: function () {
 		//水印
-		watermark({"watermark_txt":this._data.user.yhxm+","+this._data.user.sfzh});
+		watermark({"watermark_txt":this._data.user.yhxm+","+this._data.user.yhdm});
+   		if(this.bjymkz("my-tzgg")){
+   		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.bjymkz("my-tzgg");
+   			popUpWinLayer({url:url,name:"通知公告"});
+   		}
     }
   });
 </script>
@@ -2940,7 +2951,11 @@ Vue.component('my-cdym', {
 	mounted:function(){
         var _this = this;
    		//水印
-       	watermark({"watermark_txt":_this.user.yhxm+","+_this.user.sfzh}); 
+       	watermark({"watermark_txt":_this.user.yhxm+","+_this.user.yhdm}); 
+   		if(this.kzxx['菜单信息']["my-tzgg"]){
+   		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.kzxx['菜单信息']["my-tzgg"];
+   			popUpWinLayer({url:url,name:"通知公告"});
+   		}
        	_this.initTree();
 	}
   });

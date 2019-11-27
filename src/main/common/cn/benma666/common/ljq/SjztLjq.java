@@ -9,6 +9,7 @@ package cn.benma666.common.ljq;
 import java.io.File;
 import java.util.List;
 
+import cn.benma666.constants.UtilConst;
 import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
@@ -17,8 +18,10 @@ import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
+import cn.benma666.sjgl.SjglException;
 import cn.benma666.web.SConf;
 
+import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -110,15 +113,38 @@ public class SjztLjq extends DefaultLjq{
         JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
         JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
         String dbdm = obj.getString("dm");
-        if(KEY_CLLX_UPDATE.equals(cllx)){
-            if(Db.isCz(obj.getString("dm"))){
-                Db.use(obj.getString("dm")).close();
+        if(UtilConst.DEFAULT.equals(dbdm)){
+            return error("默认数据源不允许修改");
+        }
+        obj.putAll(yobj);
+        String ljc = obj.getString("ljc");
+        switch (obj.getString("lx")) {
+        case JdbcUtils.ORACLE:
+        case JdbcUtils.MYSQL:
+        case JdbcUtils.POSTGRESQL:
+        case LjqInterface.ZD_SJZTLX_GREENPLUM:
+        case LjqInterface.ZD_SJZTLX_HWMPP:
+            if(KEY_CLLX_UPDATE.equals(cllx)){
+                if(Db.isCz(obj.getString("dm"))){
+                    Db.use(obj.getString("dm")).close();
+                }
+            }else{
+                dbdm = yobj.getString("dm");
+                yobj.put("csyj", Db.getDbCsyj(yobj.getString("lx"),yobj.getString("csyj")));
+                //处理驱动
+                yobj.put("sjkqd", Db.getDbQd(yobj.getString("lx"), ljc,yobj.getString("sjkqd")));
             }
-        }else{
-            dbdm = yobj.getString("dm");
-            yobj.put("csyj", Db.getDbCsyj(yobj.getString("lx"),yobj.getString("csyj")));
-            //处理驱动
-            yobj.put("sjkqd", Db.getDbQd(yobj.getString("lx"), yobj.getString("ljc"),yobj.getString("sjkqd")));
+            break;
+        case "ftp":
+            break;
+        case "bdwj":
+            //本地文件都以/结尾
+            if(!ljc.endsWith("/")){
+                yobj.put("ljc", ljc+"/");
+            }
+            break;
+        default:
+            throw new SjglException("不支持的对象载体类型："+sjdx.getDxztlx());
         }
         JsonResult result = super.save(sjdx, myJsonParams);
         DictManager.clearDict(ZD_SYS_COMMON_SJZT);

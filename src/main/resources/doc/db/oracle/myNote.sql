@@ -26,6 +26,8 @@ alter table JCGA_JCYG_JCXX  add constraint PK_JCGA_JCYG_JCXX  primary key (ID);
 alter table JCGA_JCYG_SHGX  add constraint PK_JCGA_JCYG_SHGX  primary key (ID);
 alter table SYS_LOG_FWZR    add constraint PK_SYS_LOG_FWZR    primary key (ID);
 alter table SYS_LOG_HTRZ    add constraint PK_SYS_LOG_HTRZ    primary key (ID);
+alter table SYS_LOG_SJSCCW add constraint PK_SYS_LOG_SJSCCW primary key (ID);
+alter table SYS_LOG_SJLZRZ add constraint PK_SYS_LOG_SJLZRZ primary key (ID);
 alter table SYS_QX_APP      add constraint PK_SYS_QX_APP      primary key (ID);
 alter table SYS_QX_FWQ      add constraint PK_SYS_QX_FWQ      primary key (ID);
 alter table SYS_QX_JGXX     add constraint PK_SYS_QX_JGXX     primary key (ID);
@@ -46,6 +48,7 @@ alter table SYS_YXJK_JKRW   add constraint PK_SYS_YXJK_JKRW   primary key (ID);
 alter table SYS_YXJK_XX     add constraint PK_SYS_YXJK_XX     primary key (ID);
 alter table SYS_YXJK_ZDYSQL add constraint PK_SYS_YXJK_ZDYSQL primary key (ID);
 alter table sys_sjgl_blob add constraint PK_sys_sjgl_blob primary key (ID);
+alter table SYS_SJGL_GRBJ add constraint PK_SYS_SJGL_GRBJ primary key (ID);
 
 --批量给数据对象添加基础权限
 insert into sys_qx_qxxx

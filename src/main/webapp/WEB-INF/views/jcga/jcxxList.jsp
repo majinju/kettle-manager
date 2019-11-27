@@ -9,7 +9,7 @@
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
 <span>
 {{if qxByQxm(user,sjdx,'YGPLSC')}}
-<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" callBack="clygsj">
+<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" wjlx="xls|xlsx" callBack="clygsj">
 	{{= qxByQxm(user,sjdx,'YGPLSC').mc}}
 	<i  style="margin-left: 5px;" 
     	class="icon ion-ios-help-outline" 
@@ -25,7 +25,7 @@
 </button>
 {{/if}}
 {{if qxByQxm(user,sjdx,'LZYGSC')}}
-<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" callBack="lzygcl">
+<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" wjlx="xls|xlsx" callBack="lzygcl">
 	{{= qxByQxm(user,sjdx,'LZYGSC').mc}}
 	<i  style="margin-left: 5px;" 
     	class="icon ion-ios-help-outline" 

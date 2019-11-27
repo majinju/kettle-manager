@@ -60,7 +60,7 @@ public class CommonService extends BasicService{
         //如果表中存在此去重码则把这个文件删除
         JSONObject f = db.findFirst("select * from sys_sjgl_file t where t.yxx='1' and t.qcm = ?", fileObj.getQcm());
         if(f!=null){
-            log.info(f+"文件已经存在");
+            log.info(f.getString("id")+"文件已经存在");
             return f;
         }
         if(StringUtil.isBlank(fileObj.getSjzt())){
@@ -97,7 +97,7 @@ public class CommonService extends BasicService{
         fileObj.setId(StringUtil.getUUIDUpperStr());
         fileObj.set("user", null);
         sqlManager.insertTemplate(fileObj);
-        log.info(fileObj+"文件上传成功");
+        log.debug(fileObj+"文件上传成功");
         return (JSONObject) JSON.toJSON(fileObj);
     }
     public void download(HttpServletResponse response, SysSjglFile obj) {
