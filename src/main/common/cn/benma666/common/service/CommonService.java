@@ -70,11 +70,13 @@ public class CommonService extends BasicService{
         if("bdwj".equals(sjzt.getString("lx"))){
             //数据载体为本地文件时
             //文件上传路径:上传后文件的路径以及文件的名称
-            String sclj = sjzt.getString("ljc")
+            String currDate = DateUtil.getGabDate();
+            //按日期分文件夹
+            String sclj = sjzt.getString("ljc")+currDate.substring(0,8) +UtilConst.FXG
                     + fileObj.getYwdm() +UtilConst.FXG
                     + fileObj.getWjlb() +UtilConst.FXG
                     +wjm.substring(0,wjm.lastIndexOf('.'))+"_"
-                    + DateUtil.getGabDate() + "." + fileObj.getWjlx();
+                    + currDate.substring(8) + "." + fileObj.getWjlx();
             fileObj.setSclj(sclj);
             File localFile = new File(sclj);
             FileUtil.saveFileToDisk(localFile, file);

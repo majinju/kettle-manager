@@ -2108,6 +2108,11 @@ Vue.component('my-list', {
     			if(result.status){
     			    var rd = result.data;
     			    _this.$root.sjdx = data.sjdx = rd.sjdx;
+    			     _this.sjplscfield.kzxx.file={
+                             ywdm:"dxsjsc",
+                             wjlb:rd.sjdx.dxdm,
+                             wjlx:"xls|xlsx"
+                         };
     			    _this.$root.fields = data.fields = rd.fields;
     			    _this.$root.user = data.user = rd.user;
     			    _this.$root.kzxx = data.kzxx = rd.kzxx;

@@ -884,6 +884,9 @@ function myGzyz(value,rules,field){
             var rr = rule.split(":");
             switch (rr[0]) {
             case "notNull":
+                //前面已经处理
+            case "rgz":
+                //后端处理
                 break;
             case "mustBe":
                 if(value!=rr[1]){

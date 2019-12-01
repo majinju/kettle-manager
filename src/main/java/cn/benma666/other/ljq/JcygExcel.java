@@ -146,7 +146,7 @@ public class JcygExcel extends ExcelReader {
                 value = jcyg.getString(gxs+"_"+e.getKey());
                 if(StringUtil.isNotBlank(value)||sfjy){
                     //不为空或需要校验
-                    value = ruleVerify(idx,value,e.getValue());
+                    value = ruleVerify(idx,value,e.getValue(),shgx);
                 }
                 shgx.put(e.getKey(), value);
                 jcyg.remove(gxs+"_"+e.getKey());

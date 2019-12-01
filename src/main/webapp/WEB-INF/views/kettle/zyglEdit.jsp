@@ -17,10 +17,6 @@ function sjdxZdy(vp){
           this.$children[0].plcl(cllx);
     }
     vp.mounted=function () {
-        if(pagemodel=='details'){
-            //详情时不处理
-            return;
-        }
         var zylx = this.$children[0].editdata.zylx;
         if(!zylx){
             zylx = $("[name='zylx']").val();
