@@ -215,7 +215,7 @@ function PageAjax(){
                 if(self.defaultPageTmpl){
                     if(!result.status){
                         layer.close(loadindex);
-                        alertError(result.msg);
+                        alertByResult(result);
                         return;
                     }
                     result = result.data;
@@ -277,7 +277,7 @@ function PageAjax(){
             dataType: "json",
             success:function(result){
                 if(!result.status){
-                    alertError(result.msg);
+                    alertByResult(result);
                     return;
                 }
                 result = result.data;

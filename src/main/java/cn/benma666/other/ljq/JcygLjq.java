@@ -63,7 +63,10 @@ public class JcygLjq extends DefaultLjq{
                 myParams.put(KEY_YOBJ, j);
                 myParams.put("shgxs", j.getJSONArray("shgxs"));
                 myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
-                save(sjdx,myParams);
+                JsonResult r = save(sjdx,myParams);
+                if(!r.isStatus()||(int)r.getData()!=1){
+                    return error("保存失败："+j.getString("gmsfhm")+r.getMsg());
+                }
             }
             msg = "成功上传员工数："+er.getResult().size();
             if(er.getCfscryList().size()>0){
@@ -111,6 +114,7 @@ public class JcygLjq extends DefaultLjq{
         if(KEY_CLLX_INSERT.equals(cllx)){
             //新增时生成员工编号
             yobj.put("ygbh", DateUtil.getDateTimeStr("yyyy")+ygbh.next(5));
+            yobj.put("id", StringUtil.getUUIDUpperStr());
         }else{
             if(StringUtil.isBlank(yobj.getString("gmsfhm"))){
                 yobj.put("bjhc", UtilConst.WHETHER_FALSE);
@@ -124,17 +128,30 @@ public class JcygLjq extends DefaultLjq{
         JSONObject p = (JSONObject) getJcxxByDxdm("JCGA_JCYG_SHGX").getData();
         SysSjglSjdx shgxSjdx = (SysSjglSjdx) p.get(KEY_SJDX);
         shgxParams.putAll(p);
+        JSONObject pcyzgz = new JSONObject();
+        pcyzgz.put("ygbh", "zd");
+        shgxParams.put(KEY_PCYZGZ, pcyzgz);
         
         //添加本人关系,员工对应社会关系生成
         JSONObject shgxYobj = new JSONObject();
         shgxParams.put(KEY_YOBJ, shgxYobj);
         shgxYobj.putAll(yobj);
-        shgxYobj.put("xm", yobj.getString("ygxm"));
-        shgxYobj.put("zjhm", yobj.getString("gmsfhm"));
-        shgxYobj.put("lxdh", yobj.getString("sj"));
+        if(StringUtil.isNotBlank(shgxYobj.getString("ygxm"))){
+            shgxYobj.put("xm", shgxYobj.getString("ygxm"));
+        }
+        if(StringUtil.isNotBlank(shgxYobj.getString("gmsfhm"))){
+            shgxYobj.put("zjhm", shgxYobj.getString("gmsfhm"));
+        }
+        if(StringUtil.isNotBlank(shgxYobj.getString("sj"))){
+            shgxYobj.put("lxdh", shgxYobj.getString("sj"));
+        }
         shgxYobj.put("shgx", "0");
         //保存本人关系
-        LjqManager.save(shgxSjdx, shgxParams);
+        JsonResult r = LjqManager.save(shgxSjdx, shgxParams);
+        if(!r.isStatus()){
+            r.setMsg("保存本人社会关系异常："+r.getMsg());
+            return r;
+        }
         
         //批量上报时传入的社会关系保存
         JSONArray shgxs = myParams.getJSONArray("shgxs");
