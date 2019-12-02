@@ -27,7 +27,7 @@ where not exists (
 select 1 from sjsj1.sys_sjgl_tyzd t1 where t1.id=t.id
 )
 ;
-
+/*
 delete from sjsj1.sys_sjgl_grbj t where exists (
 select 1 from sys_sjgl_grbj t1 where t1.id=t.id
 );
@@ -38,6 +38,7 @@ where not exists (
 select 1 from sjsj1.sys_sjgl_grbj t1 where t1.id=t.id
 )
 ;
+*/
 
 -----增量相关表数据，本地开发过程中不能物理删除，只能进行逻辑删除，不然升级时无法判断删除的数据，线上相关数据不会被删除。
 -----增量：通过主键过滤先删除线上本地存在的数据，然后增量导入本地数据，本地存在的，线上进行修改时必须同步修改本地相关数据----------

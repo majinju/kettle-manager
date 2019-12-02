@@ -512,6 +512,11 @@ function alertByResult(result,end,options){
             end();
         }
     }else{
+        if(result.code=="403"&&!end){
+            end = function(){
+                window.location="";
+            }
+        }
         layer.alert(result.msg ? result.msg : "操作成功！", {
             shade:0.3,
             icon:result.status?1:2,
@@ -869,13 +874,27 @@ function myGzyz(value,rules,field){
         return;
     }
     var msg = null;
+    var ruleArr = rules.replace("；", ";").split(";");
+    if(rules.indexOf("rgz:")>-1){
+        rules = "";
+        for(var i in ruleArr){
+            var rule = ruleArr[i];
+            if(!rule){
+                continue;
+            }
+            var rr = rule.split(":");
+            if("rgz"!=rr[0]){
+                rules+=";"+rule;
+            }
+        }
+    }
     if(!value){
         if(rules.indexOf("notNull")>-1){
             msg = "该值不能为空";
         }
     }else{
+        ruleArr = rules.split(";");
         var zdlb = null;
-        var ruleArr = rules.replace("；", ";").split(";");
         for(var i in ruleArr){
             var rule = ruleArr[i];
             if(!rule){
@@ -885,8 +904,6 @@ function myGzyz(value,rules,field){
             switch (rr[0]) {
             case "notNull":
                 //前面已经处理
-            case "rgz":
-                //后端处理
                 break;
             case "mustBe":
                 if(value!=rr[1]){
