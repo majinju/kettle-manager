@@ -4,6 +4,8 @@
 <jsp:body>
 <!-- 机场员工列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
+    <button style="display: none;" :id="'ygpllz-'+sjdxid" class="btn btn-primary btn-sm"  @click="ygpllz()">
+    	<i class="icon ion-log-out"></i> 批量离职</button>
 	<span :id="'lbplcz-'+sjdxid"></span>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
@@ -54,6 +56,15 @@ function sjdxZdy(vp){
     vp.methods.plcl=function(cllx,_this,options){
          this.$children[0].plcl(cllx,_this,options);
     }
+    vp.methods.ygpllz = function(){
+        var options ={
+                plczqt:function(ids){
+                    var url = "sjdx/edit.do?dxdm=JCGA_JCYG_JCXX_LZZY&pagemodel=add&e_ids="+ids;
+                    popUpWinLayer({url:url,name:"批量离职",width:"700px",height:"350px"});
+        		}
+        };
+        this.plcl("ygpllz", null, options);
+    }
     vp.mounted=function(){
         lbplcz(this);
     }
@@ -62,9 +73,15 @@ function plcl(cllx,_this,options){
     listFrom.plcl(cllx,_this,options);
 }
 function lbplcz(_this){
-    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl({sjdx:_this.sjdx,
-        user:_this.$children[0]._data.user}).html();
+    var param = {
+            sjdx:_this.sjdx,
+            user:_this.$children[0]._data.user
+            }
+    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl(param).html();
     $('#lbplcz-'+_this.sjdxid).html(qtcz);
+	if(qxByQxm(param.user,param.sjdx,'YGPLLZ')){
+	    $('#ygpllz-'+sjdxid).show();
+	}
 }
 function sjdxlbcz(value,_this) {
     var cz = defaultLbcz(value,_this);

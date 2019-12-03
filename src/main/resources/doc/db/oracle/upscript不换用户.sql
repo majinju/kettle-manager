@@ -125,7 +125,7 @@ select * from sys_qx_qxxx t
 where not exists (
 select 1 from sjsj1.sys_qx_qxxx t1 where t1.id=t.id
 );
-
+/*
 --删除本地存在的文件
 delete from sjsj1.sys_sjgl_file t where 
 exists (
@@ -137,7 +137,7 @@ select * from sys_sjgl_file t
 where not exists (
 select 1 from sjsj1.sys_sjgl_file t1 where t1.id=t.id
 );
-
+*/
 --删除本地存在的大字段表数据
 delete from sjsj1.sys_sjgl_blob t where 
 exists (
