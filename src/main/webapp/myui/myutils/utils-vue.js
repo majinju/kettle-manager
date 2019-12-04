@@ -831,14 +831,19 @@ function extend(dst) {
  */
 function preParam(_params){
 	for(var key in _params){
+	    if(isEmpty(_params[key])){
+            delete _params[key];
+	        continue;
+	    }
 		if(typeof _params[key] == "string"){
 			_params[key] = _params[key].trim();
 		}
 		if(key.endWith("']_text")){
-			_params[key.replace("']_text","_text']")] = _params[key];
+			//_params[key.replace("']_text","_text']")] = _params[key];
 			delete _params[key];
 		}else if(key.endWith("_text")){
-			_params["map['"+key+"']"] = _params[key].toString();
+			//_params["map['"+key+"']"] = _params[key].toString();
+            delete _params[key];
 		}
 	}
     return _params;
