@@ -99,6 +99,8 @@ public class JcygExcel extends ExcelReader {
                 //关系移除非空判断
                 f.put("hdyzgz", f.getString("hdyzgz").replace("notNull", ""));
                 this.fields.put(i+"_"+f.getString("zddm"),f);
+                //因为关系字段前面加了编号，无法通过通用的方式进行如果则校验
+                pcgzMap.put(i+"_"+f.getString("zddm"), "rgz");
             }
         }
         //表头多了一行，从第一行开始
@@ -146,7 +148,7 @@ public class JcygExcel extends ExcelReader {
                 value = jcyg.getString(gxs+"_"+e.getKey());
                 if(StringUtil.isNotBlank(value)||sfjy){
                     //不为空或需要校验
-                    value = ruleVerify(idx,value,e.getValue(),shgx);
+                    value = ruleVerify(idx,value,e.getValue(),shgx,e.getKey());
                 }
                 shgx.put(e.getKey(), value);
                 jcyg.remove(gxs+"_"+e.getKey());
