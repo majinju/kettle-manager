@@ -1,7 +1,7 @@
 yhqxxx
 ===
 * 用户权限信息
- select qx.* from sys_qx_qxxx qx where qx.yxx='1' and qx.dm in (
+ select qx.dm,qx.mc from sys_qx_qxxx qx where qx.yxx='1' and qx.dm in (
  select jq.qx from sys_qx_jsqxgl jq
  inner join sys_qx_yhjsgl yj on jq.js=yj.js
  inner join sys_qx_jsxx js on js.dm=yj.js

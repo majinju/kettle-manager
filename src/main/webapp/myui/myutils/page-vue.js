@@ -240,7 +240,7 @@ function PageAjax(){
                 layer.close(loadindex);
     		},
     		error:function(errInfo){
-    		    alertError("分页查询失败");        
+    		    alertError("分页查询失败:"+errInfo);        
                 layer.close(loadindex);
     		}
     	});
@@ -286,7 +286,7 @@ function PageAjax(){
                 $(self.pageId+" .pageSize").val(self.pageSize);
             },
             error:function(errInfo){
-                alertError("统计总量失败");        
+                alertError("统计总量失败:"+errInfo);        
             }
         });
     };

@@ -501,30 +501,10 @@ function alertInfo(msg){
     });
 }
 /**
- * 提示后，进行其他操作
- * @param data
- * @param end
+ * 自己封装的ajax,含提示、一般结果处理，统一调用，便于维护
+ * @param url 请求地址
+ * @param options {qrts:true,qxbtn:function(){},}
  */
-function alertByResult(result,end,options){
-    if(options&&options.jgts==false&&result.status){
-        //结果不提示
-        if(end){
-            end();
-        }
-    }else{
-        if(result.code=="403"&&!end){
-            end = function(){
-                window.location="";
-            }
-        }
-        layer.alert(result.msg ? result.msg : "操作成功！", {
-            shade:0.3,
-            icon:result.status?1:2,
-            end:end
-        });
-    }
-}
-
 function ajax(url,options){
     if(!options){
         options = {};
@@ -545,28 +525,37 @@ function ajax(url,options){
         myAjax(url,options);
     }
 }
+/**
+ * 禁止外部调用
+ * @param url 请求地址
+ * @param options {fromdata:{},async:true}
+ */
 function myAjax(url,options){
     var loadindex = layer.load(0,{
         shade: [0.3]
     });
+    if(options.async==null){
+        options.async=true;
+    }
     $.ajax({
         type: "POST",
         url: url,
+        async : options.async,
         data: options.fromdata,
         dataType: "json",
         success: function (result) {
             qqjgcl(result,options,loadindex)
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            var result = {status:false,msg:"请求出错"};
+            var result = {status:false,msg:"请求出错:"+errorThrown};
             qqjgcl(result,options,loadindex);
         }
     });
 }
 /**
  * 请求结果处理
- * @param result
- * @param options
+ * @param result  请求结果
+ * @param options {success:function(){},error:function(){},}
  * @param loadindex
  */
 function qqjgcl(result,options,loadindex){
@@ -582,6 +571,31 @@ function qqjgcl(result,options,loadindex){
         }
     },options);
     layer.close(loadindex);
+}
+/**
+ * 提示后，进行其他操作
+ * @param result 请求结果
+ * @param end 提示结束操作
+ * @param options {jgts:true}
+ */
+function alertByResult(result,end,options){
+    if(options&&options.jgts==false&&result.status){
+        //结果不提示
+        if(end){
+            end();
+        }
+    }else{
+        if(result.code=="403"&&!end){
+            end = function(){
+                window.location="";
+            }
+        }
+        layer.alert(result.msg ? result.msg : "操作成功！", {
+            shade:0.3,
+            icon:result.status?1:2,
+            end:end
+        });
+    }
 }
 
 function redict(result){

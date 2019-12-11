@@ -2742,12 +2742,24 @@ Vue.component('my-dlym', {
 		</div>
 		<div style="float:right;margin-right: 20px;margin-top: 5px;">
 			<div>
-			<img :src="fileUrl('系统图标')" style="height: 45px;width: 35px;">
-			<span style="vertical-align: middle;color: chocolate;">{{user.yhxm}}</span>
-			<a href="javascript:void(0);" @click="grsz" 
-				style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">设置</a>
-			<a href="javascript:void(0);" @click="tuichu" 
-				style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
+				  <div v-if="qtxtList.length>1" class="btn-group-xs btn-group" role="group">
+				    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" 
+						aria-haspopup="true" aria-expanded="false">
+				                其他系统
+				      <span class="caret"></span>
+				    </button>
+				    <ul class="dropdown-menu">
+				      <li v-for="(cd,key,index) in qtxtList" @click="qtxtClick(cd)" >
+						<a href="javascript:void(0);" >{{cd.mc}}</a>
+					  </li>
+				    </ul>
+				  </div>
+				<img :src="fileUrl('系统图标')" style="height: 45px;width: 35px;">
+				<span style="vertical-align: middle;color: chocolate;">{{user.yhxm}}</span>
+				<a href="javascript:void(0);" @click="grsz" 
+					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">设置</a>
+				<a href="javascript:void(0);" @click="tuichu" 
+					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
 			</div>
 			<div style="text-align: right;">
 				<span style="color: greenyellow;">{{user.jgxx.jgmc}}</span>
@@ -2805,6 +2817,15 @@ Vue.component('my-cdym', {
   			  }
  			}
           });
+        ajax("sjdx/getdata.do?dxdm=SYS_QX_QTQX&e_cllx=getQtxt",
+            {success:function(r){
+  			    _this.qtxtList = r.data.list;
+        		},
+        	 async:false,
+        	 qrts:false,
+        	 jgts:false
+        	}
+        );
     },
     computed : {
         dlfromdata:function(){
@@ -2826,6 +2847,9 @@ Vue.component('my-cdym', {
                 style+="display: none;";
             }
             return style;
+        },
+        qtxtClick:function(cd){
+            window.open("sjdx/list.do?dxdm="+cd.dz);
         },
         tuichu:function(){
             var _this = this;
