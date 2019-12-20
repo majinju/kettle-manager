@@ -6,7 +6,6 @@
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
     <button style="display: none;" :id="'ygpllz-'+sjdxid" class="btn btn-primary btn-sm"  @click="ygpllz()">
     	<i class="icon ion-log-out"></i> 批量离职</button>
-	<span :id="'lbplcz-'+sjdxid"></span>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
 <span>

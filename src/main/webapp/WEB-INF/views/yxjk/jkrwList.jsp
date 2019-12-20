@@ -1,16 +1,15 @@
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
-<gd:LayoutVue title="${sjdx.dxmc }">
+<gd:sjdxList>
 <jsp:body>
 <!-- 监控任务列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
-    <button style="display: none;" :id="'swwx-'+sjdxid" class="btn btn-primary btn-sm"  @click="plcl('swwx')">
+    <button style="display: none;" qxm="SWWX" class="lbplcz btn btn-primary btn-sm"  @click="plcl('swwx')">
     	<i class="icon ion-checkmark-round"></i> 设为无效</button>
-    <button style="display: none;" :id="'swyx-'+sjdxid" class="btn btn-primary btn-sm"  @click="plcl('swyx')">
+    <button style="display: none;" qxm="SWYX" class="lbplcz btn btn-primary btn-sm"  @click="plcl('swyx')">
     	<i class="icon ion-close-round"></i> 设为有效</button>
-    <button style="display: none;" :id="'szyj-'+sjdxid" class="btn btn-primary btn-sm"  @click="szyj()" title="暂停后所有监控将转为四级任务进行监控，恢复后则恢复为设置级别">
+    <button style="display: none;" qxm="SZYJ" class="lbplcz btn btn-primary btn-sm"  @click="szyj()" title="暂停后所有监控将转为四级任务进行监控，恢复后则恢复为设置级别">
     	<i class="icon ion-alert-circled"></i> {{ sfyj=='1'?'暂停':'恢复' }}预警</button>
-	<span :id="'lbplcz-'+sjdxid"></span>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
 </script>
@@ -39,9 +38,6 @@ title="历史消息" a-oper="other"><i class="icon ion-compass"></i></a>
 </script>
 <script>
 function sjdxZdy(vp){
-    vp.methods.plcl=function(cllx){
-          this.$children[0].plcl(cllx);
-    }
     vp.data.sfyj = '1';
     vp.methods.szyj=function(){
         var _this = this;
@@ -63,29 +59,7 @@ function sjdxZdy(vp){
         this._data.sfyj = obj.mc;
     }
 }
-function lbplcz(_this){
-    var param = {
-        sjdx:_this.sjdx,
-        user:_this.$children[0]._data.user
-        }
-    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl(param).html();
-    $('#lbplcz-'+_this.sjdxid).html(qtcz);
-	if(qxByQxm(param.user,param.sjdx,'SWWX')){
-	    $('#swwx-'+sjdxid).show();
-	}
-	if(qxByQxm(param.user,param.sjdx,'SWYX')){
-	    $('#swyx-'+sjdxid).show();
-	}
-	if(qxByQxm(param.user,param.sjdx,'SZYJ')){
-	    $('#szyj-'+sjdxid).show();
-	}
-}
-function sjdxlbcz(value,_this) {
-    var cz = defaultLbcz(value,_this);
-    if("非列表模式"==cz){
-        return cz;
-    }
-	var sjdx = _this.$root.sjdx;
+function sjdxlbczYcl(value,_this) {
 	var row = _this.$root.listPage.rows[_this.$parent.$parent.ri];
 	if(row['rwlx']==1){
 		row.jtrwurl='sjdx/edit.do?pagemodel=details&id=7C53F02FC43043FEAD8653541617710F';
@@ -103,30 +77,7 @@ function sjdxlbcz(value,_this) {
 	}else{
 		row.jtrwurl += "&myparams=%7B'id':'"+row['jtrw']+"'%7D";
 	}
-    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({sjdx:sjdx,row:row,
-        user:_this.$parent.$parent.$parent._data.user
-        }).html();
-    return cz+qtcz;
 }
-</script>
-<script type="text/javascript">
-var fromdata = ${myparams};
-var sjdxid = "${sjdx.id}";
-fromdata.userInfo = "${param.userInfo}";
-var vueParams = {
-   el : '#listPage',
-   data: {
-           fromdata:fromdata,
-           sjdxid:sjdxid,
-           frommap:{}
-       },
-       methods:{
-       }
-}
-if(typeof(sjdxZdy)=='function'){
-    sjdxZdy(vueParams);
-}
-var listFrom = new Vue(vueParams);
 </script>
 </jsp:body>
-</gd:LayoutVue>
+</gd:sjdxList>

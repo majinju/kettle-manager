@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
-<gd:LayoutVue title="${sjdx.dxmc }">
+<gd:sjdxList>
 <jsp:body>
 <c:if test="${sjdx.cxlbkz==null}">
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid" v-cloak></my-list>
@@ -8,24 +8,5 @@
 <c:if test="${sjdx.cxlbkz!=null}">
 ${sjdx.cxlbkz }
 </c:if>
-<script type="text/javascript">
-var fromdata = ${myparams};
-var sjdxid = "${sjdx.id}";
-fromdata.userInfo = "${param.userInfo}";
-var vueParams = {
-   el : '#listPage',
-   data: {
-           fromdata:fromdata,
-           sjdxid:sjdxid,
-           frommap:{}
-       },
-       methods:{
-       }
-}
-if(typeof(sjdxZdy)=='function'){
-    sjdxZdy(vueParams);
-}
-var listFrom = new Vue(vueParams);
-</script>
 </jsp:body>
-</gd:LayoutVue>
+</gd:sjdxList>

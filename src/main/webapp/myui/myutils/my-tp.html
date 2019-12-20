@@ -1232,7 +1232,7 @@ Vue.component('my-echarts', {
                 },
                 "series": [
                   {
-                    "name": "姓名",
+                    "name": "统计指标",
                     "type": "pie",
                     "radius": "55%",
                     "center": [
@@ -2002,7 +2002,7 @@ Vue.component('my-zssjdx', {
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">数据展示</h3>
-        <div class="btn-table-left">
+		<div class="btn-group btn-table-left" role="group" aria-label="列表操作">
 			<button v-if="lbymkz('my-istree')" class="btn btn-primary btn-sm" @click="reloadTree">
         		<i class="icon ion-refresh"></i> 重载树
     		</button>
@@ -2033,8 +2033,20 @@ Vue.component('my-zssjdx', {
 	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
 	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
 			<slot></slot>
-        </div>
-        <div class="btn-table-right">
+			<span :id="'lbplcz-'+sjdx.id"></span>
+		
+		  <div class="btn-group" role="group" style="display:none;">
+		    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" 
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      	更多操作<span class="caret"></span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Dropdown link</a></li>
+		      <li><a href="#">Dropdown link</a></li>
+		    </ul>
+		  </div>
+		</div>
+        <div class="btn-group btn-table-right" role="group" aria-label="列表右侧操作">
 			<button v-if="" class="btn btn-default btn-sm" type="button"
 				@click="expe"><i class="icon ion-ios-redo-outline"></i> 导出当前页</button>
 			<button v-if="" class="btn btn-default btn-sm" type="button"
@@ -2661,6 +2673,10 @@ Vue.component('my-edit', {
 			<span style="vertical-align: middle;">{{kzxx['登陆信息']['系统名称']}}</span>
 		</div>
 		<my-edit :fromdata="dlfromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
+      		<button type="button" v-if="pagemodel=='add'||pagemodel=='edit'" class="btn btn-primary btn-sm" 
+    	     	@click="zcxyh">注册</button>
+      		<button type="button" v-if="pagemodel=='add'||pagemodel=='edit'" class="btn btn-primary btn-sm" 
+    	     	@click="yhwjmm">忘记密码</button>
 		</my-edit>
 		<div style="background-color: rgba(136, 155, 205, 0.84);padding: 10px;">
 			<span>请使用谷歌浏览器为你带来更好的使用体验</span>
@@ -2710,6 +2726,17 @@ Vue.component('my-dlym', {
             if(e && e.keyCode==13){ // enter 键
                 this.$children[0].submit();
             }
+        },
+        zcxyh:function(){
+            //注册新用户
+            var _this = this;
+            popUpWinLayer({"url":"sjdx/edit.do?dxdm=SYS_QX_YHXX_YHZC&pagemodel=add"
+                ,"name":"注册新用户"});
+        },
+        yhwjmm:function(){
+            //用户忘记密码
+            var _this = this;
+            alertInfo("抱歉，暂未实现");
         },
         fileUrl:function(key){
             if(this.kzxx['登陆信息'][key]){

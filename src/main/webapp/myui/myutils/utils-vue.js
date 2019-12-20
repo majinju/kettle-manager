@@ -970,6 +970,11 @@ function myGzyz(value,rules,field){
                     msg = "该值不是正确的身份证号码";
                 }
                 break;
+            case "email":
+                if(value.indexOf("@")<0){
+                    msg = "该值不是正确的邮箱";
+                }
+                break;
             case "zdpd":
                 //字典判断
                 if(zdObj({zdlb:rr[1],dm:value},false).mc=='0'){

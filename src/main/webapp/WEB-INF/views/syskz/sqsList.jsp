@@ -110,7 +110,7 @@ function sjdxZdy(vp){
 				node.name='<i class="icon '+node.myIcon+'" style="color:red;"></i> '+node.name;
 			}
 			if(node.icon){
-				node.icon="file/download.do?id="+node.icon;
+				node.icon="common/download.do?id="+node.icon;
 			}
 			return {};
 		}

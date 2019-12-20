@@ -1,10 +1,7 @@
 <!-- 文件管理列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
 	<my-file style="display: none;" :id="'wjsc-'+sjdxid" edit="true" :field="field"></my-file>
-	<span :id="'lbplcz-'+sjdxid"></span>
 </my-list>
-<script type="text/x-tp" id="my-sjdx-lbplcz-tp">
-</script>
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">
 <span>
 {{if qxByQxm(user,sjdx,'WJXZ')&&row.wjlx!='icon'}}

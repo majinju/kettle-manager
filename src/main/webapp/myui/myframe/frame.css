@@ -57,7 +57,7 @@ body {
 .btn-table-left {
     margin-left: 80px;
     position: absolute;
-    margin-top:-20px;
+    margin-top:-23px;
 }
 /* :not(:first-child) */
 .btn-table-left button {
@@ -66,7 +66,7 @@ body {
 /* 表单上的按钮 - 右边按钮 */
 .btn-table-right {
     float: right;
-    margin-top:-24px;
+    margin-top:-23px;
 }
 .btn-table-right button:not(:first-child) {
     margin-left: 8px;
