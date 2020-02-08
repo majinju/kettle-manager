@@ -126,7 +126,7 @@ service中提供了字典管理功能，一般都请直接在页面进行字典�
 
 ### 后台字典使用
 
-请参考：com.iflytek.qb.common.util.DictManager
+请参考：cn.benma666.iframe.DictManager
 
 ### 字典使用规范
 
@@ -148,30 +148,45 @@ service中提供了字典管理功能，一般都请直接在页面进行字典�
 
 ### 基础运用
 
-1. 在file:/iflytek/qbpt/config/common/config.properties文件中配置好服务端地址，所有项目都直接引用该配置文件，无需每个项目都去配置服务端地址,内容如下：
-```
-#\u670D\u52A1\u7AEF
-serviceAddr=http://localhost:8080/service/
+1. 在file:/benma666/config/myservice.properties文件中配置好服务端地址，所有项目都直接引用该配置文件，无需每个项目都去配置服务端地址,内容如下：
+```#字典和样式等服务
+service.addr=/myservice/
+#service.addr=http://127.0.0.1:88/myservice/
+#数据密码，用户对字段密码进行二次加密，核心密码。
+data.password=xxx
+sjzt.mm.ejmm=xxx
+yhxx.yhmm.ejmm=xxxx
+app.mm.ejmm=xxxx
+
+#default数据源
+default.jdbc.url=jdbc:oracle:thin:@127.0.0.1:1521:mydb
+default.jdbc.username=sjsj
+default.jdbc.password=sjsj
+
+#web.init.classList=cn.benma666.km.job.KmWebInit
 ```
 ![image](./img/本地配置文件.png)
 1. 在spring配置文件中参考如下配置：
 ```xml
-	<bean class="com.iflytek.qb.common.base.util.AConfig">
+	<!-- 定义受环境影响易变的变量 -->
+	<bean class="cn.benma666.web.SConf">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreResourceNotFound" value="false" />
 		<property name="locations">
 			<list>
-<!-- 				<value>classpath:config.properties</value> -->
-				<value>file:/iflytek/qbpt/config/common/config.properties</value>
+				<value>file:/benma666/config/myservice.properties</value>
 			</list>
 		</property>
 		<property name="configCodeList">
 			<list>
-				<value>ZDRY_COMMON_APPCONFIG</value>
-				<value>ZDRY_ZHCX_APPCONFIG</value>
+				<value>SYS_COMMON_APPCONFIG</value>
+				<value>SYS_MYSERVICE_APPCONFIG</value>
+				<value>SYS_SJGL_APPCONFIG</value>
+				<value>SYS_KP_APPCONFIG</value>
 			</list>
 		</property>
 	</bean>
+
 ```
 ![image](./img/Spring中的配置.png)
 1. 在字典管理中进行配置的字典类别定义。

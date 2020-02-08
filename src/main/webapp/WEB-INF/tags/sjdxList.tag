@@ -45,8 +45,8 @@
 		           frommap:{}
 		       },
 		       methods:{
-		           plcl:function(cllx){
-		               this.$children[0].plcl(cllx);
+		           plcl:function(cllx,_this,options){
+		               this.$children[0].plcl(cllx,_this,options);
 		         }
 		       },
 		       mounted:function(){
@@ -57,9 +57,9 @@
 		    sjdxZdy(vueParams);
 		}
 		var listFrom = new Vue(vueParams);
-		
-		function plcl(cllx){
-		    listFrom.plcl(cllx);
+
+		function plcl(cllx,_this,options){
+		    listFrom.plcl(cllx,_this,options);
 		}
 		function lbplcz(_this){
 		    $(".lbplcz").each(

@@ -268,10 +268,10 @@ public class SjdxLjq extends DefaultLjq{
     */
     public JsonResult crzd(SysSjglSjdx jtdx, JSONObject params,
             SysSjglSjdx sjdx, List<JSONObject> fieldsList) {
-        int idx = 20;
         Map<String, JSONObject> oldFiledMap = Db.listToMap(
                 db.find("select * from sys_sjgl_sjzd t where t.sjdx=?", 
                         jtdx.getId()), "zddm");
+        int idx = oldFiledMap.size()*10+50;
         //新导入的对象复制默认字段
         int count = 0;
         if(oldFiledMap.isEmpty()){
@@ -289,7 +289,7 @@ public class SjdxLjq extends DefaultLjq{
             zd.setZddm(zd.getZddm().toLowerCase());
             if(oldFiledMap.containsKey(zd.getZddm())){
                 //存在的字段
-                oldFiledMap.remove(zd.getZddm());
+                //oldFiledMap.remove(zd.getZddm());
                 continue;
             }
             count++;
@@ -336,6 +336,7 @@ public class SjdxLjq extends DefaultLjq{
             }
             //保存该字段
             sqlManager.insertTemplate(zd);
+            oldFiledMap.put(zd.getZddm(), null);
         }
         return success(jtdx.getDxmc()+"导入字段数："+count);
     }

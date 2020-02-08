@@ -78,10 +78,9 @@ public class RyhcLjq extends DefaultLjq{
                     DictManager.zdMcByDm("OTHER_HCXT_APPCONFIG", "cqqbryhc.url")+zjhm);
             if(qqjg.getBooleanValue("state")){
                 JSONObject hcjg = JSON.parseArray(qqjg.getString("data")).getJSONObject(0);
-                yobj.put("hcxm",hcjg.getString("xm"));
-                yobj.put("hchjdz",hcjg.getString("hjd"));
-                if (StringUtil.isNotBlank(yobj.getString("xm")) 
-                        && !yobj.getString("xm").equals(yobj.getString("hcxm"))) {
+                yobj.putAll(hcjg);
+                if (StringUtil.isNotBlank(yobj.getString("scxm")) 
+                        && !yobj.getString("scxm").equals(yobj.getString("xm"))) {
                     yobj.put("hcjg","姓名不一致");
                 } else {
                     yobj.put("hcjg","正确");
