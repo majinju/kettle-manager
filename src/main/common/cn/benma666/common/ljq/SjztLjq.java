@@ -18,6 +18,7 @@ import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
+import cn.benma666.sjgl.LjqManager;
 import cn.benma666.sjgl.SjglException;
 import cn.benma666.web.SConf;
 
@@ -90,7 +91,10 @@ public class SjztLjq extends DefaultLjq{
                     }
                     jkrw.put(KEY_YOBJ, job);
                     jkrw.put(KEY_CLLX, KEY_CLLX_INSERT);
-                    save(jkrwdx, jkrw);
+                    JsonResult r = LjqManager.save(jkrwdx, jkrw);
+                    if(!r.isStatus()){
+                        return r;
+                    }
                     scrw++;
                 }else{
                     yczrw++;
@@ -147,6 +151,9 @@ public class SjztLjq extends DefaultLjq{
             throw new SjglException("不支持的对象载体类型："+sjdx.getDxztlx());
         }
         JsonResult result = super.save(sjdx, myJsonParams);
+        if(!result.isStatus()){
+            return result;
+        }
         DictManager.clearDict(ZD_SYS_COMMON_SJZT);
         JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, dbdm);
         //数据库型数据载体才进行测试
@@ -163,6 +170,9 @@ public class SjztLjq extends DefaultLjq{
     */
     public JsonResult testSjzt(JSONObject sjztObj,boolean mmjm) {
         JsonResult result = success("该数据载体可用");
+        if(sjztObj==null){
+            return error("数据载体为空");
+        }
         String zt = "1";
         try {
             if(SConf.getVal("sjkxsjzt").indexOf(sjztObj.getString("lx"))>-1){
@@ -184,7 +194,7 @@ public class SjztLjq extends DefaultLjq{
             }
         } catch (Exception e) {
             zt = "2";
-            result = error("该数据载体当前不可用："+sjztObj.getString("dm")+","+e.getMessage(),e);
+            result = error("该数据载体当前不可用："+sjztObj+","+e.getMessage(),e);
             log.debug(result.getMsg(),e);
         }
         if(!result.isStatus()){

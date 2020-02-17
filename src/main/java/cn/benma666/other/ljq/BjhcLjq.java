@@ -43,7 +43,7 @@ public class BjhcLjq extends DefaultLjq{
         String cllx = myParams.getString(KEY_CLLX);
         if(KEY_CLLX_SJPLSC.equals(cllx)){
             SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-            bjhcjg.remove(user.getId());
+            bjhcjg.remove(user.getToken());
         }
         return super.plcl(sjdx, myParams);
     }
@@ -57,8 +57,8 @@ public class BjhcLjq extends DefaultLjq{
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         List<JSONObject> l= null;
-        if(bjhcjg.containsKey(user.getId())){
-            l= (List<JSONObject>) bjhcjg.get(user.getId());
+        if(bjhcjg.containsKey(user.getToken())){
+            l= (List<JSONObject>) bjhcjg.get(user.getToken());
         }else{
             l = new ArrayList<JSONObject>();
             bjhcjg.put(user.getId(), l);
@@ -75,8 +75,8 @@ public class BjhcLjq extends DefaultLjq{
     public JsonResult page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
             String defaultSql, JSONObject myParams) {
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-        if(bjhcjg.containsKey(user.getId())){
-            List<JSONObject> list = (List<JSONObject>) bjhcjg.get(user.getId());
+        if(bjhcjg.containsKey(user.getToken())){
+            List<JSONObject> list = (List<JSONObject>) bjhcjg.get(user.getToken());
             String param;
             try {
                   param = URLEncoder.encode(JSON.toJSONString(list), "UTF-8");

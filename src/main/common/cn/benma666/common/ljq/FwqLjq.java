@@ -9,6 +9,7 @@ package cn.benma666.common.ljq;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.DefaultLjq;
+import cn.benma666.sjgl.LjqManager;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -55,7 +56,10 @@ public class FwqLjq extends DefaultLjq{
                     }
                     jkrw.put(KEY_YOBJ, job);
                     jkrw.put(KEY_CLLX, KEY_CLLX_INSERT);
-                    save(jkrwdx, jkrw);
+                    JsonResult r = LjqManager.save(jkrwdx, jkrw);
+                    if(!r.isStatus()){
+                        return r;
+                    }
                     scrw++;
                 }else{
                     yczrw++;

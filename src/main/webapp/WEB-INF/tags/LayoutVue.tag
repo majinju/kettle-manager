@@ -22,10 +22,10 @@
      </script>
      
      <!-- jquery -->
-     <script type="text/javascript" src="${serviceAddr}myui/jquery/jquery-1.9.1.min.js"></script>
+     <script type="text/javascript" src="${serviceAddr}myui/jquery/jquery-1.9.1.min.js?time=20200214"></script>
 	 
 	 <!-- myutils 此脚本会自动引入模板、layer、日期控件等常用js和css-->
-     <script type="text/javascript" src="${serviceAddr}myui/myutils/utils-vue.js?time=20190909"></script>
+     <script type="text/javascript" src="${serviceAddr}myui/myutils/utils-vue.js?time=20200214"></script>
       
 	 <!-- 自定义引入CSS -->
 	 <jsp:invoke fragment="css" />
@@ -35,7 +35,7 @@
 	 
 </head>
    	<body>
-   	  <div id="tp" data-src="${serviceAddr}myui/myutils/my-tp.html"></div>
+   	  <div id="tp" data-src="${serviceAddr}myui/myutils/my-tp.html?time=20200214"></div>
    	  <script type="text/javascript">
    	  	$("#tp").includePage({});
    	  </script>

@@ -37,7 +37,7 @@ public class SjzdLjq extends DefaultLjq{
             SysSjglSjdx obj = new SysSjglSjdx();
             obj.setId(sjdx.get(LjqInterface.KEY_IDS).toString());
             fields = getFields(obj);
-            int idx = 0;
+            int idx = 50;
             for(Entry<String, JSONObject> field:fields.entrySet()){
                 idx+=10;
                 db.update("update sys_sjgl_sjzd t set t.px=? where t.id=?", 

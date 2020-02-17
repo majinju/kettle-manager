@@ -43,7 +43,7 @@ public class RyhcLjq extends DefaultLjq{
         String cllx = myParams.getString(KEY_CLLX);
         if(KEY_CLLX_SJPLSC.equals(cllx)){
             SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-            ryhcjg.remove(user.getId());
+            ryhcjg.remove(user.getToken());
         }
         return super.plcl(sjdx, myParams);
     }
@@ -57,11 +57,11 @@ public class RyhcLjq extends DefaultLjq{
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         List<JSONObject> l= null;
-        if(ryhcjg.containsKey(user.getId())){
-            l= (List<JSONObject>) ryhcjg.get(user.getId());
+        if(ryhcjg.containsKey(user.getToken())){
+            l= (List<JSONObject>) ryhcjg.get(user.getToken());
         }else{
             l = new ArrayList<JSONObject>();
-            ryhcjg.put(user.getId(), l);
+            ryhcjg.put(user.getToken(), l);
         }
         l.add(yobj);
         String zjhm = yobj.getString("zjhm");
@@ -103,8 +103,8 @@ public class RyhcLjq extends DefaultLjq{
     public JsonResult page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
             String defaultSql, JSONObject myParams) {
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-        if(ryhcjg.containsKey(user.getId())){
-            List<JSONObject> list = (List<JSONObject>) ryhcjg.get(user.getId());
+        if(ryhcjg.containsKey(user.getToken())){
+            List<JSONObject> list = (List<JSONObject>) ryhcjg.get(user.getToken());
             page.setList(list);
             return success("核查成功",page);
         }else{

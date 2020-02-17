@@ -1,44 +1,32 @@
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
-<gd:LayoutVue title="${sjdx.dxmc }">
+<gd:sjdxList>
 <jsp:body>
 <!-- 机场员工列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
-    <button style="display: none;" :id="'ygpllz-'+sjdxid" class="btn btn-primary btn-sm"  @click="ygpllz()">
+    <button qxm="YGPLLZ" class="lbplcz btn btn-primary btn-sm"  @click="ygpllz()">
     	<i class="icon ion-log-out"></i> 批量离职</button>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
 <span>
 {{if qxByQxm(user,sjdx,'YGPLSC')}}
-<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" wjlx="xls|xlsx" callBack="clygsj">
-	{{= qxByQxm(user,sjdx,'YGPLSC').mc}}
-	<i  style="margin-left: 5px;" 
-    	class="icon ion-ios-help-outline" 
-    	id="plscTitle"
-    	onmouseover="plscTitle(this)"></i></button>
+<button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" wjlx="xls|xlsx" callBack="clygsj"
+	title="批量上传数据,请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功">
+	<i class="icon ion-arrow-up-a"></i> {{= qxByQxm(user,sjdx,'YGPLSC').mc}}</button>
 {{/if}}
 {{if qxByQxm(user,sjdx,'YGMBXZ')}}
-<button class="btn btn-primary btn-sm" onclick="downloadYgscTemplate()">{{= qxByQxm(user,sjdx,'YGMBXZ').mc}}
-	<i style="margin-left: 5px;" 
-    	class="icon ion-ios-help-outline" 
-    	id="plscmbTitle"
-    	onmouseover="plscmbTitle(this)"></i>
+<button class="btn btn-primary btn-sm" onclick="downloadYgscTemplate()"
+	title="请严格按照模板填充数据，注意模板中的提示信息">
+	<i class="icon ion-arrow-down-a"></i> {{= qxByQxm(user,sjdx,'YGMBXZ').mc}}
 </button>
 {{/if}}
 {{if qxByQxm(user,sjdx,'LZYGSC')}}
 <button class="btn btn-primary btn-sm uploadFile" ywdm="jcga" wjlb="ygsj" wjlx="xls|xlsx" callBack="lzygcl">
-	{{= qxByQxm(user,sjdx,'LZYGSC').mc}}
-	<i  style="margin-left: 5px;" 
-    	class="icon ion-ios-help-outline" 
-    	id="plscTitle"
-    	onmouseover="plscTitle(this)"></i></button>
+	<i class="icon ion-arrow-up-a"></i> {{= qxByQxm(user,sjdx,'LZYGSC').mc}}</button>
 {{/if}}
 {{if qxByQxm(user,sjdx,'LZMBXZ')}}
-<button class="btn btn-primary btn-sm" onclick="downloadLzmbTemplate()">{{= qxByQxm(user,sjdx,'LZMBXZ').mc}}
-	<i style="margin-left: 5px;" 
-    	class="icon ion-ios-help-outline" 
-    	id="plscmbTitle"
-    	onmouseover="plscmbTitle(this)"></i>
+<button class="btn btn-primary btn-sm" onclick="downloadLzmbTemplate()">
+	<i class="icon ion-arrow-down-a"></i> {{= qxByQxm(user,sjdx,'LZMBXZ').mc}}
 </button>
 {{/if}}
 </span>
@@ -52,9 +40,6 @@
 <script>
 function sjdxZdy(vp){
     vp.el="#listPage";
-    vp.methods.plcl=function(cllx,_this,options){
-         this.$children[0].plcl(cllx,_this,options);
-    }
     vp.methods.ygpllz = function(){
         var options ={
                 plczqt:function(ids){
@@ -64,41 +49,6 @@ function sjdxZdy(vp){
         };
         this.plcl("ygpllz", null, options);
     }
-    vp.mounted=function(){
-        lbplcz(this);
-    }
-}
-function plcl(cllx,_this,options){
-    listFrom.plcl(cllx,_this,options);
-}
-function lbplcz(_this){
-    var param = {
-            sjdx:_this.sjdx,
-            user:_this.$children[0]._data.user
-            }
-    var qtcz = $("#my-sjdx-lbplcz-tp").tmpl(param).html();
-    $('#lbplcz-'+_this.sjdxid).html(qtcz);
-	if(qxByQxm(param.user,param.sjdx,'YGPLLZ')){
-	    $('#ygpllz-'+sjdxid).show();
-	}
-}
-function sjdxlbcz(value,_this) {
-    var cz = defaultLbcz(value,_this);
-    if("非列表模式"==cz){
-        return cz;
-    }
-    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({
-        sjdx:_this.$root.sjdx,
-        user:_this.$parent.$parent.$parent._data.user,
-	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
-    return cz+qtcz;
-}
-
-function plscTitle(_this){
-	layer.tips("批量上传需要核查的数据,请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功","#plscTitle");
-}
-function plscmbTitle(_this){
-	layer.tips("请严格按照模板填充数据，注意模板中的提示信息","#plscmbTitle");
 }
 function downloadYgscTemplate(){
 	//下载员工上传模板
@@ -153,24 +103,5 @@ function lzygcl(fileObj){
     });
 }
 </script>
-<script type="text/javascript">
-var fromdata = ${myparams};
-var sjdxid = "${sjdx.id}";
-fromdata.userInfo = "${param.userInfo}";
-var vueParams = {
-   el : '#listPage',
-   data: {
-           fromdata:fromdata,
-           sjdxid:sjdxid,
-           frommap:{}
-       },
-       methods:{
-       }
-}
-if(typeof(sjdxZdy)=='function'){
-    sjdxZdy(vueParams);
-}
-var listFrom = new Vue(vueParams);
-</script>
 </jsp:body>
-</gd:LayoutVue>
+</gd:sjdxList>

@@ -46,6 +46,7 @@ select 1 from sjsj1.sys_sjgl_grbj t1 where t1.id=t.id
 delete from sjsj1.sys_sjgl_sjzd t where 
 exists (
 select 1 from sys_sjgl_sjdx t1 where t1.id=t.sjdx
+and t1.dxdm like 'SYS_%'
 );
 --导入本地字段
 insert into sjsj1.sys_sjgl_sjzd
@@ -58,6 +59,7 @@ select 1 from sjsj1.sys_sjgl_sjzd t1 where t1.id=t.id
 delete from sjsj1.sys_sjgl_sjdx t where 
 exists (
 select 1 from sys_sjgl_sjdx t1 where t1.id=t.id
+and t1.dxdm like 'SYS_%'
 );
 --导入本地对象
 insert into sjsj1.sys_sjgl_sjdx

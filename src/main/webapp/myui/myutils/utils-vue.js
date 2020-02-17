@@ -5,11 +5,11 @@ var scriptList=[
       serviceAddr+"myui/vue/vue.js",
       serviceAddr+"myui/jquery/jquery.tmpl.min.js",
       serviceAddr+"myui/myutils/idcard.js",
-      serviceAddr+"myui/myutils/operate-vue.js?time=20191012",
+      serviceAddr+"myui/myutils/operate-vue.js?time=20200214",
       serviceAddr+"myui/bootstrap/js/bootstrap.js",
-      serviceAddr+"myui/SelectPag/selectpage.js?time=20171207",
+      serviceAddr+"myui/SelectPag/selectpage.js?time=20200214",
 //      serviceAddr+"myui/SelectMenu/selectmenu.js",
-      serviceAddr+"myui/myframe/frame.js?time=20171217",
+      serviceAddr+"myui/myframe/frame.js?time=20200214",
       serviceAddr+"myui/layer/layer.js",
       serviceAddr+"myui/My97DatePicker/WdatePicker.js",
       serviceAddr+"myui/jquery/jquery.ajaxupload.js",
@@ -38,9 +38,9 @@ var scriptList=[
  * 需要引入的css脚本文件
  */
 var cssList=[
-      serviceAddr+"myui/myutils/utils.css?time=20171111",
+      serviceAddr+"myui/myutils/utils.css?time=20200214",
       serviceAddr+"myui/bootstrap/css/bootstrap.min.css",
-      serviceAddr+"myui/myframe/frame.css?time=20171111",
+      serviceAddr+"myui/myframe/frame.css?time=20200214",
       serviceAddr+"myui/font-awesome/css/font-awesome.css",
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
       serviceAddr+"myui/jsoneditor/jsoneditor.css",

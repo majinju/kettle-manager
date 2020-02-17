@@ -30,12 +30,12 @@ import com.alibaba.fastjson.JSONObject;
  * @author jingma
  * @version 
  */
-public class JcygLjq extends DefaultLjq{
+public class JcygYqsbLjq extends DefaultLjq{
     /**
     * 员工编号自增id
     */
     private static AutoId ygbh = new AutoId("JCGA_JCYG_YGBH");
-    private JcygExcel er;
+    private JcygYqsbExcel er;
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
@@ -47,7 +47,7 @@ public class JcygLjq extends DefaultLjq{
         String msg;
         switch (cllx) {
         case "clygsj":
-            er = new JcygExcel(sjdx,myParams,yobj.getJSONObject("fileObj"),(SysQxYhxx) myParams.get(KEY_USER));
+            er = new JcygYqsbExcel(sjdx,myParams,yobj.getJSONObject("fileObj"),(SysQxYhxx) myParams.get(KEY_USER));
             try {
                 JsonResult r = er.disposeExcel();
                 if(!r.isStatus()){
@@ -126,7 +126,7 @@ public class JcygLjq extends DefaultLjq{
         
         //社会关系对象,及参数对象构建
         JSONObject shgxParams = (JSONObject) myParams.clone();
-        JSONObject p = (JSONObject) getJcxxByDxdm("JCGA_JCYG_SHGX").getData();
+        JSONObject p = (JSONObject) getJcxxByDxdm("JCGA_JCYG_SHGX_YQSB").getData();
         SysSjglSjdx shgxSjdx = (SysSjglSjdx) p.get(KEY_SJDX);
         shgxParams.putAll(p);
         JSONObject pcyzgz = new JSONObject();

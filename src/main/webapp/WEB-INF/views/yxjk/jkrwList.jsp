@@ -4,11 +4,11 @@
 <jsp:body>
 <!-- 监控任务列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
-    <button style="display: none;" qxm="SWWX" class="lbplcz btn btn-primary btn-sm"  @click="plcl('swwx')">
+    <button qxm="SWWX" class="lbplcz btn btn-primary btn-sm"  @click="plcl('swwx')">
     	<i class="icon ion-checkmark-round"></i> 设为无效</button>
-    <button style="display: none;" qxm="SWYX" class="lbplcz btn btn-primary btn-sm"  @click="plcl('swyx')">
+    <button qxm="SWYX" class="lbplcz btn btn-primary btn-sm"  @click="plcl('swyx')">
     	<i class="icon ion-close-round"></i> 设为有效</button>
-    <button style="display: none;" qxm="SZYJ" class="lbplcz btn btn-primary btn-sm"  @click="szyj()" title="暂停后所有监控将转为四级任务进行监控，恢复后则恢复为设置级别">
+    <button qxm="SZYJ" class="lbplcz btn btn-primary btn-sm"  @click="szyj()" title="暂停后所有监控将转为四级任务进行监控，恢复后则恢复为设置级别">
     	<i class="icon ion-alert-circled"></i> {{ sfyj=='1'?'暂停':'恢复' }}预警</button>
 </my-list>
 <script type="text/x-tp" id="my-sjdx-lbplcz-tp">
