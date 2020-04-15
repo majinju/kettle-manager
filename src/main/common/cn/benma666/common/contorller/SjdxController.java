@@ -128,7 +128,10 @@ public class SjdxController extends BasicController {
                 myparams = myparams.replace("%34", "\"");
             }
             if(basicJcxx(sjdx,myparams,request,response)){
-                LjqManager.export(dbSjdx,myParams, page,response);
+                JsonResult r = LjqManager.export(dbSjdx,myParams, page,response);
+                if(!r.isStatus()){
+                    sendJson(response, r);
+                }
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);

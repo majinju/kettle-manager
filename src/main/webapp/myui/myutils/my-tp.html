@@ -726,7 +726,7 @@ Vue.component('my-time', {
             if($event.target.value==this.dqz){
                 return;
             }
-            var sf = strFunToFun(this.field.fgshff);
+            var sf = strFunToFun(this.field.fgshff||"vueTimeFgsh");
             if(sf){
                 $event.val=sf($event.target.value,this);
             }else{
@@ -739,7 +739,7 @@ Vue.component('my-time', {
     computed : {
         nval:function (){
             var val=this.value;
-            var sf = strFunToFun(this.field.gshff);
+            var sf = strFunToFun(this.field.gshff||"vueTimeGsh");
             if(sf){
                 val=sf(val,this);
             }
@@ -812,26 +812,41 @@ Vue.component('my-timeaera', {
     props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
-          startData:{dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true,maxDate:'%y-%M-%d %H:%m:%s'},
-          endData:{dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true,maxDate:'%y-%M-%d %H:%m:%s'},
+          WdatePicker:{
+              hdgs:"yyyyMMddHHmmss",
+              dateFmt:'yyyy-MM-dd',
+              startData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
+              endData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'}
+          },
+          WdatePicker1:{
+              hdgs:"yyyyMMddHHmmss",
+              dateFmt:'yyyy-MM-dd HH:mm:ss',
+              startData:{dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true,maxDate:'%y-%M-%d %H:%m:%s'},
+              endData:{dateFmt:'yyyy-MM-dd HH:mm:ss',readOnly:true,maxDate:'%y-%M-%d %H:%m:%s'}
+          },
           times:this.value||''
       }
     },
     template: '#my-timeaera-tp',
     created : function(){
+        //扩展时间控件
+        eval("var kzxx="+this.field.kzxx);
+        if(kzxx["时间控件"]){
+            this.WdatePicker = $.extend(this.WdatePicker, kzxx["时间控件"]);
+        }
         var times = this.times.split(";");
         var val1="";
         if(times[0]){
             val1=times[0];
             if(val1.indexOf('goDay:')==0){
-                val1 = new Date().addDays(val1.substring(6)).format('yyyyMMddHHmmss');
+                val1 = new Date().addDays(val1.substring(6)).format(this.WdatePicker.hdgs);
             }
         }
         var val2="";
         if(times[1]){
             var val2=times[1];
             if(val2.indexOf('goDay:')==0){
-                val2 = new Date().addDays(val2.substring(6)).format('yyyyMMddHHmmss');
+                val2 = new Date().addDays(val2.substring(6)).format(this.WdatePicker.hdgs);
             }
         }
         this.times = val1 + ";"+val2;
@@ -888,10 +903,10 @@ Vue.component('my-timeaera', {
 	        this.$emit('setval', this.field, $event);
 	    },
 	    wpStart:function(){
-	        WdatePicker(this.startData);
+	        WdatePicker(this.WdatePicker.startData);
 	    },
 	    wpEnd:function(){
-	        WdatePicker(this.endData);
+	        WdatePicker(this.WdatePicker.endData);
 	    }
  	}
   });

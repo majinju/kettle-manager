@@ -46,7 +46,7 @@ public class YhdlLjq extends DefaultLjq{
             if(yhxx==null){
                 return error("用户不存在");
             }
-            if(!"9".equals(yhxx.getString("shzt"))){
+            if(!"2".equals(yhxx.getString("shzt"))){
                 return error("该用户还未审核通过，请耐性等待或联系管理员");
             }
             String yhmm = null;

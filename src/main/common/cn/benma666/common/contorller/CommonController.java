@@ -27,6 +27,7 @@ import cn.benma666.myutils.ExportToExecl;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
+import cn.benma666.myutils.XmlUtil;
 import cn.benma666.web.BasicController;
 import cn.benma666.web.UserManager;
 import cn.benma666.web.WebUtil;
@@ -233,6 +234,25 @@ public class CommonController extends BasicController {
             log.error("用户信息编码失败", e);
             WebUtil.sendJson(response, error("用户信息编码失败:"+e.getMessage()));
             return;
+        }
+    }
+    /**
+    * @author jingma
+    * @param obj
+    * @param response
+    */
+    @ApiOperation(value="Xml转JSON",
+        notes="Xml数据转为JSON数据")
+    @RequestMapping(value = "/xmlToJson.do")
+    public void xmlToJson(BasicBean obj,HttpServletRequest request, 
+            HttpServletResponse response) {
+        jkInit(obj, request);
+        Object xml = obj.get("xml");
+        try {
+            sendJson(response, XmlUtil.xmlToJson(xml.toString()));
+        } catch (Exception e) {
+            log.debug("xml解析失败："+xml, e);
+            sendJson(response, error("解析失败:"+e.getMessage()));
         }
     }
     

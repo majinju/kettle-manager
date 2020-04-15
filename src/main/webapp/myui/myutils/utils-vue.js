@@ -1127,10 +1127,6 @@ function myValidFrom(_this,module,fromdata){
  * 时间格式化
  */
 function vueTimeGsh(value,_this){
-    if(_this.pagemodel=='search'){
-        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
-        return dateFormat(value,'yyyy-MM-dd HH:mm:ss');
-    }
     var qdgs = _this.WdatePicker.dateFmt;
     return dateFormat(value,qdgs);
 }
@@ -1138,10 +1134,6 @@ function vueTimeGsh(value,_this){
  * 时间反格式化：默认处理所有时间在数据库中存储的都是14位字符串
  */
 function vueTimeFgsh(value,_this,event){
-    if(_this.pagemodel=='search'){
-        //查询模式，将时间转为精确到天，一般查询不用精确到时分秒，需要的特殊情况请自定义方法。
-        return dateFormat(value,'yyyyMMddHHmmss');
-    }
     var hdgs = _this.WdatePicker.hdgs;
     return dateFormat(value,hdgs);
 }

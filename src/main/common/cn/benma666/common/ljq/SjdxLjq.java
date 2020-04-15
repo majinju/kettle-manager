@@ -51,6 +51,9 @@ public class SjdxLjq extends DefaultLjq{
             yobj.put("id", jtdx.getId());
 //            sqlManager.insertTemplate(jtdx);
             JsonResult r = super.save(sjdx, params);
+            if(!r.isStatus()){
+                return r;
+            }
             //新增
             r.addMsg(impFields(jtdx,params,sjdx).getMsg());
             return success("编辑成功,"+r.getMsg());

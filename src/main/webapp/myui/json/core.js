@@ -6801,13 +6801,13 @@ app.resize = function () {
 		var splitterLeft = width * app.splitter.getValue();
 
 		// resize formatter
-		domFormatter.style.width = Math.round(splitterLeft) + 'px';
+		domFormatter.style.width = Math.round(splitterLeft-10) + 'px';
 
 		// resize editor
 		// the width has a -1 to prevent the width from being just half a pixel
 		// wider than the window, causing the content elements to wrap...
 		domEditor.style.left = Math.round(splitterLeft + splitterWidth) + 'px';
-		domEditor.style.width = Math.round(width - splitterLeft - splitterWidth - 1) + 'px';
+		domEditor.style.width = Math.round(width - splitterLeft - splitterWidth - 5) + 'px';
 	}
 
 	// resize ad text

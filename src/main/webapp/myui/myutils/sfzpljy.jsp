@@ -12,6 +12,9 @@ td {
 	border: 1px solid #ccc;
 	text-align: center;
 }
+td textarea{
+width: 95%;
+}
 
 th {
 	text-align: center;
@@ -21,24 +24,31 @@ th {
 <body>
 	<table>
 		<tr>
-			<th>要验证的身份证</th>
-			<th>验证未通过的</th>
-			<th>验证通过的</th>
+			<th style="width: 400px;">待验证的身份证</th>
+			<th style="width: 400px;">验证未通过</th>
+			<th style="width: 400px;">验证通过</th>
 		</tr>
 		<tr>
 			<td><textarea name="sfzh" id="sfzh" maxlength="2000000"
-					style="height: 300px; width: 300px;" title="一行一个身份证号,一次最多输入十万个身份证"></textarea>
+					style="height: 300px;" title="一行一个身份证号,一次最多输入十万个身份证"></textarea>
 			</td>
-			<td><textarea id="yzwtg" maxlength="2000000"
-					style="height: 300px; width: 300px;"></textarea></td>
-			<td><textarea id="yztg" maxlength="2000000"
-					style="height: 300px; width: 300px;"></textarea></td>
+			<td><textarea id="yzwtg" style="height: 300px;"></textarea></td>
+			<td><textarea id="yztg" style="height: 300px;"></textarea></td>
 		</tr>
 		<tr>
-			<td><button onclick="yanzheng()"
-					style="width: 60px; cursor: pointer;">验&nbsp;&nbsp;证</button></td>
+			<td><button onclick="yanzheng()" style="width: 60px; cursor: pointer;">
+				验&nbsp;&nbsp;证</button></td>
 			<td>验证未通过数：<span id="yzwtgs"></span></td>
 			<td>验证通过数：<span id="yztgs"></span></td>
+		</tr>
+		<tr>
+			<th colspan="3">综合结果(整个结果可以拷贝到excel中,便捷的进行其他处理)</th>
+		</tr>
+		<tr>
+			<td colspan="3"><textarea id="zhjg" style="height: 300px;" title=""></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="3">综合结果数：<span id="zhjgs"></span></td>
 		</tr>
 	</table>
 	<script>
@@ -46,24 +56,33 @@ th {
             var sfzh = document.getElementById("sfzh").value;
             var array = sfzh.split("\n");
             var tgd = "";
+            var wtgd = "";
+            var zhjg = "";
+            var hm = "";
             var tgs = 0;
             var wtgs = 0;
-            var wtgd = "";
-            var hm = "";
+            var zhjgs = 0;
             for (var i = 0; i < array.length; i++) {
                 hm = array[i].replace('\r', '');
                 if (idCardNoUtil.checkIdCardNo(hm)) {
+                    var info = idCardNoUtil.getIdCardInfo(hm);
+                    info.id18 = idCardNoUtil.getId18(hm);
                     tgs++;
                     tgd += hm + "\n";
+                    zhjg += hm +"\t"+"通过" +"\t"+info.id18 +"\t"+info.gender +"\t"+info.birthday +"\t"+info.province+ "\n";
                 } else {
                     wtgs++;
                     wtgd += hm + "\n";
+                    zhjg += hm + "\t不通过\t\t\t\t\t\n";
                 }
+                zhjgs++;
             }
             document.getElementById("yztg").value = tgd;
             document.getElementById("yzwtg").value = wtgd;
+            document.getElementById("zhjg").value = "原始号码\t验证结果\t18位结果\t性别\t生日\t省份\n"+zhjg;
             document.getElementById("yztgs").innerHTML = tgs;
             document.getElementById("yzwtgs").innerHTML = wtgs;
+            document.getElementById("zhjgs").innerHTML = zhjgs;
             //document.getElementById("yzjg").innerHTML=idCardNoUtil.checkIdCardNo(sfzh)?"通过":"未通过";
         }
         var idCardNoUtil = {

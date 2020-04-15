@@ -147,10 +147,12 @@ public class JcygYqsbExcel extends ExcelReader {
             shgxs.add(shgx);
             gxs++;
         }
-        if(gxs<2){
-            addError(-1, null, "关系人", "疫情上报至少需要录入两个关系信息");
+//        if(gxs<2){
+//            addError(-1, null, "关系人", "疫情上报至少需要录入两个关系信息");
+//        }
+        if(gxs>0){
+            jcyg.put("shgxs", shgxs);
         }
-        jcyg.put("shgxs", shgxs);
         return jcyg;
     }
 
