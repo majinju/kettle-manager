@@ -1009,7 +1009,7 @@ Vue.component('my-srkj', {
 });
 </script>
 <script type="text/x-tp" id="my-input-tp">
-<div v-if="fieldshow" class="row form-group my-input" :class="'col-xs-'+(isCzd(field)?12:4)" 
+<div v-if="fieldshow" class="row form-group my-input" style="min-height:30px;" :class="'col-xs-'+(isCzd(field)?12:4)" 
 		:index="index" :value="value">
 	<label class="control-label" :class="'col-xs-'+labelLength()" 
 		:style="field.kzxxObj.bjymkz.labelStyle">
