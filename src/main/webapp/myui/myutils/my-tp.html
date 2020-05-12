@@ -621,7 +621,7 @@ Vue.component('my-inputn', {
                 showField: 'mc',
                 keyField: keyField,
                 searchField: "searchKey",
-                orderBy : ['px asc','dm asc','mc'],
+                orderBy : (this.field.zdfy=='1'?['px asc','dm asc','mc']:'dm'),
                 eAjaxSuccess: function(d){
                     return d;
                 },

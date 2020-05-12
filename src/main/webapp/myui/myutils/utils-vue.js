@@ -902,6 +902,7 @@ function myGzyz(value,rules,field){
                 continue;
             }
             var rr = rule.split(":");
+            //前端不进行如果则的规则校验
             if("rgz"!=rr[0]){
                 rules+=";"+rule;
             }
