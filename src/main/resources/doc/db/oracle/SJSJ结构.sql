@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2020-02-14 10:44:41
+Date: 2020-05-18 15:48:18
 */
 
 
@@ -78,7 +78,8 @@ CREATE TABLE "SJSJ"."JCGA_JCYG_JCXX" (
 "ZXYQFKZS" VARCHAR2(128 BYTE) NULL ,
 "JSDYWQZ" VARCHAR2(128 BYTE) NULL ,
 "RCJSCL" VARCHAR2(128 BYTE) NULL ,
-"SFTZ" VARCHAR2(128 BYTE) NULL 
+"SFTZ" VARCHAR2(128 BYTE) NULL ,
+"SJLY" VARCHAR2(128 BYTE) DEFAULT 'JCGA_JCYG_JCXX'  NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -145,6 +146,7 @@ COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_JCXX"."ZXYQFKZS" IS '是否知晓疫情防�
 COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_JCXX"."JSDYWQZ" IS '家属（包括但不限下列社会关系）中有无确诊人员@SYS_COMMON_LJPD';
 COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_JCXX"."RCJSCL" IS '日常驾驶车辆车牌号码';
 COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_JCXX"."SFTZ" IS '是否同住@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_JCXX"."SJLY" IS '数据来源';
 
 -- ----------------------------
 -- Table structure for JCGA_JCYG_SHGX
@@ -167,7 +169,8 @@ CREATE TABLE "SJSJ"."JCGA_JCYG_SHGX" (
 "YGBH" VARCHAR2(128 BYTE) NULL ,
 "BJHC" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
 "HJDZ" VARCHAR2(128 BYTE) NULL ,
-"BZ" VARCHAR2(1280 BYTE) NULL 
+"BZ" VARCHAR2(1280 BYTE) NULL ,
+"SFTZ" VARCHAR2(128 BYTE) NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -192,6 +195,526 @@ COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_SHGX"."YGBH" IS '员工编号';
 COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_SHGX"."BJHC" IS '背景核查';
 COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_SHGX"."HJDZ" IS '户籍地址';
 COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_SHGX"."BZ" IS '备注';
+COMMENT ON COLUMN "SJSJ"."JCGA_JCYG_SHGX"."SFTZ" IS '是否同住@SYS_COMMON_LJPD';
+
+-- ----------------------------
+-- Table structure for SYS_BDHC_GZ
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_BDHC_GZ";
+CREATE TABLE "SJSJ"."SYS_BDHC_GZ" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"MC" VARCHAR2(256 BYTE) NULL ,
+"MS" VARCHAR2(256 BYTE) NULL ,
+"DJ" VARCHAR2(256 BYTE) NULL ,
+"SSRW" VARCHAR2(32 BYTE) NULL ,
+"SSXM" VARCHAR2(256 BYTE) NULL ,
+"ZYLB" VARCHAR2(32 BYTE) NULL ,
+"HCFS" VARCHAR2(32 BYTE) NULL ,
+"SCMB" VARCHAR2(256 BYTE) NULL ,
+"SFSC" VARCHAR2(32 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_BDHC_GZ" IS '系统-比对核查-规则;配置比对核查的规则';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."MC" IS '名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."MS" IS '描述';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."DJ" IS '等级@SYS_COMMON_DJ;每个等级只配置一条规则，以高等级配置为准，低等级规则为补充规则';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."SSRW" IS '所属任务@SYS_BDHC_RW';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."SSXM" IS '所属项目@SYS_BDHC_XM';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."ZYLB" IS '资源类别@SYS_BDHC_ZY';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."HCFS" IS '核查方式@SYS_BDHC_HCFS;增量和全量';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."SCMB" IS '输出目标@SYS_SJGL_SJDX';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZ"."SFSC" IS '是否输出@SYS_COMMON_LJPD';
+
+-- ----------------------------
+-- Table structure for SYS_BDHC_GZZD
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_BDHC_GZZD";
+CREATE TABLE "SJSJ"."SYS_BDHC_GZZD" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"GZ" VARCHAR2(32 BYTE) NULL ,
+"SJZD" VARCHAR2(32 BYTE) NULL ,
+"HDYZGZ" VARCHAR2(256 BYTE) NULL ,
+"HDZHGZ" VARCHAR2(256 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_BDHC_GZZD" IS '系统-比对核查-规则字段';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."GZ" IS '规则;规则主键，标志该记录属于哪条规则';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."SJZD" IS '数据字段;字段代码';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."HDYZGZ" IS '后端验证规则;人工输入';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_GZZD"."HDZHGZ" IS '后端转换规则;人工输入';
+
+-- ----------------------------
+-- Table structure for SYS_BDHC_HM
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_BDHC_HM";
+CREATE TABLE "SJSJ"."SYS_BDHC_HM" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"MC" VARCHAR2(256 BYTE) NULL ,
+"MS" VARCHAR2(256 BYTE) NULL ,
+"LB" VARCHAR2(32 BYTE) NULL ,
+"SSRW" VARCHAR2(32 BYTE) NULL ,
+"SSXM" VARCHAR2(256 BYTE) NULL ,
+"HCZJLX" VARCHAR2(256 BYTE) NULL ,
+"HCZJHM" VARCHAR2(256 BYTE) NULL ,
+"QCBZ" VARCHAR2(256 BYTE) DEFAULT sys_guid()  NULL ,
+"ZZJLX" VARCHAR2(256 BYTE) NULL ,
+"ZZJHM" VARCHAR2(256 BYTE) NULL ,
+"KSSJ" VARCHAR2(32 BYTE) NULL ,
+"JSSJ" VARCHAR2(32 BYTE) NULL ,
+"BZ" VARCHAR2(4000 BYTE) NULL ,
+"HMYKZJ" VARCHAR2(32 BYTE) NULL ,
+"FLAG01" VARCHAR2(256 BYTE) NULL ,
+"FLAG02" VARCHAR2(256 BYTE) NULL ,
+"FLAG03" VARCHAR2(256 BYTE) NULL ,
+"FLAG04" VARCHAR2(256 BYTE) NULL ,
+"FLAG05" VARCHAR2(256 BYTE) NULL ,
+"FLAG06" VARCHAR2(256 BYTE) NULL ,
+"FLAG07" VARCHAR2(256 BYTE) NULL ,
+"FLAG08" VARCHAR2(256 BYTE) NULL ,
+"FLAG09" VARCHAR2(256 BYTE) NULL ,
+"FLAG10" VARCHAR2(256 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_BDHC_HM" IS '系统-比对核查-号码';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."MC" IS '名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."MS" IS '描述';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."LB" IS '类别;不用字典，存储中文，可以对应人员类别等信息';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."SSRW" IS '所属任务@SYS_BDHC_RW';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."SSXM" IS '所属项目@SYS_BDHC_XM';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."HCZJLX" IS '核查证件类型@SYS_BDHC_ZJLX;证件类型根据实际需求添加，如车辆比对，建议将车辆类型考虑到证件类型中来';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."HCZJHM" IS '核查证件号码;标准证件号码，方便识别';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."QCBZ" IS '去重标志;该去重标志将与资源的去重标志进行合并进行去重,应对场景：同一个人有身份证、手机、护照等证件纳入了核查系统，某类资源同时包含身份证和手机等其他证件号码，可能就会比对出重复记录。一般应为：项目-主证件类型-主证件号码，临控的话还需要增加申请单位';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."ZZJLX" IS '主证件类型@SYS_BDHC_ZJLX';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."ZZJHM" IS '主证件号码;便于主体识别';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."KSSJ" IS '开始时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."JSSJ" IS '结束时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."BZ" IS '备注';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."HMYKZJ" IS '号码源库主键;便于输出结果与源库数据关联';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG01" IS '备用信息01';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG02" IS '备用信息02';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG03" IS '备用信息03';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG04" IS '备用信息04';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG05" IS '备用信息05';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG06" IS '备用信息06';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG07" IS '备用信息07';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG08" IS '备用信息08';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG09" IS '备用信息09';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_HM"."FLAG10" IS '备用信息10';
+
+-- ----------------------------
+-- Table structure for SYS_BDHC_JG
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_BDHC_JG";
+CREATE TABLE "SJSJ"."SYS_BDHC_JG" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"ZYLB" VARCHAR2(32 BYTE) NULL ,
+"QCZD" VARCHAR2(4000 BYTE) NULL ,
+"HCZJLX" VARCHAR2(256 BYTE) NULL ,
+"HCZJHM" VARCHAR2(256 BYTE) NULL ,
+"ZZJLX" VARCHAR2(256 BYTE) NULL ,
+"ZZJHM" VARCHAR2(256 BYTE) NULL ,
+"HCHM" VARCHAR2(32 BYTE) NULL ,
+"HMYKZJ" VARCHAR2(32 BYTE) NULL ,
+"ZYYKZJ" VARCHAR2(32 BYTE) NULL ,
+"RYKSJ" VARCHAR2(32 BYTE) NULL ,
+"HCFS" VARCHAR2(32 BYTE) NULL ,
+"JD" VARCHAR2(256 BYTE) NULL ,
+"WD" VARCHAR2(256 BYTE) NULL ,
+"SFDMC" VARCHAR2(256 BYTE) NULL ,
+"SFDDM" VARCHAR2(64 BYTE) NULL ,
+"MDDMC" VARCHAR2(256 BYTE) NULL ,
+"MDDDM" VARCHAR2(64 BYTE) NULL ,
+"HDFSSJ" VARCHAR2(14 BYTE) NULL ,
+"HDFSDDQH" VARCHAR2(32 BYTE) NULL ,
+"HDFSDDXZ" VARCHAR2(100 BYTE) NULL ,
+"HDFSDDSSSHCS" VARCHAR2(120 BYTE) NULL ,
+"HDFSDDSSSHCSDM" VARCHAR2(32 BYTE) NULL ,
+"HDFSDDSSGAJG" VARCHAR2(128 BYTE) NULL ,
+"HDFSDDSSGAJGJGDM" VARCHAR2(32 BYTE) NULL ,
+"DJZJLX" VARCHAR2(8 BYTE) NULL ,
+"DJZJHM" VARCHAR2(64 BYTE) NULL ,
+"DJXM" VARCHAR2(64 BYTE) NULL ,
+"DJWWXM" VARCHAR2(80 BYTE) NULL ,
+"DJXB" VARCHAR2(8 BYTE) NULL ,
+"DJCSRQ" VARCHAR2(8 BYTE) NULL ,
+"HDXGXX" CLOB NULL ,
+"DTXXTGDW" VARCHAR2(128 BYTE) NULL ,
+"DTXXTGDWJGDM" VARCHAR2(32 BYTE) NULL ,
+"FLAG01" VARCHAR2(1024 BYTE) NULL ,
+"FLAG02" VARCHAR2(1024 BYTE) NULL ,
+"FLAG03" VARCHAR2(4000 BYTE) NULL ,
+"FLAG04" VARCHAR2(1024 BYTE) NULL ,
+"FLAG05" VARCHAR2(1024 BYTE) NULL ,
+"FLAG06" VARCHAR2(1024 BYTE) NULL ,
+"FLAG07" VARCHAR2(1024 BYTE) NULL ,
+"FLAG08" VARCHAR2(1024 BYTE) NULL ,
+"FLAG09" VARCHAR2(1024 BYTE) NULL ,
+"FLAG10" VARCHAR2(1024 BYTE) NULL ,
+"FLAG11" VARCHAR2(1024 BYTE) NULL ,
+"FLAG12" VARCHAR2(1024 BYTE) NULL ,
+"FLAG13" VARCHAR2(1024 BYTE) NULL ,
+"FLAG14" VARCHAR2(1024 BYTE) NULL ,
+"FLAG15" VARCHAR2(1024 BYTE) NULL ,
+"FLAG16" VARCHAR2(1024 BYTE) NULL ,
+"FLAG17" VARCHAR2(1024 BYTE) NULL ,
+"FLAG18" VARCHAR2(1024 BYTE) NULL ,
+"FLAG19" VARCHAR2(1024 BYTE) NULL ,
+"FLAG20" VARCHAR2(1024 BYTE) NULL ,
+"FLAG21" VARCHAR2(1024 BYTE) NULL ,
+"FLAG22" VARCHAR2(1024 BYTE) NULL ,
+"FLAG23" VARCHAR2(1024 BYTE) NULL ,
+"FLAG24" VARCHAR2(1024 BYTE) NULL ,
+"FLAG25" VARCHAR2(1024 BYTE) NULL ,
+"FLAG26" VARCHAR2(1024 BYTE) NULL ,
+"FLAG27" VARCHAR2(1024 BYTE) NULL ,
+"FLAG28" VARCHAR2(1024 BYTE) NULL ,
+"FLAG29" VARCHAR2(1024 BYTE) NULL ,
+"FLAG30" VARCHAR2(1024 BYTE) NULL ,
+"FLAG31" VARCHAR2(1024 BYTE) NULL ,
+"FLAG32" VARCHAR2(1024 BYTE) NULL ,
+"FLAG33" VARCHAR2(1024 BYTE) NULL ,
+"FLAG34" VARCHAR2(1024 BYTE) NULL ,
+"FLAG35" VARCHAR2(1024 BYTE) NULL ,
+"FLAG36" VARCHAR2(1024 BYTE) NULL ,
+"FLAG37" VARCHAR2(1024 BYTE) NULL ,
+"FLAG38" VARCHAR2(1024 BYTE) NULL ,
+"FLAG39" VARCHAR2(1024 BYTE) NULL ,
+"FLAG40" VARCHAR2(1024 BYTE) NULL ,
+"HDXGWJ" BLOB NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_BDHC_JG" IS '系统-比对核查-结果;正式环境请采用分区表';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."ZYLB" IS '资源类别@SYS_BDHC_ZY';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."QCZD" IS '去重字段;支持多字段组合成业务去重字段对核查结果进行去重';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HCZJLX" IS '核查证件类型@SYS_BDHC_ZJLX;证件类型根据实际需求添加，如车辆比对，建议将车辆类型考虑到证件类型中来';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HCZJHM" IS '核查证件号码;标准证件号码，方便识别';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."ZZJLX" IS '主证件类型@SYS_BDHC_ZJLX';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."ZZJHM" IS '主证件号码;便于主体识别';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HCHM" IS '核查号码;存储号码主键用于与号码进行关联';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HMYKZJ" IS '号码源库主键;便于输出结果与源库数据关联';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."ZYYKZJ" IS '资源源库主键;核查的信息在源库的主键，便于回溯倒查';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."RYKSJ" IS '入源库时间;资源入源库时间，便于分析核查时差';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HCFS" IS '核查方式@SYS_BDHC_HCFS;增量和全量';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."JD" IS '经度';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."WD" IS '纬度';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."SFDMC" IS '始发地名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."SFDDM" IS '始发地代码';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."MDDMC" IS '目的地名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."MDDDM" IS '目的地代码';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDFSSJ" IS '活动发生的时间;格式YYYYMMDDhhmmss，24小时格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDFSDDQH" IS '活动发生地点区划;采用GA/Z 02 D4001';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDFSDDXZ" IS '活动发生地点详址';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDFSDDSSSHCS" IS '活动场所名称;活动发生地点所属的社会场所';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDFSDDSSSHCSDM" IS '活动场所代码;活动发生地点所属社会场所代码';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDFSDDSSGAJG" IS '活动辖区公安名称;活动发生地点的辖区公安机关，采用GA/Z 02 D3006';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDFSDDSSGAJGJGDM" IS '活动辖区公安代码;活动发生地点所属公安机关机构代码，采用GA/Z 02 D3000';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DJZJLX" IS '活动登记证件类型;活动发生时该人所持身份证明证件类型，采用GA/Z 02 D2008';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DJZJHM" IS '活动登记证件号码;活动发生时该人所持身份证明证件号码';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DJXM" IS '活动登记中文名;活动发生时该人所持身份证明证件上的中文姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DJWWXM" IS '活动登记英文名;活动发生时该人所持身份证明证件上的英文姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DJXB" IS '活动登记性别;活动发生时该人所持身份证明证件上的性别，采用GA/Z 02 D1006';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DJCSRQ" IS '活动登记出生日期;活动发生时该人所持身份证明证件上的出生日期，采用GA/Z 02 D1007，格式：YYYYMMDD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDXGXX" IS '活动相关信息;人员活动的相关情况信息，内容为json串，会单独拆分到flag01到flag40中';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DTXXTGDW" IS '动态信息提供单位名称;提供动态信息的公安机关单位，采用GA/Z 02 D3006';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."DTXXTGDWJGDM" IS '动态信息提供单位代码;动态信息提供单位机构代码，采用GA/Z 02 D3000';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG01" IS '备用信息01';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG02" IS '备用信息02';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG03" IS '备用信息03';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG04" IS '备用信息04';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG05" IS '备用信息05';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG06" IS '备用信息06';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG07" IS '备用信息07';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG08" IS '备用信息08';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG09" IS '备用信息09';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG10" IS '备用信息10';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG11" IS '备用信息11';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG12" IS '备用信息12';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG13" IS '备用信息13';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG14" IS '备用信息14';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG15" IS '备用信息15';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG16" IS '备用信息16';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG17" IS '备用信息17';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG18" IS '备用信息18';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG19" IS '备用信息19';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG20" IS '备用信息20';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG21" IS '备用信息21';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG22" IS '备用信息22';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG23" IS '备用信息23';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG24" IS '备用信息24';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG25" IS '备用信息25';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG26" IS '备用信息26';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG27" IS '备用信息27';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG28" IS '备用信息28';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG29" IS '备用信息29';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG30" IS '备用信息30';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG31" IS '备用信息31';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG32" IS '备用信息32';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG33" IS '备用信息33';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG34" IS '备用信息34';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG35" IS '备用信息35';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG36" IS '备用信息36';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG37" IS '备用信息37';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG38" IS '备用信息38';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG39" IS '备用信息39';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."FLAG40" IS '备用信息40';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_JG"."HDXGWJ" IS '活动相关文件;所有文件类信息存储到该字段中，多个文件请进行压缩处理';
+
+-- ----------------------------
+-- Table structure for SYS_BDHC_RW
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_BDHC_RW";
+CREATE TABLE "SJSJ"."SYS_BDHC_RW" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"CJRLXFS" VARCHAR2(256 BYTE) NULL ,
+"SQSJ" VARCHAR2(32 BYTE) NULL ,
+"MC" VARCHAR2(256 BYTE) NULL ,
+"MS" VARCHAR2(256 BYTE) NULL ,
+"SSXM" VARCHAR2(256 BYTE) NULL ,
+"SY" VARCHAR2(4000 BYTE) NULL ,
+"BDZY" VARCHAR2(4000 BYTE) NULL ,
+"PCZY" VARCHAR2(4000 BYTE) NULL ,
+"FHZY" VARCHAR2(4000 BYTE) NULL ,
+"JCZY" VARCHAR2(32 BYTE) DEFAULT '1'  NULL ,
+"BZ" VARCHAR2(4000 BYTE) NULL ,
+"SHRXM" VARCHAR2(256 BYTE) NULL ,
+"SHRZJHM" VARCHAR2(256 BYTE) NULL ,
+"SHDW" VARCHAR2(256 BYTE) NULL ,
+"SHSJ" VARCHAR2(32 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_BDHC_RW" IS '系统-比对核查-任务';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."CJRLXFS" IS '创建人联系方式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."SQSJ" IS '申请时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."MC" IS '名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."MS" IS '描述';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."SSXM" IS '所属项目@SYS_BDHC_XM';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."SY" IS '事由';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."BDZY" IS '比对资源@SYS_BDHC_ZY;特例配置';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."PCZY" IS '排除资源@SYS_BDHC_ZY;特例配置';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."FHZY" IS '复核资源@SYS_BDHC_ZY;用于新增了一类全量比对资源，对历史数据进行复核，复核完成后系统会自动清空该值';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."JCZY" IS '基础资源@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."BZ" IS '备注';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."SHRXM" IS '审核人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."SHRZJHM" IS '审核人证件号码';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."SHDW" IS '审核单位';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_RW"."SHSJ" IS '审核时间';
+
+-- ----------------------------
+-- Table structure for SYS_BDHC_XM
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_BDHC_XM";
+CREATE TABLE "SJSJ"."SYS_BDHC_XM" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"MC" VARCHAR2(256 BYTE) NULL ,
+"MS" VARCHAR2(256 BYTE) NULL ,
+"LB" VARCHAR2(256 BYTE) NULL ,
+"DJ" VARCHAR2(32 BYTE) DEFAULT '06'  NULL ,
+"BDZY" VARCHAR2(4000 BYTE) NULL ,
+"PCZY" VARCHAR2(4000 BYTE) NULL ,
+"ZL" VARCHAR2(32 BYTE) NULL ,
+"QL" VARCHAR2(32 BYTE) NULL ,
+"SSDW" VARCHAR2(256 BYTE) NULL ,
+"SCMB" VARCHAR2(256 BYTE) NULL ,
+"BZ" VARCHAR2(4000 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_BDHC_XM" IS '系统-比对核查-项目';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."MC" IS '名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."MS" IS '描述';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."LB" IS '类别@SYS_BDHC_XMLB';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."DJ" IS '等级@SYS_COMMON_DJ;默认只比对该等级以内（设置等级到9级）的资源';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."BDZY" IS '比对资源@SYS_BDHC_ZY;特例配置';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."PCZY" IS '排除资源@SYS_BDHC_ZY;特例配置';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."ZL" IS '增量@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."QL" IS '全量@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."SSDW" IS '所属单位';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."SCMB" IS '输出目标@SYS_SJGL_SJDX;系统默认目标表默认都要存储';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_XM"."BZ" IS '备注';
+
+-- ----------------------------
+-- Table structure for SYS_BDHC_ZY
+-- ----------------------------
+DROP TABLE "SJSJ"."SYS_BDHC_ZY";
+CREATE TABLE "SJSJ"."SYS_BDHC_ZY" (
+"ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
+"CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
+"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"PX" NUMBER DEFAULT 99999  NULL ,
+"KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
+"CJRXM" VARCHAR2(64 BYTE) NULL ,
+"CJRDM" VARCHAR2(32 BYTE) NULL ,
+"CJRDWMC" VARCHAR2(256 BYTE) NULL ,
+"CJRDWDM" VARCHAR2(32 BYTE) NULL ,
+"MC" VARCHAR2(256 BYTE) NULL ,
+"MS" VARCHAR2(256 BYTE) NULL ,
+"DL" VARCHAR2(32 BYTE) NULL ,
+"XL" VARCHAR2(32 BYTE) NULL ,
+"DM" VARCHAR2(32 BYTE) NULL ,
+"DJ" VARCHAR2(32 BYTE) DEFAULT '06'  NULL ,
+"SJDX" VARCHAR2(32 BYTE) NULL ,
+"SJZT" VARCHAR2(32 BYTE) NULL ,
+"HCYJ" VARCHAR2(4000 BYTE) NULL ,
+"BZ" VARCHAR2(4000 BYTE) NULL ,
+"GXPL" VARCHAR2(256 BYTE) NULL 
+)
+LOGGING
+NOCOMPRESS
+NOCACHE
+
+;
+COMMENT ON TABLE "SJSJ"."SYS_BDHC_ZY" IS '系统-比对核查-资源';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."ID" IS '主键';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."CJSJ" IS '创建时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."GXSJ" IS '更新时间';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."YXX" IS '有效性@SYS_COMMON_LJPD';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."PX" IS '排序';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."KZXX" IS '扩展信息;JSON格式';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."CJRXM" IS '创建人姓名';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."CJRDM" IS '创建人代码@SYS_COMMON_USER';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."CJRDWMC" IS '创建人单位名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."CJRDWDM" IS '创建人单位代码@SYS_COMMON_ORG';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."MC" IS '名称';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."MS" IS '描述';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."DL" IS '大类@SYS_BDHC_ZYDL';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."XL" IS '细类@SYS_BDHC_ZYXL';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."DM" IS '代码;动态信息类别';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."DJ" IS '等级@SYS_COMMON_DJ;从高到低为1~10，按每三级分为高中低，一些较少使用的资源就设置为10级，10级默认不比对，只有在比对组或比对号码的比对资源中明确设置才生效，系统默认6级';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."SJDX" IS '数据对象@SYS_SJGL_SJDX';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."SJZT" IS '数据载体@SYS_COMMON_SJZT';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."HCYJ" IS '核查语句;采用模板形式，参数化满足增量、全量等需求场景';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."BZ" IS '备注';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."GXPL" IS '更新频率';
 
 -- ----------------------------
 -- Table structure for SYS_LOG_FWZR
@@ -748,7 +1271,7 @@ CREATE TABLE "SJSJ"."SYS_QX_YHJSGL" (
 "YH" VARCHAR2(32 BYTE) NULL ,
 "JS" VARCHAR2(32 BYTE) NULL ,
 "BZ" VARCHAR2(256 BYTE) NULL ,
-"SHZT" VARCHAR2(32 BYTE) DEFAULT 9  NULL ,
+"SHZT" VARCHAR2(32 BYTE) DEFAULT 2  NULL ,
 "SHDJ" VARCHAR2(32 BYTE) DEFAULT 0  NULL 
 )
 LOGGING
@@ -810,8 +1333,8 @@ CREATE TABLE "SJSJ"."SYS_QX_YHXX" (
 "BZ" VARCHAR2(1024 BYTE) NULL ,
 "TX" VARCHAR2(32 BYTE) NULL ,
 "XZIP" VARCHAR2(1024 BYTE) NULL ,
-"SHZT" VARCHAR2(32 BYTE) DEFAULT 9  NULL ,
-"SHDJ" VARCHAR2(32 BYTE) DEFAULT 0  NULL 
+"SHZT" VARCHAR2(32 BYTE) DEFAULT 2  NULL ,
+"SHDJ" VARCHAR2(32 BYTE) DEFAULT '01'  NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -1079,7 +1602,8 @@ CREATE TABLE "SJSJ"."SYS_SJGL_SJDX" (
 "SQLMB" CLOB NULL ,
 "CXLBKZ" CLOB NULL ,
 "BJYMKZ" CLOB NULL ,
-"PLYMKZ" CLOB NULL 
+"PLYMKZ" CLOB NULL ,
+"ZYDJ" VARCHAR2(8 BYTE) DEFAULT '06'  NULL 
 )
 ENABLE ROW MOVEMENT
 LOGGING
@@ -1131,6 +1655,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJDX"."SQLMB" IS 'SQL模板;用于扩展后�
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJDX"."CXLBKZ" IS '查询列表扩展;可以扩展成各种基于数据查询的展示页面。';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJDX"."BJYMKZ" IS '编辑页面扩展;涵盖新增、修改、详情';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJDX"."PLYMKZ" IS '批量页面扩展;主要用于扩展批量上传页面';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJDX"."ZYDJ" IS '资源等级@SYS_SJGL_ZYGJ;从高到低为1~10，按每三级分为高中低，一些较少使用的资源就设置为10级，10级默认不使用，需要使用时，需要特殊配置，系统默认6级';
 
 -- ----------------------------
 -- Table structure for SYS_SJGL_SJZD
@@ -1145,8 +1670,8 @@ CREATE TABLE "SJSJ"."SYS_SJGL_SJZD" (
 "KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
 "SJDX" VARCHAR2(32 BYTE) NULL ,
 "ZDDM" VARCHAR2(32 BYTE) NULL ,
-"ZDMC" VARCHAR2(128 BYTE) NULL ,
-"ZDMS" VARCHAR2(256 BYTE) NULL ,
+"ZDMC" VARCHAR2(512 BYTE) NULL ,
+"ZDMS" VARCHAR2(1024 BYTE) NULL ,
 "ZDJP" VARCHAR2(256 BYTE) NULL ,
 "ZDQP" VARCHAR2(1024 BYTE) NULL ,
 "ZDLX" VARCHAR2(32 BYTE) NULL ,
@@ -1180,7 +1705,8 @@ CREATE TABLE "SJSJ"."SYS_SJGL_SJZD" (
 "QCBH" NUMBER NULL ,
 "BZZD" VARCHAR2(32 BYTE) NULL ,
 "MBZS" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
-"HDZHGZ" VARCHAR2(256 BYTE) NULL 
+"HDZHGZ" VARCHAR2(256 BYTE) NULL ,
+"ZYDJ" VARCHAR2(8 BYTE) DEFAULT '06'  NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -1232,6 +1758,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJZD"."QCBH" IS '去重编号';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJZD"."BZZD" IS '标准字段';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJZD"."MBZS" IS '模板展示@SYS_COMMON_LJPD';
 COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJZD"."HDZHGZ" IS '后端转换规则;人工输入';
+COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJZD"."ZYDJ" IS '资源等级@SYS_SJGL_ZYGJ;从高到低为1~10，按每三级分为高中低，一些较少使用的资源就设置为10级，10级默认不使用，需要使用时，需要特殊配置，系统默认6级';
 
 -- ----------------------------
 -- Table structure for SYS_SJGL_SJZT
@@ -1560,7 +2087,8 @@ CREATE TABLE "SJSJ"."SYS_YXJK_JKRW" (
 "RWLB" VARCHAR2(32 BYTE) DEFAULT '99'  NULL ,
 "RWPCH" VARCHAR2(64 BYTE) NULL ,
 "RWDM" VARCHAR2(64 BYTE) NOT NULL ,
-"RWDS" VARCHAR2(64 BYTE) NULL 
+"RWDS" VARCHAR2(64 BYTE) NULL ,
+"YCLX" VARCHAR2(64 BYTE) NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -1596,6 +2124,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_YXJK_JKRW"."RWLB" IS '任务类别;人工业务上
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_JKRW"."RWPCH" IS '任务批次号';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_JKRW"."RWDM" IS '任务代码';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_JKRW"."RWDS" IS '任务定时;为空表示持续执行';
+COMMENT ON COLUMN "SJSJ"."SYS_YXJK_JKRW"."YCLX" IS '异常类型@SYS_YXJK_YCLX';
 
 -- ----------------------------
 -- Table structure for SYS_YXJK_XX
@@ -1611,7 +2140,8 @@ CREATE TABLE "SJSJ"."SYS_YXJK_XX" (
 "XXLX" VARCHAR2(32 BYTE) NULL ,
 "YCYY" VARCHAR2(4000 BYTE) NULL ,
 "XXNR" VARCHAR2(256 BYTE) NULL ,
-"XXDJ" VARCHAR2(32 BYTE) NULL 
+"XXDJ" VARCHAR2(32 BYTE) NULL ,
+"YCLX" VARCHAR2(64 BYTE) NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -1629,6 +2159,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_YXJK_XX"."XXLX" IS '消息类型@SYS_YXJK_XXLX;异
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_XX"."YCYY" IS '异常原因;监控系统生成，实际异常信息，具体问题定位';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_XX"."XXNR" IS '消息内容;通过消息模板生成';
 COMMENT ON COLUMN "SJSJ"."SYS_YXJK_XX"."XXDJ" IS '消息等级@SYS_COMMON_JJCD';
+COMMENT ON COLUMN "SJSJ"."SYS_YXJK_XX"."YCLX" IS '异常类型@SYS_YXJK_YCLX';
 
 -- ----------------------------
 -- Table structure for SYS_YXJK_ZDYSQL
@@ -1725,6 +2256,217 @@ COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."XGCS" IS '相关参数';
 COMMENT ON COLUMN "SJSJ"."TEMP_LOG_FWZR"."TOKEN" IS '权限id';
 
 -- ----------------------------
+-- View structure for V_SYS_BDHC_HM
+-- ----------------------------
+CREATE OR REPLACE FORCE VIEW "SJSJ"."V_SYS_BDHC_HM" AS 
+select hm."ID",
+       hm."CJSJ",
+       hm."GXSJ",
+       hm."YXX",
+       hm."PX",
+       hm."KZXX",
+       hm."MC",
+       hm."MS",
+       hm."LB",
+       hm."SSRW",
+       hm."SSXM",
+       hm."HCZJLX",
+       hm."HCZJHM",
+       hm."QCBZ",
+       hm."ZZJLX",
+       hm."ZZJHM",
+       hm."KSSJ",
+       hm."JSSJ",
+       hm."BZ",
+       hm."HMYKZJ",
+       hm."FLAG01",
+       hm."FLAG02",
+       hm."FLAG03",
+       hm."FLAG04",
+       hm."FLAG05",
+       hm."FLAG06",
+       hm."FLAG07",
+       hm."FLAG08",
+       hm."FLAG09",
+       hm."FLAG10",
+       rw.cjsj     rw_cjsj,
+       rw.gxsj     rw_gxsj,
+       rw.yxx      rw_yxx,
+       rw.px       rw_px,
+       rw.kzxx     rw_kzxx,
+       rw.cjrxm    rw_cjrxm,
+       rw.cjrdm    rw_cjrdm,
+       rw.cjrdwmc  rw_cjrdwmc,
+       rw.cjrdwdm  rw_cjrdwdm,
+       rw.cjrlxfs  rw_cjrlxfs,
+       rw.sqsj     rw_sqsj,
+       rw.mc       rw_mc,
+       rw.ms       rw_ms,
+       rw.ssxm     rw_ssxm,
+       rw.sy       rw_sy,
+       rw.bdzy     rw_bdzy,
+       rw.pczy     rw_pczy,
+       rw.fhzy     rw_fhzy,
+       rw.jczy     rw_jczy,
+       rw.bz       rw_bz,
+       rw.shrxm    rw_shrxm,
+       rw.shrzjhm  rw_shrzjhm,
+       rw.shdw     rw_shdw,
+       rw.shsj     rw_shsj
+  from sys_bdhc_hm hm
+ inner join sys_bdhc_rw rw
+    on hm.ssrw = rw.id
+/**
+系统-比对核查-号码关联视图
+**/;
+
+-- ----------------------------
+-- View structure for V_SYS_BDHC_JG
+-- ----------------------------
+CREATE OR REPLACE FORCE VIEW "SJSJ"."V_SYS_BDHC_JG" AS 
+select jg."ID",
+       jg."CJSJ",
+       jg."GXSJ",
+       jg."YXX",
+       jg."PX",
+       jg."KZXX",
+       jg."ZYLB",
+       jg."QCZD",
+       jg."HCZJLX",
+       jg."HCZJHM",
+       jg."ZZJLX",
+       jg."ZZJHM",
+       jg."HCHM",
+       jg."HMYKZJ",
+       jg."ZYYKZJ",
+       jg."RYKSJ",
+       jg."HCFS",
+       jg."JD",
+       jg."WD",
+       jg."SFDMC",
+       jg."SFDDM",
+       jg."MDDMC",
+       jg."MDDDM",
+       jg."HDFSSJ",
+       jg."HDFSDDQH",
+       jg."HDFSDDXZ",
+       jg."HDFSDDSSSHCS",
+       jg."HDFSDDSSSHCSDM",
+       jg."HDFSDDSSGAJG",
+       jg."HDFSDDSSGAJGJGDM",
+       jg."DJZJLX",
+       jg."DJZJHM",
+       jg."DJXM",
+       jg."DJWWXM",
+       jg."DJXB",
+       jg."DJCSRQ",
+       jg."HDXGXX",
+       jg."DTXXTGDW",
+       jg."DTXXTGDWJGDM",
+       jg."FLAG01",
+       jg."FLAG02",
+       jg."FLAG03",
+       jg."FLAG04",
+       jg."FLAG05",
+       jg."FLAG06",
+       jg."FLAG07",
+       jg."FLAG08",
+       jg."FLAG09",
+       jg."FLAG10",
+       jg."FLAG11",
+       jg."FLAG12",
+       jg."FLAG13",
+       jg."FLAG14",
+       jg."FLAG15",
+       jg."FLAG16",
+       jg."FLAG17",
+       jg."FLAG18",
+       jg."FLAG19",
+       jg."FLAG20",
+       jg."FLAG21",
+       jg."FLAG22",
+       jg."FLAG23",
+       jg."FLAG24",
+       jg."FLAG25",
+       jg."FLAG26",
+       jg."FLAG27",
+       jg."FLAG28",
+       jg."FLAG29",
+       jg."FLAG30",
+       jg."FLAG31",
+       jg."FLAG32",
+       jg."FLAG33",
+       jg."FLAG34",
+       jg."FLAG35",
+       jg."FLAG36",
+       jg."FLAG37",
+       jg."FLAG38",
+       jg."FLAG39",
+       jg."FLAG40",
+       jg."HDXGWJ",
+       hm.cjsj               hm_cjsj,
+       hm.gxsj               hm_gxsj,
+       hm.yxx                hm_yxx,
+       hm.px                 hm_px,
+       hm.kzxx               hm_kzxx,
+       hm.mc                 hm_mc,
+       hm.ms                 hm_ms,
+       hm.lb                 hm_lb,
+       hm.ssrw               hm_ssrw,
+       hm.ssxm               hm_ssxm,
+       hm.hczjlx             hm_hczjlx,
+       hm.hczjhm             hm_hczjhm,
+       hm.qcbz               hm_qcbz,
+       hm.zzjlx              hm_zzjlx,
+       hm.zzjhm              hm_zzjhm,
+       hm.kssj               hm_kssj,
+       hm.jssj               hm_jssj,
+       hm.bz                 hm_bz,
+       hm.hmykzj             hm_hmykzj,
+       hm.flag01             hm_flag01,
+       hm.flag02             hm_flag02,
+       hm.flag03             hm_flag03,
+       hm.flag04             hm_flag04,
+       hm.flag05             hm_flag05,
+       hm.flag06             hm_flag06,
+       hm.flag07             hm_flag07,
+       hm.flag08             hm_flag08,
+       hm.flag09             hm_flag09,
+       hm.flag10             hm_flag10,
+       rw.cjsj               rw_cjsj,
+       rw.gxsj               rw_gxsj,
+       rw.yxx                rw_yxx,
+       rw.px                 rw_px,
+       rw.kzxx               rw_kzxx,
+       rw.cjrxm              rw_cjrxm,
+       rw.cjrdm              rw_cjrdm,
+       rw.cjrdwmc            rw_cjrdwmc,
+       rw.cjrdwdm            rw_cjrdwdm,
+       rw.cjrlxfs            rw_cjrlxfs,
+       rw.sqsj               rw_sqsj,
+       rw.mc                 rw_mc,
+       rw.ms                 rw_ms,
+       rw.ssxm               rw_ssxm,
+       rw.sy                 rw_sy,
+       rw.bdzy               rw_bdzy,
+       rw.pczy               rw_pczy,
+       rw.fhzy               rw_fhzy,
+       rw.jczy               rw_jczy,
+       rw.bz                 rw_bz,
+       rw.shrxm              rw_shrxm,
+       rw.shrzjhm            rw_shrzjhm,
+       rw.shdw               rw_shdw,
+       rw.shsj               rw_shsj
+  from SYS_BDHC_JG jg
+ inner join sys_bdhc_hm hm
+    on hm.id = jg.hchm
+ inner join sys_bdhc_rw rw
+    on hm.ssrw = rw.id
+/**
+系统-比对核查-比对结果关联视图
+**/;
+
+-- ----------------------------
 -- View structure for V_XNDX
 -- ----------------------------
 CREATE OR REPLACE FORCE VIEW "SJSJ"."V_XNDX" AS 
@@ -1812,6 +2554,144 @@ ALTER TABLE "SJSJ"."JCGA_JCYG_SHGX" ADD CHECK ("ID" IS NOT NULL);
 -- Primary Key structure for table JCGA_JCYG_SHGX
 -- ----------------------------
 ALTER TABLE "SJSJ"."JCGA_JCYG_SHGX" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table SYS_BDHC_GZ
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table SYS_BDHC_GZ
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_GZ" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_BDHC_GZ
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_GZ" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table SYS_BDHC_GZZD
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table SYS_BDHC_GZZD
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_GZZD" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_BDHC_GZZD
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_GZZD" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table SYS_BDHC_HM
+-- ----------------------------
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_HM_GXSJ"
+ON "SJSJ"."SYS_BDHC_HM" ("GXSJ" ASC)
+LOGGING
+VISIBLE;
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_HM_HCZJHM"
+ON "SJSJ"."SYS_BDHC_HM" ("HCZJHM" ASC)
+LOGGING
+VISIBLE;
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_HM_HCZJLX"
+ON "SJSJ"."SYS_BDHC_HM" ("HCZJLX" ASC)
+LOGGING
+VISIBLE;
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_HM_JSSJ"
+ON "SJSJ"."SYS_BDHC_HM" ("JSSJ" ASC)
+LOGGING
+VISIBLE;
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_HM_ZZJHM"
+ON "SJSJ"."SYS_BDHC_HM" ("ZZJHM" ASC)
+LOGGING
+VISIBLE;
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_HM_ZZJLX"
+ON "SJSJ"."SYS_BDHC_HM" ("ZZJLX" ASC)
+LOGGING
+VISIBLE;
+
+-- ----------------------------
+-- Checks structure for table SYS_BDHC_HM
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_HM" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_BDHC_HM
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_HM" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table SYS_BDHC_JG
+-- ----------------------------
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_JG_CJSJ"
+ON "SJSJ"."SYS_BDHC_JG" ("CJSJ" ASC)
+LOGGING
+VISIBLE;
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_JG_GXSJ"
+ON "SJSJ"."SYS_BDHC_JG" ("GXSJ" ASC)
+LOGGING
+VISIBLE;
+CREATE INDEX "SJSJ"."IDX_SYS_BDHC_JG_HCHM"
+ON "SJSJ"."SYS_BDHC_JG" ("HCHM" ASC)
+LOGGING
+VISIBLE;
+CREATE UNIQUE INDEX "SJSJ"."IDX_SYS_BDHC_JG_QCZD"
+ON "SJSJ"."SYS_BDHC_JG" ("QCZD" ASC)
+LOGGING
+VISIBLE;
+
+-- ----------------------------
+-- Checks structure for table SYS_BDHC_JG
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_JG" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_BDHC_JG
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_JG" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table SYS_BDHC_RW
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table SYS_BDHC_RW
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_RW" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_BDHC_RW
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_RW" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table SYS_BDHC_XM
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table SYS_BDHC_XM
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_XM" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_BDHC_XM
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_XM" ADD PRIMARY KEY ("ID");
+
+-- ----------------------------
+-- Indexes structure for table SYS_BDHC_ZY
+-- ----------------------------
+
+-- ----------------------------
+-- Checks structure for table SYS_BDHC_ZY
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_ZY" ADD CHECK ("ID" IS NOT NULL);
+
+-- ----------------------------
+-- Primary Key structure for table SYS_BDHC_ZY
+-- ----------------------------
+ALTER TABLE "SJSJ"."SYS_BDHC_ZY" ADD PRIMARY KEY ("ID");
 
 -- ----------------------------
 -- Indexes structure for table SYS_LOG_FWZR
