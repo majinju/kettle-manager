@@ -1,24 +1,55 @@
 --导出之前清理日志表
---truncate table  SYS_LOG_FWZR;
---truncate table  SYS_LOG_HTRZ;
+/*
+truncate table  SYS_LOG_FWZR;
+truncate table  TEMP_LOG_FWZR;
+truncate table  SYS_LOG_HTRZ;
+truncate table  SYS_LOG_SJLZRZ;
+truncate table  SYS_LOG_SJSCCW;
+truncate table  SYS_BDHC_JG;
+truncate table  SYS_BDHC_WXJG;
+*/
+
+--清除删除的权限的授权信息
+select * 
+--delete
+from sys_qx_jsqxgl t 
+where not exists (
+select 1 from sys_qx_qxxx q where q.dm=t.qx
+)
+
 
 ----------密码加密解密-------
+select des_en('123456','123asdzxc') from dual;
 select des_en('zxcvbnm,.','123asdzxc') from dual;
 --数据载体
 --update sys_sjgl_sjzt t set t.mm=des_en(t.mm,'5zIcmw5qVZs=');
 select des_de(t.mm,'5zIcmw5qVZs='),t.* from sys_sjgl_sjzt t;
-
 --用户
 --update sys_qx_yhxx t set t.yhmm=des_en(t.yhmm,'YA3EPe3fj/XrUtXDBr0y/Q==');
 select des_de(t.yhmm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_yhxx t;
-
 --应用
 --update sys_qx_app t set t.mm=des_en(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q==') where t.mm is not null;
 select des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_app t;
-
 --服务器
 --update sys_qx_fwq t set t.mm=des_en(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q==') where t.mm is not null;
 select des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_fwq t;
+
+--修改一级密码
+--数据载体
+select des_en(des_de(t.mm,des_en('123456','123asdzxc')),des_en('123456','1qaz2wsx3')) xmm,des_de(t.mm,'5zIcmw5qVZs=') zmm,t.* from sys_sjgl_sjzt t where t.mm is not null;
+--用户
+select des_en(des_de(t.yhmm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) xmm,des_de(t.yhmm,'YA3EPe3fj/XrUtXDBr0y/Q==') zmm,t.* from sys_qx_yhxx t where t.yhmm is not null;
+--应用
+select des_en(des_de(t.mm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) xmm,des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q==') zmm,t.* from sys_qx_app t where t.mm is not null;
+--服务器
+select des_en(des_de(t.mm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) xmm,des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q==') zmm,t.* from sys_qx_fwq t where t.mm is not null;
+/**
+--执行密码一级密码修改操作
+update sys_sjgl_sjzt t set t.mm=des_en(des_de(t.mm,des_en('123456','123asdzxc')),des_en('123456','1qaz2wsx3')) where t.mm is not null;
+update sys_qx_yhxx t set t.yhmm=des_en(des_de(t.yhmm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) where t.yhmm is not null;
+update sys_qx_app t set t.mm=des_en(des_de(t.mm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) where t.mm is not null;
+update sys_qx_fwq t set t.mm=des_en(des_de(t.mm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) where t.mm is not null;
+*/
 
 
 --因为Navicat导出没有导出主键，需要单独执行此语句建立主键
@@ -49,60 +80,6 @@ alter table SYS_YXJK_XX     add constraint PK_SYS_YXJK_XX     primary key (ID);
 alter table SYS_YXJK_ZDYSQL add constraint PK_SYS_YXJK_ZDYSQL primary key (ID);
 alter table sys_sjgl_blob add constraint PK_sys_sjgl_blob primary key (ID);
 alter table SYS_SJGL_GRBJ add constraint PK_SYS_SJGL_GRBJ primary key (ID);
-
---批量给数据对象添加基础权限
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '110','管理员','admin','临时机构','99000001','详情权限',t.dm||'_XQQX','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '120','管理员','admin','临时机构','99000001','查询权限',t.dm||'_CXQX','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '130','管理员','admin','临时机构','99000001','新增权限',t.dm||'_XZQX','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '140','管理员','admin','临时机构','99000001','删除权限',t.dm||'_SCQX','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '150','管理员','admin','临时机构','99000001','修改权限',t.dm||'_XGQX','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '160','管理员','admin','临时机构','99000001','批量删除',t.dm||'_PLSC','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '170','管理员','admin','临时机构','99000001','编辑模式',t.dm||'_BJMS','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '180','管理员','admin','临时机构','99000001','配置对象',t.dm||'_PZDX','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '190','管理员','admin','临时机构','99000001','配置字段',t.dm||'_PZZD','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '210','管理员','admin','临时机构','99000001','导出当前页',t.dm||'_DCDQY','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '220','管理员','admin','临时机构','99000001','导出全部',t.dm||'_DCQB','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '230','管理员','admin','临时机构','99000001','批量上传',t.dm||'_SJPLSC','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
-insert into sys_qx_qxxx
-  ( px,cjrxm, cjrdm, cjrdwmc, cjrdwdm, mc, dm, ms, lx, ssyy, bz, fqx, dzlx, dkfs)
-select '240','管理员','admin','临时机构','99000001','模板下载',t.dm||'_MBXZ','','03','myservice',
-'',t.dm,'04','01' from sys_qx_qxxx t where t.dzlx='04' and  t.lx='01';
 
 --字典迁移
 insert into sys_sjgl_tyzd

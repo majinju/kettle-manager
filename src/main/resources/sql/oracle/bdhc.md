@@ -2,6 +2,7 @@ selectHmBdhm
 ===
 * 查询-号码-比对号码
 select hm.hczjlx, hm.hczjhm
+--,hm.hczjlx||'_'||hm.hczjhm bdhm
   from sys_bdhc_xm xm
  inner join sys_bdhc_rw rw
     on rw.ssxm = xm.id
@@ -123,6 +124,21 @@ updateSjzdById
 ===
 * 基于主键更新数据字段
 update sys_sjgl_sjzd zd set zd.yxx='1',zd.zdmc=#p_1# where zd.id=#p_2#
+
+selectHmxggz
+===
+* 查询号码相关规则字段
+select gz.*, gzzd.sjzd, gzzd.hdyzgz, gzzd.hdzhgz
+  from sys_bdhc_gz gz
+  left join sys_bdhc_gzzd gzzd
+    on gzzd.gz = gz.id
+   and gzzd.yxx = '1'
+ where gz.yxx = '1'
+   and (gz.ssxm like '%'||#hm_ssxm#||'%' or gz.ssxm is null)
+   and (gz.ssrw like '%'||#hm_ssrw#||'%' or gz.ssrw is null)
+   and (gz.zylb like '%'||#jg_zylb#||'%' or gz.zylb is null)
+   and (gz.hcfs = #jg_hcfs# or gz.hcfs is null)
+ order by gz.dj, gz.px, gz.gxsj desc,gz.id, gzzd.px, gzzd.gxsj desc
 
 
 
