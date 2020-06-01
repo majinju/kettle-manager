@@ -83,7 +83,7 @@
 		<appender-ref ref="error-db" />
 	</logger>
 	<logger name="druid.sql.Statement" additivity="false">
-		<level value="DEBUG" />
+		<level value="INFO" />
 <!-- 		<appender-ref ref="console" /> -->
 		<appender-ref ref="debug" />
 		<appender-ref ref="info" />

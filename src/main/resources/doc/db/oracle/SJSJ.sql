@@ -11,7 +11,7 @@ Target Server Type    : ORACLE
 Target Server Version : 110200
 File Encoding         : 65001
 
-Date: 2020-05-22 01:24:12
+Date: 2020-06-01 23:45:02
 */
 
 
@@ -595,8 +595,8 @@ CREATE TABLE "SJSJ"."SYS_BDHC_JG" (
 "ZZJHM" VARCHAR2(256 BYTE) NULL ,
 "HCHM" VARCHAR2(32 BYTE) NULL ,
 "HMYKZJ" VARCHAR2(32 BYTE) NULL ,
-"ZYYKZJ" VARCHAR2(32 BYTE) NULL ,
-"RYKSJ" VARCHAR2(32 BYTE) NULL ,
+"ZYYKZJ" VARCHAR2(256 BYTE) NULL ,
+"RYKSJ" VARCHAR2(256 BYTE) NULL ,
 "HCFS" VARCHAR2(32 BYTE) NULL ,
 "JD" VARCHAR2(256 BYTE) NULL ,
 "WD" VARCHAR2(256 BYTE) NULL ,
@@ -616,7 +616,7 @@ CREATE TABLE "SJSJ"."SYS_BDHC_JG" (
 "DJXM" VARCHAR2(64 BYTE) NULL ,
 "DJWWXM" VARCHAR2(80 BYTE) NULL ,
 "DJXB" VARCHAR2(8 BYTE) NULL ,
-"DJCSRQ" VARCHAR2(8 BYTE) NULL ,
+"DJCSRQ" VARCHAR2(256 BYTE) NULL ,
 "HDXGXX" CLOB NULL ,
 "DTXXTGDW" VARCHAR2(128 BYTE) NULL ,
 "DTXXTGDWJGDM" VARCHAR2(32 BYTE) NULL ,
@@ -851,8 +851,8 @@ CREATE TABLE "SJSJ"."SYS_BDHC_WXJG" (
 "ZZJLX" VARCHAR2(256 BYTE) NULL ,
 "ZZJHM" VARCHAR2(256 BYTE) NULL ,
 "HCHM" VARCHAR2(32 BYTE) NULL ,
-"HMYKZJ" VARCHAR2(32 BYTE) NULL ,
-"ZYYKZJ" VARCHAR2(32 BYTE) NULL ,
+"HMYKZJ" VARCHAR2(256 BYTE) NULL ,
+"ZYYKZJ" VARCHAR2(256 BYTE) NULL ,
 "RYKSJ" VARCHAR2(32 BYTE) NULL ,
 "HCFS" VARCHAR2(32 BYTE) NULL ,
 "JD" VARCHAR2(256 BYTE) NULL ,
@@ -873,7 +873,7 @@ CREATE TABLE "SJSJ"."SYS_BDHC_WXJG" (
 "DJXM" VARCHAR2(64 BYTE) NULL ,
 "DJWWXM" VARCHAR2(80 BYTE) NULL ,
 "DJXB" VARCHAR2(8 BYTE) NULL ,
-"DJCSRQ" VARCHAR2(8 BYTE) NULL ,
+"DJCSRQ" VARCHAR2(256 BYTE) NULL ,
 "HDXGXX" CLOB NULL ,
 "DTXXTGDW" VARCHAR2(128 BYTE) NULL ,
 "DTXXTGDWJGDM" VARCHAR2(32 BYTE) NULL ,
@@ -1103,9 +1103,9 @@ CREATE TABLE "SJSJ"."SYS_BDHC_ZY" (
 "DJ" VARCHAR2(32 BYTE) DEFAULT '06'  NULL ,
 "SJDX" VARCHAR2(32 BYTE) NULL ,
 "SJZT" VARCHAR2(32 BYTE) NULL ,
-"HCYJ" VARCHAR2(4000 BYTE) NULL ,
 "BZ" VARCHAR2(4000 BYTE) NULL ,
-"GXPL" VARCHAR2(256 BYTE) NULL 
+"GXPL" VARCHAR2(256 BYTE) NULL ,
+"HCYJ" CLOB NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -1131,14 +1131,14 @@ COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."DM" IS '代码;动态信息类别';
 COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."DJ" IS '等级@SYS_COMMON_DJ;从高到低为1~10，按每三级分为高中低，一些较少使用的资源就设置为10级，10级默认不比对，只有在比对组或比对号码的比对资源中明确设置才生效，系统默认6级';
 COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."SJDX" IS '数据对象@SYS_SJGL_SJDX';
 COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."SJZT" IS '数据载体@SYS_COMMON_SJZT';
-COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."HCYJ" IS '核查语句;采用模板形式，参数化满足增量、全量等需求场景';
 COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."BZ" IS '备注';
 COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."GXPL" IS '更新频率';
+COMMENT ON COLUMN "SJSJ"."SYS_BDHC_ZY"."HCYJ" IS '核查语句;采用模板形式，参数化满足增量、全量等需求场景';
 
 -- ----------------------------
 -- Records of SYS_BDHC_ZY
 -- ----------------------------
-INSERT INTO "SJSJ"."SYS_BDHC_ZY" VALUES ('29C08966393C496A920FD297F6104598', '20200429101916', '20200521201322', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '测试资源-1', null, null, null, '100001', '06', '07DCAFB42634494C85B1F90A442489F1', 'default', '
+INSERT INTO "SJSJ"."SYS_BDHC_ZY" VALUES ('29C08966393C496A920FD297F6104598', '20200429101916', '20200521201322', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '测试资源-1', null, null, null, '100001', '06', '07DCAFB42634494C85B1F90A442489F1', 'default', null, '实时', '
 select t.gxsj hdfssj,
        t.cjrdwmc hdfsdssgajg,
        t.cjrdwdm hdfsdssgajgdm,
@@ -1164,7 +1164,7 @@ select t.gxsj hdfssj,
 //本sql样例涵盖了增量比对和全量核查的需求，
 //其中bdhm（比对号码）和zlcqzd（增量抽取字段）是必要字段
 //其他字段可以根据实际情况添加，没有的可以不添加，系统会自动补充没有的字段
-*/', null, '实时');
+*/');
 
 -- ----------------------------
 -- Table structure for SYS_LOG_FWZR
@@ -1430,7 +1430,7 @@ CREATE TABLE "SJSJ"."SYS_QX_APP" (
 "BB" VARCHAR2(32 BYTE) NULL ,
 "DZ" VARCHAR2(512 BYTE) NULL ,
 "ZT" VARCHAR2(32 BYTE) NULL ,
-"MM" VARCHAR2(32 BYTE) NULL ,
+"MM" VARCHAR2(256 BYTE) NULL ,
 "ZDDLMS" VARCHAR2(32 BYTE) NULL ,
 "JCGJZ" VARCHAR2(32 BYTE) NULL ,
 "FWDK" VARCHAR2(32 BYTE) NULL ,
@@ -1476,7 +1476,8 @@ COMMENT ON COLUMN "SJSJ"."SYS_QX_APP"."FWQ" IS '服务器@SYS_QX_FWQ';
 INSERT INTO "SJSJ"."SYS_QX_APP" VALUES ('9AC5AE4999A74044B58D387431DC7AF9', '20181223123410', '20200521150043', '1', '10', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'myservice', '数据世界', null, null, null, 'default,kettle_default,wjmrzt', '01', null, 'http://127.0.0.1:88/myservice/', '0', 'Nv9vymPQ4j+swzO94Ihx+A==', 'date_user', null, '9401', '9451', '796528F4AE094486B45A6CE208CF7CF3');
 INSERT INTO "SJSJ"."SYS_QX_APP" VALUES ('80FA36B248294D929C42B484001C6361', '20190929095538', '20190929095538', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'myservice-user', 'myservice用户信息转发', null, null, null, 'default', '01', null, 'http://127.0.0.1:88/myservice/common/doDesEncryptUrl.do?projectCode=', null, null, 'date_user', null, null, null, null);
 INSERT INTO "SJSJ"."SYS_QX_APP" VALUES ('B0CE28A0F75840C9BE3E919CD179FE8A', '20190929092513', '20200514160305', '0', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'kp', 'kettle plus', null, null, null, 'default', '01', '0.1.0', 'http://127.0.0.1:88/kp', null, 'YTYdudwEhP23iX2FCfTggw==', 'date_user', null, null, null, null);
-INSERT INTO "SJSJ"."SYS_QX_APP" VALUES ('6EC94BDCEA7748AF839819C4D5DFA90C', '20190329172756', '20190427163504', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'CQQB2', 'cqqb2', null, null, null, 'default', '01', null, 'http://127.0.0.1:88/cqqb2/', null, null, 'date_user', null, null, null, null);
+INSERT INTO "SJSJ"."SYS_QX_APP" VALUES ('ECAFB3011D0C444C877880957AB32897', '20200522133222', '20200522133222', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'sjds', '数据大师', null, null, null, 'default', '01', null, 'http://127.0.0.1:88/myservice/', null, 'sDzyr8bBtVSswzO94Ihx+A==', 'date_user', null, null, null, null);
+INSERT INTO "SJSJ"."SYS_QX_APP" VALUES ('6EC94BDCEA7748AF839819C4D5DFA90C', '20190329172756', '20200522103907', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'CQQB2', 'cqqb2', null, null, null, 'default', '01', null, 'http://127.0.0.1:88/cqqb2/', null, 'sDzyr8bBtVSswzO94Ihx+A==', 'date_user', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for SYS_QX_FWQ
@@ -1498,7 +1499,7 @@ CREATE TABLE "SJSJ"."SYS_QX_FWQ" (
 "LB" VARCHAR2(32 BYTE) NULL ,
 "MC" VARCHAR2(32 BYTE) NULL ,
 "LX" VARCHAR2(32 BYTE) NULL ,
-"MM" VARCHAR2(32 BYTE) NULL ,
+"MM" VARCHAR2(256 BYTE) NULL ,
 "FZR" VARCHAR2(1024 BYTE) NULL 
 )
 LOGGING
@@ -3135,6 +3136,7 @@ INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('B72607C404994CBFB193A1CA48D5EB71', '
 INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('6D9BD8495BB34022B074B5442C0D7FA9', '20190425155158', '20190425155158', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'admin', 'KFZFW_KFGJ_PUZDY', null);
 INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('67F8414013D64F7190DB3FA6D21A2BF2', '20190425155158', '20190425155158', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'admin', 'KFZFW_KFGJ_BOOSTRAP3ZJ', null);
 INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('6CA7B7281BF34A5E8B546717CE858433', '20200521150202', '20200521150202', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'admin', 'RYHC_BDHC_GJTAB', null);
+INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('E9CB043442B2401682D467B6543AE390', '20200522133025', '20200522133025', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'admin', 'KFZFW_PTGL_YYGL_FZJL', null);
 INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('B28B5CA2D84649658536E8A8C4DE8D78', '20190430165619', '20190430165619', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'admin', 'KFZFW_YXJK_JKRW_JTRW', null);
 INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('B0813D073E7048DCB024853D480985BF', '20190430165619', '20190430165619', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'admin', 'KFZFW_YXJK_JKRW_LSXX', null);
 INSERT INTO "SJSJ"."SYS_QX_JSQXGL" VALUES ('08EDFAAE55D34DB9B25C2619DE4DBD05', '20190506200715', '20190506200715', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'admin', 'KFZFW_SJTJ', null);
@@ -3881,7 +3883,7 @@ INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('A2AC216A218C4D41B500B88DEA74B526', '20
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('B1A733055A5F4FEB851A636D93B55ED1', '20190408202253', '20200521171040', '1', '100000', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '开发工具', 'KFZFW_KFGJ', null, '02', 'myservice', null, 'KFZFW', '01', '01', null, '0056BB5C4FDA42F18257732C879FE553');
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('AB7104F1CC714B35BE523BF5164B4BAA', '20190409203401', '20190409203604', '1', '50', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '用户角色管理', 'KFZFW_QXGL_YHJSGL', null, '01', 'myservice', null, 'KFZFW_QXGL', '04', '01', 'SYS_QX_YHJSGL', null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('A9C1C44A8B4846B5BAFE1423B60FF476', '20190409203445', '20190409203604', '1', '60', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '角色权限关联', 'KFZFW_QXGL_JSQXGL', null, '01', 'myservice', null, 'KFZFW_QXGL', '04', '01', 'SYS_QX_JSQXGL', null);
-INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('E21E12B2AFEA4904A3C7037829C727FD', '20190409204042', '20190409204319', '1', '10', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '开发规范', 'KFZFW_KFGJ_KFGF', null, '01', 'myservice', null, 'KFZFW_KFGJ', '02', '01', 'myui/editor.md/other/projectStandard/projectStandard.html', null);
+INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('E21E12B2AFEA4904A3C7037829C727FD', '20190409204042', '20200527150637', '0', '10', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '开发规范', 'KFZFW_KFGJ_KFGF', null, '01', 'myservice', null, 'KFZFW_KFGJ', '02', '01', 'myui/editor.md/other/projectStandard/projectStandard.html', null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('23A91D27929D4792926F393BB9C9E64C', '20190414105049', '20190414105049', '1', '190', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '配置字段', 'KFZFW_PTGL_SJZT_PZZD', null, '03', 'myservice', null, 'KFZFW_PTGL_SJZT', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('FDE7DCA5E6C3405A8E5C6C3845E4714F', '20190414105049', '20190414105049', '1', '190', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '配置字段', 'KFZFW_YXJK_JKRW_PZZD', null, '03', 'myservice', null, 'KFZFW_YXJK_JKRW', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('240DE95520E6438EB2EEC1047DBD5556', '20190414105049', '20190414105049', '1', '190', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '配置字段', 'KFZFW_YXJK_XX_PZZD', null, '03', 'myservice', null, 'KFZFW_YXJK_XX', '04', '01', null, null);
@@ -4107,7 +4109,7 @@ INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('8764FC0956EF43B3AC042827AFD76EA6', '20
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('06297FA43B9E4AE98361A89DEF5EAB18', '20190416174853', '20190416174853', '1', '210', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '导出当前页', 'RYHC_HCGN_RYHC_DCDQY', null, '03', 'myservice', null, 'RYHC_HCGN_RYHC', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('8454F59859CF4F7F858A67BBC2CD5965', '20190416174853', '20190416174853', '1', '220', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '导出全部', 'RYHC_HCGN_RYHC_DCQB', null, '03', 'myservice', null, 'RYHC_HCGN_RYHC', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('38804E5C70F245B29261AC5364A0257A', '20190416174853', '20190416174853', '1', '9999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '人员核查', 'RYHC_HCGN_RYHC', null, '01', 'myservice', null, 'RYHC_HCGN', '04', '01', 'QT_HCFW_RYHC', null);
-INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('9CAE3BDD5F5D461F8C27F57D80F46550', '20190418163725', '20190418164723', '1', '9999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '重庆机场系统', 'CQJC', null, '02', 'myservice', null, null, '04', '01', 'SYS_QX_QXXX_CQJCCD', null);
+INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('9CAE3BDD5F5D461F8C27F57D80F46550', '20190418163725', '20200526000755', '1', '100010', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '重庆机场系统', 'CQJC', null, '02', 'myservice', null, null, '04', '01', 'SYS_QX_QXXX_CQJCCD', null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('FC4FEABDFD7540B08A7D5C4AF5255B19', '20190422092603', '20190422092603', '1', '230', '{}', '管理员', 'admin', '临时机构', '99000001', '批量上传', 'KFZFW_QXGL_QXXX_SJPLSC', null, '03', 'myservice', null, 'KFZFW_QXGL_QXXX', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('4CDBD21F10A74B40AD3FFAB8AC4D8D76', '20190422092603', '20190422092603', '1', '230', '{}', '管理员', 'admin', '临时机构', '99000001', '批量上传', 'KFZFW_PTGL_SJDX_SJPLSC', null, '03', 'myservice', null, 'KFZFW_PTGL_SJDX', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('3E2A36F7DDE342D7B9A23A4F3034B877', '20190422092603', '20190422092603', '1', '230', '{}', '管理员', 'admin', '临时机构', '99000001', '批量上传', 'KFZFW_PTGL_SJZD_SJPLSC', null, '03', 'myservice', null, 'KFZFW_PTGL_SJZD', '04', '01', null, null);
@@ -4289,7 +4291,7 @@ INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('C2DA2AD0B562441796ABB3BAC1654AE7', '20
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('937B6CE0D16047C4B4E27A4DC6B3346D', '20191108111127', '20191108111348', '1', '9999', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '设为无效', 'KFZFW_YXJK_JKRW_YC_SWWX', null, '03', 'myservice', null, 'KFZFW_YXJK_JKRW_YC', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('4D9DE1868682455B8FB6F97C793A3E44', '20191108111127', '20191108111331', '1', '9999', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '设为有效', 'KFZFW_YXJK_JKRW_YC_SWYX', null, '03', 'myservice', null, 'KFZFW_YXJK_JKRW_YC', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('8287FA22634E41769C13C52537011694', '20191108124004', '20191108124004', '1', '9999', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '设为无效', 'KFZFW_YXJK_JKRW_SWWX', null, '03', 'myservice', null, 'KFZFW_YXJK_JKRW', '04', '01', null, null);
-INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('530DDA1B5A3345B7B146DC541607EF38', '20191108172848', '20191211175416', '1', '20', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '数据大师', 'ZYGL_MR', null, '01', 'myservice', null, null, '04', '01', 'SYS_QX_QXXX_ZYGLCD', null);
+INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('530DDA1B5A3345B7B146DC541607EF38', '20191108172848', '20200522133310', '1', '20', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '数据大师', 'ZYGL_MR', null, '01', 'sjds', null, null, '04', '01', 'SYS_QX_QXXX_ZYGLCD', null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('C11CF392BF7D4620B836E88D0786AE6E', '20191119122348', '20191119122348', '1', '170', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '编辑模式', 'ZYGL_MR_KETTLE_FZPT_BJMS', null, '03', 'myservice', null, 'ZYGL_MR_KETTLE_FZPT', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('148A46F229164886BFE6F67736495E6D', '20191119122348', '20191119122348', '1', '190', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '配置字段', 'ZYGL_MR_KETTLE_FZPT_PZZD', null, '03', 'myservice', null, 'ZYGL_MR_KETTLE_FZPT', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('93D683BE4ECE49E4906CA1283A8CB7A0', '20191119122348', '20191119122348', '1', '110', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '详情权限', 'ZYGL_MR_KETTLE_FZPT_XQQX', null, '03', 'myservice', null, 'ZYGL_MR_KETTLE_FZPT', '04', '01', null, null);
@@ -4519,6 +4521,7 @@ INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('3D4B38EA8C1C491ABEBEDDA1AA949647', '20
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('8F1501A3A6F741A398E89B3F36CDBA80', '20191211233149', '20191211233149', '1', '250', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '复制记录', 'QTQX_YHZC_FZJL', null, '03', 'myservice', null, 'QTQX_YHZC', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('E04D0E947AFC47E39616EBF9032F3A0D', '20191211233149', '20191211233149', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '用户注册', 'QTQX_YHZC', null, '01', 'myservice', null, 'QTQX', '04', '01', 'SYS_QX_YHXX_YHZC', null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('3823C83FACED45439F2FA0ADB68E07A4', '20200519195323', '20200519195323', '1', '250', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '复制记录', 'RYHC_BDHC_GZ_FZJL', null, '03', 'myservice', null, 'RYHC_BDHC_GZ', '04', '01', null, null);
+INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('81DF5CDE747C48B1AC20E43CB09B73BF', '20200522133002', '20200522133002', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '复制记录', 'KFZFW_PTGL_YYGL_FZJL', null, '03', 'myservice', null, 'KFZFW_PTGL_YYGL', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('C8079FCE5FFD4D1FBC368024BB1964F3', '20191119161524', '20191119161524', '1', '120', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '查询权限', 'QTQX_GRSZ_CXQX', null, '03', 'myservice', null, 'QTQX_GRSZ', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('F1BA92D6BCAB476D83A3F5AA4A680C9E', '20191119161524', '20191119161524', '1', '130', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '新增权限', 'QTQX_GRSZ_XZQX', null, '03', 'myservice', null, 'QTQX_GRSZ', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('637BE151D0C54EC19B0069704D6C285E', '20191119161524', '20191119161524', '1', '140', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '删除权限', 'QTQX_GRSZ_SCQX', null, '03', 'myservice', null, 'QTQX_GRSZ', '04', '01', null, null);
@@ -4652,7 +4655,7 @@ INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('5B9848F9409044CE80C84C2FB898B336', '20
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('7EFEBF716D864338AF1C51B81F66B585', '20200217201841', '20200217201841', '1', '240', '{}', '管理员', 'admin', '临时机构', '99000001', '模板下载', 'CQJC_YGGL_KYSB_MBXZ', null, '03', 'myservice', null, 'CQJC_YGGL_KYSB', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('8F4C45D623CB4D8C9DA5BE33947D4000', '20200217201841', '20200217201841', '1', '180', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '配置对象', 'CQJC_YGGL_KYSB_PZDX', null, '03', 'myservice', null, 'CQJC_YGGL_KYSB', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('BEC7448CF93B42648B48255CB9373ACF', '20200217201841', '20200217201841', '1', '250', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '复制记录', 'CQJC_YGGL_KYSB_FZJL', null, '03', 'myservice', null, 'CQJC_YGGL_KYSB', '04', '01', null, null);
-INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('69D99104A707489DA379907AA08A5D86', '20200217201842', '20200217201842', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '抗疫申报', 'CQJC_YGGL_KYSB', null, '01', 'myservice', null, 'CQJC_YGGL', '04', '01', 'JCGA_JCYG_JCXX_YQSB', null);
+INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('69D99104A707489DA379907AA08A5D86', '20200217201842', '20200527094455', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '抗疫申报', 'CQJC_YGGL_KYSB', null, '01', 'myservice', null, 'CQJC_YGGL', '04', '01', 'JCGA_JCYG_JCXX_YQSB', '00A5317CA0684FC594165401B0F4F948');
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('A2C941D7E14744148358028DB656C221', '20200217211604', '20200217211604', '1', '170', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '编辑模式', 'CQJC_YGGL_SHGX_KYSB_BJMS', null, '03', 'myservice', null, 'CQJC_YGGL_SHGX_KYSB', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('BA10E5B636104802ABE9B999E711A917', '20200217211604', '20200217211604', '1', '190', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '配置字段', 'CQJC_YGGL_SHGX_KYSB_PZZD', null, '03', 'myservice', null, 'CQJC_YGGL_SHGX_KYSB', '04', '01', null, null);
 INSERT INTO "SJSJ"."SYS_QX_QXXX" VALUES ('02DA174EEFC54F6FA8762C8C3EFAE4E2', '20200217211604', '20200217211604', '1', '110', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '详情权限', 'CQJC_YGGL_SHGX_KYSB_XQQX', null, '03', 'myservice', null, 'CQJC_YGGL_SHGX_KYSB', '04', '01', null, null);
@@ -4763,7 +4766,7 @@ CREATE TABLE "SJSJ"."SYS_QX_YHXX" (
 "ID" VARCHAR2(32 BYTE) DEFAULT sys_guid()  NOT NULL ,
 "CJSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
 "GXSJ" VARCHAR2(14 BYTE) DEFAULT to_char(sysdate,'yyyymmddhh24miss')  NULL ,
-"YXX" VARCHAR2(8 BYTE) DEFAULT '1'  NULL ,
+"YXX" VARCHAR2(32 BYTE) DEFAULT '1'  NULL ,
 "PX" NUMBER DEFAULT 99999  NULL ,
 "KZXX" VARCHAR2(4000 BYTE) DEFAULT '{}'  NULL ,
 "CJRXM" VARCHAR2(64 BYTE) NULL ,
@@ -4772,23 +4775,23 @@ CREATE TABLE "SJSJ"."SYS_QX_YHXX" (
 "CJRDWDM" VARCHAR2(32 BYTE) NULL ,
 "YHXM" VARCHAR2(32 BYTE) NOT NULL ,
 "YHDM" VARCHAR2(32 BYTE) NOT NULL ,
-"YHMM" VARCHAR2(64 BYTE) NULL ,
+"YHMM" VARCHAR2(256 BYTE) NULL ,
 "SFZH" VARCHAR2(18 BYTE) NULL ,
 "YXQKS" VARCHAR2(64 BYTE) NULL ,
 "YXQJS" VARCHAR2(64 BYTE) NULL ,
 "SSJG" VARCHAR2(32 BYTE) DEFAULT '141B1AFC7E634176BDA7DB7F491A9004'  NULL ,
-"THLX" VARCHAR2(2 BYTE) NULL ,
-"YHDJ" VARCHAR2(2 BYTE) NULL ,
+"THLX" VARCHAR2(32 BYTE) NULL ,
+"YHDJ" VARCHAR2(32 BYTE) NULL ,
 "YHMS" VARCHAR2(1024 BYTE) NULL ,
 "YHYX" VARCHAR2(128 BYTE) NULL ,
 "LXDH" VARCHAR2(256 BYTE) NULL ,
 "LXDZ" VARCHAR2(256 BYTE) NULL ,
-"MZ" VARCHAR2(2 BYTE) NULL ,
-"GJ" VARCHAR2(5 BYTE) NULL ,
-"XL" VARCHAR2(2 BYTE) NULL ,
-"ZZMM" VARCHAR2(2 BYTE) NULL ,
-"ZW" VARCHAR2(2 BYTE) NULL ,
-"ZJ" VARCHAR2(2 BYTE) NULL ,
+"MZ" VARCHAR2(32 BYTE) NULL ,
+"GJ" VARCHAR2(32 BYTE) NULL ,
+"XL" VARCHAR2(32 BYTE) NULL ,
+"ZZMM" VARCHAR2(32 BYTE) NULL ,
+"ZW" VARCHAR2(32 BYTE) NULL ,
+"ZJ" VARCHAR2(32 BYTE) NULL ,
 "BZ" VARCHAR2(1024 BYTE) NULL ,
 "TX" VARCHAR2(32 BYTE) NULL ,
 "XZIP" VARCHAR2(1024 BYTE) NULL ,
@@ -7831,13 +7834,11 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('4AE60B823BA549F89C15B15C8E2635A7', '
 1. 数据上传成功后，需要经过较多环节才能到安检站，所有请二十分钟后再确认数据传输情况。
 1. 当收到短信提示：证件号码或姓名错误时，请核查本人，还有社会关系是否正确，录入系统的社会关系可以点击人员列表最后的第三个按钮查看。
 1. 半小时后数据若是没有到达安检站，可以咨询机场公安电话：67156307，看是否核查未通过。', 'YGSJSBSM', 'YUANGONGSHUJUSHANGBAOSHUOMING', '8');
-INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('7D35545F859E42208CFECF543E72126A', '20191113170651', '20191114111112', '1', '99999', '{"markdown":{"显示目录":true,"标题样式":""}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '开发规范', '99', null, '02', '01', '01', '## 基础原则
+INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('7D35545F859E42208CFECF543E72126A', '20191113170651', '20200527153019', '1', '99999', '{"markdown":{"显示目录":true,"标题样式":""}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '开发规范', '99', null, '02', '01', '01', '## 基础原则
 
 ### 通用要求
 
 1. 系统测试要求分辨率宽度1280*768及以上，测试时要考虑左侧菜单栏，开发人员把要求的1280*768测一下，自己电脑的最大分辨率测一下，其他就交给测试吧，大家都参考demo，不要随意发挥。
-
-1. 建议移除所有页面的位置导航信息，一来浪费空间，没有实际意义；二来客户经常进行菜单调整，这样就会导致菜单与位置导航不一致。
 
 
 ### 查询页面
@@ -7852,7 +7853,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('7D35545F859E42208CFECF543E72126A', '
 
 1. 同一个字段在一个系统中，无特殊要求应该描述一致，若原型有不一致，开发和测试应该提出来。
 
-1. 按钮布局：类似导出这种使用较少，全局统一右边，其他业务操作类的都左边  ![image](./img/查询页面按钮规范.png)
+1. 按钮布局：类似导出这种使用较少，全局统一右边，其他业务操作类的都左边 
 
 1. 弹出层（编辑、详情等）默认直接最大化，一些明显内容较少的再配置为合适的大小，系统中最好不要出现弹窗一层一层的情况。
 
@@ -7861,7 +7862,6 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('7D35545F859E42208CFECF543E72126A', '
 1. 查询列表上的操作一般的采用弹窗形式，弹窗中下方要有关闭按钮，明确特殊说明除外。
 
 1. <span style="color:red">列表常用按钮要跟样例页面一致，不要每个系统随意定义，尤其是按钮名称定义。操作列统一命名例：编辑、删除、详情</span>
-![image](./img/按钮规范.png)
 
 1. 列表中常见字段固定宽度。多选复选框列：35，序号：45，姓名：55，证件号码：135。
 
@@ -7895,9 +7895,9 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('7D35545F859E42208CFECF543E72126A', '
 
 ## 字典规范
 
-情报库中新增T_SYS_ZD_TYZD表，所有的小字典都应该放在此表中，其他额外的大字典也需要配置到此表中，此表将成为所有字典的统一入口。
+SYS_SJGL_TYZD为本系统统一字典表，所有的小字典都应该放在此表中，其他额外的大字典也需要配置到此表中，此表将成为所有字典的统一入口。
 
-qbpt2项目中对字典的使用已经封装好了，你只需要到这个表中新增字典，然后在需要用的地方通过zdlb（字典类别）使用即可。
+项目中对字典的使用已经封装好了，你只需要到这个表中新增字典，然后在需要用的地方通过zdlb（字典类别）使用即可。
 
 ### 字典类别代码
 
@@ -7905,9 +7905,9 @@ qbpt2项目中对字典的使用已经封装好了，你只需要到这个表中
 
 1. 常用的如性别、民族、国籍等预计到处都能用到的，可以尽量简洁的命名，然后排序到前面,如：SYS_COMMON_XB(系统-通用-性别)，SYS_COMMON_MZ(系统-通用-民族)，SYS_COMMON_GJ(系统-通用-国籍)。
 
-1. 如属于特定总队的，可以加上总队代码加以区分，如：JZ_JJZD_KKGCLX(警种-交警总队-卡口过车类型)。
+1. 如属于特定总队的，可以加上总队代码加以区分，如：JZ_JJZD_KKGCLX(警种-JJ总队-卡口过车类型)。
 
-1. 业务系统的按业务区分，如：ZDRY_GWDQ_DTXXLB(重点人员-高危地区-动态信息类别)
+1. 业务系统的按业务区分，如：ZDRY_GWDQ_DTXXLB(ZD人员-高危地区-动态信息类别)
 
 ### 新增小字典
 
@@ -7917,10 +7917,10 @@ qbpt2项目中对字典的使用已经封装好了，你只需要到这个表中
 
 DM | MC | MS | PX | ZDLB
 ---|---|---|---|---
-JJZD_KKGCLX | 交警-卡口过车类型 | 交警的卡口使用的车辆类型 | 99999 | ZDLB
+JJZD_KKGCLX | JJ-卡口过车类型 | JJ的卡口使用的车辆类型 | 99999 | ZDLB
 1 | 大型车辆 |  | 99999 | JJZD_KKGCLX
 2 | 小型车辆 |  | 99999 | JJZD_KKGCLX
-3 | 警用车辆 |  | 99999 | JJZD_KKGCLX
+3 | J用车辆 |  | 99999 | JJZD_KKGCLX
 4 | 领馆车辆 |  | 99999 | JJZD_KKGCLX
 6 | 外籍车辆 |  | 99999 | JJZD_KKGCLX
 
@@ -7929,41 +7929,41 @@ JJZD_KKGCLX | 交警-卡口过车类型 | 交警的卡口使用的车辆类型 |
 
 这里的大字典包含本身字典项超出1000个的字典类别；本身并不是简单的字典，而是还包含其他属性的字典。
 
-如下我们新增一个交警-卡口字典
+如下我们新增一个JJ-卡口字典
 
 DM | MC | MS | PX | ZDLB | LBSQL
 ---|---|---|---|---|---
-JJZD_KKZD | 交警-卡口字典 | 交警-卡口字典 | 99999 | ZDLB | select kkbh as dm,Device_Name as mc,0 as px,kk.device_desc&brvbar;&brvbar;kk.device_ip as search_key from T_JJZD_KK_ZD_KKXX kk
+JJZD_KKZD | JJ-卡口字典 | JJ-卡口字典 | 99999 | ZDLB | select kkbh as dm,Device_Name as mc,0 as px,kk.device_desc&brvbar;&brvbar;kk.device_ip as search_key from T_JJZD_KK_ZD_KKXX kk
 
 ### 字典管理
 
-service中提供了字典管理功能，一般都请直接在页面进行字典管理，若是从其他地方导入过来的可以直接insert到字典表中，也是需要在页面添加相关字典类别的，方便管理。
+myservice中提供了字典管理功能，一般都请直接在页面进行字典管理，若是从其他地方导入过来的可以直接insert到字典表中，也是需要在页面添加相关字典类别的，方便管理。
 
 ### 前端字典使用
 
-字典的常规使用都已经在[aui\a-utils\utils.js](../../../a-utils/utils.js)文件中写好了，我们只需按如下方式参考使用即可。
+字典的常规使用都已经在myui\myutils\utils.js文件中写好了，我们只需按如下方式参考使用即可。
 
 字典的几种展示形式：
 
 1. 一般字典下拉框如下，人员类别的字典使用：
-![image](./img/下拉框.png)
+
 ```html
 <input type="text" zdlb="RYLB" pagination="false" selectOnly="true" class="form-control zdSelectPage" name="rylb">
 ```
 
 1. 搜索下拉框的使用如下，卡口字典的搜索使用：
-![image](./img/带分页的下拉搜索框.png)
+
 ```html
 <input type="text" zdlb="ZDRYXL" ajax="true" class="form-control zdSelectPage" name="ryxl">
 ```
 
 ### 后台字典使用
 
-请参考：com.iflytek.qb.common.util.DictManager
+请参考：cn.benma666.iframe.DictManager
 
 ### 字典使用规范
 
-字典的管理尽量在[服务端](http://localhost:8080/service/)中进行，若是从其他已经数据导入可以直接操作数据表。
+字典的管理尽量在myservce中进行，若是从其他已经数据导入可以直接操作数据表。
 
 ## 配置中心
 
@@ -7977,40 +7977,42 @@ service中提供了字典管理功能，一般都请直接在页面进行字典�
 
 当前综合查询项目的配置管理已改造完成，请参考综合查询完成各项目基于配置中心的改造。
 
-> 在启动应用前必须先启动service项目才能完成配置的加载。
+> 在启动应用前必须先启动myservice项目才能完成配置的加载。
 
 ### 基础运用
 
-1. 在file:/iflytek/qbpt/config/common/config.properties文件中配置好服务端地址，所有项目都直接引用该配置文件，无需每个项目都去配置服务端地址,内容如下：
+1. 在file:/benma666/config/common.properties文件中配置好服务端地址，所有项目都直接引用该配置文件，无需每个项目都去配置服务端地址,内容如下：
 ```
 #\u670D\u52A1\u7AEF
-serviceAddr=http://localhost:8080/service/
+#字典和样式服务
+service.addr=http://127.0.0.1:88/myservice/
 ```
-![image](./img/本地配置文件.png)
+
 1. 在spring配置文件中参考如下配置：
 ```xml
-	<bean class="com.iflytek.qb.common.base.util.AConfig">
+	<!-- 定义受环境影响易变的变量 -->
+	<bean class="cn.benma666.web.SConf">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreResourceNotFound" value="false" />
 		<property name="locations">
 			<list>
-<!-- 				<value>classpath:config.properties</value> -->
-				<value>file:/iflytek/qbpt/config/common/config.properties</value>
+				<value>file:/benma666/config/myservice.properties</value>
 			</list>
 		</property>
 		<property name="configCodeList">
 			<list>
-				<value>ZDRY_COMMON_APPCONFIG</value>
-				<value>ZDRY_ZHCX_APPCONFIG</value>
+				<value>SYS_COMMON_APPCONFIG</value>
+				<value>SYS_MYSERVICE_APPCONFIG</value>
+				<value>SYS_SJGL_APPCONFIG</value>
+				<value>SYS_KP_APPCONFIG</value>
 			</list>
 		</property>
 	</bean>
 ```
-![image](./img/Spring中的配置.png)
+
 1. 在字典管理中进行配置的字典类别定义。
-![image](./img/配置在字典管理中的字典类别.png)
+
 1. 在字典管理中进行对应的字典项配置，字典项的key全部采用小写加点分隔的形式，如：sys.sjbm，在配置字典时需要在描述中讲清楚该配置项的意义。
-![image](./img/配置项讲解.png)
 
 
 ## 数据库规范
@@ -8035,19 +8037,21 @@ serviceAddr=http://localhost:8080/service/
 
 ### 默认字段
 
-前面四个要求必须，后面字典理论要求要有，根据需要取舍
+前面三个字段要求必须有，后面字典理论上要求要有，根据需要取舍
 
 字段名称|类型|是否可为空|默认值|中文描述
 ---|---|---|---|---
-UUID | VARCHAR2(32) | N | sys_guid() |  主键
-CREATEDATE | VARCHAR2(14) | Y | to_char(sysdate,''yyyymmddhh24miss'') |  创建时间
-ETLDATE | VARCHAR2(14) | Y | to_char(sysdate,''yyyymmddhh24miss'') |  更新时间
-ISDEL | VARCHAR2(10) | Y | ''0'' |  是否删除;与共享平台一致，所以这里没有采用中文简拼命名
+ID | VARCHAR2(32) | N | sys_guid() |  主键
+YXX | VARCHAR2(10) | Y | ''1'' |  有效性@SYS_COMMON_LJPD
+CJSJ | VARCHAR2(14) | Y | to_char(sysdate,''yyyymmddhh24miss'') |  创建时间
+GXSJ | VARCHAR2(14) | Y | to_char(sysdate,''yyyymmddhh24miss'') |  更新时间
+PX | NUMBER | Y | 99999 |  排序
+KZXX | VARCHAR2(4000) | Y | N | 扩展信息;JSON格式
 CJRXM | VARCHAR2(32) | Y | N | 创建人姓名
 CJRDM | VARCHAR2(32) | Y | N | 创建人代码
 CJRDWMC | VARCHAR2(256) | Y | N | 创建人单位名称
 CJRDWBM | VARCHAR2(32) | Y | N | 创建人单位代码
-', 'KFGF', 'KAIFAGUIFAN', '14');
+', 'KFGF', 'KAIFAGUIFAN', '21');
 INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('B297FEFF68794FB1992EED31934B9474', '20191113170814', '20191114105518', '1', '99999', '{"markdown":{"显示目录":true}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '权限开发规范', '99', '开发规范', '02', '01', '01', '## 代码讲解
 
 1. 权限封装类，一般调用红框的方法。 ![image](./img/auth1.jpg)
@@ -8941,7 +8945,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('0E30E262DA484652AC684E1A001FE303', '
 
 
 ', 'MYSERVICE-README.MD', 'MYSERVICE-README.MD', '409');
-INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('A3FEC59BDBE0476B857E0D007B4D5446', '20191114114419', '20200514114644', '1', '99999', '{"markdown":{"显示目录":true,"标题样式":""}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '数据世界平台操作手册', '99', null, '02', '01', '01', '
+INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('A3FEC59BDBE0476B857E0D007B4D5446', '20191114114419', '20200522205214', '1', '99999', '{"markdown":{"显示目录":true,"标题样式":""}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '数据世界平台操作手册', '99', null, '02', '01', '01', '
 # 平台简介
 
 本项目专注于服务于开发者，将全部公共服务集中在本项目中，本项目不涉及业务需求（也存在一些以样例的形式存在），提供各个项目都能用到的通用服务。
@@ -8952,6 +8956,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('A3FEC59BDBE0476B857E0D007B4D5446', '
 
 ## 初次部署
 
+1. 机器jdk建议统一使用oracle jdk1.7
 1. 创建数据库用户。
 1. 执行数据库脚本时一定要谨慎，删错了很忧伤。
 1. 通过Navicat执行数据库初始化脚本
@@ -8980,6 +8985,12 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('A3FEC59BDBE0476B857E0D007B4D5446', '
 1. 在应用管理中添加对应的系统。
 1. 在字典管理中添加对应的系统配置字典。
 1. spring配中需要添加新系统对应的配置编码。
+
+## 数据大师部署
+
+1. 需要将kettle对应版本的lib复制到应用的lib中。
+1. 需要将kettle上传到对应服务器，系统配置需要改为对应目录，建议统一目录为：/data/sjsj
+1. 日志目录建议配置在/data/sjsj/logs，因为日志比较占用空间，建议关注磁盘情况
 
 # 平台管理
 
@@ -9146,7 +9157,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('A3FEC59BDBE0476B857E0D007B4D5446', '
 ## 2019-11-19
 
 1. 新增个人信息维护功能，用户可以修改自己的基本信息。
-', 'SJSJPTCZSC', 'SHUJUSHIJIEPINGTAICAOZUOSHOUCE', '69');
+', 'SJSJPTCZSC', 'SHUJUSHIJIEPINGTAICAOZUOSHOUCE', '75');
 INSERT INTO "SJSJ"."SYS_SJGL_GRBJ" VALUES ('33FC64D3885C46BEA2BAACF74BBCBD82', '20191114124844', '20191217095745', '1', '99999', '{"markdown":{"显示目录":false,"标题样式":""}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '数据大师介绍', '99', null, '02', '01', '01', '**目录**
 
 [TOCM]
@@ -9701,7 +9712,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('DD811C0C47584583A26F4F56EF16629A', '
  where a.table_name = upper(''SYS_QX_QXXX'')
    and a.owner = upper(''sjsj'')
 ', null, '<my-cdym id="listPage" :fromdata="fromdata" :sjdxid="sjdxid"></my-cdym>', null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('4350AC51DD154CEAB066E3875FB9E5C4', '20200427173229', '20200521165917', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_JG_100001', '系统-比对核查-结果-测试资源-1', '正式环境请采用分区表', 'XT-BDHC-JG-CSZY-1', 'XITONG-BIDUIHECHA-JIEGUO-CESHIZIYUAN-1', '02', 'table', null, null, 'bdhc_default', null, 'V_SYS_BDHC_JG', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px,gxsj desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('4350AC51DD154CEAB066E3875FB9E5C4', '20200427173229', '20200527234657', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_JG_100001', '系统-比对核查-结果-测试资源-1', '正式环境请采用分区表', 'XT-BDHC-JG-CSZY-1', 'XITONG-BIDUIHECHA-JIEGUO-CESHIZIYUAN-1', '02', 'table', null, null, 'bdhc_default', null, 'V_SYS_BDHC_JG', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'gxsj desc,hdfssj desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -9711,7 +9722,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('4350AC51DD154CEAB066E3875FB9E5C4', '
    and a.owner = c.owner
    and a.column_name = c.column_name
    and a.owner = c.owner
- where a.table_name = upper(''V_SYS_BDHC_JG'')', 'select * from ${owner}.${tableName} t where 1 = 1 ${obj.whereStr} and yxx=''1'' and zylb=''100001'' ${obj.orderBy }', null, null, null, '06');
+ where a.table_name = upper(''V_SYS_BDHC_JG'')', 'select * from ${owner}.${tableName} t where 1 = 1 ${obj.whereStr} and zylb=''100001'' ${obj.orderBy }', null, null, null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('SYS_SJGL_SJDX', '20181210203129', '20200117152558', '1', '9999', '{"fields":{"sszzd":{"zddm":"dxmc","zdms":"搜索主字段"},"pyjp":{"zdms":"拼音简拼","zddm":"dxjp"},"pyqp":{"zdms":"拼音全拼","zddm":"dxqp"},"sszdlb":{"zdms":"搜索字段列表","zddm":"dxms||dxdm"},"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{"my-xjanmc":"导入对象","my-cxanmc":"Query","my-lbkbj":0,"my-istree":false,"pagePath":"syskz/sjdxList"},"bjymkz":{"pagePath":"syskz/sjdxEdit"}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJDX', '系统-数据管理-数据对象', '1', 'XT-SJGL-SJDX1', 'XITONG-SHUJUGUANLI-SHUJUDUIXIANG1', '02', 'table', null, 'oracle', 'default', null, 'SYS_SJGL_SJDX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px asc,gxsj desc', '1', '1', '1', '1', '0', '1', 'cn.benma666.common.ljq.SjdxLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
@@ -10420,7 +10431,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('D350756A26634C82AE3181B0B549A973', '
  where a.table_name = upper(''v_xndx'')
    and a.owner = upper(''sjsj'')
 ', null, '<my-tab id="listPage" :fromdata="fromdata" :sjdxid="sjdxid"></my-tab>', null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('33A39C954BA7458FB67AD1F3FA32B5B8', '20190418202237', '20191210114611', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{"pagePath":"jcga/jcxxList"}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'JCGA_JCYG_JCXX', '机场公安-机场用工-基础信息', null, null, null, '02', 'table', null, null, 'default', null, 'JCGA_JCYG_JCXX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'gxsj desc', '1', '1', '1', '1', '0', '0', 'cn.benma666.other.ljq.JcygLjq', 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('33A39C954BA7458FB67AD1F3FA32B5B8', '20190418202237', '20200527094309', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{"pagePath":"jcga/jcxxList"}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'JCGA_JCYG_JCXX', '机场公安-机场用工-基础信息', null, null, null, '02', 'table', null, null, 'default', null, 'JCGA_JCYG_JCXX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'gxsj desc', '1', '1', '1', '1', '0', '0', 'cn.benma666.other.ljq.JcygLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -10435,9 +10446,10 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('33A39C954BA7458FB67AD1F3FA32B5B8', '
 ', 'select *
   from ${owner}.${tableName} t
  where 1 = 1 ${obj.whereStr}
-   and yxx = ''1'' 
+   and yxx = ''1''  and sjly=''JCGA_JCYG_JCXX''
 /*if(!QxManager.hasAuthCode(user,''CQJC_XTGLY'')){*/
   and t.dw = #user.jgxx.id#
+ and t.gxsj>to_char(sysdate-1,''YYYYMMDDHH24MISS'')
 /*}*/
 ${obj.orderBy }', '<!-- 机场员工列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
@@ -11112,7 +11124,7 @@ function sjdxZdy(vp){
     }
 }
 </script>', null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('30FC076C16B049A2A402FAFBBCD70C36', '20191016234535', '20191119100259', '1', '99999', '{"lbymkz":{"my-lbkbj":1}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_GLPT_CSSZ', 'kettle-管理平台-参数设置', null, 'KETTLE-GLPT-CSSZ', 'KETTLE-GUANLIPINGTAI-CANSHUSHEZHI', '02', 'table', null, null, 'kettle_default', null, 'v_job_params', 'id', null, null, null, null, null, null, '1', 'update_date desc,ocode', '1', '1', '1', '1', '0', '1', 'cn.benma666.kettle.ljq.JobCsszLjq', 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('30FC076C16B049A2A402FAFBBCD70C36', '20191016234535', '20200527231621', '1', '99999', '{"lbymkz":{"my-lbkbj":1}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_GLPT_CSSZ', 'kettle-管理平台-参数设置', null, 'KETTLE-GLPT-CSSZ', 'KETTLE-GUANLIPINGTAI-CANSHUSHEZHI', '02', 'table', null, null, 'kettle_default', null, 'v_job_params', 'id', null, null, null, null, null, null, '1', 'update_date desc', '1', '1', '1', '1', '0', '1', 'cn.benma666.kettle.ljq.JobCsszLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -11420,7 +11432,7 @@ function lxSzhd(value,_this,event){
     $(".dslx"+value).removeAttr("disabled");
 }
 </script>', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('84040B896AB4466A8556D07DA636B4A4', '20190418202237', '20200305154104', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'JCGA_JCYG_JCXX_YQSB', '机场公安-机场用工-基础信息-疫情申报', null, 'JCGA-JCYG-JCXX-YQSB', 'JICHANGGONGAN-JICHANGYONGGONG-JICHUXINXI-YIQINGSHENBAO', '02', 'table', null, null, 'default', null, 'JCGA_JCYG_JCXX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'gxsj desc', '1', '1', '1', '1', '0', '0', 'cn.benma666.other.ljq.JcygYqsbLjq', 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('84040B896AB4466A8556D07DA636B4A4', '20190418202237', '20200527094333', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'JCGA_JCYG_JCXX_YQSB', '机场公安-机场用工-基础信息-疫情申报', null, 'JCGA-JCYG-JCXX-YQSB', 'JICHANGGONGAN-JICHANGYONGGONG-JICHUXINXI-YIQINGSHENBAO', '02', 'table', null, null, 'default', null, 'JCGA_JCYG_JCXX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'gxsj desc', '1', '1', '1', '1', '0', '0', 'cn.benma666.other.ljq.JcygYqsbLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -11437,6 +11449,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('84040B896AB4466A8556D07DA636B4A4', '
    and yxx = ''1''  and sjly=''JCGA_JCYG_JCXX_YQSB''
 /*if(!QxManager.hasAuthCode(user,''CQJC_XTGLY'')){*/
   and t.dw = #user.jgxx.id#
+ and t.gxsj>to_char(sysdate-1,''YYYYMMDDHH24MISS'')
 /*}*/
 ${obj.orderBy }', '
 <!-- 机场员工列表扩展 -->
@@ -11628,7 +11641,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('912769435779405698B51852FB4277DB', '
  where a.table_name = upper(''v_xndx'')
 ', null, null, null, null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('B425254ADC304ABFA7DF85C8998C8DA8', '20191123162233', '20191123162339', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_LOG_SJSCCW', '系统-日志-数据上传错误', null, 'XT-RZ-SJSCCW', 'XITONG-RIZHI-SHUJUSHANGCHUANCUOWU', '02', 'table', null, null, 'default', null, 'SYS_LOG_SJSCCW', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px,gxsj desc', '1', '1', '1', '1', '0', '1', null, null, null, null, null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('2792AD36241245A099AB0B2F7ACF856A', '20191017004510', '20191119100513', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_GLPT_JCRZ', 'kettle-管理平台-基础日志', null, 'KETTLE-GLPT-JCRZ', 'KETTLE-GUANLIPINGTAI-JICHURIZHI', '02', 'table', null, null, 'kettle_default', null, 'job_log', 'oid', null, 'update_date', null, null, null, null, '1', 'update_date desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('2792AD36241245A099AB0B2F7ACF856A', '20191017004510', '20200529120215', '1', '99999', '{"pagePath":"kettle/jcrzList"}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_GLPT_JCRZ', 'kettle-管理平台-基础日志', null, 'KETTLE-GLPT-JCRZ', 'KETTLE-GUANLIPINGTAI-JICHURIZHI', '02', 'table', null, null, 'kettle_default', null, 'job_log', 'oid', null, 'update_date', null, null, null, null, '1', 'update_date desc', '1', '1', '1', '1', '0', '1', 'cn.benma666.kettle.ljq.JcrzLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -11674,7 +11687,7 @@ function sjdxlbcz(value,_this) {
  * 下载
  */
 function downloadRz(id){
-    $.download("sjdx/getFile.do?id="+sjdxid+"&e_cllx=getfile",{e_oid:id});
+    $.download("sjdx/getFile.do?dxdm=KETTLE_GLPT_JCRZ&e_cllx=getfile",{e_oid:id});
 }
 </script>', null, null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('31019315F4C24059AE43E5ED0520DF52', '20181219195237', '20191209095352', '1', '99999', '{"登陆信息":{"系统名称":"数据大师","图标":"1D52A72F3B90409A8CAC65ACDE8605AE","菜单对象":"SYS_QX_QXXX_ZYGLCD","背景图片":"1D775094D977439CB163DDF292931E01"},"bjymkz":{"my-qdan":"登陆","my-xsgban":0,"my-qdbts":1,"my-tzgg":""},"echarts":{"title":{"text":"同名数量统计-对象自定义","subtext":"测试子标题"},"series":{"roseType":"angle"}}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_YHXX_ZYGLDL', '系统-权限-用户信息-作业管理登陆', null, 'XT-QX-YHXX-ZYGLDL', 'XITONG-QUANXIAN-YONGHUXINXI-ZUOYEGUANLIDENGLU', '02', 'table', null, 'oracle', 'default', null, 'SYS_QX_YHXX', 'id', null, 'gxsj', null, null, null, 'yxx', '1', null, '1', '1', '1', '1', '0', '0', 'cn.benma666.common.ljq.YhdlLjq', 'select a.column_name as zddm,
@@ -11839,7 +11852,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('F55728D8131D4A9BB3E67985AB272244', '
  where a.table_name = upper(''SYS_LOG_SJLZRZ'')
    and a.owner = upper(''sjsj'')
 ', null, null, null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('AE53A3D268F840C8AD5CD8BD54748853', '20181220215058', '20191117135810', '1', '99999', '{"基础配置":{"分隔符":"|","文本限定符":"","头部行数":1,"编码方式":"UTF-8"}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_LOG_FWZR_FTP_TEXT', '系统-日志-访问日志-FTP-文本文件', null, 'XT-RZ-FWRZ-FTP-WBWJ', 'XITONG-RIZHI-FANGWENRIZHI-FTP-WENBENWENJIAN', '02', 'wbwj', null, 'oracle', 'csftp', 'log/fwrz', '.*.txt', 'id', null, 'gxsj', null, null, null, 'yxx', '3', 'cjsj desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('AE53A3D268F840C8AD5CD8BD54748853', '20181220215058', '20200601193103', '1', '99999', '{"基础配置":{"分隔符":"|","文本限定符":"","头部行数":1,"编码方式":"UTF-8"}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_LOG_FWZR_FTP_TEXT', '系统-日志-访问日志-FTP-文本文件', null, 'XT-RZ-FWRZ-FTP-WBWJ', 'XITONG-RIZHI-FANGWENRIZHI-FTP-WENBENWENJIAN', '02', 'wbwj', null, 'oracle', 'csftp', 'log/fwrz', '.*.txt', 'id', null, null, null, null, null, 'yxx', '3', null, '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -11886,7 +11899,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('16BE2D68868C490E829D4AD95535D9A4', '
    and a.owner = c.owner
  where a.table_name = ''SYS_QX_YHXX'' and a.owner=''SJSJ''
 ', null, null, null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('326F9E2F014148FBB2DCD49FDB824AA6', '20191017004752', '20191119100437', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_GLPT_ZYYJ', 'kettle-管理平台-作业预警', null, 'KETTLE-GLPT-ZYYJ', 'KETTLE-GUANLIPINGTAI-ZUOYEYUJING', '02', 'table', null, null, 'kettle_default', null, 'JOB_WARNING', 'oid', null, 'update_date', null, null, null, null, '1', 'update_date desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('326F9E2F014148FBB2DCD49FDB824AA6', '20191017004752', '20200529120246', '1', '99999', '{"pagePath":"kettle/zyyjList"}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_GLPT_ZYYJ', 'kettle-管理平台-作业预警', null, 'KETTLE-GLPT-ZYYJ', 'KETTLE-GUANLIPINGTAI-ZUOYEYUJING', '02', 'table', null, null, 'kettle_default', null, 'JOB_WARNING', 'oid', null, 'update_date', null, null, null, null, '1', 'update_date desc', '1', '1', '1', '1', '0', '1', 'cn.benma666.kettle.ljq.ZyyjLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -11932,7 +11945,7 @@ function sjdxlbcz(value,_this) {
  * 下载
  */
 function downloadRz(id){
-    $.download("sjdx/getFile.do?id="+sjdxid+"&e_cllx=getfile",{e_oid:id});
+    $.download("sjdx/getFile.do?dxdm=KETTLE_GLPT_ZYYJ&e_cllx=getfile",{e_oid:id});
 }
 </script>', null, null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('DB7A417A3AC74ED9A0B41ABEF10C03C0', '20191028231903', '20191113171312', '1', '99999', '{"fields":{"sszzd":{"zddm":"bt","zdms":"搜索主字段"},"pyjp":{"zdms":"拼音简拼","zddm":"jp"},"pyqp":{"zdms":"拼音全拼","zddm":"qp"},"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}},"lbymkz":{"pagePath":"syskz/grbjList"}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_GRBJ', '系统-数据管理-个人笔记', null, 'XT-SJGL-GRBJ', 'XITONG-SHUJUGUANLI-GERENBIJI', '02', 'table', null, null, 'default', null, 'SYS_SJGL_GRBJ', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px,gxsj desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
@@ -12010,7 +12023,7 @@ function sjdxZdy(vp){
 	    </table>
 	</div>
 </script>', null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('F9E0AB7C6994475C94F502B9B18986CA', '20200427173229', '20200521165917', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_JG', '系统-比对核查-结果', '正式环境请采用分区表', 'XT-BDHC-JG', 'XITONG-BIDUIHECHA-JIEGUO', '02', 'table', null, null, 'bdhc_default', null, 'V_SYS_BDHC_JG', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px,gxsj desc', '1', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('F9E0AB7C6994475C94F502B9B18986CA', '20200427173229', '20200528154229', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_JG', '系统-比对核查-结果', '正式环境请采用分区表', 'XT-BDHC-JG', 'XITONG-BIDUIHECHA-JIEGUO', '02', 'table', null, null, 'bdhc_default', null, 'V_SYS_BDHC_JG', 'id', null, 'gxsj', null, null, null, 'yxx', '3', 'gxsj desc,hdfssj desc', '0', '1', '1', '1', '0', '1', null, 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -12066,7 +12079,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('8B74AF5DB3F64D36B5C8A28C43653A49', '
    and a.column_name = c.column_name
    and a.owner = c.owner
  where a.table_name = upper(''SYS_BDHC_ZY'')', null, null, null, null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('2471D979E27A4B02975B60BC60E45C8B', '20200427172542', '20200521165917', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_HM', '系统-比对核查-号码', null, 'XT-BDHC-HM', 'XITONG-BIDUIHECHA-HAOMA', '02', 'table', null, null, 'bdhc_default', null, 'SYS_BDHC_HM', 'id', null, 'gxsj', null, null, null, 'yxx', '1', 'px,gxsj desc', '1', '1', '1', '1', '0', '1', 'cn.benma666.other.ljq.BdhcHmLjq', 'select a.column_name as zddm,
+INSERT INTO "SJSJ"."SYS_SJGL_SJDX" VALUES ('2471D979E27A4B02975B60BC60E45C8B', '20200427172542', '20200529175451', '1', '99999', '{"fields":{"cjrdm":{"zdms":"创建人代码","zddm":"cjrdm"},"cjrxm":{"zdms":"创建人名称","zddm":"cjrxm"},"cjrdwdm":{"zdms":"创建人单位代码","zddm":"cjrdwdm"},"cjrdwmc":{"zdms":"创建人单位名称","zddm":"cjrdwmc"}}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_HM', '系统-比对核查-号码', null, 'XT-BDHC-HM', 'XITONG-BIDUIHECHA-HAOMA', '02', 'table', null, null, 'bdhc_default', null, 'SYS_BDHC_HM', 'id', null, 'gxsj', null, null, null, 'yxx', '3', null, '0', '1', '1', '1', '0', '1', 'cn.benma666.other.ljq.BdhcHmLjq', 'select a.column_name as zddm,
        a.comments    as zdms,
        c.data_type   as zdlx,
        c.data_length as zdcd
@@ -12122,6 +12135,114 @@ COMMENT ON COLUMN "SJSJ"."SYS_SJGL_SJQC"."QCZD" IS '去重字段';
 -- ----------------------------
 -- Records of SYS_SJGL_SJQC
 -- ----------------------------
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102102', 'hmzlbd_100001', 'C17FDBDC21D845E1B9B4FE2653F4C407');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102102', 'hmzlbd_100001', 'F4C4E3948C5748AB9B6F916C02D7A91F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102102', 'hmzlbd_100001', 'A40053A4E40B43C1B21D4FF3C5BB70E5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102102', 'hmzlbd_100001', 'D82AD0D942A845E89138D7BE26F29B53');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102102', 'hmzlbd_100001', 'A6212C348F1A415EA2651F491295F858');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102102', 'hmzlbd_100001', 'F8539B69E4E5477ABD6AF4FB537A3E46');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102702', 'hmzlbd_100001', '123F61446D8E49069F949A03A7973E1D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103203', 'hmzlbd_100001', '5A6BE2FBFA1E4D89A510EB0D1CB6D738');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103203', 'hmzlbd_100001', '67A5D612E0E64F20A93EE891D0A46818');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103203', 'hmzlbd_100001', '4E782CC78FC64F7BB97BCA8BB9559CE7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103203', 'hmzlbd_100001', '3908E08FDB6F4537B64776E3298DA3E3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103203', 'hmzlbd_100001', '860C8D0E6CD4471DA3E7BE1E7E26F635');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103203', 'hmzlbd_100001', 'F0FC352B57604FB086E5DB8858AD663B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103203', 'hmzlbd_100001', '45DB690E6BC64FDCA91613BE6EAE1E78');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '14E27668451F473E8044093844459457');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '9DD9893ED36249ECA8E8395C4069047B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', '9DC5BB5DFCB64AA78072D3C7BF3B18EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', 'E042B7210C6A47E09598DAAF7DDB9859');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', 'ECA298F16CB4468199FE0177510B4CAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', 'AABF749277904CC998DF44A79C83E007');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', '353E24266E604164B4ED12AFE8B4CB73');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', 'CF8D8D06909846C69600CCFD6496761A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', 'BB9A1B54BC8749508F2450954321C460');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', '5F1ED1EE5BEA40EAAF9AC9E9277E79E6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', 'E53DA80807C0404C95A3DA3D095AEFB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103901', 'hmzlbd_100001', 'DE679B5854B949D1BE845CC31C99C762');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104003', 'hmzlbd_100001', '8A799C981D59452E9415E63133DDFE9D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104003', 'hmzlbd_100001', '3C5539BFAB85464F821D10FA91FAD0B9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104003', 'hmzlbd_100001', '587527B6324047319F6BC696210A1B65');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104003', 'hmzlbd_100001', '18111C8CD52F4FC1A2D8A1E2B9A8E973');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104004', 'hmzlbd_100001', '17E2AE29F0C243A7AA15F5153648CC5B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104004', 'hmzlbd_100001', '702A6EF9E72B4495B1C8717083552EB5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104004', 'hmzlbd_100001', 'B3FBE6B856D6489C92482C7632F00387');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522104004', 'hmzlbd_100001', 'C32AB7D17C084D7481E1E7101EAA6ECC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110501', 'hmzlbd_100001', '391C5D662FAD4A079917C4433170BC10');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110501', 'hmzlbd_100001', 'D798FEA445E34DDBA6923E27F9A06847');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110501', 'hmzlbd_100001', '4B5B7B95652C4DE68AA93D2C45CC6E8F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110501', 'hmzlbd_100001', 'CCDBD8F954594B1CAC4D4F91600E4B44');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110501', 'hmzlbd_100001', '3A1593B1CB5749D6A21DF2445522C757');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110501', 'hmzlbd_100001', 'D37E7654999F479F8AF7869A669621F4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110501', 'hmzlbd_100001', '61DC719A323042409B99A0DC287B578C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'E92DDE50575248CFB5DA368EE42AFD59');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '922EB604532F43BAB8CBE16F15DF2F50');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'D81C4C57023B494682549063A4182BED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'EDF6CB7F95F34CFBA071C247C58CF0E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '40DA5C730601432284F969E78E700C11');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '8DC207B34E64408C9196E93DF6504BDE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'EC177A5313FA4128AF30C582BF3D038A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '477FAA8D25EE48458352E807FD78F935');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '33FC21F7CC0944A48187FC9F43084AB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '663356DB8FB44B50B85F69DA814446FE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '042B3FAF5BC8407D964C3A1EA983EFA8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'D93DEC50458F41FAA6997A7DE8C44FA8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '3F720F82F13348E2B8CD5C95E55AC133');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'B4FF9465AEB44F439B9EA157B6F4F83C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'E54D36ED84AE4FD1B8D187448A07EE8B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', '8B36AC725EB048F7AEC82B3B950334EC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110604', 'hmzlbd_100001', 'A304DA0F6E614ABC8E9BA37A592AFC6B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', '15296396F96348CEAC09EB58856C4CF8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', 'BD79D21D45094E80A9F6C36994FA47D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', '2E225716B25E47BFAB4B59E70BCF7B5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', 'DD61F4DA9A824735BCF0D005E939C699');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', 'B706BF9DE1FD436987204FBF41AC3099');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', 'EC219B8DF3814418B0D052E6BC4A2AAF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', '97404F15FA9E4EB99C14B315DF7267CD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', '85DD29EBC37C4C74A6AC4CC9DBB016FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', '17A7DD1D24554DEAA58682DCB90D6572');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110804', 'hmzlbd_100001', '9DF2352344A34B35A17E2B69D6846AF0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110902', 'hmzlbd_100001', 'D2E932BA1654479091BBA97D1A8FCF51');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110902', 'hmzlbd_100001', '46ED5C2AD8E642D9BBF44624100C4D8D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110902', 'hmzlbd_100001', 'E1C0CF1BA8454F26A8282687B4C0BEE0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110902', 'hmzlbd_100001', '79409E348C904E0B88DCF8F21255B6C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522110902', 'hmzlbd_100001', '9E57DCFDEF9A41B1A48EED375969DB6A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', '25A87409865C4CE58DD827BC7D5EE084');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', 'E8E36A0EFD854ACCAEF32E0283F137BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', '7FD1CFBA76914CB481EEFA9E9CA2899C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', '32AF040CCEC746079771C04141B40433');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', 'DF19FDFA021243D6A4BA22F64C769816');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', '2A07CCBDD2F349F8A314A0B4A07AA50D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', '11F14FE58F3B441D8AF68DA0FA9E89BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111003', 'hmzlbd_100001', '66C8F8042E71406BBA46A9B974184AB9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111102', 'hmzlbd_100001', '2B86B22EB0CD40BF89FED085B3BB4036');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111102', 'hmzlbd_100001', 'CD166470C7234ABE9AEAF10BF2281F5F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522111102', 'hmzlbd_100001', 'F42484C814594B9EB695B77DC7A94577');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113102', 'hmzlbd_100001', 'D69EF56E4AD2490A86B1B48D2A92E9DD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113102', 'hmzlbd_100001', 'E8A5DA7351E7479A8F3EFC4655225715');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113102', 'hmzlbd_100001', '347DA8BB5CCF4068A90BA931264290F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113102', 'hmzlbd_100001', 'BC94D422DE02487292BB9455CD6918FB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113102', 'hmzlbd_100001', '8635F580027048758BD318C7D1084A88');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113102', 'hmzlbd_100001', '567FC7D69C57413885CDC78BB37ED00C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113102', 'hmzlbd_100001', '157D31D32F4E4413AE39355D191AF0C1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113204', 'hmzlbd_100001', 'C2D3627BA42D453AB8CAA3A62139D893');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113204', 'hmzlbd_100001', '16E86C5AEEF84C49BF9E012E22735DF1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522113204', 'hmzlbd_100001', '067E2E1655324DCC995CD716A96DD296');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522120405', 'hmzlbd_100001', '23E822F5CD624C5C8AE3CE34BE87C5AE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522120405', 'hmzlbd_100001', '5B51273311874E9895CF3F8F7A027C3B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522120405', 'hmzlbd_100001', '229B3458681D445DAEB1DD0121F2CA35');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522120405', 'hmzlbd_100001', 'F6A150BF5DE5445CA77CE27DFBCCDAE8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522120501', 'hmzlbd_100001', 'A9F560B72C2F49C5AC726916E76685F6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522120501', 'hmzlbd_100001', '4D11448A75F94989A860627A739F9879');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522125804', 'hmzlbd_100001', 'C766C24064A0491DAFD81BF19AA1EB14');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522125804', 'hmzlbd_100001', '136646EB8BDB4F87AE4DA8777AC66F6B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522125804', 'hmzlbd_100001', '01000D8428134C17B3A49838DAEF7669');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522125804', 'hmzlbd_100001', '8D21D1DE22454CF0AF088070C5A661E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522125804', 'hmzlbd_100001', '75031CE9345A433D8C06295D1446DFCA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522125804', 'hmzlbd_100001', '56F6C720CDDC45CDBA8A76F3F3C28680');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522130403', 'hmzlbd_100001', 'A0BAD46A8367478A971E5046C485312D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522130403', 'hmzlbd_100001', 'CC409989F3DA4F7EA5A2B927D311FE81');
 INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200521233725', 'hmzlbd_100001', '416DA9E34D0D472AB52393C4EC8E9D7A');
 INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200521233725', 'hmzlbd_100001', '6439AF9787AD405F88B0048800EBB1DB');
 INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200521233725', 'hmzlbd_100001', '6FCCB44D973A453884BBC6515A65E7E0');
@@ -12438,6 +12559,2286 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522010303', 'hmzlbd_100001', '4
 INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522010303', 'hmzlbd_100001', '0AE85CEA6D434D58A5CC4AD07BAADD3A');
 INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522010303', 'hmzlbd_100001', '6C92EEC6D5814164B64A1CDCC3EF901F');
 INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522010303', 'hmzlbd_100001', '680A16B3176B4540ADD3DFC75F17A4E8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013255', 'hmzlbd_100001', 'EAAA722F5F5048DFBB6D6B6961805893');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013255', 'hmzlbd_100001', '57B10AE3D6774BBAAA3A2F24E0842B12');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013255', 'hmzlbd_100001', '039092A063404896B50C16E9E88CF7B1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013703', 'hmzlbd_100001', 'E9360FE3815D4F8A9E0ADAB3E32500EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013703', 'hmzlbd_100001', 'CBEEB3E77D514E5CB36E7F692848724E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013703', 'hmzlbd_100001', '6FA5DA0E579B4BEAB49F68A133966EF1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013703', 'hmzlbd_100001', 'C3E020F2DB8B41A3B6E2FAF722E67C24');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013703', 'hmzlbd_100001', '98A95F64B9B34C17B26B27D825A008D9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013703', 'hmzlbd_100001', '47F071C727BD460DA4A316179D3B35AD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013704', 'hmzlbd_100001', '5DAF03042A68434C8E30CB5BE3EDA32F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013704', 'hmzlbd_100001', '89B20ED96D604D3D92CDBF64A18E7466');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013704', 'hmzlbd_100001', '0D0AD06887ED4CADA87BB99461CE132F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013704', 'hmzlbd_100001', '68BFCE2ED53243D39C945DE68B4463D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', 'AEC0397AAD264A74ABFD23582CDA3786');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', '3869707E0C0443FBB1DB2DF5BFCA6749');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', '7E5F6B04B24941499A2484436DBB646E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', '8A19BAAE0275492CBE3A1C6FFF32467B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', '190BD13FDE1A4DEAB933002EB1D22E11');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', 'C4783A1BCF104CC38A73F9F5058B6083');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', 'C6792A6DA4794171BAC5D66F10F94072');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', '0A675E40EC244163936ED30D13FB4264');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', 'AA6B2A9B450543C88E6D3B87A6388C53');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', 'E30B019E38384C0A89C6D9B5C308A470');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', '86F098EBEB3549FAA9EE585CFB15375E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522013808', 'hmzlbd_100001', 'A49BF547E8EA4DDE9500FA581D3EC7E0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522015903', 'hmzlbd_100001', 'E817697DF0604CFF864CB45006C0F6A5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522015903', 'hmzlbd_100001', '6E5993515BED473289B67BA878E6DE0E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522015903', 'hmzlbd_100001', '8AABC416CFAA4BBFB08E96311500C1A3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522015903', 'hmzlbd_100001', '8424A4A31AA94C1AB170A86633662FAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522015903', 'hmzlbd_100001', '33944AD2F7FC4F99B53F401EECC75730');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522015903', 'hmzlbd_100001', 'FD4D6E3FC52D4695BB2CA46E8A59069F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020007', 'hmzlbd_100001', '2EDF9E41608E4C5CB3FB2348E4595BE7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020007', 'hmzlbd_100001', '216C0D63BD554E15AA3FA1CB15D269DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020007', 'hmzlbd_100001', 'A3AD28B913154746BBFFA2BCBF7B1863');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020007', 'hmzlbd_100001', '06D7229366C74FB5827ACD16E3531AD9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020303', 'hmzlbd_100001', '49E3A2E745C543E49499DDF74DECB3D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020303', 'hmzlbd_100001', 'C0FF916015744F64AF72182475CD8DE3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020303', 'hmzlbd_100001', '089C1E4EB43046CABF5ED09C3F0B3F5F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020303', 'hmzlbd_100001', '974A3830965D4046AFA676AB77DB59DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020303', 'hmzlbd_100001', '7FAE830F29C245D0BC72E00851B0D1DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020408', 'hmzlbd_100001', '34D4E716977E4774BA319AF1BA87A684');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020408', 'hmzlbd_100001', 'DBC4D5437AEC453AB3075CE0816EEAE8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020408', 'hmzlbd_100001', '9A0EE52CA17249C6864921E454CCA670');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020408', 'hmzlbd_100001', '6E265C6695AF41A2809E11D51DEE15BD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020408', 'hmzlbd_100001', '9ECD3EF82DE342C5BC7DC41E36A457B6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020408', 'hmzlbd_100001', '896F4F5D2D9841989F896A81D045C793');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020503', 'hmzlbd_100001', 'AB30E4347E404D2589311585CE7F55B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522020503', 'hmzlbd_100001', 'D25CC4A098B741639B85DBBDB65E8B4B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522021009', 'hmzlbd_100001', '770557A8635A4EA0BF1FCF6AEBD16A82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522095804', 'hmzlbd_100001', 'D92BC3DC7B4E4B1586C93B115D693778');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522100404', 'hmzlbd_100001', 'C7EF43A3FF2B427FA9D94B44024291B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '39D5D3D8C936497EA43ED2744188AA84');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '2BF0717749E840AF94DCB2E238DFE695');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '1B641F0FEF294EFAA7F09E3621FD197A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '9FED2C4BB3B8425FB96F876BAD43E2CF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '40A07BA479EF4CD29340D629D14C218D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '6BF2F329D73C4A689B6C2F6ED2D02AF9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '0B28159F89724BA5A204EB9A49ED831D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', 'B25D3806CC4D43DEA8AFBE059FA96224');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522101902', 'hmzlbd_100001', '68EAF0EA0A954D1FB73B7BD4D7AE66E5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102203', 'hmzlbd_100001', '04998DAD429C489587AC8CB53D8FADFF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102203', 'hmzlbd_100001', 'C4BD721DAA0A48A0904E4C46ABA7A830');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102203', 'hmzlbd_100001', '079CF4EB1BAF4D0087CF3006FFBBCDCA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102203', 'hmzlbd_100001', '40E307AAE273404F8CF6FDD4B4CEEF03');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102203', 'hmzlbd_100001', '4D0AED15D32446AB8E687B244AEC0EFB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', '0AA96E64502D47A6A78CE735EBE16AB8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', 'B6844D14829B4C988E09F2619D955D14');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', '1A761E8ED23F4DF9A913BA19DE54045A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', 'F56E35CA490A4E42862C3F3B75FBF018');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', '7432D6DC694644A897665E85C2167401');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', 'AEF95028436243408BBE803C5820DD41');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', 'CE8D5F6C846D49C2AC2118B8A710A7E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102404', 'hmzlbd_100001', '98AD45F7DD0440C694F015ABBD06A2B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102804', 'hmzlbd_100001', 'F59EE96E3467497C89292B88F5A2DE1A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102804', 'hmzlbd_100001', '1B494D1E890446CAAB2582149FD8543F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102804', 'hmzlbd_100001', '3DCACB29064340EAB123C130E05BD872');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102804', 'hmzlbd_100001', '200BBB3120144A7E99B5ABBE3E2A4706');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102804', 'hmzlbd_100001', '99DE51E2F9CA4E9B81A99388F88E25A0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102901', 'hmzlbd_100001', '627B72B938FE412F906149D9F44600EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102901', 'hmzlbd_100001', '9E211A1A717D45A19B76AF670B6386F1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102901', 'hmzlbd_100001', '71B52C8670464FBDBAED9FBB46B84C55');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522102901', 'hmzlbd_100001', '6F61691AE3E74AC19C990261B1DAE8C9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103004', 'hmzlbd_100001', 'B7FBF3AE3B1944E8923D3053DD24B785');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103004', 'hmzlbd_100001', '33B54F17AB7C4FB6AED1A4275530B87E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103004', 'hmzlbd_100001', 'F2E8607476914DFF84D2D0BCA6BBA4FD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103004', 'hmzlbd_100001', '51D8C290A6384E2DB4B18C946073D187');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103004', 'hmzlbd_100001', 'D65ECF3F8F564373B3814E819C4C8BDD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103004', 'hmzlbd_100001', '01080DEEA6494253B6F98E88C5426C8C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103301', 'hmzlbd_100001', 'DD5F103484154A27B988E516A601D6F1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103301', 'hmzlbd_100001', 'A9F347565B64474D9E401ACBA68D01E3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '0876AE9460F940BE9E5C7DD7B5270404');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '499D269B26294BD5B779F9BE0E271A9C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '6A3E49127B6F4084A000B32ECD0A2824');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '99DBCF7A5D5A4DD8BCCB24614231EE16');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '21EB71C258B14BF697F34C55B4ED9215');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'D4778266D64D433DBB721203A598D3D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '45CCA906FA164B59B35A6E8CB4326635');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'E67481E065FF44079F016FE1B1F92793');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'B9235206E8C1463BB2F3858DE47A0170');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '3BFD4B9F565740BBB70A9D3EDB6BA47A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'AE97297986F745B8A8EFF4D399FDCAC5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'C6B984096A7B48A08832787B4317580E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'EDD85027362F4ACCA5918DB464187434');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '0A09038E6B9A48B4BAE7629008FC6785');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '8209F44435094C1982DDA0E23743C4D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '82CE19BA25154B358DCC2AF4E5A42733');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'A29DA5491A0A41399596664B597BF8FE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '524D9AAF0E234F48B97C6A02FCD18717');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '013A8DB8D17E4847A12B458042606895');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '8ACA6C05E1EF49739322D5D10D7F1734');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '9A1CA994FBF84BE19B731ADCE40F6421');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '87FADFB79FC9445E9578E45D47BAF14F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', '5F096ECD2356427BA75B38E257BAFC6A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'D18AEF59EF0949F4A6FAA0CEAE453927');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'B53ACFA91C724DB9BCFAD783E6E7A8DF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522103805', 'hmzlbd_100001', 'AF44160EE38B47888441EBDF9AB8271A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202550', 'hmzlbd_100001', '389B6FFCF5E543359F3E33670A1104F6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202550', 'hmzlbd_100001', 'B2BE9FEAAA824BF99AB6E2AEABD854A0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', 'E8A4154A595A4ADA937D299CC67F0C87');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '3823C7FA75864A45AA957C494B11D6CF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', 'F3DB7A2848B04ACAA136159807DBE4BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', 'EBB084BE448C460AAB403B7A000B82D9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '2220230FBACA47F0BCF42218E699209C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '40B17FDFD0BF4B718346ED365FFD0256');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '20EE2BB9EF6E49D794992DFABFF4DB0D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '3FB2F29B75634318ACCBCE8EFFEB35F1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '6BB6A0410F264AE0B3733262530D7479');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', 'B0BC8245A4D646A690095066B0ECE21F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '3B43077E6E584FC385C9B240ADA0C79E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '08A863203C364A2C888C27E101BF8FF3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', 'BC50B6ED674E4472A62B7F237E949727');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223928', 'hmzlbd_100001', '15E1238BD36F4AC8B9F9573C88C87755');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', 'FAE0416DC69C475596D9A013789CEA23');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', 'B9F6BE6873E849CC92D1A4A568878195');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', '5D27C46394504B2E882A77007DF50CA0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', '98E28D3B842F4D778F470EBCCA62561E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', '490E8A268C3C469B9450C2392BFA9525');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', '40A86F80E13E4095A33FDA7F410C64D4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', '95CEC568C12C485BA67E5A11FF29D43E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', 'EDBD982BDF7F4CA3B43B40A155B7C8B4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', '48FC9B068FB84ABFBE899DA76AB4B458');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', 'BC6506FC58FF4BC095A1DE5A37DDDBC0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', 'B2A780421D2F42D89DD7F646A97CE806');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', '24F81F8A9E0B4DD0927D32A20E9836D9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525224806', 'hmzlbd_100001', 'FAD9A200E74A41F0B51423479A6A2BA2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525225302', 'hmzlbd_100001', '12AC2F0F7BAD499C839E4D6B7AD11B59');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '2514543CFC444445B7505497BBE8197C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '1E1894DBAD394DC08F77E6651BEF2B01');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '96BBA85F70F04747B5EEDCB316BE11A7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '46049169113A4C3495723A1B73199F32');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', 'D2C26E940C0445D6AD969A1138F11C0F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '048333DCD6DB480A9D0F035585473ED9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', 'D07E17E5FFB34E0189535114DBFE410A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '5C3226DD53E4418FB0295DF88AF57438');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '58FC0735ABC44E5A833A7FE46876ADF8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001102', 'hmzlbd_100001', 'D56D1F5DDCEF42419374ED1A078F6B00');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001102', 'hmzlbd_100001', '83A5A6BC83604620A4EFF42FC19E1B40');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001102', 'hmzlbd_100001', '456F8B188912455B9F034453662603E6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001102', 'hmzlbd_100001', '9C9FF11A98C54D019D211EFE83314CF8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001102', 'hmzlbd_100001', 'F25DFCD4C1B344DBBAAAE64CB6DF939D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001102', 'hmzlbd_100001', '1A104210FFBD47B4BA916B6CB95C032E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001102', 'hmzlbd_100001', '196FDC694F904BD5889E10D8BAC697C0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001405', 'hmzlbd_100001', '4173EAF0D07545B397208D3FC73C47F6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001405', 'hmzlbd_100001', 'B7DC75CD16904E408EE4CA0D7FCC6EB3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001804', 'hmzlbd_100001', '292F36B29F324A9F8CA7D35ED6A492A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001804', 'hmzlbd_100001', 'FA16E294C8B547EF8C28A7018F21F32D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001804', 'hmzlbd_100001', '127CC22BC1064D35B61ED3555694D8CA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526002102', 'hmzlbd_100001', '604D500B3F1C4734ABFB8209489F5B83');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526002102', 'hmzlbd_100001', '4C7CADE63C0B4A6DBFA6DF02D5AF08A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526002102', 'hmzlbd_100001', 'A3D60DEEBAD64E6F8CF94F3F78CA220C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526003902', 'hmzlbd_100001', 'A7F109FA5BFC4E46A7425AA2E5DC041F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526003902', 'hmzlbd_100001', 'E4A767E3A3D848A39E718078891E5113');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526003902', 'hmzlbd_100001', '2970B7E2E0B949C6A99FBA4165E9C20C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526003902', 'hmzlbd_100001', '6DFF604FD54C49BEAE02B23BF0D0395C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526003902', 'hmzlbd_100001', '7FC33E211C2447A9AEAD4188CD8DA529');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005102', 'hmzlbd_100001', 'DCCBBBC2186C475DAAD24945A43A6F93');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005102', 'hmzlbd_100001', '1ACB13EDFDA94FAC8CD9907117DFDD43');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005102', 'hmzlbd_100001', '3B491A9BBE8D45B1A7342508B5648E5A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005102', 'hmzlbd_100001', '850271F9F7BD419AB3023CC61CF58B4F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005502', 'hmzlbd_100001', 'F261DB8B0CD848429964F79CB512961F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005502', 'hmzlbd_100001', '9ECD8DB2C3334ED3A5296A1C467B6D50');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005502', 'hmzlbd_100001', 'BCB023B9959640FFBD6A2A76765DB83F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526182101', 'hmzlbd_100001', 'B419C71EC79045798680BD38E5D1EC1C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526182101', 'hmzlbd_100001', '7973E69D799449499E12C371309B5AB9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526182101', 'hmzlbd_100001', 'D0715D673F8247298C5F3B272AB93C80');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526182101', 'hmzlbd_100001', '57E57C7CF5BF4BB7AF3412EF62544E32');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526182101', 'hmzlbd_100001', '5B2D8D05DE554B9A856F9B273677EAC3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526182101', 'hmzlbd_100001', '6199AB0AC11C41C59C53E7602CA16CA0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526182101', 'hmzlbd_100001', 'E4993BABCC874777A6ADAE605CA77075');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526183737', 'hmzlbd_100001', '0EB9EABC61104FE9B20E184C9A78678F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526183737', 'hmzlbd_100001', '5FECFE1948804E5A89CCA929A7AF6E69');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526183737', 'hmzlbd_100001', 'C1ECAA7867724B4397C251ECE31A7706');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526183737', 'hmzlbd_100001', '9187969548C94E1A80F767634DA8A727');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526183737', 'hmzlbd_100001', '884348FE892A4131B4B0F5D04B5C711D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526183737', 'hmzlbd_100001', 'EBEF6A3BDC41408DBFBCE6F167E92B1B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190444', 'hmzlbd_100001', '64E2D7FE03554198AF85E262E7E9276D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190444', 'hmzlbd_100001', '94AAA567E2374683B0F69987F7DCB45D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190444', 'hmzlbd_100001', '316B6FA0A2844D578CB6F6111FF3530D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190444', 'hmzlbd_100001', '32F621F15E7B4A689EDE2F6F6CFEBCDC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', '80A6C44ED65D4447B820786F83E2B180');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', 'AF7CFDA405C548B09C5E3A4F12315361');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', 'B52358DDA21044C1A2C1C9DBA6B18EAD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', '41900867001A4EB8B49851511BE483B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', '70B2B1D788124647AE03305F1DAFBDA8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', '7473830B9BA34CE497FA6D3018FA3DD5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', '4C3F74421DF84444B202C69B1D1AAF01');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', 'B68202F720BD47ECB78CF0EBEF71F2EC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', '28CB65A453D04DDEA7530A1AC5D46889');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190502', 'hmzlbd_100001', '5BBA0DED95534470A6B7D5F7A13DC761');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190503', 'hmzlbd_100001', 'F09D51C56B964595AD0F6AFD411E3853');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190503', 'hmzlbd_100001', '1337DB7B6C034BA3BE017CADB875CA3F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191805', 'hmzlbd_100001', 'C469F2F51BBF43D69F73A5D172363351');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191805', 'hmzlbd_100001', 'EC223A3F5ED3441384B8E79379F4E46D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191805', 'hmzlbd_100001', '83EF357CD2154AF5A033CDF1A6FBD512');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192005', 'hmzlbd_100001', 'ED1235C48CA640E991A1819ED949CDCD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192005', 'hmzlbd_100001', 'AF3E9ADB97444103AA20A6E23A309661');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192005', 'hmzlbd_100001', 'BBB19AF1E8AC41BCA6E0E91F5D9F6AD8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192005', 'hmzlbd_100001', '86E487DE710E4C15A30D64C3A2E6184E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192005', 'hmzlbd_100001', '825291F402A9403FA9820E382AC889E6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192005', 'hmzlbd_100001', '1399CF78DB194FE180E62BBCD73EA8B4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192005', 'hmzlbd_100001', '26990BC2851E4AECB977FB5292202FAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193444', 'hmzlbd_100001', 'F8612614E5324AB1A60A0815F8E9145E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193444', 'hmzlbd_100001', 'E3AAB0594820489087A1E6F339375905');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193444', 'hmzlbd_100001', 'C4D0FC3B772B4BADA4387578EDC96274');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132205', 'hmzlbd_100001', 'A5FA3DF029E8488A9E4EAB1AA9992091');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132902', 'hmzlbd_100001', 'F771EDB36F514E37ACBBB8941A90DBB5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132902', 'hmzlbd_100001', '1BF584C7D3CA4EFF8D51DC679FEA62A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132902', 'hmzlbd_100001', 'FC467DF2D912433BAA5734E4581A8745');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132902', 'hmzlbd_100001', 'CDBCCB44E90B49D5929B2FE4C276D14B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132902', 'hmzlbd_100001', '0D22A787A6CE46FF84CEE6A9CCC300CD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132902', 'hmzlbd_100001', 'D3F8C96002814BB49DA3D60954E53410');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132902', 'hmzlbd_100001', '94A4E057DDE247E7B7C0B285CA4D9737');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', 'AFC0C3F2926F45A688166E42AA435FD0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '60F3F66C64A64340B3CCBCAF0D9F80E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '02F6C4C51020401A99093FEA9A82650E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '016217CC7FAE49DFA89ED6BF18001F51');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '986B3265F4ED48D1BB6E7CF8A568BEEB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '4F7F7D4189E54B109FD13135B998F353');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '7F393552546945658A3BC974A9C5D7EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '0BFE8325CBCF460C9D4718F60BDE333F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213702', 'hmzlbd_100001', '0D1007F3424E45BB8404ECDBD9951B51');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230416', 'hmzlbd_100001', '790744CECEDE42E8A6F7B59802968B9D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230416', 'hmzlbd_100001', '34890D5BF87C4B7AB1C1C383671DF774');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', 'AE9DA072A9F44AAB8553DE1A6C0D1999');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '47D94F00571B4699948905339806FBFC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', 'B20C9A6B1882415E8B638398E84721C6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', 'D16AF0E694434630BF1324F0B9BE62ED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '349A1A97999D4DD49E6EECC09ACBE21F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '43728B87B84F4100AE464501C2C502A6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '12F59BED009A435EB0B53892EB9A6E35');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', 'E40AB7FDD3094E75B1FA7412CD7111D2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '2C49228BC5A545E49953C726F102DE8B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '93882A1310214E99834EA4C626286B9B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '8A5A4DC2BD0945918720FC73122F6653');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526153806', 'hmzlbd_100001', '208D28E51CD7441C9C2AB46F96CEB412');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526162806', 'hmzlbd_100001', 'E68F398B939D4E50AA3C24A8046E3D0D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', 'FA109EC31F54475FABE91AD542FA2518');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '794073DFE940431E8548F58F73278AE3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', 'F9C76D86ACD74DFB8997904AD6110465');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '5B8FE8A0154C4F858AD7B87990463AD7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '9DFF5AC53FA040C8B2725D8BABFB52BA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '4A07C9A1FF2144E98708E3E81281C3D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '758817FA59FD454D8B7C47F8F27CAAA4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '3780A09F1BA64EC9995E4652ADC36AF1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '8EB79AECB6A24E2F98BC05564DE20296');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '5F432D03EB7349ECBAE5ACB55FEEEA01');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', 'EFE7E864181B4C4CB83B8FAD53C88A7F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '5B40B70E97974101A5461472DDAE39FE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', 'E9038A6487934957BE9F7AF5F3790818');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '69F8072B3CE04975B17C74C66B92EDFE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526164204', 'hmzlbd_100001', '2B2263333FB24034BA1B4674D9762EE1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190605', 'hmzlbd_100001', '5684A3BBB2AD464AA6E9D477BC70A453');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190605', 'hmzlbd_100001', 'A2E56A9496F546F89829B7C60ED97A79');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190605', 'hmzlbd_100001', '8B0ED77E9B5B456C83D5E1E63BB912EC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190605', 'hmzlbd_100001', '490A27F7AEA5447CB345DBFCFC8E02D2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190605', 'hmzlbd_100001', 'D67A119DA545443BA5BEDD1709DBBA98');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526190605', 'hmzlbd_100001', '3B0E382AA769450D9385F2CA777F324F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191701', 'hmzlbd_100001', '51B62EE09A2D4ECCA6C78C866E6A63D2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191701', 'hmzlbd_100001', '690F280388FE433BBE9894965D8B2E4F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191701', 'hmzlbd_100001', 'D1AC0F9CC34548FC8B6A938F4FE60313');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191701', 'hmzlbd_100001', 'D1F31D072FAA43E08AF53CA4A6EF1AB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191701', 'hmzlbd_100001', '99BCD3BBE7364D168878E58FDBC30E56');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191701', 'hmzlbd_100001', '01AE98C8906449DD9482E66EE91FC829');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '0DD06151D28E4D84B7C474F39E2A6765');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '46B866D52EE541A39C919C0498A8D725');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', 'EED4DE45A79E43AB9C277EDBC98709F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '90521EBED5D346478A07D376A070E241');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '8E7A688F15FA4528991A554473706FEB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', 'ABEF16E6112F47DA9948EE50AD058CAD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '94C12CC32D2F44A9A4CD1D0814DEA5BC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '0D46120419C545F39A29E495DF8B80EF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '63D92A2E81584F06AC6596EDBFE16050');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', 'D3490103D6A946E68092729150BA128A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '3560C1B0DFCA452F9D33933FC33D5429');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', 'C82AC5DE94A2491EB524281C487AE8EA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526191902', 'hmzlbd_100001', '6960B3A4761F4DE1A12F7422140C00E4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192303', 'hmzlbd_100001', 'F618C3AD186F409D975CAE59734EF37C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192303', 'hmzlbd_100001', '3DCC757D165D4556B7A1EF137C55C95E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192303', 'hmzlbd_100001', '2C9E740253514145BC6F09D649E67917');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192303', 'hmzlbd_100001', '3C32A6E837F743009DD3D3F0F972A64A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192512', 'hmzlbd_100001', 'FC5B6056AFAE47229BAC63AF31835B60');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192512', 'hmzlbd_100001', 'B69E37827DA94ED0B6940D8D6D8FD63B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192512', 'hmzlbd_100001', '4D2388B793BE40C5AD68B823AC6C5970');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192512', 'hmzlbd_100001', 'C177DD8B653C43B0B9D6A607A6B92B5B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192512', 'hmzlbd_100001', '2DFDA778F9114CD8A0071730D5823B9E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192512', 'hmzlbd_100001', '136233141F7F42CEB0C56596F94C9B3F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526192512', 'hmzlbd_100001', 'D85EAEB9CCAD4C6E9AAB93F781E282E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', '454BB72A90574EB58D41D1BD989CB1B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', '0CF8A9B3DA7A4BA7979F94F62BAECD34');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', '1B24F9F7B3A048FD986E350BA7D9C712');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', 'B79CEEBD449146EA9D2DD6A1707E3B94');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', '6685DC3519D746B2BC34F90B1D6AD80E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', '0FEBF626CD4A4D1ABDC40A0E158087E4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', '7CFEC1A080BF4253B84878B459480848');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193602', 'hmzlbd_100001', '275270F2010443F59C66197FBF63A0C0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194003', 'hmzlbd_100001', 'C82508D2E51B4A589006BED1127AF6DB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194100', 'hmzlbd_100001', '7E0313E7A3C641D7BB44D6C2CB7E8A63');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194100', 'hmzlbd_100001', '8E0AA6D00630476A8350A4A7E6D4EB7D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '43ABBFBC25D94792944D1C3BF231F95C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '36C9E36351F4498FADE17545F227FB0A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', 'EC00B82D48F7431684850C31DE304F4D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '66DC846636B740FF81F371931F50FA88');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '178FC47315644EC19DA7369FEAF71BE7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', 'B9B72B8A97A84D5FAC35BFF2733E98B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '0B2FFAAF14AB425A8E5FFBEE69EE37DF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', 'DE0AD15628EC4AFEAB0BED91A65DB860');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '207AE8ACC2704BA682F27CB738AECE76');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '072BB7CE3C6B4A51850D14363D9DFE5C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '601B1B6DA4B84384B128FDE86D209D05');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '302E45C59A964DF785C73D55ADFD1DE1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '511DE6988B8C4D6EA03EA21A0EBBAF22');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', 'AB367D76F89A45E6A59805BC7C7EDFD8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', 'F3F5AA8A53454E209163C395C2FCC10D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', '640C1EACC6CF43748C9C2132FAE1143E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', 'E8CE5D989AAE403891DCA454E7AB355D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', '3C62618997344BF8A0DC3BB7BE510A61');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', 'E2CEACEC759247ADBE1FDBA19F729811');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', '344D3CBC92D84F81994E334BBDF000B1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', '86CDD1FD21BB49738D2DBC48B5953D68');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', '6B05547C61EB445C8E5574D5157E0ACD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', 'B375B6132A024F43AAF4619A4B2B7BCE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', '2779DC8086114412ACB0834D6A3DDF36');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230501', 'hmzlbd_100001', '61B79BC4E29A42B8A8DAB809B8EC9952');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230604', 'hmzlbd_100001', '0739CB30CF3F4E4B9AA9FB93DBF37AB5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525230604', 'hmzlbd_100001', '239089D492B346ADA4E605107E2C165A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231901', 'hmzlbd_100001', '3D4D09BC001F464A8ECF8514D445A3A5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231901', 'hmzlbd_100001', 'C26ED4751B1A4D4EA8DFE892BF792DF8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', 'F83AA79F6189426FA1DEE2D063CF7F0B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', 'F1BF07CE641542009C1898454EA926B7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', 'BF726BA9DEEC4939A316BCB5530EEA08');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', 'BB7AD8D8444E4C9CACA008B4ED118E16');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', '8295F2ABB9D948ECA1C4124FD98E107A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', '573B4DDDB6A542B2BD51B5C59C3096FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', 'C675FB8EAD874D35AF5814C36074E715');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', '5E954F8E251C42118EFC4D6E29B158BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232004', 'hmzlbd_100001', '936666437F334ED092D7720AE98C48F8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232101', 'hmzlbd_100001', 'F4F4F35572B245F98C864FF427EEBBD7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232101', 'hmzlbd_100001', '94B7834B13B3417B89BF32265A51AB88');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232101', 'hmzlbd_100001', '20A73B0688A249F0B06C7F687488A317');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232101', 'hmzlbd_100001', '6D044CC99E4F4027A358D2E364499C07');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232101', 'hmzlbd_100001', 'C623215F49BC45D0AA3968739058666A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232302', 'hmzlbd_100001', '66673661507741A7B63E322E67CFCED9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232302', 'hmzlbd_100001', '2E97B8F5E50844BAACB8C38D8C87BF23');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232302', 'hmzlbd_100001', 'CDCCD4166FFC4FCE98C5AF688E57276D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232302', 'hmzlbd_100001', 'CBBFE13A31AC4122A2176DC59A40AF1B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525235203', 'hmzlbd_100001', 'A964BB48243A421490B8BE541B63ED0D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525235203', 'hmzlbd_100001', '0DD4390A7A8345B38662A16B36C6DBAC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525235701', 'hmzlbd_100001', '2D3A5A0E7D844D3B8B5CB555840C06A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525235701', 'hmzlbd_100001', 'EE6267E4DACF4F3D99F4920B9907DF9B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000702', 'hmzlbd_100001', '16F13CAEE11B4A19800384AEB4F612FF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000702', 'hmzlbd_100001', '9B9FCE4F6F904655946D512A67B97D2D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001005', 'hmzlbd_100001', '75217F3397FB4DE9B2F3A83D331D7D76');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001005', 'hmzlbd_100001', '083A0DF7622D4937BDC466BC0EA13119');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001902', 'hmzlbd_100001', 'A89FC8E2EF564C45BF206D762DB09872');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526001902', 'hmzlbd_100001', '1742C19627BA436B96D3270FB804D298');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526002004', 'hmzlbd_100001', '2826E0F746324972A6678260EED056A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526002004', 'hmzlbd_100001', 'EE990DFE0417460B9668485C14E9555D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526003805', 'hmzlbd_100001', '3BAEF77CD20C4A2FB61328CE74B83273');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526003805', 'hmzlbd_100001', '536C0FFA4A3E4AA0B22FE0FAE8962710');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526004004', 'hmzlbd_100001', '6667F26864114D49962779621130FDCE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526004004', 'hmzlbd_100001', 'E83CA8764E7A4868BB485BAB24C58F26');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526004004', 'hmzlbd_100001', 'CB292973AB6F4279985579BE86D3FBC8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526004004', 'hmzlbd_100001', '50A7729B84D8426BB9EB7276B7428688');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526004004', 'hmzlbd_100001', '3F24A69F754A4CB5AC6C78BB159FE21F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526004004', 'hmzlbd_100001', 'DB32950FCAAB485DB240BD315DD4A069');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526004004', 'hmzlbd_100001', '68AE00194838424394BF976343394A20');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', 'C51A3F7091354869B60A9BFA72A91215');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', '83B90B30B23A4E689A12A250FCEA46E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', '132A308256F345FD9A5506243EDF1463');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', '248FD82677CC40DD837DD4A2948F7945');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', '8E48C23374C14B25B536400CCE8DDD48');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', 'D18AB446C1BA47F3B8A649F61456AA58');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', 'D9C1DE0998E24030BA27BEC5371CB6A0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526005003', 'hmzlbd_100001', '71B2C61D092947EFACE7EC44A52866A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170701', 'hmzlbd_100001', '4BBBA24E27D24722A82BB7FC0E00B0F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', '2644EC7D010F49569BBDE058382AC01B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', '5806DF2BB0344C4FB91DDEA04C4BFF9D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', 'E5C0CCD743F14E3BA13EB6C7B61A58D9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', 'E6C289C374AC4D7E8E1431A6CAF1B319');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', '2C50216D8A034C1DBDD7ADDC8A583ADE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', 'FB7CA89C752E418D80E6991E0A6F2D92');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', '6A4B6BA171894D1483878A8B5A5C6DBD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526170702', 'hmzlbd_100001', '598C8F400ABC4717BD07FBA6B5FE65A7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', 'ACF066B674B741E3B62D61D8B824881C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', 'AFF56F5CE58D400F898365803865F1DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', '4C975BCDF9694B6C97DDB7CD1BD9EF29');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', '8AD72FE10A4B4A9C86D8DCD144BD8DD4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', '14E825100FBB40ECB65D4F6A6BC5D4DB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', '7EA301340D084F4DA24EB7836456499C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', '9413A6BA0969408885786289B7D12908');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181102', 'hmzlbd_100001', 'E5F69FDA0C174514ACD8190DD39BCA9E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '36A59FBC42A347F7B8E2ADEBE29E50C6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194611', 'hmzlbd_100001', '17A2291CA54E45F29F5D842FBBDA0558');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194701', 'hmzlbd_100001', '9094F768B5F94240AB0252B307368616');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194701', 'hmzlbd_100001', 'B0B6EC027EF6418E8601313B86F577A6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194701', 'hmzlbd_100001', '0B058E911A914467ADF0A0E51A4CF92D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526194701', 'hmzlbd_100001', '2D88EF73B70F4535B8646C63999ED6E5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526220501', 'hmzlbd_100001', '6D2E0847E2C9402A9EC62F7F531E94C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526220501', 'hmzlbd_100001', '2C269557CE0E44BAA4E4697D045FF88F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526220501', 'hmzlbd_100001', '4C89DD544E2B401CB6A53B66F974FB89');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526220501', 'hmzlbd_100001', '3786FA54493742A594F47EF6B0A4D741');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225601', 'hmzlbd_100001', '4880FF0DF35E49AF91C5A20DE0119C5A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225601', 'hmzlbd_100001', 'F52CF934CC7C4EC2B6B852E13C6DFB6C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225601', 'hmzlbd_100001', '1379170E6E05411A9F1DB88824A114B4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225601', 'hmzlbd_100001', '8AC5888AE7EF4EACAA4CC7B8416BACEE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225901', 'hmzlbd_100001', '918D629E626E46368E459596F17C592A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225901', 'hmzlbd_100001', '2F38F39B20384426AB1E7AECEE0A1931');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225901', 'hmzlbd_100001', 'CC042F3EB35945EB991E03A960686503');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526225901', 'hmzlbd_100001', '107B805233A0423A9757ED7C2C18F16A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526233402', 'hmzlbd_100001', '5E08C569F1D44AF6BDC6A940CEC647A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526233501', 'hmzlbd_100001', 'F0EE71935B8E4FBC9A7604424BADBF6C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526233501', 'hmzlbd_100001', 'EED711E2DA764A1F838B74189D5C259F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526233501', 'hmzlbd_100001', '6F8FC41D0F184816BE7289A5CC027138');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526233501', 'hmzlbd_100001', '1CF4B54B3099439A91F925F8420AB47B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527003402', 'hmzlbd_100001', 'CD76D791C3364106B85F70B9DC0411FB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527003402', 'hmzlbd_100001', 'ECF255FC78F84CC48929AF3165C1881D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004007', 'hmzlbd_100001', '01218DF4E249457AB58896DA6526DA73');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004007', 'hmzlbd_100001', 'BEDDD381B87A4C538361E40C5E7A544D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '6B520FEADC224A109142E04E0E1385F7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', 'BCFD9F58027642319F416E03F4592349');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '4563061E631F42459CB31277FEA38AD5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '427E0A337975416B953527C6EB184610');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '27FCC2D6B6A545558C59F7A660D3EEF0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', 'EADCA75DEAE94991AFEF34CB56EE4068');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '8F3060433A2746BC8188F15CFC41367D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '151D37CD66424C9680989BD2BEEBF985');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '2C51136E8F364B7388DB114E60866B27');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '8E93A13A9A9D422C89BAF0BC94ACDB26');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', 'DA029C57CF3748478979BEF5907131FD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '30BA3DC337634F92A50C2479B039BF7F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '6D3F8FF3C856486DBB9070CB3AD36ECE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527004101', 'hmzlbd_100001', '1F8928B132FC46CFB0CB6569BDDAA2AE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'D00F9FAFB5D949D88BD75C252BD66B0F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '5A1EE0FD08E54EA6818B6DA122BA44C8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'D693DABED756455687AF8005FC42B0A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'FFF92A2F08BD452393FB9416D3781CB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'E973CDA0D143436D895E92376D8D75D8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'BFFFB6E8B82842FA91D98E700CBB7579');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '56AAD8B9A00740DC819C72F8BE274F4D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '319C56E96C8340E0B820DE305C1C0FA3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '8ECE0C5D039B46E8B471D6D65E0EA71E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '7B92C22D03E949BBB652D0341CCB6621');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '0FBB66557D19421A97F1CE9352CA8F18');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '32EE3AB398A64B868659C154BF7D0525');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'D88BF7085F5E4924993A09C6280BD659');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'B769F735048D4CDF8D959C3B61AECE07');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '8888B793B5CC44F2B403D7CEF6053480');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'CCEC4D54FD734E73A27E949492541E4F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '24BDE4879FD04244AE4892F81C245AE5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '67835AFE3770409486D88616CFF9950F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', '014C12CCC9634256931DC30593DD29FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527011819', 'hmzlbd_100001', 'D9075DD0657F427BBC6EC7CF533342BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', 'B9B8BDEE550E4A6B8D496ADFCD3687A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', '42DB21BA5FA14FF98FDF8AE480409BD7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', 'BA2F8CB939E44850939D6B6DBEBA399F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', 'F6325BCB275940219B6DAF8C6EE21F91');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', 'D7EE411BF6594E83B8AD917AF59207B2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', 'DC4F864A7DD14E45998089D403FB3BE0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', '2E47CBECDFC743E9A5CA44A6E1A6A96D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', '12A07FDDB01A422DA0D09EA14CE90E35');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012403', 'hmzlbd_100001', '9ADAE1D0AD4440FFA91336FA034273C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012501', 'hmzlbd_100001', '776CAC27A1504C5FB6D1541B6A661E92');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012501', 'hmzlbd_100001', 'A325EDB35F854876A314EF0FBD8A0D38');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012501', 'hmzlbd_100001', '803D0C28A0FE45CBA4713DEBDE0D4AB0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012501', 'hmzlbd_100001', '7D036F506CB243469C395ECCB71926CE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012602', 'hmzlbd_100001', '3A157CB9EC804989AEABDABC39FC5355');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527012602', 'hmzlbd_100001', '8BF2319103564F14BC419F05703FEEFA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527090300', 'hmzlbd_100001', 'FD947087E0AE4BCE93B18CC568128522');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527090300', 'hmzlbd_100001', 'AEE0AC6C066F41848D507BC620EA2961');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527090300', 'hmzlbd_100001', '58D6472D9F754589B676962D131BC4F2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527091602', 'hmzlbd_100001', 'EDCA071803D9421D9DAEBE166C48DA9F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527091602', 'hmzlbd_100001', '94A34F19B91B4DD888D10D49A5F815C7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527091602', 'hmzlbd_100001', '42E199BD9E94425186D51B707A569873');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527091602', 'hmzlbd_100001', '64F8C57BF5754B7DB29D39C585C6981F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527091602', 'hmzlbd_100001', '80E10E5B84FB4A70AD60AEC088EF3985');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527091602', 'hmzlbd_100001', 'BB7509AE7EBC491682419F90A74E9EDD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527091602', 'hmzlbd_100001', '9B4E90B57225427ABFD360E695A63D82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527092747', 'hmzlbd_100001', '1B7022D62F794B5785927DE72675B386');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527092747', 'hmzlbd_100001', '8ED47B5CB97044229396220241F504C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527092747', 'hmzlbd_100001', '51BCB07E2F03468780A6C94FA038364C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527092747', 'hmzlbd_100001', 'B0722CD034684D55A99065A5E65B05E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527092747', 'hmzlbd_100001', '8E56F8CAFC0A444CA7E6FD831625AEB4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527092747', 'hmzlbd_100001', 'C22745A2D23242928AEC47E4D579BE47');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '9848E27B9DDD46388D4B22DE35DBEE0A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '6524E41C04A74706B065933D25E81517');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '80F1C993B1FF4726AD11319C9749EE72');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '8E3CD08008DB4B63B9FD14DC5B7EABC9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '84C222D62AFE4D4CBA1C8FF87FD55744');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', 'F61F68E52C8647CA8CC72B3FA05B6AC8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '95F7C00D797041E9A773B109FC77E3B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '7CE9565692434D98B3C91F4D9B7FFC1D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '51B660DD25064BD6982C93F59E8CA3C4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '498F8EA1B01E48E98007ABB8A231B4E7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '10D53F5DD7654BC89424AF37BD6EE9DC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', 'C81C5D0F8FF04F3FA16E1D543067B035');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '8FC947DB1F094D719CF78B7907C14FE7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', '607A05AC4E014935ABEC431274017D9E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094301', 'hmzlbd_100001', 'B85B9C33EF774612AD1FE1DBD61E9BDB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', 'FAC8C908069943D3A09CEB566CCF13C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', 'F209A130D4F14842951468129964B3C2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', '65B3309554CF42D789DAB60BC64867FF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', 'C847779AD29C425F8CB0F385E102EC77');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', '09EECB861AEF4BAEB0DFE6EF8BF35353');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', '0AEE8F6FE9BB4DE7AEC305F9C3FCD334');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', '4A6DFBFF14E54834B1C1738FDA9B370D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', '57FB18B31ADD496281DE0BCBFF95FCD2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094402', 'hmzlbd_100001', 'ACFDF376B57A47DFBAE833DAA2E566F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', 'B7DABEBE9DD345469421E474E460B73C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '39B25F044089470990564ABB529F25F1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '0B011E9A003F48CA924458A7CE0747F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', 'BC5A8D67F2EF4DABAB60D9573E2F2939');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '290637CD83384741B2F7A9C6C852E029');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', 'A002CC216D19429497BF29C68790479E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '5B32E7AE33BB4BF7A1CC9341DD16C0E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '3E9179144980488783F96ADB4CA4FB1A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '4C19E8E67C8F4F4C9BC02A70DF344A6E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '93B936C464004FE8ABFB337B8549269C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '9DBFE261CA534DC48824ED8B293010FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', 'A929EAFCEBA845009C67102676570599');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '35BD0CE366D4419BA4717B54352FD3C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '7DC9DFDACC6D497CAC8988723B7C1E5B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '25DDDD3508D94B299CF3F8ED4FF7FBCC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '4F2CE4A14CE9411992D4977DF3FD4D08');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '485E4DF74F1643CD8F9ABFDFBFD658F3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', 'FAA95951AF9A4BADBBE7850298ED6B88');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094501', 'hmzlbd_100001', '9346768FA1E34DFAA85AEA9AB186108C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527094802', 'hmzlbd_100001', '498C07CA69A241B8BB9C1F977B66C294');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100002', 'hmzlbd_100001', '2A7652DE88BB4F5F97F580DB9353EB25');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133006', 'hmzlbd_100001', '2BF3BA88F2B445C791756CE0916BFD2E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133006', 'hmzlbd_100001', 'A9D2F8FE65FB480295971C1D3D4A6E50');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133006', 'hmzlbd_100001', '365950194413497AB6E726B167AC8CB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133006', 'hmzlbd_100001', '5FA9FD79025B4C9DB5C5F84879927451');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133006', 'hmzlbd_100001', '83324880B3A046CA9765FE6D64B7F0B1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133006', 'hmzlbd_100001', '707F709F0D41428F821E502A7C624CAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133006', 'hmzlbd_100001', 'C0276C9F2F854486BC505B2339968F5C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '7A0F9F5347C04004831DFDD04BC2D4E3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', 'B92590CCFB294D4D8CEE98C2ED1DFFA2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '07500BB884D047FF99FEAD08C3767DC4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', 'EB4CDCC4F23E46DA80544F0E9FAC715F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '1A98B02F909845438491F404D476573D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '7E6711541C5A4C539E7A9BE22B911B9A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', 'B95526CC86E543EA96172E34C02ED468');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '59D53005BA5B405E8EFDB5F7765E0E11');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '7A76C13ECB6C407295A90129510F9BBF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', 'FF3AAFC3BAE047D8B0FE016D8FD65B80');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '9339C55F72AD4681BEBBCFFE2D6F1929');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '8F02B3DD70BE4F8E98123000D3E86A89');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', 'CE95E34F3A144B589DEFE71C2200051E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', '257BC43F100B4236A61DB0B889F81E1E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133101', 'hmzlbd_100001', 'E9E4A8F160B84FF3978891A2EE99FABF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133204', 'hmzlbd_100001', '1666C2A3E20444348FDF26C2D4B67F38');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133204', 'hmzlbd_100001', 'EF20F6A563B343BAA350DFC5D6B98DCB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133204', 'hmzlbd_100001', 'DF7A4A22E94249EF92879FE5728F4381');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133204', 'hmzlbd_100001', 'F851BACB25AF4F54BEC891B45859FE89');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133204', 'hmzlbd_100001', 'D184FD5010E54B9888EB0FBCC96E221A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'F64E85F4EA6A4BCBBBBC529B9B67B5F5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '359F17A14B3848A6927A24D82E0D6C2A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '41AEB2B2737641349767766390E2F85C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '7E4D6427E3F74DF7AB5C39BDA3165337');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'E07A98E6FE814069864F3FEF877E1ADD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'BA531B722C87476A906D6B92E4CCF7F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '9F7170E49FC7402D9492343B64124A5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'C1E27AD246C745888290F8F65197D9FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '985E1A0F04364601B1BD8DDC2C2C2FAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '5C6A08B48FCD4A8EB3E253698DEEA889');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'C8137D22D7FC4683928BB39A1FE34DBA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '9AFBECFDF42A47C68CC6F774B0E7245E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'F0A252B9551C4CAF90A13D292CC111B7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '7A1079DC71184954A551285F796F4617');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'E1A459C1ED124A378EF0C97FED899325');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '954EB4A9CAF048EDBE2DAF2B64A75E42');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '28C671CB176F4162B325B663978027F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'C2192C0AA4E141E19E98205EDBF86EC4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', 'F1C71BB84F1A4774A0A7F109F6760187');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133404', 'hmzlbd_100001', '7B89B2E90B7844A79D8E6159F3F7AAC7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152902', 'hmzlbd_100001', '44EA0B0048AB41B0972B7A3F632B55A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171102', 'hmzlbd_100001', '6F3C8232757A4CE9B1B4F66E482124D6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171102', 'hmzlbd_100001', '71A0411B212A4C4FA74375F8BCEB753E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171102', 'hmzlbd_100001', '298410AF80414591A8A91E27FB805569');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171102', 'hmzlbd_100001', '66DF6BF8ABAD40F891467CA0877512D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171102', 'hmzlbd_100001', 'C271A872264A4214AC53038B1C3B35C2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171102', 'hmzlbd_100001', 'E584CC76CEE64B108974DA593A1E3EB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522180102', 'hmzlbd_100001', 'DE3749A2ADF045D5B3CAD14F39545682');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522180102', 'hmzlbd_100001', '85B82DAFB0C148639423E2DD6FE4F020');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181804', 'hmzlbd_100001', '7D8BCFB6FA2B4040A41BA294EE771C01');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181804', 'hmzlbd_100001', 'B5697228B5A949098C46F600DED700A1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181804', 'hmzlbd_100001', 'DB799B44C1D34A75A5AEEF3B9FD092D8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181804', 'hmzlbd_100001', '8609424D9D254F319FA31D44F54338B8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522204405', 'hmzlbd_100001', '9C80AE6F12304C6F8318F3AF3DC713B5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522204405', 'hmzlbd_100001', 'C596B485AF2B490F9707741B28A3A7FE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522204605', 'hmzlbd_100001', 'A7E865E6332649C2B7823EFEBD992301');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522204605', 'hmzlbd_100001', 'D7DE2A636E344F5995BC7A01B7087941');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522204605', 'hmzlbd_100001', '61ECBD6A80704B64AE1DFE3870D4B09C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522204605', 'hmzlbd_100001', 'BB7BA18F8BB24A3FBDC2A35D683F017E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522205301', 'hmzlbd_100001', '07F17111EF5645A1AB4ED104109C8848');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522205301', 'hmzlbd_100001', '5BD5D445ECE4405DBE8785175738BCE2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522205301', 'hmzlbd_100001', 'FEA2F85314AB45FAB1D57A895B79E3CE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213804', 'hmzlbd_100001', 'DB2F58B30F1B41719AF7F12CF26FE151');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522213804', 'hmzlbd_100001', '668124F0B46347269D0908BD69A43B11');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202604', 'hmzlbd_100001', '1B38671CB4EA4392A51440B4C07B5787');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202604', 'hmzlbd_100001', '6A31BD01B8524BADA11587F6F3376763');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202604', 'hmzlbd_100001', 'B71D060AAD674DA69A3595E03044584D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202604', 'hmzlbd_100001', '31984CBB7DB3497FB19E352F80B4451A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202604', 'hmzlbd_100001', '76FD394C419943E89947FF7D7952E429');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203005', 'hmzlbd_100001', '7341EAA5174142099160967074268FC2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203005', 'hmzlbd_100001', 'F6418C4FE13441E7B532F9FF25DC6D22');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', '92C25CB0E3A748389FE7FE3492462D59');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', '5FF1ED765A1949A3A10F2007EEA42769');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', '1AFAD7E43E184C0E85594BD660531EAD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', '45F9461D3CF345B8B13E227F208C10EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', 'D3C082A0A81A423B97DC81B8C7ED5EC2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', '37ACDEF8CB804D0ABFD6CFCE347C6C2F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', 'A183379DC5AC4FCEA115A9B706EAF37C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203501', 'hmzlbd_100001', '196119CF90F040ED906601746CBFFB9A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203604', 'hmzlbd_100001', 'AC1A976AF9E045C8AA32E32AED8161FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203604', 'hmzlbd_100001', '6402B13DC85943728765E676A5BBF0A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203604', 'hmzlbd_100001', 'AB238E95BB9D410BA615C0187DCF617E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203604', 'hmzlbd_100001', '02BCBF6A97644D238B892B253F839FC2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203604', 'hmzlbd_100001', 'EB39D46E80BA4B94AEF61E1C75B9A814');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203604', 'hmzlbd_100001', 'F79E637FDE7F4D7B98C52B929C7FB32D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524204203', 'hmzlbd_100001', 'BC5D699863C848B689B633C35B971F06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524231702', 'hmzlbd_100001', '79544D180F204CA9A32D146F10A03F98');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524231702', 'hmzlbd_100001', '8F72098FA6EC4AAC81A4806AB656D8B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524231702', 'hmzlbd_100001', '00B31BA75FCF4E368EB736F956770CAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524231702', 'hmzlbd_100001', '8EE5BC58B7114FC1ADC988A111A312A2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524231702', 'hmzlbd_100001', '833361396EB84969998B7854D2DDD96C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524231702', 'hmzlbd_100001', 'D9296D44913F4F4E8BE7D29600C527A0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524231702', 'hmzlbd_100001', '9C8D7BEAEAD3455C9BDC5F7332F2BF82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524234804', 'hmzlbd_100001', '6B9255798DDF4ACC997AD11A8E141E64');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524235608', 'hmzlbd_100001', '67DC7DAEFDDE4EABA287DE57F28C21CA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524235608', 'hmzlbd_100001', 'C308F3EABCF44A0F83DB97B398FE05B7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524235608', 'hmzlbd_100001', '61F57F1B37824FBCB3895D9DB677FA50');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524235608', 'hmzlbd_100001', '561863F58055486D888587A1CAA62400');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524235608', 'hmzlbd_100001', '3683FA56F88441588BE3F8DDA55EB38C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524235608', 'hmzlbd_100001', '848B27D2F5C74C4FBC57FD4A5C3BF440');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525000205', 'hmzlbd_100001', 'C193AE758CB64E3D90706133EBA6AD5D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522130403', 'hmzlbd_100001', '164BDD99008840E1A1026A32699E42DC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522130403', 'hmzlbd_100001', 'BC14545203B14CD3B0C1A5CE27D065E6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522130403', 'hmzlbd_100001', '0260BAF0627C498CA2F4222DA7C738DF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132301', 'hmzlbd_100001', '747EC5B94162455EA46F479809A32853');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132301', 'hmzlbd_100001', 'E3ADFF1DD6794B29A0FCC7E62384A116');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522132301', 'hmzlbd_100001', 'B5645C79D3814EEFB4CA2990D11E46A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '88BE5D05692D4F2CA250953516AF03F8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', 'BF8C68735EFD4A06A2AF919CF68FFDE6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '01D4E522D3E0442696E706E8D19841BD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', 'FBD7CF1168964BCEAFC0038D66BE3FA6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', 'DA49858C476447D6A9BE4390415FD36B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '90610F629EF84B8DA1CBA1CB4A9ADA1F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '064E49FB850143BF81347A3A0653D1FD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '3D85F52AA445410D891764C8FF7C82F4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '704965087F874CACAC67C37956B9D447');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '74B38460AB3749E09AF0012F4093C969');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', 'A118C4001C194729927EDF1EF476856D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '651DF55E73CC4891BEA33950CC7B6FC5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522133302', 'hmzlbd_100001', '485C80FD6889426197774831EC66137F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152205', 'hmzlbd_100001', '605B63AB45EA457A8D5D8C4719076468');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152205', 'hmzlbd_100001', '0B566DAE7DAF4A95BE373834B8218157');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152205', 'hmzlbd_100001', '18193C0EA8984DE9AD6F8C6FCEE6BF35');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152205', 'hmzlbd_100001', '88E334EC200D4B48A2943DAA8BE61665');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '8AF1977B37CD4AB2AF038A535BEBF9DD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '6A975E382FA2401599091E12452B9F24');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', 'B4219B457C794AD4B694C39E4CC776B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '5AD58945D8CE47B38C20A4B1B8FFA24A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', 'D35FA18F97E248AAA36C0E64312C59C4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '968BDD3F8D3A485D89237DE7C9C33681');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '0EE117C8ECB241FA9877F6167CD24996');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '09A379C2E3CD4BFB88EB6801971A8F7F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', 'C8EB90A2CFD94362A466BE19E1E34E36');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '4D12F335B61E4273AFF92A30BCED59AE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '422A1D3D08BE4B36B7F17A798C7B7691');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '4D65D581FEF94D95A8F38951CB55FEF5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152302', 'hmzlbd_100001', '8EA1CF2D963C4086A45055161479E97D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152405', 'hmzlbd_100001', '04FD4614D91B492CB1B0FC93C381F762');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152405', 'hmzlbd_100001', '4125A01D2001480C8EBBFEBDD568D374');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152405', 'hmzlbd_100001', 'E86CC3C6EB62431495C1F7E47B9F709B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152405', 'hmzlbd_100001', '38A22FC00F3F45EEAA832515B127D7CD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152405', 'hmzlbd_100001', 'CE2F7B9A18EA4858BAF95746E96C99F6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152405', 'hmzlbd_100001', 'D9123268D8934BD0B707119F89A7371B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522152405', 'hmzlbd_100001', '519A7C6618634C7A981A49DDC139B353');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525000205', 'hmzlbd_100001', '5B1D2DC66D374BCDB4792697DC979389');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525000205', 'hmzlbd_100001', '82E36CD3D22E44F58EFFDF04B46A36B8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525000205', 'hmzlbd_100001', '1D809F4530BB4BA7A57C29DF470FC0C4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525000205', 'hmzlbd_100001', 'C612363D2F6842EE825FAC4D38117332');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525000205', 'hmzlbd_100001', 'B3862FFEA04546F39AB8F56086CF0044');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '5923BA5DF96D4BF981B20BB56C3AE9CE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'EB7F1348A99743098911072139338B19');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '3A70C17048D641B490CA372071D54087');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'CF16CA8A263449C898AE503B7067EDD0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '4C6BAFD214FE45618262188E7E7E9BB1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '8415294F32C746D2BBE7371092D5ABD9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'F956385705534D918426567AFE3B0145');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'C2650BA3ECFB45C5B2024CB7DA69439A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '309B945B16A64DE7A64074D414171582');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '76A17A6576414D9C8A4059F388247A8D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'FD15D4DA4311467580F7103D6413D644');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '748E9F667DCD4DAEA6AEAC9003B5DA36');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '4EC56B8205BF43AC9ACC1A0036BFD4F7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'C171E68CD53B4DC7A3141380C2EB16A6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'C9C2A42683B04168812585F629EFB448');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '27AB634F8D8B450B9000151FE3C2B013');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '1D99084E07CC4BEE95637065CBE260D7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'DAEC7EC654D8407FA28EB1E39C0A3AE7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'F36622D1A45E491CA0E3C9888C569996');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '8A98F6E87FC9454BABB230CEBC8E8FBD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '6FB2B167CC3248C28B8195DF51F8C601');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '088DC968D0CC469887972591951D4436');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'D096FE935011477884DC1F4AE3C03AF9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '146D347DFC6D49D7A7664F2C8D8E3215');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'A56433B43DE34D68AE30D19BABEAD8BD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '9DF2DAA8A03F4343BE409B4A45E3F575');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '0A769B2AA4AB4FA387EE38EF0091D5AC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'A15BF2A7B044457198FC368B878CB723');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '020C927BE2CD4B1EA1EBF1BEEA9CA069');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '40B6E3F5572946008676DACEFA9E83E7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'E3F48941D0734317B52CF872F876C2A5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '3199B372747343EBBE378F316218D667');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '493EAFBC617E4C8BB1CA8FA143F98BBE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '4A233B99659448E69B192144A964271D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'F11A5F12BB59469D831C2214753D337C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'AC2E1B92436F44B8BE66F8C17EDF41F2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', 'DD1FAE65EAAA453DA44B9108288A884F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '7362AD8966F942238B6721FB0BB7179F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '800DFB0741394819A1417077B32226FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001103', 'hmzlbd_100001', '278DCE74ED33400CB2383DB469F5CFCC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001204', 'hmzlbd_100001', '2C92F6FA46D74589A26D65434812AFD7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001204', 'hmzlbd_100001', 'B8D21462C89643579E4F1E1D56BC2D29');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001204', 'hmzlbd_100001', '0AAB19E425094FC3AE081761DB6AE0EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001204', 'hmzlbd_100001', '57281DE7C1D84B5C9D3026C3896D3AAF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001204', 'hmzlbd_100001', '7CA301E8001D4A7F92B314391718B832');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001204', 'hmzlbd_100001', 'EE6CA3F1CC004B40BC025C584B9C0842');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001204', 'hmzlbd_100001', '2CE99F1EB2F94DBAA380D0067E2703F3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '23F9D8BD50F64D02A4963A42AD3FAEFF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '589EF0B2F4CA46B6B76924313A115E41');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', 'F4BB2FE8C74546D1A21C6D4D7A3580DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '4029953D5B2644B2A037753DAF168D8E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '7403E274746D454E9A3E2875A18DC3B8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '4A43771F228E499E9074DBDFF7E02314');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '03928D5C93BF453A8D5D8D8C5B232D67');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '793DB44361224E35B256F2D3B74EE663');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', '917DFBB277C649679AB77F2245F8BFF7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', 'A139204FFABF41BEBAB227F649EB11B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001806', 'hmzlbd_100001', 'B5D0043EE11D4F738B16D3A21A847B6F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001902', 'hmzlbd_100001', '86DF3ACFC16C43A497E898B3D210CAFE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001902', 'hmzlbd_100001', 'B8B932175ECC4DCF82AFC5F6B6ABA446');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200523112138', 'hmzlbd_100001', '2EA1014CA5984D2591586387DB66C161');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200523112138', 'hmzlbd_100001', '9648B63670CE499CA8EE67CA4A5C8D68');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200523112138', 'hmzlbd_100001', '2AC6BEB2E38B4E4DBB84BDF421629E1B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200523115604', 'hmzlbd_100001', 'A6739294C99D4DA18310F006CC83D5C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200523115604', 'hmzlbd_100001', 'ADFABE2D991A4929BD5AB287960D65AC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001902', 'hmzlbd_100001', '7F2DE91EB81246CF830DF0182FC40A24');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001902', 'hmzlbd_100001', 'D0685CDA3915403680B43BB23750F4C8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002005', 'hmzlbd_100001', '0CC7F0AA242A443BB0A37D868F14360D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002005', 'hmzlbd_100001', '58EA384012784822BD9F036A1C31345D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002005', 'hmzlbd_100001', '6638DEB6EDD948B981E91774DE81C957');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002005', 'hmzlbd_100001', '318818889F694225A85E61E5C359C880');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002005', 'hmzlbd_100001', '4E096B1DF0CF47B3A9FAABC09AF40A55');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002005', 'hmzlbd_100001', 'BA48FA56E61249A982F532920C60A77C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002005', 'hmzlbd_100001', '7207863777004C89A9579E65FC3763A3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002006', 'hmzlbd_100001', '2E215F7B669A4DEA8B36FD15DDC6F37E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002006', 'hmzlbd_100001', '6A096E864D84400F91820230EC661BAA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002006', 'hmzlbd_100001', '46ADF40ADB5F4B3BBBB1776BD140A0EA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002006', 'hmzlbd_100001', 'FC9ADF650C7245FB97228FABD81C0943');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002006', 'hmzlbd_100001', '1C17455FF16846E8BFFDDD286DB9B868');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002006', 'hmzlbd_100001', '479B0994FAAF4D41B0439EE0ED1D2CEC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002103', 'hmzlbd_100001', '6FECFD463C974817BCB4FC5AC991AAD2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002103', 'hmzlbd_100001', '46008241F8EC4DD19CEC499F0D53E41B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002103', 'hmzlbd_100001', 'C7BB6944142F4D48B0E6949EFD22366F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002103', 'hmzlbd_100001', 'F986761CDB4E42B599366B4A9802700E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002103', 'hmzlbd_100001', 'EDA3CDEF6BB7449AAFBC1EEEE3B789A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002807', 'hmzlbd_100001', '1A6D09E15AFC43EEAD661ECBC3476AB3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525002807', 'hmzlbd_100001', 'A9B7336ADFED4765A6BEF8663FF3BDDA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525003102', 'hmzlbd_100001', '82FEA3CEAA844DD8A4F35FF25C91A0A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525093205', 'hmzlbd_100001', '74355FF8F3BE43CC87E47254EC3D3369');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525093205', 'hmzlbd_100001', 'CBF9AEBEAF474B65A40BE587166F7100');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525093205', 'hmzlbd_100001', '6E908D3B5BA04A799E7DC750D2DCB428');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525093205', 'hmzlbd_100001', '8153D6E6E6DA49B7B7C020A0CFCF8515');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525093205', 'hmzlbd_100001', '0271413127B448ACB086BE95D1212C7F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', '789EF31A228E45EAA5F92CDE8BF23EC4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', '68185404019C418C81221E719DE49116');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', '1586FAE84C2849A98B8C12A6AC8A44DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', 'FF37138296DC45D38543BA49B53B0EAD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', 'E2F4E32EFB9046E583857FF1CD395F0E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', '0C24FF6E29134996A4CD626DB0C97742');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', 'C0A1F31D42244DEA8BABDBA58DE91615');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095102', 'hmzlbd_100001', '1340AB6B2CB1449DB8F0ED40A4F77F39');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525115101', 'hmzlbd_100001', 'C3DF01F4157443EFAF9214DA67C1C762');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525115101', 'hmzlbd_100001', '63EB47ECA53843AF967560182BF50EA2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525115101', 'hmzlbd_100001', '1954FA0A05BD4EC385914FC3FE84703C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', 'ABAE708479A742E3847C09D6131E4A32');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', '0B64581FA65B41019EECA35419B75640');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', 'CEA7FBF1D3144B449D3111FAE3CFEFC4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', 'E84E78BC60B245098BEC53A584B35A65');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', 'CB19D2F0506F4EBCA1FE45D850678B86');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', '6AD7D5F2501F4F91A3CB0BCB74AF777A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', '00F25E22B2774FBBB247EEB38FC08D3B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', '660E23C924E5402E866D9575F7DC2ECB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525160901', 'hmzlbd_100001', 'B1CAE5A113FC4275B31BCA36CE36687C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525174902', 'hmzlbd_100001', '63C6EFA5F13B43A08ED0EF847F25CC6D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525174902', 'hmzlbd_100001', '6FF4B49B8A8747468FBF6FAC2C783E33');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525174902', 'hmzlbd_100001', '5B5178E6E18747D992AF6984E05B86B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525174902', 'hmzlbd_100001', '589B769FB8D94C71B4618EB0E39E6329');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525174902', 'hmzlbd_100001', '777946E6BED14970BC0CC6683EB89A33');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525175004', 'hmzlbd_100001', '682FDE14A00F4522A246EFBB1F8B243E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525175004', 'hmzlbd_100001', '12EC214428794A3C8B9D2DA2AE8AC390');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525193902', 'hmzlbd_100001', '2CFD702763EE449CB2B44FCE22F24B94');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525193902', 'hmzlbd_100001', '54C7CBDA9DBA469DB39D6F1919258B5D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525193902', 'hmzlbd_100001', '73FF6DDE138D4CE89C003299C317ABCB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525193902', 'hmzlbd_100001', 'E2E786B3542B46248BABD6E0BB4AD1C4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525193902', 'hmzlbd_100001', 'D1C563B1503D4CD2BC2C8A17418290A1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525193902', 'hmzlbd_100001', '947FCDAD37A84D49B01D2390E5F2068C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223605', 'hmzlbd_100001', '3A8F714D6D5342CAB4A598EF36D3E45F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223605', 'hmzlbd_100001', 'F87E632042C54C87AEA9B48FCAC23B76');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223605', 'hmzlbd_100001', '2D0B56AEE2B04175B4CAB948B7E0CC2F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223605', 'hmzlbd_100001', 'B1A338412345446FB4234386CA2933C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223605', 'hmzlbd_100001', '421CBE726719485494530091364CE98F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223605', 'hmzlbd_100001', '570C1B5E5EFC47729ED83434B3BE843B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525223605', 'hmzlbd_100001', '0972DF474ED74CCFA873A6A7F727A3AA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525225205', 'hmzlbd_100001', '3CCF733C1A294D3D82ED15774468E057');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525225205', 'hmzlbd_100001', 'D3C142BE1C324D3D89ACA660E4C5BDD3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '7F463D0E84984563824B01B155E10801');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '52F5701E274A47EDB122C7F201021623');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '93F0B45D34984F44BEC9EBE4607FAB07');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '10DE129F8C6F4C7398567E5885934978');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '1ACCED6D306D4C7E8D884A0ACDB3E809');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', 'CD214CDED9314958ACDE92B438EAF6A5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '57143C41E79C4A52B072890498224BEF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '3149DB3DBB974AF98155065657F7BBC5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '729DE6A7307A4322AA567248960672C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', 'D9A9D993B20843BABCB4F2DC79A4DFFC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', 'B776C819058D47179CADD476BC6A78F8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', 'F4B96C4064F34884AABC8966F80D6035');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', '7325621327B143C28F06DEA09C001971');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', 'E0701B1E032C4031A20EE2820F934037');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526181204', 'hmzlbd_100001', 'D2DA823B1D1E410C9D79A0DC804DA5D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', 'D3252A9F7F8847F39ECEEB47F6864F2F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '67483265F98C4952AA40A14304CD5C88');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '53209A602EC4444997ADCEB7FE19BDAF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '8C8F605D92B8431692FFE23B0A196D93');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '767A9F31979845DBBCA29F1456014388');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '2AB2429F073B4BB9BFB3A1D39EA0E350');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '67971049943545088E03767750A4FEE3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '1121171560FC4149B9E946966B5DD409');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '3945017580D640BB99C5B1BE79D91B4C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '00812AF44F5743A38F09AB109433AA0B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193701', 'hmzlbd_100001', '4C4BCF80F8A04AD48DAB52B5F9BC1940');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193803', 'hmzlbd_100001', '8489E4F721564959B6FA7B363C363CE8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193803', 'hmzlbd_100001', 'A199B1F947FC41B480AB1E19A8AC25A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193803', 'hmzlbd_100001', '0BA91844381E413698579B9FC3E1EE5A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193803', 'hmzlbd_100001', 'BD959B48432C42A5AB24DFC736B78D69');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193803', 'hmzlbd_100001', '233C8B4DFC04411BA8655CA3FBA5FF5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193803', 'hmzlbd_100001', 'B20A99B220534256B28F1D4437FDE058');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526193901', 'hmzlbd_100001', '9CA83A47AA8342EA8139CAB1BA8DEFD8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171205', 'hmzlbd_100001', '68AED38A321F4FB3A850734A1BAF7123');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171205', 'hmzlbd_100001', '7E546514D0BE4A44940823869A891C95');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171205', 'hmzlbd_100001', '3F738F7723F64BE9AFC6291E536CAFF2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171205', 'hmzlbd_100001', '93B8E64A56924ED3808DCB91CF96C15A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171205', 'hmzlbd_100001', '546E8E05121B494DA9DD0CB4C87B1458');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171205', 'hmzlbd_100001', 'E3AE255B02784F04B2E9032A342C42AF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522171205', 'hmzlbd_100001', '88CB6FEC2B9D4961ACE957ED7732D8DB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522173404', 'hmzlbd_100001', 'ABC848E30B844E1EBD084C1CDA0CAE29');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522173404', 'hmzlbd_100001', '3ABCAE5B0F7E44309FFBC76B2735EE54');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522173404', 'hmzlbd_100001', '7CD7540752CF4B2E9427DA262C5678CD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522173404', 'hmzlbd_100001', 'D0076E0011AE4801B36D2BD186CD7592');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522173404', 'hmzlbd_100001', '5D5EACDC1BE84C35B906612A45414901');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522180205', 'hmzlbd_100001', '21AF77D50BBA4FFABE2F31DF07E7C323');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522180205', 'hmzlbd_100001', '618BD56BFB1F46EEA20D0A4A7E61DF02');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522180302', 'hmzlbd_100001', '41F6B4F0464948A38EE3F7310B88C8B6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522180302', 'hmzlbd_100001', '05F86528B9684F4C9597BAD04817E8E8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181902', 'hmzlbd_100001', '194DDDCFECD344EBA638CECCA0EFC914');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181902', 'hmzlbd_100001', '3367BF4CE0D9452BAD114326DEBFD16A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181902', 'hmzlbd_100001', '677C4499685047E78546FD6691173DD0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522181902', 'hmzlbd_100001', 'CA0035917C3848138017AF0EDF256767');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522192206', 'hmzlbd_100001', 'E284D4DAE25E4A608E6C83174D6B1E3F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522192206', 'hmzlbd_100001', 'E884EA65B31A4895AD28F0B309807BA7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522192206', 'hmzlbd_100001', '2FABC3352B2F4E6D98CE25710CCE9008');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522205205', 'hmzlbd_100001', '74FB11A127564FCDB4082A14778B878E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200522205205', 'hmzlbd_100001', 'EE54ACC864F44F418A97DE22E063F886');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202701', 'hmzlbd_100001', '5EEF854817D541A2BC5EB86FE3E00DB4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202701', 'hmzlbd_100001', 'F025948DA2E74A24B2129D525244B5EE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202701', 'hmzlbd_100001', 'D901A89E9DE049B0B094F7FEC5091C84');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202701', 'hmzlbd_100001', '44FD531CD9BB477ABE490C9D93CE481D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202902', 'hmzlbd_100001', '1C42E55746F04051B41DF3FCD4EFF30D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202902', 'hmzlbd_100001', '356A357C976C46DDBE600C25CBEAD795');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524202902', 'hmzlbd_100001', '0F8BB17C2F824BCE92E8D9F97E4DC99B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203102', 'hmzlbd_100001', '6E1A7D0DA7AA446499F104D1068C5BE5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203102', 'hmzlbd_100001', '5824C9F7C853493AAA057D3D1F2AB4B9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203102', 'hmzlbd_100001', '46DFC776F6774CF0AC47FF17C0529438');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203404', 'hmzlbd_100001', 'E662E9F51BA54860AC83625F11A51D65');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203404', 'hmzlbd_100001', '21024EB1214C4E4088581838D4D2C937');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203404', 'hmzlbd_100001', 'DA88346B88AE4013917523BFF67C0E53');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203404', 'hmzlbd_100001', 'A7614BB331754538B0FF07F9040C489D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203404', 'hmzlbd_100001', '02B36FD34AD54DCD80632CE4EB161425');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203404', 'hmzlbd_100001', 'D11CA1F0D203482FAFBCCCAD12314B5D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203803', 'hmzlbd_100001', '9079B3C75EDE469AB2A5C50CA7BC7BEF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203803', 'hmzlbd_100001', '7372BC1EF5E945928342DB09A014234E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200524203803', 'hmzlbd_100001', 'AB37C6FBD4884FD4981E0790586B1D20');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001007', 'hmzlbd_100001', '944983BE8F984373B574E1F950578534');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001007', 'hmzlbd_100001', '57D4C2C073B34877A5820B31D063525F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525001007', 'hmzlbd_100001', '5A11510C925C43B3ADBB289293BDF202');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095203', 'hmzlbd_100001', '6A8314D0BC7A4209A2AA2B5397AB2996');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095203', 'hmzlbd_100001', 'F8D1981ADE884FD2A7081CA6DC02C600');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095203', 'hmzlbd_100001', 'FA2018CD1F0E45F39ED06268F64BEEBC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095203', 'hmzlbd_100001', 'FCCC0BED9C114F57BDB69F067C6CADDC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095203', 'hmzlbd_100001', 'F78E739B335847458F268E16DB17C41A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525095203', 'hmzlbd_100001', 'D383C818BAFC436E873F08F78C4EBB94');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525103004', 'hmzlbd_100001', 'B5AB24104B804288A6D8FEC9D27F2A82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525103004', 'hmzlbd_100001', 'BF1BD8457FF34C07A4D9A84BC40BE5CE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525103004', 'hmzlbd_100001', '543D6C16BD7C4EADBB29FD529A6F0EA6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111502', 'hmzlbd_100001', '8BEA4716E88C4EEF8B79BFC61346DAEB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111502', 'hmzlbd_100001', 'E312546F95FE491AA4CF157F3D0DDA7F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111502', 'hmzlbd_100001', '04F6A1C852904C17AA314628771907C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111502', 'hmzlbd_100001', '5A12BCBA212B427C87A93A0A008716B7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111502', 'hmzlbd_100001', 'CB4A25C8607241D3A3B60A58CC9C41D6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111502', 'hmzlbd_100001', '78AC1B62C63B4F6D95EB83CEDFDE392B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111604', 'hmzlbd_100001', 'A8C6FA0F8ED54D7FAD66BD62905ABE06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525111604', 'hmzlbd_100001', 'AF6BD81EAA0648D7B7E7257A8C49CD84');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525165804', 'hmzlbd_100001', '502DB770FC5E4F65839210BABB5CB719');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231805', 'hmzlbd_100001', '1217E93563BF4DBF9C4F1542D4F732C4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231805', 'hmzlbd_100001', '9A8790CBD6794CD8BC43EB05CBFB9C14');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231805', 'hmzlbd_100001', '6188E8D2513F4D548188B25F4B7ABAC6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231805', 'hmzlbd_100001', '046F7526562B4E159D0C3EB444DEE39E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231805', 'hmzlbd_100001', '9F637DC2C209447F885089BE66C4DEBF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525231805', 'hmzlbd_100001', '3185911CFBA648789AABFA7CBE6A9A8A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232203', 'hmzlbd_100001', '6CCB0D3E03584877A63AFF7E2A4816E7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232203', 'hmzlbd_100001', 'A9DE7B0AF191419192BCBEFD0FBC4C84');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232203', 'hmzlbd_100001', 'C83575FFF2454F8784374A2B2E749787');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232203', 'hmzlbd_100001', '4192AB2E72B1468C932BA7A078A04B61');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232404', 'hmzlbd_100001', '2EC16BC68FB241C5B3A152784FCE919B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232404', 'hmzlbd_100001', 'EBF3B4313BA24D1A9AABD6DC0620AC43');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232404', 'hmzlbd_100001', '23EF2B24C2E44464A503F545062C52FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232404', 'hmzlbd_100001', '43383E71B4734BD7A63DD83D1139556D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232404', 'hmzlbd_100001', '72A65B4A89AC43DD9D15AA40DCB6B8CB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232404', 'hmzlbd_100001', '7FAEB6F5B02545D8989768874BDE1626');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232502', 'hmzlbd_100001', 'C5B352A769FF4E3682CA555B7DA4CB1C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232502', 'hmzlbd_100001', '9DE3AC1D9C684A17B23FABA4601E62A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232502', 'hmzlbd_100001', '2A19EAE33B304D639B6CDA635E742AB2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525232502', 'hmzlbd_100001', '4E4167B7878C4A4AA6D99477450D5A21');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200525235302', 'hmzlbd_100001', 'CE2BFF7217444D3EA5E7F48E6DF3EA51');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '0AB2EFB48F674A299F77E52A2408EDA7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '3F95B1A6A80C4A92B627E91C2FF189FE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '6DFFE66D16C94C8F903E5CBB7000CFEB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '9833B40201894AFF850937C686BF2637');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', 'F5B5B268002D4956AD595FCA1BDB3A99');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', 'C2411DC70335471F8AD2C9BD1CC31388');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', 'CC3D023C90F343C39EE72593FAB4D552');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '0830CE723C984EFFBD2DE1EF10C3BE8D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', 'D908A968C77A476AAB2B0DBEF2C20DFA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', 'FB363000971C4EC8831DE3FDF0B733FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '18E0F5F9F98841EFBE03433009CDD914');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '4C11279B5F164D9E89AEB00FEAB6D9AA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '92C853A99C8F456991704A6F3682B0B1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000804', 'hmzlbd_100001', '741288EFD281406B9BA9A9259B302A83');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '0E3A64B0CD3C4E50AE3EE808038A316B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', 'C8BC5ABFE5D0481CAA4D59F6728CC3CE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '5BC20D18884144EBAB7DEFF7797B821E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', 'E561F4FF37054625986AC7A32F2BF6B8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '019DFA144F45479BA7CF1FA865B8777F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '81F4BA974A15434387B667B967576E25');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '3CC6BC6781584FB1A3BD7923A8F1574F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200526000901', 'hmzlbd_100001', '06EAC11A447343BD883732EB663CC4EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100301', 'hmzlbd_100001', 'F0D984B9296840D29C44F8EEE14C23E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100301', 'hmzlbd_100001', '69E7E868B37841869998C75FE5C6B7AF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100301', 'hmzlbd_100001', 'E6DCAF63F1054383A6A291A51C8A1EB3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', '4A4C3D28465E4E6CA9DEF07A457AA3A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', 'AA554C8BFD8A42EEBD35AC0A08A9EB84');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', 'A01AE29DE6F1430AA433228EDCC78526');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', '03B3A50D0EFC4B20A20FE9AA97D29F32');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', '0D67A20B70B7414680EB3B081FC1E89D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', 'B188CDBC77F54E4D80FE432A4C36BFFE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', '1962130318D544EC8FBF17471FB10B8A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100501', 'hmzlbd_100001', 'EC3D381248AD4469B0F59CBCC0B2838B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100602', 'hmzlbd_100001', '8BA60B2A4FC64285A287BDCA281372D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100602', 'hmzlbd_100001', '6EF32566339E4256BEE7BDB8CCAA3480');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101602', 'hmzlbd_100001', '632FC6DB64294A81ADC173F76411CA40');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101602', 'hmzlbd_100001', 'D296BB86B5614F43BC53A6C96C0FA77E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101602', 'hmzlbd_100001', '8E9EA46188F94CCE99572BC7A42CB48E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101602', 'hmzlbd_100001', 'B7049FD17D9146338AC8C1317A1ACA30');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101803', 'hmzlbd_100001', '86660BEFAFFF45B787112C42F7D6E3D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101803', 'hmzlbd_100001', '8DB18314BC0140A486E7EE476CCDE9FF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101803', 'hmzlbd_100001', '2EEA1FCDCE5B45268A53F84F02FEC4B2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101803', 'hmzlbd_100001', '935D156BCF8947A48349B9E40178A553');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101901', 'hmzlbd_100001', '799D7816A4134A62AD98F458FE1A68F5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101901', 'hmzlbd_100001', 'F66AA8E2F6064862B86471E2D1BC4371');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102301', 'hmzlbd_100001', '35ACDC1D00274079924D4F4E96963AEC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102301', 'hmzlbd_100001', '1234A22E574A4757984AB3E504AB9F1E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '3384D2F8819940BA99671BE2EC6AA28F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '0F3164E2FD594ABAA87A3A915429B3D6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', 'C81BDAD0A02D4F42852505E31383935C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '04CC4736A75C457D93D432163187E9D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', 'D9E46F7AC4544542B65CFD6555F691F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '5272F3A59C0849E5ACED4BD62BEB6239');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', 'D527BF067B034578AB254870AD19CED7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', 'D1151CE1E8AE4AA4BEB175B16D490376');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '82B30ACCD19E462988CA8C7F72A75DC0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '2DCD105B47DD42FFACE1EB4AA00DA590');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '1E13FAF670C94E12BE26252F2547B8BE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '16D1BA1D320844E09CF7F507930046FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '1645802EB06748CC97710BC39399BDCA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '681423A139E545E1BFB9463D9FAA5FFB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '3A6BB29BC7AF409D8E923E2D27F38398');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102603', 'hmzlbd_100001', '170C95C0025D488AB6F3DEC5A38346CC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527103301', 'hmzlbd_100001', '5BC4B26866884A318F8517B620051898');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527103301', 'hmzlbd_100001', '312BCE0C73C14D34BDF9C39707969743');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527103301', 'hmzlbd_100001', 'D9E9BB617F6D41C0B242707030FE11E7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527103301', 'hmzlbd_100001', 'D02EF7E1C10146EDAFE173D3526FA1D8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527103301', 'hmzlbd_100001', '2863C54FB0E04450BBBFDDD3677855F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110101', 'hmzlbd_100001', 'FCA1E23B9E5B4219BC0649DD84ECBE31');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110401', 'hmzlbd_100001', '74A6BB497CE547529E2D4A46B85319FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110401', 'hmzlbd_100001', 'EBD27EABA0E04E3EA146175491C8B86B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110401', 'hmzlbd_100001', '6820A467F954473E9FB216939FDD665C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110401', 'hmzlbd_100001', '24274534EADD4D8A8DED4699ED64233B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111402', 'hmzlbd_100001', 'C844A62C135A4B008C85B478A7695CB9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111402', 'hmzlbd_100001', 'CEBA83F0B07B4A0F8BB5774AA02539F1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111402', 'hmzlbd_100001', '303905CC8A86461C810DD6999196D404');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150803', 'hmzlbd_100001', '34D8D844330340F49C2734AEFDF2A76A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150803', 'hmzlbd_100001', '532C8FE08BCD4FA7BEFE81B37DE8BA48');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150803', 'hmzlbd_100001', '3C3DC785275F417AA9B1617D0225DADC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151002', 'hmzlbd_100001', '3025EA5BF82A49BEB09348AEDCCA7B5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151002', 'hmzlbd_100001', '58F21D8BF4214E1F86FC9933D9CED9C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151002', 'hmzlbd_100001', '4EDCA68697F94555AB74B0710DDCC380');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151002', 'hmzlbd_100001', '59462B1AE678449FAAF5A10F77CEC097');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151202', 'hmzlbd_100001', '7288E97F621048FDB6955306C619EDE6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151202', 'hmzlbd_100001', '78F3236374C2487E94E2F84E6AE9F197');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151202', 'hmzlbd_100001', '91E12DB93B904A699773D3B06EF6E2F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151301', 'hmzlbd_100001', 'BEB849AC72B74E48B01D87F2EF3CBCB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151301', 'hmzlbd_100001', 'A492D049B2124466BBB454F2B061194A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151301', 'hmzlbd_100001', 'E0D5509ED8EA463080922FF363CC5F52');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151301', 'hmzlbd_100001', 'D1667DC15EE94BB0BA9D6EE4E2F0C566');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151301', 'hmzlbd_100001', '3EF5CC4C1D9F405CAF9AC9C9CE63F463');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151301', 'hmzlbd_100001', 'E56429A319D94B20B85E9C6BCC2D0403');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151501', 'hmzlbd_100001', 'D258E4BD65C348ADB752CE199DADFC75');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153002', 'hmzlbd_100001', 'A828D2C8FAE44897A8B33DF4CDB6EF67');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153002', 'hmzlbd_100001', '1E5274CED4D244E09DB803442C5EF66F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527155002', 'hmzlbd_100001', '7DB691DBC7134DAEBB78820E5E0DCEEF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527155002', 'hmzlbd_100001', '4A3D8E8D6E6C442BBED644932B33939E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527155002', 'hmzlbd_100001', '9E6590D9D114494C8844730E9487CCBD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527155002', 'hmzlbd_100001', '60D1D4BD480A4CE18C030DA2BAFFA785');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527155002', 'hmzlbd_100001', 'C9905ED03F8240299CEEEC5EF3000181');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527155002', 'hmzlbd_100001', 'CE93E915CDB84F35991B609AD8D26235');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527155002', 'hmzlbd_100001', 'AC93DD96C7F3458C98D0CFCB7AECF9BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160602', 'hmzlbd_100001', 'A62C4255D6C34D0BAA6D6C5E5A3BD141');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160602', 'hmzlbd_100001', '0A79342B915346F1BE16B21F9BFBE188');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160602', 'hmzlbd_100001', '3886816A600E4BE7AEE01123A1F695F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160802', 'hmzlbd_100001', '37C10EC20C4145C2A7DBC9F1F0D04DBF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160802', 'hmzlbd_100001', 'F10C0B68B29F494C92C72B7532811CF6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160802', 'hmzlbd_100001', '74D6BDF1171F419C97610AF5BC41780D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160802', 'hmzlbd_100001', 'F1ED6591D1244C47A5ABDDA31A90C17B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160802', 'hmzlbd_100001', '81D4D6A5B14D4D35AE409BE156F526B4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', '784B105B53584D37AE5DD028213ECD26');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', 'B9309B523B0E467ABC277053D924400C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', '11A5FD0972A04C20ACF10FC0C1F44970');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', '28A3A891ECC2494A841EBDBEB73283B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', '53711DA7A7504A56A5B557E92198E1C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', '9AAFCBCB963646E194DB7B58AB57F689');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', '545EC61EAD7A4CE3BAFF2690894E3602');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161500', 'hmzlbd_100001', '539B4C301A6043EEB2EB488997932814');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '3764898E490C4F408BDA824308FEC145');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', 'B954C760BCCE48838714B1DCBD230005');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '195E20B90DFF40249EA710D91BAB13C6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', 'C8044AB10B224BA3BD75A224AE418365');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '095D83550E0348A7A6420CFBA136AF96');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', 'AB9FB9AA276A448AA384B8F03AAD6953');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '2E89AE469D67457DA7A8C6B07DA9D721');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '9488F8EEC76442429D19806EE9C84EF8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '10587211544B42319849C583BCFE8887');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', 'EA6B278B72A5482D8A37C327C12CB4AF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '5720E50F260F4FE5930B2066F45F6695');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', 'FC4A503EB92C4482A8BE00C8E659E52B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111602', 'hmzlbd_100001', '3497DCF6E21A4D20B404141B472A1767');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111801', 'hmzlbd_100001', '4FEC9D78FAD14BE4BAFB4E77C338B6EF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111801', 'hmzlbd_100001', '23450B7E4CB34674BE4161AE23273651');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111801', 'hmzlbd_100001', '3AFE2C47FA0749EF86BD509B36FB9C37');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111802', 'hmzlbd_100001', '19D342AA5214407885CA618DBD73FC95');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112002', 'hmzlbd_100001', '086E62BB8FD94431B96D7B3DCFC6AF37');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112002', 'hmzlbd_100001', 'CEF42B6D2989407A8256C1A01389C898');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112002', 'hmzlbd_100001', 'B0C9C424AA9F4BDCA5854DB60F3B47BC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112002', 'hmzlbd_100001', '915CD1F2711E476FAB14E2F55C319330');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112002', 'hmzlbd_100001', 'A8B56935078E43EEADC9940CD6F7FE19');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112002', 'hmzlbd_100001', 'C387ED952C604E788A941F60776037E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112002', 'hmzlbd_100001', '3F172F4E4E1D499B85999E5C6A8FD32F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112101', 'hmzlbd_100001', 'F04E7425AA924907AEE2963AAA26A95D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112101', 'hmzlbd_100001', '31EC06B5FE3647868859BDDF3A5A01FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527112101', 'hmzlbd_100001', 'EA6C0C7F60A04EB8BB1A173408F30476');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113101', 'hmzlbd_100001', 'A0630156D8AF4389B2B11C05EF37BBF7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113101', 'hmzlbd_100001', '44A16DD6612E4C088847602A0875E474');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113901', 'hmzlbd_100001', '012E2789A7F44C2BA572195F7563B9AA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113901', 'hmzlbd_100001', '50A422C2FC3B4499A039FB61366FB680');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113901', 'hmzlbd_100001', '926CDC8D97FA400C9FC8E549208A6B80');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113901', 'hmzlbd_100001', '9F3C3C75C04141C1BDAD3FB4ADA91049');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113901', 'hmzlbd_100001', '7E7C08BFB6DE4A3EABDC3D6C24B42503');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', 'E33B15DC1B7747E181DFCF8724557D4D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', 'AAF95D76669D40D0A99B9A99BC47012F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', 'D483696EDFA54DCBA5247C7E3127555B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', '79FC51CC0F4A43329EDACD8CB2215D9C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', '8F56ABE895284DB688897DD8BF25B2A3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', '04F069F880EA489B915F3EFDA41D32F7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', '9D53A9FF068C49A4993CBCE804D36A02');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114101', 'hmzlbd_100001', '4FD991DD81A04C8CAE86D48F77A90B99');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', 'A43AF5A000974012811E8C144C225484');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', 'F3FBD56BB7DA483AB28A2708EEA3B522');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '6FDDDAE91702410EB14EF6ACAE73E486');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '5257CC00C34844D1AB21F0C6662DB06F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', 'FD4DA2E60CB44A2A87D134245CCED78E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', 'A3F3ED8F774F4A34B755D37D187F8C67');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '984E50F4DEC24B2F85F62D3887917185');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '8F58E6BDBF99407ABA5E949D60E2B9A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '493018A4468D442B9DAF86C4D13F1F34');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', 'DE572851619141398BFE768463C8E917');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', 'A39366C9E8984034B51A2E82CF4A04CA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '064B00CC123443C4979D4010D15984E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '4E35ED8231FD47BAB05C401B1FC3EDF2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', 'BDF2D0C994B943B8A3A3382CF2FE1276');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '8779E9AC95B44DA286664410776ED5E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114202', 'hmzlbd_100001', '2286234670EC4B06B5E9FD7D345CB60A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114402', 'hmzlbd_100001', '532582CE921F4AE3BB4CE56F5D5D3616');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114402', 'hmzlbd_100001', '43D46EB8DCB04A96A7D6A8EC7D402278');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114402', 'hmzlbd_100001', '6F7AF2D51F714F7DB9A5C2CB64608B6D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114402', 'hmzlbd_100001', '329784B272864C3E9B33B743E2B90626');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124802', 'hmzlbd_100001', '5EF1907E153847CC943A421EC7667553');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124802', 'hmzlbd_100001', '90A9655BA65041F9A9C172EEFE81338C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124802', 'hmzlbd_100001', 'CE459BF1BE034062958B707ABF93BAFF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124802', 'hmzlbd_100001', '451A49DC787F482C952393DEEA2739DD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124802', 'hmzlbd_100001', '6396EF42174E4BB78338683ADA0A305C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150602', 'hmzlbd_100001', '76272B25ED854FCDBCAE960EB873045F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150602', 'hmzlbd_100001', 'E3F339C574AD4528BFF38E235AF04023');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150602', 'hmzlbd_100001', '4F20266BADAC4B2884D7729CF1C4F719');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150602', 'hmzlbd_100001', '41389B0B3230461F8E670AAA705225FB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150602', 'hmzlbd_100001', '32AEEAADF5AD4FA4B0E59364123CADD4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150602', 'hmzlbd_100001', 'F393976586B84F9A923BF93F6988760A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'FE5DDE26266544E58218B549A8A4E42D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '200B6CAC21654EDF9810B977C1D77557');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'B62D934C511E47CEBC3CB2DB46EADC69');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'A4AE0E9E89B94F0EA92963234DE42C0D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'C0C787EE150844E6AFE5A98EAB8C1A83');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '0BF706B9ABB1431BBA3AB7E229628265');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'D15926568E10459ABDFE8ED669A38C6B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '33F675D8DFBC4F4088AAC628CC5187ED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '1B22247244264A77B1CFD69C2183C6FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '23145D6152684C58AD6CF8A08D4B4124');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '1D6B4D8C86D246D0BAA95E832DDB77D6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '8FBD69D9AB7C4E479CA0286874F56FF3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '83BD11FF724D477CB949AAB635564054');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'E014C93C090B420389C8B0FA5C737C16');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'ED1523BCDB9C4EBAAA85A621D59E285C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', 'F9028A412F1349B3A20EC26AFD8D187F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '7A8317238FD54C959D78330EB3B7B49B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '66890DCBF8874A4AAFE55D33CC21802C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150701', 'hmzlbd_100001', '20AC84AB0E644BB490FDC105E4622688');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151101', 'hmzlbd_100001', '232A04A3B80C4B55955601F2850B901F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151101', 'hmzlbd_100001', '79DE02818E344E05BD0EDE5EDC979990');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151101', 'hmzlbd_100001', 'A371951CACC942C795B7E7EAE6F73318');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151101', 'hmzlbd_100001', 'D3FF0529512E438895F0A50CBBA2DC90');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151101', 'hmzlbd_100001', 'C394D56823F84B0E9517E19CB0A5FE4D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160702', 'hmzlbd_100001', '95C9C394186F420FA30AA2E23046F6AD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160702', 'hmzlbd_100001', '214F0CAE794445869535F64520D30367');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160702', 'hmzlbd_100001', 'B8E9D9E37E9F4A95B4024F2ECAF78261');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160901', 'hmzlbd_100001', '6FCC32BCA24A471A8D4F4E7343783D4A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160901', 'hmzlbd_100001', '2BB766D2A6284157AB9961F65247AA60');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527160901', 'hmzlbd_100001', '5E9F07B0445E46DE9264384D2C42A213');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161402', 'hmzlbd_100001', 'EED293CABDF24FFC8941684593320146');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161402', 'hmzlbd_100001', 'A38C46C870E845ABBEB7A704C64552E8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527161402', 'hmzlbd_100001', 'D121060CA26248BB977FA9D360595644');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', '757821EC3AFB4C00A1FBDCD90EFB483F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', '58BD8B730A9C43F9BE19AB26483E30E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', '185A9179F4CD4ED5805BA8E5F9D41BB3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', 'BFA64286F2E542A1949FD30B62CF6F62');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', 'E435A12A8C794399A227BE0D478F3A88');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', '4980EC4B93B0401BA03040BE8B8B9013');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', '2942BA0AB87E474082C8B50AAD31A41B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', '36B90C804EEE4768990CFA9D7EEA8BF6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', 'E8B95FF682B7412A9514E00EC7975ECF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231502', 'hmzlbd_100001', '1B278E9A45234FC4A1C58D463414E59A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '589A0E3CA71441DC9D59BD979AACDE9D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '128353A8A0D24E2EAA58046BD217AC5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '1031C11BB9FC4EE29DB75A08F7711D3E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '665A3BB5A510486BACCBD76CF4DCF463');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '65161EB9D0614612AD770A0C64EB4149');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '1B5795C7D2EE438CBF524051D969BE90');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', 'C81F877256B345D4A1D6D7BDD3DC4234');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', 'F80CACBAAF4E44518C8CF81CFD66D4DF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', 'EC2F1ED934E7422C909EFAB48D525721');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '689D0E157431473082C63EB07F2EF13A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '414BF72584FC4C079336718EA6923A15');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '8FFB6201F6914B83B694CF88994EF2D4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '380B801773954E6E9B5FF895DD96B216');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '9F29FDEDC07E40E6A0DA223E50466E3E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', 'A5BCFAFA304C4695B5851406A160FA8F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '7ED6A82926D14718AD0AF050C01EEE91');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '2E48D6A5BC15441DA84C753630B5B63A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527191003', 'hmzlbd_100001', '8935B76A74714E13B1ACC78A32575BF0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', '1F0A2F6550BC46F4B93F9333B69A3DB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', '1F53A19627D14A10BBD6437ACB8A7041');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', 'D3A2233E9E824187A3651DD91B04D704');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', 'AB625E5A099D4CC5BB543080A3320312');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', 'CC19EA985C6C4EF2A619102307EEA9E6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', '5DC880F8C8FB4AF798F35A7E717AC19D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', 'ED8DB3E33CEB403D92C33F7F025BE70F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527195002', 'hmzlbd_100001', '4E8F0EDC1CF3425ABF1EC7AE57F8099B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231403', 'hmzlbd_100001', '2A8D374644B448B8A74214FF9FE3D277');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231403', 'hmzlbd_100001', '36C440F76D7A46F1823E650C2F6EA1A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231403', 'hmzlbd_100001', '69FF9A86190B40A083E38B9AD6A9217F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231403', 'hmzlbd_100001', '14CEAF7A0F6B4D34B0CC394311C5DC53');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231603', 'hmzlbd_100001', '85480380A0B841DBA3EA148C0D8BB283');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231603', 'hmzlbd_100001', '95503489D34F4813B849E51584EDADFD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231603', 'hmzlbd_100001', '9F24E5E307FE4CD1AEFA9AA3C8355AD1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231603', 'hmzlbd_100001', 'E26881067C5242F1A99FDB050C6B47BA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', '4E28D8403D74484486C6A008D84875A2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', 'C9B595EBE1E4455FB4C747728E024C67');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', '7DA65A5461FD48818C5204C24D43E419');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', '4F59C401BA94443CB7DCA02C31D89E78');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', '14A372F4E5AF46AD975F3FF91D05648F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', 'A77886F14FDA438B86CFBE7FE75D5923');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', 'F2A463E2A16540A9BB4C7DBD563F9254');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', 'B5AE162D35BA423084CCDB6660E1F83A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', 'D5BEEFCF49754E908A1193A1B18386EA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231701', 'hmzlbd_100001', '4B7A81C96082456AA361BE5EC3F91154');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '37DE33A503EB4BBD9776FCDF158AC448');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '881A816DE837496DAD538DCC365859AD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '311B9594AF9644B183E8F9A5F4FE4741');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '4E1DB3FDB439421DAD013B68083689E5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'F5408FD572944230ABF932704CE9A0C7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'EE1767B352BD4748BA0767B60A8F444B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '4AB6E1C9651943F9AD55967BF440D6DD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'C482297A7C904171AA7CC519ABB5D4AB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '1C54CD81AE6A471A840B1843E2BB8260');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '34C827A5CB104C0FAAE4F410C6BB9D3B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'C2AD0AA07BEC46E2A959F488D3C6E9E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '6E0F02BC152746F4B74EFAEAA5EBC4D9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '2C1DA750A5004555AED7819B92D1E6D4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'EB050FE995194EB9AF0D7D227C99C95C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '6EACE48C302548A4949C6C9536E2F40E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '9B8C9B11BE3849D18E57145448F65426');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'E263C1F9926F450791DD4E213592DF94');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101202', 'hmzlbd_100001', '6FBB9D07018B4581A713126D3781D746');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101202', 'hmzlbd_100001', 'BBD6AAD3F5EF42B7A0647ACFB8EF37DC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101202', 'hmzlbd_100001', 'CE58BB378D1746DC91E18113CAF1E9AB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101202', 'hmzlbd_100001', '0BEE5A4970464EE4B4AB8A656AD97DD2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101202', 'hmzlbd_100001', '17F75EEC12424627A22704438ACA5DDA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101202', 'hmzlbd_100001', 'BECDCF51590249429384FF1D2B333A0B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101401', 'hmzlbd_100001', 'F4D795DC6E0C4ACB8E215050300EA353');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101401', 'hmzlbd_100001', '93BD7AFE9A334C5EB853AF49B83601D9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101401', 'hmzlbd_100001', '98E44DFCE47D4B82B658A620F02F88D1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101401', 'hmzlbd_100001', '7105F501D37346C4B9C7540205CD2473');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101401', 'hmzlbd_100001', '9261E96A94044E9BBFDD8915A206AD0B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101401', 'hmzlbd_100001', 'E8BA4B68792E44A8BF7885B1E11347C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101401', 'hmzlbd_100001', '05030DDBF5E7403A87B8C39EB98591D1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101501', 'hmzlbd_100001', 'D01F05721E644B52AD63A0C772C1F14E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101501', 'hmzlbd_100001', 'DED0E2E8145E4F91B68BB70F11C00C07');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101501', 'hmzlbd_100001', '56E0BB42EB3E4829AFEE8BADC3094BA6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101501', 'hmzlbd_100001', 'F6A7919775D149B388B3BECAAE4BCD9C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101501', 'hmzlbd_100001', 'A93C638927704382B10F478C7F448E0C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101501', 'hmzlbd_100001', '389FA635DADB410B91DD4C0989E5B80B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101501', 'hmzlbd_100001', 'E3AD7A83B8C343EB91D60808E9349AB5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101602', 'hmzlbd_100001', 'FE596F6CAF9043EC965AD6A07130C302');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101602', 'hmzlbd_100001', 'B7758145EFCE4137A2D62D4B232863FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101602', 'hmzlbd_100001', '78EDA38DEB5B4EC99EC3E78F1D330CDA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101602', 'hmzlbd_100001', 'D4A0213FE4564D55A4B4535BCDDA9AA8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101701', 'hmzlbd_100001', '680B71093BFB419E8D76D1A9A038A7EF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101701', 'hmzlbd_100001', 'EA353E9D87AF4C389A2B1C88D45CC08C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101701', 'hmzlbd_100001', '6DA394A7189649B8988A1D79C9847C15');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101701', 'hmzlbd_100001', 'D683029E979A4CA2ABCAABFEECE9505F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101802', 'hmzlbd_100001', '34882D08E36B42ACB37568B1E0DC5C27');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101802', 'hmzlbd_100001', '3889CF38AF184B1EAC6320CBF767A18D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101802', 'hmzlbd_100001', '4F190D09F852402DB15DC0D09FDB6AD8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101802', 'hmzlbd_100001', '668CE2A803C84351A68842F3C37915B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101802', 'hmzlbd_100001', '227E50BF6B78425D84D9BAD0E7A6052F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101802', 'hmzlbd_100001', '76B6F001D0E648B4AAD70EEB5EFB14B2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529101802', 'hmzlbd_100001', '666BCD67A71C461EA192C24E6F487542');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529102002', 'hmzlbd_100001', '76C4D481524A46FEAC6D47627AFFD2B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529102002', 'hmzlbd_100001', '44630FE8AB1E40F89D41161AEEF65EF4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', '90BC7C06C9D84D0AB0FE701984A6DB12');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', '2AAB439BABB8422A9E60DBCABA2CD4F8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', '6A75DFD62AAB4F528B433A9C4D2FE15A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', '8683A62F60B04EF39CD635C60C59A15A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', 'A4A9BD0C506149388686D760B7203CC7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', '9A2A7D151B1A4DAAAD2EACB565796DCD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', 'A7B5079A9DDC463FB9B5E08D1E531D65');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529113901', 'hmzlbd_100001', '3CD7C4D7243B4B76A7B9A75D260187E5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114501', 'hmzlbd_100001', 'C6B754692F534BBFAD3EEDA17678BF01');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114501', 'hmzlbd_100001', '181827FFDA0E41DBBF6EC1C9D56FD5EE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114501', 'hmzlbd_100001', '861388FE662D49FD94D566B687B88232');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114501', 'hmzlbd_100001', '3109A7B697C4416CBD1BB8FE8B4A8849');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114501', 'hmzlbd_100001', '0B63B584C5D548E5B4B8B4EC9263C479');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114501', 'hmzlbd_100001', '58C276FDBBB54378A295E31DF97AA21A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100002', 'hmzlbd_100001', '5664C5C0CBD44286AB734E3E422C5B3E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100002', 'hmzlbd_100001', 'DC0B725BBAD04B69B325C88696233A42');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100002', 'hmzlbd_100001', 'E86424E4CC2B45F8B2BF6BFA74C4B748');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100002', 'hmzlbd_100001', 'C75AED71D547476D9D4FF21013D8A4B4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100402', 'hmzlbd_100001', '317593D22A704C439F12AF25A8FE56E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100402', 'hmzlbd_100001', '6443DE84AAC741A3965093516FF9B259');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100402', 'hmzlbd_100001', '8DB0F81491A24C2C8DA9BE4F86852415');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100402', 'hmzlbd_100001', '395E97380FD24BE6A7CF5A39074C8A7C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100402', 'hmzlbd_100001', '4D0DC1F453704B98B1C079AF12256E97');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100700', 'hmzlbd_100001', '19F510D4734A4F7280600187F16DB012');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100700', 'hmzlbd_100001', 'A5AD2D2EB7414A648B8EDD7BEF1A427D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100700', 'hmzlbd_100001', '4058E88B5EB94681BF5DB399F61BCC63');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527100700', 'hmzlbd_100001', '34C00DC78B454379A721F963E1552186');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101701', 'hmzlbd_100001', '1F895EB75FE341E2966E64FE17BB7FDB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101701', 'hmzlbd_100001', '0E4AE4C1A0F540649A9214E96E2EDCDD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527101701', 'hmzlbd_100001', 'D3785193A1044670A8DD4F07A7D257B1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102000', 'hmzlbd_100001', '5A9E40162D2E479390423F78B093D40C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102000', 'hmzlbd_100001', '0E00A016600E4316B4A477FB110652F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102501', 'hmzlbd_100001', 'F22A9DE2E6014CD1AC77C5C59E8D0B3E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102501', 'hmzlbd_100001', '00BB4280011A45B19F2A72F4C8E34068');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102501', 'hmzlbd_100001', '021322C1BF494551AC9EE844DE0EEFFF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102501', 'hmzlbd_100001', '4712E3CBF5FE4999A33D7A277DBE704E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527102501', 'hmzlbd_100001', '0209C3277F794F48AA7E590E7382126E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', '56E8EC8F6A7D4314B1C79CABFCCD1D7D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', 'EB0D870CE3F9413AA746D3C8FDBC3843');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', '2999D06E6F254CA8B2F711AEB54AD8EC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', 'EBDB94DF0A224FE986ED73B496DCC8CC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', 'EACD2762193543979CCECB05EE965C02');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', '2A28E3496BD64A17A0696D9286A9460C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', '5B636CCD5F8B4E48A41E610CDB455A7B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', '4DDF1BA3C793408BBC6310172BD72B15');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104101', 'hmzlbd_100001', '6FC200B02E044B79BFA8E027E49EEFF9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', '99CB4C5714C5437287DA2E06983C33C2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', '608A299436714113A31519352F4AC535');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', 'C2D51BA302034B8C98CB153168441E9B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', 'DF836B6734DC4474A9A696DDBD8613D9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', 'C4E913EA6D5E4E8A9515906F4333D508');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', '24B2F0314CFB4AB5A2316BB7709E2A5C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', 'ADAD77DB5AD8474D8CBB2378822F605F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104402', 'hmzlbd_100001', 'DD2E336C86894571B37EF2ADA15EA03E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110501', 'hmzlbd_100001', 'D3D30F2EF9D24640BB264A05F630B1E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110501', 'hmzlbd_100001', '87B85558AE9B494E9A52D181C2150B44');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110501', 'hmzlbd_100001', '19B20538AF75481D9464333CB5AD5EB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110501', 'hmzlbd_100001', '84180AEE40D34379AD08A2111A35D95C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110501', 'hmzlbd_100001', '0F747CC48561484A81B20C85877F744D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110501', 'hmzlbd_100001', '1AED8266D23043B4A0F53CEDB516A503');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110501', 'hmzlbd_100001', '8F3C96E7FE9C41EEA95B999401848A0D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110601', 'hmzlbd_100001', '17851C8452AD41219BF1AE578D5A95B2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110601', 'hmzlbd_100001', 'E53B8746936449BE814C742700A6399F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111501', 'hmzlbd_100001', '88AAA18B11F0406B8BB9BBCFC896AE15');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111501', 'hmzlbd_100001', '370B6935AF954269BFA257CC4925E817');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111501', 'hmzlbd_100001', '9CB0B9B26ED44BC5853DAAFEBD89B9C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111501', 'hmzlbd_100001', '930667BF0A054F6AA282DD90F2707B82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111501', 'hmzlbd_100001', 'C7E774C735294314AFBABBA0D79613E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235502', 'hmzlbd_100001', 'DCA87F47E74245F5AF9A9B16D5333EBC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235502', 'hmzlbd_100001', '11F9DCB34F3743BC8E022D8855371505');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114901', 'hmzlbd_100001', '3D1F2B5906A64A3F931E74A87CD6775D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529114901', 'hmzlbd_100001', '19B5A1660A914DA8ACDE931FAB66CF2D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', 'A842F8CD14844A978DB5336E47924C0E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', '1F7FF411FFED4BF5A089173256FAFB87');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', 'E062304AC7A94E22869A19EF659B4DAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', '171F4BF27069430D85358BBF2625D10A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', 'FD7754B600F142B395888FF749F2FBD3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', 'E087B66157B8479CA5D53E1A90D2DFB9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', '768DE83F1DD140BFA683F0B3179385D7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529115002', 'hmzlbd_100001', 'D7046BE668254B60A6A841FC43E5F822');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120000', 'hmzlbd_100001', '9575772845824BF5A6407D8330F3DA63');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120000', 'hmzlbd_100001', '70704F3CE75C402A9B25A1DD51FADF74');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '9B4ED7B37D3B4F80B8DBFF60F6C40C6A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', 'AA70330D0D814D93A160F477B02EF9D4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', 'E22CE33C17144376A346147C3970F39B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', 'AEABE96C54AA4C9C9EC906FB84809C49');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', 'CDE263EAF5504184BE8209BC20D36CFD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '55EA5765B18B40D286BA23C1F3959D62');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '8E8245BBA3DC495591FAF961E4BD7AE5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '6BE8557C35074A368EB5016A6455F8D8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '3254DE4F4DE246C69A733887769B477C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '770725629E1C4EAB900560BE423C5033');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', 'E72A81F8929B4A2595580EE256B2E506');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '4EE8E24E79FD4ADCBDDFED8AA8B18500');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', 'FBFC8A7981744C758232E40A2A4B2142');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', 'D589F7E97456476F9B2DEA2BE0D8750D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '48E84C4D2ABF4AA79B88FEE0CACAC4ED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529145101', 'hmzlbd_100001', '5D4DA2012EEC433FA0511C07D7202FD0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175501', 'hmzlbd_100001', 'CC376A24C0BC4E1DBD0BC140BB516A2C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175501', 'hmzlbd_100001', '48C4B970D32F4BB1AF2C8C3FBC6103AF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175501', 'hmzlbd_100001', '270536F223CF4F6D9C2B07278A16EEED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175501', 'hmzlbd_100001', '4947F80B2D2247C58258474744A507C6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175501', 'hmzlbd_100001', '10C477DD6B9B434D857253973D971EBB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175501', 'hmzlbd_100001', '2609C28663464E788C62965BB2EEEF56');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175501', 'hmzlbd_100001', 'BDC3E3D676F54E29844C3BACE1D9D312');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175602', 'hmzlbd_100001', '603D263C3F414417B7B9D91D19675E50');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175602', 'hmzlbd_100001', '2EF07CBDF77148FBAFB3BEE34BF2B455');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175602', 'hmzlbd_100001', 'B7AE481C76704F18A71BF05AC066892F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175602', 'hmzlbd_100001', '368939E10B0A40CE95D66FA9D9E4FFAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175602', 'hmzlbd_100001', 'D8A5FEE843454252B9EE7373265079D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529175602', 'hmzlbd_100001', '445DCD9F361B49D3B0C41EEC76CD4A13');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529181701', 'hmzlbd_100001', 'A859CF633E944C6BACE680975A723E0E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529182701', 'hmzlbd_100001', '6838DCCBCD8240C7A01768C2BBFF27FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529182701', 'hmzlbd_100001', 'E76C1F50D84C4BC9B71C4781A15F19A3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529182701', 'hmzlbd_100001', '638F5A47032C4722BD619CC300BDC4D6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529182701', 'hmzlbd_100001', 'F178685F95D14EADB1F9A7055DF93DC6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529182701', 'hmzlbd_100001', '694D062D8B2E45CB87561DAF9ED9236C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192701', 'hmzlbd_100001', '4502DE67558C4CF8BE4B99BF59E63CAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192701', 'hmzlbd_100001', 'F52B4319A1EA42469D1A204ECF3A46D1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192701', 'hmzlbd_100001', '0A24C890D4554FD5BE848563828AE585');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192701', 'hmzlbd_100001', '3D22BE97DCE944F38DAFA7E23513553A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192701', 'hmzlbd_100001', 'CE4D378DD40A497A93259F9E85E64FC0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231902', 'hmzlbd_100001', 'BF2C0DE9B89B4C21BFEE5845754A029C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231902', 'hmzlbd_100001', '14A4369402EF46009E117CE746756BF6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231902', 'hmzlbd_100001', '830193751F414B8FB0AB1E8F43EC43B5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231902', 'hmzlbd_100001', '1B5D7A687BB641DAB7E54AFA577B36F5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231902', 'hmzlbd_100001', '74178175702142DCA5347072510CA180');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231902', 'hmzlbd_100001', 'E8D64463D3004ED6865818C599515A4A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231902', 'hmzlbd_100001', '96221B5582D54FFE8A76524AAAF1A81F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192803', 'hmzlbd_100001', '8277EC15E97A4A22A33BF9DC6072844E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192803', 'hmzlbd_100001', '1A269EC4F2C942998D689015C80015E7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192803', 'hmzlbd_100001', 'E59A7BAA2847417F945CFA95E82E85DC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192803', 'hmzlbd_100001', '136FDB9B78E74C348E7CBCAEF63E8AC9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192803', 'hmzlbd_100001', 'F88838CAB8FB4E08AA1DD4C7F2B2567B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192803', 'hmzlbd_100001', '6F656400D0084C57B93E38F3A9DDF71C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192803', 'hmzlbd_100001', 'C291EBEEF9C04153A0481971258906FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192901', 'hmzlbd_100001', '4357CB0B24674433A582FCB3491894F1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529192901', 'hmzlbd_100001', '1B18E06C0A57444DAFE3012DEAA0BF9D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110602', 'hmzlbd_100001', '1ED880BF7289411AB83B6B3E7C15A64E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110602', 'hmzlbd_100001', '7E7805A8E7114E77938304AF63C22736');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', 'ED9B295AC9444A6EBC72F8A09161DC0A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '98A58F427ABA4930A4CC7E049AA3B0A2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', 'D0C966FA62BC44E4AE932EE00AAAD01C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', 'D910C19ED9694E1B95EC43D5DAC32577');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '4FEDC9A4A97E47A49807E779A826B8BE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '072642C5C1504B4F97B75EC2DB5D62BD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '295421B4F0724B45990BC8A22FEDDF16');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '462B348F556044D68E6E70FA4F699DF5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '6B160CC72A0540F09072CCEB4A908968');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '12AC6BEFAF9E40CD9B6D9059CFF0119B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '508607D349CA410498D498E6665BCC05');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '7D1C341C5C0845C89E6C46E000E0D923');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '9453FB97D526468597DB3411EB3F0CFA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '2DF860F531A44F6C9C2A2ACB1702EB60');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '27552639B3D84C6088CA85263D84402F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '13DB26D6BAFB4F8D8488EAD271998BA8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110603', 'hmzlbd_100001', '2F39A4669F24487AAF41498AEB9254C9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110701', 'hmzlbd_100001', 'B738BED9205F418AA68A1A36CE89A9E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110701', 'hmzlbd_100001', 'D79B26D013054380B3561CA3C2E8C8C4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110701', 'hmzlbd_100001', '308E1A15A03047D7B07670DF98C6541C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110701', 'hmzlbd_100001', 'EACA383381414AD5A53D59BDE74ADE42');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'CF66E3B802BA4F9A8CD3B9220167709C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'EEEE13DCEBBF45EF8CE4DFC94C39C64E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'C60587C785984476B66DCE83F90F4110');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'FF1415DADAA347A18FD77A9504933C52');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'DBEC548AFE844EDF979437A7584366D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '96ECA95D9316464D9B7657E7A0919A09');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'CE00D29587E7457EA52C148CB04A6FE0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'A4432EAD94BD41BC8B47ED4218A0EE88');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '01B0947018854179BBCACCDB6ECFFDAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '7D9E520D830A405D885E0B9751EBE356');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '112B25EB2A0A40ADBE291A9E45F656FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '76C0D59737CB487AA3A5518014AFC17E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '29FF8F8E7949466CA730961EDA5AD6BA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '9FACF6F886414833B67D7829019ADBD9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '2BA276555D4D43309389E8B7B49D63D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'A2F99B870ED840CFB57BE6012F95486E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'B35654C9696D4E5D9F8423FEC3145338');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'D31AAF64C49B48CF8B06DCAF0C83A750');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'E4BCF70CEEF24D6ABF5852526D3CBE87');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '90A01475F8104B239A51BF6F72E9DCE9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '550C1D8A47F94FCF988379BFA079D5FF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '10D42CEBE6774037AB4F7B5C4CA8BAA4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'D4C591230920472B87B69EC611F49392');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '5152DFC7C7914B819C6F33BAEEB7E892');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'D4805B69EA27483D87EBE64A0F125C0E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'B81C00B9336F44E7B59209C79D14C5E8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '65A2C4380B8E4667BD536F87F7B702AC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '332C20D7474F4B3193B534EDC65FAA0F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '409F4370C4E04CE4B350A832E8B88E77');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '3C6D1ADBE16146AC9325C73823DB46FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '38CA3E3CB2A8497D8D3E1618E3E16A17');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'BDC42568097846E49E273C77979DBDCC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '5099D68753534B69B9A0682426D8FA7A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '0518BAE6520849D39394C4147DA5C0C8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'EB127E58E4F74E1AA5371AA98AD7D324');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '9A21E2AF178D4D72B226B561F99B23BC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '1FCF72BA4BFF4869B2F1F69E1096BF23');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '2524D13F13784277BC62D2E79E6E0BA6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'EC5B1589724845D09344BF312822080B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '70BABAA7E41A4CD98C0E27122EA45456');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '1AA0CBACB1A54D538AC8A7D341320717');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'A594D8437B2D4FFD8DD2DA18871AEF02');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '7213E419D5EA4EC89328111179AF78EF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'A30600F177BE443E9DBB80E1361A3DE0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '8D5393B024D44A8AAA3D12F2E0A8702F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'D779690528A247CF86998CB29A213439');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'E12CDE1A660A48F7BF0AC84DBA00EE69');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '4DC9E596A62B47A9A7BB8B84857B9B2C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '1897500794B14174AB279830864129F3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'BA697D9AC9C346EF97AD0DC8A47CA4C1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'B2813E843E2E419F9991D488BEF0C590');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '5F26BF37C9E74651BFCAE8E20D4E25CD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '1B2C5E6FC94848F497FFC28D5FFEDDB4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '4EDDFEF7F37B47428E4A9B92A4CACEF0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'ECAC8A106B764A4B93DC6F7A987B0FDE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '1EF63C82592A42E791049DF6D94E1BD8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'C14BFD14A73B40039CA786E2A8DBE238');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'BF9F84DB94674A1EAAE8F62C3318B0BC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'F8EC62AFE2F641A28D7FB038B588E040');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '2F5616B8755A4C9FA9A0A56C509BF21A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'E4769695DAAF43E8948828B0B9924BC2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '20BEA9C546E24B73B8040BB299D64676');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '7117C96BD6E044B0A1E8A01EF98EAF72');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '9818FE642AE54C929E5C870CFDD13330');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'D862F9E9D1734320A2AC0A8C56456EB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'D25EE6B22202493E9A4461118F1E6F6A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '20D1A924E61344CCAFEBBDFDADB45332');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '150EBEC759864DA9890A0D050A11D42C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '2308E76EBC444CC2A7A37000A07B2B27');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104203', 'hmzlbd_100001', 'F17F11AF732B49709F812354A2A21198');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104203', 'hmzlbd_100001', '6C0A8BA6E6E042C8974DF21327B60A09');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104203', 'hmzlbd_100001', '00C5E138CFA842A88D97253A2EFCEA47');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104203', 'hmzlbd_100001', '36E1AC603AC945C88CC759E97A14C15B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104203', 'hmzlbd_100001', '4C4995D9E7F0417C835F51612B036BA6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', 'FDE48E521B3849F4B2B643022CBA30F8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', 'F0135ED6FBAF4337822A499926F29554');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', '7347A3C9CF8A493CA17C7E381DA9807A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', '4DB3268275504136B7EEE55A750C731A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', 'B69526F0BD3F4EBF9304C387411A51BF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', '90B03FFFFA9248DEAF09945F5217F7E7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', '079D4C5EEC444AA9B97F753B3C40094E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', '2DD2327F0D834DB4A08B91D4DF92C582');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', '5DF191ED86F748B08354685B7B571F6C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', '116A976CC69B4FA6BAD7C43390EC79B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527104301', 'hmzlbd_100001', 'BB6ACD2CA4844804BD51A69086459E12');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110003', 'hmzlbd_100001', '6EDDC0BA3F7F42C5BE56861B7C184E7C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110003', 'hmzlbd_100001', '5162287A9B90441A99B8BCEAFEB0B231');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527110003', 'hmzlbd_100001', 'A26F8E8BBF6648789CEEF80C1AF8699A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', '342A3C610327465E8D880DAC09B71068');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', '1F5279B8FC034DD993597DFF58ABBDB9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', 'A4A6BB58E7A3446397C7319621300DB3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', 'CF8B467A338C46CFBCEA2C8970361649');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', '24602BDCE7E0473690D16FE88A22AE40');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', '9C8497DE46B046F0AA53B551FD261C50');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', 'D5687D59EC284FAFB9B3AAC17549E4BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', 'FE7C4C2DCB364B60B21889DE25563791');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', '7F85FE5354BB43BD8FB33956D36F1471');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', '44DD20F130BD447AB4AE6981F6CF050C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', 'A76A328835B5462287804AFD11998AD1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527111901', 'hmzlbd_100001', 'F3F15D6D23B54339BCF826213A6AB61D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113001', 'hmzlbd_100001', '3C57D38C3D08461AB813E2CE6605C437');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527113001', 'hmzlbd_100001', '1AF264BE1C0B4C9AB9F1D7EF12600F1A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114002', 'hmzlbd_100001', '251B60F005A1495F8078181D4EFE2AF0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114002', 'hmzlbd_100001', '041BF9D848404E48A60553BA0240FA41');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114002', 'hmzlbd_100001', 'F01CC5BA5FEA462C9C12C048E515D88E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114002', 'hmzlbd_100001', 'D9753BC2DB66403F82678AF5F0E2AC0F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114002', 'hmzlbd_100001', 'ED1865F716024AF8882032D5924C004B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114002', 'hmzlbd_100001', '2E4FCE810F444242B3E967790EC9ED30');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527114002', 'hmzlbd_100001', '66C784E45FA947F39CAC1C9FC0821D17');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124700', 'hmzlbd_100001', '34DDD08B3BE04C909789142A58104458');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124700', 'hmzlbd_100001', '4F74CC22421C46FEB60611A72099BE6D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124700', 'hmzlbd_100001', '240573819BE042F188E53E53A24B7C19');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124700', 'hmzlbd_100001', 'BFB7ADD7C49E4084BCE468BC32F36508');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527124700', 'hmzlbd_100001', '4A0398AC69CF4817BAE76D06868A4A70');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527150501', 'hmzlbd_100001', '508EBD268740471682F96CF0819F4D60');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151402', 'hmzlbd_100001', 'BCE3B68DBEF0424283B133B213CE7E68');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151402', 'hmzlbd_100001', '58DBF86DB4F84447A7BB7C923CF24AA4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151402', 'hmzlbd_100001', 'D54CBA755D59443FA93D97D9BCF69537');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151603', 'hmzlbd_100001', '266F9BBF398C4A1D84FAC244CD8DBF9C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527151603', 'hmzlbd_100001', 'BD1EE83F651D4EE89A39F989A826C430');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527152802', 'hmzlbd_100001', '930744B4B6824C11982B7C81D8A7664A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527152802', 'hmzlbd_100001', 'EC003C52E6A64BA5A532B0116D92DE5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527152802', 'hmzlbd_100001', 'A8170758250742EC8BFA4B3423CCB9E8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527152802', 'hmzlbd_100001', 'FDA0133C46E14D5BAFC743E64BC096FB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153101', 'hmzlbd_100001', 'A2B66BBCA35F463E97A4A674836C0A98');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153101', 'hmzlbd_100001', '37D5B5382F31406D93FCE21CD923F21E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153101', 'hmzlbd_100001', 'FB6C1DBBE9AD49618C943077CBCF0DE3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153502', 'hmzlbd_100001', '6738CA166ADF44178D973A1C9A4A30DE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153502', 'hmzlbd_100001', '164435481D42438486286923219219E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153502', 'hmzlbd_100001', 'DE837E5E59C245C8A48E2CC00FD44E06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153502', 'hmzlbd_100001', '073E6397A7A0424E849086A37FE86E80');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527153502', 'hmzlbd_100001', 'D15B2C361F934E7D95F1B18ACA75D8AB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '30C48B9BBBF7426D8B814EB3940389A6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '7A8B97A17ECB4811B87FAB00662424EA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', 'BE7C4E6AEB474D2C92BED09921698125');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190701', 'hmzlbd_100001', '98D2C730D934418698BA7D9299CB9CB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '9B7EF117E6D5401AA93BC0ABD9578955');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'B7EF983688E241A4A53546CA80AD7C82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '154A41DB76C24F618E0E64B96BE57294');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'E5691F53AE334BBEBD1CAB930429D522');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'E9CD757849EF4470A5A23780FA0B64BA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '8593A11D290F41CD87C08C9E0640E5FB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '936E7E48519F42B28E7D01DA3AC24E5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '7BBE20E106A743538C46C110D707352F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'F15D85DF846A470594CC29F9B266195E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '5B841F2ACD5248F5B175EE1410EC4AD4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'BC5B511F1924488EA7A82E59BB8FDC47');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'D26D3B1537F34212B643DAA8170CE921');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '38473D0D6ACD49EC8ED472E3926712D6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '60B3BCBA32D542588CB22406970A24B2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'A3A791DE04B9411BA4D81D181F2A1372');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'BA700BD67BC94B41963BF88717C13344');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '987532E6357E403DB95E31FD021A38EE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '95A9811C02CE45E8825948824514202C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', 'CBD6EB366CB346FD98C7F2CD22C8EF49');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '99A483FD6E034BC58EE50EDE917685F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '04989D270A3248B4B6CBF9B41C0236FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '36F9FCE1E29543159814279B6A8E5068');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527190802', 'hmzlbd_100001', '48F8594BAB654EE1BFCFFD48E754C157');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120301', 'hmzlbd_100001', '24F59A3793A641CA9F3158F3EA2428E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120301', 'hmzlbd_100001', 'F2B3E5021B2B4A75AFE5B9395AD85338');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120301', 'hmzlbd_100001', '2996077ABE3D4979B727BD6F72342B1C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120301', 'hmzlbd_100001', '3069F62B86584D6BA6A5E40BB46F2551');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120301', 'hmzlbd_100001', '07B938D8ADF545958296B79F66070AED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529120301', 'hmzlbd_100001', 'ADA49825D4CC469E9B0F0373193B66DB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '896110A28283452097AE4E256B68F66B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '546FD0C081904D63ADF4162F252AA829');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', 'A7B676C213AE494E9FDDAF2260AAD887');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '3CE561D6C6FE4A3B950040CD0F625E3D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '6B12F2C1391E4188AF135CBA96039BF7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '75B9EF0E18D74790A8CA7021F4427881');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', 'CAEA794BAFF54A27BD837903FEE8C145');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '746C66093CD1457E840382D1EF5BF8A2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '89673BB4B4E14B38A3A57BF88F577D17');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '0F98B53C508D475B83929F09B8BAF7DD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200530110901', 'hmzlbd_100001', '7980132A05EC487CB35D7FD0AA17F4E6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '171D474D365846DD8E78337999BCDDE9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '599E2BB1437D47DAAFA0F770A23D4304');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', 'C29ED940242A41119A5C046022AE2837');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '595225D0C58843AD93A22B9E34E30CD6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '9A034704CC8A46D0AFEFE2107CAE0511');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', '0D2B6432D58846E3A804A9329B7A0069');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527231803', 'hmzlbd_100001', 'C36717DFFD9B4E309290578FEF448FA6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233804', 'hmzlbd_100001', '7F9F371A784646A486FDB608134839A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233804', 'hmzlbd_100001', '0E4FCA36997646B2BBDC096DD05A5CCD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233804', 'hmzlbd_100001', '38AD90E2FEC5404D8B26320B3B4BA9AA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233804', 'hmzlbd_100001', 'BE52DDBB3DCD4040BFEF09AD0F280A94');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233804', 'hmzlbd_100001', 'B156DDC5282146A0BD75B47F7871B307');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233804', 'hmzlbd_100001', 'C6F2FF401EF9476EB411B8C0A651B2B7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233901', 'hmzlbd_100001', 'A7AC7BA3BC534D919A292F7C1C8DA6A2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233901', 'hmzlbd_100001', '49D2851B7D0B4178847A7983F3073D64');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527233901', 'hmzlbd_100001', '78DDB40DDCB640959EC810F1AFD05F6C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234103', 'hmzlbd_100001', '6E47085AC76F457FBA768A452DE142A0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234103', 'hmzlbd_100001', 'AB0CB7C1875B4F8098CB03B440D888D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234103', 'hmzlbd_100001', 'B5DAAF28943C4FF5970C2098064CBB95');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234103', 'hmzlbd_100001', 'E47720D38B5E49468FD09208F5280576');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234205', 'hmzlbd_100001', '5CF2A4337FD94F869EDED53ADAEBE10E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234205', 'hmzlbd_100001', 'AF9D25BB30D843D0BA1575EBAEEB167A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234205', 'hmzlbd_100001', 'EF1F3E6E3CD645D7A83957BFF0D9E2BA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234205', 'hmzlbd_100001', 'C4B69A1172D24A1C952811655EC537BD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234205', 'hmzlbd_100001', '1CF199A0409D4A03BE64DE500B72F164');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234405', 'hmzlbd_100001', '3267DF64D68142499C553EC3479DDCDC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234405', 'hmzlbd_100001', '27A159FD53234332BD12BFF0AB4097CD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234502', 'hmzlbd_100001', 'BDCF6FA85F9D46C6A47CE63B77E68735');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', 'A58D7119B36840E086853531587716D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', '39DB430799BF4E03A2EECA949B700DDD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', 'F510A2FBB2704DAABDEC38DA7EE5FBAA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', '2AABEFE92F2640C784C9A183554039ED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', '58066B50B1B84CC0AB0347C4DA43866E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', '262D343D69E64B4E83AEE8F80782A533');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', 'DF5BB7BD37834EF592BB3871600102B2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', 'A4DC67C795AA4D118F8AF3298457762A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', '5DCC7B96A83640D59214512625A79D26');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', 'E3F9ED2423C143B6B18C1529EE1598A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234604', 'hmzlbd_100001', '8726DEB890F845A1882FB35B89E9524A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234703', 'hmzlbd_100001', 'D43AF522946C4EA589FA837511A8BAEF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234703', 'hmzlbd_100001', '942961906C664D6589782DF40158F275');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234703', 'hmzlbd_100001', 'B242FC0DF0F44D678B6000364E56BC03');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234703', 'hmzlbd_100001', 'A7638962839245989C433FAB4EDE635E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234703', 'hmzlbd_100001', 'CE78C7B48FBE479AB334F28EDF38BECE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234703', 'hmzlbd_100001', '830F124ABCA24D96B5408CE907194B38');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234703', 'hmzlbd_100001', '4B0BF882EA9C450B9A9F6CA753800A87');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234804', 'hmzlbd_100001', 'B5F9ACC402224471AE51006D32D03B36');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234804', 'hmzlbd_100001', 'F5D326CD4D81410D920BFCE4748C5889');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234804', 'hmzlbd_100001', '4FF45E6127FD485286E93A57ACEB7C2A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234804', 'hmzlbd_100001', 'E13A3B67DBFF4A3B8356D9F82F81113C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234804', 'hmzlbd_100001', '3EE60491C8ED47318FA409016BC91F7C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', '12FEBE32E46C4606AD0FE9324FF4D7DB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', '4427BAAEBB1C4580B336E96E4A47452B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', '429DBEB89D8A48659DDF126DBCB88718');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', 'D9A3D1FA3FB84ECF99AB22422F53DA00');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', 'DE78AEBA756D414A90576998458901CB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', '26B41CFA279849FFAE3028E1EAC34957');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', '48B95E727CF948FDB5CE63E7B4D09BBB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527234919', 'hmzlbd_100001', 'E05B747C0C744ABCBDB4E24CA26D819F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235005', 'hmzlbd_100001', 'BA3E381B33834E198A14E32CF7AD40A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235005', 'hmzlbd_100001', 'BD1DB55554374AE980E66C3E62A4BCC1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235604', 'hmzlbd_100001', 'C02DA53F9D3144C9801FF5AB343E2489');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235604', 'hmzlbd_100001', '2C43043126EB4BB8ABAE3E00999D162C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235604', 'hmzlbd_100001', '50C4D5FDCE7046B6A274CBE5D7B80A15');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200527235604', 'hmzlbd_100001', 'C9484D6A166A4B3695C2FA2D59408D9C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', '24524602AB374CDDB50C6C806611CF48');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', '309FE75FCDF34B369E33E480FAB30E90');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', '53CE438A27354C2B9068B70CB41BF1FF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', '0830E8D9718B4E438FBF2420D015FB8A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', 'EAC1FD58E95A41CEA464BA08AD388620');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', '1A2F2AE7A0B64B26AAAD18FADDAB0F73');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', '275D85893A274C1E951FFA02546EC2F2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154203', 'hmzlbd_100001', 'EF4E89D7AB1E4719BBAAEC657A9F745E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '396EFB4726D842AA9E5E81C711493311');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'E383650020FF47DCAA0B55C3C5D0ED5D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '8F6B043B0E7443B6B74D762DC39E97FE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'C75A6E93ADD442D1AA3AAD05E9F7DB80');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '0A45C3645BCD4E649D1EBC686D1D45BF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'C18FF3185D8D46019F985EDF4AF4F33B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '48174E80BB774D6ABFACE805B8395746');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '84349224F1AB477DB7F90F0BD7745EB9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '7B69770A673E49D8B9D22B95A5084D20');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'E2318BFBA1C94D3CBD738E530E7DEC6F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '8A16E492C379474598102AB925B44908');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '3C07046871EF4EC5A179FFB618CAF97E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '8688077BBE2340ACA9B23E82233CDBA8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'FED00D9C5CF348B1B1C50CC08FA02E1A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'E9C892577A2D44DC95B0F75B105ACFD2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '1811B77AC29343C3BA69D3CFA8A84B35');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '3C4FE622D1FB43CB81B65A325942F64B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'CDDBCA4673FB450D94A98FDA9FCD72BE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '749FB4F44CA14C44836247FB6AF91F7E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'EEDEDFEEDD164A8EA4F6A3A166F70C17');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'B24BF1DDECEB46568DC2EC0DEBADAA9E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '696EF35D64DA4D9B98756CCCC9B36158');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '83B9BD81B38949248A0A50297DDD85E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', '45893F491B0E4A0DBDC8A2A50143C1F6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'A75C234F23EB4408A558CFC33F2AA922');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154301', 'hmzlbd_100001', 'CD891CB54E4344F39444FBB854C4E5F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154402', 'hmzlbd_100001', '0F334422B6B94E7F97296B433445753A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154402', 'hmzlbd_100001', '48B0F15F823149D587C04A5EC25AB774');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154402', 'hmzlbd_100001', '9888FDB7C1D240C1A9ACA5F65291242C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528154402', 'hmzlbd_100001', '79CD4A00E1434DDF9A1C05F796371359');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200528184501', 'hmzlbd_100001', 'CCCC0EE0875C4832BAB328635F225088');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '9FDFD2DA6AEF449996B3F1180AE11000');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'FC8DDE629CFA4FBDB8C90B6036D03185');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', 'BA0BCA8725F94B78A4DFB2BD1EDA81EE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '77DA00D6AA6742D09C83FA132CD2F701');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200529100901', 'hmzlbd_100001', '0B606B3143344787BB63657F7DE28C50');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '8723F9209F224673AC04846AEB254B94');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '09F68B6A4BB84408B8E168C0334DA130');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '6AF266C551D241E3A2A81A6595FD6185');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '707A153B3D17451C8621A2FE83B40CE2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', 'AA4970E03BE14CE1A6F3156FC5EFF0D0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '477ACED940FC4893BF755F18DC97A831');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '7965313D5BAE4D8988FB312FAF9822F2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', 'BF9411F15FDE4B8CB5679370A08C8070');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', 'A619F2FAC92048F4942D81CC62608888');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '126B6F22B5434416A220C56A58302D0D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '2E80B48CF25143C6AAFF2659C24F883E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '8060A39D3D1D4F30B94437AA054CDD58');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '41763ABAFCE847329A79EE713C456648');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133202', 'hmzlbd_100001', '4F6D368223734757942C23432D1099DC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133301', 'hmzlbd_100001', 'E6C39C9364F946DEA24658589030DF30');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133301', 'hmzlbd_100001', '62CBE19FEFB24A379BCB0F1638BC4736');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133301', 'hmzlbd_100001', '981B4A5880B94B80BE88C90ADBEC36EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133301', 'hmzlbd_100001', '11314A1836844A85B5426DDF18A5F26B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601185901', 'hmzlbd_100001', 'B13FB378511E4B10883EA51F8C0BC475');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601185901', 'hmzlbd_100001', '8518C088DA4B4E889E9571ABBADE2499');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601185901', 'hmzlbd_100001', '3BB3FE79627F4764B989220EF8177BFE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190300', 'hmzlbd_100001', '838430F182B846608266E0B8D24FD285');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190300', 'hmzlbd_100001', '5F310597CC1E440DB0534626970294F7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190300', 'hmzlbd_100001', 'B973F641FAF74707A0CA379940389334');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190300', 'hmzlbd_100001', '09C6E4607BAD49DBB9693FA16AF6D63E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', 'A97D21D52D7D42D59FDE8CE9D208E8A1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '651000B2E7A3423AA46C982D63E203A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '929A8376B2DA4B7EB03313286EE56685');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '457DC8162F4944D687487E7F5AB31A2B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '42C2CD623C9F4FB6A9033F3EA8AF083E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '105D7DA12EBC4FD3BC021FD891CC1A97');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '0F0613BF87054CF3968671856AEAE285');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '4D4782344D36466B9101B11B198EB300');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '869BCC1947B44C51A28FEBFF3DC99B4F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190402', 'hmzlbd_100001', '4EE0005898A240BEADB654499542B9C3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', 'C7B8A646D1184109A26D8F900E548777');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', 'B4DC1B3958F04186BC2D87A0FA93614E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', 'F8D4848B1551467295ED9E8566E92439');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', '4E0143B8D91E4A9FB58F1E66B3256EF8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', '459099283B8C4E11B223D08D067B7906');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', 'EE03D592D58846CDB6B7B4CD4672BD2F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', '3C09A10C5E46402DBA1255A28ECAE505');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', 'C281403D87DE4EE2968B5352D44E57E4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', '899CA8D6D9394297AED4A06FBD59A40C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', 'DF1FB3024C684AF28A1F11FD92EDF737');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601191501', 'hmzlbd_100001', '9926F1657F264F5195D66315871E4E5F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192002', 'hmzlbd_100001', '804BA8DA976449EB86D44EC3EFAA4ABB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192002', 'hmzlbd_100001', 'C2253532FEE0411BB08B6D02677FA3B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192002', 'hmzlbd_100001', '6EFC85948BFC4D48902D73953F059069');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192002', 'hmzlbd_100001', 'BD07988F7EFA4569AFE4E2D361CF37AD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192002', 'hmzlbd_100001', '1B71B69B9807436CAC97FC42FB328504');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192101', 'hmzlbd_100001', 'B8C3DEEDD2C846819ACF9E3EF2B22C47');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192101', 'hmzlbd_100001', 'E77459C0F29D447C90ACDC65BA6A9648');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192101', 'hmzlbd_100001', 'ECD2DF889B314299AC6CD96B01DDDF53');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192101', 'hmzlbd_100001', 'E9ABE2A929B2402F94FF43146CD30364');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192101', 'hmzlbd_100001', '841C7C1FD1ED4A2BBF4EB2698E7E3389');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192101', 'hmzlbd_100001', '9CBA812EE0524CFF96E80B64EDD3473A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192101', 'hmzlbd_100001', 'ADD999A91E5D4369B08016AA3CEB1DA5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', 'E2F56B6D5591427EB199941A9E1764DB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '9DDA03D052AE40A889176BAC98718AEC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', 'EAAAC200448A4928AF8E13CE4CC8D9E3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '27002F4237FC4226BDD348B323715BF5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '88F386EEA1AE478A881F3EC9D1C3201A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', 'A823A96DE58B4931ACFFE785F6060642');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201901', 'hmzlbd_100001', '8E529C6E9BE84BD4BC51DF0B2E9EF80E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201901', 'hmzlbd_100001', 'D5205F5FC3AF4B349233C317E8171AE0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201901', 'hmzlbd_100001', '46DD3D213717400490952FEF07C8BF76');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201901', 'hmzlbd_100001', '87A15E98AFD845D5971C38BA305E6900');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201901', 'hmzlbd_100001', '2278F715189C466F8241CE05D6C5569E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201901', 'hmzlbd_100001', '10C8B0E158874502AE4C41E55023496C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202101', 'hmzlbd_100001', '940308E4EC5F48C8967C417A738B0F61');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202101', 'hmzlbd_100001', '5F0D4AD9FEAD47FE912813ECFAAF9F04');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202101', 'hmzlbd_100001', 'F804CF141E7144938E95351B5DE485C8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'FE4A7A9A74F84832A759DCE8CB0F1F5A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '5186A695F617410CA0F7FA48CBB6066E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '923C041FB4094CD4BD65FC78F2F8D4AB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '45D9D6D21A4F49F3B6ADCD3BB18F5A6C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'F3ED4BCDB992409296CA1AB3E2CCD3AF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'EF1436A076EB45E1B57AA1CC2C9F93A1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '8BA6787DC09E49F6B738AC477DEFFD20');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'E14EC8B8CCCD40DDB61E0F6F49C17710');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'F5F624E2AC964FFDBA3F5CBB8A2D2AD7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'C40B0ABD3A3F402B84589813C54E77F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'EF8C601C8F2144E4A1C026EC32DE8316');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '1928D1B5B1FB401F902BDA5AC72A08A4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', 'B82564D7411A4A01B5EC7E5CE4639025');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '34FEC53F59284516AF522E763798E605');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '50F54115FFBC431CB738DD75B49F64E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202402', 'hmzlbd_100001', '1D73A1802B144A16A7596C21AD1E50C8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'C32201E1C96C4883A13B7E909E4C77E7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '228DA1AB72F34285B5BAE954E2DF03D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '7841168F6E724A569EE5408003E69BAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '242B820AC60D43B1B209E57547C481C1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '7036A9D0A1CC409EAC6491746BC4B92E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '9C157F529F1C4C09986A48197225F92F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '7148BD91259C40D08FE418C5DB0F4173');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '30701D6A967649EAB01AF2E472717A64');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'A6FD6176E94C41B588E73B55F55A37C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'BABB3BBD7C2C45B89F7C065E465C9FD9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '2C5622DC26014C639E93295511551A42');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '9D1777D17AB840FBB4B5F6B190878AEC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '52A71C5A1B4741A7A8B37AB0389245A5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '6969BAD3291245E1A19EE0A8B5828239');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '128F0ABAA59A46C9979935DA8B1F3E21');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'E33BF62F62C644E29A61DC0790455C4E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '7C44ECC892EE4A9287AD282606788CBA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '168C05CAFCD442F9929BDF80CBA0CC0F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '61714D5E3CE84F28B2F0B9F74403A53B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134601', 'hmzlbd_100001', '8A0F7A67CA64494CB6C673292C8B5311');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134601', 'hmzlbd_100001', '8485384EBD0947E985153879029E6A1B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134901', 'hmzlbd_100001', '155C414CACC94543BB03CC2435C2DD94');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134901', 'hmzlbd_100001', '6897A831819447E0A5B0092C1892EAEC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134901', 'hmzlbd_100001', 'E047DA6B247E4FE593C97F25F41DF791');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134901', 'hmzlbd_100001', 'A8861E008B7443D1A6804A684DF5E47B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135002', 'hmzlbd_100001', 'CC54D4CDAEE443D29ED290A9FE762ABD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135002', 'hmzlbd_100001', 'C5F8A5F10B214BE692C83E3C10BE71E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140202', 'hmzlbd_100001', 'E91CA2DEA62141E4A00FA8E6AF9124FB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', '71A1D9C0A2EA4FE3B253605260132106');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', 'FAFDAD81D7B24FC49176BF7E911B1B8C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', '63682514E54D4EA798CCE9B29E1459D3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', '79C689B7A6C14035B4BB615827461F56');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', 'CD58D35945D14ECD8398DCD6EF365D9A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', '0C2B51CC9C3649C89FAC7343B05D4344');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', 'B08867AF7AC54D36A8DA13E859A05D7B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203301', 'hmzlbd_100001', '4C2EEF7E051748E0B3E0EC61407B4BDB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203402', 'hmzlbd_100001', '4AFA0C61911647FE852051A821C56DCB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203402', 'hmzlbd_100001', '0F634B33288B4BF98CB5997DD5133073');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '76DA53720D6E4291A3FB82CB40918937');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '536054205F6D4DCE9598BBE22F1391D1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '22B99963DCA040668153E21EC02616F7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'D3D9CB3130D840969A256581D2101F57');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'FE2F47DBECC74B51A9C38316D57E6BBE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '73AE8819564849F0A87B7C57117DFB01');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '3610AAD8DCED4432875B8785FB4EDE17');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '147409510E2E40CEA9E0B016DB65A6C0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '505DF493E51845BCBE97C5CDD26C940A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '0990FC87E315424DB206CD1DBEF3E588');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', '7EA7FF3D5C67410FBE8FD79A47AF185A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'E3CD264BE2AE489B9134BA0A1DD6B6FE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601202501', 'hmzlbd_100001', 'AA5D29FA06AE411E896DEC1530CC3BB5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '1EB3562C34E44D418DB2C5CF3677E598');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '8D1725B6B8AA4EA681098EC1338A46F9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '93764323AA2B4AFCA1955003C5D80541');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', 'CD859FDE27CE420AA4CE01F5E20FCF61');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601112417', 'hmzlbd_100001', '171D76DA639E446D9BA2A065C18FCBD6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142302', 'hmzlbd_100001', '0794134F66714352A3A8ADCBAF73CACB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142302', 'hmzlbd_100001', 'D4CC29B4D97242C48069153EEB17E296');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142302', 'hmzlbd_100001', '0B826A086ACA4CF8909591F9C23250EE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142602', 'hmzlbd_100001', '5E424F2AFA9C48CAAD6AA2C0CD433FE1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142602', 'hmzlbd_100001', 'B01099EA364A458C85FD6DADABF1A4AC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142602', 'hmzlbd_100001', '1791CFD5ADF545E8A8307CDE60BE59E6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201715', 'hmzlbd_100001', '319234814A264B6DB2CB2213DC1AE2E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133402', 'hmzlbd_100001', '53C2CBF471A74013815720B44F956EF6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133402', 'hmzlbd_100001', 'C3893368989145E5BD787931FC578429');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601133402', 'hmzlbd_100001', 'DE4D60EA28424E569810DFDB01073C76');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134402', 'hmzlbd_100001', 'BBEAAE9DC165417291DEB40791B7749C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134402', 'hmzlbd_100001', '12697F7D910640C68C5BC89B3FCE10BC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601134402', 'hmzlbd_100001', 'F6972CE37CCD4A99926AA37F2A5E0A59');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142003', 'hmzlbd_100001', '2F9F9844D842497B9C4D11764F4FC345');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142003', 'hmzlbd_100001', 'AD9A56161FE14BB5AB442B57E45245B8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142003', 'hmzlbd_100001', '3F3BD772086F4FF6866152009CB3810F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142003', 'hmzlbd_100001', '0012C9A4A5CD43B7B2F27BEBB3C7540D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142003', 'hmzlbd_100001', '8B76A81E2FF249FBBFB2272B1EF7B9A1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142003', 'hmzlbd_100001', 'E75213F5E4924A40AFB81452A008370F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142101', 'hmzlbd_100001', 'BB9CF53D6568470AB3DEC0B9629C84E0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142402', 'hmzlbd_100001', '7D2E14656FD24184B7BD20298AD11567');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142402', 'hmzlbd_100001', 'E8EBF446518D459FAE8DA5DD73B74F39');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142402', 'hmzlbd_100001', '68DE2E720AF14C338653A7C0FD940EE4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142901', 'hmzlbd_100001', '2233914F54504258AF6A1C98C8192782');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142901', 'hmzlbd_100001', '49F524F36F57417EBA780B818EAFE245');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143002', 'hmzlbd_100001', '1A4E96913EC844F39295814A2B5D3059');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143002', 'hmzlbd_100001', 'ACCAF6D8C02E4E6CACFF1948A5B76DBD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143002', 'hmzlbd_100001', 'AD0C932FAB47409D9817FC655C26D130');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', '640E9E3A643B4CB4B70C610EF79C412B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', '3C9CBDFC497D43B28D98D969CBED70CA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', '0E073BBFCBFC4656956BF9FF5EDE8E8B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', 'E5D3117F283D40E8B19F363CCF7F4BD4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', '0B36B8422E254408B651A22BD11041AC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', '334D17ABD19142919578D45D205C16ED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', 'B54C8334E92647F48891C87A3AC1B7B1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', '3B293330C71C40B48ED05A2AB2A2E5FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143602', 'hmzlbd_100001', 'A57B454416E949E8BB27C4A003D82AAE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', '7BA466383215483B887100D94DEA7173');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', '427D214B761F42AEBF7E35353A7AB20A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', 'C3EF1BC821E046B99E72A9C8688AE4AD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', 'A6BB1619A629403780119A6CEF4DDF53');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', '4B12108A7A304EB0AF48CDD7133666DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', '04985321D27C491FAE47F4C29CA5F59D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', 'F8F54C84C3DC483E9568EB0A450BFE58');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143701', 'hmzlbd_100001', 'D7F248DF0C094630AC297EECE9C72B21');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143802', 'hmzlbd_100001', '3779F4D7265045C98D5FC9ABB169C072');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143802', 'hmzlbd_100001', '7B0F692D0A474818820FC486276F5C4A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143802', 'hmzlbd_100001', 'EF41434EC5EB4C69A012449E462B9D1B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143802', 'hmzlbd_100001', 'C7792812C5DB40EB8BC66D2CC920F055');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', 'E808BFDC31D3473395498424D9833C70');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', '77594FCAD459456B9ECF0137BBCDB59F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', '294FFD1A3123491FA98979BBA21C3A91');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', '5A0DDB51E9CA4E8D9129DAF0130DFF48');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', 'B8A5046C529D4C539EE5F3B8DCEF986A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', 'BAE7128318D64287A4B7AA45B77C5842');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', '55FAF9ACCA4E4BA6863C23BC22DA3C65');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143901', 'hmzlbd_100001', '7E23553E906D446CAC9EA2471FCC6F29');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601145002', 'hmzlbd_100001', 'CE314D629F374D8FA4DAE8A48546DA1B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601145002', 'hmzlbd_100001', '27C8418B591F4D9BA131FC829B7A0CA2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151101', 'hmzlbd_100001', 'ACDE84E5CDF947ADA8DBD59CAF25BE4B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151101', 'hmzlbd_100001', 'B46FCC39E23B4900BBB92BA22B9327E1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151101', 'hmzlbd_100001', '46716D96A75548FAA473D5A7B361E2FB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151101', 'hmzlbd_100001', '294096A49F4E486786D732EBC2D036C5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152003', 'hmzlbd_100001', 'A219FBA64BB24CA6965A8A7A50D2494B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152003', 'hmzlbd_100001', '18DF87CB98044D9584C8E82656800276');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152003', 'hmzlbd_100001', '00F440DD822D488FB82B0F01DAA9FA91');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152003', 'hmzlbd_100001', 'EE706D9C2BDA4BCAB890D2D088DFB7A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152003', 'hmzlbd_100001', '42FB748EB94F49D0B6A5BD95D8045BBC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152301', 'hmzlbd_100001', '071506FCF94040ACA264BC8D8E88004A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152301', 'hmzlbd_100001', 'BA2A7FEE27C044E7B0ED88F386CBBB43');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203101', 'hmzlbd_100001', '2CB8D02AA59F437FA7916408C33DFCA0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203101', 'hmzlbd_100001', 'E71B68FB039649C6994F12DF6E9ADCF1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203101', 'hmzlbd_100001', '549C7BFF72EE4F9DAD75E41D79AFF40C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203101', 'hmzlbd_100001', '1DB6921A42564E98AA70C3CF96D1970D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601203101', 'hmzlbd_100001', '81FC3E8FC6A34C1BB27B206C64C23D7D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '59BA66958FF049D18954423BB332D2D2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '8E32B04132814B4AB3114D8D07B09A11');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '3DC8D86700304042A4D1C8ADE5D41FDC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '818D114E5B6142B29CC1A8E6332EA051');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', 'F3833525C91B49DD9F58EB3368572CB1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '239FC6C1D3AC41B1807B13F4F3C2D689');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '6073AC1D256146289AF6D2992F34D353');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '172D13825D8E4950B390A129DF900AFA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '3F4FFA53ACA54981AAC19264BEB3C74C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '70FFA58F14A24677B0942BEBE8F9E979');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', 'FAF3E973BF504D6EAF502CF6F65F7C68');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '0690A05653A24E82BEE4ED2F84276FB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '5F207A10D0DE4B79B79C4CB1CCA46D4B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601132002', 'hmzlbd_100001', '9C886D74FCBF4445B013FDAEA9A276A3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', 'E9AF5E922F8541D1AD596617F5D15AAD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', '0B66B15C2BB0419FBD8683E382520640');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', 'D6749E5698654F6FB5570DBEAD4269B2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', 'B2062AFA9D314321B328BB8BAA79F020');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', '9CF74A5D80C942FCA53205D7A81219B9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', '40CA5950CB8C4465BED7E82BD2D8A1B6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', 'CB0E1D0119AA413F8270710E44B513BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135101', 'hmzlbd_100001', 'ABAE127A41D14C9E9DFBB9E571D72910');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601135402', 'hmzlbd_100001', '543BD24E846D4FF3886470ADDC96CE29');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140100', 'hmzlbd_100001', '4192C00F44CC4BD08D59BCE137CD74DE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140100', 'hmzlbd_100001', '92FC1FB1930943FABB18876179E7E621');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140100', 'hmzlbd_100001', '5C23CCAC965C4EA3998762957E9F8A5A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140301', 'hmzlbd_100001', '0CF2F7EC8B9140F592E3CF1ACC567791');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140301', 'hmzlbd_100001', '854E433F8D974A66A5907B5D440FFDBA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140301', 'hmzlbd_100001', '382E27AA98D04122B69B64D6D96E5F64');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140301', 'hmzlbd_100001', '3DBB7E51A83B4BB4A20B693A482DAA89');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601140301', 'hmzlbd_100001', '13838505F96B4A709081DDA567AF3A49');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142201', 'hmzlbd_100001', 'F077420532124B598A38D0B86C67EBAB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142201', 'hmzlbd_100001', '0E5CB7FA29064CEE8E24443B51476807');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142201', 'hmzlbd_100001', 'CF2A52EEBE984E308D20B97B26E10CF7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142201', 'hmzlbd_100001', '9520C8A4F5AB4314A35FEE984F304A19');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', 'E7119D4B8C924002BD8CA78D0D313776');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '5A336BD630224C54ADD6684CC2946DBA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '465DD4C4EECE42B7936EC6E2DCD2A2F6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '50B70DA187254D51911B5DCD2CDD8025');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '5B056309002E498087D6463DF4CCEAB4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', 'E0C942860D8A4E30A09558E11B96C6C8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '4E9A3FEF67FA4E70B333DD40224E2ED2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '41CD3BD036E4401E80286EF90B5D975E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', 'DD780CE4E6A14146875E97AC664FC326');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '50F09B8826764519914E32EB86BB8276');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '5E8FF585C65B4F969CEB0A15BCE54D40');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142501', 'hmzlbd_100001', '9CE23D669CFC438F8D5BFAA78FDFF19D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142802', 'hmzlbd_100001', 'A1521DDA1BB14F41969CED14272D3646');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142802', 'hmzlbd_100001', 'F3055332EEC5427EBA689DC0E5148F42');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601142802', 'hmzlbd_100001', 'C259223099DC465186A98C1B801B4A74');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143100', 'hmzlbd_100001', '1D903636AD5A4D3CA58D7B755EF29A4B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143100', 'hmzlbd_100001', '2F7695882AC5447090B79ABE02718E3D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143100', 'hmzlbd_100001', '5FD4FB4786FD4CFE8A29D380C33EA5F1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143100', 'hmzlbd_100001', 'D9655C74EF2F448890A46ED3C5E04521');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143301', 'hmzlbd_100001', 'D955A742C171410FA0070623342882CB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143301', 'hmzlbd_100001', '608DD19885A443A8879E4342A88CFB19');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143301', 'hmzlbd_100001', '8B0D0E26228740179EC20287F027363A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143402', 'hmzlbd_100001', '5ED9D92E76C84616AC63A7528C5E08D1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143402', 'hmzlbd_100001', '612B4780CEB24E44A2E374EB2777F68D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143501', 'hmzlbd_100001', 'A1F057779D0B4133A68BA2799DD6427F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143501', 'hmzlbd_100001', '76A27D2913424EEE843833523ADB7DEA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143501', 'hmzlbd_100001', '9AF865F98F654D69A8D6E55719C14471');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143501', 'hmzlbd_100001', 'DDD16F60629F4BC0B5ED67D80AF81D4A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143501', 'hmzlbd_100001', 'D6570928CEE94C04B64699A8124310CC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143501', 'hmzlbd_100001', '7F7EAF6756B14E37AACEC8200EDC2992');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601143501', 'hmzlbd_100001', '0632580070704BC19C2CF57C42C16ABA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601144002', 'hmzlbd_100001', '9CD6614D559A4A279D8E83974AA27848');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601144002', 'hmzlbd_100001', '7823A166E38B494F8FAFB43B9A2AF61D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601144002', 'hmzlbd_100001', '896916AD1AAE4A818032C6ABEFE916CE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601144002', 'hmzlbd_100001', '3DD23568E00F4B7EB132549F56DC00F5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', '1AC552F9D2854F3FB9D0BFEF2172183E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', 'D9C873CD7DE54E7F8C1ADD1AC4040F4A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', '5063CEDEB9AE435CA7700D423CCCE488');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', '93D7E3EDDFDA4F99A7EB4BEF5CE9E5B8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', '3762094E76A443E9BD2CC2EBB497F3F8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', '4F46EFE5BD504EFEABF1E9F72A8C9EB3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', '165D1B59451B4A2ABECEF89C1066CCE3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', '19BF885E60454D25860475B87BA02BCA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', 'B9B3F298278646299B231D0923E2F9C6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601151202', 'hmzlbd_100001', 'D979720854B14AE389324E515B93447B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152203', 'hmzlbd_100001', '30B6A1616C54467F9E795102D632A54B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152203', 'hmzlbd_100001', '58F6AADD04B44B9C9BFEA63A7E0888B4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152203', 'hmzlbd_100001', '37C70D13388A432CA0BA211A592B6AE4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152203', 'hmzlbd_100001', '7EF0006972CE4F3CB785096A71BC1382');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152203', 'hmzlbd_100001', 'BAE5716DF1BF4590A0109A0BB1370FD9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601152203', 'hmzlbd_100001', '9CEEFE1305A545CDA381CF205238969A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162301', 'hmzlbd_100001', '85D4FAA2E9CD46C3810CEE223B95F8DD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162301', 'hmzlbd_100001', '8D0BE635CA9D4E2AB15C62F08EBF195B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162301', 'hmzlbd_100001', '9C69E578EDA2485F864321DE1B28721E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162701', 'hmzlbd_100001', '9FD0137ACF444675BA2FFC639F934DAC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162701', 'hmzlbd_100001', 'F2200E0B3EBF4F52959395D6345E3C55');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162701', 'hmzlbd_100001', '6FB0334681B4417499213C4A374B414C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162701', 'hmzlbd_100001', 'FEB8547B88B745AB845DD5E97C385981');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163002', 'hmzlbd_100001', '85A888602E0F4E1FA3D0275D15EDA54B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163300', 'hmzlbd_100001', 'D009197F4CFD49CF9F81D29FA3EB2850');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163402', 'hmzlbd_100001', '03D6A57F3AF14AC19178E0608EDC2439');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163402', 'hmzlbd_100001', '33DFEE418C9A4FAAABA93D2948153A25');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', 'B9B5963E7A0A4274B45D3E26E9E4AC78');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', '9844E26E0F2B491291A5056186E08B97');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', '0589C6FFFB914C578384515777097650');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', '00CE2EA606484B34BE3C81E266BB718E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', '78C0D2B312A54B358017EDE5B4341742');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', '16694FFDC3474BC09B37B70CCF1717A6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', '85D9CC65B7BE4945B5C25A948D1834BF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', 'F344FBDA95FE457DA8B1850C1AAC0AB9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601163802', 'hmzlbd_100001', '5E644ECECE6C4ABCBC0E157C44763C74');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192701', 'hmzlbd_100001', 'C38A1EDB2C20418E859F86C610F12C42');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192701', 'hmzlbd_100001', 'AC2E661B95BC4C5AB00B13F25CE65008');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162501', 'hmzlbd_100001', '632CC73507344C42A5FE5C0AD4056FB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162501', 'hmzlbd_100001', '8C7CF09789B542A8B92FB607D45AFC7A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162501', 'hmzlbd_100001', 'B6897B78EAEF43C688139470096A0BC8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162501', 'hmzlbd_100001', 'F2D6F50E497448279C03328917F3DBA7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162801', 'hmzlbd_100001', '71E7975D70ED42A18DE756CC0A7BE327');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162801', 'hmzlbd_100001', 'B890EA2A4BB54ED982B4E028D2BE14F4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162901', 'hmzlbd_100001', 'A55FB347F5CF448F87C09B6E2845DABC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601162901', 'hmzlbd_100001', '6808AA837974423AAB648AF046EEEE5B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601164001', 'hmzlbd_100001', 'EEB614DAD6104CB2AD2BE30F458B074E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601164001', 'hmzlbd_100001', '735BE2CAF26E475392997A3C18BE915A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601164001', 'hmzlbd_100001', '62C4700C7A8846CEB4902B35AB49FC65');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601164001', 'hmzlbd_100001', 'A6EB560E02D54373B5F841686B8C9260');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601164001', 'hmzlbd_100001', '4784ED1658FB4C9E8A4AF592DE378A8A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190003', 'hmzlbd_100001', '383255EEFC5A4B4BB47C95C6A2153475');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190003', 'hmzlbd_100001', '0BA1695F8B0B4E0392BA0DF53B0A72A5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190003', 'hmzlbd_100001', '68554E385C30479B8C2CFA30FEBB3743');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190003', 'hmzlbd_100001', '064E8890F8174B63A7ACE0487ABB862C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190003', 'hmzlbd_100001', '6EAB806EA9FC4DDF943E0174830C6DDF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190003', 'hmzlbd_100001', '3D67C76F11D5469A88C1DACA5DBB4206');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', '5DAFDA8BEEF64F44BFC3C637A5FBC8C2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', '1DA69FA04C744988A2B98F99CB153C6D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', 'A2436341F8444A31B4078DCBEC098350');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', 'C6F3501F8E594AAB8CC571A9546AB483');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', 'B21AFF07A5524F33A7C61E9466470F45');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', '294BC739CCAC4CD693E97DFFC3811346');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', '6112DC4BCFB748EFA3B34304119EC257');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', 'C226D3CD12B44867A9E6F3794AE53723');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', 'BE032FEE9DCA4D7E905E0883D1D65DDC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', 'A214459FE1C64A319244BA427812FF7F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190101', 'hmzlbd_100001', 'A88F37DE98794A7AA12BCBD976F68707');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190501', 'hmzlbd_100001', '8582CF44BEB94BE3A6361A4F7771093E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190501', 'hmzlbd_100001', '36FC82A670B341B39A73431312751DBA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190501', 'hmzlbd_100001', 'BC1AA9C3962C431AB4D40AC1DB76714F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190501', 'hmzlbd_100001', '21A9B51DD4344E069A66038B9A46C41D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190701', 'hmzlbd_100001', '42C1F166878046BAA3A4C9751BED7EA4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190701', 'hmzlbd_100001', 'F5203D42FBFD4359871C972531CCCE91');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190701', 'hmzlbd_100001', '297E715400294546A0DD4CEC7CF1298A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190701', 'hmzlbd_100001', '6BE70648FD6E45B39A22301113D45DB6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190701', 'hmzlbd_100001', '123DFC3825164F9EADD7C8C8B5193FF8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190701', 'hmzlbd_100001', '7775CBDE4074473E9B597EA15D198D5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601190701', 'hmzlbd_100001', 'D4289D0EE3AD46D298932E64305DA3D5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', '61C3CE774395451497D551508DCD5EAC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', '225C155D7A0346BEB7B77744F1D168F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', 'F9284FFE3CFD4348B1754298A046E96F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', '0F816EFC41144CBC9B3C20C4EAC0B664');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', 'CBF338C76F76417083B1BA7773FE7FA1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', 'DF16A179A44E438F83F95B1FF27C08E5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', '7ED3C2DE65334FD1945DD01C3D229C5E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', '583293DB8B65459787270CEFF50B718A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', 'A9F47D06C4024ED8BA667C7116A1DBA1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', '7F10C911AA184219B15F5ECC6998E950');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', '7198A0864F0C4FAEAF98EFF5E2503BCD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192802', 'hmzlbd_100001', 'D67386F9880F4BBD9E0EF62C500A3DAD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192803', 'hmzlbd_100001', '7A300431586545F2929AA228EB941E68');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192803', 'hmzlbd_100001', 'E3AE91BC15224E2DAD162B0212BBDFEB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601192901', 'hmzlbd_100001', 'AD76B76DE1274ACFAF7BE19E3CDD6D6E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193002', 'hmzlbd_100001', '4E5A92EE2AC342249FBE1DB7F73EF7A9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193002', 'hmzlbd_100001', '8FFA7E3C69B547F4A2B673DF41AF9201');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193002', 'hmzlbd_100001', '4B6D372476B149968F15721B92ED3BA3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193101', 'hmzlbd_100001', '66C160861EF0456FBB4AED3CEBDFE09F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193101', 'hmzlbd_100001', 'AF5EBD3D2EAC408790C6B4CC319EA239');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193202', 'hmzlbd_100001', '22F1F2729A0D4E5EA433A75AB6D9782F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193202', 'hmzlbd_100001', 'ACDF4C8F773F4C5EB2DCABAFCC96A20D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193202', 'hmzlbd_100001', '7A1E8B49B8CF4EB2836F1AAA1B2E8FAA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193202', 'hmzlbd_100001', '5003D0A68E484DD3BC3F873A4D9BE0FC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193202', 'hmzlbd_100001', '0ADDF1034FA14FEB88EE512E8EA2B3A8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193202', 'hmzlbd_100001', '68138E16622043B98ED75BACD4BD16E3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193301', 'hmzlbd_100001', '6B4CB15824D24D1EBF62C520A7699BC7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193301', 'hmzlbd_100001', '77D94CE3FF4941B798F8F47D01F1D77C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193402', 'hmzlbd_100001', '40AABF520CEE427080214857BB762138');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193402', 'hmzlbd_100001', '378BCB6A2EED43FE8F03F30FA1744F1D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193402', 'hmzlbd_100001', '0CE3442509534E3386AF128BD78316AE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193402', 'hmzlbd_100001', '27D39FED2AB1488B8F3F08B3DD9C9EE3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193402', 'hmzlbd_100001', 'E78DEB64005443C38A9F63E7C21199A7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193402', 'hmzlbd_100001', '9B50C3318CBF4632B73F6F15E7CC99F7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193402', 'hmzlbd_100001', '330B44DC9D2543749061440DEF9BD2BC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193501', 'hmzlbd_100001', '5E683230228B444AB5501FF9C9B1903A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193501', 'hmzlbd_100001', '3AF893CE6E1E491B87372C8AB1881475');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193501', 'hmzlbd_100001', '11F80E963C854FB0AD7FE6A5538BDDB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193501', 'hmzlbd_100001', '141AE1A85917433E891D5C79EC52D874');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193501', 'hmzlbd_100001', '4FB34F505DC846F8B0F124F06519E17B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193501', 'hmzlbd_100001', 'FBC9DCF6036D45AD9AE62F594493448F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193501', 'hmzlbd_100001', 'E00E12070E3242778718A9F400C315F4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193602', 'hmzlbd_100001', 'F54D32048C1A438A8E320C720414CC0A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193602', 'hmzlbd_100001', '398B859BF2B04FA1B327FE3E1EDFF0EF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193701', 'hmzlbd_100001', '24127573821C41869CE7183B63158CDF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193701', 'hmzlbd_100001', '8CDD82E319B54417A6291E671E9E43C6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', 'FEFCEC25C91B48A49424DF1E694EB379');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '7FB34D8C5354499D8531904B5A553E82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '6A9AA682E91541538FE11D383D2EA22F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', 'A27DE10C76294ECDB4BD783194ADF256');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '71C17CF850954D7B855A6389968CAAF9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '70F9B5D376154F008C8C3676F171B571');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '2A26C293DF3F41748C873D5BE2F7CC2D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '9334B6F86755487F91D0AB85635DF1ED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', 'BFA47C1E598044F7984A697C042EE7F6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '7906A3DE4B094604B4EBAE184277780C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '1F7FF07590B643FBB78D54A33104FFF2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '2B1371B1D0AD4BF19FA2B4637B64F405');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '78F4F8BE5AD34BC19177DDF3A9170CFC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '741A130A808E4E73B290A44AF9DC7A06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '5A4499A6E00E44069A8627DA6D99300D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '0E401D315A6B44C8A4642C385A86AE82');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '1AE4096302A9476CAC908DE895099E08');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193803', 'hmzlbd_100001', '9F66779E93EC4232836F4D022F19106C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193901', 'hmzlbd_100001', '62890E82CDFC45AA9AA274E29BB5E114');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193901', 'hmzlbd_100001', '44F164AF00BD4CAE814CDCA8CABC6DC9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193901', 'hmzlbd_100001', '9C1E891267DD4B7184FE0681C8045231');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193901', 'hmzlbd_100001', '5C6267CFAE664D69ACD3A0A9396B2C83');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601193901', 'hmzlbd_100001', '654D01802B28458EA36F43EF9D251966');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '1AC8F5A2753646738AE0F301B4E17053');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '5A01383D36B14F5987EE87AA498C614E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '8431661F83AC4CC490A1D31B49EC14EB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '8BBBE81731704EC9A5242A139FF843B8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '82B46F41ADAD49058D016262A85A9FD6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '565611DED36F418CADDAC8E90789AAF7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '6B01F3F2C1734419B260685F9614E8DD');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '8280CB92AF7C47EBADD5657013AA5FE5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', 'F7FBA780F6014B3CA76C119F42B6E1BF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '0ABEF51E5D4848738DF02765FAD39111');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', 'C275D0935CF6429899BE6D46DF2B7F65');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', 'A2E8DF3A18D54CFFB58F5DB9A21A6286');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', 'DE97768F0DDA4F798B39EB9BCC7D5194');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '2D3C08B444604E1D882D1D1F4EB013E9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '79109DE28DC14BD9AA36F9342D2E7015');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', 'DF5EA8F530704C48A3722682A7BBF71A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '5B504EF51B904AB688EBBBE943A6151E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', '1327C221C6E2445CB4EA722F6467FFA1');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194001', 'hmzlbd_100001', 'C0FF7030196947C887A73FB5D93437E2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194101', 'hmzlbd_100001', '575DCB33941B473E9E2198B4A49FB9B3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194202', 'hmzlbd_100001', 'FA905C5B3F774DEB9EFCD345BA5C6D73');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194202', 'hmzlbd_100001', '3F2C49C770604FEBA5FE3C024A0C4ABE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194202', 'hmzlbd_100001', 'CE6AFF5F76F7498FA6B2BEC3E94EEDED');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194202', 'hmzlbd_100001', '2E5AA8ED0B334A57A6F91E9D63D0DA77');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194202', 'hmzlbd_100001', '69E0B00C7A7043689BA8741801339D7A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '074224CF16964A6CA8D62A65160DD2B6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '02C0E1A794454FCFB9AD02EDA6F35847');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '1D224EA9BB294A1C9C330860EEA56CC2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '1AF37986CF764C89A5A1606BA2338037');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', 'B6763D83AFBD4D6CBF41C468489C4F6A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '4F8A8426FDD4495DB259F7B89B850CB3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '8622D32F39F4458B85E3FC281F48993C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', 'D5817D67C9DB4CFEBF2DA3FA51F78166');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', 'AF2EA0E61FF943D3A0CD0E0B3C018140');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '368ED52B15144E6F8EF81FD1F4EF803C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', '8947FFF657EF432AAC3E5F74ACBB9F1A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', 'A467EB8C26C546828F34FCB8E0CCBB5C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194301', 'hmzlbd_100001', 'F568F47071754C2781041E0AFE7B1298');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '8BB9A4A2E3604207882213A5C2D71B95');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '4AB219C60AB8463582F6EF3F12A4CD47');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', 'BBA7B75805E546CCA1DC1EE0C80969E3');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', 'A8CA17D2781E46DEAF018AB820601D0A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', 'E7972E4A184D431C9AE5259DB3FFB373');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', 'DB36D33C66204957A014A79A298D254C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', 'C7EB61731AA6415A9EF2E05908367150');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '24989DE994B04297AA7DF26DF6CA5506');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '0C1A1A34ED2E4A68AF5489B9B3684984');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '1E557B1AE8F446EEAA022996AE4B4910');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '7A5C41F1C7C64EE8835AE3726DBF77DB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '5903C8E76A3B4841BB4D6069B99E6080');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '92110629E4724FC4A18583521268CB0B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194401', 'hmzlbd_100001', '9D3D5226041B44B3BEDDCD91BE974583');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194501', 'hmzlbd_100001', 'ABC3246FF4D843878527DDF838FDD5B0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194501', 'hmzlbd_100001', 'F17B97C7832B4610B1A345A9E294C6F0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194501', 'hmzlbd_100001', '328BA3C3E37349D88E22B80A433870FA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', '136BABD7D96F459D8564041991E946D5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', 'B0819AA0D30C48748E1CE583EC8207DA');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', '47C3F57F2149484E9EA0066D656EDB81');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', '18B9E3D55B004EDBBBC1CE7BF97C38B9');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', '3A9ABA0B682D44128968F9F287C20755');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', 'B299DE9144084167959AECC7D8064618');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', 'FB62BB56E40C4F868C857931ECE35443');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', '7CC85813AB39417B84279A33171AF10B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194602', 'hmzlbd_100001', '142879BF5A0E492C9BF63380001A2610');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', 'A469AEE37AB240D5A5FE5F3BFD98BCE5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', 'E29B7B26C3CA41318B15931C95EC4B73');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', '00E00976E73143128B9288BF61800227');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', '7CF44C6C718A41639355251C803913EF');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', 'ABF0A76CDC65416DA1F3810A8B204CF6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', '4888385A25C74B5CB9EFC818B5497A86');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', '3096A86B68EE4BDA83C24608BE22B19A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', '303A4AF6103048ED870F73BE1DD062BB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', 'D2B6399D9579478EB27B9C751A9442AE');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', '5687A93C95544D97AEFFFEAA54C2678F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', 'FEEFD799A04246668C25425EE8EE2B5F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', 'F45F54F30FA247809BEA1835D0A74EA2');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', '8DF6586D950A463D9FED8AD2805EA312');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194700', 'hmzlbd_100001', 'E058AF6122B145478303A79D8D50BB6A');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194802', 'hmzlbd_100001', '1F2C95E2BAB54AFEACDCAABC215D0451');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194802', 'hmzlbd_100001', '676A79EA40A148538509D5F2F08B1ABB');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194802', 'hmzlbd_100001', '83CC7081FE9644D2BB94AD358C30BF34');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194802', 'hmzlbd_100001', '991C905F1D1B44BFA32866B2B21DB35F');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194802', 'hmzlbd_100001', '3078B54905F14BAA9201FECCD09FC721');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601194802', 'hmzlbd_100001', '47D67B9C36FE49BE93917F68A91B29B6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601195101', 'hmzlbd_100001', '78737E63021D4965B6EEEFEA35D4F040');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601195101', 'hmzlbd_100001', '8AF4FB40F81E4AAE8CDECEA34D3F3857');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601195101', 'hmzlbd_100001', '239BA1C1845F450E9DCDCCF153C87B17');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601200802', 'hmzlbd_100001', '56769511C070403E8BC5331FD3090C7C');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601200802', 'hmzlbd_100001', 'C83C1D00EE0B487B857BEDFEA269DDFC');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601200802', 'hmzlbd_100001', '8ECA1500175F42088B5B1F7608854CB7');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601200900', 'hmzlbd_100001', '4BEAD730E1CC43898A09329E5C85615B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601200900', 'hmzlbd_100001', '1941918DB7C940E6AADB6926DA0CEF84');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601200900', 'hmzlbd_100001', '1142EF1B2AAC40DE8DE77D741A410555');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601200900', 'hmzlbd_100001', '1AC1B8DDFD424A63A204439B3DA25661');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '6A14BEB364D041A8A492994CBEAD4AD6');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '87CDF7469C2B4AED83A915725E6325E4');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '45013673C7F942FF8FEF854DF6A3756E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', 'F8F0ACA7F5BF48AEA71CD5D499B0655D');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', 'EC9EBA9EF2EF41BABF3663F0DEBDFAD8');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '3034A17532FC4E34A0237C6EC713949E');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', 'C7DC992BB6C94ED98269B237571BC216');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '2F1944831E9F4A77BC1ADB0E6DED0838');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '6C077A9ECF6B4E74AA9AC677CB9BD6E5');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '1A311F478B714D98858E26E07AECA40B');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '4234D96FDFCB4EB3B1CCC07CE0A3FEA0');
+INSERT INTO "SJSJ"."SYS_SJGL_SJQC" VALUES ('20200601201804', 'hmzlbd_100001', '39E408A5A91348D094F73ACC7E489844');
 
 -- ----------------------------
 -- Table structure for SYS_SJGL_SJZD
@@ -12571,7 +14972,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5DBCCF755D044F8AB8A6959F662F3366', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('3DCF50309A8F4A1F8F74779B1931EF17', '20181211224756', '20200415100145', '1', '130', '{}', 'SYS_SJGL_SJZD', 'bjbt', '编辑必填', null, 'BJBT', 'BIANJIBITIAN', 'VARCHAR2', '8', '80', null, null, null, 'checkbox', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('3079350271334D90A88C33A8EF0F33E5', '20181211224756', '20190116094303', '1', '120', '{}', 'SYS_SJGL_SJZD', 'yxbj', '允许编辑', null, 'YXBJ', 'YUNXUBIANJI', 'VARCHAR2', '8', '80', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('2B38E10AC74D42229EFBC77B9C26BA5C', '20181211224756', '20200415100145', '1', '260', '{}', 'SYS_SJGL_SJZD', 'zdzdlb', '字段字典类别', null, 'ZDZDLB', 'ZIDUANZIDIANLEIBIE', 'VARCHAR2', '32', '200', null, null, null, 'dict', '0', '1', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_ZDLB', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8D1A2C32FAB745D69E18FFB58E176893', '20181211224756', '20191018004027', '1', '310', '{}', 'SYS_SJGL_SJZD', 'zdywlb', '字典业务类别', null, 'ZDYWLB', 'ZIDIANYEWULEIBIE', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', 'SYS_SJGL_ZDYWLB', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8D1A2C32FAB745D69E18FFB58E176893', '20181211224756', '20200601142446', '1', '310', '{}', 'SYS_SJGL_SJZD', 'zdywlb', '字典业务类别', null, 'ZDYWLB', 'ZIDIANYEWULEIBIE', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_SJGL_ZDYWLB', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('90F92754108946AB850F455B2514C952', '20181211224756', '20190115201058', '1', '320', '{}', 'SYS_SJGL_SJZD', 'gshff', '格式化方法', '方法名称，传入参数：数据、字段描述对象、行数据', 'GSHFF', 'GESHIHUAFANGFA', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8F7DE8B98FE84550970EB681C6A58061', '20181211224756', '20181211224756', '1', '330', '{}', 'SYS_SJGL_SJZD', 'fgshff', '反格式化方法', '方法名称，传入参数：数据、字段描述对象、行数据', 'FGSHFF', 'FANGESHIHUAFANGFA', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('EB5656A70BC544699BB0841779D55EA0', '20181211224756', '20181211224756', '1', '340', '{}', 'SYS_SJGL_SJZD', 'szhd', '设值回调', '设置值的回调方法', 'SZHT', 'SHEZHIHUITIAO', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -12745,7 +15146,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('6AA66774ED19441F8548A5D9BD3EB584', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('587EA076C4374D318ECF2A9B1841BFED', '20181223120433', '20181223123932', '1', '120', '{}', '5B27F00C6D854795B63F67520AF0738E', 'lb', '类别', '类别@SYS_QX_APPLB', 'LB', 'LEIBIE', 'VARCHAR2', '512', '80', null, null, '01', 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', 'SYS_QX_APPLB', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('A3B89BEF8AB54AFD889605AC0BCB15DE', '20181223120433', '20190114094336', '1', '32', '{}', '5B27F00C6D854795B63F67520AF0738E', 'bb', '版本', '版本', 'BB', 'BANBEN', 'VARCHAR2', '32', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E35E41FBF8334421883F3BB69D66495F', '20181223120433', '20190417104636', '1', '70', '{}', '5B27F00C6D854795B63F67520AF0738E', 'dz', '地址', '地址', 'DZ', 'DIZHI', 'VARCHAR2', '512', '2', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', null, null, 'yydz', null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B5C288EFB8354408AAD4E19885F9CFA2', '20181223120433', '20181223123833', '1', '110', '{}', '5B27F00C6D854795B63F67520AF0738E', 'zt', '状态', '状态@SYS_COMMON_ZT', 'ZT', 'ZHUANGTAI', 'VARCHAR2', '32', '80', null, null, '0', 'dict', '0', '0', '0', '1', '0', '0', '0', '1', '0', '1', '0', 'SYS_CPMMON_ZT', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B5C288EFB8354408AAD4E19885F9CFA2', '20181223120433', '20200522133217', '1', '110', '{}', '5B27F00C6D854795B63F67520AF0738E', 'zt', '状态', '状态@SYS_COMMON_ZT', 'ZT', 'ZHUANGTAI', 'VARCHAR2', '32', '80', null, null, '0', 'dict', '0', '0', '0', '1', '0', '0', '0', '1', '0', '0', '0', 'SYS_CPMMON_ZT', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('4F945D6681824D0DB38A24DBBBFA29E7', '20181223125750', '20190511213545', '1', '130', '{"密码控件":{"密码":"zxcvbnm,."}}', '5B27F00C6D854795B63F67520AF0738E', 'mm', '密码', '密码', 'MM', 'MIMA', 'VARCHAR2', '32', '80', null, null, null, 'password', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, '不设置密码无法自动登陆', null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('71E86C4D821D4705B2173C4846169818', '20181223125750', '20190401150312', '1', '140', '{}', '5B27F00C6D854795B63F67520AF0738E', 'zddlms', '自动登陆模式', '自动登陆模式', 'ZDDLMS', 'ZIDONGDENGLUMOSHI', 'VARCHAR2', '32', '80', null, null, 'date_user', 'dict', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', 'SYS_QX_ZDDLMS', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8CF0A8E3DD684681B49ECEE11D312365', '20181223162118', '20181223162118', '1', '490', '{}', '194B5A1CE1294A648CA8A3C03D4BA3BC', 'zydmdm', '职业代码', '职业代码', 'ZYDM', 'ZHIYEDAIMA', 'character varying', '1', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -12848,7 +15249,8 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1B75B2EEC5B34037AF393A1161784282', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1DC33FD0A88C4EF0AF38B4A559DF0AED', '20190120170001', '20190120170207', '1', '80', '{}', 'A1ABCD9F2CAD4BB9B212380FD90E4C12', 'scl', '输出类', '输出类', 'SCL', 'SHUCHULEI', 'VARCHAR2', '512', '2', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('92DDEAF31E6B47AFA92A8FFD4775CD09', '20190120170001', '20190120170435', '1', '75', '{}', 'A1ABCD9F2CAD4BB9B212380FD90E4C12', 'sch', '输出行', '输出行', 'SCX', 'SHUCHUXING', 'VARCHAR2', '8', '60', null, null, null, 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('594533FD2C374BA9B018017D664F2B70', '20190120170001', '20190120170342', '1', '100', '{}', 'A1ABCD9F2CAD4BB9B212380FD90E4C12', 'xx', '消息', '消息', 'XX', 'XIAOXI', 'VARCHAR2', '512', '2', null, null, null, 'textarea', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DC1CC04241B3582CF162046254AF6996', '20190126135344', '20190318151324', '1', '210', '{}', '1235FBE3A502406C9393AF038DAF6996', 'jcpl', '监测频率', '监测频率', 'JCPL', 'JIANCEPINLV', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DC1CC04241B3582CF162046254AF6996', '20190126135344', '20200522130334', '1', '210', '{}', '1235FBE3A502406C9393AF038DAF6996', 'jcpl', '监测频率', '监测频率', 'JCPL', 'JIANCEPINLV', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, '时间段采用中划线分隔，多时间段用分号分隔，如：0-8;9-18;19-23
+对应的更新时限、日志时限、标志时限也需要用分号分隔进行对应时间段的配置，如：10;30;20', null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('24F6AF7A487F4511A66359C213128C57', '20190126135404', '20190126135624', '0', '140', '{}', 'A8046D1B8FCC4534BDF2481F1D8E5E75', 'rwpch', '任务批次号', '任务批次号', 'RWPCH', 'RENWUPICIHAO', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('0F077B79BAE944069D42D0817546F327', '20190126135404', '20190126140016', '1', '30', '{}', 'A8046D1B8FCC4534BDF2481F1D8E5E75', 'rwdm', '任务代码', '任务代码', 'RWDM', 'RENWUDAIMA', 'VARCHAR2', '64', '150', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('70B51E9699564CDD938780B76107E174', '20190126145431', '20190126145518', '1', '45', '{}', 'A8046D1B8FCC4534BDF2481F1D8E5E75', 'rwds', '任务定时', '为空表示持续执行', 'RWDS', 'RENWUDINGSHI', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -12973,7 +15375,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BB1DB8198A37477B934AC9FE4D60EDA5', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('2134EA203E1748D6BD2798A3D8A0CD68', '20181225214006', '20190112152358', '1', '10', '{}', '485FA230F432435A9532084ADC02C447', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B2057A82112C491FB43A9EE1F7A5703E', '20181225214006', '20181225214101', '1', '20', '{}', '485FA230F432435A9532084ADC02C447', 'my-lbxh', '序号', null, 'XH', 'XUHAO', 'VARCHAR2', '0', '50', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'gshffLbxh', null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('C0826318922B4383AC1BCC0FE6E6821B', '20181225214006', '20190114101306', '1', '120', '{}', '485FA230F432435A9532084ADC02C447', 'id', '主键', '主键', 'ZJ', 'ZHUJIAN', 'VARCHAR2', '32', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E00E8AC5974344F39100687818B6D9C3', '20181225214006', '20190719105830', '1', '30', '{}', '485FA230F432435A9532084ADC02C447', 'cjsj', '消息时间', '创建时间', 'XXSJ', 'XIAOXISHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-7', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E00E8AC5974344F39100687818B6D9C3', '20181225214006', '20200527190956', '1', '30', '{"时间控件":{"hdgs":"yyyyMMddHHmmss","dateFmt":"yyyy-MM-dd HH:mm:ss","startData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"},"endData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"}}}', '485FA230F432435A9532084ADC02C447', 'cjsj', '消息时间', '创建时间', 'XXSJ', 'XIAOXISHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-7', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('76CA72071FE24F2B8055DAEDA7DE299A', '20181225214006', '20190114101306', '1', '80', '{}', '485FA230F432435A9532084ADC02C447', 'gxsj', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('7D50D4A719F44A5BA5B4E16F500F1418', '20181225214006', '20190116120229', '1', '90', '{}', '485FA230F432435A9532084ADC02C447', 'yxx', '有效性', '无效的消息不发送', 'YXX', 'YOUXIAOXING', 'VARCHAR2', '8', '80', null, '1', null, 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BCC3B548CB8E495E86ECB91AFAA81B51', '20181225212709', '20190426170101', '1', '270', '{}', 'A8046D1B8FCC4534BDF2481F1D8E5E75', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '210', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'sjdxlbcz', null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -13054,7 +15456,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('05BE292F8F784454BA45DBAD715B503A', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('C88CEB7FA290469988FAD73B3192679B', '20190118200405', '20190120130117', '1', '170', '{}', '2CAACF7B795F4CB9B79E26F4236EE9B3', 'cjrdwmc', '创建人单位名称', '创建人单位名称', 'CJRDWMC', 'CHUANGJIANRENDANWEIMINGCHENG', 'VARCHAR2', '256', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DAD8ABA1A34E48B3AE7E2069CA93C358', '20190118200405', '20190420114457', '1', '180', '{}', '2CAACF7B795F4CB9B79E26F4236EE9B3', 'cjrdwdm', '创建人单位代码', '创建人单位代码@SYS_COMMON_ORG', 'CJRDWDM', 'CHUANGJIANRENDANWEIDAIMA', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'SYS_COMMON_ORG', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('9C9EF0B3E5C946A7B7A541396631A9AA', '20190118200405', '20190120144713', '1', '30', '{}', '2CAACF7B795F4CB9B79E26F4236EE9B3', 'ip', 'IP', 'IP', 'IP', 'IP', 'VARCHAR2', '32', '120', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('00E2350FB1124C45BA07B89D4C99C997', '20190118200405', '20190126101451', '1', '65', '{}', '2CAACF7B795F4CB9B79E26F4236EE9B3', 'ms', '描述', '描述', 'MS', 'MIAOSHU', 'VARCHAR2', '1024', '2', null, null, null, 'textarea', '0', '0', '0', '0', '1', '1', '1', '1', '0', '1', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('00E2350FB1124C45BA07B89D4C99C997', '20190118200405', '20200525111508', '1', '65', '{}', '2CAACF7B795F4CB9B79E26F4236EE9B3', 'ms', '描述', '描述', 'MS', 'MIAOSHU', 'VARCHAR2', '1024', '2', null, null, null, 'textarea', '0', '0', '0', '0', '1', '1', '1', '1', '0', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DBE07F6F48214224BC4801C8BCB98E2E', '20190218152232', '20190218152232', '1', '450', '{}', 'A6B0538B20B5471CB4D8A15742577AE3', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '90', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'defaultLbcz', null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1BAA1F569BB34C02B4DF27277040525E', '20190218152232', '20190218152356', '1', '2', '{}', 'A6B0538B20B5471CB4D8A15742577AE3', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1', null, '99', null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('2BF15C72846C44328769D6BFD19FF229', '20190218152232', '20190218152404', '1', '4', '{}', 'A6B0538B20B5471CB4D8A15742577AE3', 'my-lbxh', '序号', null, 'XH', 'XUHAO', 'VARCHAR2', '0', '50', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'gshffLbxh', null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -13194,9 +15596,9 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('EE188046C097C5E59079F4EEC9AF6996', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B3F3F749B0BD2DFD02C45E0B7AAF6996', '20190112151656', '20190112151656', '1', '150', '{}', '1235FBE3A502406C9393AF038DAF6996', 'zlsjc', '增量时间戳', '增量时间戳', 'ZLSJC', 'ZENGLIANGSHIJIANCHUO', 'VARCHAR2', '14', '130', null, null, null, 'time', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DD3FC54679A5987748F1ECBDB7AF6996', '20190112151656', '20190112151656', '1', '160', '{}', '1235FBE3A502406C9393AF038DAF6996', 'log_level', '日志级别', '日志级别', 'RZJB', 'RIZHIJIBIE', 'VARCHAR2', '100', '80', null, null, null, 'dict', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'KETTLE_LOG_LEVEL', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E3A502406C9393AF038DAF6996AF6996', '20190112151656', '20190112151656', '1', '170', '{}', '1235FBE3A502406C9393AF038DAF6996', 'zylx', '作业类型', '作业类型@OTHER_KETTLE_ZYLX', 'ZYLX', 'ZUOYELEIXING', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'OTHER_KETTLE_ZYLX', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('67B37840C6930461AB8461B3C8AF6996', '20190112151656', '20191029121711', '1', '180', '{}', '1235FBE3A502406C9393AF038DAF6996', 'gxsx', '更新时限', '单位分钟，r_job中的最后更新时间更新时限', 'GXSX', 'GENGXINSHIXIAN', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8AE2434813BE976D1CAE0E7D27AF6996', '20190112151656', '20191029121711', '1', '190', '{}', '1235FBE3A502406C9393AF038DAF6996', 'rzsx', '日志时限', '单位分钟，日志表更新时限', 'RZSX', 'RIZHISHIXIAN', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B778534889922BDB09A7BB5EAAAF6996', '20190112151656', '20191029121711', '1', '200', '{}', '1235FBE3A502406C9393AF038DAF6996', 'bzsx', '标志时限', '单位分钟，抽取标志位时限', 'BZSX', 'BIAOZHISHIXIAN', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '1', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('67B37840C6930461AB8461B3C8AF6996', '20190112151656', '20200522110953', '1', '180', '{}', '1235FBE3A502406C9393AF038DAF6996', 'gxsx', '更新时限', '单位分钟，r_job中的最后更新时间更新时限', 'GXSX', 'GENGXINSHIXIAN', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '1', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8AE2434813BE976D1CAE0E7D27AF6996', '20190112151656', '20200522110953', '1', '190', '{}', '1235FBE3A502406C9393AF038DAF6996', 'rzsx', '日志时限', '单位分钟，日志表更新时限', 'RZSX', 'RIZHISHIXIAN', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '1', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B778534889922BDB09A7BB5EAAAF6996', '20190112151656', '20200522110953', '1', '200', '{}', '1235FBE3A502406C9393AF038DAF6996', 'bzsx', '标志时限', '单位分钟，抽取标志位时限', 'BZSX', 'BIAOZHISHIXIAN', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '1', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E998CA4648BBB14293E39120F8AF6996', '20190112151656', '20190112151656', '1', '30', '{}', '1235FBE3A502406C9393AF038DAF6996', 'id_job', '主键', '主键', 'ZJ', 'ZHUJIAN', 'NUMBER', '22', '50', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('568B94488EAE7193A847502CFBAF6996', '20190112151656', '20190112151656', '1', '220', '{}', '1235FBE3A502406C9393AF038DAF6996', 'id_directory', '目录', '目录', 'ML', 'MULU', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('9093964B8D9FF6B6B027B82DD5AF6996', '20190112151656', '20190112151656', '1', '40', '{}', '1235FBE3A502406C9393AF038DAF6996', 'name', '名称', '名称', 'MC', 'MINGCHENG', 'VARCHAR2', '255', '120', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -13752,7 +16154,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('D3E9BAB2C1CD456A9CC32A25F1542594', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('A9C328C24B1A45058A6174B2D15983C2', '20191017004813', '20191017192546', '0', '50', '{}', '326F9E2F014148FBB2DCD49FDB824AA6', 'oorder', '对象排序', '对象排序', 'DXPX', 'DUIXIANGPAIXU', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('07731602E6634E0FB18FF619A83AD7B8', '20191017004813', '20191017192546', '0', '60', '{}', '326F9E2F014148FBB2DCD49FDB824AA6', 'simple_spell', '对象简拼', '对象简拼', 'DXJP', 'DUIXIANGJIANPIN', 'VARCHAR2', '200', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('EEF55EBFD56F4C7385FB4BE9D614983A', '20191017004813', '20191017192546', '0', '70', '{}', '326F9E2F014148FBB2DCD49FDB824AA6', 'full_spell', '对象全拼', '对象全拼', 'DXQP', 'DUIXIANGQUANPIN', 'VARCHAR2', '500', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('3718C652493C4CC8BBFC8C60B72339D7', '20191017004813', '20191017005502', '1', '400', '{}', '326F9E2F014148FBB2DCD49FDB824AA6', 'create_date', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('3718C652493C4CC8BBFC8C60B72339D7', '20191017004813', '20200527190716', '1', '400', '{"时间控件":{"hdgs":"yyyyMMddHHmmss","dateFmt":"yyyy-MM-dd HH:mm:ss","startData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"},"endData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"}}}', '326F9E2F014148FBB2DCD49FDB824AA6', 'create_date', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('0ACF45A8309A42FAA3D7FDB69F6BB135', '20191017004813', '20191017192546', '0', '90', '{}', '326F9E2F014148FBB2DCD49FDB824AA6', 'update_date', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BFBC14E28A8840E4B765822B30C8EB27', '20191017004813', '20191017192546', '0', '100', '{}', '326F9E2F014148FBB2DCD49FDB824AA6', 'create_user', '创建人', '创建人', 'CJR', 'CHUANGJIANREN', 'VARCHAR2', '100', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F81AAC21CCAE4FF2A759943D7A53B4C3', '20191017004813', '20191017192546', '0', '110', '{}', '326F9E2F014148FBB2DCD49FDB824AA6', 'update_user', '更新人', '更新人', 'GXR', 'GENGXINREN', 'VARCHAR2', '100', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -13881,7 +16283,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E59F763EE47E46E0A88BC5C93A4A01AE', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('6B8084F5943A41ECAD40F5150375A1A0', '20191017233928', '20191119100059', '1', '50', '{}', 'F55728D8131D4A9BB3E67985AB272244', 'sjdx', '数据对象', '数据对象', 'SJDX', 'SHUJUDUIXIANG', 'VARCHAR2', '32', '2', null, null, null, 'dict', '0', '1', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_SJGL_SJDX', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('801E3799684D438AB6EBE790C759F0F9', '20191017233928', '20191017233928', '1', '60', '{}', 'F55728D8131D4A9BB3E67985AB272244', 'sjzd', '数据账单', '数据账单', 'SJZD', 'SHUJUZHANGDAN', 'VARCHAR2', '32', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('CFFBF48A6CCB43F9B8D42C8BB399B3B7', '20191017233928', '20191017234042', '1', '70', '{}', 'F55728D8131D4A9BB3E67985AB272244', 'zy', '作业', '作业', 'ZY', 'ZUOYE', 'VARCHAR2', '100', '80', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('C9310787CEBD4D82A9AD4679285CA7E2', '20191017233928', '20191017234042', '1', '80', '{}', 'F55728D8131D4A9BB3E67985AB272244', 'kssj', '开始时间', '开始时间', 'KSSJ', 'KAISHISHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('C9310787CEBD4D82A9AD4679285CA7E2', '20191017233928', '20200527190745', '1', '80', '{"时间控件":{"hdgs":"yyyyMMddHHmmss","dateFmt":"yyyy-MM-dd HH:mm:ss","startData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"},"endData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"}}}', 'F55728D8131D4A9BB3E67985AB272244', 'kssj', '开始时间', '开始时间', 'KSSJ', 'KAISHISHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('06480B8DA22E4146BB485F9E7C43C929', '20191017233928', '20191017234111', '1', '90', '{}', 'F55728D8131D4A9BB3E67985AB272244', 'jssj', '结束时间', '结束时间', 'JSSJ', 'JIESHUSHIJIAN', 'VARCHAR2', '14', '130', null, null, null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('D3A58E335291437AAD2D05E24ACC5ACE', '20191017233928', '20191117010431', '1', '100', '{}', 'F55728D8131D4A9BB3E67985AB272244', 'zlsjc', '抽取标志', '抽取标志', 'CQBZ', 'CHOUQUBIAOZHI', 'VARCHAR2', '100', '130', null, null, null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E4172172FFB44375B26A57EDF87FA085', '20191017233928', '20191117173827', '1', '110', '{}', 'F55728D8131D4A9BB3E67985AB272244', 'jg', '结果', '结果', 'JG', 'JIEGUO', 'VARCHAR2', '100', '80', null, null, null, 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_YXJG', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -13898,7 +16300,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('51353BEE300E4EC28E459BB8B4A08A6B', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('86BF7521B162447AB9E458585F617CB3', '20191018003722', '20191018172324', '1', '150', '{}', '123190AB67534D9A93A54BA2114B1D67', 'kmpz', 'KM配置', 'KM配置', 'KMPZ', 'KMPEIZHI', 'VARCHAR2', '4000', '2', null, null, null, 'jsoneditor', '0', '0', '0', '0', '0', '1', '1', '1', '0', '1', '1', null, '99', null, null, null, null, null, null, null, 'xjsx xjsxkm', null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('240356A56B554304A1F002A77E6A6DF9', '20191018003722', '20191116103933', '1', '160', '{}', '123190AB67534D9A93A54BA2114B1D67', 'lydx', '来源对象', '来源对象', 'LYDX', 'LAIYUANDUIXIANG', 'VARCHAR2', '32', '2', null, null, null, 'dict', '0', '1', '0', '0', '0', '1', '1', '1', '0', '1', '1', 'SYS_SJGL_SJDX', null, null, null, null, null, null, null, 'width: calc(100% - 150px);  display: inline;', 'xjsx xjsxdxlz', null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('634959B4D0EF4835BDDC96917DEBDA6D', '20191018003722', '20191116103944', '1', '170', '{}', '123190AB67534D9A93A54BA2114B1D67', 'mbdx', '目标对象', '目标对象', 'MBDX', 'MUBIAODUIXIANG', 'VARCHAR2', '32', '2', null, null, null, 'dict', '0', '1', '0', '0', '0', '1', '1', '1', '0', '1', '1', 'SYS_SJGL_SJDX', null, null, null, null, null, null, null, 'width: calc(100% - 150px);  display: inline;', 'xjsx xjsxdxlz', null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('FD13388218DA4A609869E4707CFD6E02', '20191018003722', '20191117162253', '1', '180', '{}', '123190AB67534D9A93A54BA2114B1D67', 'lzmb', '流转模板', '流转模板', 'LZMB', 'LIUZHUANMOBAN', 'VARCHAR2', '255', '2', null, null, null, 'dict', '0', '1', '0', '0', '0', '1', '1', '1', '0', '0', '0', 'KETTLE_DXLZ_LZMB', null, null, null, null, '不填则使用默认模板', null, null, 'width: calc(100% - 100px);  display: inline;', 'xjsx xjsxdxlz', null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('FD13388218DA4A609869E4707CFD6E02', '20191018003722', '20200601193933', '1', '180', '{}', '123190AB67534D9A93A54BA2114B1D67', 'lzmb', '流转模板', '流转模板', 'LZMB', 'LIUZHUANMOBAN', 'VARCHAR2', '255', '2', null, null, null, 'dict', '0', '1', '0', '0', '0', '1', '1', '1', '0', '0', '1', 'KETTLE_DXLZ_LZMB', null, null, null, null, '不填则使用默认模板', null, null, 'width: calc(100% - 100px);  display: inline;', 'xjsx xjsxdxlz', null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BCEA7F6BA3AA4BF192EBD89F56E010C1', '20191018003722', '20191021164900', '0', '190', '{}', '123190AB67534D9A93A54BA2114B1D67', 'gdpz', '更多配置', '更多配置', 'GDPZ', 'GENGDUOPEIZHI', 'VARCHAR2', '4000', '2', null, null, null, 'jsoneditor', '0', '0', '0', '0', '0', '1', '1', '1', '0', '1', '1', null, '99', null, null, null, null, null, null, null, 'xjsx xjsxdxlz', null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1E262D3C4C6B45A19E458F75A0FE24E6', '20191018003722', '20191019044622', '1', '240', '{}', '123190AB67534D9A93A54BA2114B1D67', 'jcpl', '监测频率', '监测频率', 'JCPL', 'JIANCEPINLV', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('C98DE52703C94582B8FC665F742DD586', '20200520233149', '20200520233512', '0', '1170', '{}', 'F9E0AB7C6994475C94F502B9B18986CA', 'rw_pczy', 'rw_pczy', null, null, null, 'VARCHAR2', '4000', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -13932,12 +16334,12 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('4E8588EEA2734E1386C11388DA4D7E41', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('007806468507485EB40A4D0F8AC054E5', '20191016234902', '20191016234902', '1', '450', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '90', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'defaultLbcz', null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('634CD281F0C647138375B18DF2DBC95E', '20191016234902', '20191016235040', '1', '2', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1', null, '99', null, null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('A02CDBEB63A346798484E430DBA4FE6E', '20191016234902', '20191016235040', '1', '4', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'my-lbxh', '序号', null, 'XH', 'XUHAO', 'VARCHAR2', '0', '50', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'gshffLbxh', null, null, null, null, null, null, null, null, null, '0', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DBAF0A98CEE74346BB8CACBE385C46BB', '20191016234902', '20191017000351', '1', '10', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'id_job', '作业', null, 'ZY', 'ZUOYE', 'NUMBER', '22', '200', null, null, null, 'dict', '0', '1', '0', '1', '1', '1', '1', '1', '0', '0', '0', 'KETTLE_DEFAULT_JOB', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DBAF0A98CEE74346BB8CACBE385C46BB', '20191016234902', '20200527231817', '1', '10', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'id_job', '作业', null, 'ZY', 'ZUOYE', 'NUMBER', '22', '2', null, null, null, 'dict', '0', '1', '0', '1', '1', '1', '1', '1', '0', '0', '0', 'KETTLE_DEFAULT_JOB', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('44F4E43EE00E4FC7A0899001209AD3D7', '20191016234902', '20191016235541', '1', '20', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'id', '参数主键', null, 'CSZJ', 'CANSHUZHUJIAN', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('788BC5D157E64FC9AAD7C5ACBDB1E8F8', '20191016234902', '20191016235514', '1', '30', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'ocode', '参数代码', null, 'CSDM', 'CANSHUDAIMA', 'VARCHAR2', '4000', '100', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('610C28D8AF214084A945FA8BB625459B', '20191016234902', '20191016235514', '1', '40', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'oname', '参数名称', null, 'CSMC', 'CANSHUMINGCHENG', 'VARCHAR2', '4000', '150', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8943FE134DE14AB19AC4F6389FEB288A', '20191016234902', '20191016235643', '1', '50', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'param_default', '默认值', null, 'MRZ', 'MORENZHI', 'VARCHAR2', '4000', '200', null, null, null, 'textarea', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('4A783F6FFBB848479CD606322BD15A19', '20191016234902', '20191016235609', '1', '60', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'value', '设置值', null, 'SZZ', 'SHEZHIZHI', 'VARCHAR2', '2000', '2', null, null, null, 'textarea', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8943FE134DE14AB19AC4F6389FEB288A', '20191016234902', '20200527231742', '1', '50', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'param_default', '默认值', null, 'MRZ', 'MORENZHI', 'VARCHAR2', '4000', '2', null, null, null, 'textarea', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('4A783F6FFBB848479CD606322BD15A19', '20191016234902', '20200530110624', '1', '60', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'value', '设置值', null, 'SZZ', 'SHEZHIZHI', 'CLOB', '400000', '2', null, null, null, 'textarea', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('473C0F1DD0F14A20AA98B25871AF2775', '20191016234902', '20191016235314', '1', '70', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'simple_spell', '简拼', null, 'JP', 'JIANPIN', 'VARCHAR2', '200', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F37CE0D805144E3A823942823CC74CAA', '20191016234902', '20191016235314', '1', '80', '{}', '30FC076C16B049A2A402FAFBBCD70C36', 'full_spell', '全拼', null, 'QP', 'QUANPIN', 'VARCHAR2', '500', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DB3D255B27CC4D379511193FCCDE31C6', '20191028231926', '20191113171507', '1', '210', '{}', 'DB7A417A3AC74ED9A0B41ABEF10C03C0', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '130', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'sjdxlbcz', null, null, null, null, null, null, null, null, null, '0', null, '06');
@@ -13976,10 +16378,10 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('53158C3125A64DE0AB2F3BFAD18D7135', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('57CB674C01C94A32AF89B426D9AF5CB9', '20191017004550', '20191017010146', '1', '200', '{}', '2792AD36241245A099AB0B2F7ACF856A', 'result', '运行结果', '运行结果', 'YXJG', 'YUNXINGJIEGUO', 'VARCHAR2', '200', '80', null, null, null, 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'KETTLE_RUN_STATUS', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('64B5750C12D24D00954184F09011CFC3', '20191017004550', '20191017010014', '1', '210', '{}', '2792AD36241245A099AB0B2F7ACF856A', 'log_file', '日志文件', '日志文件', 'RZWJ', 'RIZHIWENJIAN', 'VARCHAR2', '1000', '2', null, null, null, 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B66411E8B4DA429097EFC0552D8C1B10', '20191116015808', '20191116015808', '1', '180', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '90', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'defaultLbcz', null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('919249981CDB44089E47DE428F25DEEE', '20191116015808', '20191116015808', '1', '30', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-5', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('919249981CDB44089E47DE428F25DEEE', '20191116015808', '20200601201820', '0', '30', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-5', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('791B9B9D42624BD6A7911CF957B947B9', '20191116015808', '20191116015808', '1', '40', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'gxsj', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-5', null, 'time', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('2DE70B13A8A64DBFA825EF2528A21613', '20191116015808', '20191116015808', '1', '50', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'yxx', '有效性', '有效性@SYS_COMMON_LJPD', 'YXX', 'YOUXIAOXING', 'VARCHAR2', '8', '80', null, null, null, 'dict', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8E97767E865D40E9B8303A5E76DAD502', '20191116015808', '20191116015808', '1', '60', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'px', '排序', '排序', 'PX', 'PAIXU', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8E97767E865D40E9B8303A5E76DAD502', '20191116015808', '20200601201820', '0', '60', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'px', '排序', '排序', 'PX', 'PAIXU', 'NUMBER', '22', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('D461FF4815D84D21963ED31D80762193', '20191116015808', '20191116015808', '1', '700', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'kzxx', '扩展信息', 'JSON格式', 'KZXX', 'KUOZHANXINXI', 'VARCHAR2', '4000', '2', null, null, null, 'jsoneditor', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BAE839351EBB4104855B9A686385E870', '20191116015808', '20191116015808', '1', '80', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'cjrxm', '创建人姓名', '创建人姓名', 'CJRXM', 'CHUANGJIANRENXINGMING', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('629F8627F2D7410D9E7A32F6D13F7862', '20191116015808', '20191116015808', '1', '90', '{}', 'AE53A3D268F840C8AD5CD8BD54748853', 'cjrdm', '创建人代码', '创建人代码@SYS_COMMON_USER', 'CJRDM', 'CHUANGJIANRENDAIMA', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'SYS_COMMON_USER', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -14148,7 +16550,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('414912D5B97B4CB4A7BD0043AB2972F3', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('6909E62F548B4E48BCD08A44794AC70D', '20200427163732', '20200427163732', '1', '440', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '90', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'defaultLbcz', null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('2DDEA81B2CC246BF827B7908601C18BE', '20200427163732', '20200427163732', '1', '10', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1', null, '99', null, null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F2BD2D46738C4CC782446E409C123883', '20200427163732', '20200427163732', '1', '20', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'my-lbxh', '序号', null, 'XH', 'XUHAO', 'VARCHAR2', '0', '50', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'gshffLbxh', null, null, null, null, null, null, null, null, null, '0', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('FCC1655627C04095AC0F44D0171465EC', '20200427163732', '20200429101448', '1', '60', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrdwdm', '创建人单位代码', '创建人单位代码', 'CJRDWDM', 'CHUANGJIANRENDANWEIDAIMA', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', 'SYS_COMMON_ORG', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('FCC1655627C04095AC0F44D0171465EC', '20200427163732', '20200525160856', '1', '60', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrdwdm', '创建人单位代码', '创建人单位代码', 'CJRDWDM', 'CHUANGJIANRENDANWEIDAIMA', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', 'SYS_COMMON_ORG', null, null, null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('997F240968F3496BA53FF94294C2874A', '20200427163732', '20200429101448', '1', '70', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'mc', '名称', '名称', 'MC', 'MINGCHENG', 'VARCHAR2', '256', '2', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('2806DF3EB48040A496DF4F49860B8D33', '20200427163732', '20200429101448', '1', '80', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'ms', '描述', '描述', 'MS', 'MIAOSHU', 'VARCHAR2', '256', '2', null, null, null, 'textarea', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E6F681640A0740E68155829C1B86E756', '20200427163732', '20200427164634', '1', '90', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'dl', '大类', '大类', 'DL', 'DALEI', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_BDHC_ZYDL', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -14156,19 +16558,19 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8A9E1C091C9B4F1CB3545E56161C43FA', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('27C4243A15EF4266ADD238DCCBB0E38D', '20200427163732', '20200429101448', '1', '65', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'dm', '代码', '动态信息类别', 'DM', 'DAIMA', 'VARCHAR2', '32', '80', null, null, null, 'input', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5321DBF1AEEB47319FE3D3B32C96BF91', '20200427163732', '20200429101448', '1', '120', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'dj', '等级', '从高到低为1~10，按每三级分为高中低，一些较少使用的资源就设置为10级，10级默认不比对，只有在比对组或比对号码的比对资源中明确设置才生效，系统默认6级', 'DJ', 'DENGJI', 'VARCHAR2', '32', '80', null, null, '06', 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '1', '1', 'SYS_COMMON_DJ', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E049D5DFE1AF43D4BA431FD08819D506', '20200427163732', '20200427165416', '1', '130', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'sjdx', '数据对象', '数据对象', 'SJDX', 'SHUJUDUIXIANG', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '1', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_SJGL_SJDX', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B954A6BE054D4A53ADFD5E973694A1F3', '20200427163732', '20200427165416', '1', '140', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'sjzt', '数据载体', '数据载体', 'SJZT', 'SHUJUZAITI', 'VARCHAR2', '32', '80', null, null, null, 'dict', '0', '1', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_SJZT', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('315B9380E1554DFB972D75F90E2CA6FB', '20200427163732', '20200429101749', '1', '150', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'hcyj', '核查语句', '采用模板形式，参数化满足增量、全量等需求场景', 'HCYJ', 'HECHAYUJU', 'VARCHAR2', '4000', '2', null, null, null, 'textarea', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B954A6BE054D4A53ADFD5E973694A1F3', '20200427163732', '20200525174912', '1', '140', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'sjzt', '数据载体', '数据载体', 'SJZT', 'SHUJUZAITI', 'VARCHAR2', '32', '130', null, null, null, 'dict', '0', '1', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_SJZT', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('315B9380E1554DFB972D75F90E2CA6FB', '20200427163732', '20200530110838', '1', '150', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'hcyj', '核查语句', '采用模板形式，参数化满足增量、全量等需求场景', 'HCYJ', 'HECHAYUJU', 'CLOB', '400000', '2', null, null, null, 'textarea', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('2F268C8D93A04ECBB2957EC04B334520', '20200427163732', '20200427164634', '1', '160', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'bz', '备注', '备注', 'BZ', 'BEIZHU', 'VARCHAR2', '4000', '2', null, null, null, 'input', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('7A1179206DC847D086069F6337266DAB', '20200427163732', '20200427164502', '1', '170', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'gxpl', '更新频率', '更新频率', 'GXPL', 'GENGXINPINLV', 'VARCHAR2', '256', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E7441F3790DD4985AE19B1E7C2AD84A4', '20200427163732', '20200429101618', '1', '180', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'id', '主键', '主键', 'ZJ', 'ZHUJIAN', 'VARCHAR2', '32', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('385CA458C96643968AD23F0CD9E10CAC', '20200427163732', '20200429101618', '1', '190', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, null, null, 'time', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5889144E22BE46D2BC2A82F0370B5CF4', '20200427163732', '20200429101618', '1', '200', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'gxsj', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, null, null, 'time', '0', '0', '0', '1', '1', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('0C5E0C9F1791412F9358DF6D03C34A3A', '20200427163732', '20200427164634', '1', '210', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'yxx', '有效性', '有效性', 'YXX', 'YOUXIAOXING', 'VARCHAR2', '8', '80', null, '1', '1', 'checkbox', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DF3B617C0CF345499B1A4B24CB30ACCC', '20200427163732', '20200427164502', '1', '220', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'px', '排序', '排序', 'PX', 'PAIXU', 'NUMBER', '22', '80', null, null, '9999', 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('46F822450D5F4516BA4A091C26CC1F6A', '20200427163732', '20200427164502', '1', '230', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'kzxx', '扩展信息', 'JSON格式', 'KZXX', 'KUOZHANXINXI', 'VARCHAR2', '4000', '2', null, null, null, 'jsoneditor', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('EA20F67103894299AA1BB2360500D567', '20200427163732', '20200429101618', '1', '240', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrxm', '创建人姓名', '创建人姓名', 'CJRXM', 'CHUANGJIANRENXINGMING', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('31F0EF7EE50E4C34A7A9A8A3A49EFB8D', '20200427163732', '20200429101618', '1', '250', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrdm', '创建人代码', '创建人代码', 'CJRDM', 'CHUANGJIANRENDAIMA', 'VARCHAR2', '32', '2', null, null, null, 'dict', '0', '1', '0', '0', '0', '0', '1', '1', '0', '0', '0', 'SYS_COMMON_USER', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1B3F624AFB554392B25F6B9F55DE5791', '20200427163732', '20200429101618', '1', '260', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrdwmc', '创建人单位名称', '创建人单位名称', 'CJRDWMC', 'CHUANGJIANRENDANWEIMINGCHENG', 'VARCHAR2', '256', '2', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E7441F3790DD4985AE19B1E7C2AD84A4', '20200427163732', '20200525160856', '1', '180', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'id', '主键', '主键', 'ZJ', 'ZHUJIAN', 'VARCHAR2', '32', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '0', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('385CA458C96643968AD23F0CD9E10CAC', '20200427163732', '20200525160856', '1', '190', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, null, null, 'time', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '0', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5889144E22BE46D2BC2A82F0370B5CF4', '20200427163732', '20200525160857', '1', '200', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'gxsj', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, null, null, 'time', '0', '0', '0', '1', '1', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '0', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('0C5E0C9F1791412F9358DF6D03C34A3A', '20200427163732', '20200525160857', '1', '210', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'yxx', '有效性', '有效性', 'YXX', 'YOUXIAOXING', 'VARCHAR2', '8', '80', null, '1', '1', 'checkbox', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '0', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('DF3B617C0CF345499B1A4B24CB30ACCC', '20200427163732', '20200525160857', '1', '220', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'px', '排序', '排序', 'PX', 'PAIXU', 'NUMBER', '22', '80', null, null, '9999', 'input', '0', '0', '0', '1', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('46F822450D5F4516BA4A091C26CC1F6A', '20200427163732', '20200525160857', '1', '230', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'kzxx', '扩展信息', 'JSON格式', 'KZXX', 'KUOZHANXINXI', 'VARCHAR2', '4000', '2', null, null, null, 'jsoneditor', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '0', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('EA20F67103894299AA1BB2360500D567', '20200427163732', '20200525160857', '1', '240', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrxm', '创建人姓名', '创建人姓名', 'CJRXM', 'CHUANGJIANRENXINGMING', 'VARCHAR2', '64', '80', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '0', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('31F0EF7EE50E4C34A7A9A8A3A49EFB8D', '20200427163732', '20200525160857', '1', '250', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrdm', '创建人代码', '创建人代码', 'CJRDM', 'CHUANGJIANRENDAIMA', 'VARCHAR2', '32', '2', null, null, null, 'dict', '0', '1', '0', '0', '0', '0', '1', '1', '0', '0', '0', 'SYS_COMMON_USER', null, null, null, null, null, null, null, null, null, null, null, '0', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('1B3F624AFB554392B25F6B9F55DE5791', '20200427163732', '20200525160857', '1', '260', '{}', '8B74AF5DB3F64D36B5C8A28C43653A49', 'cjrdwmc', '创建人单位名称', '创建人单位名称', 'CJRDWMC', 'CHUANGJIANRENDANWEIMINGCHENG', 'VARCHAR2', '256', '2', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8906465FA17F4073950C950B8324E0DB', '20200427170842', '20200427170842', '1', '440', '{}', 'ED21000B79B848C4941F5A059D1CB338', 'dxcz', '操作', null, null, null, 'VARCHAR2', '0', '90', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'defaultLbcz', null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('50B3B862A3CA434A863673000C170371', '20200427170842', '20200427170842', '1', '10', '{}', 'ED21000B79B848C4941F5A059D1CB338', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1', null, '99', null, null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('289BF396C9CE479E81DEB7522E5AA11D', '20200427170842', '20200427170842', '1', '20', '{}', 'ED21000B79B848C4941F5A059D1CB338', 'my-lbxh', '序号', null, 'XH', 'XUHAO', 'VARCHAR2', '0', '50', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'gshffLbxh', null, null, null, null, null, null, null, null, null, '0', null, '06');
@@ -14201,8 +16603,8 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('41CA6ACD52DC4E8183851BA6C4C40BE8', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('486DD629A128410A895895D15C1CFB6C', '20200427172543', '20200427172543', '1', '10', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'my-lbxz', '列表选择', null, 'LBXZ', 'LIEBIAOXUANZE', 'VARCHAR2', '0', '40', null, null, null, 'checkbox', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1', null, '99', null, null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F78DDAC6A8694AB8887F3FC86D407BCC', '20200427172543', '20200427172543', '1', '20', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'my-lbxh', '序号', null, 'XH', 'XUHAO', 'VARCHAR2', '0', '50', null, null, null, 'input', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', null, '99', 'gshffLbxh', null, null, null, null, null, null, null, null, null, '0', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('194AC97D85EB4B3FB8AA6004D370AF53', '20200427172543', '20200427172904', '1', '60', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'id', '主键', '主键', 'ZJ', 'ZHUJIAN', 'VARCHAR2', '32', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E9BC48A61A2A462E8E3E2C87583F3047', '20200427172543', '20200428171335', '1', '70', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '0', '0', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('9517E61C3D2B479E9EF92F75615FF0F0', '20200427172543', '20200428171335', '1', '80', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'gxsj', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '0', '1', '1', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('E9BC48A61A2A462E8E3E2C87583F3047', '20200427172543', '20200529175509', '1', '70', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-30', null, 'time', '0', '0', '1', '0', '0', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('9517E61C3D2B479E9EF92F75615FF0F0', '20200427172543', '20200529192759', '1', '80', '{"时间控件":{"hdgs":"yyyyMMddHHmmss","dateFmt":"yyyy-MM-dd HH:mm:ss","startData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"},"endData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"}}}', '2471D979E27A4B02975B60BC60E45C8B', 'gxsj', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, null, null, 'time', '0', '0', '1', '1', '1', '0', '1', '1', '0', '0', '0', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8046F5C5C3FC413AB24FD3DF07788C6A', '20200427172543', '20200427172904', '1', '90', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'yxx', '有效性', '有效性', 'YXX', 'YOUXIAOXING', 'VARCHAR2', '8', '80', null, '1', '1', 'checkbox', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('D5201256C9A54EF688FAF12188AAD6B9', '20200427172543', '20200428171335', '1', '100', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'px', '排序', '排序', 'PX', 'PAIXU', 'NUMBER', '22', '80', null, null, '99999', 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('76466425AC354B9C8F5809E155BAAA6D', '20200427172543', '20200428171335', '1', '1100', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'kzxx', '扩展信息', 'JSON格式', 'KZXX', 'KUOZHANXINXI', 'VARCHAR2', '4000', '2', null, null, null, 'jsoneditor', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -14221,8 +16623,8 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F0F34146D6FC436BBD9DA0987945E927', '
 不设置值时，系统将自动生成32位全球唯一码作为去重标志', 'QZBZ', 'QUZHONGBIAOZHI', 'VARCHAR2', '256', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B8337968E4044E35B71FA8BF00A303DF', '20200427172543', '20200427172905', '1', '240', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'zzjlx', '主证件类型', '主证件类型', 'ZZJLX', 'ZHUZHENGJIANLEIXING', 'VARCHAR2', '256', '80', null, null, null, 'dict', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_BDHC_ZJLX', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('D3BA408C01C54F2B849C1C957AD3E6A7', '20200427172543', '20200427172905', '1', '250', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'zzjhm', '主证件号码', '便于主体识别', 'ZZJHM', 'ZHUZHENGJIANHAOMA', 'VARCHAR2', '256', '140', null, null, null, 'input', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5B07EAD775304283ADEE4D114A95097F', '20200427172543', '20200427173103', '1', '260', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'kssj', '开始时间', '开始时间', 'KSSJ', 'KAISHISHIJIAN', 'VARCHAR2', '32', '130', null, null, null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F8DF4CC16D1A49FC9514026BB97B7F70', '20200427172543', '20200427173103', '1', '270', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'jssj', '结束时间', '结束时间', 'JSSJ', 'JIESHUSHIJIAN', 'VARCHAR2', '32', '130', null, null, null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5B07EAD775304283ADEE4D114A95097F', '20200427172543', '20200529175509', '1', '260', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'kssj', '开始时间', '开始时间', 'KSSJ', 'KAISHISHIJIAN', 'VARCHAR2', '32', '130', null, null, null, 'time', '0', '0', '1', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F8DF4CC16D1A49FC9514026BB97B7F70', '20200427172543', '20200529175509', '1', '270', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'jssj', '结束时间', '结束时间', 'JSSJ', 'JIESHUSHIJIAN', 'VARCHAR2', '32', '130', null, null, null, 'time', '0', '0', '1', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('8393E247F61847B5AF753D3D56783649', '20200427172543', '20200427172905', '1', '280', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'bz', '备注', '备注', 'BZ', 'BEIZHU', 'VARCHAR2', '4000', '2', null, null, null, 'textarea', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('BFFF6BD5FB1344DA94BE243FB8168707', '20200427172543', '20200427172905', '1', '290', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'hmykzj', '号码源库主键', '便于输出结果与源库数据关联', 'HMYKZJ', 'HAOMAYUANKUZHUJIAN', 'VARCHAR2', '32', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('0B959D162E4841A3BB40D19492D6E90C', '20200427172543', '20200427172543', '1', '300', '{}', '2471D979E27A4B02975B60BC60E45C8B', 'flag01', '备用信息01', '备用信息01', 'BYXX01', 'BEIYONGXINXI01', 'VARCHAR2', '256', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -14356,7 +16758,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F1E2A432D58D4B198F4B688555272ED8', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('05B0EFDA5A4E4F14ACE3267ADDB76B85', '20200516005528', '20200516005528', '0', '1040', '{}', '4350AC51DD154CEAB066E3875FB9E5C4', 'flag40', '备用信息40', '备用信息40', 'BYXX40', 'BEIYONGXINXI40', 'VARCHAR2', '256', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('3CC67912804F4A299EBD61055DD9BED7', '20200516005528', '20200516005528', '1', '310', '{}', '4350AC51DD154CEAB066E3875FB9E5C4', 'hdxgwj', '活动相关文件', '所有文件类信息存储到该字段中，多个文件请进行压缩处理', 'HDXGWJ', 'HUODONGXIANGGUANWENJIAN', 'BLOB', '4000', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('EA4AB30C09BA48468A27422BF1660CCD', '20200516005528', '20200516005528', '1', '320', '{}', '4350AC51DD154CEAB066E3875FB9E5C4', 'id', '主键', '主键', 'ZJ', 'ZHUJIAN', 'VARCHAR2', '32', '2', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5D8CF02A78CD437E9B774897EAF286A4', '20200516005528', '20200521170236', '1', '330', '{}', '4350AC51DD154CEAB066E3875FB9E5C4', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-1', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('5D8CF02A78CD437E9B774897EAF286A4', '20200516005528', '20200527234836', '1', '330', '{"时间控件":{"hdgs":"yyyyMMddHHmmss","dateFmt":"yyyy-MM-dd HH:mm:ss","startData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"},"endData":{"dateFmt":"yyyy-MM-dd HH:mm:ss","readOnly":true,"maxDate":"%y-%M-%d %H:%m:%s"}}}', '4350AC51DD154CEAB066E3875FB9E5C4', 'cjsj', '创建时间', '创建时间', 'CJSJ', 'CHUANGJIANSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-1', null, 'time', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('B3119F401CC245F68D39D88D9EFEA44E', '20200516005528', '20200521170236', '1', '340', '{}', '4350AC51DD154CEAB066E3875FB9E5C4', 'gxsj', '更新时间', '更新时间', 'GXSJ', 'GENGXINSHIJIAN', 'VARCHAR2', '14', '130', null, 'goDay:-1', null, 'time', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, 'vueTimeGsh', 'vueTimeFgsh', null, null, 'date:yyyyMMddHHmmss', null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('F0326D9E09174CE6B3B300E383B84E58', '20200516005528', '20200516005528', '0', '1036', '{}', '4350AC51DD154CEAB066E3875FB9E5C4', 'flag36', '备用信息36', '备用信息36', 'BYXX36', 'BEIYONGXINXI36', 'VARCHAR2', '256', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('125599082AD4430691F435ACD33D7414', '20200516005528', '20200516005528', '1', '350', '{}', '4350AC51DD154CEAB066E3875FB9E5C4', 'yxx', '有效性', '有效性', 'YXX', 'YOUXIAOXING', 'VARCHAR2', '8', '80', null, '1', '1', 'checkbox', '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '1', 'SYS_COMMON_LJPD', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
@@ -14404,6 +16806,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('850764D78BBB4D54A3B7B3790ECDE95D', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('FB364142E5144FC9A7B6CF4D205EC7A9', '20191120190248', '20191120190248', '0', '150', '{}', '3402FE237CCC4790A2B319C62A030CCF', 'repository_code', '资源库代码', '资源库代码', 'ZYKDM', 'ZIYUANKUDAIMA', 'VARCHAR2', '100', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('9BC6BFFB1C8842B0997E2A9063835428', '20200414171945', '20200414172051', '1', '195', '{}', 'A8046D1B8FCC4534BDF2481F1D8E5E75', 'yclx', '异常类型', '异常类型', 'YCLX', 'YICHANGLEIXING', 'VARCHAR2', '64', '80', null, null, null, 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_YXJK_YCLX', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('6CA3FB3CCD474E8690B6BC21D4F2BFBC', '20200414171951', '20200414172220', '1', '55', '{}', '485FA230F432435A9532084ADC02C447', 'yclx', '异常类型', '异常类型', 'YCLX', 'YICHANGLEIXING', 'VARCHAR2', '64', '80', null, null, null, 'dict', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '1', 'SYS_YXJK_YCLX', null, null, null, null, null, null, null, null, null, null, null, '1', null, '06');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('489D3B995DEC430CA10DF0C812B3ADF2', '20200601143341', '20200601151130', '1', '445', '{}', '123190AB67534D9A93A54BA2114B1D67', 'zdys', '字段映射', '每行依次为：来源字段、目标字段、是否更新、字段类型、字段长度，采用制表符分隔', 'ZDYS', 'ZIDUANYINGSHE', 'VARCHAR2', '4000', '2', null, null, null, 'textarea', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, '99', null, null, null, '每行依次为：来源字段、目标字段、是否更新、字段类型、字段长度，采用制表符分隔', null, null, 'height:300px;width: calc(100% - 100px);  display: inline;', 'xjsx xjsxdxlz', null, null, '1', null, '06');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZD" VALUES ('09F735B4A72A4D1EB93F8E01DBEBC4B8', '20191201020141', '20200215172306', '1', '365', '{}', 'SYS_SJGL_SJZD', 'hdzhgz', '后端转换规则', '人工输入', 'HDZHGZ', 'HOUDUANZHUANHUANGUIZE', 'VARCHAR2', '256', '80', null, null, null, 'input', '0', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', null, null, null, null, null, '多个规则采用英文逗号进行分隔，该规则将运用与前后端统一校验，如：null;sfzh
 null:转为空
 sfzh:身份证格式转换，系统会自定将15位转为18位。
@@ -14900,15 +17303,15 @@ CREATE TABLE "SJSJ"."SYS_SJGL_SJZT" (
 "MS" VARCHAR2(4000 BYTE) NULL ,
 "JP" VARCHAR2(512 BYTE) NULL ,
 "QP" VARCHAR2(512 BYTE) NULL ,
-"LX" VARCHAR2(100 BYTE) NULL ,
-"FWFS" VARCHAR2(100 BYTE) NULL ,
-"JNDI" VARCHAR2(100 BYTE) NULL ,
-"LJC" VARCHAR2(1000 BYTE) NULL ,
-"YHM" VARCHAR2(100 BYTE) NULL ,
-"MM" VARCHAR2(32 BYTE) NULL ,
-"ZT" VARCHAR2(100 BYTE) DEFAULT '0'  NULL ,
-"CSYJ" VARCHAR2(100 BYTE) NULL ,
-"SJKQD" VARCHAR2(100 BYTE) NULL 
+"LX" VARCHAR2(256 BYTE) NULL ,
+"FWFS" VARCHAR2(256 BYTE) NULL ,
+"JNDI" VARCHAR2(256 BYTE) NULL ,
+"LJC" VARCHAR2(1024 BYTE) NULL ,
+"YHM" VARCHAR2(256 BYTE) NULL ,
+"MM" VARCHAR2(256 BYTE) NULL ,
+"ZT" VARCHAR2(32 BYTE) DEFAULT '0'  NULL ,
+"CSYJ" VARCHAR2(256 BYTE) NULL ,
+"SJKQD" VARCHAR2(256 BYTE) NULL 
 )
 LOGGING
 NOCOMPRESS
@@ -14953,7 +17356,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('29365C6FFBF14E1BB05F05BF141F2D4E', '
 INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('1950117252FE48928173DBE02FAADAE7', '20190511220945', '20191024191020', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'wjmrzt', '文件默认载体', null, null, null, 'bdwj', 'Native', null, '/benma666/upload/', null, null, '1', null, null);
 INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('CD518D359BD647EF9FC2BE283E292E25', '20191115182947', '20191115183718', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'sjlzlswj', '数据流转临时文件', null, null, null, 'bdwj', 'Native', null, '/tmp/sjlzlswj/', 'admin', 'qSYMHAqqbp2H0aj/hjG7tw==', '1', null, '无');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('6C18E1E3778A496E96A9B509129B46DD', '20200223114939', '20200224095555', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'mysql_km', 'mysql_km', null, null, null, 'mysql', 'Native', null, 'jdbc:mysql://127.0.0.1:3308/km?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true', 'root', 'ng5T6zOPimg=', '1', 'SELECT 1', 'com.mysql.jdbc.Driver');
-INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('FCA8F668D1814651857FE86AAC27A841', '20200519185633', '20200519185633', '1', '9999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'bdhc_default', '比对核查', null, null, null, 'oracle', 'Native', null, 'jdbc:oracle:thin:@127.0.0.1:1521:mydb', 'sjsj', 'q9oelsOfqG4=', '1', 'select 1 from dual', 'oracle.jdbc.OracleDriver');
+INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('FCA8F668D1814651857FE86AAC27A841', '20200519185633', '20200527091927', '1', '9999', '{"druid":{"druid.maxActive":50,"druid.minIdle":10},"druid.myservice":{"druid.maxActive":100,"druid.minIdle":3}}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'bdhc_default', '比对核查', null, null, null, 'oracle', 'Native', null, 'jdbc:oracle:thin:@127.0.0.1:1521:mydb', 'sjsj', 'q9oelsOfqG4=', '2', 'select 1 from dual', 'oracle.jdbc.OracleDriver');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('531D1805FACC48688B383700B799F013', '20181222201900', '20191206002156', '0', '9999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'km', 'km库', null, null, null, 'oracle', 'Native', null, 'jdbc:oracle:thin:@127.0.0.1:1521:mydb', 'km', '+ZWgjPvAHIU=', '1', null, null);
 INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('2A3801867D82423FA8380F94141E9745', '20181223151604', '20191206002156', '0', '9999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'iflytek-21', 'iflytek-21', 'jdbc:postgresql://master:5432/iflytek', null, null, 'greenplum', 'Native', null, 'jdbc:Pivotal:greenplum://192.168.137.21:5432;Database=iflytek', 'iflytek', 'uO/ooKeLOmE=', '2', 'select 1', 'com.pivotal.jdbc.GreenplumDriver');
 INSERT INTO "SJSJ"."SYS_SJGL_SJZT" VALUES ('394A0D538356436E83D3F9AC390D1514', '20181222194513', '20191211113629', '1', '10', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'default', '默认数据库', null, null, null, 'oracle', 'Native', null, 'jdbc:oracle:thin:@127.0.0.1:1521:mydb', 'sjsj', 'q9oelsOfqG4=', '1', null, null);
@@ -15628,7 +18031,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('3A9D1A94DC624B5995C62C5AF2A83664', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('7D4C1505EF9849DD994241CAA0CD9200', '20170629215955', '20170629215955', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '120', '喀麦隆', null, 'KML', 'KAMAILONG', 'SYS_COMMON_GJ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('FC363909303B4DFCB45D9BE781E4C685', '20170629215955', '20170629215955', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '136', '开曼群岛', null, 'KMQD', 'KAIMANQUNDAO', 'SYS_COMMON_GJ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('3B7DD1CA8DE54247B339A3ACE0DE8D22', '20170629215955', '20170629215955', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '440', '立陶宛', null, 'LTW', 'LITAOWAN', 'SYS_COMMON_GJ', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('FD1F95B85626429C8CAA3F847DE479A4', '20181225101332', '20181225101527', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '02', 'kettle调度', 'kettle调度第二个数据源必须是kettle资源库', 'KETTLETD', 'KETTLETIAODU', 'SYS_QX_APPLB', null, null, null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('FD1F95B85626429C8CAA3F847DE479A4', '20181225101332', '20200522181831', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '02', '数据大师', '数据大师第二个数据源必须是kettle资源库', 'SJDS', 'SHUJUDASHI', 'SYS_QX_APPLB', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('18D2FDF93800486DA6EFFA5B65D5DFC3', '20190112143207', '20190112143207', '1', '0', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '0', 'Nothing', null, 'NOTHING', 'NOTHING', 'KETTLE_LOG_LEVEL', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('B4E50C8F2B7E4BF69C1357D73DFC6070', '20190112143207', '20190112143207', '1', '1', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '1', 'Error', null, 'ERROR', 'ERROR', 'KETTLE_LOG_LEVEL', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('EB4F227BAE034E509F96A3BA30766402', '20190112143207', '20190112143207', '1', '2', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '2', 'Minimal', null, 'MINIMAL', 'MINIMAL', 'KETTLE_LOG_LEVEL', null, null, null, null, '1', '3');
@@ -20212,33 +22615,33 @@ from ${owner}.${tableName}  t
 ', null, null, null, 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('BE962CC7117442C3830140E7EF0F199D', '20190511214738', '20190511214738', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'icon', '图标', null, 'TB', 'TUBIAO', 'SYS_SJGL_KJLX', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('672EBFF67A764A759001A320C7B9CB3F', '20190511220928', '20191012164720', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'wjsc.mrsjzt', 'wjmrzt', '文件上传-默认数据载体', 'WJMRZT', 'WJMRZT', 'SYS_MYSERVICE_APPCONFIG', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('6E3B2146A76B40CD95509CA63AC7FEB3', '20190925180744', '20190925185018', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJZT.scjkrw', 'select id jtrw,dm rwdm,mc rwmc
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('6E3B2146A76B40CD95509CA63AC7FEB3', '20190925180744', '20200527102543', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_SJGL_SJZT.scjkrw', 'select id jtrw,dm rwdm,mc rwmc,''1'' rwlx,''99'' rwlb,''1'' rwdj 
    from sys_sjgl_sjzt t 
    where 1=1 
    /*if (has(idsIn)){*/
    and t.id ${idsIn}
-   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC
+   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC,''1'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_SJGL_SJZT T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
    AND T.ID ${IDSIN}
-   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC
+   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC,''1'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_SJGL_SJZT T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
    AND T.ID ${IDSIN}
    /*}*/', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('4ECB7B2A821342739EF1892901EBF6E2', '20190925183224', '20190925184954', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_APP.scjkrw', 'select id jtrw,dm rwdm,mc rwmc
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('4ECB7B2A821342739EF1892901EBF6E2', '20190925183224', '20200527102500', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_APP.scjkrw', 'select id jtrw,dm rwdm,mc rwmc,''2'' rwlx,''99'' rwlb,''1'' rwdj 
    from sys_qx_app t 
    where 1=1 
    /*if (has(idsIn)){*/
    and t.id ${idsIn}
-   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC
+   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC,''2'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_QX_APP T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
    AND T.ID ${IDSIN}
-   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC
+   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC,''2'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_QX_APP T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
@@ -20276,17 +22679,17 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('191284CD45DA488585047D32B2AA839A', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('8035C648BE384FDFA2DDF0ECD94EE651', '20191022185007', '20191022191041', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_JKRW.szyj', 'update SYS_SJGL_TYZD t set t.mc=#yobj.sfyj#,t.gxsj=to_char(sysdate,''yyyymmddhh24miss'') where t.zdlb=''SYS_MYSERVICE_APPCONFIG'' and t.dm=''yxjk.sfyj''', null, 'UPDATE SYS_SJGL_TYZD T SET T.MC=#YOBJ.SFYJ#,T.GXSJ=TO_CHAR(SYSDATE,''YYYYMMDDHH24MISS'') WHERE T.ZDLB=''SYS_MYSERVICE_APPCONFIG'' AND T.DM=''YXJK.SFYJ''', 'UPDATE SYS_SJGL_TYZD T SET T.MC=#YOBJ.SFYJ#,T.GXSJ=TO_CHAR(SYSDATE,''YYYYMMDDHH24MISS'') WHERE T.ZDLB=''SYS_MYSERVICE_APPCONFIG'' AND T.DM=''YXJK.SFYJ''', 'SYS_MYSERVICE_APPCONFIG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('AB6F4F51B09749FE821B19F9C2F5C642', '20191023160103', '20191024151958', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'DEFAULT.getObjByIds', 'select * from ${owner}.${tableName} where ${sjdx.zjzd} ${idsIn}', '根据对象id集合获取多条记录', 'SELECT * FROM ${OWNER}.${TABLENAME} WHERE ${SJDX.ZJZD} ${IDSIN}', 'SELECT * FROM ${OWNER}.${TABLENAME} WHERE ${SJDX.ZJZD} ${IDSIN}', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('27E54F2CA15B4D1B95FFEA2F1B19EEA4', '20191117002349', '20191117002349', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_DXLZ_ZDLXYS', 'kettle-对象流转-字段类型映射', null, 'KETTLE-DXLZ-ZDLXYS', 'KETTLE-DUIXIANGLIUZHUAN-ZIDUANLEIXINGYINGSHE', 'SYS_COMMON_ZDLB', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('8202CBA9C66043708FCDA21EACDF7831', '20190919152120', '20190925180046', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'DEFAULT.scjkrw', 'select id_job jtrw,name rwdm,nvl(to_char(description),name) rwmc
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('8202CBA9C66043708FCDA21EACDF7831', '20190919152120', '20200527111452', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'DEFAULT.scjkrw', 'select ''${sjdx.dxdm}\#''||id_job jtrw,name rwdm,nvl(to_char(description),name) rwmc,''3'' rwlx,''99'' rwlb,''1'' rwdj 
    from ${owner}.${tableName} t 
    where 1=1 
    /*if (has(idsIn)){*/
    and t.id_job ${idsIn}
-   /*}*/', '生成监控任务', 'SELECT ID_JOB JTRW,NAME RWDM,NVL(TO_CHAR(DESCRIPTION),NAME) RWMC
+   /*}*/', '生成监控任务', 'SELECT ‘${SJDX.DXDM}#’||ID_JOB JTRW,NAME RWDM,NVL(TO_CHAR(DESCRIPTION),NAME) RWMC
    FROM ${OWNER}.${TABLENAME} T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
    AND T.ID_JOB ${IDSIN}
-   /*}*/', 'SELECT ID_JOB JTRW,NAME RWDM,NVL(TO_CHAR(DESCRIPTION),NAME) RWMC
+   /*}*/', 'SELECT ‘${SJDX.DXDM}#’||ID_JOB JTRW,NAME RWDM,NVL(TO_CHAR(DESCRIPTION),NAME) RWMC
    FROM ${OWNER}.${TABLENAME} T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
@@ -20403,33 +22806,33 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('037D7A111AAD4F97A023133AFDE0033D', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('5BC85BB3C620419898B1240A9DF1C3B3', '20190918183543', '20190919092437', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'date', '必须是时间${p_2}', null, 'BXSSJ${P_2}', 'BIXUSHISHIJIAN${P_2}', 'SYS_SJGL_YZGZ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('E372A2C299104227BEA204BEC7619F9C', '20190918183612', '20190918183612', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'sfzh', '必须是身份证号', null, 'BXSSFZH', 'BIXUSHISHENFENZHENGHAO', 'SYS_SJGL_YZGZ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('17F5449DC1074B84898488881DB9D490', '20190918183640', '20190919100931', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'zdpd', '后台判断：${p_2}', null, 'HTPD：${P_2}', 'HOUTAIPANDUAN：${P_2}', 'SYS_SJGL_YZGZ', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CC291F6C42F04098A740DCBCC11A260C', '20190925185138', '20190925185159', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_FWQ.scjkrw', 'select id jtrw,ip rwdm,mc rwmc
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CC291F6C42F04098A740DCBCC11A260C', '20190925185138', '20200527102528', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_FWQ.scjkrw', 'select id jtrw,ip rwdm,mc rwmc,''4'' rwlx,''99'' rwlb,''1'' rwdj 
    from SYS_QX_FWQ t 
    where 1=1 
    /*if (has(idsIn)){*/
    and t.id ${idsIn}
-   /*}*/', null, 'SELECT ID JTRW,IP RWDM,MC RWMC
+   /*}*/', null, 'SELECT ID JTRW,IP RWDM,MC RWMC,''4'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_QX_FWQ T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
    AND T.ID ${IDSIN}
-   /*}*/', 'SELECT ID JTRW,IP RWDM,MC RWMC
+   /*}*/', 'SELECT ID JTRW,IP RWDM,MC RWMC,''4'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_QX_FWQ T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
    AND T.ID ${IDSIN}
    /*}*/', 'SYS_SJGL_APPCONFIG', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('A4619F3A6921465C9ADF789B8E87E8CE', '20190925190216', '20190925190216', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_ZDYSQL.scjkrw', 'select id jtrw,dm rwdm,mc rwmc
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('A4619F3A6921465C9ADF789B8E87E8CE', '20190925190216', '20200527102559', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_ZDYSQL.scjkrw', 'select id jtrw,dm rwdm,mc rwmc,''5'' rwlx,''99'' rwlb,''1'' rwdj 
    from SYS_YXJK_ZDYSQL t 
    where 1=1 
    /*if (has(idsIn)){*/
    and t.id ${idsIn}
-   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC
+   /*}*/', null, 'SELECT ID JTRW,DM RWDM,MC RWMC,''5'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_YXJK_ZDYSQL T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
    AND T.ID ${IDSIN}
-   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC
+   /*}*/', 'SELECT ID JTRW,DM RWDM,MC RWMC,''5'' RWLX,''99'' RWLB,''1'' RWDJ 
    FROM SYS_YXJK_ZDYSQL T 
    WHERE 1=1 
    /*IF (HAS(IDSIN)){*/
@@ -20634,6 +23037,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CA4DBBE17E4441F0B934068FBBBC792A', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('087BBEAEED6E4F0BBE6C1C1B62500ADE', '20200428172049', '20200428172049', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '07', '台湾居民居住证', null, 'TWJMJZZ', 'TAIWANJUMINJUZHUZHENG', 'SYS_COMMON_ZJLX', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('05266D89855F4B139AD12B106FC68C0A', '20200428172110', '20200428172110', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '08', '港澳居民居住证', null, 'GAJMJZZ', 'GANGAOJUMINJUZHUZHENG', 'SYS_COMMON_ZJLX', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('70FE2FE3B03244B282BA671FFEEBFB93', '20200428172148', '20200428172148', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '14', '普通护照', null, 'PTHZ', 'PUTONGHUZHAO', 'SYS_COMMON_ZJLX', null, null, null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CE975990808D45528BE975774FE16E9B', '20200527161444', '20200527161444', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '07', '活动发生时间', null, 'HDFSSJ', 'HUODONGFASHENGSHIJIAN', 'SYS_SJGL_ZDYWLB', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('86D0731DE3DB4ED393E828173F8711F4', '20181208185109', '20191117145240', '1', '20', '{"流转配置":{"输入组件":"bsr","输出组件":"crgx"}}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'view', '数据库视图', null, 'SJKST', 'SHUJUKUSHITU', 'SYS_SJGL_DXLX', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('D17FAA73761B4C418CA36EFED8B6DE5A', '20191124125006', '20191124125221', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_QX_YHXX_YHDMCQ', '系统-权限-用户信息-用户代码查重', null, 'XT-QX-YHXX-YHDMCZ', 'XITONG-QUANXIAN-YONGHUXINXI-YONGHUDAIMACHAZHONG', 'SYS_COMMON_ZDLB', null, 'select ''${zdObj.dm}'' dm,
        case
@@ -20721,7 +23125,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('0904D948457047F0BB1DF31F2BF10645', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('B59BC33500044B3BAA950C11805563BD', '20200424185252', '20200424185357', '1', '99999', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '08', '八级', null, 'BJ', 'BAJI', 'SYS_COMMON_DJ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('FE82F19F8BF748C6BC71749C20EDA234', '20200424185252', '20200424185307', '1', '99999', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '05', '五级', null, 'WJ', 'WUJI', 'SYS_COMMON_DJ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('2255DFFD6F8A41808C61EC7178619F81', '20200424190403', '20200424190630', '1', '99999', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '10', '十级', '一些较少使用的资源就设置为10级，10级默认不使用', 'SJ', 'SHIJI', 'SYS_COMMON_DJ', null, null, null, null, '1', '3');
-INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('95476C8781B443EDB6A02FFBDBB06576', '20200521145433', '20200521190407', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'TAB_SYS_BDHC_JG', 'TAB-系统-比对核查-结果', null, 'TAB-XT-BDHC-JG', 'TAB-XITONG-BIDUIHECHA-JIEGUO', 'SYS_COMMON_ZDLB', null, '
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('95476C8781B443EDB6A02FFBDBB06576', '20200521145433', '20200522101839', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'TAB_SYS_BDHC_JG', 'TAB-系统-比对核查-结果', null, 'TAB-XT-BDHC-JG', 'TAB-XITONG-BIDUIHECHA-JIEGUO', 'SYS_COMMON_ZDLB', null, '
 select ''综合查询'' dm,
        ''sjdx/list.do?dxdm='' || dxdm as mc,
        10 px,
@@ -20736,7 +23140,8 @@ select substr(dxmc, 12, 100) dm,
        '''' as search_key
   from sys_sjgl_sjdx t
  where t.yxx = ''1''
-   and t.dxdm like ''SYS_BDHC_JG_%'';ds=bdhc_default', null, null, '1', '3');
+   and t.dxdm like ''SYS_BDHC_JG_%''', null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('1AA70048DA504DE285245BE9E3E7AD4A', '20200527100649', '20200527124627', '1', '99999', '{"rwlb":"99","ylrw":"319A6972576D4933BD8F60DF18895FA2","rwdj":1}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'KETTLE_GLPT_ZYJKPZ_DEMO', '数据大师-样例', null, 'SJDS-YL', 'SHUJUDASHI-YANGLI', 'SYS_YXJK_SCRWPZ', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('DA508332C0CC4E0D8727A2E8DFB47525', '20200427170815', '20200521190314', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_XM', '系统-比对核查-项目', null, 'XT-BDHC-XM', 'XITONG-BIDUIHECHA-XIANGMU', 'SYS_COMMON_ZDLB', null, 'select t.id dm,t.mc as mc,px,t.ms as search_key from  sys_bdhc_xm t where t.yxx=''1'';ds=bdhc_default', null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('CF1CF54183D24E0DAA24DE9CDAB111FC', '20200427172419', '20200521190248', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_RW', '系统-比对核查-任务', 'select t.id dm,xm.mc||''-''||t.mc as mc,t.px,t.ms as search_key from  sys_bdhc_rw t  inner join sys_bdhc_xm xm on xm.id=t.ssxm and xm.yxx=''1'' where t.yxx=''1''', 'XT-BDHC-RW', 'XITONG-BIDUIHECHA-RENWU', 'SYS_COMMON_ZDLB', null, 'select t.id dm,t.mc as mc,t.px,t.ms as search_key from  sys_bdhc_rw t ;ds=bdhc_default', null, null, '0', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('E85BC529DF414751BA019C03E6361AE0', '20200427172508', '20200428172434', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_BDHC_ZJLX', '系统-比对核查-证件类型', null, 'XT-BDHC-ZJLX', 'XITONG-BIDUIHECHA-ZHENGJIANLEIXING', 'SYS_COMMON_ZDLB', null, 'select dm,mc,px,ms||jp||qp as search_key from sys_sjgl_tyzd where zdlb=''SYS_COMMON_ZJLX'' and yxx=''1'' ', null, null, '1', '3');
@@ -20774,6 +23179,7 @@ INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('1596B4BDE830468CA350C4B395F24CBB', '
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('23877AB63E8B47088BF182223EA635F2', '20200210101910', '20200415092414', '1', '99999', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '0', '待一审', null, 'DYS', 'DAIYISHEN', 'SYS_COMMON_DJSH', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('C4199706AFF64C7F9E7553B50D240D2A', '20200210101910', '20200415114931', '1', '100010', '{}', '管理员', 'admin', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '2', '通过', null, 'TG', 'TONGGUO', 'SYS_COMMON_DJSH', null, null, null, null, '1', '3');
 INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('A6D9008478824B5480F58F99A93F32D8', '20200210102032', '20200210102032', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_COMMON_DJSH', '系统-公用-多级审核', null, 'XT-GY-DJSH', 'XITONG-GONGYONG-DUOJISHENHE', 'SYS_COMMON_ZDLB', null, null, null, null, '1', '3');
+INSERT INTO "SJSJ"."SYS_SJGL_TYZD" VALUES ('C7F300F4847B43958E21456B12ADC065', '20200527104248', '20200527104248', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', 'SYS_YXJK_SCRWPZ', '系统-运行监控-生成任务配置', null, 'XT-YXJK-SCRWPZ', 'XITONG-YUNXINGJIANKONG-SHENGCHENGRENWUPEIZHI', 'SYS_COMMON_ZDLB', null, null, null, null, '1', '3');
 
 -- ----------------------------
 -- Table structure for SYS_SJGL_YHZDY
@@ -21040,6 +23446,7 @@ COMMENT ON COLUMN "SJSJ"."SYS_YXJK_JKRW"."YCLX" IS '异常类型@SYS_YXJK_YCLX';
 -- ----------------------------
 -- Records of SYS_YXJK_JKRW
 -- ----------------------------
+INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('743A675E476947E5807B89F27A028760', '20200527111833', '20200527112001', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'KETTLE_GLPT_ZYJKPZ#32', null, null, null, null, '319A6972576D4933BD8F60DF18895FA2', '0', '1', null, '20200527111833', null, null, '比对核查-全量比对-样例', '99', null, 'BDHC_QLBD_DEMO', null, null);
 INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('989AB2CFF7AB4EC192C9FC3BC1DD7C78', '20190925175330', '20190925175330', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'OTHER_KETTLE_ZYJKPZ#3', null, null, null, null, '319A6972576D4933BD8F60DF18895FA2,24B786B50A9F49ABACF94548A6DD2F17,01D11637082948209910C9C842192906', '0', '1', null, '20190925175330', null, null, '样例-增量抽取', '01', null, 'DEMO_ZLCQ', null, null);
 INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('9335B8130D7D4B629DBB17DD4FD85B24', '20190925180054', '20190925180054', '1', '99999', '{}', '管理员', '116EF03719B74690BB8FBFB0DD6D229A', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '3', 'OTHER_KETTLE_ZYJKPZ#2', null, null, null, null, '319A6972576D4933BD8F60DF18895FA2,24B786B50A9F49ABACF94548A6DD2F17,01D11637082948209910C9C842192906', '0', '1', null, '20190925180054', null, null, '增量公用作业', '01', null, '增量公用作业', null, null);
 INSERT INTO "SJSJ"."SYS_YXJK_JKRW" VALUES ('01D11637082948209910C9C842192906', '20190111205224', '20191010162848', '1', '99999', '{}', '系统管理员', 'BC5D77315CA84C6C807988E3CD17E70D', '临时机构', '141B1AFC7E634176BDA7DB7F491A9004', '1', '394A0D538356436E83D3F9AC390D1514', '小马', '116EF03719B74690BB8FBFB0DD6D229A', null, '141B1AFC7E634176BDA7DB7F491A9004', null, '1', '3', '这个很ok呀123', '20190111205224', '可以引用变量，通过该模板渲染生成消息', '系统自动生成，帮助排查问题', '默认数据库', '01', null, 'cerw1', null, null);

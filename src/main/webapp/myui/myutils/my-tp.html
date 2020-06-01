@@ -1995,7 +1995,7 @@ Vue.component('my-zssjdx', {
 </script>
 <script type="text/x-tp" id="my-list-tp"> 
 <div class="wrap" v-cloak @keydown="zdcx">
-<ol class="breadcrumb">
+<ol class="breadcrumb"  :style="myFromStyle">
     <li>
         <i class="icon ion-home"></i>
     </li>
@@ -2832,7 +2832,8 @@ Vue.component('my-cdym', {
     data: function () {
       return {
           openCd:[],
-          showCd:""
+          showCd:"",
+          qtxtList:[]
       }
     },
     created : function(){
@@ -2891,7 +2892,13 @@ Vue.component('my-cdym', {
             return style;
         },
         qtxtClick:function(cd){
-            window.open("sjdx/list.do?dxdm="+cd.dz);
+            var ssyy = cd.ssyy;
+            if(ssyy=='myservice'){
+                window.open("sjdx/list.do?dxdm="+cd.dz);
+            }else{
+                //myservice拆分出来的子应用跳转，免登陆
+                window.open("common/doDesEncryptUrl.do?projectCode="+ssyy+"&url=sjdx/list.do?dxdm="+cd.dz);
+            }
         },
         tuichu:function(){
             var _this = this;
@@ -3065,8 +3072,8 @@ text-align: center;
     </ul>
   </div>
 </div>
-<iframe name="content" style="width: 100%;height: 100%;overflow: scroll;border: snow;" 
-	:src="selectedCd.mc"></iframe>
+<iframe v-for="(cd,ri) in openedCdList" :style="cdRightStyle(cd.dm)" 
+	:src="cd.mc" :class="zdlb+'_tab '+cd.dm"></iframe>
 </div>
 </script>
 <script type="text/javascript">
@@ -3078,7 +3085,9 @@ Vue.component('my-tab', {
           cdlist:[],
           gdcdList:[],
           zkcds:7,
-          selectedCd:{}
+          selectedCd:{},
+          openedCdList:[],
+          zdlb:"none"
       }
     },
     created : function(){
@@ -3087,15 +3096,15 @@ Vue.component('my-tab', {
         if(zkcds){
             _this.zkcds = zkcds;
         }
-        var zdlb = getUrlString("e_zdlb");
-        var list = zdList(zdlb);
+        _this.zdlb = getUrlString("e_zdlb");
+        var list = zdList(_this.zdlb);
         var count=0;
         for (var i in list){
             var cd = list[i];
             eval("cd.kzxx = "+cd.kzxx);
             count++;
             if(count==1){
-                _this.selectedCd = cd;
+                _this.cdClick(cd);
             }
             if(count<=_this.zkcds){
                 _this.cdlist.push(cd);
@@ -3107,7 +3116,20 @@ Vue.component('my-tab', {
     computed : {
     },
     methods : {
+        cdRightStyle:function(dm){
+            var style = "width: 100%;height: 100%;overflow: scroll;border: snow;";
+            if(dm!=this.selectedCd.dm){
+                style+="display: none;";
+            }
+            return style;
+        },
         cdClick:function(cd){
+            var _this = this;
+	        if($(_this.$el).find("."+_this.zdlb+"_tab."+cd.dm).length==0){
+	            this.openedCdList.push(cd);
+	        }else if(_this.selectedCd.dm == cd.dm){
+	            $(_this.$el).find("."+_this.zdlb+"_tab."+cd.dm).attr("src",cd.mc);
+	        }
             this.selectedCd = cd;
         }
 	},

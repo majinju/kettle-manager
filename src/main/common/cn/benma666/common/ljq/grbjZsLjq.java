@@ -16,11 +16,11 @@ import cn.benma666.sjgl.DefaultLjq;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * SQL执行拦截器 <br/>
- * date: 2018年12月16日 <br/>
- * @author jingma
- * @version 
- */
+* 个人笔记展示 <br/>
+* date: 2020年5月25日 <br/>
+* @author jingma
+* @version 
+*/
 public class grbjZsLjq extends DefaultLjq{
     /**
     * 

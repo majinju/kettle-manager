@@ -13,6 +13,12 @@ select * from sys_sjgl_bhsc t
 where not exists (
 select 1 from sjsj1.sys_sjgl_bhsc t1 where t1.id=t.id
 );
+--新增的应用
+insert into sjsj1.sys_qx_app
+select * from sys_qx_app t
+where not exists (
+select 1 from sjsj1.sys_qx_app t1 where t1.id=t.id
+);
 
 ----线上存在修改部分数据的场景，且应以线上为准的----------
 --项目配置类字典应以线上为准,删除除配置类信息和本地不存在的字典项之外的数据
