@@ -440,7 +440,8 @@ AjaxUpload.prototype = {
 		
 		// Remove ie6 "This page contains both secure and nonsecure items" prompt 
 		// http://tinyurl.com/77w9wh
-		var iframe = toElement('<iframe src="javascript:false;" name="' + id + '" />');
+//		var iframe = toElement('<iframe src="javascript:false;" name="' + id + '" />');
+		var iframe = toElement('<iframe src="about:blank" name="' + id + '" />');
 		iframe.id = id;
 		iframe.style.display = 'none';
 		d.body.appendChild(iframe);			
