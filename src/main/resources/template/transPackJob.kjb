@@ -64,13 +64,13 @@
     </attributes>
   </connection>
   <connection>
-    <name>gp_iflytek</name>
+    <name>gp_XXXXX</name>
     <server>master.cq</server>
     <type>GREENPLUM</type>
     <access>Native</access>
-    <database>iflytek</database>
+    <database>XXXXX</database>
     <port>5432</port>
-    <username>iflytek</username>
+    <username>XXXXX</username>
     <password>Encrypted 2be98afc86aa7f2e4cb10a87cc786aad1</password>
     <servername/>
     <data_tablespace/>
@@ -208,13 +208,13 @@
     </attributes>
   </connection>
   <connection>
-    <name>o_iflytek</name>
-    <server>iflytek-ds1.cq</server>
+    <name>o_XXXXX</name>
+    <server>XXXXX-ds1.cq</server>
     <type>ORACLE</type>
     <access>Native</access>
-    <database>iflytekdb</database>
+    <database>XXXXXdb</database>
     <port>1521</port>
-    <username>iflytek</username>
+    <username>XXXXX</username>
     <password>Encrypted 2be98afc86aa7f2e4cb10a87cc786aad1</password>
     <servername/>
     <data_tablespace/>

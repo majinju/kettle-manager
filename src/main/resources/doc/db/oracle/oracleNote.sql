@@ -114,7 +114,7 @@ create public database link publicdblink connect to ytga_web identified by ytga
 (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.83.132)(PORT = 1521)) 
 ) 
 (CONNECT_DATA = 
-(SERVICE_NAME =iflytek) 
+(SERVICE_NAME =XXXX) 
 ) 
 )'; 
 
@@ -125,7 +125,7 @@ create database link privatedblink connect to ytga_web identified by ytga
 (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.83.132)(PORT = 1521)) 
 ) 
 (CONNECT_DATA = 
-(SERVICE_NAME =iflytek) 
+(SERVICE_NAME =XXXX) 
 ) 
 )'; 
 
@@ -259,7 +259,7 @@ WHERE V.NAME ='thread'
 AND (V.VALUE = 0 OR T.THREAD# = TO_NUMBER(V.VALUE)) 
 ) I, 
 (SELECT VALUE FROM V$PARAMETER WHERE NAME='user_dump_dest') T ; --查看追踪生成的文件
---tkprof D:\ORACLE\PRODUCT\10.2.0\ADMIN\IFLYTEKDB\UDUMP/iflytekdb_ora_5728.trc D:\out.txtoutputfile explain=etl/etl ;
+--tkprof D:\ORACLE\PRODUCT\10.2.0\ADMIN\IFLYTEKDB\UDUMP/XXXXdb_ora_5728.trc D:\out.txtoutputfile explain=etl/etl ;
 
 --查看有哪些用户连接
 SELECT s.Osuser Os_User_Name,Decode(Sign(48 - Command),1,To_Char(Command),
@@ -305,7 +305,7 @@ inner join v$session s on s.SID=l.SESSION_ID ;
 select * from v$sqlarea sql 
 left join v$session se on sql.HASH_VALUE=se.SQL_HASH_VALUE;
 --查询指定用户的连接数
-  select  sid,serial# from v$session where username='iflytek';
+  select  sid,serial# from v$session where username='XXXX';
 --释放锁 s.SID,s.SERIAL#
 alter system kill session '128,13534';
 --对象搜索

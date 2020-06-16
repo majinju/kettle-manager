@@ -54,66 +54,6 @@
 	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
 	<context:component-scan base-package="cn.benma666" />
 
-	<!--数据源公共配置 -->
-	<bean id="commonDataSourceProperty" abstract="true">
-		<!-- 配置初始化大小、最小、最大 -->
-		<property name="initialSize" value="${druid.initialSize}" />
-		<property name="minIdle" value="${druid.minIdle}" />
-		<property name="maxActive" value="${druid.maxActive}" />
-		<!-- 配置获取连接等待超时的时间 -->
-		<property name="maxWait" value="${druid.maxWait}" />
-		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-		<property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
-		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-		<property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
-		<property name="testWhileIdle" value="${druid.testWhileIdle}" />
-		<property name="testOnBorrow" value="${druid.testOnBorrow}" />
-		<property name="testOnReturn" value="${druid.testOnReturn}" />
-		<property name="validationQuery" value="${druid.validationQuery}" />
-		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 如果用Oracle，则把poolPreparedStatements配置为true，sqlserver可以配置为false。 -->
-		<!-- <property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" 
-			/> -->
-		<!-- <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" 
-			/> -->
-		<property name="connectionProperties" value="${druid.connectionProperties}" />
-		<!-- 配置监控统计拦截的filters -->
-		<property name="filters" value="${druid.filters}" />
-	</bean>
-
-	<!-- 配置数据源 oracle -->
-	<bean id="defaultDataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close" parent="commonDataSourceProperty">
-		<property name="url" value="${default.jdbc.url}" />
-		<property name="username" value="${default.jdbc.username}" />
-		<property name="password" value="${default.jdbc.password}" />
-	</bean>
-
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<constructor-arg ref="defaultDataSource" />
-	</bean>
-
-	<!-- spring事物控制 -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="defaultDataSource" />
-	</bean>
-	<!-- enable transaction demarcation with annotations -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
-
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="update*" propagation="REQUIRED" />
-			<tx:method name="insert*" propagation="REQUIRED" />
-			<tx:method name="delete*" propagation="REQUIRED" />
-			<tx:method name="tx*" propagation="REQUIRED" />
-		</tx:attributes>
-	</tx:advice>
-	<aop:config expose-proxy="true" proxy-target-class="true">
-		<aop:pointcut id="txPointcut"
-			expression="execution(* cn.benma666.*.service.*Service.*(..))" />
-		<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice" />
-	</aop:config>
-	
 	<bean id="druid-stat-interceptor"
 		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
 	</bean>
@@ -130,15 +70,6 @@
 			pointcut-ref="druid-stat-pointcut" />
 	</aop:config>
 	
-	<!-- 我的配置 -->
-	<bean id="myConfig" class="cn.benma666.web.MyConfig" init-method="init">
-		<constructor-arg>
-			<map>
-				<entry key="default" value-ref="defaultDataSource" />
-			</map>
-		</constructor-arg>
-	</bean>
-
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">

@@ -2,7 +2,7 @@
 <%@ page language="java"  pageEncoding="UTF-8"%>
 <gd:LayoutVue title="编辑[${sjdx.dxmc}]">
 <jsp:body>
-<my-edit id="dataform1" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
+<my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
 </my-edit>
 <script type="text/x-tp" id="my-sjdx-czan-tp">
 <span style="float: right;">
@@ -12,7 +12,7 @@
 </script>
 <script>
 function sjdxZdy(vp){
-	vp.el="#dataform1";
+	vp.el="#dataform";
     vp.methods.plcl=function(cllx){
           this.$children[0].plcl(cllx);
     }

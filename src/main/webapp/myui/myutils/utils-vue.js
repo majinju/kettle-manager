@@ -987,9 +987,8 @@ function myGzyz(value,rules,field){
                 var kzxx = field.kzxx;
                 if(typeof kzxx == "string"){
                     eval("kzxx="+kzxx);
-                    field.kzxx = kzxx;
                 }
-                if(field&&field.kzxx["字典数据"]){
+                if(field&&kzxx["字典数据"]){
                     break;
                 }
                 var zdArr = value.split(",");
@@ -1032,7 +1031,6 @@ function zdyyzgz(field, value,srkj){
         var kzxx = field.kzxx;
         if(typeof kzxx == "string"){
             eval("kzxx="+kzxx);
-            field.kzxx = kzxx;
         }
         msg = myGzyz(value,kzxx['查询验证规则'],field);
     }
@@ -1106,9 +1104,12 @@ function myValidFrom(_this,module,fromdata){
             var kzxx = fromTarget[i].field.kzxx;
             if(typeof kzxx == "string"){
                 eval("kzxx="+kzxx);
-                fromTarget[i].field.kzxx = kzxx;
             }
-            msg = myGzyz(fromdata[i],kzxx['查询验证规则'],fromTarget[i].field);
+            var cxyzgz = kzxx['查询验证规则']||'';
+            if(fromTarget[i].field.cxbt=='1'){
+                cxyzgz += ";notNull";
+            }
+            msg = myGzyz(fromdata[i],cxyzgz,fromTarget[i].field);
             if(msg){
                 srkj = fromTarget[i].srkj;
                 break;

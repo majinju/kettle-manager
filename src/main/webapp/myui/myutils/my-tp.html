@@ -40,6 +40,7 @@ Vue.component('my-file', {
     props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
+          kzxxObj:{}
       }
     },
     template:"#my-file-tp",
@@ -47,31 +48,44 @@ Vue.component('my-file', {
         ck:function (){
             var _this = this;
             var nr = "查看";
-            var wjlx = null;
-            var id = null;
-            var sjlj = null;
             var astyle="";
             var istyle="width:100%;";
-            if(_this.$root.listPage){
-                var row = _this.$root.listPage.rows[_this.$parent.$parent.ri];
-                wjlx = row.wjlx;
-                id = row.id;
-                sclj = row.sclj;
-            }else{
-                var editdata = _this.$root.$children["0"].editdata;
-                wjlx = editdata.wjlx;
-                id = editdata.id;
-                sclj = editdata.sclj;
-                astyle = "padding-top: 5px;position: absolute;";
+            var val=this.value;
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
             }
-            if(wjlx=="png"||wjlx=="jpg"){
-                nr = "<img style='"+istyle+"' src='"+getDownloadUrl()+"?xzms=false&id="+id+"'/>";
+            if(val==""){
+                return "无文件";
+            }
+            var filePz = this.kzxxObj.file;
+            if(filePz.zsxs=="jpg"||filePz.zsxs=="jpeg"||filePz.zsxs=="gif"||filePz.zsxs=="png"||filePz.zsxs=="bmp"){
+                //jpg|jpeg|gif|png|bmp
+                nr = "<img style='"+istyle+"' src='"+getDownloadUrl()+"?xzms=false&id="+val+"'/>";
                 astyle="";
-            }else if(wjlx=="icon"){
-                return sclj;
+            }else if(filePz.zsxs=="icon"){
+                return val;
             }
-            return "<a style='"+astyle+"' href='"+getDownloadUrl()+"?xzms=false&id="+id+"' target='_blank'>"+nr+"</a>";
+            return "<a style='"+astyle+"' href='"+getDownloadUrl()+"?xzms=false&id="+val+"' target='_blank'>"+nr+"</a>";
         }
+    },
+    created : function(){
+        var _this =  this;
+        _this.target = this.$el;
+        var field = this.field;
+        var kzxx = field.kzxx;
+        if(typeof(kzxx) == "string"){
+            eval("kzxx="+kzxx);
+        }
+        if(!kzxx.file){
+            kzxx.file={
+                    ywdm:"other",
+                    wjlb:field.sjdx,
+                    zdsc:true,
+                    wjlx:"jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pptx|xmind"
+            }
+        }
+        _this.kzxxObj = kzxx;
     },
     mounted: function () {
         var _this =  this;
@@ -80,19 +94,8 @@ Vue.component('my-file', {
             $(_this.$el).removeAttr("class");
         }
         var field = this.field;
+        var kzxx = this.kzxxObj;
         if(this.edit){
-            var kzxx = field.kzxx;
-            if(typeof(kzxx) == "string"){
-                eval("kzxx="+kzxx);
-            }
-            if(!kzxx.file){
-                kzxx.file={
-                        ywdm:"other",
-                        wjlb:field.sjdx,
-                        zdsc:true,
-                        wjlx:"jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pptx|xmind"
-                }
-            }
             field.ajaxUpload = _this.ajaxUpload = new Ajax_upload(this.$el, {
                 action : serviceAddr+"common/upload.do",
         		data: {}, 
@@ -175,8 +178,9 @@ Vue.component('my-textaera', {
     },
     watch:{
         value:function(newVal){
-            this.$el.val = newVal;
-            this.$emit('setval', this.field, this.$el);
+            this.val = newVal;
+            
+            this.$emit('setval', this.field, this);
         }
     },
     methods : {
@@ -233,8 +237,9 @@ Vue.component('my-jsoneditor', {
     watch:{
         value:function(newVal){
             this.$el.val = newVal;
+            this.target = this.$el;
             this.editor.setText(newVal);
-            this.$emit('setval', this.field, this.$el);
+            this.$emit('setval', this.field, this);
         }
     },
     mounted: function () {
@@ -300,9 +305,10 @@ Vue.component('my-markdown', {
  	},
     watch:{
         value:function(newVal){
-            this.$el.val = newVal;
+            this.val = newVal;
+            this.target = this.$el;
             this.editor.setMarkdown(newVal);
-            this.$emit('setval', this.field, this.$el);
+            this.$emit('setval', this.field, this);
         }
     },
     mounted: function () {
@@ -599,7 +605,6 @@ Vue.component('my-inputn', {
         var kzxx = field.kzxx;
         if(typeof kzxx == "string"){
             eval("kzxx="+kzxx);
-            field.kzxx = kzxx;
         }
         if(this.isDict&&this.edit){
             var zdObj = $(this.$el);
@@ -850,6 +855,14 @@ Vue.component('my-timeaera', {
             }
         }
         this.times = val1 + ";"+val2;
+        if(this.times==";"){
+            this.times="";
+        }
+    },
+    mounted: function () {
+        this.target=this;
+        this.val=this.times;
+        this.$emit('setval', this.field, this);
     },
     computed : {
         nvalStart:function (){
@@ -887,6 +900,9 @@ Vue.component('my-timeaera', {
                 times[0] = $event.target.value;
             }
             this.times = times[0]+";"+times[1];
+            if(this.times==";"){
+                this.times="";
+            }
             $event.val=this.times;
             this.$emit('setval', this.field, $event);
         },
@@ -899,6 +915,9 @@ Vue.component('my-timeaera', {
                 times[1] = $event.target.value;
             }
             this.times = times[0]+";"+times[1];
+            if(this.times==";"){
+                this.times="";
+            }
             $event.val=this.times;
 	        this.$emit('setval', this.field, $event);
 	    },
@@ -913,33 +932,33 @@ Vue.component('my-timeaera', {
 </script>
 <script type="text/x-tp" id="my-srkj-tp">
 	<div :title="value||field.zdts">
-	    <my-checkbox v-if="field.kjlx=='checkbox'&&(pagemodel=='cklist'||pagemodel=='bjlist')" 
+	    <my-checkbox v-if="kjlx=='checkbox'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-checkbox>
-	    <my-jsoneditor v-else-if="field.kjlx=='jsoneditor'&&(pagemodel=='edit'||pagemodel=='add'||pagemodel=='details')" 
+	    <my-jsoneditor v-else-if="kjlx=='jsoneditor'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-jsoneditor>
-	    <my-markdown v-else-if="field.kjlx=='markdown'&&(pagemodel=='edit'||pagemodel=='add'||pagemodel=='details')" 
+	    <my-markdown v-else-if="kjlx=='markdown'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-markdown>
-	    <my-password v-else-if="field.kjlx=='password'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
-			:edit="isEdit" @setval="setval" :class="srkjClass"></my-password>
-	    <my-file v-else-if="field.kjlx=='file'" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
-			:edit="isEdit" @setval="setval" :class="srkjClass">文件上传</my-file>
-	    <my-textaera v-else-if="field.kjlx=='textarea'&&pagemodel!='search'&&pagemodel!='cklist'" 
+	    <my-textaera v-else-if="kjlx=='textarea'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-textaera>
-	    <my-inputn v-else-if="isInputn" 
-			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
-  			:edit="isEdit" @setval="setval" :class="srkjClass"></my-inputn>
-	    <my-time v-else-if="field.kjlx=='time'&&pagemodel!='search'" 
+	    <my-time v-else-if="kjlx=='time'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
   			:edit="isEdit" @setval="setval" :class="srkjClass"></my-time>
-	    <my-timeaera v-else-if="field.kjlx=='timearea'||(field.kjlx=='time'&&pagemodel=='search')" 
+	    <my-timeaera v-else-if="kjlx=='timearea'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-timeaera>
+	    <my-password v-else-if="kjlx=='password'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+			:edit="isEdit" @setval="setval" :class="srkjClass"></my-password>
+	    <my-file v-else-if="kjlx=='file'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+			:edit="isEdit" @setval="setval" :class="srkjClass">文件上传</my-file>
+	    <my-inputn v-else-if="kjlx=='input'" 
+			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+  			:edit="isEdit" @setval="setval" :class="srkjClass"></my-inputn>
 		<div v-else>
 	    	没有控件[{{field.kjlx}}]
 		</div>
@@ -949,7 +968,7 @@ Vue.component('my-timeaera', {
 Vue.component('my-srkj', {
     props : [ 'field', 'index', 'value', 'data','pagemodel','fieldshow','owner' ,'fromid'],
     data : function() {
-        return {}
+        return {val:undefined}
     },
     computed : {
         isEdit:function(){
@@ -962,6 +981,29 @@ Vue.component('my-srkj', {
             return (field.kjlx||'input')=='input'||field.kjlx=='dict'||field.kjlx=='jsoneditor'
             	||field.kjlx=='checkbox'||field.kjlx=='suggest'||field.kjlx=='textarea'
             	||field.kjlx=='markdown';
+        },
+        kjlx:function(){
+            var field = this.field;
+            var pagemodel = this.pagemodel;
+            var kjlx = field.kjlx;
+            if(field.kzxxObj&&field.kzxxObj.hasOwnProperty("kjlx."+pagemodel)){
+                return field.kzxxObj["kjlx."+pagemodel];
+            }
+            if((field.kjlx=='checkbox'&&(pagemodel=='cklist'||pagemodel=='bjlist'))
+                ||(field.kjlx=='jsoneditor'&&(pagemodel=='edit'||pagemodel=='add'||pagemodel=='details'))
+                ||(field.kjlx=='markdown'&&(pagemodel=='edit'||pagemodel=='add'||pagemodel=='details'))
+                ||(field.kjlx=='textarea'&&pagemodel!='search'&&pagemodel!='cklist')
+                ||(field.kjlx=='time'&&pagemodel!='search')
+                ||(field.kjlx=='password')
+                ||(field.kjlx=='file')){
+                return kjlx;
+            }else if(field.kjlx=='timearea'||(field.kjlx=='time'&&pagemodel=='search')){
+                return "timearea";
+            }else if(this.isInputn){
+                return "input";
+            }else{
+                return "未知控件："+kjlx;
+            }
         },
         srkjClass:function(){
             //返回输入控件的class
@@ -976,6 +1018,9 @@ Vue.component('my-srkj', {
     template : '#my-srkj-tp',
     methods : {
         setval : function(field,event) {
+            if(!("owner" in event)){
+                event.owner = (this.owner||'');
+            }
             this.$emit('setval', field, event);
             if(zdyyzgz(field, event.val,this)&&field.szhd){
                 var sf = strFunToFun(this.field.szhd);
@@ -983,6 +1028,7 @@ Vue.component('my-srkj', {
                     sf(event.val,this,event);
                 }
             }
+            this.val=event.val;
         }
     },
     created : function() {
@@ -1000,7 +1046,7 @@ Vue.component('my-srkj', {
             };
         }
         //默认值不为空且非详情页面
-        if(_this.value&&this.pagemodel!='details'&&this.pagemodel!='cklist'){
+        if(_this.value&&!_this.val&&this.pagemodel!='details'&&this.pagemodel!='cklist'){
             _this.val=_this.value;
             _this.target = _this;
             _this.$emit('setval', field,_this);
@@ -1034,7 +1080,7 @@ Vue.component('my-input', {
             //判断是否必填
             var pagemodel = this.pagemodel;
             this.field.btzt = ((pagemodel=='bjlist'||pagemodel=='edit'||pagemodel=='add')&&(this.field.bjbt=='1'))
-            	||(pagemodel=='search'&&this.field.cxbt=='1');
+            						||(pagemodel=='search'&&this.field.cxbt=='1');
             return this.field;
         }
     },
@@ -1043,6 +1089,9 @@ Vue.component('my-input', {
             this.$emit('setval', field, event);
         },
         isCzd:function(field){
+            if(this.field.kzxxObj&&this.field.kzxxObj.hasOwnProperty("isCdz."+this.pagemodel)){
+                return this.field.kzxxObj["isCdz."+this.pagemodel];
+            }
             //判断长字段
             //字段宽度10以内时，列表展示时自动伸缩。
             //为2时：列表自动伸缩、编辑详情占整行、搜索框还是三分之一。
@@ -1078,8 +1127,6 @@ Vue.component('my-input', {
 		if(!field.kzxxObj.bjymkz){
 		    field.kzxxObj.bjymkz ={};
 		}
-//      console.log('初始化字段: ' + this.index + ":" 
-//      + this.field.zddm + "=" + this.value);
     }
 });
 </script>
@@ -2110,6 +2157,7 @@ Vue.component('my-list', {
     data: function () {
         return {
             rows:[],
+            dcwjmc:"",
             listPage:new PageAjax(),
             listEditData:[],
             sjplscfield:{
@@ -2150,6 +2198,11 @@ Vue.component('my-list', {
     			}
    			}});
           data.action=this.action;
+		  	dcwjmc = this.lbymkz("dcwjmc");
+            if(!dcwjmc){
+                dcwjmc = this.sjdx.dxmc;
+            }
+            this.dcwjmc = dcwjmc;
       	},
 	      computed : {
 	          dcpcl:function (){
@@ -2253,10 +2306,10 @@ Vue.component('my-list', {
             	$.download("sjdx/getMb.do?dxdm="+this._data.sjdx.dxdm,{});
             },
 	        expe:function(){
-	            ExportExcel.saveAsExcel(this.$root.listPage,this.sjdx.dxmc+"-当前页",this.dcpcl);
+	            ExportExcel.saveAsExcel(this.$root.listPage,this.dcwjmc+"-当前页",this.dcpcl);
 	        },
 	        expeAll:function(){
-	            ExportExcel.exportAll(this.$root.listPage,this.sjdx.dxmc+"-全部",this.dcpcl);
+	            ExportExcel.exportAll(this.$root.listPage,this.dcwjmc+"-全部",this.dcpcl);
 	        },
 	          qxByQxm : function (qxm){
 					var user = this._data.user;
@@ -2444,6 +2497,10 @@ Vue.component('my-list', {
               				onClick: treeClick
               			}
               		};
+                  	var treeSetting = this.lbymkz("treeSetting");
+                  	if(treeSetting){
+                  		setting = $.extend({},setting, treeSetting);
+                  	}
 					//树节点的单击事件
 	          		function treeClick(event, treeId, treeNode, clickFlag) {
 					    Vue.set(_this.fromdata,fjd,treeNode.dm);
@@ -2478,7 +2535,7 @@ Vue.component('my-list', {
             this.listPage.exportUrl = "sjdx/export.do?dxdm="+_this.sjdx.dxdm;
             this.listPage.fytjxs = _this.sjdx.fytjxs;
             if(typeof(initPage)=='function'){
-                initPage(this.listPage);
+                initPage(this.listPage,_this);
             }
             this.listPage.callback = function(data){
                 var rows = data.list;
@@ -2610,6 +2667,9 @@ Vue.component('my-edit', {
             	});
 	            ajax('sjdx/plcl.do',{
 	                	fromdata:fromdata,
+	                	qxbtn:function(){
+		                    layer.close(loadindex);
+	                	},
 	                    success:function(result){
 	         	   	    //必须是新对象vue才能监测到变化
 	         	   	    _this.editdata=$.extend({},_this.editdata,result.data);
@@ -2782,7 +2842,10 @@ Vue.component('my-dlym', {
 			<img :src="fileUrl('系统图标')" style="height: 80px;">
 			<span style="font-size: 2.5em;vertical-align: middle;color: lightcoral;">{{kzxx['菜单信息']['系统名称']}}</span>
 		</div>
-		<div style="float:right;margin-right: 20px;margin-top: 5px;">
+		<div style="float:right;margin-right: 5px;margin-top: 5px;">
+				<img :src="getTx()" style="height: 65px;width: 65px;">
+		</div>
+		<div style="float:right;margin-right: 10px;margin-top: 20px;">
 			<div>
 				  <div v-if="qtxtList.length>1" class="btn-group-xs btn-group" role="group">
 				    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" 
@@ -2796,12 +2859,11 @@ Vue.component('my-dlym', {
 					  </li>
 				    </ul>
 				  </div>
-				<img :src="fileUrl('系统图标')" style="height: 45px;width: 35px;">
-				<span style="vertical-align: middle;color: chocolate;">{{user.yhxm}}</span>
 				<a href="javascript:void(0);" @click="grsz" 
 					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">设置</a>
 				<a href="javascript:void(0);" @click="tuichu" 
 					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
+				<span style="vertical-align: middle;margin-left: 10px;color: chocolate;">{{user.yhxm}}</span>
 			</div>
 			<div style="text-align: right;">
 				<span style="color: greenyellow;">{{user.jgxx.jgmc}}</span>
@@ -2919,6 +2981,13 @@ Vue.component('my-cdym', {
                 return getDownloadUrl()+'?id='+this.kzxx['菜单信息'][key];
             }else{
                 return "";
+            }
+        },
+        getTx:function(){
+            if(this.user.tx){
+                return getDownloadUrl()+'?id='+this.user.tx;
+            }else{
+                return this.fileUrl("系统图标");
             }
         },
         centerLoad:function(){

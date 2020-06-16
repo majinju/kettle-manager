@@ -22,7 +22,8 @@ ol {
 	   		<span style="float: right;">发布人：{{obj.cjrxm }}，发布单位：{{obj.cjrdwmc }}</span>
 	   	</div>
 	   	<hr/>
-       <textarea style="display:none;" name="test-editormd-markdown-doc">###Hello world!</textarea>               
+       <textarea style="display:none;" name="test-editormd-markdown-doc">###Hello world!</textarea>
+	   <span v-if="obj.fj">附件：<a style='width:100%;' :href='fjdz(obj)' target='_blank'>查看附件</a></span>
     </div>
     <div v-if="isMl()" id="sidebar">
         <h1>目录</h1>
@@ -65,6 +66,9 @@ function sjdxZdy(vp){
         },
         isMl:function(){
             return this.kzxx.markdown['显示目录'];
+        },
+        fjdz:function(obj){
+            return getDownloadUrl()+"?xzms=false&id="+obj.fj;
         }
     };
     vp.mounted = function () {

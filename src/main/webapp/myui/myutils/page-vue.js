@@ -38,7 +38,7 @@ function PageAjax(){
     this.defaultPageTmpl = true;
     
     //自定义参数校验
-    this.checkParam=function(_params){
+    this.checkParam=function(_params,_this){
         return true;
     };
     
@@ -58,7 +58,7 @@ function PageAjax(){
         }
         _params = preParam(_params);
         //特殊验证
-        if(!_params||!self.checkParam(_params)){
+        if(!_params||!self.checkParam(_params,self)){
             return false;
         }
         self.params = _params;

@@ -29,7 +29,7 @@ function sjdxZdy(vp){
 		}
 		var fromdata = {};
         fromdata.id=_this.sjdxid;
-        fromdata['map["cllx"]']="saveJsSqxx";
+        fromdata['e_cllx']="saveJsSqxx";
         fromdata.myparams=JSON.stringify({"changeNodes":changeNodes,dqjs:this.fromdata.dqjs});
         ajax('sjdx/plcl.do',{fromdata:fromdata,
             success:function(result){
