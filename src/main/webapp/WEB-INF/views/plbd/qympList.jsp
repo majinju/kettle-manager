@@ -545,7 +545,7 @@ Vue.component('my-dzplhc', {
 				            	});
 				            	//获取查询项
 		        	            ajax('sjdx/getdata.do',{
-		        	                fromdata:{"dxdm":_this.sjdx.dxdm,"e_cllx":"hqcxx","e_zydm":treeNode.dm},
+		        	                fromdata:{"dxdm":_this.sjdx.dxdm,"e_cllx":"hqcxx","e_sjdx":treeNode.sjdx},
 		        	                qrts:false,
 		        	                jgts:false,
 		        	                success:function(data){

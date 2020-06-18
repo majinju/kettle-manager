@@ -25,7 +25,7 @@
      <script type="text/javascript" src="${serviceAddr}myui/jquery/jquery-1.9.1.min.js?time=20200214"></script>
 	 
 	 <!-- myutils 此脚本会自动引入模板、layer、日期控件等常用js和css-->
-     <script type="text/javascript" src="${serviceAddr}myui/myutils/utils-vue.js?time=20200214"></script>
+     <script type="text/javascript" src="${serviceAddr}myui/myutils/utils-vue.js?time=${gdf:getDateTimeStr('yyyyMMddHH')}"></script>
       
 	 <!-- 自定义引入CSS -->
 	 <jsp:invoke fragment="css" />

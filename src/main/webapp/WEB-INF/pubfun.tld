@@ -16,7 +16,17 @@
 	<function>
 		<name>getSimpleSpell</name>
 		<function-class>cn.benma666.myutils.StringUtil</function-class>
-		<function-signature>java.lang.String getSimpleSpell(java.lang.String source)</function-signature>
+		<function-signature>java.lang.String getSimpleSpell(java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>doFormatDate</name>
+		<function-class>cn.benma666.myutils.DateUtil</function-class>
+		<function-signature>java.lang.String doFormatDate(java.util.Date, java.lang.String)</function-signature>
+	</function>
+	<function>
+		<name>getDateTimeStr</name>
+		<function-class>cn.benma666.myutils.DateUtil</function-class>
+		<function-signature>java.lang.String getDateTimeStr(java.lang.String)</function-signature>
 	</function>
 		
 </taglib>

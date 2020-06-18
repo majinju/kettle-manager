@@ -9,7 +9,6 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.benma666.common.service.WebSocketService;
@@ -22,7 +21,7 @@ import cn.benma666.web.BasicController;
 * @author jingma
 * @version 
 */
-@Controller
+//@Controller
 //@RequestMapping(value="/ws")
 public class WebSocketController extends BasicController {
     @Autowired

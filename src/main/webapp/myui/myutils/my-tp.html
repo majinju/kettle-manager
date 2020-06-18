@@ -892,6 +892,9 @@ Vue.component('my-timeaera', {
     },
     methods : {
         setvalStart : function($event) {
+            if(this.times==""){
+                this.times=";";
+            }
             var times = this.times.split(";");
             var sf = strFunToFun(this.field.fgshff);
             if(sf){
@@ -907,6 +910,9 @@ Vue.component('my-timeaera', {
             this.$emit('setval', this.field, $event);
         },
 	    setvalEnd : function($event) {
+            if(this.times==""){
+                this.times=";";
+            }
             var times = this.times.split(";");
             var sf = strFunToFun(this.field.fgshff);
             if(sf){

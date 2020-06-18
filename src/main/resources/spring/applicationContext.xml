@@ -69,16 +69,6 @@
 		<aop:advisor advice-ref="druid-stat-interceptor"
 			pointcut-ref="druid-stat-pointcut" />
 	</aop:config>
-	
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>messages</value>
-			</list>
-		</property>
-		<property name="useCodeAsDefaultMessage" value="true" />
-	</bean>
 
 	<!-- 定义上传组件包 -->
 	<bean id="multipartResolver"

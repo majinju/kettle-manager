@@ -66,6 +66,7 @@ public class YhdlLjq extends DefaultLjq{
                     UserManager.addUser(oldUser.getToken(), user);
                     //将登陆凭证存入用户信息中返回前端，便于app类接口做后续请求
                     yhxx.put(UserManager.TOKEN, oldUser.getToken());
+                    log.info(user.getYhxm()+"登陆成功");
                     return success("登录成功",yhxx);
                 }
             }else{

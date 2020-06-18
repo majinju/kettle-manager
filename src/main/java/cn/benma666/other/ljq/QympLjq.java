@@ -76,6 +76,9 @@ public class QympLjq extends DefaultLjq{
         if(xzcxx==null){
             return error("请先选择搜索资源");
         }
+        //需要对资源进行按数据量排序（也考虑先根据条件进行数据量统计，根据统计结果进行排序），优先处理数据量较小的资源，当现存的交集数量小于1000时，
+        //则直接带入sql中进行筛选，适用于数据量较大的资源。
+        //关于1000的限制是因为oracle的限制，可以考虑区分数据库对待，oracle则采用in or in 的机制进行支撑更多数据量，其他则直接生成in语句。
         Set<String> mphmMap = new HashSet<String>();
         int i=0;
         for(JSONObject cxx : xzcxx.toArray(new JSONObject[xzcxx.size()])){
