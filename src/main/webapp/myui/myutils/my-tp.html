@@ -179,7 +179,7 @@ Vue.component('my-textaera', {
     watch:{
         value:function(newVal){
             this.val = newVal;
-            
+            this.target = this.$el;
             this.$emit('setval', this.field, this);
         }
     },
@@ -236,7 +236,7 @@ Vue.component('my-jsoneditor', {
  	},
     watch:{
         value:function(newVal){
-            this.$el.val = newVal;
+            this.val = newVal;
             this.target = this.$el;
             this.editor.setText(newVal);
             this.$emit('setval', this.field, this);

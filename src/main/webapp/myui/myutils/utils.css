@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 /* 页面容器的最大宽度，默认 1340px */
 body div.wrap {
     max-width: 100%;
@@ -94,7 +96,7 @@ span.required{
     background-color: #fff!important;
 }
 
-/*研判报告打印页面样式start*/
+/*报告打印页面样式start*/
 .print table{border:1px solid #000000}
 .print table tr th{border:1px solid #000000}
 .print table tr td{border:1px solid #000000}
@@ -137,14 +139,14 @@ table.table-bordered>tbody>tr>td, table.table-bordered>tbody>tr>th, table.table-
 	vertical-align: middle;
 }
 
-/*临控申请页面样式start*/
+/*申请页面样式start*/
 .lksqri{
     margin-right: 15px;
 }
 .bmbkjsr{
 	top: 10px;
 }
-/*临控申请页面样式end*/
+/*申请页面样式end*/
 /*按钮居中start*/
 .btn-center{
 	text-align: center;
@@ -163,3 +165,689 @@ pre{
 	word-wrap: break-word; /* Internet Explorer 5.5+ */ 
 }
 /*json  end*/
+
+
+/****************************迁移**********************************/
+/*-------------------公共部分-----------------------*/
+* {
+
+}
+
+body {
+	font-size: 12px;
+}
+/* 页面容器的最大宽度，默认 1340px */
+.wrap {
+    max-width: 1340px;
+    padding:16px;
+}
+.wrap input {
+    color:#000;
+}
+.wrap label {
+    color:#80849D;
+}
+.wrap select {
+    color: #000;
+}
+.wrap td {
+    color: #000;
+}
+.wrap p {
+    color: #000;
+}
+.wrap textarea {
+    color: #000;
+}
+.wrap h1 {
+    color: red;
+}
+.wrap h2,.wrap h3,.wrap h4,.wrap h5 {
+    color: #000;
+}
+/* 隐藏、显示 */
+.display-none {
+    display: none;
+}
+/* 按钮靠右对齐 */
+.btn-right {
+    float: right;
+}
+.btn-right button:not(:last-child) {
+    margin-right: 8px;
+}
+/*------------查询样例1-------------*/
+.panel-heading .panel-title {
+    margin-top: 7px;
+    text-align: left;
+}
+.btn-group.btn-table-left{
+    position: absolute;
+}
+/* 表单上的按钮 - 左边按钮 */
+.btn-table-left {
+    margin-left: 80px;
+    position: absolute;
+    margin-top:-23px;
+}
+/* :not(:first-child) */
+.btn-table-left button {
+    margin-left: 8px;
+}
+/* 表单上的按钮 - 右边按钮 */
+.btn-table-right {
+    float: right;
+    margin-top:-23px;
+}
+.btn-table-right button:not(:first-child) {
+    margin-left: 8px;
+}
+/* 表单上的按钮 - 下边按钮 */
+.btn-table-bottom {
+    padding-top: 8px;
+}
+.btn-table-bottom button:not(:first-child) {
+    margin-left: 8px;
+}
+.pagination-group {
+  float: right;
+}
+/*------------详情样例1-------------*/
+/* 展示型页面，行与行之间的间距应该缩小 */
+.basic-info .form-group {
+    margin-bottom: 4px;
+}
+/* 展示型页面，label 使用辅助色 */
+.basic-info .control-label {
+    max-width: 100px;
+    color: #80848f;
+}
+.basic-info>* {
+    margin-bottom: 16px;
+}
+/* 人员照片 */
+.basic-info-img {
+    position: absolute;
+    padding: 8px 0;
+    text-align: center;
+    z-index: 1050;
+}
+.basic-info-img .photo img {
+    width: 144px;
+    height: 176px;
+}
+.basic-info-img .name {
+    margin: 8px 0;
+    font-size: 16px;
+    color: 1c2438;
+    font-weight: bold;
+}
+.cjda {
+    width: 144px;
+}
+.info-box {
+    padding-left: 170px;
+    min-height: 260px;
+}
+/* label 较长，不再限宽*/
+.tabContentLong .control-label {
+    max-width: 100%;
+}
+/* 审核结果是个表单，恢复表单的行间距 */
+.approve-info .form-group {
+    margin-bottom: 16px;
+}
+.split-dashed {
+    width: 100%;
+    height: 1px;
+    border: 1px dashed #e9eaec;
+    margin: 16px 0;
+}
+/* 审批按钮 */
+.btn-approve {
+    margin-left: 100px;
+}
+.btn-approve>button{
+    margin-right: 8px;
+    width: 100px;
+}
+/*------------申请样例1-------------*/
+/* 上传图片按钮 */
+.cjda1 {
+    margin-top: 16px;
+    width: 144px;
+}
+/* 展示型页面，label 使用辅助色 */
+.control-label {
+/*     max-width: 150px; */
+    /* color: #80848f; */
+}
+.info-box {
+    padding-left: 170px;
+    min-height: 200px;
+}
+.surethat {
+    width: 100px;
+}
+.newadd {
+    width: 100px;
+}
+.delete-words,.add-words {
+    color: #2D8CF0;
+    cursor: pointer;
+}
+.more-info label {
+    max-width: 90px;
+}
+/*按钮组*/
+.surethat,.comeback,.product {
+    margin-left: 20px;
+    width: 100px;
+}
+.btn-fruit {
+    margin-left: 35%;
+}
+.sq-info label {
+    max-width: 100px;
+}
+.add-tigs {
+    height: 30px;
+    line-height: 27px;
+    font-size: 14px;
+    border:#DDDEE1 dashed 1px;
+}
+.add-logos {
+    text-align: center;
+}
+/*增加信息*/
+.add-tigs:hover {
+    border:#3E82F7 dashed 1px;
+    color: #3E82F7;
+    cursor: pointer;
+}
+.upload-button-set { 
+    max-width: 104px;
+    height: 26px;
+    background-image: url(img/didupload.png) no-repeat;
+}
+/*删除文件按钮*/
+.shut-del {
+    position:absolute;
+    width:12px;
+    height:12px;
+    right:0px;
+    top:0px;
+    z-index:100; 
+    background: url(img/shut.png);
+}
+/*下载文件*/
+.dwon-files {
+    position:absolute;
+    width:13px;
+    height:13px;
+    right:0px;
+    bottom:0px;
+    z-index:100; 
+    background: url(img/download.png); 
+}
+.upload-sel {
+    position: relative;
+    float: left;
+    width: 200px;
+    margin: 0 8px 8px 0;
+}
+.myupload {
+    top:10px;
+}
+/*------------指令下发样例1-------------*/
+/*公文名*/
+.file-tittle,.file-tittle-more {
+    text-align: center;
+    letter-spacing:8px;
+    color: #FF173A;
+    font-weight: bold;
+    font-family: "微软雅黑";
+}
+/*浮动*/
+.fl-l {
+    float: left;
+}
+.fl-r {
+    float: right;
+}
+/*加红色星号*/
+.my-form-gp label:before{
+    content: '*';
+    color: #FF173A;
+    font-size: 100%;
+}
+.nav-tabs-lie {
+    border-bottom: 2px solid #FF173A;
+}
+.my-form-gp label {
+    max-width: 90px;
+}
+.my-form-gp {
+    margin-top: 20px;
+}
+.surethat,.comeback,.product{
+    margin-left: 20px;
+    width: 100px;
+}
+.product-file {
+    width: 100px;
+}
+.btn-fruit {
+    margin-left: 40%;
+}
+.add-link {
+    width: 90px;
+    height: 30px;
+}
+
+.photo {
+    position: relative;
+    width: 144px;
+    height: 176px;
+}
+.key-info-box {
+    padding-left: 170px;
+    min-height: 200px;
+}
+.key-info-box label,.person-lie label {
+    max-width: 80px;
+}
+.key-info-box .form-group {
+    margin-bottom: 4px;
+}
+.savethis,.closethis {
+    margin-left: 20px;
+    width: 100px;
+}
+.flow-chart {
+    height:35px;
+}
+.shodow-pic {
+    position:absolute;
+    width: 144px;
+    height: 30px;
+    left:0;
+    bottom:0;
+    color: #fff;
+    opacity: 0.7;
+    line-height: 30px;
+    background: #FCA92F;
+    text-align: center;
+}
+
+/*反馈*/
+.art-title {
+    text-align: center;
+}
+.zhiling-back-form label {
+    max-width: 90px;
+}
+.fjxj-zl {
+    max-width: 90px;
+}
+.submit-fk,.back-fk {
+    margin-left: 20px;
+    width: 100px;
+} 
+.btn-fruit {
+    margin-left: 40%;
+}
+.nav-tabs-lie {
+    border-bottom: 2px solid #FF173A;
+}
+.tags-menu {
+    padding-left: 5px;
+}
+/*************************预警页面*****************************/
+.plqs {
+    cursor: pointer;
+    color: #2D8CF0;
+}
+.operate {
+    background: #F5F8FA;
+}
+.btn-right-condition {
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    background: red;
+}
+.operate .form-control {
+    margin-left: 20px;
+    width: 120px;
+}
+.my-click-menu {
+    margin-left: 20px;
+    font-size: 240%;
+    color:#2D8CF0;
+    cursor: pointer;
+}
+.my-click-menu:hover {
+    color:#FFBD49 ;
+}
+.squre-num {
+    margin-left: 10px;
+    width: 15px;
+    height: 16px;
+    background:#8FC31F;
+    color: #fff; 
+    border-radius: 2px;
+    text-align: center;
+}
+.btn-group-fetures .btn-table-right {
+    margin-top: -30px;
+}
+.photo-shadows {
+    width: 144px;
+    height: 204px;
+    margin-left: 10px;
+}
+.tigs-group {
+    margin-top: -8px;
+    margin-left: 10px;
+    max-width: 70px;
+}
+.tigs-group .btn-warning {
+    min-width: 80px;
+    margin-top: 8px;
+}
+.info-show .form-group {
+    margin-bottom: 4px;
+}
+.info-show label {
+    max-width: 90px;
+}
+.btn-group-fetures {
+    margin-top: 50px;
+}
+.i-level {
+    color: #EA2000;
+}
+.img-operate-info {
+    max-width: 330px;
+}
+.shodow-pic-info {
+    position:absolute;
+    width: 144px;
+    height: 30px;
+    left:0;
+    bottom:0;
+    color: #fff;
+    opacity: 0.7;
+    line-height: 30px;
+    background: #000;
+    text-align: center;
+}
+/************************报告样例********************/
+.edit-tool {
+    height: 100px;
+    background:#5CADFF;
+    color: red;
+}
+.dangerous-info-box{
+    padding-left: 170px;
+    min-height: 200px;
+}
+.dangerous-info-box label,.person-lie label {
+    max-width: 100px;
+}
+.dangerous-info-box .form-group {
+    margin-bottom: 4px;
+}
+.num-adjust label {
+    max-width: 100px;
+}
+.num-adjust label:before{
+    content: '*';
+    color: #FF173A;
+    font-size: 100%;
+}
+/*****************指令样例*****************/
+.marker-sign {
+    max-width: 20px;
+}
+.form-horizontal .fankui {
+    width: 80px;
+    text-align:left;
+}
+.form-horizontal .qianshou {
+    width: 80px;
+    color: #0188FB;
+}
+.form-horizontal .btn-group-cp {
+    float: right;
+}
+.list-group-item .sel-nums {
+    max-width: 80px;
+    margin-top: 10px;
+}
+.my-orange-sign .form-group label {
+    min-width: 80px;
+}
+
+
+.f_left {
+	float: left;
+}
+
+.f_right {
+	float: right;
+}
+
+.f_clear {
+	clear: both;
+}
+
+.width_100 {
+	width: 100%;
+}
+
+.width_50 {
+	width: 50%;
+}
+
+.width_40 {
+	width: 40%;
+}
+
+.width_45 {
+	width: 45%;
+}
+
+.width_30 {
+	width: 30%;
+}
+
+.width_20 {
+	width: 20%;
+}
+
+.width_80 {
+	width: 80%;
+}
+
+.width_90 {
+	width: 90%;
+}
+
+.width_95 {
+	width: 95%;
+}
+
+.width_98 {
+	width: 98%;
+}
+
+.w370 {
+	width: 370px;
+}
+
+.w300 {
+	width: 370px;
+}
+
+.w450 {
+	width: 450px;
+}
+
+.w550 {
+	width: 550px;
+}
+
+.w500 {
+	width: 500px;
+}
+
+.w210 {
+	width: 210px;
+}
+
+.w250 {
+	width: 250px;
+}
+
+.w90 {
+	width: 90px;
+}
+
+.w33 {
+	width: 33px;
+}
+
+.w160 {
+	width: 160px;
+}
+
+.w150 {
+	width: 150px;
+}
+
+.w120 {
+	width: 120px;
+}
+
+.w130 {
+	width: 130px;
+}
+
+.w180 {
+	width: 180px;
+}
+
+.w80 {
+	width: 80px;
+}
+
+.w50 {
+	width: 50px;
+}
+
+.w100 {
+	width: 100px;
+}
+
+.height_5 {
+	height: 5px;
+}
+
+.height_10 {
+	height: 10px;
+}
+
+.height_20 {
+	height: 20px;
+}
+
+.hegiht_30 {
+	height: 30px;
+}
+
+.hegiht_50 {
+	height: 50px;
+}
+
+.hegiht_55 {
+	height: 55px;
+}
+
+.hegiht_100 {
+	height: 100px;
+}
+
+.hegiht_150 {
+	height: 150px;
+}
+
+.padding_t3 {
+	padding-top: 3px;
+}
+
+.padding_t5 {
+	padding-top: 5px;
+}
+
+.padding_t10 {
+	padding-top: 10px;
+}
+
+.padding_l10 {
+	padding-left: 10px;
+}
+
+.margin_r5 {
+	margin-right: 5px;
+}
+
+.margin_r10 {
+	margin-right: 10px;
+}
+
+.margin_l5 {
+	margin-left: 5px;
+}
+
+.margin_l10 {
+	margin-left: 10px;
+}
+
+.margin_t10 {
+	margin-top: 10px;
+}
+
+.margin_t5 {
+	margin-top: 5px;
+}
+
+.margin_b5 {
+	margin-bottom: 5px;
+}
+
+.margin_b10 {
+	margin-bottom: 10px;
+}
+
+.margin_m5 {
+	margin: 5px;
+}
+
+.border {
+	border: solid 1px #cbcbcb;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.table-striped>tbody>tr.listrow.edited{
+	background-color: thistle;
+}
+.table-striped>tbody>tr.listrow>td.edited{
+	background-color: thistle;
+}
+
+

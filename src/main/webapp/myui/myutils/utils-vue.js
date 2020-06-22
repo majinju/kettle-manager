@@ -9,7 +9,7 @@ var scriptList=[
       serviceAddr+"myui/bootstrap/js/bootstrap.js",
       serviceAddr+"myui/SelectPag/selectpage.js?time=20200214",
 //      serviceAddr+"myui/SelectMenu/selectmenu.js",
-      serviceAddr+"myui/myframe/frame.js?time=20200214",
+//      serviceAddr+"myui/myframe/frame.js?time=20200214",
       serviceAddr+"myui/layer/layer.js",
       serviceAddr+"myui/My97DatePicker/WdatePicker.js",
       serviceAddr+"myui/jquery/jquery.ajaxupload.js",
@@ -40,7 +40,7 @@ var scriptList=[
 var cssList=[
       serviceAddr+"myui/myutils/utils.css?time=20200214",
       serviceAddr+"myui/bootstrap/css/bootstrap.min.css",
-      serviceAddr+"myui/myframe/frame.css?time=20200214",
+//      serviceAddr+"myui/myframe/frame.css?time=20200214",
       serviceAddr+"myui/font-awesome/css/font-awesome.css",
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
       serviceAddr+"myui/jsoneditor/jsoneditor.css",
@@ -1183,3 +1183,32 @@ function zdFormatIcon(data){
     }
     return val;
 }
+
+/****************************迁移**********************************/
+/* 查询样例1 */ 
+function showCollapse(a) {
+    if ($('#collapse').hasClass('display-none')) {
+        $('#collapse').removeClass('display-none');
+        $(a).html('收起 <i class="icon ion-ios-arrow-up"></i>');
+    } else {
+        $('#collapse').addClass('display-none');
+        $(a).html('更多 <i class="icon ion-ios-arrow-down"></i>');
+    }
+}
+
+/* 查询样例1 */
+function showCollapse1(a) {
+    if ($('#collapse').hasClass('display-none')) {
+        $('#collapse').removeClass('display-none');
+        $(a).html('收起 <i class="icon ion-ios-arrow-up"></i>');
+    } else {
+        $('#collapse').addClass('display-none');
+        $(a).html('展开 <i class="icon ion-ios-arrow-down"></i>');
+    }
+}
+
+/* 详情样例1 */
+$(function () { $('#collapse1').collapse('show')});
+$(function () { $('#collapse2').collapse('show')});
+$(function () { $('#collapse3').collapse('show')});
+
