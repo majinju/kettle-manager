@@ -7,10 +7,12 @@ import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
+import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
 import cn.benma666.web.BasicService;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -39,6 +41,15 @@ public class SjdxService extends BasicService{
         }else{
             myParams.remove(LjqInterface.KEY_IDS_IN);
             myParams.remove(LjqInterface.KEY_IDS_ARRAY);
+        }
+        Object cxtj = sjdx.get("my-cxtj");
+        if(cxtj!=null){
+            //根据查询条件，调用select模板得到操作条件
+            myParams.put(LjqInterface.KEY_YOBJ, JSON.parseObject(cxtj.toString()));
+            JsonResult result = DefaultLjq.getDefaultSql(sjdx, "select", myParams, null);
+            if(!result.isStatus()){
+                return result;
+            }
         }
         Object cllxObj = sjdx.get(LjqInterface.KEY_CLLX);
         if(cllxObj==null){

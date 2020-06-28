@@ -52,7 +52,7 @@ function sjdxZdy(vp){
 }
 function downloadYgscTemplate(){
 	//下载员工上传模板
-	$.download("common/download.do",{id:"D6B55EC32CBA49D0B9D7CE8767C1121A"});
+	$.download("common/download.do",{id:"6897749835A04EB3AAFF4811ECC6BC08"});
 }
 function downloadLzmbTemplate(){
 	//下载离职模板

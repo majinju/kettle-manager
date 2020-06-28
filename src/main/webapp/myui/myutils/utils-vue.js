@@ -9,7 +9,6 @@ var scriptList=[
       serviceAddr+"myui/bootstrap/js/bootstrap.js",
       serviceAddr+"myui/SelectPag/selectpage.js?time=20200214",
 //      serviceAddr+"myui/SelectMenu/selectmenu.js",
-//      serviceAddr+"myui/myframe/frame.js?time=20200214",
       serviceAddr+"myui/layer/layer.js",
       serviceAddr+"myui/My97DatePicker/WdatePicker.js",
       serviceAddr+"myui/jquery/jquery.ajaxupload.js",
@@ -40,7 +39,6 @@ var scriptList=[
 var cssList=[
       serviceAddr+"myui/myutils/utils.css?time=20200214",
       serviceAddr+"myui/bootstrap/css/bootstrap.min.css",
-//      serviceAddr+"myui/myframe/frame.css?time=20200214",
       serviceAddr+"myui/font-awesome/css/font-awesome.css",
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",
       serviceAddr+"myui/jsoneditor/jsoneditor.css",
@@ -179,7 +177,7 @@ function initValidator(){
             var selectedVal = ","+zdObj.attr("value").replace(/[\[ \]]/g,"")+",";
             $.ajax({
                    type:"POST",
-                   data:{"map['zdlb']":zdlb},
+                   data:{"e_zdlb":zdlb},
                    url:serviceAddr+"common/zdList.do",
                    dataType: "json",
                    success:function(data){
@@ -856,7 +854,7 @@ function preParam(_params){
 			//_params[key.replace("']_text","_text']")] = _params[key];
 			delete _params[key];
 		}else if(key.endWith("_text")){
-			//_params["map['"+key+"']"] = _params[key].toString();
+			//_params["e_"+key] = _params[key].toString();
             delete _params[key];
 		}
 	}
@@ -1126,28 +1124,6 @@ function myValidFrom(_this,module,fromdata){
     }
 }
 /**
- * 时间格式化
- */
-function vueTimeGsh(value,_this){
-    var qdgs = _this.WdatePicker.dateFmt;
-    return dateFormat(value,qdgs);
-}
-/**
- * 时间反格式化：默认处理所有时间在数据库中存储的都是14位字符串
- */
-function vueTimeFgsh(value,_this,event){
-    var hdgs = _this.WdatePicker.hdgs;
-    return dateFormat(value,hdgs);
-}
-/**
- * 组建编辑参数
- */
-function editUrl(sjdx,row){
-    var p = {};
-    p[sjdx.zjzd]=row[sjdx.zjzd];
-    return encodeURI(JSON.stringify(p));
-}
-/**
  * json对象编码
  */
 function jsonEncode(obj){
@@ -1185,28 +1161,6 @@ function zdFormatIcon(data){
 }
 
 /****************************迁移**********************************/
-/* 查询样例1 */ 
-function showCollapse(a) {
-    if ($('#collapse').hasClass('display-none')) {
-        $('#collapse').removeClass('display-none');
-        $(a).html('收起 <i class="icon ion-ios-arrow-up"></i>');
-    } else {
-        $('#collapse').addClass('display-none');
-        $(a).html('更多 <i class="icon ion-ios-arrow-down"></i>');
-    }
-}
-
-/* 查询样例1 */
-function showCollapse1(a) {
-    if ($('#collapse').hasClass('display-none')) {
-        $('#collapse').removeClass('display-none');
-        $(a).html('收起 <i class="icon ion-ios-arrow-up"></i>');
-    } else {
-        $('#collapse').addClass('display-none');
-        $(a).html('展开 <i class="icon ion-ios-arrow-down"></i>');
-    }
-}
-
 /* 详情样例1 */
 $(function () { $('#collapse1').collapse('show')});
 $(function () { $('#collapse2').collapse('show')});

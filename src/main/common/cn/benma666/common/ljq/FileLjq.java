@@ -16,6 +16,7 @@ import cn.benma666.myutils.JsonResult;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
 
+import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -41,16 +42,35 @@ public class FileLjq extends DefaultLjq{
             int count = 0;
             for(JSONObject fileObj:list){
                 JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getString("sjzt"));
-                if("bdwj".equals(sjzt.getString("lx"))){
+                switch (sjzt.getString("lx")) {
+                case "bdwj":
+                    //数据载体为本地文件时
                     File file = new File(fileObj.getString("sclj"));
                     if(file.exists()){
                         file.delete();
                         count++;
                     }
-                }else if("oracle".equals(sjzt.getString("lx"))){
-                    Db wjdb = Db.use(sjzt.getString("dm"));
-                    String where = fileObj.getString("sclj");
-                    count += wjdb.update("delete from "+fileObj.getString("ywdm")+" t where "+where);
+                    break;
+                case JdbcUtils.ORACLE:
+                case JdbcUtils.MYSQL:
+                case JdbcUtils.POSTGRESQL:
+                case LjqInterface.ZD_SJZTLX_GREENPLUM:
+                case LjqInterface.ZD_SJZTLX_HWMPP:
+                    //数据载体为数据库
+                    String sclj = fileObj.getString("sclj");
+                    if(sclj.startsWith("select nr wj from")){
+                        Db wjdb = Db.use(sjzt.getString("dm"));
+                        //删除原始文件
+                        wjdb.update(sclj.replace("select nr wj", "delete"));
+                    }
+                    break;
+                case "ftp":
+                    //数据载体为ftp
+                    //ftp也需要一个类似Db的工具类
+                case "qtzt":
+                    //数据载体为其他载体
+
+                default:
                 }
             }
             msg = "删除文件数："+count;

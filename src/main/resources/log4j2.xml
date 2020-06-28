@@ -19,7 +19,7 @@
 		</Console>
 		<!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
 		<RollingRandomAccessFile name="debug"
-			fileName="${LOG_HOME}/debug.log" filePattern="${LOG_HOME}/debug-%d{yyyyMMddHH}-%i.gz">
+			fileName="${LOG_HOME}/debug.log" filePattern="${LOG_HOME}/debug-%d{yyyyMM}-%i.gz">
 			<ThresholdFilter level="debug" onMatch="ACCEPT"
 				onMismatch="DENY" />
 			<PatternLayout pattern="${PATTERN}" />
@@ -45,7 +45,7 @@
 		</RollingRandomAccessFile>
 		<!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
 		<RollingRandomAccessFile name="info"
-			fileName="${LOG_HOME}/info.log" filePattern="${LOG_HOME}/info-%d{yyyyMMddHH}-%i.gz">
+			fileName="${LOG_HOME}/info.log" filePattern="${LOG_HOME}/info-%d{yyyyMM}-%i.gz">
 			<ThresholdFilter level="info" onMatch="ACCEPT"
 				onMismatch="DENY" />
 			<PatternLayout pattern="${PATTERN}" />
@@ -71,7 +71,7 @@
 		</RollingRandomAccessFile>
 		<!-- 这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档 -->
 		<RollingRandomAccessFile name="error"
-			fileName="${LOG_HOME}/error.log" filePattern="${LOG_HOME}/error-%d{yyyyMMddHH}-%i.gz">
+			fileName="${LOG_HOME}/error.log" filePattern="${LOG_HOME}/error-%d{yyyyMM}-%i.gz">
 			<ThresholdFilter level="error" onMatch="ACCEPT"
 				onMismatch="DENY" />
 			<PatternLayout pattern="${PATTERN}" />

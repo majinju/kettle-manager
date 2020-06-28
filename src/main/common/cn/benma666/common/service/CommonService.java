@@ -24,6 +24,7 @@ import cn.benma666.web.QxManager;
 import cn.benma666.web.SConf;
 import cn.benma666.web.WebUtil;
 
+import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -67,33 +68,53 @@ public class CommonService extends BasicService{
             fileObj.setSjzt(SConf.getVal("wjsc.mrsjzt"));
         }
         JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
-        if("bdwj".equals(sjzt.getString("lx"))){
+        switch (sjzt.getString("lx")) {
+        case "bdwj":
             //数据载体为本地文件时
             //文件上传路径:上传后文件的路径以及文件的名称
             String currDate = DateUtil.getGabDate();
             //按日期分文件夹
-            String sclj = sjzt.getString("ljc")+currDate.substring(0,8) +UtilConst.FXG
-                    + fileObj.getYwdm() +UtilConst.FXG
+            String sclj = sjzt.getString("ljc");
+            if(!UtilConst.WHETHER_FALSE.equals(fileObj.get("arqfwjj"))){
+                //指定设置要求不按日期分文件夹
+                sclj += currDate.substring(0,8) +UtilConst.FXG;
+            }
+            sclj += fileObj.getYwdm() +UtilConst.FXG
                     + fileObj.getWjlb() +UtilConst.FXG
-                    +wjm.substring(0,wjm.lastIndexOf('.'))+"_"
-                    + currDate.substring(8) + "." + fileObj.getWjlx();
+                    +wjm.substring(0,wjm.lastIndexOf('.'));
+            if(!UtilConst.WHETHER_FALSE.equals(fileObj.get("arqfwjj"))){
+                //指定设置要求不按日期分文件夹
+                sclj += "_"+ currDate.substring(8);
+            }else{
+                sclj += "_"+ currDate;
+            }
+            sclj += "." + fileObj.getWjlx();
             fileObj.setSclj(sclj);
             File localFile = new File(sclj);
             FileUtil.saveFileToDisk(localFile, file);
-        }else if("oracle".equals(sjzt.getString("lx"))){
+            break;
+        case JdbcUtils.ORACLE:
+        case JdbcUtils.MYSQL:
+        case JdbcUtils.POSTGRESQL:
+        case LjqInterface.ZD_SJZTLX_GREENPLUM:
+        case LjqInterface.ZD_SJZTLX_HWMPP:
             //数据载体为oracle
             Db wjdb = Db.use(sjzt.getString("dm"));
             String id = StringUtil.getUUIDUpperStr();
             try {
-                wjdb.update("insert into "+fileObj.getYwdm()+"(id,"+fileObj.getWjlb()+") values (?,?)", 
-                        id,file.getBytes());
-                fileObj.setSclj("id='"+id+"'");
+                wjdb.update("insert into sys_sjgl_blob(id,nr) values (?,?)", id,file.getBytes());
+                fileObj.setSclj("select nr wj from sys_sjgl_blob where id='"+id+"'");
             } catch (Exception e) {
                 throw new MyException("文件入数据库失败", e);
             }
-        }else if("ftp".equals(sjzt.getString("lx"))){
+            break;
+        case "ftp":
             //数据载体为ftp
             //ftp也需要一个类似Db的工具类
+            throw new MyException("暂不支持的数据载体类型："+sjzt.getString("lx"));
+
+        default:
+            throw new MyException("暂不支持的数据载体类型："+sjzt.getString("lx"));
         }
         //保存文件信息
         fileObj.setId(StringUtil.getUUIDUpperStr());
@@ -107,35 +128,46 @@ public class CommonService extends BasicService{
         if(fileObj!=null){
             fileObj.setXzms(obj.isXzms());
             JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
-            if("bdwj".equals(sjzt.getString("lx"))){
+            switch (sjzt.getString("lx")) {
+            case "bdwj":
                 //数据载体为本地文件时
                 File file = new File(fileObj.getSclj());
                 WebUtil.sendFile(response, file, fileObj);
-            }else if("oracle".equals(sjzt.getString("lx"))){
+                break;
+            case JdbcUtils.ORACLE:
+            case JdbcUtils.MYSQL:
+            case JdbcUtils.POSTGRESQL:
+            case LjqInterface.ZD_SJZTLX_GREENPLUM:
+            case LjqInterface.ZD_SJZTLX_HWMPP:
                 //数据载体为oracle
                 Db wjdb = Db.use(sjzt.getString("dm"));
-                String where = obj.getSclj();
-                if(StringUtil.isBlank(where)){
-                    where = fileObj.getSclj();
+                String sclj = obj.getSclj();
+                if(StringUtil.isBlank(sclj)){
+                    sclj = fileObj.getSclj();
                 }
-                JSONObject wj = wjdb.findFirst("select "+fileObj.getWjlb()+" wj from "
-                        +fileObj.getYwdm()+" t where "+where);
+                JSONObject wj = wjdb.findFirst(sclj);
                 if(wj!=null){
                     WebUtil.sendBytes(response, wj.getBytes("wj"), fileObj);
                 }else{
                     log.debug("下载的文件不存在："+obj);
                     WebUtil.sendJson(response,error("下载的文件不存在",obj));
                 }
-            }else if("ftp".equals(sjzt.getString("lx"))){
+                break;
+            case "ftp":
                 //数据载体为ftp
-
-            }else if("qtzt".equals(sjzt.getString("lx"))){
+                //ftp也需要一个类似Db的工具类
+                throw new MyException("暂不支持的数据载体类型："+sjzt.getString("lx"));
+            case "qtzt":
                 //数据载体为其他载体
                 if("wywztb".equals(sjzt.getString("dm"))){
                     //网页文字图标
                     WebUtil.sendDirectToClient(response, fileObj.getSclj(),
                             WebUtil.CONTENTTYPE_TEXTHTML, WebUtil.CONTENT_CHARSET_UTF8);
                 }
+                break;
+
+            default:
+                throw new MyException("暂不支持的数据载体类型："+sjzt.getString("lx"));
             }
         }else{
             log.debug("下载的文件不存在："+obj);

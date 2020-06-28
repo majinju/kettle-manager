@@ -183,8 +183,8 @@ function PageAjax(){
         if(self.getListHead().find(".order-current").size()==1){
         	var filedTh = self.getListHead().find(".order-current");
         	//map传参
-            self.params["map['orderField']"] = filedTh.attr("data-filed");
-            self.params["map['orderWay']"] = filedTh.attr("data-order");
+            self.params["e_orderField"] = filedTh.attr("data-filed");
+            self.params["e_orderWay"] = filedTh.attr("data-order");
 
             self.params["orderField"] = filedTh.attr("data-filed");
             self.params["orderWay"] = filedTh.attr("data-order");
@@ -312,8 +312,8 @@ function PageAjax(){
             //不统计总量
             params.autoCount = false;
         }
-        params["map['title']"]=title;
-        params["map['hiddenCol']"]=hiddenCol;
+        params["e_title"]=title;
+        params["e_hiddenCol"]=hiddenCol;
         var inputs = '';
         jQuery.each(Object.keys(params), function() {
             var val = params[this];

@@ -79,17 +79,7 @@
 		    $('#lbplcz-'+_this.sjdxid).before(qtcz);
 		}
 		function sjdxlbcz(value,_this) {
-		    var cz = defaultLbcz(value,_this);
-		    if("非列表模式"==cz){
-		        return cz;
-		    }
-		    if(typeof sjdxlbczYcl == "function"){
-		        sjdxlbczYcl(value,_this);
-		    }
-		    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({sjdx:_this.$root.sjdx,
-		        user:_this.$parent.$parent.$parent._data.user,
-			    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
-		    return cz+qtcz;
+		    return defaultLbcz(value,_this);
 		}
 		</script>
 	  <jsp:invoke fragment="script" />

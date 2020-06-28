@@ -82,8 +82,8 @@ function sjdxZdy(vp){
 			async: {
 				enable: true,
 				url:"sjdx/getdata.do?dxdm=SYS_QX_QXXX",
-				autoParam:["dm=map['fqx']"],
-				otherParam:{"map['cllx']":"getTreeCN","map['dqjs']":this.fromdata.dqjs},
+				autoParam:["dm=e_fqx"],
+				otherParam:{"e_cllx":"getTreeCN","e_dqjs":this.fromdata.dqjs},
 				dataFilter: treefilter
 			},
 			callback: {

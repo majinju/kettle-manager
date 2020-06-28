@@ -6,6 +6,11 @@
 ---本脚本默认线上库用户为sjsj1，将本地数据库导入到sjsj中，然后支持本脚本进行数据库升级，若用户不一致需要修改本脚本
 ---本脚本在sjsj（即本地库的备份库）用户下执行
 
+----------------oracle数据备份与还原---------------------------------------
+-- 远程导出数据：exp sjsj/sjsj@127.0.0.1/mydb file=d:\sjsj.dmp owner=('sjsj')
+-- 远程导入数据：imp sjsj/sjsj@127.0.0.1/mydb  file=d:\sjsj.dmp owner=('sjsj')  full=y log=D:/oracelImp.log commit buffer=512000000 ignore=y
+
+
 ----本地会新增，线上存在的数据全部以线上为准的场景，将本地新增的插入线上库----------
 --编号生成,将新增变化插入原库
 insert into sjsj1.sys_sjgl_bhsc
