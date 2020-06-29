@@ -84,7 +84,7 @@ Vue.component('my-file', {
             ywdm:"other",
             wjlb:field.sjdx,
             zdsc:true,
-            wjlx:"jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pptx|xmind"
+            wjlx:"jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pdf|pptx|xmind"
     	},kzxx.file);
         _this.kzxxObj = kzxx;
     },
@@ -351,6 +351,7 @@ Vue.component('my-markdown', {
                 //syncScrolling : false,
                 saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
                 searchReplace : true,
+   		     	toolbarAutoFixed:false,//不固定工具栏
                 //watch : false,                // 关闭实时预览
                 htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
                 tocm            : true,         // Using [TOCM]
@@ -368,7 +369,7 @@ Vue.component('my-markdown', {
 		                    "lowercase", "|", "h1", "h2", "h3", "|", "list-ul", 
 		                    "list-ol", "hr", "code", "preformatted-text", "code-block", "table",
 		                    "html-entities", "pagebreak", "|","goto-line", "watch", "preview", 
-		                    "fullscreen", "clear", "search", "help"]
+		                    "fullscreen", "clear", "search", "help","scwj"]
 		        },
                 //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
                 //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
@@ -391,6 +392,36 @@ Vue.component('my-markdown', {
                 },
                 onchange:function(){
                     _this.setval(_this);
+                },
+                toolbarIconsClass : {
+                    scwj : "fa-cloud-upload"  // 指定一个FontAawsome的图标类
+                },
+                // 自定义工具栏按钮的事件处理
+                toolbarHandlers : {
+                    /**
+                     * @param {Object}      cm         CodeMirror对象
+                     * @param {Object}      icon       图标按钮jQuery元素对象
+                     * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
+                     * @param {String}      selection  编辑器选中的文本
+                     */
+                    scwj : function(cm, icon, cursor, selection) {
+                        //var cursor    = cm.getCursor();     //获取当前光标对象，同cursor参数
+                        //var selection = cm.getSelection();  //获取当前选中的文本，同selection参数
+                        // 替换选中文本，如果没有选中文本，则直接插入
+                        //cm.replaceSelection("[" + selection + ":wcwj]");
+                        // 如果当前没有选中的文本，将光标移到要输入的位置
+                        if(selection === "") {
+                            cm.setCursor(cursor.line, cursor.ch + 1);
+                        }
+                        // this == 当前editormd实例
+                        //console.log("scwj =>", this, cm, icon, cursor, selection);
+                        alertInfo("暂未实现，敬请期待");
+                    }
+                },
+                lang : {
+                    toolbar : {
+                        scwj : "上传文件、图片等",  // 自定义按钮的提示文本，即title属性
+                    }
                 }
             };
         if(this.edit){

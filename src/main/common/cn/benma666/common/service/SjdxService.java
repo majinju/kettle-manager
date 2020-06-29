@@ -46,7 +46,7 @@ public class SjdxService extends BasicService{
         if(cxtj!=null){
             //根据查询条件，调用select模板得到操作条件
             myParams.put(LjqInterface.KEY_YOBJ, JSON.parseObject(cxtj.toString()));
-            JsonResult result = DefaultLjq.getDefaultSql(sjdx, "select", myParams, null);
+            JsonResult result = DefaultLjq.getDefaultSql(sjdx, "select", myParams, sjdx.getSqlmb());
             if(!result.isStatus()){
                 return result;
             }

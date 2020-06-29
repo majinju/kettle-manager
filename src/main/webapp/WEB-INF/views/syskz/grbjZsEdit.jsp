@@ -7,11 +7,11 @@
    <link rel="stylesheet" href="myui/editor.md/other/css/style.css" />
 </jsp:attribute>
 <jsp:body>
-<style>
-ol {
-    list-style-type: decimal;
-}
-</style>
+	<style>
+	ol {
+	    list-style-type: decimal;
+	}
+	</style>
    <div id="dataform">
     <div id="test-editormd-view" :style="isMl()?'padding-right: 260px;':'padding-right: 0px;'">
 	   	<div style="text-align: center;">

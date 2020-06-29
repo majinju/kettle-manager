@@ -149,8 +149,8 @@ public class CommonService extends BasicService{
                 if(wj!=null){
                     WebUtil.sendBytes(response, wj.getBytes("wj"), fileObj);
                 }else{
-                    log.debug("下载的文件不存在："+obj);
-                    WebUtil.sendJson(response,error("下载的文件不存在",obj));
+                    log.debug("下载的文件不存在："+sclj);
+                    WebUtil.sendJson(response,error("下载的文件不存在",sclj));
                 }
                 break;
             case "ftp":
@@ -170,8 +170,8 @@ public class CommonService extends BasicService{
                 throw new MyException("暂不支持的数据载体类型："+sjzt.getString("lx"));
             }
         }else{
-            log.debug("下载的文件不存在："+obj);
-            WebUtil.sendJson(response,error("下载的文件不存在",obj));
+            log.debug("下载的文件不存在："+obj.getId());
+            WebUtil.sendJson(response,error("下载的文件不存在",obj.getId()));
         }
     }
 }
