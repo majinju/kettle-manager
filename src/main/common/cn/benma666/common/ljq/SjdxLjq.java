@@ -274,17 +274,21 @@ public class SjdxLjq extends DefaultLjq{
         Map<String, JSONObject> oldFiledMap = Db.listToMap(
                 db.find("select * from sys_sjgl_sjzd t where t.sjdx=?", 
                         jtdx.getId()), "zddm");
-        int idx = oldFiledMap.size()*10+50;
         //新导入的对象复制默认字段
         int count = 0;
         if(oldFiledMap.isEmpty()){
             params.put("oldSjdxId", "SYS_SJGL_SJZD");
             params.put("newSjdx", jtdx);
-            params.put("mrzd", UtilConst.WHETHER_TRUE);
+            params.put("newSjzd", fieldsList);
+            //新建对象
+            params.put("xjdx", UtilConst.WHETHER_TRUE);
             JsonResult r = getDefaultSql(sjdx, "fzzd", params);
-            params.remove("mrzd");
+            params.remove("xjdx");
             count = sqlManager.executeUpdate(r.getMsg(), params);
         }
+        oldFiledMap = Db.listToMap(db.find("select * from sys_sjgl_sjzd t where t.sjdx=?", 
+                        jtdx.getId()), "zddm");
+        int idx = oldFiledMap.size()*10+50;
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
             SysSjglSjzd zd = JSON.parseObject(fieldObj.toJSONString(), SysSjglSjzd.class);
@@ -292,7 +296,6 @@ public class SjdxLjq extends DefaultLjq{
             zd.setZddm(zd.getZddm().toLowerCase());
             if(oldFiledMap.containsKey(zd.getZddm())){
                 //存在的字段
-                //oldFiledMap.remove(zd.getZddm());
                 continue;
             }
             count++;
