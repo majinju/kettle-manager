@@ -28,8 +28,15 @@ Vue.component('my-label', {
   });
 </script>
 <script type="text/x-tp" id="my-file-tp">
-<button v-if="edit" type="button" class="btn btn-primary btn-sm"
-		:class="field.cssl" >
+<span v-if="edit&&kzxxObj.file.qcwj!='0'" :class="field.cssl">
+<button type="button" class="btn btn-primary btn-sm">
+	<i class="icon ion-arrow-up-a"></i>
+	<slot></slot>
+</button>
+<i class="icon ion-close-round" title="清除文件" 
+	@click="qcwj" style="cursor: pointer;"></i>
+</span>
+<button v-else-if="edit&&kzxxObj.file.qcwj=='0'" type="button" class="btn btn-primary btn-sm">
 	<i class="icon ion-arrow-up-a"></i>
 	<slot></slot>
 </button>
@@ -84,20 +91,30 @@ Vue.component('my-file', {
             ywdm:"other",
             wjlb:field.sjdx,
             zdsc:true,
-            wjlx:"jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|pdf|pptx|xmind"
+            qcwj:'1',
+            wjlx:"jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|7z|rar|pdf|pptx|xmind"
     	},kzxx.file);
         _this.kzxxObj = kzxx;
+    },
+    methods : {
+        qcwj : function() {
+            var _this =  this;
+		    _this.val = "";
+		    _this.target = _this.$el;
+		    _this.$emit('setval', _this.field, _this);
+        }
     },
     mounted: function () {
         var _this =  this;
         _this.target = this.$el;
-        if(!_this.$root.listPage&&!_this.edit){
-            $(_this.$el).removeAttr("class");
-        }
         var field = this.field;
         var kzxx = this.kzxxObj;
         if(this.edit){
-            field.ajaxUpload = _this.ajaxUpload = new Ajax_upload(this.$el, {
+            var _btn = $(this.$el).find("button")[0];
+            if(!_btn){
+                _btn = this.$el;
+            }
+            field.ajaxUpload = _this.ajaxUpload = new Ajax_upload(_btn, {
                 action : serviceAddr+"common/upload.do",
         		data: {}, 
         		name : 'file',
@@ -128,10 +145,11 @@ Vue.component('my-file', {
         			        _this.ajaxUpload.callback(file, rep.data);
         			    }else{
 //                             alertInfo("上传成功");
-            			    _this.$el.val = rep.data.id;
-            			    _this.$el.file = file;
-            			    _this.$el.rep = rep.data;
-            			    _this.$emit('setval', _this.field, _this.$el);
+            			    _this.val = rep.data.id;
+            			    _this.file = file;
+            			    _this.rep = rep.data;
+            			    _this.target = _this.$el;
+            			    _this.$emit('setval', _this.field, _this);
         			    }
         			}else{
                         alertError("上传失败："+rep.msg);
@@ -366,8 +384,9 @@ Vue.component('my-markdown', {
 		            // Or return editormd.toolbarModes[name]; // full, simple, mini
 		            // Using "||" set icons align right.
 		            return ["undo", "redo", "|", "bold", "del", "italic", "quote", "ucwords", "uppercase", 
-		                    "lowercase", "|", "h1", "h2", "h3", "|", "list-ul", 
-		                    "list-ol", "hr", "code", "preformatted-text", "code-block", "table",
+		                    "lowercase", "|", "h1", "h2", "h3", "h4", "|", "list-ul", 
+		                    "list-ol", "hr", "link", "reference-link", "code", "preformatted-text", 
+		                    "code-block", "table", "datetime",
 		                    "html-entities", "pagebreak", "|","goto-line", "watch", "preview", 
 		                    "fullscreen", "clear", "search", "help","scwj"]
 		        },
@@ -1046,7 +1065,8 @@ Vue.component('my-srkj', {
         srkjClass:function(){
             //返回输入控件的class
             //如果是查询列表或（编辑列表且该字段不允许编辑）
-            if(this.pagemodel=='cklist'||(this.pagemodel=='bjlist'&&(this.field.yxbj=='0'))){
+            if(this.pagemodel=='cklist'||(this.pagemodel=='bjlist'&&(this.field.yxbj=='0'))
+                    ||this.kjlx=='file'){
                 return "";
             }else{
                 return "form-control";
@@ -2207,9 +2227,6 @@ Vue.component('my-list', {
             sjplscField:{
                     kzxx:{
                         file:{
-                            ywdm:"other",
-                            wjlb:"other",
-                            wjlx:"xls|xlsx"
                         }
                     }
             },
@@ -2233,7 +2250,8 @@ Vue.component('my-list', {
     			     _this.sjplscField.kzxx.file={
                              ywdm:"dxsjsc",
                              wjlb:rd.sjdx.dxdm,
-                             wjlx:"xls|xlsx"
+                             wjlx:"xls|xlsx",
+                             qcwj:'0'
                          };
     			    _this.$root.fields = data.fields = rd.fields;
     			    _this.$root.user = data.user = rd.user;

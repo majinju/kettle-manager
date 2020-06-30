@@ -25,7 +25,9 @@ function sjdxZdy(vp){
                 sjzt:"default",
                 ywdm:"common",
                 wjlb:"wjgl",
-                e_arqfwjj:"0"
+                wjlx:"[\\s\\S]*",
+                e_arqfwjj:"0",
+                qcwj:'0'
             }
         }
     };
