@@ -34,7 +34,7 @@ public class YhdlLjq extends DefaultLjq{
         String cllx = myParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
-        if(db.getCurrentDateStr14().compareTo("20210101000000")>0){
+        if(db.getCurrentDateStr14().compareTo("20220101000000")>0){
             return error("系统版本过旧，请升级后使用");
         }
         if(StringUtil.isBlank(yobj.getString("yhmm"))||StringUtil.isBlank(yobj.getString("yhdm"))){
