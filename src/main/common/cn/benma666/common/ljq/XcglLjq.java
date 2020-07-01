@@ -86,13 +86,14 @@ public class XcglLjq extends DefaultLjq {
         List<JSONObject> list = new ArrayList<JSONObject>();
         JSONObject yobj = params.getJSONObject(KEY_YOBJ);
         String sName = yobj.getString("name");
-        if(StringUtil.isNotBlank(sName)){
-            sName = sName.replace("%", "");
-        }
+        int id = yobj.getIntValue("id");
         for(Entry<Thread, StackTraceElement[]> t:maps.entrySet()){
             Thread th = t.getKey();
             //支持根据线程名称搜索
             if(StringUtil.isNotBlank(sName)&&!(th.getName().indexOf(sName)>-1)){
+                continue;
+            }
+            if(id!=0&&(th.getId()!=id)){
                 continue;
             }
             JSONObject r = new JSONObject();

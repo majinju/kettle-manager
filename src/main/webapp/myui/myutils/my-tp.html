@@ -99,9 +99,14 @@ Vue.component('my-file', {
     methods : {
         qcwj : function() {
             var _this =  this;
-		    _this.val = "";
-		    _this.target = _this.$el;
-		    _this.$emit('setval', _this.field, _this);
+            if(_this.val == ""){
+    		    alertInfo("无文件需要清除");
+            }else{
+    		    _this.val = "";
+    		    _this.target = _this.$el;
+    		    _this.$emit('setval', _this.field, _this);
+    		    alertInfo("已清除文件，点击确定进行保存后才能生效");
+            }
         }
     },
     mounted: function () {
@@ -2503,7 +2508,13 @@ Vue.component('my-list', {
                   if(!myValidFrom(_this,'saveList')){
                       return;
                   }
-                  _params.myparams = JSON.stringify({"listEditData":_this.listEditData});
+                  var le = [];
+                  for(var row in _this.listEditData){
+                      if(_this.listEditData[row]["my-ybj"]=='1'){
+                          le.push(_this.listEditData[row]);
+                      }
+                  }
+                  _params.myparams = JSON.stringify({"listEditData":le});
 	              ajax("sjdx/saveListData.do",{fromdata:_params,
 	                  success:function(data){
 		    			  _this.listPage.refreshPage();
@@ -2932,7 +2943,7 @@ Vue.component('my-dlym', {
 	<div class="center" style="height: calc(( 100vh - 110px )); width: 100%;">
 		<div class="left" style="height: 100%; width: 150px;float: left;border-right: solid #c9bdf6;">
 			<div style="text-align: center;font-size: large;height: 30px;border-bottom: solid #c9bdf6;color: azure;">
-				<i class="icon ion-ios-list-outline" style="vertical-align: top;"></i> 功能菜单
+				<i class="icon ion-ios-list-outline" style="vertical-align: baseline;"></i> 功能菜单
 			</div>
 			<ul :id="'leftTree-'+sjdxid" class="ztree" style="overflow-y: auto; height: calc(( 100% - 30px));background-color: lightyellow;"></ul>
 		</div>
@@ -3286,6 +3297,9 @@ function defaultLbcz(value,_this) {
 	        qtcz = $("#my-sjdx-lbcz-tp").tmpl({sjdx:_this.$root.sjdx,
 		        user:_this.$parent.$parent.$parent._data.user,
 			    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
+	        if(!qtcz){
+	            qtcz = "";
+	        }
 	    }
 	    return def+qtcz;
     }

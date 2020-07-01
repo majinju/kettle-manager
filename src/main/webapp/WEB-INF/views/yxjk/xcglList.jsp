@@ -9,13 +9,7 @@
     <button qxm="JSXC" class="lbplcz btn btn-primary btn-sm"  @click="plcl('jsxc')">
     	<i class="icon ion-stop"></i> 结束线程</button>
 </my-list>
-<script type="text/x-tp" id="my-sjdx-lbplcz-tp">
-</script>
-<script type="text/x-tp" id="my-sjdx-lbcz-tp">
-</script>
 <script>
-function sjdxZdy(vp){
-}
 </script>
 </jsp:body>
 </gd:sjdxList>
