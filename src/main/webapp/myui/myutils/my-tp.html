@@ -992,6 +992,204 @@ Vue.component('my-timeaera', {
  	}
   });
 </script>
+<script type="text/x-tp" id="my-number-tp">
+    <input v-if="edit" 
+        :name="(owner||'')+field.zddm"
+        :value="nval"
+        @blur="setval"
+        :index="index"
+        :type="field.type||'text'"
+        :data-rule="(field.qdyzgz||'')"
+        :placeholder="field.zdts" 
+        :disabled="field.disabled"
+        :class="(field.cssl||'')" 
+         />
+    <span v-else :class="field.cssl" :title="nvalTitle" v-html="nval"></span>
+</script>
+<script type="text/javascript">
+Vue.component('my-number', {
+    props: ['field','index','value','owner','pagemodel','edit'],
+    data: function () {
+      return {
+          dqz:this.value||""
+      }
+    },
+    template: '#my-number-tp',
+    methods : {
+        setval : function($event) {
+            if($event.target.value==this.dqz){
+                return;
+            }
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                $event.val=sf($event.target.value,this);
+            }else{
+                $event.val = $event.target.value;
+            }
+            this.dqz=$event.val;
+            this.$emit('setval', this.field, $event);
+        }
+    },
+    computed : {
+        nval:function (){
+            var val=this.value;
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }
+            return val;
+        },
+        nvalTitle:function (){
+            var val=this.value;
+            return val;
+        }
+    },
+    mounted: function () {
+        
+    },
+    created: function () {
+        var _this =  this;
+        //扩展时间控件
+        eval("var kzxx="+this.field.kzxx);
+        
+    }
+  });
+</script>
+<!-- 数字范围 -->
+<script type="text/x-tp" id="my-numberaera-tp">
+<div v-if="pagemodel=='search'">
+    <input :name="(owner||'')+field.zddm+'_start'" :id="(owner||'')+field.zddm+'Start'" 
+        :value="nvalStart"
+        @blur="setvalStart"
+        :index="index"
+        :type="field.type||'text'"
+        :data-rule="(field.qdyzgz||'')"
+        :placeholder="field.zdts"
+        :disabled="field.disabled"
+        :class="'time_scope '+(field.cssl||'')" 
+        ></input>
+        <span class="timelate">~</span>
+        <input :name="(owner||'')+field.zddm+'_end'" :id="(owner||'')+field.zddm+'End'" 
+        :value="nvalEnd"
+        @blur="setvalEnd"
+        :index="index"
+        :type="field.type||'text'"
+        :data-rule="(field.qdyzgz||'')"
+        :placeholder="field.zdts"
+        :disabled="field.disabled"
+        :class="'time_scope '+(field.cssl||'')" 
+        ></input>
+</div>
+<span class="form-control" v-html="nvalStart+'~'+nvalEnd" v-else></span>
+</script>
+<script type="text/javascript">
+Vue.component('my-numberaera', {
+    props: ['field','index','value','owner','pagemodel','edit'],
+    data: function () {
+      return {
+          values:this.value||''
+      }
+    },
+    template: '#my-numberaera-tp',
+    created : function(){
+        //扩展时间控件
+        var values = this.values.split(";");
+        var val1="";
+        if(values[0]){
+            val1=values[0];
+        }
+        var val2="";
+        if(values[1]){
+            var val2=values[1];
+        }
+        this.values = val1 + ";"+val2;
+        if(this.values==";"){
+            this.values="";
+        }
+        if(!this.field.kzxxObj){
+            var kzxx = this.field.kzxx;
+            eval("var kzxxObj="+kzxx);
+            this.field.kzxxObj = kzxxObj;
+        }
+        this.field.kzxxObj["查询验证规则"] = "number;";
+    },
+    mounted: function () {
+        this.target=this;
+        this.val=this.values;
+        this.$emit('setval', this.field, this);
+    },
+    computed : {
+        nvalStart:function (){
+            var values = this.values.split(";");
+            if(!values[0]){
+                return "";
+            }
+            var val=values[0];
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }
+           return val;
+        },
+        nvalEnd:function (){
+            var values = this.values.split(";");
+            if(!values[1]){
+                return "";
+            }
+            var val=values[1];
+            var sf = strFunToFun(this.field.gshff);
+            if(sf){
+                val=sf(val,this);
+            }
+           return val;
+        }
+    },
+    methods : {
+        setvalStart : function($event) {
+            if(this.values==""){
+                this.values=";";
+            }
+            var values = this.values.split(";");
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                values[0]=sf($event.target.value,this,$event);
+            }else{
+                values[0] = $event.target.value;
+            }
+            if(!zdyyzgz(this.field, values[0],this)){
+                return;
+            }
+            this.values = values[0]+";"+values[1];
+            if(this.values==";"){
+                this.values="";
+            }
+            $event.val=this.values;
+            this.$emit('setval', this.field, $event);
+        },
+        setvalEnd : function($event) {
+            if(this.values==""){
+                this.values=";";
+            }
+            var values = this.values.split(";");
+            var sf = strFunToFun(this.field.fgshff);
+            if(sf){
+                values[1]=sf($event.target.value,this,$event);
+            }else{
+                values[1] = $event.target.value;
+            }
+            if(!zdyyzgz(this.field, values[1],this)){
+                return;
+            }
+            this.values = values[0]+";"+values[1];
+            if(this.values==";"){
+                this.values="";
+            }
+            $event.val=this.values;
+            this.$emit('setval', this.field, $event);
+        }
+    }
+  });
+</script>
 <script type="text/x-tp" id="my-srkj-tp">
 	<div :title="value||field.zdts">
 	    <my-checkbox v-if="kjlx=='checkbox'" 
@@ -1012,6 +1210,12 @@ Vue.component('my-timeaera', {
 	    <my-timeaera v-else-if="kjlx=='timearea'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-timeaera>
+        <my-number v-else-if="kjlx=='number'" 
+            :field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+            :edit="isEdit" @setval="setval" :class="srkjClass"></my-number>
+        <my-numberaera v-else-if="kjlx=='numberarea'" 
+            :field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
+            :edit="isEdit" @setval="setval"></my-numberaera>
 	    <my-password v-else-if="kjlx=='password'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval" :class="srkjClass"></my-password>
@@ -1056,11 +1260,14 @@ Vue.component('my-srkj', {
                 ||(field.kjlx=='markdown'&&(pagemodel=='edit'||pagemodel=='add'||pagemodel=='details'))
                 ||(field.kjlx=='textarea'&&pagemodel!='search'&&pagemodel!='cklist')
                 ||(field.kjlx=='time'&&pagemodel!='search')
+                ||(field.kjlx=='number'&&pagemodel!='search')
                 ||(field.kjlx=='password')
                 ||(field.kjlx=='file')){
                 return kjlx;
             }else if(field.kjlx=='timearea'||(field.kjlx=='time'&&pagemodel=='search')){
                 return "timearea";
+            }else if(field.kjlx=='numberarea'||(field.kjlx=='number'&&pagemodel=='search')){
+                return "numberarea";
             }else if(this.isInputn){
                 return "input";
             }else{
@@ -1085,7 +1292,8 @@ Vue.component('my-srkj', {
                 event.owner = (this.owner||'');
             }
             this.$emit('setval', field, event);
-            if(zdyyzgz(field, event.val,this)&&field.szhd){
+            if(field.kjlx!='number'&&zdyyzgz(field, event.val,this)&&field.szhd){
+                //设值回调方法
                 var sf = strFunToFun(this.field.szhd);
                 if(sf){
                     sf(event.val,this,event);
@@ -1190,6 +1398,9 @@ Vue.component('my-input', {
 		if(!field.kzxxObj.bjymkz){
 		    field.kzxxObj.bjymkz ={};
 		}
+        if(!field.kzxxObj.lbymkz){
+            field.kzxxObj.lbymkz ={};
+        }
     }
 });
 </script>
@@ -2105,12 +2316,14 @@ Vue.component('my-zssjdx', {
 </script>
 <script type="text/x-tp" id="my-list-tp"> 
 <div class="wrap" v-cloak @keydown="zdcx">
-<ol class="breadcrumb"  :style="myFromStyle">
+<ol class="breadcrumb"  style="display: inline-block;">
     <li>
         <i class="icon ion-home"></i>
     </li>
     <li class="active">{{sjdx.dxmc}}</li>
 </ol>
+<a v-if="lbymkz('my-help')" :href="getHelpUrl" target="_blank"
+    style="float: right;"><i class="icon ion-help-circled"></i>帮助文档</a>
 <div>
 <div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;">
 <ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
@@ -2333,6 +2546,9 @@ Vue.component('my-list', {
 		          data["my-lbkbj"] = "1";
 	              return encodeURI(JSON.stringify(data));
 		      },
+		      getHelpUrl:function(){
+		          return serviceAddr+'/sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id='+this.lbymkz('my-help');
+		      },
 		      pzzdUrl:function(){
 	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,'my-lbkbj':'1'}));
 		      },
@@ -2388,7 +2604,7 @@ Vue.component('my-list', {
 		        if(row[field.zddm]){
 		            return row[field.zddm];
 		        }else{
-		            return field.xzmrz;
+		            return "";
 		        }
 		    },
             setCzqbsj:function(field,event){
@@ -2399,7 +2615,7 @@ Vue.component('my-list', {
 //                 if(event.target.mc){
 //                     this.fromdata['map.'+field.zddm]=event.mc;
 //                 }
-//                 console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 
+                console.log(field.zdmc + "=" + event.val); 
              },
              lbmssetval:function(field,event){
                 this.fromdata[field.zddm] = event.val;

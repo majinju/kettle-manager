@@ -1,8 +1,8 @@
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
-<gd:LayoutVue title="${sjdx.dxmc }">
+<gd:sjdxList>
 <jsp:body>
-<my-list id="listPage1" :fromdata="fromdata" :sjdxid="sjdxid">
+<my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
         <button class="btn btn-primary btn-sm"  @click="plcl('qd',null,{qrts:false})"><i class="icon ion-play"></i> 启动</button>
         <button class="btn btn-primary btn-sm" @click="plcl('tz')"><i class="icon ion-pause"></i> 停止</button>
         <button class="btn btn-primary btn-sm" @click="plcl('js')"><i class="icon ion-stop"></i> 结束</button>
@@ -33,40 +33,6 @@
 </span>
 </script>
 <script>
-function sjdxZdy(vp){
-    vp.el="#listPage1";
-    vp.methods.plcl=function(cllx,_this,options){
-          this.$children[0].plcl(cllx,_this,options);
-    }
-}
-function sjdxlbcz(value,_this) {
-    var cz = defaultLbcz(value,_this);
-    if("非列表模式"==cz){
-        return cz;
-    }
-    var qtcz = $("#my-sjdx-lbcz-tp").tmpl({sjdx:_this.$root.sjdx,
-	    row:_this.$root.listPage.rows[_this.$parent.$parent.ri]}).html();
-    return cz+qtcz;
-}
-</script>
-<script type="text/javascript">
-var fromdata = ${myparams};
-var sjdxid = "${sjdx.id}";
-fromdata.userInfo = "${param.userInfo}";
-var vueParams = {
-   el : '#listPage',
-   data: {
-           fromdata:fromdata,
-           sjdxid:sjdxid,
-           frommap:{}
-       },
-       methods:{
-       }
-}
-if(typeof(sjdxZdy)=='function'){
-    sjdxZdy(vueParams);
-}
-var listFrom = new Vue(vueParams);
 </script>
 </jsp:body>
-</gd:LayoutVue>
+</gd:sjdxList>

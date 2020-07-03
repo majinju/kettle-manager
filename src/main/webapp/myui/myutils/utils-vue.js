@@ -1026,11 +1026,11 @@ function zdyyzgz(field, value,srkj){
     if(pagemodel!='search'){
         msg = myGzyz(value,rules,field);
     }else{
-        var kzxx = field.kzxx;
-        if(typeof kzxx == "string"){
-            eval("kzxx="+kzxx);
+        if(!field.kzxxObj){
+            var kzxx = field.kzxx;
+            eval("field.kzxxObj="+kzxx);
         }
-        msg = myGzyz(value,kzxx['查询验证规则'],field);
+        msg = myGzyz(value,field.kzxxObj['查询验证规则'],field);
     }
     if(msg){
         layer.tips(msg, srkj.$el, {tips:[2, '#c00'],shift:6});

@@ -105,7 +105,7 @@ public class PlbdLjq extends DefaultLjq{
                     return result;
                 }
                 page = (PageInfo<JSONObject>) result.getData();
-                cxx.put("sjl", page.getRecordCount());
+                cxx.put("sjl", page.getRecordCount()+"");
                 list.add(cxx);
             }
         }
