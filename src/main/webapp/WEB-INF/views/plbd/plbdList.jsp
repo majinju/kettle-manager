@@ -182,9 +182,6 @@ Vue.component('my-dzplhc', {
             sjplscfield:{
                     kzxx:{
                         file:{
-                            ywdm:"other",
-                            wjlb:"other",
-                            wjlx:"xls|xlsx"
                         }
                     }
                 },
@@ -208,7 +205,8 @@ Vue.component('my-dzplhc', {
     			     _this.sjplscfield.kzxx.file={
                              ywdm:"dxsjsc",
                              wjlb:rd.sjdx.dxdm,
-                             wjlx:"xls|xlsx"
+                             wjlx:"xls|xlsx",
+                             qcwj:'0'
                          };
     			    _this.$root.fields = data.fields = rd.fields;
     			    _this.$root.user = data.user = rd.user;

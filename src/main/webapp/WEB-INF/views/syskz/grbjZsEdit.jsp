@@ -69,7 +69,7 @@
 			    	<h1 :title="obj.bq" :style="kzxx.markdown['标题样式']">{{obj.bt }}</h1>
 			   	</div>
 			   	<div style="text-align: left;">
-			   		<span>更新时间：{{ dateFormat(obj.gxsj,'yyyy-MM-dd HH:mm:ss') }}，阅读次数：{{obj.ydcs }}</span>
+			   		<span>更新时间：{{ dateFormat(obj.gxsj,'yyyy-MM-dd HH:mm:ss') }}，阅读次数：{{obj.ydcs }}，文档字数：{{obj.nr.length }}</span>
 			   		<span style="float: right;">发布人：{{obj.cjrxm }}，发布单位：{{obj.cjrdwmc }}</span>
 			   	</div>
 			   	<hr/>

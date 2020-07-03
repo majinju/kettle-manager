@@ -2105,12 +2105,14 @@ Vue.component('my-zssjdx', {
 </script>
 <script type="text/x-tp" id="my-list-tp"> 
 <div class="wrap" v-cloak @keydown="zdcx">
-<ol class="breadcrumb"  :style="myFromStyle">
+<ol class="breadcrumb"  style="display: inline-block;">
     <li>
         <i class="icon ion-home"></i>
     </li>
     <li class="active">{{sjdx.dxmc}}</li>
 </ol>
+<a v-if="lbymkz('my-help')" :href="getHelpUrl" target="_blank"
+    style="float: right;"><i class="icon ion-help-circled"></i>帮助文档</a>
 <div>
 <div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;">
 <ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
@@ -2332,6 +2334,9 @@ Vue.component('my-list', {
 		          var data = clone(fromdata);
 		          data["my-lbkbj"] = "1";
 	              return encodeURI(JSON.stringify(data));
+		      },
+		      getHelpUrl:function(){
+		          return serviceAddr+'/sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id='+this.lbymkz('my-help');
 		      },
 		      pzzdUrl:function(){
 	              return encodeURI(JSON.stringify({sjdx:this.sjdx.id,'my-lbkbj':'1'}));
