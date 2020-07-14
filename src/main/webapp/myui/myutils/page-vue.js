@@ -49,10 +49,6 @@ function PageAjax(){
         var self = this;
         var _params = self.getQueryForm().formToJson();
         _params = $.extend({},self.listFrom.fromdata, _params);
-        //常规验证
-//    	if(!self.getQueryForm().isValid()){
-//    		return;
-//    	}
         if(!myValidFrom(self.listFrom,'queryFrom',_params)){
             return;
         }

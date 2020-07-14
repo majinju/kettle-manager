@@ -3522,7 +3522,7 @@
                 }
             }
 
-            var out = "<a href=\"" + href + "\"";
+            var out = "<a class='link' target='_blank' href=\"" + href + "\"";
             
             if (atLinkReg.test(title) || atLinkReg.test(text))
             {
@@ -3682,7 +3682,10 @@
         var classPrefix = this.classPrefix;
         
         startLevel      = startLevel  || 1;
-        
+        var baseUrl = window.location.href;
+        if(baseUrl.indexOf("#")>0){
+            baseUrl = baseUrl.substring(0,baseUrl.indexOf("#"));
+        }
         for (var i = 0, len = toc.length; i < len; i++) 
         {
             var text  = toc[i].text;
@@ -3705,7 +3708,7 @@
                 html += "</ul></li>";
             }
 
-            html += "<li><a class=\"toc-level-" + level + "\" href=\""+window.location+"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
+            html += "<li><a class=\"toc-level-" + level + "\" href=\""+baseUrl+"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
             lastLevel = level;
         }
         

@@ -43,6 +43,7 @@ public class SjdxController extends BasicController {
     @RequestMapping(value = "/list.do")
     public String list(SysSjglSjdx sjdx,String myparams, Model model, 
             HttpServletRequest request,HttpServletResponse response) {
+        sjdx.set(LjqInterface.KEY_CLLX, "list");
         setEParam(sjdx, request);
         result = LjqManager.jcxx(sjdx,myparams,request);
         if(result.isStatus()){
@@ -62,6 +63,7 @@ public class SjdxController extends BasicController {
     @RequestMapping(value = "/edit.do")
     public String edit(SysSjglSjdx sjdx,String myparams, Model model, 
             HttpServletRequest request,HttpServletResponse response) {
+        sjdx.set(LjqInterface.KEY_CLLX, "edit");
         setEParam(sjdx, request);
         result = LjqManager.jcxx(sjdx,myparams,request);
         if(result.isStatus()){
@@ -85,6 +87,7 @@ public class SjdxController extends BasicController {
     public void jcxx(SysSjglSjdx sjdx,String myparams,
             HttpServletRequest request,HttpServletResponse response) {
         try {
+            sjdx.set(LjqInterface.KEY_CLLX, "jcxx");
             if(basicJcxx(sjdx,myparams,request,response)){
                 myParams.remove(LjqInterface.KEY_FIELD_LIST);
                 sendJson(response, result);
@@ -105,6 +108,7 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response,
             PageInfo<JSONObject> page) {
         try {
+            sjdx.set(LjqInterface.KEY_CLLX, "page");
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, LjqManager.page(dbSjdx,myParams, page));
             }
@@ -124,6 +128,7 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response,
             PageInfo<JSONObject> page) {
         try {
+            sjdx.set(LjqInterface.KEY_CLLX, "export");
             if(StringUtil.isNotBlank(myparams)){
                 myparams = myparams.replace("%34", "\"");
             }
@@ -148,6 +153,7 @@ public class SjdxController extends BasicController {
     public void getMb(SysSjglSjdx sjdx,String myparams,
             HttpServletRequest request,HttpServletResponse response) {
         try {
+            sjdx.set(LjqInterface.KEY_CLLX, "getMb");
             if(basicJcxx(sjdx,myparams,request,response)){
                 JsonResult r = LjqManager.getMb(dbSjdx,myParams, response);
                 if(!r.isStatus()){
@@ -239,6 +245,7 @@ public class SjdxController extends BasicController {
     public void save(SysSjglSjdx sjdx,String myparams,
             HttpServletRequest request,HttpServletResponse response) {
         try {
+            sjdx.set(LjqInterface.KEY_CLLX, "save");
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, LjqManager.save(dbSjdx, myParams));
             }
@@ -258,6 +265,7 @@ public class SjdxController extends BasicController {
     public void saveListData(SysSjglSjdx sjdx,String myparams,
             HttpServletRequest request,HttpServletResponse response) {
         try {
+            sjdx.set(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
             if(basicJcxx(sjdx,myparams,request,response)){
                 sendJson(response, sjdxService.txSaveListData(dbSjdx,myParams));
             }

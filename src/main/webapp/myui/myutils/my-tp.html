@@ -390,10 +390,10 @@ Vue.component('my-markdown', {
 		            // Using "||" set icons align right.
 		            return ["undo", "redo", "|", "bold", "del", "italic", "quote", "ucwords", "uppercase", 
 		                    "lowercase", "|", "h1", "h2", "h3", "h4", "|", "list-ul", 
-		                    "list-ol", "hr", "link", "reference-link", "code", "preformatted-text", 
+		                    "list-ol", "hr", "link", "reference-link","image", "code", "preformatted-text", 
 		                    "code-block", "table", "datetime",
 		                    "html-entities", "pagebreak", "|","goto-line", "watch", "preview", 
-		                    "fullscreen", "clear", "search", "help","scwj"]
+		                    "fullscreen", "clear", "search", "help"]
 		        },
                 //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
                 //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
@@ -401,8 +401,13 @@ Vue.component('my-markdown', {
                 //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
                 //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
                 imageUpload : true,
-                imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL : "common/upload.do",
+                imageFormats : "jpg|jpeg|gif|png|bmp|doc|docx|xlsx|xls|mp4|txt|zip|7z|rar|pdf|pptx|xmind",
+                //imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                //imageFormats : null,//允许上传所有文件
+                imageUploadURL : serviceAddr+"common/upload.do",
+                imageYwdm:"md",
+                imageWjlb:"md",
+                imageSjzt:"default",
                 onload : function() {
 //                     console.log('onload', this);
                     //this.fullscreen();
@@ -684,6 +689,11 @@ Vue.component('my-inputn', {
                 searchField: "searchKey",
                 orderBy : (this.field.zdfy=='1'?['px asc','dm asc','mc']:'dm'),
                 eAjaxSuccess: function(d){
+                    if(_this.pagemodel=='search'){
+                        //查询模式时，添加为空选项，用于查询该字段为空的记录
+//                         d.list.unshift({dm:"my-null",mc:"为空的值"});
+                        d.list.push({dm:"my-null",mc:"为空的值"});
+                    }
                     return d;
                 },
                 //选中项目后的回调处理
@@ -731,7 +741,9 @@ Vue.component('my-inputn', {
                 pagination : (this.field.zdfy=='1'),
                 //关闭分页的状态下，列表显示的项目个数，其它的项目以滚动条滚动方式展现（默认10个）
                 listSize : this.field.listSize|10,
-                multiple : this.field.zddx=='1'
+                multiple : this.field.zddx=='1',
+                //设置选中项目后不关闭列表
+                selectToCloseList : !(this.field.zdfy=='1')
             });
             if(this.value){
                 var data = {dm:this.value,mc:zdMcByDm(zdlb,this.value)};
@@ -1365,15 +1377,13 @@ Vue.component('my-input', {
             }
             //判断长字段
             //字段宽度10以内时，列表展示时自动伸缩。
-            //为2时：列表自动伸缩、编辑详情占整行、搜索框还是三分之一。
-            //为3时：列表自动伸缩、编辑详情占整行、搜索框占整行。
             //大于200时编辑详情页面占整行。
-            if(field.zdkd=="2"&&this.pagemodel!='search'){
-                return true;
-            }else if(field.zdkd=="3"){
+            if(this.pagemodel=='search'){
+                return false;
+            }else if(field.zdkd=="2"||(field.zdkd||200)>200){
                 return true;
             }
-            return ((field.zdkd||'200')>200);
+            return false;
         },
         labelLength:function(){
             var field = this.field;
@@ -2325,7 +2335,7 @@ Vue.component('my-zssjdx', {
 <a v-if="lbymkz('my-help')" :href="getHelpUrl" target="_blank"
     style="float: right;"><i class="icon ion-help-circled"></i>帮助文档</a>
 <div>
-<div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;">
+<div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;overflow: auto;">
 <ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
 </div>
 <div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 200px));':''">
@@ -2349,7 +2359,7 @@ Vue.component('my-zssjdx', {
 			<button v-if="lbymkz('my-istree')" class="btn btn-primary btn-sm" @click="reloadTree">
         		<i class="icon ion-refresh"></i> 重载树
     		</button>
-			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData"><i class="glyphicon glyphicon-floppy-disk"></i> 保存数据</button>
+			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData"><i class="icon ion-android-lock"></i> 保存数据</button>
 	        <button v-if="qxByQxm('XZQX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?dxdm='+sjdx.dxdm+'&pagemodel=add'"
 				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'><i class="icon ion-ios-plus-outline"></i> {{xjanmc||'新建'}}</button>
 	        <button v-if="qxByQxm('PLSC')" class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> {{plscanmc||'批量删除'}}</button>
@@ -2371,9 +2381,9 @@ Vue.component('my-zssjdx', {
 			</button>
 	        <button v-if="qxByQxm('FZJL')" class="btn btn-primary btn-sm" @click="plcl('fzjl')">
 				<i class="icon ion-ios-copy-outline"></i> 复制</button>
-			<button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
+			<button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :title="'数据对象配置【'+sjdx.dxmc+'】'" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
-	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
+	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :title="'数据字段配置【'+sjdx.dxmc+'】'" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
 	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
 			<slot></slot>
 			<span :id="'lbplcz-'+sjdx.id"></span>
@@ -3327,7 +3337,7 @@ Vue.component('my-cdym', {
         			//数据对象列表
         			mbdz = "sjdx/list.do?dxdm="+treeNode.dz;
         		}else{
-        			alert('暂未实现');
+        			alertInfo('暂未实现');
         		}
         		if(mbdz!=null){
 					if(mbdz.indexOf("?")==-1){

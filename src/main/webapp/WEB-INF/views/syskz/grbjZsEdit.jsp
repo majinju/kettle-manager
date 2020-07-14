@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <%@ page language="java" pageEncoding="UTF-8"%>
-<gd:LayoutVue title="${obj.bt }">
+<gd:LayoutVue title="${obj.bt }-文档管理平台">
 <jsp:attribute name="css">
    <link rel="stylesheet" href="myui/editor.md/examples/css/style.css" />
    <link rel="stylesheet" href="myui/editor.md/css/editormd.preview.css" />
@@ -21,7 +21,6 @@
 	    overflow: hidden;
 	    background: #fff;
 	    z-index: 100;
-	    padding: 18px; 
 	    border: 1px solid #ddd;
 	    border-top: none;
 	    border-bottom: none;
@@ -210,7 +209,7 @@ function sjdxZdy(vp){
             };
             //树节点的单击事件
             function treeClick(event, treeId, treeNode, clickFlag) {
-                _this.wdqh(treeNode.id);
+                _this.wdqh(treeNode.dm);
             }
             //处理后台返回的数据
             function treefilter(treeId, parentNode, rep) {

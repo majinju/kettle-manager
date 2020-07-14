@@ -2,7 +2,6 @@ selectHmBdhm
 ===
 * 查询-号码-比对号码
 select hm.hczjlx, hm.hczjhm
---,hm.hczjlx||'_'||hm.hczjhm bdhm
   from sys_bdhc_xm xm
  inner join sys_bdhc_rw rw
     on rw.ssxm = xm.id

@@ -28,6 +28,7 @@
             var classPrefix = this.classPrefix;
             var iframeName  = classPrefix + "image-iframe";
 			var dialogName  = classPrefix + pluginName, dialog;
+			var fileName = null;
 
 			cm.focus();
 
@@ -51,7 +52,10 @@
                                         "<label>" + imageLang.url + "</label>" +
                                         "<input type=\"text\" data-url />" + (function(){
                                             return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
-                                                                                "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
+                                                                                "<input type=\"file\" name=\"file\" accept=\"image/*\" />" +
+                                                                                "<input type=\"hidden\" name=\"ywdm\" value='"+settings.imageYwdm+"' />" +
+                                                                                "<input type=\"hidden\" name=\"wjlb\" value='"+settings.imageWjlb+"' />" +
+                                                                                "<input type=\"hidden\" name=\"sjzt\" value='"+settings.imageSjzt+"' />" +
                                                                                 "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
                                                                             "</div>" : "";
                                         })() +
@@ -93,14 +97,21 @@
 
 							var altAttr = (alt !== "") ? " \"" + alt + "\"" : "";
 
+                            var qz = "![";
+	                        var isImage   = new RegExp("(\\.(webp|jpg|jpeg|gif|bmp|png))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+	                        if (isImage.test(fileName))
+	                        {
+	                            qz = "[";
+	                        }
                             if (link === "" || link === "http://")
                             {
-                                cm.replaceSelection("![" + alt + "](" + url + altAttr + ")");
+                                cm.replaceSelection(qz + alt + "](" + url + altAttr + ")");
                             }
                             else
                             {
-                                cm.replaceSelection("[![" + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
+                                cm.replaceSelection(qz + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
                             }
+
 
                             if (alt === "") {
                                 cm.setCursor(cursor.line, cursor.ch + 2);
@@ -125,25 +136,25 @@
                     return ;
                 }
 
-				var fileInput  = dialog.find("[name=\"" + classPrefix + "image-file\"]");
+				var fileInput  = dialog.find("[name=\"file\"]");
 
 				fileInput.bind("change", function() {
-					var fileName  = fileInput.val();
-					var isImage   = new RegExp("(\\.(" + settings.imageFormats.join("|") + "))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
-
-					if (fileName === "")
-					{
-						alert(imageLang.uploadFileEmpty);
+					fileName  = fileInput.val();
+                    if (fileName === "")
+                    {
+                        alert(imageLang.uploadFileEmpty);
 
                         return false;
-					}
-
-                    if (!isImage.test(fileName))
-					{
-						alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
-
-                        return false;
-					}
+                    }
+                    
+                    if(settings.imageFormats){
+                        var isImage   = new RegExp("(\\.(" + settings.imageFormats + "))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+                        if (!isImage.test(fileName))
+                        {
+                            alert(imageLang.formatNotAllowed + settings.imageFormats);
+                            return false;
+                        }
+                    }
 
                     loading(true);
 
@@ -162,9 +173,9 @@
 
                             if(!settings.crossDomainUpload)
                             {
-                              if (json.success === 1)
+                              if (json.status)
                               {
-                                  dialog.find("[data-url]").val(json.url);
+                                  dialog.find("[data-url]").val(serviceAddr+"common/download.do?xzms=false&id="+json.data.id);
                               }
                               else
                               {
