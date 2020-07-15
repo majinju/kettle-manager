@@ -1,8 +1,11 @@
 package cn.benma666.common.contorller;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.beetl.sql.core.DSTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -245,13 +248,26 @@ public class SjdxController extends BasicController {
     public void save(SysSjglSjdx sjdx,String myparams,
             HttpServletRequest request,HttpServletResponse response) {
         try {
-            sjdx.set(LjqInterface.KEY_CLLX, "save");
             if(basicJcxx(sjdx,myparams,request,response)){
-                sendJson(response, LjqManager.save(dbSjdx, myParams));
+                myParams.put(LjqInterface.KEY_CLLX, dbSjdx.get(LjqInterface.KEY_CLLX));
+                DSTransactionManager.start();
+                JsonResult r = LjqManager.save(dbSjdx, myParams);
+                if(r.isStatus()){
+                    DSTransactionManager.commit();
+                }else{
+                    DSTransactionManager.rollback();
+                }
+                sendJson(response, r);
             }
         } catch (Throwable e) {
-            log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            try {
+                DSTransactionManager.rollback();
+                log.error("数据处理异常"+sjdx, e);
+                sendJson(response, error("数据处理异常："+e.getMessage()));
+            } catch (SQLException e1) {
+                log.error("数据处理回滚失败"+sjdx, e1);
+                sendJson(response, error("数据处理回滚失败："+e.getMessage()));
+            }
         }
     }
 
@@ -267,11 +283,24 @@ public class SjdxController extends BasicController {
         try {
             sjdx.set(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
             if(basicJcxx(sjdx,myparams,request,response)){
-                sendJson(response, sjdxService.txSaveListData(dbSjdx,myParams));
+                DSTransactionManager.start();
+                JsonResult r = sjdxService.txSaveListData(dbSjdx,myParams);
+                if(r.isStatus()){
+                    DSTransactionManager.commit();
+                }else{
+                    DSTransactionManager.rollback();
+                }
+                sendJson(response, r);
             }
         } catch (Throwable e) {
-            log.error("数据处理异常", e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            try {
+                DSTransactionManager.rollback();
+                log.error("数据处理异常"+sjdx, e);
+                sendJson(response, error("数据处理异常："+e.getMessage()));
+            } catch (SQLException e1) {
+                log.error("数据处理回滚失败"+sjdx, e1);
+                sendJson(response, error("数据处理回滚失败："+e.getMessage()));
+            }
         }
     }
 

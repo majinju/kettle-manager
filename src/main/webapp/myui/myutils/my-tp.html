@@ -2876,6 +2876,7 @@ Vue.component('my-edit', {
     data: function () {
       return {
        method : 'post',
+       action:'sjdx/save.do?id='+this.sjdxid,
        editdata:{},
        updatedata:{}
       }
@@ -2898,6 +2899,11 @@ Vue.component('my-edit', {
   			    data.user = rd.user;
   			    var zjzd = rd.sjdx.zjzd;
   			    var zj = rd.obj[rd.sjdx.zjzd];
+  			    if(zj){
+  			        data.action += '&e_cllx=update';
+  			    }else{
+                    data.action += '&e_cllx=insert';
+  			    }
   			    _this.updatedata[zjzd]=zj;
   			    _this.editdata = rd.obj;
   			    _this.$root.frommap[_this.fromid]={};
@@ -2912,7 +2918,7 @@ Vue.component('my-edit', {
     computed : {
         fields : function (){ return this._data.fields},
         sjdx : function (){ return this._data.sjdx },
-        action : function (){ return 'sjdx/save.do?id='+this.sjdxid },
+//         action : function (){ return 'sjdx/save.do?id='+this.sjdxid },
         mydqan : function(){
 			return this.bjymkz('my-qdan');
         },

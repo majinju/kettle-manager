@@ -100,7 +100,11 @@ public class SjdxService extends BasicService{
         for(JSONObject obj:dataArr.toArray(new JSONObject[]{})){
             if(UtilConst.WHETHER_TRUE.equals(obj.getString("my-ybj"))){
                 myParams.put(LjqInterface.KEY_YOBJ, obj);
-                LjqManager.save(dbSjdx, myParams);
+                myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
+                JsonResult r = LjqManager.save(dbSjdx, myParams);
+                if(!r.isStatus()){
+                    return r;
+                }
                 count++;
             }
         }
