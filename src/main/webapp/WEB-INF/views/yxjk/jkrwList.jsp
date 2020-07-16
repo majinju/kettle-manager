@@ -32,7 +32,8 @@ title="历史消息" a-oper="other"><i class="icon ion-compass"></i></a>
 {{if qxByQxm(user,sjdx,'JDFK')}}
 <span class="divider"></span>
 <!-- <a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=fk&e_clfk=正在处理中&e_ids={{= row[sjdx.zjzd]}}" a-oper="dxcl">反馈</a> -->
-<a href="sjdx/edit.do?pagemodel=edit&id=560DB80CFE1E40E5887512A7B2711ABE&myparams={{= editUrl(sjdx,row)}}"  width="620px" height="300px"  a-oper="update" title="反馈问题解决进度"><i class="icon ion-arrow-return-left"></i></a>
+<a href="sjdx/edit.do?pagemodel=edit&id=560DB80CFE1E40E5887512A7B2711ABE&myparams={{= editUrl(sjdx,row)}}"  
+width="620px" height="300px"  a-oper="update" title="反馈问题解决进度"><i class="icon ion-arrow-return-left"></i></a>
 </span>
 {{/if}}
 </script>

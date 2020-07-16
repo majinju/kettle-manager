@@ -3165,6 +3165,8 @@ Vue.component('my-dlym', {
 					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">设置</a>
 				<a href="javascript:void(0);" @click="tuichu" 
 					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
+                <a v-if="kzxx['菜单信息']['帮助文档']" href="javascript:void(0);" @click="bzwd" 
+                    style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">帮助</a>
 				<span style="vertical-align: middle;margin-left: 10px;color: chocolate;">{{user.yhxm}}</span>
 			</div>
 			<div style="text-align: right;">
@@ -3263,6 +3265,9 @@ Vue.component('my-cdym', {
                 //myservice拆分出来的子应用跳转，免登陆
                 window.open("common/doDesEncryptUrl.do?projectCode="+ssyy+"&url=sjdx/list.do?dxdm="+cd.dz);
             }
+        },
+        bzwd:function(cd){
+            window.open("sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.kzxx['菜单信息']['帮助文档']);
         },
         tuichu:function(){
             var _this = this;
