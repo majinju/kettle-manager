@@ -29,6 +29,12 @@
 			<groupId>cn.benma666</groupId>
 			<artifactId>KettleEasyExpand</artifactId>
 			<version>1.1.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging-api</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- webSocket -->
@@ -60,7 +66,13 @@
 		<dependency>
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
-			<version>0.2</version>
+			<version>0.4</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.axis</groupId>
@@ -160,6 +172,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${springframework.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

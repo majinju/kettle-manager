@@ -6,8 +6,10 @@
 
 package cn.benma666.common.ljq;
 
+import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.exception.MyException;
 import cn.benma666.myutils.DesUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
@@ -25,6 +27,7 @@ import com.alibaba.fastjson.JSONObject;
  * @version 
  */
 public class YhdlLjq extends DefaultLjq{
+    
     /**
     * 
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
@@ -41,23 +44,30 @@ public class YhdlLjq extends DefaultLjq{
             return error("用户名或密码为空");
         }
         if(!KEY_CLLX_UPDATE.equals(cllx)){
-            JSONObject yhxx = db.findFirst("select * from sys_qx_yhxx t where t.yhdm=? and t.yxx='1'", 
-                    yobj.getString("yhdm"));
-            if(yhxx==null){
-                return error("用户不存在");
+            JSONObject yobj1 = new JSONObject();
+            yobj1.put("yhdm", yobj.getString("yhdm"));
+            yobj.put("yxx", UtilConst.WHETHER_TRUE);
+            SysQxYhxx yhxx = null;
+            try {
+                yhxx = UserManager.getYhJcxx(yobj1);
+            } catch (MyException e) {
+                return error(e.getMessage());
+            } catch (Exception e) {
+                log.error("获取用户信息失败："+yobj1, e);
+                return error("获取用户信息失败："+e.getMessage());
             }
-            if(!"2".equals(yhxx.getString("shzt"))){
+            if(!"2".equals(yhxx.getShzt())){
                 return error("该用户还未审核通过，请耐性等待或联系管理员");
             }
             String yhmm = null;
             try {
-                yhmm = DesUtil.decrypt(yhxx.getString("yhmm"), SConf.getVal("yhxx.yhmm.ejmm"));
+                yhmm = DesUtil.decrypt(yhxx.getYhmm(), SConf.getVal("yhxx.yhmm.ejmm"));
             } catch (Exception e) {
                 return error("用户密码解析出错："+e.getMessage());
             }
             if(yobj.getString("yhmm").equals(yhmm)){
-                if(StringUtil.isNotBlank(yhxx.getString("xzip"))
-                        &&!oldUser.getClientIp().matches(yhxx.getString("xzip"))){
+                if(StringUtil.isNotBlank(yhxx.getXzip())
+                        &&!oldUser.getClientIp().matches(yhxx.getXzip())){
                     return error("你未不在授权的ip范围内登录");
                 }else{
                     SysQxYhxx user = UserManager.getUserBydYhdm(yobj.getString("yhdm"));
@@ -65,7 +75,7 @@ public class YhdlLjq extends DefaultLjq{
                     user.setClientIp(oldUser.getClientIp());
                     UserManager.addUser(oldUser.getToken(), user);
                     //将登陆凭证存入用户信息中返回前端，便于app类接口做后续请求
-                    yhxx.put(UserManager.TOKEN, oldUser.getToken());
+                    yhxx.setToken(oldUser.getToken());
                     log.info(user.getYhxm()+"登陆成功");
                     return success("登录成功",yhxx);
                 }

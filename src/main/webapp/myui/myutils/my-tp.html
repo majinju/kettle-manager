@@ -35,6 +35,7 @@ Vue.component('my-label', {
 </button>
 <i class="icon ion-close-round" title="清除文件" 
 	@click="qcwj" style="cursor: pointer;"></i>
+<input style="display: none;" type="text" :name="(owner||'')+field.zddm" :value="val">
 </span>
 <button v-else-if="edit&&kzxxObj.file.qcwj=='0'" type="button" class="btn btn-primary btn-sm">
 	<i class="icon ion-arrow-up-a"></i>
@@ -47,7 +48,8 @@ Vue.component('my-file', {
     props: ['field','index','value','owner','pagemodel','edit'],
     data: function () {
       return {
-          kzxxObj:{}
+          kzxxObj:{},
+          val:""
       }
     },
     template:"#my-file-tp",
@@ -103,6 +105,7 @@ Vue.component('my-file', {
     		    alertInfo("无文件需要清除");
             }else{
     		    _this.val = "";
+    		    _this._data.val="";
     		    _this.target = _this.$el;
     		    _this.$emit('setval', _this.field, _this);
     		    alertInfo("已清除文件，点击确定进行保存后才能生效");
@@ -151,6 +154,7 @@ Vue.component('my-file', {
         			    }else{
 //                             alertInfo("上传成功");
             			    _this.val = rep.data.id;
+                            _this._data.val=_this.val;
             			    _this.file = file;
             			    _this.rep = rep.data;
             			    _this.target = _this.$el;
@@ -1378,7 +1382,10 @@ Vue.component('my-input', {
             //判断长字段
             //字段宽度10以内时，列表展示时自动伸缩。
             //大于200时编辑详情页面占整行。
-            if(this.pagemodel=='search'){
+            if(field.zdkd=="3"){
+                //列表展示时自动伸缩、编辑详情页面占整行、搜索框占整行
+                return true;
+            }else if(this.pagemodel=='search'){
                 return false;
             }else if(field.zdkd=="2"||(field.zdkd||200)>200){
                 return true;
@@ -3113,7 +3120,7 @@ Vue.component('my-dlym', {
         yhwjmm:function(){
             //用户忘记密码
             var _this = this;
-            alertInfo("抱歉，暂未实现");
+            alertInfo("请联系管理员");
         },
         fileUrl:function(key){
             if(this.kzxx['登陆信息'][key]){
@@ -3148,29 +3155,29 @@ Vue.component('my-dlym', {
 				<img :src="getTx()" style="height: 65px;width: 65px;">
 		</div>
 		<div style="float:right;margin-right: 10px;margin-top: 20px;">
+            <div style="text-align: right;">
+                  <div v-if="qtxtList.length>1" class="btn-group-xs btn-group" role="group">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" 
+                        aria-haspopup="true" aria-expanded="false">
+                                                                     其他系统
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li v-for="(cd,key,index) in qtxtList" @click="qtxtClick(cd)" >
+                        <a href="javascript:void(0);" >{{cd.mc}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                <span style="color: greenyellow;">{{user.jgxx.jgmc}}</span>
+            </div>
 			<div>
-				  <div v-if="qtxtList.length>1" class="btn-group-xs btn-group" role="group">
-				    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" 
-						aria-haspopup="true" aria-expanded="false">
-				                其他系统
-				      <span class="caret"></span>
-				    </button>
-				    <ul class="dropdown-menu">
-				      <li v-for="(cd,key,index) in qtxtList" @click="qtxtClick(cd)" >
-						<a href="javascript:void(0);" >{{cd.mc}}</a>
-					  </li>
-				    </ul>
-				  </div>
-				<a href="javascript:void(0);" @click="grsz" 
-					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">设置</a>
-				<a href="javascript:void(0);" @click="tuichu" 
-					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
+                <a href="javascript:void(0);" @click="grsz" 
+                    style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">设置</a>
                 <a v-if="kzxx['菜单信息']['帮助文档']" href="javascript:void(0);" @click="bzwd" 
                     style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">帮助</a>
+				<a href="javascript:void(0);" @click="tuichu" 
+					style="vertical-align: middle;margin-left: 10px;text-decoration: underline;">退出</a>
 				<span style="vertical-align: middle;margin-left: 10px;color: chocolate;">{{user.yhxm}}</span>
-			</div>
-			<div style="text-align: right;">
-				<span style="color: greenyellow;">{{user.jgxx.jgmc}}</span>
 			</div>
 		</div>
 	</div>

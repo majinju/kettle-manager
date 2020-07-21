@@ -61,7 +61,7 @@ public class FileLjq extends DefaultLjq{
                     if(sclj.startsWith("select nr wj from")){
                         Db wjdb = Db.use(sjzt.getString("dm"));
                         //删除原始文件
-                        wjdb.update(sclj.replace("select nr wj", "delete"));
+                        count+=wjdb.update(sclj.replace("select nr wj", "delete"));
                     }
                     break;
                 case "ftp":
@@ -73,7 +73,7 @@ public class FileLjq extends DefaultLjq{
                 default:
                 }
             }
-            msg = "删除文件数："+count;
+            msg = "删除原始文件数："+count;
             break;
         default:
             break;

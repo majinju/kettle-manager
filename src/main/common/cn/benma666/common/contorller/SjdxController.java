@@ -121,7 +121,7 @@ public class SjdxController extends BasicController {
         }
     }
     /**
-    * 对象查询请求数据 <br/>
+    * 数据导出 <br/>
     * @author jingma
     * @param sjdx
     * @param response
