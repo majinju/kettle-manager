@@ -66,6 +66,10 @@
 			<param-name>exclusions</param-name>
 			<param-value>/css/*,/static/*,/jslib/*,*.js,*.css,/druid*,*.jsp</param-value>
 		</init-param>
+        <init-param>
+            <param-name>sessionStatEnable</param-name>
+            <param-value>false</param-value>
+        </init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>druidWebStatFilter</filter-name>

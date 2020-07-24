@@ -37,7 +37,7 @@ var scriptList=[
  * 需要引入的css脚本文件
  */
 var cssList=[
-      serviceAddr+"myui/myutils/utils.css?time=20200214",
+      serviceAddr+"myui/myutils/utils.css?time=20200722",
       serviceAddr+"myui/bootstrap/css/bootstrap.min.css",
       serviceAddr+"myui/font-awesome/css/font-awesome.css",
       serviceAddr+"myui/SelectPag/selectpage.bootstrap3.css",

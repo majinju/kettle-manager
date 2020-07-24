@@ -99,7 +99,7 @@
 
                             var qz = "![";
 	                        var isImage   = new RegExp("(\\.(webp|jpg|jpeg|gif|bmp|png))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
-	                        if (isImage.test(fileName))
+	                        if (!isImage.test(fileName))
 	                        {
 	                            qz = "[";
 	                        }

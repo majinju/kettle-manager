@@ -2342,10 +2342,16 @@ Vue.component('my-zssjdx', {
 <a v-if="lbymkz('my-help')" :href="getHelpUrl" target="_blank"
     style="float: right;"><i class="icon ion-help-circled"></i>帮助文档</a>
 <div>
-<div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;overflow: auto;">
+<div :style="'width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;overflow: auto;'+(isTreeShow?'':'display: none;')">
+            <div style="text-align: center;font-size: large;height: 30px;border-bottom: solid rgb(209, 206, 221);color: #090609;cursor: pointer;">
+                <i class="icon ion-ios-list-outline" style="vertical-align: baseline;"></i> 树形结构
+            </div>
 <ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
 </div>
-<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 200px));':''">
+<div v-if="lbymkz('my-istree')" @click="treeShow" title="收缩展开树形结构"
+style="width: 4px;float: left;height: calc(( 100vh - 38px ));background-color: bisque;overflow: auto;cursor: pointer;">
+</div>
+<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - '+(isTreeShow?204:4)+'px));':''">
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search" :fromid='queryFromid'
 	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
@@ -2363,7 +2369,7 @@ Vue.component('my-zssjdx', {
 			</my-checkbox>操作全部
 		</span>
 		<div class="btn-group" role="group" aria-label="列表操作">
-			<button v-if="lbymkz('my-istree')" class="btn btn-primary btn-sm" @click="reloadTree">
+			<button v-if="isTreeShow" class="btn btn-primary btn-sm" @click="reloadTree">
         		<i class="icon ion-refresh"></i> 重载树
     		</button>
 			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData"><i class="icon ion-android-lock"></i> 保存数据</button>
@@ -2388,14 +2394,16 @@ Vue.component('my-zssjdx', {
 			</button>
 	        <button v-if="qxByQxm('FZJL')" class="btn btn-primary btn-sm" @click="plcl('fzjl')">
 				<i class="icon ion-ios-copy-outline"></i> 复制</button>
-			<button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :title="'数据对象配置【'+sjdx.dxmc+'】'" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
+			<button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :title="'数据对象配置【'+sjdx.dxmc+'】'" 
+                :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
-	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :title="'数据字段配置【'+sjdx.dxmc+'】'" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
+	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :title="'数据字段配置【'+sjdx.dxmc+'】'" 
+                :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
 	            a-oper="newTab"><i class="icon ion-levels"></i> 配置字段</button>
 			<slot></slot>
 			<span :id="'lbplcz-'+sjdx.id"></span>
 		
-		  <div class="btn-group" role="group" style="display:none;">
+		  <div v-if="false" class="btn-group" role="group">
 		    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" 
 				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		      	更多操作<span class="caret"></span>
@@ -2412,6 +2420,7 @@ Vue.component('my-zssjdx', {
 			<button v-if="" class="btn btn-default btn-sm" type="button"
 				@click="expeAll"><i class="icon ion-ios-redo"></i> 导出全部</button>
     	</div>
+        <div style="clear: right;"></div>
 	</div>
 	<div class="panel-body exportDiv" style="overflow: auto;">
 	    <table class="table table-striped table-bordered table-hover">
@@ -2467,7 +2476,8 @@ Vue.component('my-list', {
             },
             czqbsjField:{
                 kzxx:"{}"
-            }
+            },
+            isTreeShow:true
         }
       },
       created : function(){
@@ -2493,6 +2503,7 @@ Vue.component('my-list', {
     			    _this.$root.kzxx = data.kzxx = rd.kzxx;
       			    _this.$root.frommap[_this.queryFromid]={};
       			    _this.$root.frommap[_this.listFromid]={};
+      			    _this.isTreeShow= _this.lbymkz('my-istree');
     			}else{
     	        	redict(result);
     			}
@@ -2582,6 +2593,9 @@ Vue.component('my-list', {
                 if(e && e.keyCode==13){ // enter 键
                     this.listPage.queryPage();
                 }
+            },
+            treeShow:function(){
+                this.isTreeShow = (this.isTreeShow==false);
             },
             plscTitle:function(){
             	layer.tips("请先下载模板，严格按照模板要求填充数据，数据验证要求与单个上报一致，只有全部数据验证通过才能上传成功",
@@ -3146,7 +3160,7 @@ Vue.component('my-dlym', {
 </script>
 <script type="text/x-tp" id="my-cdym-tp">
 <div class="cdkj" :style="'width: 100%;height: 100vh;background-image: url('+fileUrl('背景图片')+');'">
-	<div class="top" style="height: 80px; width: 100%;border-bottom: solid #c9bdf6;">
+	<div class="top" :style="'height: 80px; width: 100%;border-bottom: solid #c9bdf6;'+(isShowKj?'':'display:none;')">
 		<div style="float:left;margin-left: 10px;">
 			<img :src="fileUrl('系统图标')" style="height: 80px;">
 			<span style="font-size: 2.5em;vertical-align: middle;color: lightcoral;">{{kzxx['菜单信息']['系统名称']}}</span>
@@ -3181,14 +3195,17 @@ Vue.component('my-dlym', {
 			</div>
 		</div>
 	</div>
-	<div class="center" style="height: calc(( 100vh - 110px )); width: 100%;">
-		<div class="left" style="height: 100%; width: 150px;float: left;border-right: solid #c9bdf6;">
+	<div class="center" :style="'height: calc(( 100vh - '+(isShowKj?110:30)+'px )); width: 100%;'">
+		<div class="left" :style="'height: 100%; width: 150px;float: left;'+(isShowKj?'':'display:none;')">
 			<div style="text-align: center;font-size: large;height: 30px;border-bottom: solid #c9bdf6;color: azure;">
 				<i class="icon ion-ios-list-outline" style="vertical-align: baseline;"></i> 功能菜单
 			</div>
 			<ul :id="'leftTree-'+sjdxid" class="ztree" style="overflow-y: auto; height: calc(( 100% - 30px));background-color: lightyellow;"></ul>
 		</div>
-		<div class="right" style="height: 100%;width: calc(( 100% - 150px ));float: left;">
+        <div @click="showKj" title="收缩展开菜单框架"
+            style="width: 4px;float: left;height: 100%;background-color: rgb(201, 189, 246);cursor: pointer;">
+        </div>
+		<div class="right" :style="'height: 100%;width: calc(( 100% - '+(isShowKj?154:4)+'px ));float: left;'">
 			<iframe v-for="(cd,ri) in openCd" :class="'gnIframe '+cd.id"
 				:style="cdRightStyle(cd.id)" :src="cd.src" @load="centerLoad"></iframe>
 		</div>
@@ -3206,7 +3223,8 @@ Vue.component('my-cdym', {
       return {
           openCd:[],
           showCd:"",
-          qtxtList:[]
+          qtxtList:[],
+          isShowKj:true
       }
     },
     created : function(){
@@ -3256,6 +3274,9 @@ Vue.component('my-cdym', {
             this.centerLoadingId = layer.load(0,{
         		shade: [0.3]
         	});
+        },
+        showKj:function(){
+            this.isShowKj=this.isShowKj==false;
         },
         cdRightStyle:function(dm){
             var style = "width: 100%;height: 100%;overflow: scroll;border: snow;";

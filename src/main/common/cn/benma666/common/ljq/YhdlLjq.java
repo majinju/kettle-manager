@@ -9,7 +9,6 @@ package cn.benma666.common.ljq;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.exception.MyException;
 import cn.benma666.myutils.DesUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
@@ -49,9 +48,12 @@ public class YhdlLjq extends DefaultLjq{
             yobj.put("yxx", UtilConst.WHETHER_TRUE);
             SysQxYhxx yhxx = null;
             try {
-                yhxx = UserManager.getYhJcxx(yobj1);
-            } catch (MyException e) {
-                return error(e.getMessage());
+                JsonResult r = UserManager.getYhJcxx(yobj1);
+                if(!r.isStatus()){
+                    return r;
+                }else{
+                    yhxx = (SysQxYhxx) r.getData();
+                }
             } catch (Exception e) {
                 log.error("获取用户信息失败："+yobj1, e);
                 return error("获取用户信息失败："+e.getMessage());

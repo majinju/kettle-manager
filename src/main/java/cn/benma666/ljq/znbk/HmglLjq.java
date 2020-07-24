@@ -6,6 +6,7 @@
 
 package cn.benma666.ljq.znbk;
 
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
@@ -33,6 +34,10 @@ public class HmglLjq extends DefaultLjq{
             if(StringUtil.isBlank(yobj.getString("zzjhm"))){
                 yobj.put("zzjhm", yobj.getString("hczjhm"));
                 yobj.put("zzjlx", yobj.getString("hczjlx"));
+            }
+            if(StringUtil.isBlank(yobj.getString("gkdw"))){
+                SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
+                yobj.put("gkdw", user.getJgxx().getId());
             }
             yobj.put("ssxm", sjdx.get("ssxm"));
             yobj.put("ssrw", sjdx.get("ssrw"));

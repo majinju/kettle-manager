@@ -1,16 +1,13 @@
 yhqxxx
 ===
 * 用户权限信息
-select qx.dm, qx.mc
+select distinct qx.dm, qx.mc
   from sys_qx_qxxx qx
  inner join sys_qx_jsqxgl jq
     on qx.dm = jq.qx
    and jq.yxx = '1'
- inner join sys_qx_yhjsgl yj
-    on jq.js = yj.js
-   and yj.yxx = '1'
  inner join sys_qx_jsxx js
-    on js.dm = yj.js
+    on js.dm = jq.js
    and js.yxx = '1'
  where qx.yxx = '1'
    and (js.dm = 'lsyh'

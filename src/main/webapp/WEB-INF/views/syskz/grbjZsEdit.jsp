@@ -39,7 +39,7 @@
 	}
 	
 	</style>
-    <div id="dataform">
+    <div id="dataform"  v-cloak>
     <div class="cdkj" :style="'width: 100%;height: 100vh;cursor: pointer;'">
     <div v-if="isTree" class="top" style="height: 40px; width: 100%;border-bottom: solid #c9bdf6;">
 		<div style="float:left;margin-left: 10px;">
