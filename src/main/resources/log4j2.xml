@@ -114,6 +114,8 @@
 			logger中重复打印 -->
 		<Logger name="cn.benma666" level="debug" additivity="true">
 		</Logger>
+        <Logger name="org.beetl" level="debug" additivity="true">
+        </Logger>
 		<Logger name="druid.sql.Statement" level="debug" additivity="false">
 			<appender-ref ref="debug" />
 			<appender-ref ref="info" />

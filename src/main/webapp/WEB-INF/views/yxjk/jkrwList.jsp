@@ -17,7 +17,7 @@
 <span>
 {{if qxByQxm(user,sjdx,'JTRW')}}
 <span class="divider"></span>
-<a href='{{= row.jtrwurl}}' a-oper="other" title="具体任务"><i class="icon ion-android-alert"></i></a>
+<a href='{{= row.jtrwurl}}' a-oper="other" title="具体任务"><i class="icon ion-android-alert"></i></a><br/>
 {{/if}}
 {{if qxByQxm(user,sjdx,'GXT')}}
 <span class="divider"></span>

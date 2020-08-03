@@ -2873,7 +2873,11 @@ Vue.component('my-list', {
            	watermark({"watermark_txt":_this._data.user.yhxm+","+_this._data.user.sfzh});
        		if(this.lbymkz("my-tzgg")){
        		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.lbymkz("my-tzgg");
-       			popUpWinLayer({url:url,name:"通知公告"});
+       		    if(this.lbymkz("my-tzgg-full")){
+                    popUpFullWinLayer({url:url,name:"通知公告"});
+       		    }else{
+                    popUpWinLayer({url:url,name:"通知公告"});
+       		    }
        		}
         }
   });
@@ -3081,6 +3085,9 @@ Vue.component('my-edit', {
 			<a href="javascript:download('850F792CDB0443B1AB4EB75E8B868B7F')" style="color: azure;text-decoration: underline;">下载浏览器</a>
 		</div>
 	</div>
+        <div style="background-color: lavender;padding: 10px;position: absolute;bottom: 0px;width: 100%;text-align: center;">
+            <span>{{kzxx['登陆信息']['系统版权']||'系统软件版权所有@马进举'}}</span>
+        </div>
 </div>
 </script>
 <script type="text/javascript">
@@ -3211,7 +3218,7 @@ Vue.component('my-dlym', {
 		</div>
 	</div>
 	<div class="bottom" style="height: 30px;width: 100%;text-align: center;border-top: solid #c9bdf6;">
-		<span style="font-size: initial;vertical-align: text-top;">系统软件版权所有@马进举</span>
+		<span style="font-size: initial;vertical-align: text-top;">{{kzxx['菜单信息']['系统版权']||'系统软件版权所有@马进举'}}</span>
 	</div>
 </div>
 </script>
@@ -3442,6 +3449,11 @@ Vue.component('my-cdym', {
    		if(this.kzxx['菜单信息']["my-tzgg"]){
    		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.kzxx['菜单信息']["my-tzgg"];
    			popUpWinLayer({url:url,name:"通知公告"});
+            if(this.kzxx['菜单信息']["my-tzgg-full"]){
+                popUpFullWinLayer({url:url,name:"通知公告"});
+            }else{
+                popUpWinLayer({url:url,name:"通知公告"});
+            }
    		}
        	_this.initTree();
 	}

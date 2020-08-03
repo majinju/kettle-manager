@@ -55,7 +55,7 @@
             </div>
         </div>
 	</div>
-	<div :style="'height: calc( 100vh - '+((isTree?40:0)+30)+'px );width: 100%;'">
+	<div :style="'height: calc( 100vh - '+((isTree?70:0))+'px );width: 100%;'">
 		<div v-if="isTree" style="height: 100%; width: 150px;float: left;border-right: solid #c9bdf6;">
 			<div style="text-align: center;font-size: large;height: 30px;border-bottom: solid #c9bdf6;color: darkmagenta;">
 				<i class="icon ion-ios-list-outline" style="vertical-align: baseline;"></i> 文档目录
@@ -83,7 +83,7 @@
             <div class="markdown-body editormd-preview-container" id="custom-toc-container">#目录</div>
         </div>
 	</div>
-    <div class="bottom" style="height: 30px;width: 100%;text-align: center;border-top: solid #c9bdf6;">
+    <div v-if="isTree" class="bottom" style="height: 30px;width: 100%;text-align: center;border-top: solid #c9bdf6;">
         <span style="font-size: initial;vertical-align: text-top;">系统软件版权所有@马进举</span>
     </div>
    </div>

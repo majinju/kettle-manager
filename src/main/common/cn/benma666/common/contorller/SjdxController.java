@@ -249,7 +249,18 @@ public class SjdxController extends BasicController {
             HttpServletRequest request,HttpServletResponse response) {
         try {
             if(basicJcxx(sjdx,myparams,request,response)){
+                //设置处理类型插入还是更新
                 myParams.put(LjqInterface.KEY_CLLX, dbSjdx.get(LjqInterface.KEY_CLLX));
+                if(StringUtil.isBlank(myParams.getString(LjqInterface.KEY_CLLX))){
+                    JSONObject obj = myParams.getJSONObject(LjqInterface.KEY_YOBJ);
+                    if(StringUtil.isBlank(obj.getString(dbSjdx.getZjzd()))){
+                        myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_INSERT);
+                    }else{
+                        //修改
+                        myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
+                    }
+                }
+                //开启事务
                 DSTransactionManager.start();
                 JsonResult r = LjqManager.save(dbSjdx, myParams);
                 if(r.isStatus()){
@@ -261,13 +272,15 @@ public class SjdxController extends BasicController {
             }
         } catch (Throwable e) {
             try {
-                DSTransactionManager.rollback();
                 log.error("数据处理异常"+sjdx, e);
+                DSTransactionManager.rollback();
                 sendJson(response, error("数据处理异常："+e.getMessage()));
             } catch (SQLException e1) {
                 log.error("数据处理回滚失败"+sjdx, e1);
                 sendJson(response, error("数据处理回滚失败："+e.getMessage()));
             }
+        }finally{
+            DSTransactionManager.clear();
         }
     }
 
@@ -294,13 +307,15 @@ public class SjdxController extends BasicController {
             }
         } catch (Throwable e) {
             try {
-                DSTransactionManager.rollback();
                 log.error("数据处理异常"+sjdx, e);
+                DSTransactionManager.rollback();
                 sendJson(response, error("数据处理异常："+e.getMessage()));
             } catch (SQLException e1) {
                 log.error("数据处理回滚失败"+sjdx, e1);
                 sendJson(response, error("数据处理回滚失败："+e.getMessage()));
             }
+        }finally{
+            DSTransactionManager.clear();
         }
     }
 

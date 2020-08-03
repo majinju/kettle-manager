@@ -10,12 +10,12 @@ select distinct qx.dm, qx.mc
     on js.dm = jq.js
    and js.yxx = '1'
  where qx.yxx = '1'
-   and (js.dm = 'lsyh'
-   or js.dm in (
+   and js.dm in (
         @for(js in p_1){
-           #js.js#  #text(jsLP.last?")":"," )#
+           #js.js#  ,
         @}
-        )
+        'lsyh'
+   )
 
 insertJsqx
 ===
