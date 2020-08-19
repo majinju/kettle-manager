@@ -56,9 +56,6 @@ Vue.component('my-file', {
     computed : {
         ck:function (){
             var _this = this;
-            var nr = "查看";
-            var astyle="";
-            var istyle="width:100%;";
             var val=this.value;
             var sf = strFunToFun(this.field.gshff);
             if(sf){
@@ -67,15 +64,29 @@ Vue.component('my-file', {
             if(val==""){
                 return "无文件";
             }
+            var nr = "查看";
+            var url = getDownloadUrl()+"?xzms=false&id="+val;
+            var astyle="";
+            var istyle="width:100%;";
             var filePz = this.kzxxObj.file;
             if(filePz.zsxs=="jpg"||filePz.zsxs=="jpeg"||filePz.zsxs=="gif"||filePz.zsxs=="png"||filePz.zsxs=="bmp"){
                 //jpg|jpeg|gif|png|bmp
-                nr = "<img style='"+istyle+"' src='"+getDownloadUrl()+"?xzms=false&id="+val+"'/>";
+                nr = "<img style='"+istyle+"' src='"+url+"'/>";
+                astyle="";
+            }else if(filePz.zsxs=="url"){
+                nr = "<img style='"+istyle+"' src='"+val+"'/>";
+                url = val;
+                nr = "<img style='"+istyle+"' src='"+url+"'/>";
+                astyle="";
+            }else if(filePz.zsxs=="basicUrl"){
+                nr = "<img style='"+istyle+"' src='"+filePz.basicUrl+val+"'/>";
+                url = filePz.basicUrl+val;
+                nr = "<img style='"+istyle+"' src='"+url+"'/>";
                 astyle="";
             }else if(filePz.zsxs=="icon"){
                 return val;
             }
-            return "<a style='"+astyle+"' href='"+getDownloadUrl()+"?xzms=false&id="+val+"' target='_blank'>"+nr+"</a>";
+            return "<a style='"+astyle+"' href='"+url+"' target='_blank'>"+nr+"</a>";
         }
     },
     created : function(){

@@ -32,12 +32,13 @@ public class RwglLjq extends DefaultLjq {
         JsonResult r = null;
         if(KEY_CLLX_INSERT.equals(myParams.getString(KEY_CLLX))){
             JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+            JSONObject kzxx = myParams.getJSONObject(FIELD_KZXX);
             //本系统为比对核查系统的一个子系统，本系统的数据都属于同一个固定项目
-            yobj.put("ssxm", "D465CAAEA8E34BF9955367337D1A7979");
+            yobj.put("ssxm", kzxx.getString("rwpz.ssxm"));
             yobj.put("id", StringUtil.getUUIDUpperStr());
             //新增时对上传的文件进行解析，修改时不允许修改文件，所以不需要处理
             String sjwj = yobj.getString("sjwj");
-            r = getJcxxByDxdm("SYS_ZNBK_HM");
+            r = getJcxxByDxdm(kzxx.getString("rwpz.hmdx"));
             if(!r.isStatus()){
                 return r;
             }

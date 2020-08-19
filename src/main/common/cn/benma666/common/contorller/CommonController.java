@@ -23,6 +23,7 @@ import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
+import cn.benma666.myutils.DesUtil;
 import cn.benma666.myutils.ExportToExecl;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.PageInfo;
@@ -252,6 +253,45 @@ public class CommonController extends BasicController {
         } catch (Exception e) {
             log.debug("xml解析失败："+xml, e);
             sendJson(response, error("解析失败:"+e.getMessage()));
+        }
+    }
+    /**
+    * des转换
+    * @author jingma
+    * @param obj
+    * @param response
+    */
+    @RequestMapping(value = "/desZh.do")
+    public void desZh(BasicBean obj,HttpServletRequest request, 
+            HttpServletResponse response) {
+        jkInit(obj, request);
+        String clfs = obj.get("clfs")+"";
+        String mm = obj.get("mm")+"";
+        String dclxx = obj.get("dclxx")+"";
+        if(StringUtil.isBlank(mm)){
+            sendJson(response, "密码不能为空");
+        }
+        if(StringUtil.isBlank(dclxx)){
+            sendJson(response, "待处理信息不能为空");
+        }
+        try {
+            StringBuffer jg = new StringBuffer();
+            if("jiami".equals(clfs)){
+                for(String dcl:dclxx.split(",")){
+                    jg.append(","+DesUtil.encrypt(dcl, mm));
+                }
+                sendJson(response, jg.substring(1));
+            }else if("jiemi".equals(clfs)){
+                for(String dcl:dclxx.split(",")){
+                    jg.append(","+DesUtil.decrypt(dcl, mm));
+                }
+                sendJson(response, jg.substring(1));
+            }else{
+                sendJson(response, "处理方式不支持："+clfs);
+            }
+        } catch (Exception e) {
+            log.debug("des处理异常："+mm, e);
+            sendJson(response, error("des处理异常:"+e.getMessage()));
         }
     }
     

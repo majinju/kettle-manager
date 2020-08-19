@@ -67,30 +67,28 @@ public class RyhcLjq extends DefaultLjq{
         String zjhm = yobj.getString("zjhm");
         if (!SfzhUtil.validateCard(zjhm)) {
             yobj.put("hcjg","证件号码无效");
-            return error("证件号码无效");
-        }
-        if(l.size()>Integer.parseInt(DictManager.zdMcByDm("OTHER_HCXT_APPCONFIG", "ryhc.maxsize"))){
+        }else if(l.size()>Integer.parseInt(DictManager.zdMcByDm("OTHER_HCXT_APPCONFIG", "ryhc.maxsize"))){
             yobj.put("hcjg","超出数量限制");
-            return error("超出数量限制");
-        }
-        try {
-            JSONObject qqjg = HttpUtil.doUrl(
-                    DictManager.zdMcByDm("OTHER_HCXT_APPCONFIG", "cqqbryhc.url")+zjhm);
-            if(qqjg.getBooleanValue("state")){
-                JSONObject hcjg = JSON.parseArray(qqjg.getString("data")).getJSONObject(0);
-                yobj.putAll(hcjg);
-                if (StringUtil.isNotBlank(yobj.getString("scxm")) 
-                        && !yobj.getString("scxm").equals(yobj.getString("xm"))) {
-                    yobj.put("hcjg","姓名不一致");
-                } else {
-                    yobj.put("hcjg","正确");
+        }else{
+            try {
+                JSONObject qqjg = HttpUtil.doUrl(
+                        DictManager.zdMcByDm("OTHER_HCXT_APPCONFIG", "cqqbryhc.url")+zjhm);
+                if(qqjg.getBooleanValue("state")){
+                    JSONObject hcjg = JSON.parseArray(qqjg.getString("data")).getJSONObject(0);
+                    yobj.putAll(hcjg);
+                    if (StringUtil.isNotBlank(yobj.getString("scxm")) 
+                            && !yobj.getString("scxm").equals(yobj.getString("xm"))) {
+                        yobj.put("hcjg","姓名不一致");
+                    } else {
+                        yobj.put("hcjg","正确");
+                    }
+                }else{
+                    yobj.put("hcjg","核查失败1，请重新核查:"+qqjg);
                 }
-            }else{
-                yobj.put("hcjg","核查失败1，请重新核查:"+qqjg);
+            } catch (Exception e) {
+                log.error("核查异常："+yobj, e);
+                yobj.put("hcjg","核查异常："+e.getMessage());
             }
-        } catch (Exception e) {
-            log.error("核查异常："+yobj, e);
-            yobj.put("hcjg","核查异常："+e.getMessage());
         }
         return success("核查成功");
     }

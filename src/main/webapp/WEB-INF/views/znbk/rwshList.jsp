@@ -14,7 +14,7 @@
 </script>
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">
 <span>
-{{if qxByQxm(user,sjdx,'SHTC')}}
+{{if qxByQxm(user,sjdx,'SHTC')&&row.shzt=='0'}}
 <span class="divider"></span>
 <a href="sjdx/edit.do?pagemodel=edit&dxdm=SYS_ZNBK_RWSH_SHTC&myparams={{= editUrl(sjdx,row)}}"  
 width="620px" height="300px"  a-oper="update" title="任务审核"><i class="icon ion-arrow-return-left"></i></a>

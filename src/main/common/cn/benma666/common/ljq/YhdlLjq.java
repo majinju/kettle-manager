@@ -79,7 +79,9 @@ public class YhdlLjq extends DefaultLjq{
                     //将登陆凭证存入用户信息中返回前端，便于app类接口做后续请求
                     yhxx.setToken(oldUser.getToken());
                     log.info(user.getYhxm()+"登陆成功");
-                    return success("登录成功",yhxx);
+                    SysQxYhxx r = new SysQxYhxx();
+                    r.setToken(oldUser.getToken());
+                    return success("登录成功",r);
                 }
             }else{
                 return error("密码不正确");
