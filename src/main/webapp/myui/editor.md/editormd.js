@@ -577,7 +577,7 @@
                         
                         _this.setToolbar();
 
-                        editormd.loadScript(loadPath + "marked.min", function() {
+                        editormd.loadScript(loadPath + "marked", function() {
 
                             editormd.$marked = marked;
                                 
@@ -3521,6 +3521,9 @@
                     return "";
                 }
             }
+            if(href.startWith("/myservice/")){
+                href = serviceAddr+href.substr(11);
+            }
 
             var out = "<a class='link' target='_blank' href=\"" + href + "\"";
             
@@ -3542,6 +3545,17 @@
 
             return out;
         };
+        markedRenderer.image = function(href, title, text) {
+            if(href.startWith("/myservice/")){
+                href = serviceAddr+href.substr(11);
+            }
+            var out = '<img src="' + href + '" alt="' + text + '"';
+            if (title) {
+              out += ' title="' + title + '"';
+            }
+            out += this.options.xhtml ? '/>' : '>';
+            return out;
+          };
         
         markedRenderer.heading = function(text, level, raw) {
                     

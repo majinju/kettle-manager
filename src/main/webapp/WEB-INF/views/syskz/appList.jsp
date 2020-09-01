@@ -11,8 +11,10 @@
 </script>
 <script>
 function yydz(value,_this) {
-    if(value){
+    if(value&&_this.$root.fromdata["my-lbkbj"]!='1'){
     	return "<a href='"+value+"' target='_blank'>"+value+"</a>";
+ 	}else{
+ 	    return value;
  	}
 }
 </script>

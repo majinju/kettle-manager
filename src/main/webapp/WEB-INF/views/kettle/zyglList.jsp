@@ -17,17 +17,17 @@
 <a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=ml&e_ids={{= row[sjdx.zjzd]}}" a-oper="dxcl" qrts='false' title="目录"><i class="icon ion-ios-folder"></i></a>
 <span class="divider"></span>
 <a href="sjdx/edit.do?pagemodel=details&dxdm=KETTLE_GLPT_ZYGL_YXRZ&e_zykdm={{= sjdx.dxdm}}&e_ids={{= row[sjdx.zjzd]}}" 
-	a-oper="other" title="【{{= row.description}}】日志"><i class="icon ion-ios-paper-outline"></i></a>
+	a-oper="other" title="【{{= row.description||row.name}}】日志"><i class="icon ion-ios-paper-outline"></i></a>
 <br/>
 <a href="sjdx/edit.do?pagemodel=edit&dxdm=KETTLE_GLPT_ZYGL_DSSZ&e_zykdm={{= sjdx.dxdm}}&e_ids={{= row[sjdx.zjzd]}}" 
-	a-oper="other" width="1000px" height="500px" title="【{{= row.description}}】定时设置"><i class="icon ion-calendar"></i></a>
+	a-oper="other" width="1000px" height="500px" title="【{{= row.description||row.name}}】定时设置"><i class="icon ion-calendar"></i></a>
 <span class="divider"></span>
-<a href="sjdx/list.do?dxdm=KETTLE_GLPT_CSSZ&&e_id_job={{= row.id_job}}"  a-oper="other" title="【{{= row.description}}】参数设置"><i class="icon ion-levels"></i></a>
+<a href="sjdx/list.do?dxdm=KETTLE_GLPT_CSSZ&&e_id_job={{= row.id_job}}"  a-oper="other" title="【{{= row.description||row.name}}】参数设置"><i class="icon ion-levels"></i></a>
 <span class="divider"></span>
-<a href="sjdx/getFile.do?id={{= sjdx.id}}&e_cllx=zyt&e_ids={{= row[sjdx.zjzd]}}" a-oper="other" title="【{{= row.description}}】作业图"><i class="icon ion-network"></i></a>
+<a href="sjdx/getFile.do?id={{= sjdx.id}}&e_cllx=zyt&e_ids={{= row[sjdx.zjzd]}}" a-oper="other" title="【{{= row.description||row.name}}】作业图"><i class="icon ion-network"></i></a>
 <span class="divider"></span>
 <a href="sjdx/edit.do?pagemodel=add&dxdm=KETTLE_GLPT_ZYGL_FZZY&e_zykdm={{= sjdx.dxdm}}&e_ids={{= row[sjdx.zjzd]}}" 
-	a-oper="other" title="【{{= row.description}}】复制"><i class="icon ion-ios-copy"></i></a>
+	a-oper="other" title="【{{= row.description||row.name}}】复制"><i class="icon ion-ios-copy"></i></a>
 <span class="divider"></span>
 <a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=cz&e_ids={{= row[sjdx.zjzd]}}" a-oper="dxcl" title="重置"><i class="icon ion-android-refresh"></i></a>
 </span>

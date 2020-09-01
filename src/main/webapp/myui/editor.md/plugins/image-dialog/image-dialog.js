@@ -109,7 +109,7 @@
                             }
                             else
                             {
-                                cm.replaceSelection(qz + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
+                                cm.replaceSelection("["+qz + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
                             }
 
 
@@ -175,7 +175,9 @@
                             {
                               if (json.status)
                               {
-                                  dialog.find("[data-url]").val(serviceAddr+"common/download.do?xzms=false&id="+json.data.id);
+                                  dialog.find("[data-url]").val("common/download.do?xzms=false&id="+json.data.id);
+                                  dialog.find("[data-alt]").val(json.data.wjm);
+                                  dialog.find("[data-link]").val("common/download.do?xzms=false&id="+json.data.id);
                               }
                               else
                               {

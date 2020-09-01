@@ -22,7 +22,7 @@ var scriptList=[
       serviceAddr+"myui/jsoneditor/jsoneditor.js",
       //md编辑器相关 satrt
       serviceAddr+"myui/editor.md/editormd.js",
-      serviceAddr+"myui/editor.md/lib/marked.min.js",
+      serviceAddr+"myui/editor.md/lib/marked.js",
       serviceAddr+"myui/editor.md/lib/prettify.min.js",
       serviceAddr+"myui/editor.md/lib/raphael.min.js",
       serviceAddr+"myui/editor.md/lib/underscore.min.js",

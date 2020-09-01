@@ -2883,7 +2883,11 @@ Vue.component('my-list', {
        		//水印
            	watermark({"watermark_txt":_this._data.user.yhxm+","+_this._data.user.sfzh});
        		if(this.lbymkz("my-tzgg")){
-       		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.lbymkz("my-tzgg");
+                var url = this.lbymkz("my-tzgg");
+                if(!url.startWith("http")){
+                    //此场景为配置的文档id
+                    url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+url;
+                }
        		    if(this.lbymkz("my-tzgg-full")){
                     popUpFullWinLayer({url:url,name:"通知公告"});
        		    }else{
@@ -2902,6 +2906,9 @@ Vue.component('my-list', {
 		class="btn btn-primary btn-sm" @click="submit">{{ mydqan || '确定' }}</button>
     <button v-if="bjymkz('my-xsgban')!='0'" type="button" class="btn btn-default btn-sm" 
 		:a-oper="pagemodel=='details'?'allColse':'colse'">关闭</button>
+    <button v-if="bjymkz('my-help')" type="button" class="btn btn-default btn-sm" 
+        @click="openHelp">帮助</button>
+    </div>
 	</div>
 </my-from>
 </script>
@@ -2967,6 +2974,9 @@ Vue.component('my-edit', {
         },
         fromid:function(){
             return this.$root.$options.el;
+        },
+        getHelpUrl:function(){
+            return serviceAddr+'/sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id='+this.bjymkz('my-help');
         }
     },
     methods : {
@@ -2986,6 +2996,9 @@ Vue.component('my-edit', {
                   this.updatedata['map.'+field.zddm]=event.mc;
               }
               console.log(field.zdmc + "=" + this.updatedata[field.zddm]); 
+           },
+           openHelp:function(){
+               window.open(this.getHelpUrl);
            },
 	          bjymkz:function (kznr){
 	              var k = fromdata[kznr];
@@ -3072,8 +3085,16 @@ Vue.component('my-edit', {
 		//水印
 		watermark({"watermark_txt":this._data.user.yhxm+","+this._data.user.sfzh});
    		if(this.bjymkz("my-tzgg")){
-   		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.bjymkz("my-tzgg");
-   			popUpWinLayer({url:url,name:"通知公告"});
+            var url = this.bjymkz("my-tzgg");
+            if(!url.startWith("http")){
+                //此场景为配置的文档id
+                url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+url;
+            }
+            if(this.bjymkz("my-tzgg-full")){
+                popUpFullWinLayer({url:url,name:"通知公告"});
+            }else{
+                popUpWinLayer({url:url,name:"通知公告"});
+            }
    		}
     }
   });
@@ -3458,7 +3479,11 @@ Vue.component('my-cdym', {
    		//水印
        	watermark({"watermark_txt":_this.user.yhxm+","+_this.user.sfzh}); 
    		if(this.kzxx['菜单信息']["my-tzgg"]){
-   		    var url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+this.kzxx['菜单信息']["my-tzgg"];
+   		    var url = this.kzxx['菜单信息']["my-tzgg"];
+   		    if(!url.startWith("http")){
+   		        //此场景为配置的文档id
+   	            url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+url;
+   		    }
    			popUpWinLayer({url:url,name:"通知公告"});
             if(this.kzxx['菜单信息']["my-tzgg-full"]){
                 popUpFullWinLayer({url:url,name:"通知公告"});
