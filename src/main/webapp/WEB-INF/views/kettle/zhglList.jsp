@@ -10,9 +10,11 @@
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">
 <span>
 <span class="divider"></span>
-<a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=ml&e_ids={{= row[sjdx.zjzd]}}" a-oper="dxcl" qrts='false' title="目录"><i class="icon ion-ios-folder"></i></a>
+<a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=ml&e_ids={{= row[sjdx.zjzd]}}" 
+a-oper="dxcl" qrts='false' title="【{{= row.name}}】目录"><i class="icon ion-ios-folder"></i></a>
 <span class="divider"></span>
-<a href="sjdx/getFile.do?id={{= sjdx.id}}&e_cllx=zht&e_ids={{= row[sjdx.zjzd]}}" a-oper="other" title="【{{= row.name}}】转换图"><i class="icon ion-network"></i></a>
+<a href="sjdx/getFile.do?id={{= sjdx.id}}&e_cllx=zht&e_ids={{= row[sjdx.zjzd]}}" 
+a-oper="other" title="【{{= row.name}}】转换图"><i class="icon ion-network"></i></a>
 </span>
 </script>
 <script>

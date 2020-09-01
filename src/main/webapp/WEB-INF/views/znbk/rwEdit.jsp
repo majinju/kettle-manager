@@ -4,7 +4,6 @@
 <jsp:body>
 <my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel" v-cloak>
 </my-edit>
-
 <script>
 function sjdxZdy(vp){
     vp.mounted=function () {

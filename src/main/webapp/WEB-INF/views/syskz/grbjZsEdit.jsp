@@ -213,7 +213,10 @@ function sjdxZdy(vp){
             }
             //处理后台返回的数据
             function treefilter(treeId, parentNode, rep) {
-                if (!rep.status) return null;
+                if (!rep.status){
+                    alertError("获取文档目录失败："+rep.msg);
+                    return null;
+                }
                 var list = rep.data.list;
                 var cdList = [];
                 for (var i=0, l=list.length; i<l; i++) {

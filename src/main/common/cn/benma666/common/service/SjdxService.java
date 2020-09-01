@@ -97,9 +97,9 @@ public class SjdxService extends BasicService{
         //JSON对象
         JSONArray dataArr = myParams.getJSONObject(LjqInterface.KEY_YOBJ).getJSONArray("listEditData");
         int count=0;
-        for(JSONObject obj:dataArr.toArray(new JSONObject[]{})){
-            if(UtilConst.WHETHER_TRUE.equals(obj.getString("my-ybj"))){
-                myParams.put(LjqInterface.KEY_YOBJ, obj);
+        for(JSONObject yobj:dataArr.toArray(new JSONObject[]{})){
+            if(UtilConst.WHETHER_TRUE.equals(yobj.getString("my-ybj"))){
+                DefaultLjq.putObj(dbSjdx, myParams, yobj);
                 myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
                 JsonResult r = LjqManager.save(dbSjdx, myParams);
                 if(!r.isStatus()){
