@@ -43,12 +43,14 @@ public class grbjZsLjq extends DefaultLjq{
         JSONObject p = (JSONObject)r.getData();
         JSONObject obj = p.getJSONObject(KEY_OBJ);
         SysQxYhxx user = (SysQxYhxx) p.get(KEY_USER);
-        if(StringUtil.isNotBlank(obj.getString("id"))){
+        if(StringUtil.isNotBlank(obj.getString("bt"))){
             JsonResult r1 = qxpdByBj( user,obj.getString("zt"),obj.getString("cjrdm"),
                     obj.getString("cjrdwdm"),obj.getString("kjx"));
             if(!r1.isStatus()){
                 return r1;
             }
+        }else if(StringUtil.isNotBlank(obj.getString("id"))){
+            return error("该文档不存在或没权限");
         }
         JSONObject yobj = p.getJSONObject(KEY_YOBJ);
         if(yobj.getBooleanValue("yd")){
@@ -100,9 +102,9 @@ public class grbjZsLjq extends DefaultLjq{
     */
     public static JsonResult qxpdByBj(SysQxYhxx user, String zt, String cjrdm, String cjrdwdm, String kjx) {
         //是否管理员
-        if(QxManager.hasAuthCode(user, LjqInterface.KEY_AUTH_KFZFW_GLY)){
+        if(QxManager.hasAuthCode(user, LjqInterface.KEY_AUTH_KFZFW_SYS)){
             //管理员无限制
-            return success("管理员");
+            return success("系统管理员");
         }
         JsonResult r1 = error("");
         r1.setCode(QxManager.AUTH_CODE_WQX);

@@ -3384,7 +3384,7 @@ Vue.component('my-cdym', {
         		async: {
         			enable: true,
         			url:"sjdx/getdata.do?dxdm=SYS_QX_QTQX",
-        			autoParam:["dm=e_fjd"],
+        			autoParam:["dm=e_fqx"],
         			otherParam:{"e_cllx":"getTreeCN",
         			    //树模式=菜单树
         			    "e_treeModel":'cds',
@@ -3452,7 +3452,10 @@ Vue.component('my-cdym', {
         	}
         	//处理后台返回的数据
         	function treefilter(treeId, parentNode, rep) {
-        		if (!rep.status) return null;
+        		if (!rep.status) {
+        		    alertError(rep.msg);
+        		    return null;
+        		}
         		var list = rep.data.list;
         		var cdList = [];
         		for (var i=0, l=list.length; i<l; i++) {
