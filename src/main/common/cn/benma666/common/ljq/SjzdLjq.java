@@ -29,14 +29,14 @@ public class SjzdLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {
-        String cllx = params.getString(LjqInterface.KEY_CLLX);
+    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+        String cllx = myParams.getString(LjqInterface.KEY_CLLX);
         Map<String, JSONObject> fields;
         switch (cllx) {
         case "bzpx":
             SysSjglSjdx obj = new SysSjglSjdx();
             obj.setId(sjdx.get(LjqInterface.KEY_IDS).toString());
-            fields = getFields(obj);
+            fields = getFields(sjdx,myParams);
             int idx = 50;
             for(Entry<String, JSONObject> field:fields.entrySet()){
                 idx+=10;
@@ -45,7 +45,7 @@ public class SjzdLjq extends DefaultLjq{
             }
             return success("成功标准化排序字段数："+fields.size());
         default:
-            return super.plcl(sjdx, params);
+            return super.plcl(sjdx, myParams);
         }
     }
     /**

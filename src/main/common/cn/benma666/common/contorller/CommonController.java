@@ -64,7 +64,7 @@ public class CommonController extends BasicController {
             HttpServletResponse response) {
         SysQxYhxx user = jkInit(obj, request);
         JsonResult r = error("你无权清除缓存");
-        if("admin".equals(user.getYhdm())){
+        if(user.getQxMap().containsKey("KFZFW_SYS")){
             if(StringUtil.isBlank(obj.getDm())){
                 r = CacheFactory.clear();
             }else{
