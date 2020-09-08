@@ -941,7 +941,7 @@ Parser.prototype.parse = function(src) {
           for(var j in idxArr){
               idxStr+=idxArr[j]+'.';
           }
-          this.token.text = idxStr+this.token.text;
+          this.token.textIdx = idxStr+this.token.text;
       }
     out += this.tok();
   }
@@ -995,7 +995,8 @@ Parser.prototype.tok = function() {
       return this.renderer.heading(
         this.inline.output(this.token.text),
         this.token.depth,
-        this.token.text);
+        this.token.text,
+        this.inline.output(this.token.textIdx));
     }
     case 'code': {
       return this.renderer.code(this.token.text,

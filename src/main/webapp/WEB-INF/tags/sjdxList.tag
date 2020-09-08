@@ -2,6 +2,7 @@
 <%@ attribute name="css" fragment="true"%>
 <%@ attribute name="js" fragment="true"%>
 <%@ attribute name="script" fragment="true" %>
+<%@ attribute name="title"%>
 <%@ include file="/WEB-INF/common/taglibs.jsp"%>
 <c:set var="basicUrl" value="<%=WebUtil.getBasePath(request)%>"/>
 <!DOCTYPE html>
@@ -11,7 +12,7 @@
 	 <meta charset="utf-8" />
 	 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	 <!-- <meta http-equiv="cache-control" content="no-cache" /> -->
-	 <title>${sjdx.dxmc }</title>
+	 <title>${title==null?sjdx.dxmc:title }</title>
      <script type="text/javascript">
 	     //设置全局服务地址
 	     var serviceAddr = "${serviceAddr}";

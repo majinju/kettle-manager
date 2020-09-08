@@ -253,7 +253,7 @@ function sjdxZdy(vp){
 		     //gfm             : false,
 		     //tocDropdown     : true,
 		     //markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
-		     emoji           : true,
+		     emoji           : false,
 		     taskList        : true,
 		     tex             : true,  // 默认不解析
 		     flowChart       : true,  // 默认不解析

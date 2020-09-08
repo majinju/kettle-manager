@@ -4,6 +4,7 @@
 <jsp:body>
 <my-edit id="dataform" :fromdata="fromdata" :sjdxid="sjdxid" :pagemodel="pagemodel">
 </my-edit>
+<!-- 数据对象操作按钮模板 -->
 <script type="text/x-tp" id="my-sjdx-czan-tp">
 <span style="float: right;">
 <button class="btn btn-primary btn-sm" type="button" onclick="{{= onpzdx}}">配置对象</button>
@@ -34,6 +35,7 @@ function sjdxZdy(vp){
         //添加获取流转配置信息按钮
         var lzmbEl = $("[name='lzmb']");
         if(pagemodel=='add'){
+            //新建
             lzmbEl = $("[name='lzmb_text']").parent();
             lzmbEl.attr("style",$("[name='lzmb_text']").attr("style"));
         }else{
@@ -44,6 +46,9 @@ function sjdxZdy(vp){
         lxSzhd(zylx,this);
     }
 }
+/**
+ * 配置来源对象
+ */
 function pzlydx(){
     var lydx = $("[name='lydx']").val();
     if(lydx){
@@ -52,6 +57,9 @@ function pzlydx(){
         popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
     }
 }
+/**
+ * 配置目标对象
+ */
 function pzmbdx(){
     var lydx = $("[name='mbdx']").val();
     if(lydx){
@@ -60,6 +68,9 @@ function pzmbdx(){
         popUpFullWinLayer({url:'sjdx/edit.do?pagemodel=add&dxdm=SYS_SJGL_SJDX'});
     }
 }
+/**
+ * 配置来源字段
+ */
 function pzlyzd(){
     var lydx = $("[name='lydx']").val();
     if(lydx){
@@ -68,6 +79,9 @@ function pzlyzd(){
         alertError("请先选择数据对象");
     }
 }
+/**
+ * 配置目标字段
+ */
 function pzmbzd(){
     var mbdx = $("[name='mbdx']").val();
     if(lydx){
@@ -100,7 +114,7 @@ function getDxlzMrpz(){
     dataform.$children[0].plcl("getDxlzMrpz");
 }
 /**
- * 类型设置回调
+ * 作业类型设值回调
  */
 function lxSzhd(value,_this,event){
     if(value==""){
@@ -108,7 +122,7 @@ function lxSzhd(value,_this,event){
     }
     $(".xjsx").parents("div.my-input").css("display","none");
     $(".xjsx"+value).parents("div.my-input").css("display","block");
-    var fromTarget = _this.$root.frommap["#dataform1"];
+    var fromTarget = _this.$root.frommap["#dataform"];
     var updatedata = _this.$root.$children[0]._data.updatedata;
     for(var i in fromTarget){
         var field = fromTarget[i].field;

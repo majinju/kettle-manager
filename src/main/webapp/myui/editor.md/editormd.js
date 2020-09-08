@@ -3557,9 +3557,10 @@
             return out;
           };
         
-        markedRenderer.heading = function(text, level, raw) {
+        markedRenderer.heading = function(text, level, raw,textIdx) {
                     
             var linkText       = text;
+            var linkTextIdx       = textIdx;
             var hasLinkReg     = /\s*\<a\s*href\=\"(.*)\"\s*([^\>]*)\>(.*)\<\/a\>\s*/;
             var getLinkTextReg = /\s*\<a\s*([^\>]+)\>([^\>]*)\<\/a\>\s*/g;
 
@@ -3575,12 +3576,26 @@
 
                 text = tempText.join(" ");
             }
+            if (hasLinkReg.test(textIdx)) 
+            {
+                var tempText = [];
+                textIdx         = textIdx.split(/\<a\s*([^\>]+)\>([^\>]*)\<\/a\>/);
+
+                for (var i = 0, len = textIdx.length; i < len; i++)
+                {
+                    tempText.push(textIdx[i].replace(/\s*href\=\"(.*)\"\s*/g, ""));
+                }
+
+                textIdx = tempText.join(" ");
+            }
             
             text = trim(text);
+            textIdx = trim(textIdx);
             
             var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
             var toc = {
                 text  : text,
+                textIdx  : textIdx,
                 level : level,
                 slug  : escapedText
             };
@@ -3594,7 +3609,7 @@
             
             headingHTML    += "<a name=\"" + text + "\" class=\"reference-link\"></a>";
             headingHTML    += "<span class=\"header-link octicon octicon-link\"></span>";
-            headingHTML    += (hasLinkReg) ? this.atLink(this.emoji(linkText)) : this.atLink(this.emoji(text));
+            headingHTML    += (hasLinkReg) ? this.atLink(this.emoji(linkTextIdx)) : this.atLink(this.emoji(textIdx));
             headingHTML    += "</h" + level + ">";
 
             return headingHTML;
@@ -3722,7 +3737,7 @@
                 html += "</ul></li>";
             }
 
-            html += "<li><a class=\"toc-level-" + level + "\" href=\""+baseUrl+"#" + text + "\" level=\"" + level + "\">" + text + "</a><ul>";
+            html += "<li><a class=\"toc-level-" + level + "\" href=\""+baseUrl+"#" + text + "\" level=\"" + level + "\">" + toc[i].textIdx + "</a><ul>";
             lastLevel = level;
         }
         
