@@ -24,6 +24,9 @@ function sjdxZdyjy(data,_this){
     }
     return false;
 }
+/**
+ * 文件内容
+ */
 function wjnrGsh(value,_this){
     var row = _this.$root.$children[0].editdata;
     _this.kzxxObj.file.zsxs = row.wjlx;
@@ -31,6 +34,22 @@ function wjnrGsh(value,_this){
     if(row.wjlx=="icon"){
         val = row.sclj;
     }
+    return val;
+}
+/**
+ * 文件大小
+ */
+function wjdxGsh(value,_this){
+    if(null==value||value==''){
+        return "未知";
+    }
+    var unitArr = new Array("Bytes","KB","MB","GB","TB","PB","EB","ZB","YB");
+    var index=0;
+    var srcsize = parseFloat(value);
+    index=Math.floor(Math.log(srcsize)/Math.log(1024));
+    var size =srcsize/Math.pow(1024,index);
+    size=size.toFixed(2);//保留的小数位数
+    return size+unitArr[index];
     return val;
 }
 </script>

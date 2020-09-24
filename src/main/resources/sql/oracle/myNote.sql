@@ -1,3 +1,6 @@
+-- 远程导入数据
+--imp userid=sjsj/sjsj fromuser=sjsj touser=sjsj ignore=y file=d:\sjsj.dmp commit buffer=512000000
+
 ----------密码加密解密-------
 select des_en('123456','123asdzxc') from dual;
 select des_en('zxcvbnm,.','123asdzxc') from dual;
@@ -13,6 +16,7 @@ select des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_app t;
 --服务器
 --update sys_qx_fwq t set t.mm=des_en(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q==') where t.mm is not null;
 select des_de(t.mm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_fwq t;
+
 --修改一级密码
 --数据载体
 select des_en(des_de(t.mm,des_en('123456','123asdzxc')),des_en('123456','1qaz2wsx3')) xmm,des_de(t.mm,'5zIcmw5qVZs=') zmm,t.* from sys_sjgl_sjzt t where t.mm is not null;
@@ -29,6 +33,14 @@ update sys_qx_yhxx t set t.yhmm=des_en(des_de(t.yhmm,des_en('zxcvbnm,.','123asdz
 update sys_qx_app t set t.mm=des_en(des_de(t.mm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) where t.mm is not null;
 update sys_qx_fwq t set t.mm=des_en(des_de(t.mm,des_en('zxcvbnm,.','123asdzxc')),des_en('zxcvbnm,.','1qaz2wsx3')) where t.mm is not null;
 */
+
+--更新创建人信息为系统管理员，便于权限控制
+update sys_sjgl_grbj t
+   set t.cjrxm   = '系统管理员',
+       t.cjrdm   = 'BC5D77315CA84C6C807988E3CD17E70D',
+       t.cjrdwmc = '临时机构',
+       t.cjrdwdm = '141B1AFC7E634176BDA7DB7F491A9004';
+
 --因为Navicat导出没有导出主键，需要单独执行此语句建立主键
 alter table JCGA_JCYG_JCXX  add constraint PK_JCGA_JCYG_JCXX  primary key (ID);
 alter table JCGA_JCYG_SHGX  add constraint PK_JCGA_JCYG_SHGX  primary key (ID);

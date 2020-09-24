@@ -318,66 +318,16 @@
 					<stopPort />
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<port>8180</port>
-					<path>/${project.artifactId}</path>
-					<uriEncoding>UTF-8</uriEncoding>
-					<!-- 监控web.xml文件 -->
-					<contextFile>${basedir}/src/main/webapp/WEB-INF/web.xml</contextFile>
-					<useTestClasspath>false</useTestClasspath>
-
-					<webAppConfig>
-						<contextPath>/${project.artifactId}</contextPath>
-						<extraClasspath>
-							../${project.artifactId}/target/classes;
-						</extraClasspath>
-					</webAppConfig>
-
-					<scanTargets>
-						<scanTarget>../${project.artifactId}/target/classes</scanTarget>
-					</scanTargets>
-
-					<scanTargetPatterns>
-						<scanTargetPattern>
-							<directory>src/main/java</directory>
-							<includes>
-								<include>**/*.java</include>
-							</includes>
-						</scanTargetPattern>
-						<scanTargetPattern>
-							<directory>src/main/common</directory>
-							<includes>
-								<include>**/*.java</include>
-							</includes>
-						</scanTargetPattern>
-						<scanTargetPattern>
-							<directory>src/main/resources</directory>
-							<includes>
-								<include>**/*.properties</include>
-							</includes>
-							<excludes>
-								<exclude>**/*.xml</exclude>
-							</excludes>
-						</scanTargetPattern>
-					</scanTargetPatterns>
-					<!-- 关闭tomcat自身的热部署 -->
-					<scanIntervalSeconds>1</scanIntervalSeconds>
-					<webAppSourceDirectory>${basedir}/src/main/webapp</webAppSourceDirectory>
-				</configuration>
-			</plugin>
 			<!-- CI插件开始 -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.0</version>
+				<version>3.9.1</version>
 				<configuration>
 					<!-- 配置站点国际化 -->
 					<locales>zh_CN</locales>
 					<!-- 输出编码 -->
-					<outputEncoding>GBK</outputEncoding>
+					<outputEncoding>UTF-8</outputEncoding>
 					<reportPlugins>
 						<!-- 项目基本信息报告 -->
 						<plugin>
@@ -479,22 +429,6 @@
 					<excludeBugsFile>${check.excludes}</excludeBugsFile>
 				</configuration>
 			</plugin>
-			<!-- <groupId>org.zeroturnaround</groupId> -->
-			<!-- <artifactId>jrebel-maven-plugin</artifactId> -->
-			<!-- <version>1.1.5</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>generate-rebel-xml</id> -->
-			<!-- <phase>process-resources</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>generate</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- <configuration> -->
-			<!-- <rebelXmlDirectory>${basedir}/src/main/webapp/WEB-INF/classes</rebelXmlDirectory> -->
-			<!-- </configuration> -->
-			<!-- </plugin> -->
 		</plugins>
 		<pluginManagement>
 			<plugins>

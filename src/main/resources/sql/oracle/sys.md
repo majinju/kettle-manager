@@ -10,12 +10,12 @@ select distinct qx.dm, qx.mc
     on js.dm = jq.js
    and js.yxx = '1'
  where qx.yxx = '1'
-   and (js.dm in (
+    and (js.dm in (
         'ADMIN_DLYH_LSYH'
         @if(p_1.yhdm!='lsyh'){
         ,'ADMIN_DLYH'
         @}
-   )
+    )
     @for(js in p_1.jsxx){
        or js.dm like #js.js#||'%'
     @}

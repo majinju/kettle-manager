@@ -1,3 +1,59 @@
+<!-- 右键菜单模板 -->
+<script type="text/x-tp" id="my-yjcd-tp"> 
+<div v-if="tshow" :style='"top:"y+"px, left:"x+"px, visibility:visible"'>
+    <ul v-for="(row,ri) in rows">
+        <li @click="rowClick(row)">row.name</li>
+    </ul>
+</div>
+</script>
+<script type="text/javascript">
+Vue.component('my-yjcd', {
+    props: ['rows','show','x','y'],
+    data: function () {
+      return {
+          tshow:show
+      }
+    },
+    template:"#my-yjcd-tp",
+    computed : {
+        isShow:function (){
+           return tshow;
+        }
+    },
+    methods : {
+        showRMenu:function(type, x, y) {
+            y += document.body.scrollTop;
+            x += document.body.scrollLeft;
+            rMenu.css({"top":y+"px", "left":x+"px", "visibility":"visible"});
+        },
+        hideRMenu:function() {
+            if (rMenu) rMenu.css({"visibility": "hidden"});
+            $("body").unbind("mousedown", onBodyMouseDown);
+        },
+        onBodyMouseDown:function(event){
+            if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length>0)) {
+                rMenu.css({"visibility" : "hidden"});
+            }
+        },
+        rowClick:function(row){
+            //右键菜单单击事件
+            this.$emit('rowClick', row,this);
+        }
+    },
+    created : function(){
+        var _this =  this;
+    },
+    mounted: function () {
+        var _this =  this;
+    },
+    watch: {
+      show: function () {
+          this.tshow=show;
+          $("body").bind("mousedown", onBodyMouseDown);
+      }
+    }
+  });
+</script>
 <script type="text/x-tp" id="my-label-tp">
 <span :title="title">
     <span class="required" v-if="field.btzt">*</span>
@@ -2822,17 +2878,27 @@ Vue.component('my-list', {
               				dataFilter: treefilter
               			},
               			callback: {
-              				onClick: treeClick
+              				onClick: treeClick,
+              				onRightClick: zTreeOnRightClick
               			}
               		};
                   	var treeSetting = this.lbymkz("treeSetting");
                   	if(treeSetting){
                   		setting = $.extend({},setting, treeSetting);
                   	}
+                    var ssjddm = _this.lbymkz("ssjddm")||"dm";
 					//树节点的单击事件
 	          		function treeClick(event, treeId, treeNode, clickFlag) {
-					    Vue.set(_this.fromdata,fjd,treeNode.dm);
+					    Vue.set(_this.fromdata,ssjddm,treeNode.dm);
 	          		}
+					//树右击事件
+                    function zTreeOnRightClick(event, treeId, treeNode) {
+                        Vue.set(_this.fromdata,fjd,treeNode.dm);
+// 			            if (treeNode && !treeNode.noR) {
+// 			                zTree.selectNode(treeNode);
+// 			                showRMenu(event.clientX, event.clientY);
+// 			            }
+                    }
 	          		//处理后台返回的数据
 	          		function treefilter(treeId, parentNode, rep) {
 	          			if (!rep.status) return null;

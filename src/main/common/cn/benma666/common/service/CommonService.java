@@ -3,6 +3,7 @@ package cn.benma666.common.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,6 +50,7 @@ public class CommonService extends BasicService{
         //文件名称
         String wjm = file.getOriginalFilename();
         fileObj.setWjm(wjm);
+        fileObj.setWjdx(BigDecimal.valueOf(file.getSize()));
         QxManager.setCjrInfo(user, fileObj);
         //文件类型
         fileObj.setWjlx(wjm.substring(wjm.lastIndexOf('.') + 1).toLowerCase());
