@@ -251,14 +251,19 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams,request,response)){
                 //设置处理类型插入还是更新
                 myParams.put(LjqInterface.KEY_CLLX, dbSjdx.get(LjqInterface.KEY_CLLX));
+                JSONObject obj = myParams.getJSONObject(LjqInterface.KEY_YOBJ);
                 if(StringUtil.isBlank(myParams.getString(LjqInterface.KEY_CLLX))){
-                    JSONObject obj = myParams.getJSONObject(LjqInterface.KEY_YOBJ);
                     if(StringUtil.isBlank(obj.getString(dbSjdx.getZjzd()))){
                         myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_INSERT);
+                        obj.put(dbSjdx.getZjzd(), StringUtil.getUUIDUpperStr());
                     }else{
                         //修改
                         myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
                     }
+                }
+                if(StringUtil.isBlank(obj.getString(dbSjdx.getZjzd()))){
+                    //设置对象id
+                    obj.put(dbSjdx.getZjzd(), StringUtil.getUUIDUpperStr());
                 }
                 //开启事务
                 DSTransactionManager.start();

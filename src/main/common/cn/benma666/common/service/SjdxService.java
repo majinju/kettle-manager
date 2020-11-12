@@ -1,6 +1,9 @@
 
 package cn.benma666.common.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import cn.benma666.constants.UtilConst;
@@ -97,6 +100,7 @@ public class SjdxService extends BasicService{
         //JSON对象
         JSONArray dataArr = myParams.getJSONObject(LjqInterface.KEY_YOBJ).getJSONArray("listEditData");
         int count=0;
+        List<Object> ro = new ArrayList<Object>();
         for(JSONObject yobj:dataArr.toArray(new JSONObject[]{})){
             if(UtilConst.WHETHER_TRUE.equals(yobj.getString("my-ybj"))){
                 DefaultLjq.putObj(dbSjdx, myParams, yobj);
@@ -104,11 +108,13 @@ public class SjdxService extends BasicService{
                 JsonResult r = LjqManager.save(dbSjdx, myParams);
                 if(!r.isStatus()){
                     return r;
+                }else{
+                    ro.add(r.getData());
+                    count++;
                 }
-                count++;
             }
         }
-        return success("保存成功数据条数："+count);
+        return success("保存成功数据条数："+count,ro);
     }
 
 }

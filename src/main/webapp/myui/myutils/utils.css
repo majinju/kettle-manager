@@ -6,6 +6,10 @@ body div.wrap {
     min-width:1000px;
 }
 
+.markdown-body ol {
+    list-style-type: decimal;
+}
+
 /*字段排序*/
 .filed-order{
 color: blue;

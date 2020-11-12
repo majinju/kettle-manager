@@ -4,7 +4,7 @@
 	<properties>
 		<property name="projectCode">myservice</property>
 		<property name="LOG_HOME">/benma666/logs/${projectCode}</property>
-		<property name="PATTERN">%d{MM-dd HH:mm:ss} %-5level %t %class{2}.%M:%L - %msg%xEx%n</property>
+		<property name="PATTERN">%d{MM-dd HH:mm:ss} %-5level %t %.40c{1.}.%M:%L - %msg%xEx%n</property>
 		<property name="FILE_SIZE">20MB</property>
 	</properties>
 	<!-- 先定义所有的appender -->

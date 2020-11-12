@@ -61,7 +61,6 @@ public class JcygLjq extends DefaultLjq{
             }
             for(JSONObject j:er.getResult().toArray(new JSONObject[]{})){
                 myParams.put(KEY_YOBJ, j);
-                myParams.put("shgxs", j.getJSONArray("shgxs"));
                 myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
                 JsonResult r = save(sjdx,myParams);
                 if(!r.isStatus()||(int)r.getData()!=1){
@@ -155,7 +154,7 @@ public class JcygLjq extends DefaultLjq{
         }
         
         //批量上报时传入的社会关系保存
-        JSONArray shgxs = myParams.getJSONArray("shgxs");
+        JSONArray shgxs = yobj.getJSONArray("shgxs");
         if(shgxs!=null){
             for(JSONObject shgx:shgxs.toArray(new JSONObject[]{})){
                 shgx.put("ygbh", yobj.getString("ygbh"));
