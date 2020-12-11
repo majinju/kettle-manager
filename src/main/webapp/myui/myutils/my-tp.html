@@ -3700,6 +3700,16 @@ function gshffLbxz(value,_this) {
     return value;
 }
 /**
+ * base64图片展示
+ */
+function base64TpGsh(value,_this){
+    if(isEmpty(value)){
+        return "没有图片";
+    }else{
+        return "<img src='data:image/png;base64,"+value+"'/>";
+    }
+}
+/**
  * 时间格式化
  */
 function vueTimeGsh(value,_this){
