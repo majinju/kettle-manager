@@ -717,14 +717,14 @@ Vue.component('my-inputn', {
             if(sf){
                 val=sf(val,this);
             }
-           return val;
+            return val;
         },
         nvalTitle:function (){
             var val=this.value;
             if(!this.edit&&this.isDict){
                 val = zdMcByDmMore(this.field.zdzdlb,this.value)+"["+this.value+"]";
             }
-           return val;
+            return val;
         },
         isDict:function (){
            return this.field.kjlx=='dict'||this.field.kjlx=='checkbox'||this.field.kjlx=='suggest';
@@ -1716,7 +1716,54 @@ Vue.component('my-echarts', {
                     "type": "bar"
                   }
                 ]
-              }
+              },
+              "line":{
+                  "title": {
+                      "x": "center"
+                    },
+                    "tooltip": {
+                      "trigger": "item",
+                      "formatter": "{b0}: {c0}"
+                    },
+                    "legend": {
+                        "type": "scroll",
+                        "orient": "vertical",
+                        "right": 10,
+                        "top": 20,
+                        "bottom": 20,
+                        "data": [],
+                        "selected": []
+                      },
+                    "xAxis": {
+                      "type": "category",
+                      "data": [
+                        "Mon",
+                        "Tue",
+                        "Wed",
+                        "Thu",
+                        "Fri",
+                        "Sat",
+                        "Sun"
+                      ]
+                    },
+                    "yAxis": {
+                      "type": "value"
+                    },
+                    "series": [
+                      {
+                        "data": [
+                          120,
+                          200,
+                          150,
+                          80,
+                          70,
+                          110,
+                          130
+                        ],
+                        "type": "line"
+                      }
+                    ]
+                  }
               
       }
     },
@@ -1775,7 +1822,7 @@ Vue.component('my-echarts', {
                         }
                     ]
                 };
-    		if(lbmsinfo.dm=='bar'){
+    		if(lbmsinfo.dm=='bar'||lbmsinfo.dm=='line'){
     		    data.xAxis={
                     data: legend
                 };
@@ -1828,7 +1875,7 @@ Vue.component('my-table', {
         },
     methods : {
 	    fval:function(row,field){
-	        if(row[field.zddm]){
+	        if(row[field.zddm]!=undefined){
 	            return row[field.zddm];
 	        }else{
 	            return field.xzmrz;
@@ -1861,7 +1908,7 @@ Vue.component('my-table-zdy', {
         },
     methods : {
 	    fval:function(row,field){
-	        if(row[field.zddm]){
+	        if(row[field.zddm]!=undefined){
 	            return row[field.zddm];
 	        }else{
 	            return field.xzmrz;
@@ -1962,6 +2009,11 @@ Vue.component('my-table-zdy', {
 			style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
 		</my-echarts>
 	</div>
+    <div v-if="lbms=='line'">
+        <my-echarts :key="sjdx.dxdm+'line'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('line')" :rows="rows"
+            style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
+        </my-echarts>
+    </div>
 	<div v-if="lbms=='zdy'">
 		<my-table-zdy :lbfields="lbfields" :rows='rows' :lbls="lbls"
 			:listFromid = 'listFromid' :lbkbj = 'lbkbj' :listEditData = 'listEditData'
@@ -2125,7 +2177,8 @@ Vue.component('my-zssjdx', {
 	              }else{
 	                  isCxtj = this._data.sjdx.cxtj!='0';
 	              }
-	              if(!isCxtj||!this.qxByQxm("CXQX")){
+	              //||!this.qxByQxm("CXQX")
+	              if(!isCxtj){
 	                  style+="display: none;";
 	              }
 	              return style;
@@ -2207,7 +2260,7 @@ Vue.component('my-zssjdx', {
 	            return field;
 	        },
 		    fval:function(row,field){
-		        if(row[field.zddm]){
+		        if(row[field.zddm]!=undefined){
 		            return row[field.zddm];
 		        }else{
 		            return field.xzmrz;
@@ -2699,7 +2752,7 @@ Vue.component('my-list', {
 	            return field;
 	        },
 		    fval:function(row,field){
-		        if(row[field.zddm]){
+		        if(row[field.zddm]!=undefined){
 		            return row[field.zddm];
 		        }else{
 		            return "";

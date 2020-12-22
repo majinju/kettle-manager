@@ -251,19 +251,21 @@ public class SjdxController extends BasicController {
             if(basicJcxx(sjdx,myparams,request,response)){
                 //设置处理类型插入还是更新
                 myParams.put(LjqInterface.KEY_CLLX, dbSjdx.get(LjqInterface.KEY_CLLX));
-                JSONObject obj = myParams.getJSONObject(LjqInterface.KEY_YOBJ);
+                JSONObject yobj = myParams.getJSONObject(LjqInterface.KEY_YOBJ);
                 if(StringUtil.isBlank(myParams.getString(LjqInterface.KEY_CLLX))){
-                    if(StringUtil.isBlank(obj.getString(dbSjdx.getZjzd()))){
+                    if(StringUtil.isBlank(yobj.getString(dbSjdx.getZjzd()))){
                         myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_INSERT);
-                        obj.put(dbSjdx.getZjzd(), StringUtil.getUUIDUpperStr());
                     }else{
                         //修改
                         myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
                     }
                 }
-                if(StringUtil.isBlank(obj.getString(dbSjdx.getZjzd()))){
+                JSONObject fields = myParams.getJSONObject(LjqInterface.KEY_FIELDS);
+                //字段类型是字符串的才自动设置主键
+                if("VARCHAR2".equals(fields.getJSONObject(dbSjdx.getZjzd()).getString("zdlx"))
+                        &&StringUtil.isBlank(yobj.getString(dbSjdx.getZjzd()))){
                     //设置对象id
-                    obj.put(dbSjdx.getZjzd(), StringUtil.getUUIDUpperStr());
+                    yobj.put(dbSjdx.getZjzd(), StringUtil.getUUIDUpperStr());
                 }
                 //开启事务
                 DSTransactionManager.start();
