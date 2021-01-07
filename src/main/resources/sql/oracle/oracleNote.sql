@@ -3,7 +3,7 @@
 --jinjuma@yeah.net 数据库脚本纪要
 
 -- 远程导出数据：exp system/manager@ORCL file=e:\orcl.dmp owner=(orcl,teacher,dyz,chub,hwp)
--- 远程导入数据：imp system/manager@ORCL  file=e:\orcl.dmp tables=(table1,table2)  full=y log=D:/oracelImp.log commit buffer=512000000 ignore=y
+-- 远程导入数据：imp system/manager@ORCL  file=e:\orcl.dmp tables=(table1,table2)  full=y log=D:/oracelImp.log buffer=512000000 ignore=y
 
 --如果是远程访问的话 建议可以对这几张表在远程做一个视图（可以是查询结果集的视图），然后这边只要查询这个视图，应该会快点，注意远程视图是用不到索引的
 
@@ -596,13 +596,21 @@ public class Desutil {
 
         return cipher.doFinal(data);
     }
-}
+};
 
 CREATE OR REPLACE FUNCTION des_de (p_text IN STRING,p_pwd IN STRING)
    RETURN String
 IS
    LANGUAGE JAVA
    NAME 'Desutil.decrypt(java.lang.String,java.lang.String) return String';
+
+
+CREATE OR REPLACE FUNCTION des_en (p_text IN STRING,p_pwd IN STRING)
+   RETURN String
+IS
+   LANGUAGE JAVA
+   NAME 'Desutil.encrypt(java.lang.String,java.lang.String) return String';
+
 
 
 

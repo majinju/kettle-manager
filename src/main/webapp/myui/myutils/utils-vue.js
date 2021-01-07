@@ -728,6 +728,10 @@ Date.parseDate = function(dateStr) {
     if(!dateStr){
         return null;
     }
+    if(dateStr instanceof Date){
+        //本身就是date类型
+        return dateStr;
+    }
     var d = new Date();
     if(dateStr.length==8){
         d.setFullYear(dateStr.substring(0, 4),dateStr.substring(4, 6)-1,dateStr.substring(6, 8));
@@ -778,6 +782,10 @@ Date.prototype.format = function(format) {
 function dateFormat(dateStr,fmt){
     var d = Date.parseDate(dateStr);
     if(d){
+        if(fmt=='date'){
+            //为时间对象时，传输中转为14位时间
+            fmt = 'yyyyMMddHHmmss';
+        }
         return d.format(fmt);
     }else{
         return "";
@@ -838,28 +846,6 @@ function extend(dst) {
 }
 ////////////////关于IE8不支持Object.keys（）的处理/////////////////////////
 
-/**
- * 参数预处理
- */
-function preParam(_params){
-	for(var key in _params){
-	    if(isEmpty(_params[key])){
-            delete _params[key];
-	        continue;
-	    }
-		if(typeof _params[key] == "string"){
-			_params[key] = _params[key].trim();
-		}
-		if(key.endWith("']_text")){
-			//_params[key.replace("']_text","_text']")] = _params[key];
-			delete _params[key];
-		}else if(key.endWith("_text")){
-			//_params["e_"+key] = _params[key].toString();
-            delete _params[key];
-		}
-	}
-    return _params;
-};
 /**
  * 字符串的方法名转为方法
  * @param strFun

@@ -1,5 +1,5 @@
 -- 远程导入数据
---imp userid=sjsj/sjsj fromuser=sjsj touser=sjsj ignore=y file=d:\sjsj.dmp commit buffer=512000000
+--imp userid=sjsj/sjsj fromuser=sjsj touser=sjsj ignore=y file=d:\sjsj.dmp buffer=512000000
 --导出备份数据
 --exp sjsj/sjsj@127.0.0.1/mydb file=d:\sjsj.dmp owner=('sjsj')
 ----------密码加密解密-------

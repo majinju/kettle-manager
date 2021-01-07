@@ -902,19 +902,6 @@ Vue.component('my-time', {
     },
     created: function () {
         var _this =  this;
-        var hdyzgz = this.field.hdyzgz;
-        if(hdyzgz){
-            var gzstrs = hdyzgz.replace("；",';').split(";");
-            for(idx in gzstrs){
-                var gzs = gzstrs[idx].split(":");
-                if(gzs[0]=='date'){
-                    if(gzs[1]){
-                        this.WdatePicker.hdgs = gzs[1];
-                    }
-                    break;
-                }
-            }
-        }
         eval("var kzxx="+this.field.kzxx);
         if(kzxx["时间控件"]){
             this.WdatePicker = $.extend(this.WdatePicker, kzxx["时间控件"]);
@@ -983,14 +970,14 @@ Vue.component('my-timeaera', {
         if(times[0]){
             val1=times[0];
             if(val1.indexOf('goDay:')==0){
-                val1 = new Date().addDays(val1.substring(6)).format(this.WdatePicker.hdgs);
+                val1 = dateFormat(new Date().addDays(val1.substring(6)),this.WdatePicker.hdgs);
             }
         }
         var val2="";
         if(times[1]){
             var val2=times[1];
             if(val2.indexOf('goDay:')==0){
-                val2 = new Date().addDays(val2.substring(6)).format(this.WdatePicker.hdgs);
+                val2 = dateFormat(new Date().addDays(val2.substring(6)),this.WdatePicker.hdgs);
             }
         }
         this.times = val1 + ";"+val2;
@@ -2762,15 +2749,15 @@ Vue.component('my-list', {
                 this.czqbsj=event.val=='1';
             },
             setval:function(field,event){
-//                 this.fromdata[field.zddm] = event.val;
-//                 if(event.target.mc){
-//                     this.fromdata['map.'+field.zddm]=event.mc;
-//                 }
+                this.listPage.newParams[field.zddm] = event.val;
+                if(event.mc){
+                    this.listPage.newParams[field.zddm+"_text"]=event.mc;
+                }
                 console.log(field.zdmc + "=" + event.val); 
              },
              lbmssetval:function(field,event){
-                this.fromdata[field.zddm] = event.val;
-                if(event.target.mc){
+                this.fromdata[field.zddm] = event.val.trim();
+                if(event.mc){
                     this.fromdata['map.'+field.zddm]=event.mc;
                 }
                 console.log(field.zdmc + "=" + this.fromdata[field.zddm]); 

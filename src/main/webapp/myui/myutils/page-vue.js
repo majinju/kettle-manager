@@ -9,6 +9,8 @@ function PageAjax(){
     this.pageId = "#listPage";
 	//参数
     this.params={};
+    //最新的查询参数，可能存在无效参数。
+    this.newParams = {};
 	//页大小
     this.pageSize = 10;
 	//最大页大小，用于现在导出全部
@@ -47,12 +49,11 @@ function PageAjax(){
     };
     this.queryPage=function(){
         var self = this;
-        var _params = self.getQueryForm().formToJson();
+        var _params = self.newParams;
         _params = $.extend({},self.listFrom.fromdata, _params);
         if(!myValidFrom(self.listFrom,'queryFrom',_params)){
             return;
         }
-        _params = preParam(_params);
         //特殊验证
         if(!_params||!self.checkParam(_params,self)){
             return false;
