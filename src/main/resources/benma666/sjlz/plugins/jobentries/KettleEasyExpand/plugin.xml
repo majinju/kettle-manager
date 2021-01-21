@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="JobEntryEasyExpand"
+   iconfile="icon.png"
+   description="kettle简单扩展"
+   tooltip="kettle简单扩展作业插件的简单扩展支持，采用JSON作为参数配置，省去ui调试设计步骤，只需一个类就可以开发一个插件。"
+   category="General"
+   classname="cn.benma666.kettle.jobentry.easyexpand.JobEntryEasyExpand">
+   <libraries>
+    <library name="KettleEasyExpand.jar"/>
+   </libraries>
+    
+   <localized_category>
+     <category locale="en_US">General</category>
+     <category locale="zh_CN">通用</category>
+   </localized_category>
+   <localized_description>
+     <description locale="en_US">kettle easy expand</description>
+     <description locale="zh_CN">kettle简单扩展</description>
+   </localized_description>
+   <localized_tooltip>
+     <tooltip locale="en_US">kettle easy expand</tooltip>
+     <tooltip locale="zh_CN">kettle工具作业插件的简单扩展插件</tooltip>
+   </localized_tooltip>
+</plugin>

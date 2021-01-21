@@ -673,7 +673,7 @@ Vue.component('my-password', {
 	<input v-if="edit" 
 		:name="(owner||'')+field.zddm"
 		:value="nval"
-  		@blur="setval"
+  		@keyup="setval"
 		:index="index"
 		:type="field.type||'text'"
 		:data-rule="(field.qdyzgz||'')"
@@ -2439,7 +2439,7 @@ Vue.component('my-zssjdx', {
   });
 </script>
 <script type="text/x-tp" id="my-list-tp"> 
-<div class="wrap" v-cloak @keydown="zdcx">
+<div class="wrap" v-cloak @keyup="zdcx">
 <ol class="breadcrumb"  style="display: inline-block;">
     <li>
         <i class="icon ion-home"></i>

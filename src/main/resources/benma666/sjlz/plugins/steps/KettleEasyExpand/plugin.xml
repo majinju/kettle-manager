@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin
+   id="EasyExpand"
+   iconfile="icon.png"
+   description="kettle简单扩展"
+   tooltip="kettle简单扩展转换插件的简单扩展支持，采用JSON作为参数配置，省去ui调试设计步骤，只需一个类就可以开发一个插件。"
+   category="i18n:i18n:org.pentaho.di.trans.step:BaseStep.Category.Utility"
+   classname="cn.benma666.kettle.steps.easyexpand.EasyExpandMeta">
+		<libraries>
+    		<library name="KettleEasyExpand.jar"/>
+		</libraries>
+</plugin>

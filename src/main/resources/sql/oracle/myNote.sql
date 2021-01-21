@@ -9,9 +9,11 @@ select des_en('zxcvbnm,.','123asdzxc') from dual;
 --update sys_sjgl_sjzt t set t.mm=des_en(t.mm,'5zIcmw5qVZs=');
 select des_de(t.mm,'5zIcmw5qVZs='),t.* from sys_sjgl_sjzt t;
 --解密，改密码，加密
+/*
 update sys_sjgl_sjzt t set t.mm=des_de(t.mm,'5zIcmw5qVZs=') where t.mm is not null;
 select t.rowid,t.* from sys_sjgl_sjzt t;
 update sys_sjgl_sjzt t set t.mm=des_en(t.mm,'5zIcmw5qVZs=') where t.mm is not null;
+*/
 --用户
 --update sys_qx_yhxx t set t.yhmm=des_en(t.yhmm,'YA3EPe3fj/XrUtXDBr0y/Q==');
 select des_de(t.yhmm,'YA3EPe3fj/XrUtXDBr0y/Q=='),t.* from sys_qx_yhxx t;
