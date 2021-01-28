@@ -8,7 +8,7 @@
 
 ----------------oracle数据备份与还原---------------------------------------
 -- 远程导出数据：exp sjsj/sjsj@127.0.0.1/mydb file=d:\sjsj.dmp owner=('sjsj')
--- 远程导入数据：imp userid=sjsj/sjsj fromuser=sjsj touser=sjsj ignore=y file=d:\sjsj.dmp buffer=512000000
+-- 远程导入数据：imp userid=sjsj/sjsj@XXX fromuser=sjsj touser=sjsj ignore=y file=d:\sjsj.dmp buffer=512000000
 
 
 ----本地会新增，线上存在的数据全部以线上为准的场景，将本地新增的插入线上库----------
@@ -62,7 +62,7 @@ select 1 from sjsj1.sys_sjgl_grbj t1 where t1.id=t.id
 --数据字段
 delete from sjsj1.sys_sjgl_sjzd t where 
 exists (
-select 1 from sjsj.sjsj1.sys_sjgl_sjzd t1 where t1.id=t.id and t1.gxsj>=t.gxsj
+select 1 from sjsj.sys_sjgl_sjzd t1 where t1.id=t.id and t1.gxsj>=t.gxsj
 );
 insert into sjsj1.sys_sjgl_sjzd
 select * from sjsj.sys_sjgl_sjzd t

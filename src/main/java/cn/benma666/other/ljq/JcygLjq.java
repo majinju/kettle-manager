@@ -63,7 +63,7 @@ public class JcygLjq extends DefaultLjq{
                 myParams.put(KEY_YOBJ, j);
                 myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
                 JsonResult r = save(sjdx,myParams);
-                if(!r.isStatus()||(int)r.getData()!=1){
+                if(!r.isStatus()){
                     return error("保存失败："+j.getString("gmsfhm")+r.getMsg());
                 }
             }

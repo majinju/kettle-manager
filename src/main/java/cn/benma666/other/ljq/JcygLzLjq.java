@@ -59,6 +59,7 @@ public class JcygLzLjq extends DefaultLjq{
             List<String> wxryList = new ArrayList<String>();
             int count = 0;
             myParams.put(KEY_CLLX, KEY_CLLX_UPDATE);
+            myParams.put("myYzdjl", true);
             for(JSONObject j:er.getResult().toArray(new JSONObject[]{})){
                 j.put("zzzt", UtilConst.WHETHER_FALSE);
                 //查询是否存在
