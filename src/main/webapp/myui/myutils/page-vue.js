@@ -297,6 +297,17 @@ function PageAjax(){
     		shade: [0.3]
     	});
         var self = this;
+        var _params = self.newParams;
+        _params = $.extend({},self.listFrom.fromdata, _params);
+        if(!myValidFrom(self.listFrom,'queryFrom',_params)){
+            return;
+        }
+        //特殊验证
+        if(!_params||!self.checkParam(_params,self)){
+            return false;
+        }
+        self.params = _params;
+        self.autoCount = false;
         var params = self.params;
         if(self.paramType=="jsonStr"){
             params = {"myparams":JSON.stringify(params),"pageIndex":self.pageIndex,
@@ -453,11 +464,7 @@ saveAsExcel:function(page, title, hiddenCol)
 //导出全部
 exportAll:function(page, title, hiddenCol)
 {
-	if(page.total == 0){
-		alertError("没有数据可以导出！");
-		return;
-	}
-	if(page.total > 5000||page.total > page.maxPageSize){
+	if(page.total == 0||page.total > 5000||page.total > page.maxPageSize){
 		alertInfo("系统只能导出前"+page.maxPageSize+"条信息,导出全部功能比较耗时，根据数据量不同，数据量越大耗时越长，请耐心等待！！！");
 	}
 	page.exportAll(title,hiddenCol);

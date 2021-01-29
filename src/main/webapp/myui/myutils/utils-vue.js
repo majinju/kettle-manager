@@ -18,7 +18,7 @@ var scriptList=[
       serviceAddr+"myui/ueditor/ueditor.all.min.js",
       serviceAddr+"myui/ueditor/zh-cn.js",
       serviceAddr+"myui/myutils/shuiyin.js",
-      serviceAddr+"myui/myutils/page-vue.js?time=20210127",
+      serviceAddr+"myui/myutils/page-vue.js?time=20210128",
       serviceAddr+"myui/jsoneditor/jsoneditor.js",
       //md编辑器相关 satrt
       serviceAddr+"myui/editor.md/editormd.js?time=20210127",
