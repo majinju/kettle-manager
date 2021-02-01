@@ -6,6 +6,7 @@
 
 package cn.benma666.common.ljq;
 
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.JsonResult;
@@ -38,7 +39,7 @@ public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         }
         //监控任务对象,及参数对象构建
         JSONObject jkrw = (JSONObject) myParams.clone();
-        JSONObject p = (JSONObject) getJcxxByDxdm("SYS_YXJK_JKRW").getData();
+        JSONObject p = (JSONObject) getJcxxByDxdm("SYS_YXJK_JKRW",(SysQxYhxx) myParams.get(KEY_USER)).getData();
         SysSjglSjdx jkrwdx = (SysSjglSjdx) p.get(KEY_SJDX);
         jkrw.putAll(p);
         

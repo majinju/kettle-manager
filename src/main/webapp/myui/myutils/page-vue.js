@@ -300,10 +300,12 @@ function PageAjax(){
         var _params = self.newParams;
         _params = $.extend({},self.listFrom.fromdata, _params);
         if(!myValidFrom(self.listFrom,'queryFrom',_params)){
-            return;
+            layer.close(loadindex);
+            return false;
         }
         //特殊验证
         if(!_params||!self.checkParam(_params,self)){
+            layer.close(loadindex);
             return false;
         }
         self.params = _params;

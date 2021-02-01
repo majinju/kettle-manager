@@ -674,6 +674,7 @@ Vue.component('my-password', {
 		:name="(owner||'')+field.zddm"
 		:value="nval"
   		@keyup="setval"
+        @change="setval"
 		:index="index"
 		:type="field.type||'text'"
 		:data-rule="(field.qdyzgz||'')"
@@ -2750,7 +2751,7 @@ Vue.component('my-list', {
             },
             setval:function(field,event){
                 this.listPage.newParams[field.zddm] = event.val;
-                if(event.mc){
+                if(field.kjlx=='dict'){
                     this.listPage.newParams[field.zddm+"_text"]=event.mc;
                 }
                 console.log(field.zdmc + "=" + event.val); 
