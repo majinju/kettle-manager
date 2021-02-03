@@ -120,27 +120,26 @@ Vue.component('my-file', {
             if(val==""){
                 return "无文件";
             }
-            var nr = "查看";
+            var nr = null;
             var url = getDownloadUrl()+"?xzms=false&id="+val;
             var astyle="";
-            var istyle="width:100%;";
+            var istyle="width:100%;max-height:200px;";
             var filePz = this.kzxxObj.file;
             if(filePz.zsxs=="jpg"||filePz.zsxs=="jpeg"||filePz.zsxs=="gif"||filePz.zsxs=="png"||filePz.zsxs=="bmp"){
                 //jpg|jpeg|gif|png|bmp
-                nr = "<img style='"+istyle+"' src='"+url+"'/>";
-                astyle="";
             }else if(filePz.zsxs=="url"){
-                nr = "<img style='"+istyle+"' src='"+val+"'/>";
                 url = val;
-                nr = "<img style='"+istyle+"' src='"+url+"'/>";
-                astyle="";
+            }else if(filePz.zsxs=="base64"){
+                url = "data:image/png;base64,"+val;
             }else if(filePz.zsxs=="basicUrl"){
-                nr = "<img style='"+istyle+"' src='"+filePz.basicUrl+val+"'/>";
                 url = filePz.basicUrl+val;
-                nr = "<img style='"+istyle+"' src='"+url+"'/>";
-                astyle="";
             }else if(filePz.zsxs=="icon"){
                 return val;
+            }else{
+                nr = "查看";
+            }
+            if(nr!='查看'){
+                nr = "<img style='"+istyle+"' src='"+url+"'/>";
             }
             return "<a style='"+astyle+"' href='"+url+"' target='_blank'>"+nr+"</a>";
         }
@@ -685,6 +684,7 @@ Vue.component('my-password', {
 		:onfocus="field.onfocus"
 		 />
 	<span v-else :name="(owner||'')+field.zddm" :index="index" :class="field.cssl" 
+        :style="pagemodel=='search'?'':(field.style||'')"
 		:title="nvalTitle" v-html="nval"></span>
 </script>
 <script type="text/javascript">
@@ -1262,7 +1262,7 @@ Vue.component('my-numberaera', {
   });
 </script>
 <script type="text/x-tp" id="my-srkj-tp">
-	<div :title="value||field.zdts">
+	<div>
 	    <my-checkbox v-if="kjlx=='checkbox'" 
 			:field="field" :index="index" :value="value" :pagemodel="pagemodel" :owner="owner"
 			:edit="isEdit" @setval="setval"></my-checkbox>
@@ -3747,7 +3747,8 @@ function base64TpGsh(value,_this){
     if(isEmpty(value)){
         return "没有图片";
     }else{
-        return "<img src='data:image/png;base64,"+value+"'/>";
+        //return "<img style='width:100%;' src='data:image/png;base64,"+value+"'/>";
+        return $("#my-base64tpgsh-tp").tmpl({"value":value}).html();
     }
 }
 /**
@@ -3806,6 +3807,11 @@ a-oper="dxcl" title="删除【{{= sjdx.dxmc}}】"><i class="icon ion-android-del
 <a href="sjdx/edit.do?pagemodel=details&dxdm={{= sjdx.dxdm}}&myparams={{= editUrl(sjdx,row)}}" 
 a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-round"></i></a>
 </span>
+</script>
+<script type="text/x-tp" id="my-base64tpgsh-tp">
+<a herf="data:image/png;base64,{{= value}}" target="_balank">
+    <img style='width:100%;' src='data:image/png;base64,{{= value}}'/>
+</a>
 </script>
 <!-- 分页 -->
 <script type="text/x-tp" id="page-tp">

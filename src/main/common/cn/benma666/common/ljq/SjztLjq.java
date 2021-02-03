@@ -17,7 +17,6 @@ import cn.benma666.myutils.FtpUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
-import cn.benma666.sjgl.SjglException;
 import cn.benma666.web.SConf;
 
 import com.alibaba.druid.util.JdbcUtils;
@@ -108,7 +107,7 @@ public class SjztLjq extends ScjkrwLjq{
             }
             break;
         default:
-            throw new SjglException("不支持的对象载体类型："+sjdx.getDxztlx());
+            break;
         }
         JsonResult result = super.save(sjdx, myJsonParams);
         if(!result.isStatus()){

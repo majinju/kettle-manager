@@ -31,7 +31,8 @@ function wjnrGsh(value,_this){
     var row = _this.$root.$children[0].editdata;
     _this.kzxxObj.file.zsxs = row.wjlx;
     var val = row.id;
-    if(row.wjlx=="icon"){
+    if(row.sjzt=="wywztb"||row.sjzt=="base64"||row.wjlx=="url"
+        ||row.wjlx=="basicUrl"){
         val = row.sclj;
     }
     return val;

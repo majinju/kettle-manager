@@ -13,7 +13,8 @@
 <span>
 {{if qxByQxm(user,sjdx,'WJXZ')}}
 <span class="divider"></span>
-<a href="javascript:download('{{= row.id}}');" title="文件下载"><i class="icon ion-arrow-down-a"></i></a>
+<a href="javascript:xzwj('{{= row.id}}','{{= row.sjzt}}','{{= row.wjlx}}');" 
+    title="文件下载"><i class="icon ion-arrow-down-a"></i></a>
 {{/if}}
 </span>
 </script>
@@ -42,10 +43,24 @@ function wjnrGsh(value,_this){
     var row = _this.$parent.$parent.row;
     _this.kzxxObj.file.zsxs = row.wjlx;
     var val = row.id;
-    if(row.wjlx=="icon"){
+    if(row.sjzt=="wywztb"||row.sjzt=="base64"||row.wjlx=="url"
+            ||row.wjlx=="basicUrl"){
         val = row.sclj;
     }
     return val;
+}
+/**
+ * 下载文件
+ */
+function xzwj(id,sjzt,wjlx){
+    if(sjzt=="wywztb"){
+        alertError("该类型文件不支持下载");
+    }else if(sjzt=="base64"||wjlx=="url"
+            ||wjlx=="basicUrl"){
+        alertInfo("暂不支持该类型文件下载");
+    }else{
+        download(id);
+    }
 }
 /**
  * 文件大小
