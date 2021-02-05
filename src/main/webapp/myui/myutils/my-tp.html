@@ -875,7 +875,7 @@ Vue.component('my-time', {
             if(sf){
                 $event.val=sf($event.target.value,this);
             }else{
-                $event.val = $event.target.value;
+                $event.val=vueTimeFgsh($event.target.value,this);
             }
             this.dqz=$event.val;
             this.$emit('setval', this.field, $event);
@@ -887,6 +887,8 @@ Vue.component('my-time', {
             var sf = strFunToFun(this.field.gshff||"vueTimeGsh");
             if(sf){
                 val=sf(val,this);
+            }else{
+                val=vueTimeGsh(val,this);
             }
             return val;
         },
@@ -1001,6 +1003,8 @@ Vue.component('my-timeaera', {
             var sf = strFunToFun(this.field.gshff);
             if(sf){
                 val=sf(val,this);
+            }else{
+                val=vueTimeGsh(val,this);
             }
            return val;
         },
@@ -1013,6 +1017,8 @@ Vue.component('my-timeaera', {
             var sf = strFunToFun(this.field.gshff);
             if(sf){
                 val=sf(val,this);
+            }else{
+                val=vueTimeGsh(val,this);
             }
            return val;
         }
@@ -1027,7 +1033,7 @@ Vue.component('my-timeaera', {
             if(sf){
                 times[0]=sf($event.target.value,this,$event);
             }else{
-                times[0] = $event.target.value;
+                times[0]=vueTimeFgsh($event.target.value,this,$event);
             }
             this.times = times[0]+";"+times[1];
             if(this.times==";"){
@@ -1045,7 +1051,7 @@ Vue.component('my-timeaera', {
             if(sf){
                 times[1]=sf($event.target.value,this,$event);
             }else{
-                times[1] = $event.target.value;
+                times[1]=vueTimeFgsh($event.target.value,this,$event);
             }
             this.times = times[0]+";"+times[1];
             if(this.times==";"){
