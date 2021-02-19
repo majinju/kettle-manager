@@ -2937,10 +2937,14 @@ Vue.component('my-list', {
 					//树节点的单击事件
 	          		function treeClick(event, treeId, treeNode, clickFlag) {
 					    Vue.set(_this.fromdata,ssjddm,treeNode.dm);
+                        Vue.set(_this.fromdata,fjd,"");
+					    _this.listPage.queryPage();
 	          		}
 					//树右击事件
                     function zTreeOnRightClick(event, treeId, treeNode) {
                         Vue.set(_this.fromdata,fjd,treeNode.dm);
+                        Vue.set(_this.fromdata,ssjddm,"");
+                        _this.listPage.queryPage();
 // 			            if (treeNode && !treeNode.noR) {
 // 			                zTree.selectNode(treeNode);
 // 			                showRMenu(event.clientX, event.clientY);
