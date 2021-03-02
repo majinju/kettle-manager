@@ -947,7 +947,7 @@ Vue.component('my-timeaera', {
     data: function () {
       return {
           WdatePicker:{
-              hdgs:"yyyyMMddHHmmss",
+              hdgs:"yyyyMMdd",
               dateFmt:'yyyy-MM-dd',
               startData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'},
               endData:{dateFmt:'yyyy-MM-dd',readOnly:true,maxDate:'%y-%M-%d'}
@@ -2999,8 +2999,8 @@ Vue.component('my-list', {
             _this.initTree();
        		//水印
            	watermark({"watermark_txt":_this._data.user.yhxm+","+_this._data.user.sfzh});
-       		if(this.lbymkz("my-tzgg")){
-                var url = this.lbymkz("my-tzgg");
+       		if(this.lbymkz("通知公告")){
+                var url = this.lbymkz("通知公告");
                 if(!url.startWith("http")){
                     //此场景为配置的文档id
                     url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+url;
@@ -3201,8 +3201,8 @@ Vue.component('my-edit', {
     mounted: function () {
 		//水印
 		watermark({"watermark_txt":this._data.user.yhxm+","+this._data.user.sfzh});
-   		if(this.bjymkz("my-tzgg")){
-            var url = this.bjymkz("my-tzgg");
+   		if(this.bjymkz("通知公告")){
+            var url = this.bjymkz("通知公告");
             if(!url.startWith("http")){
                 //此场景为配置的文档id
                 url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+url;
@@ -3598,18 +3598,17 @@ Vue.component('my-cdym', {
         var _this = this;
    		//水印
        	watermark({"watermark_txt":_this.user.yhxm+","+_this.user.sfzh}); 
-   		if(this.kzxx['菜单信息']["my-tzgg"]){
-   		    var url = this.kzxx['菜单信息']["my-tzgg"];
-   		    if(!url.startWith("http")){
-   		        //此场景为配置的文档id
-   	            url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+url;
-   		    }
-   			popUpWinLayer({url:url,name:"通知公告"});
-            if(this.kzxx['菜单信息']["my-tzgg-full"]){
-                popUpFullWinLayer({url:url,name:"通知公告"});
-            }else{
-                popUpWinLayer({url:url,name:"通知公告"});
+   		if(this.kzxx['菜单信息']["通知公告"]){
+   		    var url = this.kzxx['菜单信息']["通知公告"];
+   		    if(url.startWith("dqyy:")){
+   		        //当前应用的页面
+   		        url = url.substr(5);
+   		    }else if(!url.startWith("http:")){
+                //此场景为配置的文档id
+                url = serviceAddr+"sjdx/edit.do?pagemodel=details&dxdm=SYS_SJGL_GRBJ_ZS&e_id="+url;
             }
+            _this.showCd = "tzgg";
+   	        _this.openCd.push({id:_this.showCd,src:url});
    		}
        	_this.initTree();
 	}
