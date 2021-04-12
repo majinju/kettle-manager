@@ -98,14 +98,20 @@ public class SjdxService extends BasicService{
     */
     public JsonResult txSaveListData(SysSjglSjdx dbSjdx, JSONObject myParams) {
         //JSON对象
-        JSONArray dataArr = myParams.getJSONObject(LjqInterface.KEY_YOBJ).getJSONArray("listEditData");
+        JSONObject yobj1 = myParams.getJSONObject(LjqInterface.KEY_YOBJ);
+        JSONArray dataArr = yobj1.getJSONArray("listEditData");
         int count=0;
         List<Object> ro = new ArrayList<Object>();
         for(JSONObject yobj:dataArr.toArray(new JSONObject[]{})){
-            if(UtilConst.WHETHER_TRUE.equals(yobj.getString("my-ybj"))){
-                DefaultLjq.putObj(dbSjdx, myParams, yobj);
+            JSONObject yobj2 = ((JSONObject)yobj1.clone());
+            yobj2.putAll(yobj);
+            if(UtilConst.WHETHER_TRUE.equals(yobj2.getString("my-ybj"))){
+                JsonResult r = DefaultLjq.putObj(dbSjdx, myParams, yobj2);
+                if(!r.isStatus()){
+                    return r;
+                }
                 myParams.put(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
-                JsonResult r = LjqManager.save(dbSjdx, myParams);
+                r = LjqManager.save(dbSjdx, myParams);
                 if(!r.isStatus()){
                     return r;
                 }else{

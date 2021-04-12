@@ -48,34 +48,6 @@ update sys_sjgl_grbj t
        t.cjrdwmc = '临时机构',
        t.cjrdwdm = '141B1AFC7E634176BDA7DB7F491A9004';
 
---因为Navicat导出没有导出主键，需要单独执行此语句建立主键
-/*
-alter table JCGA_JCYG_JCXX  add constraint PK_JCGA_JCYG_JCXX  primary key (ID);
-alter table JCGA_JCYG_SHGX  add constraint PK_JCGA_JCYG_SHGX  primary key (ID);
-alter table SYS_LOG_FWZR    add constraint PK_SYS_LOG_FWZR    primary key (ID);
-alter table SYS_LOG_HTRZ    add constraint PK_SYS_LOG_HTRZ    primary key (ID);
-alter table SYS_LOG_SJSCCW add constraint PK_SYS_LOG_SJSCCW primary key (ID);
-alter table SYS_LOG_SJLZRZ add constraint PK_SYS_LOG_SJLZRZ primary key (ID);
-alter table SYS_QX_APP      add constraint PK_SYS_QX_APP      primary key (ID);
-alter table SYS_QX_FWQ      add constraint PK_SYS_QX_FWQ      primary key (ID);
-alter table SYS_QX_JGXX     add constraint PK_SYS_QX_JGXX     primary key (ID);
-alter table SYS_QX_JSQXGL   add constraint PK_SYS_QX_JSQXGL   primary key (ID);
-alter table SYS_QX_JSXX     add constraint PK_SYS_QX_JSXX     primary key (ID);
-alter table SYS_QX_QXXX     add constraint PK_SYS_QX_QXXX     primary key (ID);
-alter table SYS_QX_YHJSGL   add constraint PK_SYS_QX_YHJSGL   primary key (ID);
-alter table SYS_QX_YHXX     add constraint PK_SYS_QX_YHXX     primary key (ID);
-alter table SYS_SJGL_BHSC   add constraint PK_SYS_SJGL_BHSC   primary key (ID);
-alter table SYS_SJGL_FILE   add constraint PK_SYS_SJGL_FILE   primary key (ID);
-alter table SYS_SJGL_SJDX   add constraint PK_SYS_SJGL_SJDX   primary key (ID);
-alter table SYS_SJGL_SJZD   add constraint PK_SYS_SJGL_SJZD   primary key (ID);
-alter table SYS_SJGL_SJZT   add constraint PK_SYS_SJGL_SJZT   primary key (ID);
-alter table SYS_SJGL_TYZD   add constraint PK_SYS_SJGL_TYZD   primary key (ID);
-alter table SYS_SJGL_DZD   add constraint PK_SYS_SJGL_DZD   primary key (ID);
-alter table SYS_SJGL_YHZDY  add constraint PK_SYS_SJGL_YHZDY  primary key (ID);
-alter table SYS_XMGL_RWXX   add constraint PK_SYS_XMGL_RWXX   primary key (ID);
-alter table SYS_YXJK_JKRW   add constraint PK_SYS_YXJK_JKRW   primary key (ID);
-alter table SYS_YXJK_XX     add constraint PK_SYS_YXJK_XX     primary key (ID);
-alter table SYS_YXJK_ZDYSQL add constraint PK_SYS_YXJK_ZDYSQL primary key (ID);
-alter table sys_sjgl_blob add constraint PK_sys_sjgl_blob primary key (ID);
-alter table SYS_SJGL_GRBJ add constraint PK_SYS_SJGL_GRBJ primary key (ID);
-*/
+--修改系统部署根目录
+update SYS_SJGL_SJZT t set t.ljc='/data'||t.ljc where t.dm='wjmrzt';
+update sys_sjgl_tyzd t set t.mc='/data'||t.mc where t.mc like '/benma666%';

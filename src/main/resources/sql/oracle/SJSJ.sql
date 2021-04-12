@@ -11,7 +11,7 @@
  Target Server Version : 110200
  File Encoding         : 65001
 
- Date: 27/01/2021 11:15:09
+ Date: 03/03/2021 16:14:00
 */
 
 
@@ -3381,6 +3381,59 @@ CREATE OR REPLACE VIEW "SJSJ"."V_XNDX" AS select '' id,1 repeat from dual;
 -- Function structure for DES_EN
 -- ----------------------------
 
+-- ----------------------------
+-- Function structure for GETDISTANCE
+-- ----------------------------
+CREATE OR REPLACE
+FUNCTION "SJSJ"."GETDISTANCE" AS
+begin
+  s := 2 *
+       Asin(Sqrt(power(sin(a / 2), 2) +
+                 cos(radLat1) * cos(radLat2) * power(sin(b / 2), 2)));
+  s := s * earth_padius;
+  s := Round(s * 10000) / 10000;
+  return s;
+end;
+/
+
+-- ----------------------------
+-- Function structure for LONG_TO_CHAR
+-- ----------------------------
+CREATE OR REPLACE
+FUNCTION "SJSJ"."LONG_TO_CHAR" AS
+begin
+  sql_cur := 'select '||in_column||' from
+'||in_owner||'.'||in_table_name||' where rowid =
+'||chr(39)||in_rowid||chr(39);
+  dbms_output.put_line (sql_cur);
+  execute immediate sql_cur into text_c1;
+
+  text_c1 := substr(text_c1, 1, 4000);
+  RETURN TEXT_C1;
+END;
+/
+
+-- ----------------------------
+-- Function structure for MD5
+-- ----------------------------
+CREATE OR REPLACE
+FUNCTION "SJSJ"."MD5" AS
+BEGIN
+retval := utl_raw.cast_to_raw(DBMS_OBFUSCATION_TOOLKIT.MD5(INPUT_STRING => in_str));
+--dbms_output.put_line('<'||in_str||'>的MD5:'||retval);
+RETURN retval;
+END;
+/
+
+-- ----------------------------
+-- Function structure for RADIAN
+-- ----------------------------
+CREATE OR REPLACE
+FUNCTION "SJSJ"."RADIAN" AS
+begin
+return  d* PI/180.0;
+end ;
+/
 
 -- ----------------------------
 -- Primary Key structure for table JCGA_JCYG_JCXX

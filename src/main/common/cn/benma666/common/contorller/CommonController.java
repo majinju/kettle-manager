@@ -170,8 +170,12 @@ public class CommonController extends BasicController {
         MultipartFile file =((MultipartHttpServletRequest) request).getFile("file");
         try{
             //上传文件
-            JSONObject record = commonService.upload(fileObj,file,getUser(request));
-            sendJson(response, success("上传成功",record));
+            JsonResult r = CommonService.upload(fileObj,file,getUser(request));
+            if(r.isStatus()){
+                sendJson(response, success("上传成功",r.getData()));
+            }else{
+                WebUtil.sendJson(response,r);
+            }
         }catch(Exception e){
             log.error("数据处理出错", e);
             WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));

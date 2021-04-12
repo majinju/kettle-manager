@@ -39,17 +39,13 @@ public class SjdxLjq extends DefaultLjq{
     */
     @Override
     public JsonResult save(SysSjglSjdx sjdx, JSONObject params) {
-        JSONObject jsonObj = (JSONObject) params.get(KEY_OBJ);
-        if(StringUtil.isNotBlank(jsonObj.getString(FIELD_DXDM))){
-            jsonObj.put(FIELD_DXDM, jsonObj.getString(FIELD_DXDM).toUpperCase());
+        JSONObject yobj = params.getJSONObject(KEY_YOBJ);
+        if(StringUtil.isNotBlank(yobj.getString(FIELD_DXDM))){
+            yobj.put(FIELD_DXDM, yobj.getString(FIELD_DXDM).toUpperCase());
         }
         switch (params.getString(KEY_CLLX)) {
         case KEY_CLLX_INSERT:
-            JSONObject yobj = params.getJSONObject(KEY_OBJ);
             SysSjglSjdx jtdx = JSON.parseObject(yobj.toString(), SysSjglSjdx.class);
-            jtdx.setId(StringUtil.getUUIDUpperStr());
-            yobj.put("id", jtdx.getId());
-//            sqlManager.insertTemplate(jtdx);
             JsonResult r = super.save(sjdx, params);
             if(!r.isStatus()){
                 return r;
@@ -277,7 +273,7 @@ public class SjdxLjq extends DefaultLjq{
         //新导入的对象复制默认字段
         int count = 0;
         if(oldFiledMap.isEmpty()){
-            params.put("oldSjdxId", "SYS_SJGL_SJZD");
+            params.put("oldSjdxId", "SYS_SJGL_SJDX");
             params.put("newSjdx", jtdx);
             params.put("newSjzd", fieldsList);
             //新建对象

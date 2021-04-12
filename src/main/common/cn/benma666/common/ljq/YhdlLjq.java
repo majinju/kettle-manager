@@ -6,10 +6,17 @@
 
 package cn.benma666.common.ljq;
 
+import java.io.File;
+import java.io.IOException;
+
+import cn.benma666.common.service.CommonService;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.exception.MyException;
 import cn.benma666.myutils.DesUtil;
+import cn.benma666.myutils.HttpUtil;
 import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -78,7 +85,6 @@ public class YhdlLjq extends DefaultLjq{
                     user.setClientIp(oldUser.getClientIp());
                     UserManager.addUser(oldUser.getToken(), user);
                     //将登陆凭证存入用户信息中返回前端，便于app类接口做后续请求
-                    yhxx.setToken(oldUser.getToken());
                     log.info(user.getYhxm()+"登陆成功");
                     SysQxYhxx r = new SysQxYhxx();
                     r.setToken(oldUser.getToken());
@@ -97,10 +103,59 @@ public class YhdlLjq extends DefaultLjq{
     @Override
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
+        SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
         switch (cllx) {
         case "yhtc":
-            SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
             return UserManager.removeUser(oldUser);
+        case "wxdl":
+            //微信登陆
+            JSONObject r = HttpUtil.doUrl(SConf.getVal("wx.api.base.url")+"/sns/jscode2session", 
+                    "appid=wx2ad6b1b8bef78a2e&secret=a8bca32830b51667a221cd5f4d422853&grant_type=authorization_code&js_code="+oldUser.getToken());
+            if(r.getIntValue("errcode")==0){
+                log.info(r);
+                //微信用户唯一标志
+                String wxyhid = r.getString("openid");
+                SysQxYhxx user;
+                try {
+                    user = UserManager.getUserBydWzyhid(wxyhid);
+                    user.set("wxLogin", r);
+                    user.setClientIp(oldUser.getClientIp());
+                    UserManager.addUser(oldUser.getToken(), user);
+                    return success("登陆成功",user);
+                } catch (MyException e) {
+                    //系统中还没有该微信用户
+                    oldUser.set("wxLogin", r);
+                    //返回临时用户
+                    return success("登陆成功",oldUser);
+                }
+            }else{
+                return error(r.getString("errmsg"));
+            }
+        case "wx-save-user-info":
+            JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+            JSONObject wxui = JSONObject.parseObject(yobj.getString("userInfo"));
+            try {
+                //头像保存到文件系统
+                File f = HttpUtil.downLoadFromUrl(wxui.getString("avatarUrl"), null, null, "/tmp/lswj");
+                SysSjglFile fileObj = new SysSjglFile();
+                fileObj.setSjzt("default");
+                fileObj.setYwdm("wx");
+                fileObj.setWjlb("tx");
+                JsonResult r1 = CommonService.upload(fileObj , f, oldUser);
+                f.delete();
+                if(!r1.isStatus()){
+                    return r1;
+                }
+                JSONObject fo = (JSONObject) r1.getData();
+                yobj.put("tx", fo.getString("id"));
+                yobj.put("yxxm", wxui.getString("nickName"));
+                //没有用户代码等信息，只能微信登陆，需要pc端登陆需要在微信中完善用户信息。
+                
+            } catch (IOException e) {
+                log.error("保存用户头像失败", e);
+                return error("保存用户头像失败");
+            }
+            return success("保存微信用户信息成功",oldUser);
         default:
             //执行默认操作
             return super.plcl(sjdx, myParams);

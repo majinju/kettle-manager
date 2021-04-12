@@ -49,11 +49,11 @@ function sjdxlbcz1(value,_this) {
     <li class="active">{{sjdx.dxmc}}</li>
 </ol>
 <div>
-<div v-if="lbymkz('my-istree')" style="width: 200px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;">
-<div style="text-align: center;font-size: 1.5em;background-color: bisque;color: brown;">资源目录</div>
+<div v-if="lbymkz('my-istree')" style="width: 250px;float: left;height: calc(( 100vh - 38px ));background-color: honeydew;">
+<div style="text-align: center;font-size: 1.5em;background-color: #f6eee6;color: 413c29;">资源目录</div>
 <ul :id="'leftTree-'+sjdx.id" class="ztree"></ul>
 </div>
-<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 200px));':''">
+<div :style="lbymkz('my-istree')?'float: left;width:calc((100% - 250px));':''">
 <my-from class="queryForm" :fromdata="fromdata" pagemodel="search" :fromid='queryFromid'
 	:data="$data" @setval="setval" onsubmit="return false;" :style="myFromStyle">
   <div class="row btn-right">
