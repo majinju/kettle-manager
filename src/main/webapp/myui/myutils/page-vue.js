@@ -337,42 +337,6 @@ function PageAjax(){
         .appendTo('body').submit().remove();
         layer.close(loadindex);
     };
-    /**
-     * 字段排序
-     */
-    this.fieldOrder = function() {
-        var self = this;
-        $(self.pageId +" .filed-order").each(function() {
-//          $(this).attr("title", "点击可以设置排序方式");
-//          $(this).css("color", "#2D8CF0");
-            $(this).append('<i class="" title="点击可以设置排序方式"></i>');
-            $(this).attr("data-order", "");
-            $(this).click(function() {
-                var fi = $(this).find("i");
-                var ficlass = fi.attr("class");
-                $("th i.desc").removeClass("desc");
-                $("th i.asc").removeClass("asc");
-                $(".order-current").removeClass("order-current");
-                $(this).addClass("order-current");
-                if (ficlass == '') {
-                    fi.addClass("desc");
-                    fi.attr("title", "当前是降序");
-                    $(this).attr("data-order", "desc");
-                } else if (ficlass == 'desc') {
-                    fi.removeClass("desc");
-                    fi.addClass("asc");
-                    fi.attr("title", "当前是升序");
-                    $(this).attr("data-order", "asc");
-                } else if (ficlass == 'asc') {
-                    fi.removeClass("asc");
-                    fi.attr("title", "点击可以设置排序方式");
-                    $(this).attr("data-order", "");
-                    $(".order-current").removeClass("order-current");
-                }
-                self.queryPage();
-            });
-        });
-    };
     this.setTotal=function(t){
         if(t>=0){
             var self = this;
@@ -386,8 +350,6 @@ function PageAjax(){
     this.setPageId=function(pageid){
         var self = this;
         self.pageId = pageid;
-        //字段排序
-        self.fieldOrder();
         //设置值改变校验
         self.getQueryForm().validator({
         	//实时验证关闭，只在提交表单的时候执行验证

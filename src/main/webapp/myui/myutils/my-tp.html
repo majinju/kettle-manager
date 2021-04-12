@@ -1552,7 +1552,7 @@ Vue.component('my-from', {
 	:data-filed="field.zddm" 
 	:title="field.zdmc+'['+field.zddm+']'"
 	data-order=""
-	:onclick="field.order?'listFrom.listPage.fieldOrder(this)':'return false;'"
+	@click="fieldOrder(this)"
 	>
 	<span class="checkbox" v-if="isCheckBox" @click="setvalTh"
 		:class="(field.cssl||'')+(val=='1'?' checkbox-checked':'')">
@@ -1562,6 +1562,7 @@ Vue.component('my-from', {
 	<span class="required" v-if="field.btzt"
 	>*</span>
     {{thName}}
+    <i class="" title="点击可以设置排序方式"></i>
 </th> 
 </script>
 <script type="text/javascript">
@@ -1587,6 +1588,34 @@ Vue.component('my-th', {
         setvalTh:function(){
             this.val=(this.val=='1'?'0':'1');
             this.$emit('setvalTh', this.field, this);
+        },
+        fieldOrder:function(_this){
+            if(this.field.yxpx!='1'){
+                return;
+            }
+            var el = $(this.$el);
+            var fi = el.find("i");
+            var ficlass = fi.attr("class");
+            $("th i.desc").removeClass("desc");
+            $("th i.asc").removeClass("asc");
+            $(".order-current").removeClass("order-current");
+            el.addClass("order-current");
+            if (ficlass == 'desc') {
+                fi.removeClass("desc");
+                fi.addClass("asc");
+                fi.attr("title", "当前是升序");
+                el.attr("data-order", "asc");
+            } else if (ficlass == 'asc') {
+                fi.removeClass("asc");
+                fi.attr("title", "点击可以设置排序方式");
+                el.attr("data-order", "");
+                $(".order-current").removeClass("order-current");
+            } else {
+                fi.addClass("desc");
+                fi.attr("title", "当前是降序");
+                el.attr("data-order", "desc");
+            }
+            this.$root.listPage.queryPage();
         }
     },
     watch: {
@@ -1640,9 +1669,7 @@ Vue.component('my-echarts', {
                   "orient": "vertical",
                   "right": 10,
                   "top": 20,
-                  "bottom": 20,
-                  "data": [],
-                  "selected": []
+                  "bottom": 20
                 },
                 "series": [
                   {
@@ -1654,12 +1681,12 @@ Vue.component('my-echarts', {
                       "50%"
                     ],
                     "data": [],
-                    "itemStyle": {
-                      "emphasis": {
-                        "shadowBlur": 10,
-                        "shadowOffsetX": 0,
-                        "shadowColor": "rgba(0, 0, 0, 0.5)"
-                      }
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
                     }
                   }
                 ]
@@ -1667,6 +1694,12 @@ Vue.component('my-echarts', {
           "bar":{
               "title": {
                   "x": "center"
+                },
+                grid: {
+                    left: '10%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
                 },
                 "tooltip": {
                   "trigger": "item",
@@ -1677,40 +1710,63 @@ Vue.component('my-echarts', {
                     "orient": "vertical",
                     "right": 10,
                     "top": 20,
-                    "bottom": 20,
-                    "data": [],
-                    "selected": []
+                    "bottom": 20
                   },
                 "xAxis": {
-                  "type": "category",
-                  "data": [
-                    "Mon",
-                    "Tue",
-                    "Wed",
-                    "Thu",
-                    "Fri",
-                    "Sat",
-                    "Sun"
-                  ]
+                  "type": "category"
                 },
                 "yAxis": {
                   "type": "value"
                 },
                 "series": [
                   {
-                    "data": [
-                      120,
-                      200,
-                      150,
-                      80,
-                      70,
-                      110,
-                      130
-                    ],
-                    "type": "bar"
+                    "type": "bar",
+                    "label": {
+                        show: true,
+                        position: 'top',
+                        valueAnimation: true
+                    }
                   }
                 ]
               },
+              "bar1":{
+                  "title": {
+                      "x": "center"
+                    },
+                    grid: {
+                        left: '10%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    "tooltip": {
+                      "trigger": "item",
+                      "formatter": "{b0}: {c0}"
+                    },
+                    "legend": {
+                        "type": "scroll",
+                        "orient": "vertical",
+                        "right": 10,
+                        "top": 20,
+                        "bottom": 20
+                      },
+                    "xAxis": {
+                        "type": "value"
+                    },
+                    "yAxis": {
+                        "type": "category"
+                    },
+                    "series": [
+                      {
+                        "type": "bar",
+                        "label": {
+                            show: true,
+                            position: 'right',
+                            valueAnimation: true
+                        }
+                      }
+                    ]
+                  },
               "line":{
                   "title": {
                       "x": "center"
@@ -1724,37 +1780,23 @@ Vue.component('my-echarts', {
                         "orient": "vertical",
                         "right": 10,
                         "top": 20,
-                        "bottom": 20,
-                        "data": [],
-                        "selected": []
+                        "bottom": 20
                       },
                     "xAxis": {
-                      "type": "category",
-                      "data": [
-                        "Mon",
-                        "Tue",
-                        "Wed",
-                        "Thu",
-                        "Fri",
-                        "Sat",
-                        "Sun"
-                      ]
+                      "type": "category"
+//                       ,"axisLabel": { "interval": 0, "rotate": 30 }
                     },
                     "yAxis": {
                       "type": "value"
                     },
                     "series": [
                       {
-                        "data": [
-                          120,
-                          200,
-                          150,
-                          80,
-                          70,
-                          110,
-                          130
-                        ],
-                        "type": "line"
+                        "type": "line",
+                        "label": {
+                            show: true,
+                            position: 'top',
+                            valueAnimation: true
+                        }
                       }
                     ]
                   }
@@ -1797,6 +1839,7 @@ Vue.component('my-echarts', {
     		var lbmsinfo = _this.lbmsinfo;
       		var legend = [];
       		var seriesData = [];
+            var valArr = [];
       		if(list.length==0){
       		}
       		for(var i in list){
@@ -1804,22 +1847,50 @@ Vue.component('my-echarts', {
       		    legend.push(o[lbmsinfo.data.name]);
       		  	seriesData.push({name:o[lbmsinfo.data.name],
       		  	    value:o[lbmsinfo.data.value]});
+      		    valArr.push(o[lbmsinfo.data.value]);
       		}
-    		var data = {
-                    legend: {
-                        data: legend,
-                        selected: legend
-                    },
-                    series : [
-                        {
-                            data: seriesData
+    		var data = {};
+    	    if(lbmsinfo.dm=='pie'){
+    	        data = {
+                        series : [
+                            {
+                                data: seriesData
+                            }
+                        ]
+                    };
+            }else if(lbmsinfo.dm=='line'){
+                data = {
+                        series : [
+                            {
+                                data: valArr
+                            }
+                        ],
+                        xAxis:{
+                            data:legend
                         }
-                    ]
-                };
-    		if(lbmsinfo.dm=='bar'||lbmsinfo.dm=='line'){
-    		    data.xAxis={
-                    data: legend
-                };
+                    };
+            }else if(lbmsinfo.dm=='bar'){
+                data = {
+                        series : [
+                            {
+                                data: valArr
+                            }
+                        ],
+                        xAxis:{
+                            data: legend
+                        }
+                    };
+    		}else if(lbmsinfo.dm=='bar1'){
+                data = {
+                        series : [
+                            {
+                                data: valArr
+                            }
+                        ],
+                        yAxis:{
+                            data: legend
+                        }
+                    };
     		}
             _this.myChart.setOption(data);
         }
@@ -1958,17 +2029,6 @@ Vue.component('my-table-zdy', {
 	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')&&lbmsVal=='list'" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
-			<my-file v-if="qxByQxm('SJPLSC')&&lbms=='list'" edit="true" :field="sjplscfield" @setval="sjplsc">
-				批量上传<i style="margin-left: 5px;" 
-			    	class="icon ion-ios-help-outline plscTitle" 
-			    	@mouseover="plscTitle(this)"></i>
-			</my-file>
-			<button v-if="qxByQxm('MBXZ')&&lbms=='list'" class="btn btn-primary btn-sm" @click="downloadTemplate()">
-				<i class="icon ion-arrow-down-a"></i> 
-				模板下载<i style="margin-left: 5px;" 
-			    	class="icon ion-ios-help-outline plscmbTitle" 
-			    	@mouseover="plscmbTitle()"></i>
-			</button>
 	        <button v-if="qxByQxm('PZDX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?pagemodel=edit&dxdm=SYS_SJGL_SJDX&myparams='+pzdxUrl"
 	            a-oper="other"><i class="icon ion-gear-b"></i> 配置对象</button>
 	        <button v-if="qxByQxm('PZZD')" class="btn btn-primary btn-sm" :href="'sjdx/list.do?dxdm=SYS_SJGL_SJZD&myparams='+pzzdUrl"
@@ -1998,11 +2058,16 @@ Vue.component('my-table-zdy', {
 			style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
 		</my-echarts>
 	</div>
-	<div v-if="lbms=='bar'">
+	<div v-if="lbms=='bar'" sm="柱状图">
 		<my-echarts :key="sjdx.dxdm+'bar'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar')" :rows="rows"
 			style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
 		</my-echarts>
 	</div>
+    <div v-if="lbms=='bar1'" sm="条形图">
+        <my-echarts :key="sjdx.dxdm+'bar1'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar1')" :rows="rows"
+            style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
+        </my-echarts>
+    </div>
     <div v-if="lbms=='line'">
         <my-echarts :key="sjdx.dxdm+'line'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('line')" :rows="rows"
             style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
@@ -2033,7 +2098,7 @@ Vue.component('my-zssjdx', {
             rows:[],
             listPage:new PageAjax(),
             listEditData:[],
-            sjplscfield:{
+            sjplscField:{
                     kzxx:{
                         file:{
                             ywdm:"other",
@@ -3235,7 +3300,7 @@ Vue.component('my-edit', {
 		</div>
 	</div>
         <div style="background-color: lavender;padding: 10px;position: absolute;bottom: 0px;width: 100%;text-align: center;">
-            <span>{{kzxx['登陆信息']['系统版权']||'系统软件版权所有@马进举'}}</span>
+            <span><a href="http://beian.miit.gov.cn/" target="_blank">{{kzxx['登陆信息']['备案号']}}</a> {{kzxx['登陆信息']['系统版权']||'系统软件版权所有@马进举'}}</span>
         </div>
 </div>
 </script>
@@ -3365,9 +3430,17 @@ Vue.component('my-dlym', {
 			<iframe v-for="(cd,ri) in openCd" :class="'gnIframe '+cd.id"
 				:style="cdRightStyle(cd.id)" :src="cd.src" @load="centerLoad"></iframe>
 		</div>
+        <div :style="'position: fixed;bottom: 60px;left: '+(isShowKj?154:4)+'px;z-index: 100;cursor: pointer;z-index: 100;'">
+          <span style="display:block; color:#000; text-align:center;font-size: large;" @click="showKj">
+             {{isShowKj?'收起':'展开'}}<i style="font-size: x-large;" :class="'icon ion-arrow-'+(isShowKj?'left':'right')+'-b'"></i>
+          </span>
+        </div>
 	</div>
 	<div class="bottom" style="height: 30px;width: 100%;text-align: center;border-top: solid #c9bdf6;">
-		<span style="font-size: initial;vertical-align: text-top;">{{kzxx['菜单信息']['系统版权']||'系统软件版权所有@马进举'}}</span>
+		<span style="font-size: initial;vertical-align: text-top;">
+            <a href="http://beian.miit.gov.cn/" target="_blank">{{kzxx['菜单信息']['备案号']}}</a>
+            {{kzxx['菜单信息']['系统版权']||'系统软件版权所有@马进举'}}
+        </span>
 	</div>
 </div>
 </script>

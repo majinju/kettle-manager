@@ -29,13 +29,16 @@ public class TyzdLjq extends DefaultLjq{
     public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+        //先更新
+        JsonResult r = super.save(sjdx, myParams);
+        //再清缓存
         if(KEY_CLLX_UPDATE.equals(cllx)){
             JSONObject obj = myParams.getJSONObject(KEY_OBJ);
             DictManager.clearDict(obj.getString("zdlb"));
         }else{
             DictManager.clearDict(yobj.getString("zdlb"));
         }
-        return super.save(sjdx, myParams);
+        return r;
     }
     /**
     * 

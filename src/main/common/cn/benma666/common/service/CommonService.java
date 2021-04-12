@@ -2,11 +2,16 @@
 package cn.benma666.common.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +23,7 @@ import cn.benma666.exception.MyException;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.FileUtil;
+import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.web.BasicService;
@@ -37,7 +43,31 @@ import com.alibaba.fastjson.JSONObject;
  */
 @Service()
 public class CommonService extends BasicService{
-    
+    private static Log log = LogFactory.getLog(CommonService.class);
+
+    /**
+    * 上传文件
+    * @author jingma
+    * @param fileObj
+    * @param file
+    * @param user
+    * @return
+    */
+    public static JsonResult upload(SysSjglFile fileObj,File file, SysQxYhxx user){
+        FileInputStream fi = null;
+        try {
+            //文件名称
+            String wjm = file.getName();
+            fileObj.setWjm(wjm);
+            return success("上传成功", upload(fileObj, FileUtils.readFileToByteArray(file), user));
+        } catch (Exception e) {
+            log.error("处理文件失败", e);
+            return error("文件上传失败："+e.getMessage());
+        }finally{
+            FileUtil.closeInputStream(fi);
+        }
+        
+    }
     /**
      * 上传文件
      * @param fileObj
@@ -46,20 +76,25 @@ public class CommonService extends BasicService{
      * @return
      * @throws IOException
      */
-    public JSONObject upload(SysSjglFile fileObj,MultipartFile file, SysQxYhxx user){
-        //文件名称
-        String wjm = file.getOriginalFilename();
-        fileObj.setWjm(wjm);
-        fileObj.setWjdx(BigDecimal.valueOf(file.getSize()));
-        QxManager.setCjrInfo(user, fileObj);
-        //文件类型
-        fileObj.setWjlx(wjm.substring(wjm.lastIndexOf('.') + 1).toLowerCase());
-        //去重码ywdm+wjlb+MD5
+    public static JsonResult upload(SysSjglFile fileObj,MultipartFile file, SysQxYhxx user){
         try {
-            fileObj.setQcm(fileObj.getYwdm()+fileObj.getWjlb()+FileUtil.getFileMD5(file.getInputStream()));
+            //文件名称
+            String wjm = file.getOriginalFilename();
+            fileObj.setWjm(wjm);
+            return success("上传成功", upload(fileObj, file.getBytes(), user));
         } catch (Exception e) {
-            log.error("生成文件去重码失败", e);
+            log.error("处理文件失败", e);
+            return error("文件上传失败："+e.getMessage());
         }
+    }
+    public static JSONObject upload(SysSjglFile fileObj,byte[] bFile, SysQxYhxx user) throws Exception{
+        String wjm = fileObj.getWjm();
+        //文件类型
+        fileObj.setWjlx(wjm .substring(wjm.lastIndexOf('.') + 1).toLowerCase());
+        fileObj.setWjdx(BigDecimal.valueOf(bFile.length));
+        //去重码ywdm+wjlb+MD5
+        fileObj.setQcm(fileObj.getYwdm()+fileObj.getWjlb()+FileUtil.getFileMD5(bFile));
+        QxManager.setCjrInfo(user, fileObj);
         //如果表中存在此去重码则把这个文件删除
         JSONObject f = db.findFirst("select * from sys_sjgl_file t where t.yxx='1' and t.qcm = ?", fileObj.getQcm());
         if(f!=null){
@@ -93,7 +128,12 @@ public class CommonService extends BasicService{
             sclj += "." + fileObj.getWjlx();
             fileObj.setSclj(sclj);
             File localFile = new File(sclj);
-            FileUtil.saveFileToDisk(localFile, file);
+            if(!localFile.getParentFile().exists()){
+                localFile.getParentFile().mkdirs();
+            }
+            FileOutputStream out = new FileOutputStream(localFile);
+            out.write(bFile);
+            out.close();
             break;
         case JdbcUtils.ORACLE:
         case JdbcUtils.MYSQL:
@@ -104,7 +144,7 @@ public class CommonService extends BasicService{
             Db wjdb = Db.use(sjzt.getString("dm"));
             String id = StringUtil.getUUIDUpperStr();
             try {
-                wjdb.update("insert into sys_sjgl_blob(id,nr) values (?,?)", id,file.getBytes());
+                wjdb.update("insert into sys_sjgl_blob(id,nr) values (?,?)", id,bFile);
                 fileObj.setSclj("select nr wj from sys_sjgl_blob where id='"+id+"'");
             } catch (Exception e) {
                 throw new MyException("文件入数据库失败", e);

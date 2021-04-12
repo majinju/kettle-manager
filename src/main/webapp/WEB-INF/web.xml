@@ -8,7 +8,31 @@
 			classpath*:applicationContext.xml
 		</param-value>
 	</context-param>
-	
+    
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>post-data-dumper-filter</filter-name>
+        <filter-class>cn.benma666.web.PostDataDumperFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>post-data-dumper-filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 	<!-- 解决跨域问题 -->
 	<filter>
 	    <filter-name>CorsFilter</filter-name>
@@ -17,32 +41,6 @@
 	<filter-mapping>
 	    <filter-name>CorsFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<filter>
-		<filter-name>post-data-dumper-filter</filter-name>
-		<filter-class>cn.benma666.web.PostDataDumperFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>post-data-dumper-filter</filter-name>
-		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
 	<listener>

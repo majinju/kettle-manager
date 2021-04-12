@@ -31,7 +31,7 @@ var scriptList=[
       serviceAddr+"myui/editor.md/lib/jquery.flowchart.min.js",
       //md编辑器相关 end
       serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js",
-      serviceAddr+"myui/echarts/echarts-4.2.1-rc.1.js"
+      serviceAddr+"myui/echarts5/echarts.js"
    ];
 /**
  * 需要引入的css脚本文件
