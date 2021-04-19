@@ -8,7 +8,7 @@
 			classpath*:applicationContext.xml
 		</param-value>
 	</context-param>
-    
+
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
