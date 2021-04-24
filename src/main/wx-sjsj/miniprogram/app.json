@@ -1,21 +1,25 @@
 {
   "pages": [
     "pages/index/index",
-    "list/SYS_SJGL_SJDX/index"
+    "pages/list/index",
+    "pages/edit/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "数据小站",
+    "navigationBarTitleText": "奔马数据",
     "navigationBarTextStyle": "black"
   },
   "networkTimeout": {
-    "request": 10000,
-    "connectSocket": 10000,
-    "uploadFile": 10000,
-    "downloadFile": 10000
+    "request": 30000,
+    "connectSocket": 30000,
+    "uploadFile": 30000,
+    "downloadFile": 30000
   },
   "sitemapLocation": "sitemap.json",
-  "style": "v2"
+  "style": "v2",
+  "useExtendedLib": {
+    "weui": true
+  }
 }

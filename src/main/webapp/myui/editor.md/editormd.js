@@ -3607,7 +3607,7 @@
             
             var headingHTML = "<h" + level + " id=\"h"+ level + "-" + this.options.headerPrefix + id +"\">";
             
-            headingHTML    += "<a name=\"" + text + "\" class=\"reference-link\"></a>";
+            headingHTML    += "<a name=\"" + linkTextIdx + "\" class=\"reference-link\"></a>";
             headingHTML    += "<span class=\"header-link octicon octicon-link\"></span>";
             headingHTML    += (hasLinkReg) ? this.atLink(this.emoji(linkTextIdx)) : this.atLink(this.emoji(textIdx));
             headingHTML    += "</h" + level + ">";
@@ -3737,7 +3737,7 @@
                 html += "</ul></li>";
             }
 
-            html += "<li><a class=\"toc-level-" + level + "\" href=\""+baseUrl+"#" + text + "\" level=\"" + level + "\">" + toc[i].textIdx + "</a><ul>";
+            html += "<li><a class=\"toc-level-" + level + "\" href=\""+baseUrl+"#" + toc[i].textIdx + "\" level=\"" + level + "\">" + toc[i].textIdx + "</a><ul>";
             lastLevel = level;
         }
         
