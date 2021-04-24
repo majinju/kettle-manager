@@ -1,4 +1,3 @@
-//index.js
 const app = getApp()
 
 Page({
@@ -12,7 +11,9 @@ Page({
   onLoad: function() {
     this.setData({
       hasLogin: app.globalData.hasLogin,
-      serviceAddr:app.globalData.serviceAddr
+      serviceAddr:app.globalData.serviceAddr,
+      statusBarHeight:app.globalData.statusBarHeight,
+      navigationBarHeight:app.globalData.navigationBarHeight
     });
     if (wx.getUserProfile) {
       this.setData({
@@ -20,7 +21,6 @@ Page({
       })
     }
     this.login();
-
   },
   login() {
     const that = this;
@@ -62,6 +62,7 @@ Page({
       },
       success(res){
         var u = res.data.data;
+        u.wxyhxx = JSON.parse(u.wxyhxx);
         that.setData({
           userInfo: u,
           hasUserInfo: true
@@ -93,7 +94,7 @@ Page({
         data: {
           "e_cllx": "getTreeCN",
           "e_treeModel": "cds",
-          "e_treeRoot": "KFZFW",
+          "e_treeRoot": "WX_SJSJ",
           "e_fqx":fqx,
           "token":app.globalData.token
         },

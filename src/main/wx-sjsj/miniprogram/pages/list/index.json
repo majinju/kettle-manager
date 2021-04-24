@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-slideview": "weui-miniprogram/slideview/slideview",
+    "mp-loading": "weui-miniprogram/loading/loading"
+  },
+  "navigationBarTitleText": "查询列表"
+}

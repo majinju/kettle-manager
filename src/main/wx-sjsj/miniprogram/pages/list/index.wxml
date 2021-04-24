@@ -1,0 +1,42 @@
+<import src="../../common/head.wxml" />
+<import src="../../common/foot.wxml" />
+<view class="container page" style="width:100%">
+  <template is="head" data="{{title: '查询列表'}}" />
+  <view class="flex-wrp" style="flex-direction:column;">
+    <view class="flex-item flex-item-V demo-text-1"
+      style="align-items: center;justify-content: center;text-align: center;display: flex;">
+      <view style="width:76%;display: inline-table;">
+        <view class='search'>
+        <view class='searchItem'>
+            <icon class="weui-icon-search" type="search" size="12"></icon>
+            <input placeholder='搜索' type="text" confirm-type="search" bindconfirm="getList" placeholder-style="text-align:left;"></input>
+        </view>
+    </view>
+      </view>
+      <button bindtap="add" size="mini" type="primary" style="display: inline-table;width: 20%;margin: 0px 2%;">
+        新增
+      </button>
+    </view>
+    <view class="flex-item flex-item-V demo-text-2">
+        <mp-cells ext-class="my-cells" title="数据列表">
+            <mp-slideview  wx:for-items="{{pageData}}" show="{{false}}" 
+            buttons="{{slideButtons}}" 
+            bindbuttontap="slideButtonTap">
+                <mp-cell link url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{item.id}}" 
+                value="{{item.my_heard}}" footer="{{item.my_footer}}"></mp-cell>
+            </mp-slideview>
+            <mp-loading wx:if="{{loading}}" type="circle"></mp-loading>
+            <mp-slideview wx:elif="{{pageData.length==0}}">
+                <mp-cell value="暂无结果"></mp-cell>
+            </mp-slideview>
+            <mp-slideview wx:else style="text-align: center;">
+                <mp-cell wx:if="{{moreData}}" bindtap="loadmore" value="更多数据" 
+                  style="color: blue;"></mp-cell>
+                <mp-cell wx:else value="没有更多数据了" ></mp-cell>
+            </mp-slideview>
+        </mp-cells>
+    </view>
+    <view class="flex-item flex-item-V demo-text-3"></view>
+  </view>
+  <template is="foot" />
+</view>

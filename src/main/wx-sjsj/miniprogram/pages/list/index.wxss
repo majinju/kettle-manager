@@ -1,0 +1,33 @@
+@import "../../common/index.wxss";
+@import "../../common/common.wxss";
+
+view.search {
+  display: flex;
+  flex-direction: row;
+  height: 65rpx;
+  background: #efeff4;
+  align-items: center;
+}
+
+view.searchItem {
+  display: flex;
+  width: 100%;
+  background: #fff;
+  flex-direction: row;
+  border-radius: 10rpx;
+  margin-right: 20rpx;
+  margin-left: 20rpx;
+}
+
+view.searchItem image {
+  height: 42rpx;
+  width: 42rpx;
+  align-self: center;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+}
+
+view.searchItem input {
+  flex: 1;
+  font-size: 30rpx;
+}

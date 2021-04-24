@@ -1,0 +1,24 @@
+<import src="../../common/head.wxml" />
+<import src="../../common/foot.wxml" />
+<view class="container page" style="width:100%;background-color: white;">
+  <template is="head" data="{{title: '编辑'}}" />  
+  <view wx:if="{{!jcxx}}" class="loading-page">
+    <image class="userinfo-avatar" src="../../images/logo_seting.png" mode="cover"></image>
+    <view>信息加载中，请稍等...</view>
+  </view>
+  <view wx:else>
+    <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+      <view wx:for-items="{{jcxx.fields}}" wx:if="{{(pageModel=='edit'&&item.bjzs=='1')||(pageModel=='add'&&item.xzzs=='1')||(pageModel=='details'&&item.xqzs=='1')}}" class="page-section">
+        <mp-cell prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
+          <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" 
+            bindinput="formInputChange" data-field="{{item.zddm}}" class="weui-input" 
+            placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm]}}" />
+        </mp-cell>
+      </view>
+    </mp-form>
+    <view slot="button">
+      <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+    </view>
+  </view>
+  <template is="foot" />
+</view>
