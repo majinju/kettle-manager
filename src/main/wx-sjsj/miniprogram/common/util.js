@@ -89,7 +89,7 @@ function dateFormat(dateStr, fmt) {
  * 获取字典列表
  * @param zdlb 字典类别
  */
-function zdList(zdlb, globalData) {
+function zdList(globalData,zdlb) {
   return new Promise((resolve, reject) => {
     var zdListCache = globalData.zdListCache;
     if (zdListCache[zdlb + "_cache"]) {
@@ -130,6 +130,29 @@ function zdList(zdlb, globalData) {
   });
 }
 /**
+ * 字典名称列表
+ */
+function zdmcList(globalData, zdlb) {
+  return new Promise((resolve, reject) => {
+    var zdmcListCache = globalData.zdmcListCache;
+    if (zdmcListCache[zdlb + "_cache"]) {
+      //不支持获取列表
+      resolve(null);
+    }else if (zdmcListCache[zdlb] == null) {
+      zdList(globalData,zdlb).then(function (zl) {
+        var zdmcList = [];
+        for(var i in zl){
+          zdmcList.push(zl[i].mc);
+        }
+        zdmcListCache[zdlb]=zdmcList;
+        resolve(zdmcListCache[zdlb]);
+      });
+    }else{
+      resolve(zdmcListCache[zdlb]);
+    }
+  });
+}
+/**
  * 获取字典对象
  * @param zdlb 字典类别
  * @param dm 字典代码
@@ -139,25 +162,41 @@ function zdObj(globalData, zd, cache) {
     var zdListCache = globalData.zdListCache;
     var zdlb = zd.zdlb;
     var dm = zd.dm;
+    var mc = zd.mc;
     var obj = null;
     if (zdlb) {
       if (cache == undefined) {
         //默认走缓存
         cache = true;
       }
-      this.zdList(zdlb, globalData).then(function (zl) {
+      zdList(globalData,zdlb).then(function (zl) {
         if (zl && cache) {
           //获取了字典列表
-          for (var i in zl) {
-            if (zl[i].dm == dm) {
-              obj = zl[i];
-              break;
+          if(dm){
+            for (var i in zl) {
+              if (zl[i].dm == dm) {
+                obj = zl[i];
+                obj.idx=i;
+                break;
+              }
+            }
+          }else if(mc){
+            for (var i in zl) {
+              if (zl[i].mc == mc) {
+                obj = zl[i];
+                obj.idx=i;
+                break;
+              }
             }
           }
           resolve(obj);
         } else if (zdListCache[zdlb][dm] && cache) {
           //该字典的具体字典项已经缓存。
           obj = zdListCache[zdlb][dm];
+          resolve(obj);
+        } else if (zdListCache[zdlb][mc] && cache) {
+          //该字典的具体字典项已经缓存。
+          obj = zdListCache[zdlb][mc];
           resolve(obj);
         } else {
           zd['e_cache'] = cache;
@@ -168,14 +207,21 @@ function zdObj(globalData, zd, cache) {
             success(res) {
               if (res.data.status) {
                 var data = res.data.data;
-                zdListCache[zdlb][dm] = data;
+                zdListCache[zdlb][data.dm] = data;
+                zdListCache[zdlb][data.mc] = data;
                 obj = data;
-              } else {
+              } else if(dm){
                 obj = {
                   "dm": dm,
                   "mc": dm
                 };
                 zdListCache[zdlb][dm] = obj;
+              } else if(mc){
+                obj = {
+                  "dm": mc,
+                  "mc": mc
+                };
+                zdListCache[zdlb][mc] = obj;
               }
               resolve(obj);
             },
@@ -203,7 +249,7 @@ function zdObj(globalData, zd, cache) {
  */
 function zdMcByDm(globalData, zdlb, dm) {
   return new Promise((resolve, reject) => {
-    this.zdObj(globalData, {
+    zdObj(globalData, {
       zdlb: zdlb,
       dm: dm
     }).then(function (obj) {
@@ -211,6 +257,44 @@ function zdMcByDm(globalData, zdlb, dm) {
         resolve(dm);
       } else {
         resolve(obj.mc);
+      }
+    });
+  });
+}
+/**
+ * 获取字典名称
+ * @param zdlb 字典类别
+ * @param dm 字典代码
+ */
+function zdDmByMc(globalData, zdlb, mc) {
+  return new Promise((resolve, reject) => {
+    zdObj(globalData, {
+      zdlb: zdlb,
+      mc: mc
+    }).then(function (obj) {
+      if (obj == null) {
+        resolve(mc);
+      } else {
+        resolve(obj.dm);
+      }
+    });
+  });
+}
+/**
+ * 获取字典名称
+ * @param zdlb 字典类别
+ * @param dm 字典代码
+ */
+function zdIdxByMc(globalData, zdlb, mc) {
+  return new Promise((resolve, reject) => {
+    zdObj(globalData, {
+      zdlb: zdlb,
+      mc: mc
+    }).then(function (obj) {
+      if (obj == null) {
+        resolve(0);
+      } else {
+        resolve(obj.idx);
       }
     });
   });
@@ -236,10 +320,172 @@ function zdMcByDm(globalData, zdlb, dm) {
 }
 ////////////////////////////////字典///////////////////////////
 
+/**
+ * 我的规则验证
+ * @param value 值
+ * @param rules 规则
+ * @returns {String} 消息内容，为空时表示验证通过
+ */
+function myGzyz(globalData,value,rules,field){
+  if(!rules){
+      return;
+  }
+  var msg=null;
+  var ruleArr = rules.replace("；", ";").split(";");
+  if(rules.indexOf("rgz:")>-1){
+      rules = "";
+      for(var i in ruleArr){
+          var rule = ruleArr[i];
+          if(!rule){
+              continue;
+          }
+          var rr = rule.split(":");
+          //前端不进行如果则的规则校验
+          if("rgz"!=rr[0]){
+              rules+=";"+rule;
+          }
+      }
+  }
+  if(!value){
+      if(rules.indexOf("notNull")>-1){
+          msg = "该值不能为空";
+      }
+  }else{
+      ruleArr = rules.split(";");
+      var zdlb = null;
+      for(var i in ruleArr){
+          var rule = ruleArr[i];
+          if(!rule){
+              continue;
+          }
+          var rr = rule.split(":");
+          switch (rr[0]) {
+          case "notNull":
+              //前面已经处理
+              break;
+          case "mustBe":
+              if(value!=rr[1]){
+                  var val = rr[1];
+                  if(zdlb){
+                      val = zdObj(globalData,{zdlb:zdlb,dm:val}).mc;
+                  }
+                  msg = "该值必须为："+val;
+              }
+              break;
+          case "length":
+              if(value.length<rr[1]){
+                  msg = "该值长度不得小于："+rr[1];
+              }else if(value.length>rr[2]){
+                  msg = "该值长度不得大于："+rr[2];
+              }
+              break;
+          case "number":
+              if(!isNumber(value)){
+                  msg = "该值要求是数字";
+              }else if(value>rr[1]){
+                  msg = "该值超出大小限制："+rr[1];
+              }
+              break;
+          case "null":
+              if(value){
+                  msg = "该值必须为空";
+              }
+              break;
+          case "date":
+              if(value.length==8||value.length==10||value.length==14||value.length==19){
+              }else{
+                  msg = "该值必须是时间格式";
+              }
+              break;
+          case "zzbds":
+              //正则表达式
+              eval("var bds = /"+rr[1]+"/gm");
+              if(!bds.test(value)){
+                  msg = rr[2];
+              }
+              break;
+          case "sfzh":
+              if(!idCardNoUtil.checkIdCardNo(value)){
+                  msg = "该值不是正确的身份证号码";
+              }
+              break;
+          case "email":
+              if(value.indexOf("@")<0){
+                  msg = "该值不是正确的邮箱";
+              }
+              break;
+          case "zdpd":
+              //字典判断
+              if(zdObj({zdlb:rr[1],dm:value},false).mc=='0'){
+                  msg = "远程判断未通过:"+rr[2];
+              }
+              break;
+          case "zd":
+              //字典判断
+              var kzxx = field.kzxx;
+              if(typeof kzxx == "string"){
+                kzxx = JSON.parse(kzxx);
+              }
+              if(field&&kzxx["字典数据"]){
+                  break;
+              }
+              var zdArr = value.split(",");
+              for(var i in zdArr){
+                  if(zdObj(globalData,{zdlb:rr[1],dm:zdArr[i]})==null){
+                      msg = "该字典项不存在:"+zdArr[i];
+                  }
+              }
+              zdlb = rr[1];
+              break;
+          default:
+              msg = "规则不支持:"+rr[0];
+          }
+          if(msg){
+              break;
+          }
+      }
+  }
+  if(msg){
+      console.info(field.zdmc+"验证未通过："+msg);
+  }
+  return msg;
+}
+
+/**
+ * 判断字符串是否为空
+ * @param str 要判断的字符串
+ * @returns 空：true，非空：false
+ */
+function isEmpty(str){
+  if(str==null||str==""){
+      return true;
+  }else{
+      return false;
+  }
+}
+/**
+* 是否是非负整数
+* @param str
+* @returns 非负整数：true，否则：false
+*/
+function isNumber(str){
+  return (/^(\+|-)?\d+$/.test( str ))&& str>=0;
+}
+
 module.exports = {
   dateFormat:dateFormat,
   zdMcByDm:zdMcByDm,
+  zdDmByMc:zdDmByMc,
+  zdIdxByMc:zdIdxByMc,
   zdMcByDmMore:zdMcByDmMore,
   zdObj:zdObj,
-  zdList:zdList
+  zdList:zdList,
+  zdmcList:zdmcList,
+  isEmpty:isEmpty,
+  isNumber:isNumber,
+  myGzyz:myGzyz,
+  DATE_FORMAT_19:"yyyy-MM-dd HH:mm:ss",
+  DATE_FORMAT_14:"yyyyMMddHHmmss",
+  DATE_FORMAT_10:"yyyy-MM-dd",
+  DATE_FORMAT_8:"yyyyMMdd",
 }

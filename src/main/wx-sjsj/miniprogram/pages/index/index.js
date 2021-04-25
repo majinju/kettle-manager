@@ -94,7 +94,7 @@ Page({
         data: {
           "e_cllx": "getTreeCN",
           "e_treeModel": "cds",
-          "e_treeRoot": "WX_SJSJ",
+          "e_treeRoot": app.globalData.cdRoot,
           "e_fqx":fqx,
           "token":app.globalData.token
         },

@@ -1,23 +1,48 @@
 <import src="../../common/head.wxml" />
 <import src="../../common/foot.wxml" />
-<view class="container page" style="width:100%;background-color: white;">
-  <template is="head" data="{{title: '编辑'}}" />  
-  <view wx:if="{{!jcxx}}" class="loading-page">
+<view class="container page" data-weui-theme="{{theme}}" style="width:100%;background-color: white;">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <template is="head" data="{{title: '编辑'}}" />
+  <view wx:if="{{!jcxx.fields}}" class="loading-page">
     <image class="userinfo-avatar" src="../../images/logo_seting.png" mode="cover"></image>
     <view>信息加载中，请稍等...</view>
   </view>
   <view wx:else>
     <mp-form id="form" rules="{{rules}}" models="{{formData}}">
-      <view wx:for-items="{{jcxx.fields}}" wx:if="{{(pageModel=='edit'&&item.bjzs=='1')||(pageModel=='add'&&item.xzzs=='1')||(pageModel=='details'&&item.xqzs=='1')}}" class="page-section">
-        <mp-cell prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
-          <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" 
-            bindinput="formInputChange" data-field="{{item.zddm}}" class="weui-input" 
-            placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm]}}" />
+      <view wx:for-items="{{jcxx.fields}}"
+        wx:if="{{(pageModel=='edit'&&item.bjzs=='1')||(pageModel=='add'&&item.xzzs=='1')||(pageModel=='details'&&item.xqzs=='1')}}"
+        wx:key="{{item.id}}" class="page-section">
+        <mp-cell wx:if="{{item.kjlx=='dict'||item.kjlx=='checkbox'}}"
+          ext-class="weui-cell_select weui-cell_select-after">
+          <view slot="title" class="weui-label">{{item.zdmc}}</view>
+          <picker disabled="{{pageModel=='details'||item.yxbj=='0'}}" 
+            bindchange="bindDictChange" data-field="{{item}}"
+            value="{{jcxx.obj[item.zddm+'_idx']}}" range="{{zdMap[item.zdzdlb]}}">
+            <view class="weui-select">{{jcxx.obj[item.zddm+'_mc']}}</view>
+          </picker>
+        </mp-cell>
+        <mp-cell wx:elif="{{item.kjlx=='time'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
+          <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange" data-field="{{item}}"
+            class="weui-input" placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm+'_user']}}" />
+        </mp-cell>
+        <view wx:elif="{{item.kjlx=='textarea'}}">
+          <mp-cells title="{{item.zdmc}}">
+            <mp-cell has-header="{{false}}" has-footer="{{false}}" title="" ext-class="">
+              <textarea class="weui-textarea" placeholder="{{item.zdms}}" style="height: 3.3em"
+                disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange" data-field="{{item}}"
+                value="{{jcxx.obj[item.zddm]}}" />
+              </mp-cell>
+          </mp-cells>
+        </view>
+        <mp-cell wx:else prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
+          <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange"
+            data-field="{{item}}" class="weui-input" placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm]}}" />
         </mp-cell>
       </view>
     </mp-form>
     <view slot="button">
       <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+      <button class="weui-btn" type="default" bindtap="quxiao">取消</button>
     </view>
   </view>
   <template is="foot" />
