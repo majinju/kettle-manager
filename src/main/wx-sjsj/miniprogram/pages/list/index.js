@@ -83,8 +83,7 @@ CustomPage({
             console.log('查询失败:' + res.msg);
             wx.showToast({
               title: "查询失败！",
-              icon: 'error',
-              duration: 3000
+              icon: 'error'
              });
           }
           that.setData({
@@ -95,8 +94,7 @@ CustomPage({
           console.log('查询失败！' + res.errMsg);
           wx.showToast({
             title: "查询失败！",
-            icon: 'error',
-            duration: 3000
+            icon: 'error'
            });
            that.setData({
              loading:false

@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/switch-system/index",
     "pages/list/index",
     "pages/edit/index"
   ],

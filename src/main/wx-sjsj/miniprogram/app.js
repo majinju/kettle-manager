@@ -20,6 +20,8 @@ App({
       projectCode:"bmsj",
       //项目名称
       projectName:"奔马数据",
+      //用户信息
+      user:{},
       //服务端地址
       serviceAddr:"https://my.benma666.cn:85/myservice/",
       //菜单根节点

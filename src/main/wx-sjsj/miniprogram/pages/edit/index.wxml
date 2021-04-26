@@ -21,30 +21,28 @@
         </mp-cell>
         <mp-cell wx:elif="{{item.kjlx=='checkbox'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
           <switch slot="footer" checked="{{jcxx.obj[item.zddm]=='1'?true:false}}"
-            disabled="{{pageModel=='details'||item.yxbj=='0'}}" data-field="{{item}}" data-val="{{jcxx.obj[item.zddm]}}"
+            disabled="{{pageModel=='details'||item.yxbj=='0'}}" 
+            data-field="{{item}}" data-val="{{jcxx.obj[item.zddm]}}"
             bindchange="bindSwitchChange" />
         </mp-cell>
         <mp-cell wx:elif="{{item.kjlx=='time'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
-          <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange" data-field="{{item}}"
-            class="weui-input" placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm+'_user']}}" />
+          <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" 
+            bindinput="bindInputChange" data-field="{{item}}"
+            class="weui-input" placeholder="{{item.zdms}}" 
+            value="{{jcxx.obj[item.zddm+'_user']}}" />
         </mp-cell>
-        <view wx:elif="{{item.kjlx=='textarea'}}">
+        <view wx:elif="{{item.kjlx=='textarea'||item.zdkd<10||item.zdkd>200}}">
           <mp-cells title="{{item.zdmc}}">
             <mp-cell has-header="{{false}}" has-footer="{{false}}" title="" ext-class="">
               <textarea class="weui-textarea" placeholder="{{item.zdms}}" auto-height="{{true}}"
-                disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange" data-field="{{item}}"
+                disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange" 
+                maxlength="{{item.zdcd}}" data-field="{{item}}"
                 value="{{jcxx.obj[item.zddm]}}" />
               </mp-cell>
           </mp-cells>
         </view>
         <view wx:else>
-          <mp-cells wx:if="{{item.zdkd<10||item.zdkd>200}}" title="{{item.zdmc}}">
-            <mp-cell has-header="{{false}}" has-footer="{{false}}" title="" ext-class="">
-            <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange"
-              data-field="{{item}}" class="weui-input" placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm]}}" />
-              </mp-cell>
-          </mp-cells>
-          <mp-cell wx:else prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
+          <mp-cell prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
             <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange"
               data-field="{{item}}" class="weui-input" placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm]}}" />
           </mp-cell>
