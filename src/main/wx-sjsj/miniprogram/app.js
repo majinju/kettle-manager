@@ -16,6 +16,10 @@ App({
 
     //serviceAddr:"http://127.0.0.1:88/myservice/"
     this.globalData = {
+      //项目代码
+      projectCode:"bmsj",
+      //项目名称
+      projectName:"奔马数据",
       //服务端地址
       serviceAddr:"https://my.benma666.cn:85/myservice/",
       //菜单根节点
