@@ -99,19 +99,23 @@ Component({
       var field = e.currentTarget.dataset.field;
       that.data.updatedata[field.zddm] = e.detail.value;
     },
+    bindSwitchChange: function(e){
+      var that = this;
+      var field = e.currentTarget.dataset.field;
+      that.data.updatedata[field.zddm] = e.currentTarget.dataset.val;
+    },
     bindDictChange: function(e){
       var that = this;
       var field = e.currentTarget.dataset.field;
       var mc = that.data.zdMap[field.zdzdlb][e.detail.value];
       that.data.jcxx.obj[field.zddm+'_idx'] = e.detail.value;
       that.data.jcxx.obj[field.zddm+'_mc'] = mc;
-      util.zdDmByMc(app.globalData, field.zdzdlb, mc).then(function (dm) {
-        that.data.jcxx.obj[field.zddm] = dm;
-        that.data.updatedata[field.zddm] = dm;
-        that.setData({
-          jcxx:that.data.jcxx,
-          updatedata:that.data.updatedata
-        })
+      var dm = e.currentTarget.dataset.val;
+      that.data.jcxx.obj[field.zddm] = dm;
+      that.data.updatedata[field.zddm] = dm;
+      that.setData({
+        jcxx:that.data.jcxx,
+        updatedata:that.data.updatedata
       });
     },
     getData:function () {

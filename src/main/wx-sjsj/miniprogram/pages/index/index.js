@@ -11,6 +11,7 @@ Page({
   onLoad: function() {
     this.setData({
       hasLogin: app.globalData.hasLogin,
+      projectName: app.globalData.projectName,
       serviceAddr:app.globalData.serviceAddr,
       statusBarHeight:app.globalData.statusBarHeight,
       navigationBarHeight:app.globalData.navigationBarHeight
@@ -58,11 +59,16 @@ Page({
     wx.request({
       url: app.globalData.serviceAddr+'sjdx/plcl.do?dxdm=SYS_QX_YHXX_MRDL&e_cllx=wxdl',
       data: {
-        token: token
+        token: token,
+        e_projectCode:app.globalData.projectCode
       },
       success(res){
         var u = res.data.data;
-        u.wxyhxx = JSON.parse(u.wxyhxx);
+        if(u.wxyhxx){
+          u.wxyhxx = JSON.parse(u.wxyhxx);
+        }else{
+          u.wxyhxx = {avatarUrl:app.globalData.serviceAddr+'common/download.do?xzms=false&id=777E25E5809D45BDBC8273DBC2D1FCB5'};
+        }
         that.setData({
           userInfo: u,
           hasUserInfo: true

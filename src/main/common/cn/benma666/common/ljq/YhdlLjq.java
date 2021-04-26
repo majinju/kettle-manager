@@ -99,13 +99,14 @@ public class YhdlLjq extends DefaultLjq{
     public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
+        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         switch (cllx) {
         case "yhtc":
             return UserManager.removeUser(oldUser);
         case "wxdl":
             //微信登陆
             JSONObject r = HttpUtil.doUrl(SConf.getVal("wx.api.base.url")+"/sns/jscode2session", 
-                    "appid=wx2ad6b1b8bef78a2e&secret=a8bca32830b51667a221cd5f4d422853&grant_type=authorization_code&js_code="+oldUser.getToken());
+                    SConf.getVal("wx.api.login.params."+yobj.getString("projectCode"))+oldUser.getToken());
             if(r.getIntValue("errcode")==0){
                 log.debug(r);
                 //微信用户唯一标志

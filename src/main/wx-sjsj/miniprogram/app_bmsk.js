@@ -17,13 +17,13 @@ App({
     //serviceAddr:"http://127.0.0.1:88/myservice/"
     this.globalData = {
       //项目代码
-      projectCode:"bmsj",
+      projectCode:"bmsk",
       //项目名称
-      projectName:"奔马数据",
+      projectName:"奔马数科",
       //服务端地址
       serviceAddr:"https://my.benma666.cn:85/myservice/",
       //菜单根节点
-      cdRoot:"SHRMYY",
+      cdRoot:"KFZFW",
       //这个值整个导航栏的高度
       navigationBarHeight:0,
       //状态栏的高度
