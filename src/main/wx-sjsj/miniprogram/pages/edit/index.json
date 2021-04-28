@@ -6,7 +6,8 @@
     "mp-checkbox": "weui-miniprogram/checkbox/checkbox",
     "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
     "mp-form-page": "weui-miniprogram/form-page/form-page",
-    "mp-form": "weui-miniprogram/form/form"
+    "mp-form": "weui-miniprogram/form/form",
+    "wemark": "../../components/wemark/wemark"
   },
   "navigationBarTitleText": "编辑"
 }

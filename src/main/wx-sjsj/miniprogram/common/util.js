@@ -86,6 +86,21 @@ function dateFormat(dateStr, fmt) {
 
 ////////////////////////////////字典///////////////////////////
 /**
+ * 字典Map
+ */
+function zdMap(globalData, zdlb) {
+  return new Promise((resolve, reject) => {
+    zdList(globalData, zdlb).then(function(zl){
+      var zdMap = {};
+      for (var i in zl) {
+        zl[i].idx = i;
+        zdMap[zl[i].dm]=zl[i];
+      }
+      resolve(zdMap);
+    });
+  });
+}
+/**
  * 获取字典列表
  * @param zdlb 字典类别
  */
@@ -480,6 +495,7 @@ module.exports = {
   zdMcByDmMore:zdMcByDmMore,
   zdObj:zdObj,
   zdList:zdList,
+  zdMap:zdMap,
   zdmcList:zdmcList,
   isEmpty:isEmpty,
   isNumber:isNumber,

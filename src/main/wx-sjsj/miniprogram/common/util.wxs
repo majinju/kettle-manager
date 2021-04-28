@@ -1,0 +1,19 @@
+/**
+ * 14位时间转19位时间
+ * @param date1 需要转换的时间
+ */
+function date14To19(date1){
+  if(!date1||date1.length!=14){
+    return "";
+  }
+  return date1.substring(0,4)+"-"+date1.substring(4,6)+"-"+date1.substring(6,8)+" "+
+    date1.substring(8,10)+":"+date1.substring(10,12)+":"+date1.substring(12,14);
+}
+
+module.exports = {
+  date14To19:date14To19,
+  DATE_FORMAT_19:"yyyy-MM-dd HH:mm:ss",
+  DATE_FORMAT_14:"yyyyMMddHHmmss",
+  DATE_FORMAT_10:"yyyy-MM-dd",
+  DATE_FORMAT_8:"yyyyMMdd",
+}

@@ -46,9 +46,8 @@ Component({
             } else {
               console.log('登录失败！' + res.errMsg);
               wx.showToast({
-                title: "登录失败！",
-                icon: 'error',
-                duration: 3000
+                title: res.errMsg,
+                icon: 'error'
               });
             }
           }
@@ -76,20 +75,28 @@ Component({
           e_projectCode: app.globalData.projectCode
         },
         success(res) {
-          var u = res.data.data;
-          if (u.wxyhxx) {
-            u.wxyhxx = JSON.parse(u.wxyhxx);
+          if (res.data.status) {
+            var u = res.data.data;
+            if (u.wxyhxx) {
+              u.wxyhxx = JSON.parse(u.wxyhxx);
+            } else {
+              u.wxyhxx = {
+                avatarUrl: app.globalData.serviceAddr + 'common/download.do?xzms=false&id=777E25E5809D45BDBC8273DBC2D1FCB5'
+              };
+            }
+            app.globalData.user = u;
+            that.setData({
+              userInfo: u,
+              hasUserInfo: true
+            });
+            that.getGnlb();
           } else {
-            u.wxyhxx = {
-              avatarUrl: app.globalData.serviceAddr + 'common/download.do?xzms=false&id=777E25E5809D45BDBC8273DBC2D1FCB5'
-            };
+            console.log('请求失败:' + res.data.msg);
+            wx.showToast({
+              title: res.data.msg,
+              icon: 'error'
+            });
           }
-          app.globalData.user = u;
-          that.setData({
-            userInfo: u,
-            hasUserInfo: true
-          });
-          that.getGnlb();
         }
       });
     },
@@ -111,8 +118,14 @@ Component({
         }
       }
       var cdRoot = app.globalData.cdRoot;
-      if(that.data.cdRoot){
+      if (that.data.cdRoot) {
         cdRoot = that.data.cdRoot;
+        wx.setStorageSync('cdRoot', cdRoot);
+      } else {
+        var cr = wx.getStorageSync('cdRoot');
+        if (!(cr === '')) {
+          cdRoot = cr;
+        }
       }
       if (!e || !gnlb[datas.index].zqxlb) {
         wx.request({
@@ -125,14 +138,22 @@ Component({
             "token": app.globalData.token
           },
           success(res) {
-            if (gnlb.length == 0) {
-              gnlb = res.data.data.list;
+            if (res.data.status) {
+              if (gnlb.length == 0) {
+                gnlb = res.data.data.list;
+              } else {
+                gnlb[datas.index].zqxlb = res.data.data.list;
+              }
+              that.setData({
+                gnlb: gnlb
+              });
             } else {
-              gnlb[datas.index].zqxlb = res.data.data.list;
+              console.log('请求失败:' + res.data.msg);
+              wx.showToast({
+                title: res.data.msg,
+                icon: 'error'
+              });
             }
-            that.setData({
-              gnlb: gnlb
-            });
           }
         });
       } else {
@@ -174,8 +195,7 @@ Component({
               } else {
                 wx.showToast({
                   title: res.data.msg,
-                  icon: 'error',
-                  duration: 3000
+                  icon: 'error'
                 })
               }
             }

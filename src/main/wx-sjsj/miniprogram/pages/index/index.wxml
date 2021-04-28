@@ -41,7 +41,7 @@
           <view wx:if="{{item.zcsjd=='1'}}" data-qxdm="{{item.dm}}" data-index="{{index}}"
             class="kind-list-item-hd {{item.open ? 'kind-list-item-hd-show' : ''}}" bindtap="getGnlb">
             <view class="kind-list-text">{{item.mc}}</view>
-            <image class="kind-list-img" src="{{serviceAddr+'common/download.do?xzms=false&id='+item.tb}}">
+            <image wx:if="{{item.tb}}" class="kind-list-img" src="{{serviceAddr+'common/download.do?xzms=false&id='+item.tb}}">
             </image>
           </view>
           <view wx:if="{{item.zqxlb}}" class="kind-list-item-bd {{item.open ? 'kind-list-item-bd-show' : ''}}">
