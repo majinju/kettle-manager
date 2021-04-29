@@ -2,9 +2,16 @@ const app = getApp()
 
 Component({
   properties: {
-    cdRoot: String
+    cdRoot: String,
+    projectName:String
   },
   data: {
+    //操作列表弹窗
+    showSzDialog: false,
+    szList: [
+        { text: '切换系统', value: 'qhxt' },
+        { text: '清空缓存', value: 'qkhc' }
+    ],
     userInfo: {},
     gnlb: [],
     hasUserInfo: false,
@@ -12,9 +19,25 @@ Component({
   },
   lifetimes: {
     attached: function () {
+      if(this.data.cdRoot){
+        //传参：切换系统
+        wx.setStorageSync('cdRoot', this.data.cdRoot);
+        wx.setStorageSync('projectName', this.data.projectName);
+      }else if(wx.getStorageSync('cdRoot')){
+        //之前切换过系统
+        this.setData({
+          projectName: wx.getStorageSync('projectName'),
+          cdRoot: wx.getStorageSync('cdRoot')
+        });
+      }else{
+        //使用默认值系统
+        this.setData({
+          projectName: app.globalData.projectName,
+          cdRoot: app.globalData.cdRoot
+        });
+      }
       this.setData({
         hasLogin: app.globalData.hasLogin,
-        projectName: app.globalData.projectName,
         serviceAddr: app.globalData.serviceAddr,
         statusBarHeight: app.globalData.statusBarHeight,
         navigationBarHeight: app.globalData.navigationBarHeight
@@ -28,6 +51,34 @@ Component({
     },
   },
   methods: {
+    dksz:function(){
+      this.setData({
+        showSzDialog: true
+      })
+    },
+    szClick:function(e){
+      var szlx = e.detail.value;
+      switch(szlx){
+        case 'qhxt':
+          this.switchSystem();
+          break;
+        case 'qkhc':
+          wx.clearStorageSync();
+          wx.showToast({
+            title: '清空缓存成功',
+            icon: 'info'
+          });
+          break;
+        default:
+          wx.showToast({
+            title: '暂未实现',
+            icon: 'info'
+          });
+      }
+      this.setData({
+        showSzDialog:false
+      });
+    },
     login() {
       const that = this;
       if (that.hasLogin) {
@@ -117,23 +168,13 @@ Component({
           gnlb[datas.index].open = true;
         }
       }
-      var cdRoot = app.globalData.cdRoot;
-      if (that.data.cdRoot) {
-        cdRoot = that.data.cdRoot;
-        wx.setStorageSync('cdRoot', cdRoot);
-      } else {
-        var cr = wx.getStorageSync('cdRoot');
-        if (!(cr === '')) {
-          cdRoot = cr;
-        }
-      }
       if (!e || !gnlb[datas.index].zqxlb) {
         wx.request({
           url: app.globalData.serviceAddr + 'sjdx/getdata.do?dxdm=SYS_QX_QTQX',
           data: {
             "e_cllx": "getTreeCN",
             "e_treeModel": "cds",
-            "e_treeRoot": cdRoot,
+            "e_treeRoot": that.data.cdRoot,
             "e_fqx": fqx,
             "token": app.globalData.token
           },

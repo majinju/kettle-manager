@@ -1,9 +1,11 @@
 {
   "usingComponents": {
+    "mp-toptips": "weui-miniprogram/toptips/toptips",
     "mp-cells": "weui-miniprogram/cells/cells",
     "mp-cell": "weui-miniprogram/cell/cell",
     "mp-slideview": "weui-miniprogram/slideview/slideview",
     "mp-loading": "weui-miniprogram/loading/loading",
+    "mp-actionSheet": "weui-miniprogram/actionsheet/actionsheet",
     "mp-halfScreenDialog": "weui-miniprogram/half-screen-dialog/half-screen-dialog"
   },
   "navigationBarTitleText": "查询列表"

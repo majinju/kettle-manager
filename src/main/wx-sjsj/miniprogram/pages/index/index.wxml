@@ -27,10 +27,10 @@
             </view>
           </view>
         </view>
-        <view class="flex-item demo-text-3" style="align-items: center;display: flex;margin-left: 30px;">
-          <button  wx:if="{{userInfo.yhdm!='lsyh'}}" bindtap="switchSystem"
+        <view  wx:if="{{userInfo.yhdm!='lsyh'}}" class="flex-item demo-text-3" style="align-items: center;display: flex;margin-left: 50px;">
+          <button bindtap="dksz"
             size="mini" type="primary" style="font-size: small;">
-            <mp-icon icon="transfer2" color="cyan" size="{{20}}"></mp-icon>切换系统
+            <mp-icon icon="setting" color="cyan" size="{{20}}"></mp-icon>设置
           </button>
         </view>
       </view>
@@ -64,4 +64,6 @@
       <!-- <button bindtap="login">登陆</button> -->
     </view>
   </view>
+  <mp-actionSheet bindactiontap="szClick" show="{{showSzDialog}}" actions="{{szList}}" title="系统设置">
+  </mp-actionSheet>
 </view>

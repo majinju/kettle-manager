@@ -110,9 +110,7 @@ Component({
     bindDictChange: function (e) {
       var that = this;
       var field = e.currentTarget.dataset.field;
-      var mc = that.data.zdMap[field.zdzdlb][e.detail.value];
-      that.data.jcxx.obj[field.zddm + '_idx'] = e.detail.value;
-      that.data.jcxx.obj[field.zddm + '_mc'] = mc;
+      var mc = that.data.zdMap[field.zdzdlb+'_mcList'][e.detail.value];
       util.zdDmByMc(app.globalData, field.zdzdlb, mc).then(function (dm) {
         that.data.jcxx.obj[field.zddm] = dm;
         that.data.updatedata[field.zddm] = dm;

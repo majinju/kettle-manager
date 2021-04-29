@@ -9,7 +9,7 @@
     <view class="flex-item flex-item-V demo-text-2">
         <mp-cells ext-class="my-cells" title="系统列表">
             <mp-slideview  wx:for-items="{{xtlb}}" wx:if="{{item.zcsjd=='1'}}" show="{{false}}" >
-                <mp-cell link url="/pages/index/index?cdRoot={{item.dm}}" 
+                <mp-cell link url="/pages/index/index?cdRoot={{item.dm}}&projectName={{item.mc}}" 
                 value="{{item.mc}}" footer=""></mp-cell>
             </mp-slideview>
             <mp-slideview wx:if="{{xtlb.length==0}}">

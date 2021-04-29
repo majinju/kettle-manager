@@ -2,6 +2,7 @@
 <import src="../../common/foot.wxml" />
 <wxs module="util" src="../../common/util.wxs"></wxs>
 <view class="container page" style="width:100%">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
   <template is="head" data="{{title: '查询列表'}}" />
   <view class="flex-wrp" style="flex-direction:column;">
     <view class="flex-item flex-item-V demo-text-1"
@@ -15,23 +16,23 @@
           </view>
         </view>
       </view>
-      <button bindtap="add" size="mini" type="primary" style="display: inline-table;width: 20%;margin: 0px 2%;">
-        新增
+      <button bindtap="dkczlb" size="mini" type="primary" style="display: inline-table;width: 20%;margin: 0px 2%;">
+        操作
       </button>
     </view>
     <view class="flex-item flex-item-V demo-text-2">
-      <mp-cells ext-class="my-cells" title="数据列表">
-        <block wx:if="{{(pageData.length>0&&pageData[0].my_heard)}}">
+      <mp-cells ext-class="my-cells" title="位置：{{jcxx.sjdx.dxmc}}">
+        <block wx:if="{{!xxlbms&&(pageData.length>0&&pageData[0].my_heard)}}">
           <mp-slideview wx:for-items="{{pageData}}" show="{{false}}" buttons="{{slideButtons}}"
             bindbuttontap="slideButtonTap">
-            <mp-cell link url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{item.id}}" 
-              value="{{item.my_heard}}" footer="{{item.my_footer}}"></mp-cell>
+            <mp-cell link url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{item.id}}" value="{{item.my_heard}}"
+              footer="{{item.my_footer}}"></mp-cell>
           </mp-slideview>
         </block>
         <view wx:else class="page__bd">
           <view wx:if="{{jcxx!=null}}" wx:for-items="{{pageData}}" class="weui-form-preview">
             <view class="weui-form-preview__bd">
-              <view wx:for-items="{{jcxx.fields}}" wx:for-item="field" wx:if="{{field.lbzs=='1'}}"
+              <view wx:for-items="{{jcxx.fields}}" wx:for-item="field" wx:for-index="fieldIdx" wx:if="{{field.lbzs=='1'}}"
                 class="weui-form-preview__item">
                 <block wx:if="{{field.zddm=='dxcz'}}">
                 </block>
@@ -43,17 +44,30 @@
                 </block>
                 <block wx:else>
                   <view class="weui-form-preview__label">{{field.zdmc}}</view>
-                  <view wx:if="{{field.kjlx=='time'}}" class="weui-form-preview__value">
-                    {{util.date14To19(item[field.zddm])}}
-                  </view>
-                  <view wx:elif="{{field.kjlx=='dict'}}" class="weui-form-preview__value">
-                    {{zdMap[field.zdzdlb][item[field.zddm]].mc||item[field.zddm]}}
-                  </view>
-                  <view wx:elif="{{field.kjlx=='checkbox'}}" class="weui-form-preview__value">
-                      <switch checked="{{item[field.zddm]=='1'?true:false}}" disabled="{{true}}"/>
-                  </view>
-                  <view wx:else class="weui-form-preview__value">
-                    {{item[field.zddm]}}
+                  <view class="weui-form-preview__value" 
+                    style="{{(lbkbj&&field.yxbj=='1')?'border: solid 1px #b6bace;':''}}">
+                    <view wx:if="{{field.kjlx=='time'}}">
+                      <input disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindinput="bindInputChange" 
+                        data-field="{{field}}" data-rownum="{{index}}" class="weui-input"
+                        placeholder="{{field.zdms}}" value="{{util.date14To19(item[field.zddm])}}" />
+                    </view>
+                    <view wx:elif="{{field.kjlx=='dict'}}">
+                      <picker disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindchange="bindDictChange" 
+                        style="" data-field="{{field}}" data-rownum="{{index}}"
+                        value="{{zdMap[field.zdzdlb][item[field.zddm]].idx}}" data-rownum="{{index}}"
+                        range="{{zdMap[field.zdzdlb+'_mcList']}}">
+                        <view class="weui-input">{{zdMap[field.zdzdlb][item[field.zddm]].mc||item[field.zddm]}}</view>
+                      </picker>
+                    </view>
+                    <view wx:elif="{{field.kjlx=='checkbox'}}">
+                      <switch checked="{{item[field.zddm]=='1'?true:false}}" disabled="{{!(lbkbj&&field.yxbj=='1')}}"
+                        data-field="{{field}}" data-rownum="{{index}}" bindchange="bindSwitchChange" />
+                    </view>
+                    <view wx:else>
+                      <input disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindinput="bindInputChange" 
+                        data-field="{{field}}" data-rownum="{{index}}" class="weui-input"
+                        placeholder="{{field.zdms}}" value="{{item[field.zddm]}}" />
+                    </view>
                   </view>
                 </block>
               </view>
@@ -62,11 +76,11 @@
               <navigator url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{item.id}}"
                 class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">编辑</navigator>
-              <view bindtap="scjlts" data-id="{{item.id}}"
-                class="weui-form-preview__btn weui-form-preview__btn_warn" style="color: red;"
-                hover-class="weui-form-preview__btn_active">删除</view>
-              <navigator class="weui-form-preview__btn weui-form-preview__btn_default"
-                hover-class="weui-form-preview__btn_active">其他操作</navigator>
+              <navigator url="/pages/edit/index?pageModel=details&dxdm={{dxdm}}&id={{item.id}}"
+                class="weui-form-preview__btn weui-form-preview__btn_default"
+                hover-class="weui-form-preview__btn_active">详情</navigator>
+              <view bindtap="scjlts" data-id="{{item.id}}" class="weui-form-preview__btn weui-form-preview__btn_warn"
+                style="color: red;" hover-class="weui-form-preview__btn_active">删除</view>
             </view>
           </view>
         </view>
@@ -90,5 +104,7 @@
       <button type="primary" class="weui-btn" bindtap="scjl">确认</button>
     </view>
   </mp-halfScreenDialog>
+  <mp-actionSheet bindactiontap="czClick" show="{{showCzDialog}}" actions="{{czList}}" title="相关操作">
+  </mp-actionSheet>
   <template is="foot" />
 </view>
