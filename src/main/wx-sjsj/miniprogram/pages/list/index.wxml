@@ -7,85 +7,103 @@
   <view class="flex-wrp" style="flex-direction:column;">
     <view class="flex-item flex-item-V demo-text-1"
       style="align-items: center;justify-content: center;text-align: center;display: flex;">
-      <view style="width:76%;display: inline-table;">
+      <view style="width:100%;display: inline-table;">
         <view class='search'>
           <view class='searchItem'>
-            <icon class="weui-icon-search" type="search" size="12"></icon>
+            <icon class="weui-icon-search" type="search" size="20"></icon>
             <input placeholder='搜索' type="text" confirm-type="search" bindconfirm="getList"
               placeholder-style="text-align:left;"></input>
           </view>
         </view>
       </view>
-      <button bindtap="dkczlb" size="mini" type="primary" style="display: inline-table;width: 20%;margin: 0px 2%;">
-        操作
-      </button>
     </view>
     <view class="flex-item flex-item-V demo-text-2">
       <mp-cells ext-class="my-cells" title="位置：{{jcxx.sjdx.dxmc}}">
         <block wx:if="{{!xxlbms&&(pageData.length>0&&pageData[0].my_heard)}}">
-          <mp-slideview wx:for-items="{{pageData}}" show="{{false}}" buttons="{{slideButtons}}"
+          <mp-slideview wx:for-items="{{pageData}}" wx:for-item="row" show="{{false}}" buttons="{{slideButtons}}"
             bindbuttontap="slideButtonTap">
-            <mp-cell link url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{item.id}}" value="{{item.my_heard}}"
-              footer="{{item.my_footer}}"></mp-cell>
+            <mp-cell link url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{row.id}}" value="{{row.my_heard}}"
+              footer="{{row.my_footer}}"></mp-cell>
           </mp-slideview>
         </block>
         <view wx:else class="page__bd">
-          <view wx:if="{{jcxx!=null}}" wx:for-items="{{pageData}}" class="weui-form-preview">
+          <view wx:if="{{jcxx!=null}}" wx:for-items="{{pageData}}" wx:for-item="row" class="weui-form-preview">
             <view class="weui-form-preview__bd">
-              <view wx:for-items="{{jcxx.fields}}" wx:for-item="field" wx:for-index="fieldIdx" wx:if="{{field.lbzs=='1'}}"
-                class="weui-form-preview__item">
+              <view wx:for-items="{{jcxx.fields}}" wx:for-item="field" wx:for-index="fieldIdx"
+                wx:if="{{field.lbzs=='1'}}" class="weui-form-preview__item">
                 <block wx:if="{{field.zddm=='dxcz'}}">
                 </block>
                 <block wx:elif="{{field.zddm=='my-lbxz'}}">
 
                 </block>
                 <block wx:elif="{{field.zddm=='my-lbxh'}}">
-
+                  <view style="text-align: center;">第{{index+1}}条记录</view>
                 </block>
                 <block wx:else>
-                  <view class="weui-form-preview__label">{{field.zdmc}}</view>
-                  <view class="weui-form-preview__value" 
-                    style="{{(lbkbj&&field.yxbj=='1')?'border: solid 1px #b6bace;':''}}">
+                  <view class="weui-form-preview__label" 
+                    style="{{(lbkbj&&field.yxbj=='1')?'color: dodgerblue;':''}}">{{field.zdmc}}</view>
+                  <view class="weui-form-preview__value">
                     <view wx:if="{{field.kjlx=='time'}}">
-                      <input disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindinput="bindInputChange" 
-                        data-field="{{field}}" data-rownum="{{index}}" class="weui-input"
-                        placeholder="{{field.zdms}}" value="{{util.date14To19(item[field.zddm])}}" />
+                      <input disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindinput="bindInputChange" data-field="{{field}}"
+                        data-rownum="{{index}}" class="weui-input" placeholder="{{field.zdms}}"
+                        value="{{util.date14To19(row[field.zddm])}}" />
                     </view>
-                    <view wx:elif="{{field.kjlx=='dict'}}">
-                      <picker disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindchange="bindDictChange" 
-                        style="" data-field="{{field}}" data-rownum="{{index}}"
-                        value="{{zdMap[field.zdzdlb][item[field.zddm]].idx}}" data-rownum="{{index}}"
-                        range="{{zdMap[field.zdzdlb+'_mcList']}}">
-                        <view class="weui-input">{{zdMap[field.zdzdlb][item[field.zddm]].mc||item[field.zddm]}}</view>
+                    <view wx:elif="{{field.kjlx=='dict'&&item.zdfy=='0'}}">
+                      <picker disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindchange="bindDictChange" style=""
+                        data-field="{{field}}" data-rownum="{{index}}"
+                        value="{{zdMap[field.zdzdlb][row[field.zddm]].idx}}"
+                        range="{{zdMap[field.zdzdlb+'_list']}}" range-key="mc">
+                        <view class="weui-input">{{zdMap[field.zdzdlb][row[field.zddm]].mc||row[field.zddm]}}</view>
                       </picker>
                     </view>
+                    <view wx:elif="{{field.kjlx=='dict'}}">
+                      <input disabled="{{true}}" bindtap="dictSelect"
+                        class="weui-input" placeholder="{{field.zdms}}"  
+                        data-disabled="{{!(lbkbj&&field.yxbj=='1')}}" data-field="{{field}}" 
+                        data-rownum="{{index}}"
+                        data-value="{{row[field.zddm]}}" value="{{row[field.zddm+'_mc']}}" />
+                    </view>
                     <view wx:elif="{{field.kjlx=='checkbox'}}">
-                      <switch checked="{{item[field.zddm]=='1'?true:false}}" disabled="{{!(lbkbj&&field.yxbj=='1')}}"
+                      <switch checked="{{row[field.zddm]=='1'?true:false}}" disabled="{{!(lbkbj&&field.yxbj=='1')}}"
                         data-field="{{field}}" data-rownum="{{index}}" bindchange="bindSwitchChange" />
+                    </view>
+                    <view wx:elif="{{field.kjlx=='textarea'||field.zdkd<10||field.zdkd>200}}">
+                      <textarea class="weui-textarea" placeholder="{{field.zdms}}" auto-height="{{true}}"
+                        disabled="{{!(lbkbj&&field.yxbj=='1')}}" data-rownum="{{index}}" bindinput="bindInputChange"
+                        maxlength="{{field.zdcd}}" data-field="{{field}}" value="{{row[field.zddm]}}" />
                     </view>
                     <view wx:else>
                       <input disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindinput="bindInputChange" 
-                        data-field="{{field}}" data-rownum="{{index}}" class="weui-input"
-                        placeholder="{{field.zdms}}" value="{{item[field.zddm]}}" />
+                        data-field="{{field}}"
+                        data-rownum="{{index}}" class="weui-input" placeholder="{{field.zdms}}"
+                        value="{{row[field.zddm]}}" />
                     </view>
                   </view>
                 </block>
               </view>
             </view>
             <view wx:if="{{jcxx.fields.dxcz.lbzs=='1'}}" class="weui-form-preview__ft">
-              <navigator url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{item.id}}"
+              <navigator wx:if="{{user.qxMap[user.map[jcxx.sjdx.dxdm]+'_XGQX']}}"
+                url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{row.id}}"
                 class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">编辑</navigator>
-              <navigator url="/pages/edit/index?pageModel=details&dxdm={{dxdm}}&id={{item.id}}"
-                class="weui-form-preview__btn weui-form-preview__btn_default"
+              <navigator url="/pages/edit/index?pageModel=details&dxdm={{dxdm}}&id={{row.id}}"
+                class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">详情</navigator>
-              <view bindtap="scjlts" data-id="{{item.id}}" class="weui-form-preview__btn weui-form-preview__btn_warn"
-                style="color: red;" hover-class="weui-form-preview__btn_active">删除</view>
+              <view  wx:if="{{user.qxMap[user.map[jcxx.sjdx.dxdm]+'_SCQX']}}"
+                bindtap="scjlts" data-id="{{row.id}}" class="weui-form-preview__btn weui-form-preview__btn_primary"
+                hover-class="weui-form-preview__btn_active">删除</view>
+              <block wx:if="{{lbcz}}">
+                <view wx:for-items="{{lbcz}}" wx:for-item="czx" bindtap="zxczx" 
+                  data-id="{{row.id}}" data-row="{{row}}" data-czx="{{czx}}" 
+                  class="weui-form-preview__btn weui-form-preview__btn_primary"
+                  hover-class="weui-form-preview__btn_active">{{czx.mc}}</view>
+              </block>
             </view>
           </view>
         </view>
         <mp-loading wx:if="{{loading||jcxx==null}}" type="circle"></mp-loading>
-        <mp-slideview wx:elif="{{pageData.length==0}}">
+        <mp-slideview wx:elif="{{pageData.length==0}}" style="text-align: center;">
           <mp-cell value="暂无结果"></mp-cell>
         </mp-slideview>
         <mp-slideview wx:else style="text-align: center;">
@@ -104,7 +122,10 @@
       <button type="primary" class="weui-btn" bindtap="scjl">确认</button>
     </view>
   </mp-halfScreenDialog>
-  <mp-actionSheet bindactiontap="czClick" show="{{showCzDialog}}" actions="{{czList}}" title="相关操作">
+  <mp-actionSheet bindactiontap="czClick" show="{{showCzDialog}}" actions="{{lbczx}}" title="相关操作">
   </mp-actionSheet>
+  <view class="round-click"  bindtap="dkczlb">
+    <image src="../../images/caozuo1.png"></image>
+  </view>
   <template is="foot" />
 </view>

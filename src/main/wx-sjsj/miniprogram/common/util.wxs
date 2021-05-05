@@ -9,9 +9,30 @@ function date14To19(date1){
   return date1.substring(0,4)+"-"+date1.substring(4,6)+"-"+date1.substring(6,8)+" "+
     date1.substring(8,10)+":"+date1.substring(10,12)+":"+date1.substring(12,14);
 }
+/**
+ * 判断嵌套属性存在
+ * @param path 路径
+ * @param object 对象 
+ */
+function isKeyExists(path, object) {
+  //将传入的对象路径字符串拆分为数组
+  var pathList = path.split('.');
+  var obj = object
+  if(!obj) {
+    return false;
+  }
+  for(var i=0; key=pathList[i]; i++) {
+    if(!obj[key]) {
+      return false;
+    }
+    obj = obj[key];
+  }
+  return true;
+}
 
 module.exports = {
   date14To19:date14To19,
+  isKeyExists:isKeyExists,
   DATE_FORMAT_19:"yyyy-MM-dd HH:mm:ss",
   DATE_FORMAT_14:"yyyyMMddHHmmss",
   DATE_FORMAT_10:"yyyy-MM-dd",

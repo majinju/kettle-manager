@@ -1,9 +1,9 @@
-import themeMixin from './behaviors/theme'
-
+import themeMixin from './behaviors/theme';
+const computedBehavior = require('miniprogram-computed').behavior
 const CustomPage = function (options) {
 	return Component(
 		Object.assign({}, options, {
-			behaviors: [themeMixin].concat(options.behaviors || []),
+			behaviors: [themeMixin,computedBehavior].concat(options.behaviors || []),
 			onLoad(query) {
 				const app = getApp()
 				if(this.themeChanged) {

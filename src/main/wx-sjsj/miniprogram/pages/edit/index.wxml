@@ -14,33 +14,44 @@
         <view wx:for-items="{{jcxx.fields}}"
           wx:if="{{(pageModel=='edit'&&item.bjzs=='1')||(pageModel=='add'&&item.xzzs=='1')||(pageModel=='details'&&item.xqzs=='1')}}"
           wx:key="{{item.id}}" class="page-section">
-          <mp-cell wx:if="{{item.kjlx=='dict'}}" ext-class="weui-cell_select weui-cell_select-after">
+          <mp-cell wx:if="{{item.kjlx=='dict'&&item.zdfy=='0'}}" ext-class="weui-cell_select weui-cell_select-after {{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}">
             <view slot="title" class="weui-label">{{item.zdmc}}</view>
             <picker disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindchange="bindDictChange"
               data-field="{{item}}" value="{{zdMap[item.zdzdlb][jcxx.obj[item.zddm]].idx}}"
-              data-val="{{jcxx.obj[item.zddm]}}" range="{{zdMap[item.zdzdlb+'_mcList']}}">
+              data-val="{{jcxx.obj[item.zddm]}}" range="{{zdMap[item.zdzdlb+'_list']}}" range-key="mc">
               <view class="weui-select">{{zdMap[item.zdzdlb][jcxx.obj[item.zddm]].mc||jcxx.obj[item.zddm]}}</view>
             </picker>
           </mp-cell>
-          <mp-cell wx:elif="{{item.kjlx=='checkbox'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
+          <mp-cell wx:elif="{{item.kjlx=='dict'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" 
+            ext-class="weui-cell_select weui-cell_select-after {{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}" >
+            <input disabled="{{true}}" bindtap="dictSelect"
+              class="weui-input weui-select" placeholder="{{item.zdms}}"  
+              data-disabled="{{pageModel=='details'||item.yxbj=='0'}}" data-field="{{item}}"
+              data-value="{{jcxx.obj[item.zddm]}}" value="{{jcxx.obj[item.zddm+'_mc']}}" />
+          </mp-cell>
+          <mp-cell wx:elif="{{item.kjlx=='checkbox'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" 
+            ext-class="{{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}" >
             <switch slot="footer" checked="{{jcxx.obj[item.zddm]=='1'?true:false}}"
               disabled="{{pageModel=='details'||item.yxbj=='0'}}" data-field="{{item}}"
               data-val="{{jcxx.obj[item.zddm]}}" bindchange="bindSwitchChange" />
           </mp-cell>
-          <mp-cell wx:elif="{{item.kjlx=='time'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
+          <mp-cell wx:elif="{{item.kjlx=='time'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" 
+            ext-class="{{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}" >
             <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" 
               bindinput="bindInputChange" data-field="{{item}}"
               class="weui-input" placeholder="{{item.zdms}}" value="{{util.date14To19(jcxx.obj[item.zddm])}}" />
           </mp-cell>
           <view wx:elif="{{item.kjlx=='markdown'&&(pageModel=='details'||item.yxbj=='0')}}">
-            <mp-cells title="{{item.zdmc}}">
+            <mp-cells ext-class="{{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}" 
+              title="{{item.zdmc}}">
               <mp-cell has-header="{{false}}" has-footer="{{false}}" title="" ext-class="">
                 <wemark md="{{jcxx.obj[item.zddm]}}" link highlight="{{true}}" type="rich-text"></wemark>
               </mp-cell>
             </mp-cells>
           </view>
           <view wx:elif="{{item.kjlx=='textarea'||item.zdkd<10||item.zdkd>200}}">
-            <mp-cells title="{{item.zdmc}}">
+            <mp-cells ext-class="{{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}" 
+              title="{{item.zdmc}}">
               <mp-cell has-header="{{false}}" has-footer="{{false}}" title="" ext-class="">
                 <textarea class="weui-textarea" placeholder="{{item.zdms}}" auto-height="{{true}}"
                   disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange"
@@ -49,7 +60,8 @@
           </mp-cells>
         </view>
         <view wx:else>
-          <mp-cell prop="{{item.zddm}}" title="{{item.zdmc}}" ext-class="">
+          <mp-cell prop="{{item.zddm}}" title="{{item.zdmc}}" 
+            ext-class="{{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}" >
             <input disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindinput="bindInputChange"
               data-field="{{item}}" class="weui-input" placeholder="{{item.zdms}}" value="{{jcxx.obj[item.zddm]}}" />
           </mp-cell>
