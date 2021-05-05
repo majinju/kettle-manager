@@ -13,3 +13,7 @@
   text-align: center;
   padding-top: 45%;
 }
+
+.my-input-sr .weui-cells__title,.my-input-sr .weui-cell__hd{
+  color: dodgerblue;
+}

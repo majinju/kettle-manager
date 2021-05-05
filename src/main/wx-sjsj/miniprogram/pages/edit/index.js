@@ -19,8 +19,17 @@ Component({
   },
   lifetimes: {
     attached: function () {
-      this.getData();
+      var that = this;
+      that.getData();
     },
+    ready:function(){
+      var that = this;
+      setTimeout(function(){
+        that.setData({
+          jcxx: that.data.jcxx,
+        });
+      },2000)
+    }
   },
   methods: {
     submitForm: function () {
@@ -107,17 +116,43 @@ Component({
       var val = e.detail.value?'1':'0';
       that.data.updatedata[field.zddm] = val;
     },
+    dictSelected:function(dictObj){
+      var that = this;
+      var field = that.data.dictField;
+      that.data.jcxx.obj[field.zddm] = dictObj.dm;
+      that.data.jcxx.obj[field.zddm+'_mc'] = dictObj.mc;
+      that.data.updatedata[field.zddm] = dictObj.dm;
+      that.setData({
+        jcxx: that.data.jcxx,
+        updatedata: that.data.updatedata
+      });
+    },
+    dictSelect:function(e){
+      var that = this;
+      var ds = e.currentTarget.dataset;
+      if(ds.disabled){
+        //当前不可选择
+        return;
+      }
+      that.setData({
+        //当前进行字典选择的字段
+        dictField:ds.field
+      });
+      wx.navigateTo({
+        url: '/pages/list/index?pageModel=list&dxdm=SYS_SJGL_TYZD_SEARCH&objStr=' 
+          + JSON.stringify({cxtj:{zdlb:ds.field.zdzdlb}})
+      })
+
+    },
     bindDictChange: function (e) {
       var that = this;
       var field = e.currentTarget.dataset.field;
-      var mc = that.data.zdMap[field.zdzdlb+'_mcList'][e.detail.value];
-      util.zdDmByMc(app.globalData, field.zdzdlb, mc).then(function (dm) {
-        that.data.jcxx.obj[field.zddm] = dm;
-        that.data.updatedata[field.zddm] = dm;
-        that.setData({
-          jcxx: that.data.jcxx,
-          updatedata: that.data.updatedata
-        });
+      var dm = that.data.zdMap[field.zdzdlb+'_list'][e.detail.value].dm;
+      that.data.jcxx.obj[field.zddm] = dm;
+      that.data.updatedata[field.zddm] = dm;
+      that.setData({
+        jcxx: that.data.jcxx,
+        updatedata: that.data.updatedata
       });
     },
     getData: function () {
@@ -138,12 +173,19 @@ Component({
                 var zdzdlb = field.zdzdlb;
                 if (zdzdlb) {
                   //加载字典列表
-                  await util.zdMap(app.globalData, zdzdlb).then(async function (zdMap) {
-                    that.data.zdMap[zdzdlb] = zdMap;
-                    await util.zdmcList(app.globalData, zdzdlb).then(async function (zdmcList) {
-                      that.data.zdMap[zdzdlb+'_mcList'] = zdmcList;
+                  if(field.zdfy=='0'){
+                    await util.zdMap(app.globalData, zdzdlb).then(async function (zdMap) {
+                      that.data.zdMap[zdzdlb] = zdMap;
+                      await util.zdList(app.globalData, zdzdlb).then(function (zdList) {
+                        that.data.zdMap[zdzdlb+'_list'] = zdList;
+                      });
                     });
-                  });
+                  }else{
+                    await util.zdMcByDmMore(app.globalData, zdzdlb, data.obj[field.zddm])
+                      .then(function (mc) {
+                        data.obj[field.zddm+'_mc']=mc;
+                    });
+                  }
                 }
               }
             }

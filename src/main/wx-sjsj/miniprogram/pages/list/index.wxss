@@ -4,7 +4,7 @@
 view.search {
   display: flex;
   flex-direction: row;
-  height: 65rpx;
+  height: 80rpx;
   background: #efeff4;
   align-items: center;
 }
@@ -17,17 +17,31 @@ view.searchItem {
   border-radius: 10rpx;
   margin-right: 20rpx;
   margin-left: 20rpx;
-}
-
-view.searchItem image {
-  height: 42rpx;
-  width: 42rpx;
-  align-self: center;
-  margin-left: 10rpx;
-  margin-right: 20rpx;
+  height: 60rpx;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
 }
 
 view.searchItem input {
   flex: 1;
-  font-size: 30rpx;
+  font-size: 33rpx;
+}
+
+.round-click{
+  border-radius: 100%;
+  position: fixed;
+  bottom: 150rpx;
+  right: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.round-click image{
+  height: 80rpx;
+  width: 80rpx;
+  font-size: 32rpx;
+  color: #fff;
+  text-align: center;
 }

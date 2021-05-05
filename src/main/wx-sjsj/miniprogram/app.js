@@ -25,7 +25,7 @@ App({
       //服务端地址
       serviceAddr:"https://my.benma666.cn:85/myservice/",
       //菜单根节点
-      cdRoot:"SHRMYY",
+      cdRoot:"KFZFW",
       //这个值整个导航栏的高度
       navigationBarHeight:0,
       //状态栏的高度
@@ -33,9 +33,7 @@ App({
       hasLogin:false,
       token:"",
       //字典列表缓存
-      zdListCache:{},
-      //字典名称列表缓存
-      zdmcListCache:{}
+      zdListCache:{}
     }
     this.topBarHeight();
   },

@@ -1,3 +1,4 @@
+import CustomPage from '../../common/CustomPage';
 const app = getApp()
 
 Component({

@@ -39,7 +39,7 @@
   },
   "appid": "wx2ad6b1b8bef78a2e",
   "projectname": "%E5%A5%94%E9%A9%AC%E6%95%B0%E6%8D%AE",
-  "libVersion": "2.16.0",
+  "libVersion": "2.16.1",
   "compileType": "miniprogram",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
