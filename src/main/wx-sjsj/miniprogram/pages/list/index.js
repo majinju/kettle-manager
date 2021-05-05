@@ -373,11 +373,13 @@ CustomPage({
     },
     loadmore: function () {
       var that = this;
-      that.setData({
-        //下一页
-        pageIndex: that.data.pageIndex + 1
-      });
-      this.getList();
+      if(that.data.moreData){
+        that.setData({
+          //下一页
+          pageIndex: that.data.pageIndex + 1
+        });
+        this.getList();
+      }
     },
     getJcxx: function () {
       var that = this;
