@@ -1,33 +1,33 @@
 <!--index.wxml-->
 <view class="container">
-  <view wx:if="{{!userInfo.id}}" class="loading-page">
+  <view wx:if="{{!appgd.userInfo.id}}" class="loading-page">
     <image class="userinfo-avatar" src="../../images/logo_seting.png" mode="cover"></image>
     <view>登陆中，请稍等...</view>
   </view>
-  <view wx:else class="flex-wrp logined-page" style="padding-top: {{statusBarHeight}}px;">
+  <view wx:else class="flex-wrp logined-page" style="padding-top: {{appgd.statusBarHeight}}px;">
     <view class="flex-item flex-item-V demo-text-0"
-      style="height:{{navigationBarHeight-statusBarHeight}}px;align-items: center;justify-content: center;text-align: center;display: flex;">
-      <text>{{projectName}}</text>
+      style="height:{{appgd.navigationBarHeight-appgd.statusBarHeight}}px;align-items: center;justify-content: center;text-align: center;display: flex;">
+      <text>{{appgd.projectName}}</text>
     </view>
     <view class="flex-item flex-item-V demo-text-1" style="">
       <view class="userinfo flex-wrp" style="flex-direction: row;">
         <view class="flex-item demo-text-1">
-          <image class="userinfo-avatar" src="{{userInfo.wxyhxx.avatarUrl}}" mode="cover"></image>
+          <image class="userinfo-avatar" src="{{appgd.userInfo.wxyhxx.avatarUrl}}" mode="cover"></image>
         </view>
         <view class="flex-item demo-text-2" style="padding-left: 10px;">
           <view class="flex-wrp" style="flex-direction:column;">
             <view class="flex-item flex-item-V demo-text-1" style="">
-              <text class="userinfo-nickname">{{userInfo.yhxm}}</text>
+              <text class="userinfo-nickname">{{appgd.userInfo.yhxm}}</text>
             </view>
             <view class="flex-item flex-item-V demo-text-2" style="">
-              <text wx:if="{{userInfo.yhdm!='lsyh'}}">{{userInfo.jgxx?userInfo.jgxx.jgmc:'欢迎使用！'}}</text>
+              <text wx:if="{{userInfo.yhdm!='lsyh'}}">{{appgd.userInfo.jgxx?appgd.userInfo.jgxx.jgmc:'欢迎使用！'}}</text>
               <button wx:else bindtap="getUserProfile" size="mini" type="primary" style="font-size: small;">
                 注册
               </button>
             </view>
           </view>
         </view>
-        <view  wx:if="{{userInfo.yhdm!='lsyh'}}" class="flex-item demo-text-3" style="align-items: center;display: flex;margin-left: 50px;">
+        <view  wx:if="{{appgd.userInfo.yhdm!='lsyh'}}" class="flex-item demo-text-3" style="align-items: center;display: flex;margin-left: 50px;">
           <button bindtap="dksz"
             size="mini" type="primary" style="font-size: small;">
             <mp-icon icon="setting" color="cyan" size="{{20}}"></mp-icon>设置
@@ -41,7 +41,7 @@
           <view wx:if="{{item.zcsjd=='1'}}" data-qxdm="{{item.dm}}" data-index="{{index}}"
             class="kind-list-item-hd {{item.open ? 'kind-list-item-hd-show' : ''}}" bindtap="getGnlb">
             <view class="kind-list-text">{{item.mc}}</view>
-            <image wx:if="{{item.tb}}" class="kind-list-img" src="{{serviceAddr+'common/download.do?xzms=false&id='+item.tb}}">
+            <image wx:if="{{item.tb}}" class="kind-list-img" src="{{appgd.serviceAddr+'common/download.do?xzms=false&id='+item.tb}}">
             </image>
           </view>
           <view wx:if="{{item.zqxlb}}" class="kind-list-item-bd {{item.open ? 'kind-list-item-bd-show' : ''}}">

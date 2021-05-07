@@ -92,14 +92,28 @@ function dateFormat(dateStr, fmt) {
  */
 function zdMap(globalData, zdlb) {
   return new Promise((resolve, reject) => {
-    zdList(globalData, zdlb).then(function (zl) {
-      var zdMap = {};
-      for (var i in zl) {
-        zl[i].idx = i;
-        zdMap[zl[i].dm] = zl[i];
-      }
-      resolve(zdMap);
-    });
+    var zdMapCache = globalData.zdMapCache;
+    if (zdMapCache[zdlb + "_cache"]) {
+      //不支持获取列表
+      resolve(null);
+    } else if (zdMapCache[zdlb] == null) {
+      zdList(globalData, zdlb).then(function (zl) {
+        if(zl==null){
+          zdMapCache[zdlb + "_cache"] = true;
+          resolve(null);
+        }else{
+          var zdMap = {};
+          for (var i in zl) {
+            zl[i].idx = i;
+            zdMap[zl[i].dm] = zl[i];
+          }
+          zdMapCache[zdlb] = zdMap;
+          resolve(zdMap);
+        }
+      });
+    } else {
+      resolve(zdMapCache[zdlb]);
+    }
   });
 }
 /**

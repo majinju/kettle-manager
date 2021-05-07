@@ -13,30 +13,37 @@ App({
         traceUser: true,
       })
     }
-
-    //serviceAddr:"http://127.0.0.1:88/myservice/"
+    /**系统公共数据 */
     this.globalData = {
-      //项目代码
+      /**项目代码*/
       projectCode:"bmsj",
-      //项目名称
+      /**项目名称*/
       projectName:"奔马数据",
-      //用户信息
-      user:{},
-      //服务端地址
+      /**服务端地址*/
+      //serviceAddr:"http://127.0.0.1:88/myservice/"
       serviceAddr:"https://my.benma666.cn:85/myservice/",
-      //菜单根节点
+      /**菜单根节点*/
       cdRoot:"KFZFW",
-      //这个值整个导航栏的高度
+      /**这个值整个导航栏的高度*/
       navigationBarHeight:0,
-      //状态栏的高度
+      /**状态栏的高度*/
       statusBarHeight:wx.getSystemInfoSync()['statusBarHeight'],
-      hasLogin:false,
+      /**系统请求凭证 */
       token:"",
-      //字典列表缓存
-      zdListCache:{}
+      /**用户信息*/
+      userInfo:{},
+      /**字典列表缓存*/
+      zdListCache:{},
+      /**字典Map缓存 */
+      zdMapCache:{},
+      /**数据对象的基础信息 */
+      sjdxJcxx:{}
     }
     this.topBarHeight();
   },
+  /**
+   * 设置导航栏高度
+   */
 	topBarHeight(){
 	    var {top,height} = wx.getMenuButtonBoundingClientRect(); //胶囊按钮的位置
     	var statusH = wx.getSystemInfoSync()['statusBarHeight']; //状态栏的位置

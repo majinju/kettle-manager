@@ -51,9 +51,11 @@
                     <view wx:elif="{{field.kjlx=='dict'&&item.zdfy=='0'}}">
                       <picker disabled="{{!(lbkbj&&field.yxbj=='1')}}" bindchange="bindDictChange" style=""
                         data-field="{{field}}" data-rownum="{{index}}"
-                        value="{{zdMap[field.zdzdlb][row[field.zddm]].idx}}"
-                        range="{{zdMap[field.zdzdlb+'_list']}}" range-key="mc">
-                        <view class="weui-input">{{zdMap[field.zdzdlb][row[field.zddm]].mc||row[field.zddm]}}</view>
+                        value="{{appgd.zdMapCache[field.zdzdlb][row[field.zddm]].idx}}"
+                        range="{{appgd.zdListCache[field.zdzdlb]}}" range-key="mc">
+                        <view class="weui-input">
+                          {{appgd.zdMapCache[field.zdzdlb][row[field.zddm]].mc||row[field.zddm]}}
+                        </view>
                       </picker>
                     </view>
                     <view wx:elif="{{field.kjlx=='dict'}}">
@@ -83,14 +85,15 @@
               </view>
             </view>
             <view wx:if="{{jcxx.fields.dxcz.lbzs=='1'}}" class="weui-form-preview__ft">
-              <navigator wx:if="{{user.qxMap[user.map[jcxx.sjdx.dxdm]+'_XGQX']}}"
+              <navigator wx:if="{{user.qxMap[jcxx.sjdx.map.authCode+'_XGQX']}}"
                 url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{row.id}}"
                 class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">编辑</navigator>
-              <navigator url="/pages/edit/index?pageModel=details&dxdm={{dxdm}}&id={{row.id}}"
+              <navigator  wx:if="{{user.qxMap[jcxx.sjdx.map.authCode+'_XQQX']}}"
+                url="/pages/edit/index?pageModel=details&dxdm={{dxdm}}&id={{row.id}}"
                 class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">详情</navigator>
-              <view  wx:if="{{user.qxMap[user.map[jcxx.sjdx.dxdm]+'_SCQX']}}"
+              <view  wx:if="{{user.qxMap[jcxx.sjdx.map.authCode+'_SCQX']}}"
                 bindtap="scjlts" data-id="{{row.id}}" class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">删除</view>
               <block wx:if="{{lbcz}}">

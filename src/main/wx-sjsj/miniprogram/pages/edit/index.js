@@ -19,27 +19,27 @@ Component({
   },
   lifetimes: {
     attached: function () {
-      var that = this;
-      that.getData();
+      var _this = this;
+      _this.getData();
     },
     ready:function(){
-      var that = this;
+      var _this = this;
       setTimeout(function(){
-        that.setData({
-          jcxx: that.data.jcxx,
+        _this.setData({
+          jcxx: _this.data.jcxx,
         });
       },2000)
     }
   },
   methods: {
     submitForm: function () {
-      var that = this;
-      var udaptedata = that.data.updatedata;
-      var fields = that.data.jcxx.fields;
+      var _this = this;
+      var udaptedata = _this.data.updatedata;
+      var fields = _this.data.jcxx.fields;
       //验证成功
       var yzcg = true;
       var msg = null;
-      if (that.data.pageModel == 'edit') {
+      if (_this.data.pageModel == 'edit') {
         //编辑
         for (var fd in udaptedata) {
           var field = fields[fd];
@@ -50,7 +50,7 @@ Component({
             break;
           }
         }
-      } else if (that.data.pageModel == 'add') {
+      } else if (_this.data.pageModel == 'add') {
         //新增
         for (var fd in fields) {
           var field = fields[fd];
@@ -66,9 +66,9 @@ Component({
       }
       if (yzcg) {
         wx.request({
-          url: app.globalData.serviceAddr + that.data.action,
+          url: app.globalData.serviceAddr + _this.data.action,
           data: {
-            dxdm: that.data.dxdm,
+            dxdm: _this.data.dxdm,
             token: app.globalData.token,
             myparams: udaptedata
           },
@@ -79,62 +79,62 @@ Component({
                 icon: 'info'
               });
               wx.navigateTo({
-                url: '/pages/list/index?pageModel=list&dxdm=' + that.data.dxdm
+                url: '/pages/list/index?pageModel=list&dxdm=' + _this.data.dxdm
               })
             } else {
               console.log('保存记录失败！' + res);
-              that.setData({
+              _this.setData({
                 error: res.data.msg
               })
             }
           },
           fail(res) {
             console.log('保存记录失败！' + res);
-            that.setData({
+            _this.setData({
               error: res.data.msg
             })
           }
         });
       } else {
-        that.setData({
+        _this.setData({
           error: msg
         });
       }
     },
     quxiao: function () {
-      var that = this;
+      var _this = this;
       wx.navigateBack();
     },
     bindInputChange: function (e) {
-      var that = this;
+      var _this = this;
       var field = e.currentTarget.dataset.field;
-      that.data.updatedata[field.zddm] = e.detail.value;
+      _this.data.updatedata[field.zddm] = e.detail.value;
     },
     bindSwitchChange: function (e) {
-      var that = this;
+      var _this = this;
       var field = e.currentTarget.dataset.field;
       var val = e.detail.value?'1':'0';
-      that.data.updatedata[field.zddm] = val;
+      _this.data.updatedata[field.zddm] = val;
     },
     dictSelected:function(dictObj){
-      var that = this;
-      var field = that.data.dictField;
-      that.data.jcxx.obj[field.zddm] = dictObj.dm;
-      that.data.jcxx.obj[field.zddm+'_mc'] = dictObj.mc;
-      that.data.updatedata[field.zddm] = dictObj.dm;
-      that.setData({
-        jcxx: that.data.jcxx,
-        updatedata: that.data.updatedata
+      var _this = this;
+      var field = _this.data.dictField;
+      _this.data.jcxx.obj[field.zddm] = dictObj.dm;
+      _this.data.jcxx.obj[field.zddm+'_mc'] = dictObj.mc;
+      _this.data.updatedata[field.zddm] = dictObj.dm;
+      _this.setData({
+        jcxx: _this.data.jcxx,
+        updatedata: _this.data.updatedata
       });
     },
     dictSelect:function(e){
-      var that = this;
+      var _this = this;
       var ds = e.currentTarget.dataset;
       if(ds.disabled){
         //当前不可选择
         return;
       }
-      that.setData({
+      _this.setData({
         //当前进行字典选择的字段
         dictField:ds.field
       });
@@ -145,24 +145,24 @@ Component({
 
     },
     bindDictChange: function (e) {
-      var that = this;
+      var _this = this;
       var field = e.currentTarget.dataset.field;
-      var dm = that.data.zdMap[field.zdzdlb+'_list'][e.detail.value].dm;
-      that.data.jcxx.obj[field.zddm] = dm;
-      that.data.updatedata[field.zddm] = dm;
-      that.setData({
-        jcxx: that.data.jcxx,
-        updatedata: that.data.updatedata
+      var dm = _this.data.zdMap[field.zdzdlb+'_list'][e.detail.value].dm;
+      _this.data.jcxx.obj[field.zddm] = dm;
+      _this.data.updatedata[field.zddm] = dm;
+      _this.setData({
+        jcxx: _this.data.jcxx,
+        updatedata: _this.data.updatedata
       });
     },
     getData: function () {
-      var that = this;
+      var _this = this;
       wx.request({
         url: app.globalData.serviceAddr + 'sjdx/jcxx.do?e_cllx=jcxx',
         data: {
-          dxdm: that.data.dxdm,
+          dxdm: _this.data.dxdm,
           token: app.globalData.token,
-          e_id: that.data.id
+          e_id: _this.data.id
         },
         async success(res) {
           if (res.data.status) {
@@ -175,9 +175,9 @@ Component({
                   //加载字典列表
                   if(field.zdfy=='0'){
                     await util.zdMap(app.globalData, zdzdlb).then(async function (zdMap) {
-                      that.data.zdMap[zdzdlb] = zdMap;
+                      _this.data.zdMap[zdzdlb] = zdMap;
                       await util.zdList(app.globalData, zdzdlb).then(function (zdList) {
-                        that.data.zdMap[zdzdlb+'_list'] = zdList;
+                        _this.data.zdMap[zdzdlb+'_list'] = zdList;
                       });
                     });
                   }else{
@@ -192,15 +192,15 @@ Component({
             var zjzd = data.sjdx.zjzd;
             var zj = data.obj[zjzd];
             if (zj) {
-              that.data.updatedata[zjzd] = zj;
-              data.action += that.data.dxdm + '&e_cllx=update';
+              _this.data.updatedata[zjzd] = zj;
+              data.action += _this.data.dxdm + '&e_cllx=update';
             } else {
-              data.action += that.data.dxdm + '&e_cllx=insert';
+              data.action += _this.data.dxdm + '&e_cllx=insert';
             }
-            that.setData({
-              zdMap: that.data.zdMap,
-              updatedata: that.data.updatedata,
-              action: that.data.action,
+            _this.setData({
+              zdMap: _this.data.zdMap,
+              updatedata: _this.data.updatedata,
+              action: _this.data.action,
               jcxx: data
             });
           } else {
