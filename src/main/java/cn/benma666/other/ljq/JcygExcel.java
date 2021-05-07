@@ -146,7 +146,7 @@ public class JcygExcel extends ExcelReader {
             JSONObject shgx = new JSONObject();
             for(Entry<String, JSONObject> e:shgxmbField.entrySet()){
                 value = jcyg.getString(gxs+"_"+e.getKey());
-                if(StringUtil.isNotBlank(value)||sfjy){
+                if(sfjy){
                     //不为空或需要校验
                     value = ruleVerify(idx,value,e.getValue(),shgx,e.getKey());
                 }

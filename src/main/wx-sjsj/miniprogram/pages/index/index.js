@@ -35,6 +35,8 @@ Component({
     ],
     /**功能列表 */
     gnlb: [],
+    /**打开的功能 */
+    openGn:-1,
   },
   lifetimes: {
     attached: function () {
@@ -72,6 +74,7 @@ Component({
             app.globalData.zdMapCache = wx.getStorageSync('static.zdMapCache')||{};
             _this.setData({
               gnlb: wx.getStorageSync('session.gnlb'),
+              openGn: wx.getStorageSync('session.openGn'),
               appgd: app.globalData,
             });
           }).catch(function(res){
@@ -190,14 +193,16 @@ Component({
       var gnlb = _this.data.gnlb;
       var fqx = "";
       var datas = {};
+      var openGn = _this.data.openGn;
       if (e) {
         datas = e.currentTarget.dataset;
         fqx = datas.qxdm;
-        if (gnlb[datas.index].open) {
-          gnlb[datas.index].open = false;
-        } else {
-          gnlb[datas.index].open = true;
+        if(openGn==datas.index){
+          openGn = -1;
+        }else{
+          openGn = datas.index;
         }
+        wx.setStorageSync('session.openGn',openGn);
       }
       if (!e || !gnlb[datas.index].zqxlb) {
         wx.request({
@@ -219,6 +224,7 @@ Component({
               _this.setData({
                 gnlb: gnlb,
                 appgd: app.globalData,
+                openGn: openGn,
               });
               wx.setStorageSync('session.gnlb',gnlb);
             } else {
@@ -232,7 +238,7 @@ Component({
         });
       } else {
         _this.setData({
-          gnlb: gnlb
+          openGn: openGn
         });
       }
     },

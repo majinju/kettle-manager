@@ -39,13 +39,13 @@
       <view class="kind-list">
         <view wx:for-items="{{gnlb}}" class="kind-list-item" id="{{item.id}}" wx:key="{{item.id}}">
           <view wx:if="{{item.zcsjd=='1'}}" data-qxdm="{{item.dm}}" data-index="{{index}}"
-            class="kind-list-item-hd {{item.open ? 'kind-list-item-hd-show' : ''}}" bindtap="getGnlb">
+            class="kind-list-item-hd {{index==openGn ? 'kind-list-item-hd-show' : ''}}" bindtap="getGnlb">
             <view class="kind-list-text">{{item.mc}}</view>
             <image wx:if="{{item.tb}}" class="kind-list-img" src="{{appgd.serviceAddr+'common/download.do?xzms=false&id='+item.tb}}">
             </image>
           </view>
-          <view wx:if="{{item.zqxlb}}" class="kind-list-item-bd {{item.open ? 'kind-list-item-bd-show' : ''}}">
-            <view class="navigator-box {{item.open ? 'navigator-box-show' : ''}}">
+          <view wx:if="{{item.zqxlb}}" class="kind-list-item-bd {{index==openGn ? 'kind-list-item-bd-show' : ''}}">
+            <view class="navigator-box {{index==openGn ? 'navigator-box-show' : ''}}">
               <block wx:for-items="{{item.zqxlb}}" wx:for-item="page">
                 <navigator wx:if="{{page.zcsjd=='1'}}" url="/pages/list/index?dxdm={{page.dz}}&authCode={{page.dm}}"
                   class="navigator" wx:key="{{page.id}}" data-dm="{{page.dm}}">

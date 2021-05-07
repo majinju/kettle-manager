@@ -1,5 +1,9 @@
+/**工具集 */
 import util from '../../common/util';
-const app = getApp()
+/**
+ * 应用
+ */
+const app = getApp();
 
 Component({
   properties: {
@@ -8,22 +12,43 @@ Component({
     //记录主键
     id: String,
     //页面模式
-    pageModel: String
+    pageModel: String,
+    /**配置对象字符串 */
+    objStr:{
+      type:String,
+      value:'{}'
+    },
   },
   data: {
-    action: 'sjdx/save.do?dxdm=',
-    zdMap: {},
-    jcxx: {},
+    action: 'sjdx/save.do',
     updatedata: {},
-    error: ""
+    error: "",
+    appgd:{},
+    /**基础信息 */
+    jcxx: null,
+    user:null,
   },
   lifetimes: {
-    attached: function () {
+    attached:async function () {
       var _this = this;
-      _this.getData();
+      _this.init();
+      await _this.getJcxx().then(function(data){
+        _this.setData({
+          jcxx: data,
+          user: app.globalData.userInfo,
+          appgd: app.globalData,
+        });
+        if(data.kzxx.bjymkz){
+          //合并现有参数、对象中配置的参数、外部传入的参数
+          Object.assign(_this.data,data.kzxx.bjymkz,JSON.parse(_this.data.objStr));
+          _this.setData(_this.data);
+        }
+      });
+      _this.getList();
     },
     ready:function(){
       var _this = this;
+      //解决部分安卓机的大文本框高度计算异常问题
       setTimeout(function(){
         _this.setData({
           jcxx: _this.data.jcxx,
@@ -32,6 +57,131 @@ Component({
     }
   },
   methods: {
+    /**初始化 */
+    init:function(){
+      var _this = this;
+      //合并传入的配置信息
+      Object.assign(_this.data,JSON.parse(_this.data.objStr));
+    },
+    /**获取基础信息 */
+    getJcxx: function () {
+      var _this = this;
+      return new Promise(async (resolve, reject) => {
+        //优先使用缓存
+        var data = app.globalData.sjdxJcxx[_this.data.dxdm];
+        if(!data){
+          wx.request({
+            url: app.globalData.serviceAddr + 'sjdx/jcxx.do?e_cllx=jcxx',
+            data: {
+              dxdm: _this.data.dxdm,
+              token: app.globalData.token
+            },
+            async success(res) {
+              if (res.data.status) {
+                data = res.data.data;
+                delete data.user;
+                for (var f in data.fields) {
+                  var field = data.fields[f];
+                  if ((field.kjlx == 'dict' || field.kjlx == 'checkbox')) {
+                    var zdzdlb = field.zdzdlb;
+                    if (zdzdlb) {
+                      //加载字典列表
+                      await util.zdMap(app.globalData, zdzdlb).then(function (zdMap) {});
+                    }
+                  }
+                }
+                //设置缓存
+                app.globalData.sjdxJcxx[_this.data.dxdm] = data;
+                wx.setStorageSync('static.sjdxJcxx', app.globalData.sjdxJcxx);
+                wx.setStorageSync('static.zdListCache', app.globalData.zdListCache);
+                wx.setStorageSync('static.zdMapCache', app.globalData.zdMapCache);
+                //回调
+                resolve(data);
+              } else {
+                console.log('获取基础失败:' + res.data.msg);
+                wx.showToast({
+                  title: res.data.msg,
+                  icon: 'error'
+                });
+                reject(res);
+              }
+            },
+            fail(res) {
+              console.log('获取基础失败！' + res.errMsg);
+              wx.showToast({
+                title: res.errMsg,
+                icon: 'error'
+              });
+              reject(res);
+            }
+          });
+        }else{
+          resolve(data);
+        }
+      });
+    },
+    getList: function () {
+      var _this = this;
+      if(!_this.data.id){
+        //没有id不查询
+        return;
+      }
+      var myparams = {};
+      var zjzd = _this.data.jcxx.sjdx.zjzd;
+      myparams[zjzd]=_this.data.id;
+      wx.request({
+        url: app.globalData.serviceAddr + 'sjdx/page.do?e_cllx=list',
+        data: {
+          dxdm: _this.data.dxdm,
+          token: app.globalData.token,
+          myparams:JSON.stringify(myparams),
+          autoCount:false,
+          pageIndex:1
+        },
+        async success(res) {
+          if (res.data.status) {
+            var data = res.data.data;
+            //字典翻译
+            var fields = _this.data.jcxx.fields;
+            var row = data.list[0];
+            for (var f in fields) {
+              var field = fields[f];
+              if ((field.kjlx == 'dict' || field.kjlx == 'checkbox')) {
+                var zdzdlb = field.zdzdlb;
+                if (zdzdlb) {
+                  await util.zdMcByDmMore(app.globalData, zdzdlb, row[field.zddm])
+                    .then(function (mc) {
+                      row[field.zddm+'_mc']=mc;
+                  });
+                }
+              }
+            }
+            var zj = row[zjzd];
+            if (zj) {
+              _this.data.updatedata[zjzd] = zj;
+            }
+            _this.data.jcxx.obj=row;
+            _this.setData({
+              updatedata: _this.data.updatedata,
+              jcxx: _this.data.jcxx
+            });
+          } else {
+            console.log('查询失败:' + res.data.msg);
+            wx.showToast({
+              title: res.data.msg,
+              icon: 'error'
+            });
+          }
+        },
+        fail(res) {
+          console.log('查询失败！' + res.errMsg);
+          wx.showToast({
+            title: res.errMsg,
+            icon: 'error'
+          });
+        }
+      });
+    },
     submitForm: function () {
       var _this = this;
       var udaptedata = _this.data.updatedata;
@@ -147,7 +297,7 @@ Component({
     bindDictChange: function (e) {
       var _this = this;
       var field = e.currentTarget.dataset.field;
-      var dm = _this.data.zdMap[field.zdzdlb+'_list'][e.detail.value].dm;
+      var dm = app.globalData.zdListCache[field.zdzdlb][e.detail.value].dm;
       _this.data.jcxx.obj[field.zddm] = dm;
       _this.data.updatedata[field.zddm] = dm;
       _this.setData({
@@ -155,70 +305,5 @@ Component({
         updatedata: _this.data.updatedata
       });
     },
-    getData: function () {
-      var _this = this;
-      wx.request({
-        url: app.globalData.serviceAddr + 'sjdx/jcxx.do?e_cllx=jcxx',
-        data: {
-          dxdm: _this.data.dxdm,
-          token: app.globalData.token,
-          e_id: _this.data.id
-        },
-        async success(res) {
-          if (res.data.status) {
-            var data = res.data.data;
-            for (var f in data.fields) {
-              var field = data.fields[f];
-              if (field.kjlx == 'dict' || field.kjlx == 'checkbox') {
-                var zdzdlb = field.zdzdlb;
-                if (zdzdlb) {
-                  //加载字典列表
-                  if(field.zdfy=='0'){
-                    await util.zdMap(app.globalData, zdzdlb).then(async function (zdMap) {
-                      _this.data.zdMap[zdzdlb] = zdMap;
-                      await util.zdList(app.globalData, zdzdlb).then(function (zdList) {
-                        _this.data.zdMap[zdzdlb+'_list'] = zdList;
-                      });
-                    });
-                  }else{
-                    await util.zdMcByDmMore(app.globalData, zdzdlb, data.obj[field.zddm])
-                      .then(function (mc) {
-                        data.obj[field.zddm+'_mc']=mc;
-                    });
-                  }
-                }
-              }
-            }
-            var zjzd = data.sjdx.zjzd;
-            var zj = data.obj[zjzd];
-            if (zj) {
-              _this.data.updatedata[zjzd] = zj;
-              data.action += _this.data.dxdm + '&e_cllx=update';
-            } else {
-              data.action += _this.data.dxdm + '&e_cllx=insert';
-            }
-            _this.setData({
-              zdMap: _this.data.zdMap,
-              updatedata: _this.data.updatedata,
-              action: _this.data.action,
-              jcxx: data
-            });
-          } else {
-            console.log('获取记录失败:' + res.data.msg);
-            wx.showToast({
-              title: "获取记录失败！",
-              icon: 'error'
-            });
-          }
-        },
-        fail(res) {
-          console.log('获取记录失败！' + res.errMsg);
-          wx.showToast({
-            title: "获取记录失败！",
-            icon: 'error'
-          });
-        }
-      });
-    },
-  }
+  },
 })

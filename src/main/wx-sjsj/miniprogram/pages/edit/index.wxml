@@ -17,9 +17,9 @@
           <mp-cell wx:if="{{item.kjlx=='dict'&&item.zdfy=='0'}}" ext-class="weui-cell_select weui-cell_select-after {{(pageModel=='details'||item.yxbj=='0')?'my-input-xq':'my-input-sr'}}">
             <view slot="title" class="weui-label">{{item.zdmc}}</view>
             <picker disabled="{{pageModel=='details'||item.yxbj=='0'}}" bindchange="bindDictChange"
-              data-field="{{item}}" value="{{zdMap[item.zdzdlb][jcxx.obj[item.zddm]].idx}}"
-              data-val="{{jcxx.obj[item.zddm]}}" range="{{zdMap[item.zdzdlb+'_list']}}" range-key="mc">
-              <view class="weui-select">{{zdMap[item.zdzdlb][jcxx.obj[item.zddm]].mc||jcxx.obj[item.zddm]}}</view>
+              data-field="{{item}}" value="{{appgd.zdMapCache[item.zdzdlb][jcxx.obj[item.zddm]].idx}}"
+              data-val="{{jcxx.obj[item.zddm]}}" range="{{appgd.zdListCache[item.zdzdlb]}}" range-key="mc">
+              <view class="weui-select">{{appgd.zdMapCache[item.zdzdlb][jcxx.obj[item.zddm]].mc||jcxx.obj[item.zddm]}}</view>
             </picker>
           </mp-cell>
           <mp-cell wx:elif="{{item.kjlx=='dict'}}" prop="{{item.zddm}}" title="{{item.zdmc}}" 

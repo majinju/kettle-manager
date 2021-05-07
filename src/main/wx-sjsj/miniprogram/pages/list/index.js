@@ -10,10 +10,11 @@ CustomPage({
   properties: {
     //对象代码
     dxdm: String,
+    /**配置对象字符串 */
     objStr:{
       type:String,
       value:'{}'
-    }
+    },
   },
   data: {
     //数据加载中
@@ -121,14 +122,11 @@ CustomPage({
                 delete data.user;
                 for (var f in data.fields) {
                   var field = data.fields[f];
-                  if (field.lbzs=='1'&&(field.kjlx == 'dict' || field.kjlx == 'checkbox')) {
+                  if ((field.kjlx == 'dict' || field.kjlx == 'checkbox')) {
                     var zdzdlb = field.zdzdlb;
                     if (zdzdlb) {
                       //加载字典列表
-                      await util.zdMap(app.globalData, zdzdlb).then(async function (zdMap) {
-                        await util.zdList(app.globalData, zdzdlb).then(async function (zdList) {
-                        });
-                      });
+                      await util.zdMap(app.globalData, zdzdlb).then(function (zdMap) {});
                     }
                   }
                 }
@@ -277,7 +275,7 @@ CustomPage({
             for(var row in data.list){
               for (var f in fields) {
                 var field = fields[f];
-                if (field.lbzs=='1'&&(field.kjlx == 'dict' || field.kjlx == 'checkbox')) {
+                if ((field.kjlx == 'dict' || field.kjlx == 'checkbox')) {
                   var zdzdlb = field.zdzdlb;
                   if (zdzdlb) {
                     await util.zdMcByDmMore(app.globalData, zdzdlb, data.list[row][field.zddm])
