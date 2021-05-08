@@ -7,7 +7,7 @@
   <view wx:else class="flex-wrp logined-page" style="padding-top: {{appgd.statusBarHeight}}px;">
     <view class="flex-item flex-item-V demo-text-0"
       style="height:{{appgd.navigationBarHeight-appgd.statusBarHeight}}px;align-items: center;justify-content: center;text-align: center;display: flex;">
-      <text>{{appgd.projectName}}</text>
+      <text>{{projectName}}</text>
     </view>
     <view class="flex-item flex-item-V demo-text-1" style="">
       <view class="userinfo flex-wrp" style="flex-direction: row;">

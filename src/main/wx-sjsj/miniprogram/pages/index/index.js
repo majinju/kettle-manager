@@ -44,8 +44,8 @@ Component({
       //传参>存储>默认
       if (_this.data.cdRoot) {
         //传参：切换系统
-        wx.setStorage('static.cdRoot', _this.data.cdRoot);
-        wx.setStorage('static.projectName', _this.data.projectName);
+        wx.setStorageSync('static.cdRoot', _this.data.cdRoot);
+        wx.setStorageSync('static.projectName', _this.data.projectName);
         _this.setData({
           gnlb: [],
         });
