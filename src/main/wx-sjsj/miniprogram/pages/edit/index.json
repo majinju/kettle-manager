@@ -9,5 +9,5 @@
     "mp-form": "weui-miniprogram/form/form",
     "wemark": "../../components/wemark/wemark"
   },
-  "navigationBarTitleText": "编辑"
+  "navigationBarTitleText": "编辑详情"
 }

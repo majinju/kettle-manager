@@ -9,5 +9,5 @@
     "mp-halfScreenDialog": "weui-miniprogram/half-screen-dialog/half-screen-dialog"
   },
   "enablePullDownRefresh": true,
-  "navigationBarTitleText": "查询列表"
+  "navigationBarTitleText": "数据列表"
 }

@@ -53,6 +53,7 @@ CustomPage({
     /**基础信息 */
     jcxx: null,
     user:null,
+    lbcz:{},
   },
   computed: {
     /**列表操作项 */

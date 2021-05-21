@@ -69,7 +69,7 @@
       </view>
       </mp-cells>
     </mp-form>
-    <view slot="button" style="margin-top: 10px;">
+    <view slot="button" style="margin: 10px;">
       <button wx:if="{{pageModel!='details'}}" class="weui-btn" type="primary" bindtap="submitForm">确定</button>
       <button class="weui-btn" type="default" bindtap="quxiao">返回</button>
     </view>

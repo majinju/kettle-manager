@@ -86,11 +86,11 @@
             </view>
             <view wx:if="{{jcxx.fields.dxcz.lbzs=='1'}}" class="weui-form-preview__ft">
               <navigator wx:if="{{user.qxMap[jcxx.sjdx.map.authCode+'_XGQX']}}"
-                url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&id={{row.id}}"
+                url="/pages/edit/index?pageModel=edit&dxdm={{dxdm}}&{{jcxx.sjdx.zjzd}}={{row.id}}"
                 class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">编辑</navigator>
               <navigator  wx:if="{{user.qxMap[jcxx.sjdx.map.authCode+'_XQQX']}}"
-                url="/pages/edit/index?pageModel=details&dxdm={{dxdm}}&id={{row.id}}"
+                url="/pages/edit/index?pageModel=details&dxdm={{dxdm}}&{{jcxx.sjdx.zjzd}}={{row.id}}"
                 class="weui-form-preview__btn weui-form-preview__btn_primary"
                 hover-class="weui-form-preview__btn_active">详情</navigator>
               <view  wx:if="{{user.qxMap[jcxx.sjdx.map.authCode+'_SCQX']}}"
