@@ -1058,6 +1058,8 @@
                 self.elem.combo_input.val('');
                 self.elem.hidden.val('');
                 self.elem.clear_btn.remove();
+                var p = self.option;
+                if(p.eClear && $.isFunction(p.eClear)) p.eClear();
             }
 
 			self.suggest(self);
