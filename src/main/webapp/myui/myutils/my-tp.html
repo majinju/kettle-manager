@@ -2038,7 +2038,7 @@ Vue.component('my-table-zdy', {
         <div class="btn-table-right">
 			<button v-if="qxByQxm('DCDQY')&&lbms=='list'" class="btn btn-default btn-sm" type="button"
 				@click="expe"><i class="icon ion-ios-redo-outline"></i> 导出当前页</button>
-			<button v-if="qxByQxm('DCQB')&&lbms=='list'" class="btn btn-default btn-sm" type="button"
+			<button v-if="qxByQxm('DCQB')" class="btn btn-default btn-sm" type="button"
 				@click="expeAll"><i class="icon ion-ios-redo"></i> 导出全部</button>
 			<my-srkj v-if="lbmsfield.kzxx['字典数据']" :field="lbmsfield" index="1" 
 				@setval="lbmssetval" :value="lbms" pagemodel="add" 
@@ -2053,24 +2053,25 @@ Vue.component('my-table-zdy', {
 			@setvalList="setvalList" @setvalTh="setvalTh" >
 		</my-table>
 	</div>
+    <div v-else style="min-height:500px;">
 	<div v-if="lbms=='pie'">
 		<my-echarts :key="sjdx.dxdm+'pie'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('pie')" :rows="rows"
-			style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
+            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
 		</my-echarts>
 	</div>
 	<div v-if="lbms=='bar'" sm="柱状图">
 		<my-echarts :key="sjdx.dxdm+'bar'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar')" :rows="rows"
-			style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
+            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
 		</my-echarts>
 	</div>
     <div v-if="lbms=='bar1'" sm="条形图">
         <my-echarts :key="sjdx.dxdm+'bar1'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar1')" :rows="rows"
-            style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
+            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
         </my-echarts>
     </div>
     <div v-if="lbms=='line'">
         <my-echarts :key="sjdx.dxdm+'line'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('line')" :rows="rows"
-            style="width: 80%;height:500px;position: absolute;margin-left: 100px;">
+            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
         </my-echarts>
     </div>
 	<div v-if="lbms=='zdy'">
@@ -2079,8 +2080,9 @@ Vue.component('my-table-zdy', {
 			@setvalList="setvalList" @setvalTh="setvalTh" >
 		</my-table-zdy>
 	</div>
+    </div>
 	<!--分页渲染后放到这个元素中 -->
-	<div :style="lbmsVal=='list'?'':'display: none;'"
+	<div 
 		 class="row pagination width_100">
 	</div> 
  </div>

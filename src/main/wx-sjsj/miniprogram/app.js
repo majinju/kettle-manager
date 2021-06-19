@@ -20,8 +20,7 @@ App({
       /**项目名称*/
       projectName:"奔马数据",
       /**服务端地址*/
-      //serviceAddr:"http://127.0.0.1:88/myservice/"
-      serviceAddr:"https://my.benma666.cn:85/myservice/",
+      serviceAddr:"https://trimdata.cn:2000/myservice/",
       /**菜单根节点*/
       cdRoot:"KFZFW",
       /**这个值整个导航栏的高度*/

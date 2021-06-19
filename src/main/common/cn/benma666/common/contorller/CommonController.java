@@ -136,7 +136,7 @@ public class CommonController extends BasicController {
             List<JSONObject> list = new ArrayList<JSONObject>();
             for (String dm : searchValue.split(",")) {
                 obj.setDm(dm);
-                list.add(DictManager.zdObj(obj));
+                list.add(DictManager.zdObjByDmByCache(obj));
             }
             page.setList(list);
             result = page;

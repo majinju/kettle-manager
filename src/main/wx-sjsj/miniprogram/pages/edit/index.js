@@ -124,6 +124,10 @@ Component({
       var _this = this;
       if(!_this.data.id){
         //没有id不查询
+        _this.data.jcxx.obj={};
+        _this.setData({
+          jcxx: _this.data.jcxx
+        });
         return;
       }
       var myparams = {};
