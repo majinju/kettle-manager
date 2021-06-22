@@ -61,9 +61,6 @@ public class YhdlLjq extends DefaultLjq{
                 log.error("获取用户信息失败："+yobj1, e);
                 return error("获取用户信息失败："+e.getMessage());
             }
-            if(!"2".equals(yhxx.getShzt())){
-                return error("该用户还未审核通过，请耐性等待或联系管理员");
-            }
             String yhmm = null;
             try {
                 yhmm = DesUtil.decrypt(yhxx.getYhmm(), SConf.getVal("yhxx.yhmm.ejmm"));

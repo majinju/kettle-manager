@@ -17,8 +17,8 @@
 </script>
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">
 <span>
+<br/>
 {{if qxByQxm(user,sjdx,'CKDX')}}
-<span class="divider"></span>
 <a href="sjdx/list.do?dxdm={{= row.dxdm}}" target="_blank" title="查看对象，查看列表页面"><i class="icon ion-eye"></i></a>
 {{/if}}
 {{if qxByQxm(user,sjdx,'PZZD')}}
@@ -29,6 +29,9 @@
 <span class="divider"></span>
 <a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=sxdx&e_ids={{= row[sjdx.zjzd]}}" 
 a-oper="dxcl" title="刷新对象,从原始表信息更新字段"><i class="icon ion-ios-refresh"></i></a>
+<span class="divider"></span>
+<a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=bzpx&e_ids={{= row[sjdx.zjzd]}}" 
+a-oper="dxcl" title="标准排序"><i class="icon ion-grid"></i></a>
 {{/if}}
 </span>
 </script>

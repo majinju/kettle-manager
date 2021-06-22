@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.db.Db;
@@ -117,6 +118,20 @@ public class SjdxLjq extends DefaultLjq{
             }
             result.addMsg("成功刷新对象个数："+count);
             return result;
+        case "bzpx":
+            //标准排序
+            count = 0;
+            result = success("");
+            for(String id:(String[])params.get(KEY_IDS_ARRAY)){
+                //获取对象
+                SysSjglSjdx jtdx = sqlManager.single(SysSjglSjdx.class, id);
+                params.put(KEY_SJDX, jtdx);
+                JsonResult r = bzpxFields(jtdx,params);
+                result.addMsg(r.getMsg());
+                count++;
+            }
+            result.addMsg("成功重新排序对象个数："+count);
+            return result;
         case "scdxst":
             //生成对象实体
             count = 0;
@@ -133,6 +148,23 @@ public class SjdxLjq extends DefaultLjq{
         default:
             return super.plcl(sjdx, params);
         }
+    }
+    /**
+    * 标准排序 <br/>
+    * @author jingma
+    * @param jtdx
+    * @param myParams
+    * @return
+    */
+    private JsonResult bzpxFields(SysSjglSjdx jtdx, JSONObject myParams) {
+        Map<String, JSONObject> fields = getFields(jtdx,myParams);
+        int idx = 50;
+        for(Entry<String, JSONObject> field:fields.entrySet()){
+            idx+=10;
+            db.update("update sys_sjgl_sjzd t set t.px=? where t.id=?", 
+                    idx,field.getValue().getString(FIELD_ID));
+        }
+        return success(jtdx.getDxmc()+"成功标准化排序字段数："+fields.size());
     }
     /**
     * 获取默认导入sql <br/>
