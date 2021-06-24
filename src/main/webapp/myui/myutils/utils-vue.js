@@ -31,7 +31,7 @@ var scriptList=[
       serviceAddr+"myui/editor.md/lib/jquery.flowchart.min.js",
       //md编辑器相关 end
       serviceAddr+"myui/zTree_v3/js/jquery.ztree.all.js",
-      serviceAddr+"myui/echarts5/echarts.js"
+      serviceAddr+"myui/echarts5/echarts.min.js"
    ];
 /**
  * 需要引入的css脚本文件
@@ -629,6 +629,29 @@ function getUrlString(name) {
 	if (r != null)
 		return unescape(r[2]);
 	return null;
+}
+/**
+ * 转换小数点格式
+ * @param x 待转化的数字
+ * @param num 小数点位数
+ * @returns
+ */
+function toXsdGs(x,num) {   
+   var f = parseFloat(x);   
+   if (isNaN(f)) {   
+       return false;   
+   }   
+   var f = Math.round(x*Math.pow(10,num))/Math.pow(10,num);   
+   var s = f.toString();   
+   var rs = s.indexOf('.');   
+   if (rs < 0) {   
+       rs = s.length;   
+       s += '.';   
+   }   
+   while (s.length <= rs + num) {   
+       s += '0';   
+   }   
+   return s;   
 }
 /**
  * 实现深拷贝

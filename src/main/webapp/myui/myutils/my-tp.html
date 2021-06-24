@@ -1652,155 +1652,125 @@ Vue.component('my-td', {
 </script>
 <script type="text/javascript">
 Vue.component('my-echarts', {
-    props: ['sjdx','lbmsinfo','rows'],
+    props: ['sjdx','lbmsinfo','rows','yobj'],
     template:"#my-echarts-tp",
     data: function () {
       return {
+          //自己合并的参数
+          eparams:{},
+          //合并后获取回来的参数
+          eparams1:{},
+          //通用默认配置
+          "tymrpz":{
+              //数据
+              dataset: {
+                  // 用 dimensions 指定了维度的顺序。直角坐标系中，
+                  // 默认把第一个维度映射到 X 轴上，第二个维度映射到 Y 轴上。
+                  // 如果不指定 dimensions，也可以通过指定 series.encode
+                  // 完成映射，参见后文。
+                  dimensions: ['tjzb', 'cs', 'score'],
+                  source: [ ]
+	           },
+	           "title": {
+                   x:"center"
+               },
+	           //图例
+	           "legend": {
+	             "type": "scroll",
+	             "orient": "vertical",
+	             "right": 10,
+	             "top": 20,
+	             "bottom": 20
+	           },
+	           //坐标系绘制
+	           grid: {
+	               left: '10%',
+	               right: '4%',
+	               bottom: '3%',
+	               containLabel: true
+	           },
+	           //鼠标浮动提示
+	           "tooltip": {
+	             "trigger": "item"
+	           },
+	           //x轴设置
+	           "xAxis": {
+	               //默认横坐标的文字斜45度
+	               "axisLabel": {
+	                   "interval": 0,
+	                   "rotate": 45
+	                 },
+	               "type": "category"
+	             },
+	             //y轴设置
+	            "yAxis": {
+	              "type": "value"
+	            },
+	            "visualMap": {
+	                "type":'continuous',
+	                "orient": "horizontal",
+	                "left": "center",
+	                dimension:'cs',
+	                precision:2,
+	                "text": [
+	                  "高",
+	                  "低"
+	                ],
+	                "inRange": {
+	                  "color": [
+	                    "#65B581",
+	                    "#FFCE34",
+	                    "#FD665F"
+	                  ]
+	                }
+	              },
+	            series:{
+	                "name": "统计指标",
+	                "label": {
+	                    show: true,
+	                    position: 'top',
+	                    valueAnimation: true,
+	                    formatter:function(params){
+	                        return params.data[params.dimensionNames[params.encode.y[0]]];
+	                    }
+	                }
+	            }
+          },
           "pie":{
-              "title": {
-                  "x": "center"
-                },
-                "tooltip": {
-                  "trigger": "item",
-                  "formatter": "{a} <br/>{b} : {c} ({d}%)"
-                },
-                "legend": {
-                  "type": "scroll",
-                  "orient": "vertical",
-                  "right": 10,
-                  "top": 20,
-                  "bottom": 20
-                },
-                "series": [
-                  {
-                    "name": "统计指标",
-                    "type": "pie",
-                    "radius": "55%",
-                    "center": [
-                      "40%",
-                      "50%"
-                    ],
-                    "data": [],
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
+            "xAxis": "",
+            "yAxis": "",
+            "series": 
+              {
+                "type": "pie",
+                "radius": "55%",
+                "center": [
+                  "40%",
+                  "50%"
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
-                  }
-                ]
-              },
-          "bar":{
-              "title": {
-                  "x": "center"
                 },
-                grid: {
-                    left: '10%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                "tooltip": {
-                  "trigger": "item",
-                  "formatter": "{b0}: {c0}"
-                },
-                "legend": {
-                    "type": "scroll",
-                    "orient": "vertical",
-                    "right": 10,
-                    "top": 20,
-                    "bottom": 20
-                  },
-                "xAxis": {
-                  "type": "category"
-                },
-                "yAxis": {
-                  "type": "value"
-                },
-                "series": [
-                  {
-                    "type": "bar",
-                    "label": {
-                        show: true,
-                        position: 'top',
-                        valueAnimation: true
-                    }
-                  }
-                ]
-              },
-              "bar1":{
-                  "title": {
-                      "x": "center"
-                    },
-                    grid: {
-                        left: '10%',
-                        right: '4%',
-                        bottom: '3%',
-                        containLabel: true
-                    },
-                    "tooltip": {
-                      "trigger": "item",
-                      "formatter": "{b0}: {c0}"
-                    },
-                    "legend": {
-                        "type": "scroll",
-                        "orient": "vertical",
-                        "right": 10,
-                        "top": 20,
-                        "bottom": 20
-                      },
-                    "xAxis": {
-                        "type": "value"
-                    },
-                    "yAxis": {
-                        "type": "category"
-                    },
-                    "series": [
-                      {
-                        "type": "bar",
-                        "label": {
-                            show: true,
-                            position: 'right',
-                            valueAnimation: true
-                        }
-                      }
-                    ]
-                  },
-              "line":{
-                  "title": {
-                      "x": "center"
-                    },
-                    "tooltip": {
-                      "trigger": "item",
-                      "formatter": "{b0}: {c0}"
-                    },
-                    "legend": {
-                        "type": "scroll",
-                        "orient": "vertical",
-                        "right": 10,
-                        "top": 20,
-                        "bottom": 20
-                      },
-                    "xAxis": {
-                      "type": "category"
-//                       ,"axisLabel": { "interval": 0, "rotate": 30 }
-                    },
-                    "yAxis": {
-                      "type": "value"
-                    },
-                    "series": [
-                      {
-                        "type": "line",
-                        "label": {
-                            show: true,
-                            position: 'top',
-                            valueAnimation: true
-                        }
-                      }
-                    ]
-                  }
-              
+                "label": {
+                    formatter:null
+                }
+              }
+            },
+            "bar":{
+              "series": 
+                {
+                  "type": "bar"
+                }
+            },
+            "line":{
+               "series": 
+                 {
+                   "type": "line"
+                 }
+             }
       }
     },
     created : function(){
@@ -1826,73 +1796,33 @@ Vue.component('my-echarts', {
 
           //基于准备好的dom，初始化echarts实例
           _this.myChart = echarts.init(_this.$el);
-          _this.myChart.setOption(_this[lbmsinfo.dm]);
-          _this.myChart.setOption({"title": {
-              "text": sjdx.dxmc
-            }});
+          _this.eparams = $.extend(true,{},
+                  _this['tymrpz'],
+                  _this[lbmsinfo.type||lbmsinfo.dm]);
+          //若该对象设置定制配置则设置
           if(_this.lbmsinfo.options){
-              _this.myChart.setOption(_this.lbmsinfo.options);
+              _this.eparams = $.extend(true,_this.eparams,_this.lbmsinfo.options);
           }
+          if(_this.lbmsinfo.funOptions){
+              debugger
+              for (var j in _this.lbmsinfo.funOptions) {
+                  eval(j+'='+_this.lbmsinfo.funOptions[j]);
+              }
+          }
+          
+          _this.myChart.setOption(_this.eparams);
           _this.updateRows(_this.rows,_this);
+          _this.eparams1 = _this.myChart.getOption();
         },
         updateRows:function(list,_this){
-    		var lbmsinfo = _this.lbmsinfo;
-      		var legend = [];
-      		var seriesData = [];
-            var valArr = [];
-      		if(list.length==0){
-      		}
-      		for(var i in list){
-      		    var o = list[i];
-      		    legend.push(o[lbmsinfo.data.name]);
-      		  	seriesData.push({name:o[lbmsinfo.data.name],
-      		  	    value:o[lbmsinfo.data.value]});
-      		    valArr.push(o[lbmsinfo.data.value]);
-      		}
-    		var data = {};
-    	    if(lbmsinfo.dm=='pie'){
-    	        data = {
-                        series : [
-                            {
-                                data: seriesData
-                            }
-                        ]
-                    };
-            }else if(lbmsinfo.dm=='line'){
-                data = {
-                        series : [
-                            {
-                                data: valArr
-                            }
-                        ],
-                        xAxis:{
-                            data:legend
-                        }
-                    };
-            }else if(lbmsinfo.dm=='bar'){
-                data = {
-                        series : [
-                            {
-                                data: valArr
-                            }
-                        ],
-                        xAxis:{
-                            data: legend
-                        }
-                    };
-    		}else if(lbmsinfo.dm=='bar1'){
-                data = {
-                        series : [
-                            {
-                                data: valArr
-                            }
-                        ],
-                        yAxis:{
-                            data: legend
-                        }
-                    };
-    		}
-            _this.myChart.setOption(data);
+            var bbmc = _this.sjdx.dxmc;
+            if(_this.yobj['my_bbmc']){
+              bbmc = _this.yobj['my_bbmc'];
+            }
+            var setOption = {dataset:{source:list},title:{text:bbmc}};
+            //设置数据
+            _this.eparams = $.extend(true,_this.eparams,setOption);
+            _this.myChart.setOption(setOption);
         }
 	},
 	mounted:function(){
@@ -2053,33 +1983,16 @@ Vue.component('my-table-zdy', {
 			@setvalList="setvalList" @setvalTh="setvalTh" >
 		</my-table>
 	</div>
+    <div v-else-if="lbms=='zdy'">
+        <my-table-zdy :lbfields="lbfields" :rows='rows' :lbls="lbls"
+            :listFromid = 'listFromid' :lbkbj = 'lbkbj' :listEditData = 'listEditData'
+            @setvalList="setvalList" @setvalTh="setvalTh" >
+        </my-table-zdy>
+    </div>
     <div v-else style="min-height:500px;">
-	<div v-if="lbms=='pie'">
-		<my-echarts :key="sjdx.dxdm+'pie'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('pie')" :rows="rows"
-            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
+		<my-echarts :key="sjdx.dxdm+lbms" :sjdx="sjdx" :lbmsinfo="lbmsinfo(lbms)" :rows="rows"
+            :yobj="listPage.params" style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
 		</my-echarts>
-	</div>
-	<div v-if="lbms=='bar'" sm="柱状图">
-		<my-echarts :key="sjdx.dxdm+'bar'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar')" :rows="rows"
-            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
-		</my-echarts>
-	</div>
-    <div v-if="lbms=='bar1'" sm="条形图">
-        <my-echarts :key="sjdx.dxdm+'bar1'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('bar1')" :rows="rows"
-            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
-        </my-echarts>
-    </div>
-    <div v-if="lbms=='line'">
-        <my-echarts :key="sjdx.dxdm+'line'" :sjdx="sjdx" :lbmsinfo="lbmsinfo('line')" :rows="rows"
-            style="width: 80%;margin-left: 10%;height:500px;position: absolute;">
-        </my-echarts>
-    </div>
-	<div v-if="lbms=='zdy'">
-		<my-table-zdy :lbfields="lbfields" :rows='rows' :lbls="lbls"
-			:listFromid = 'listFromid' :lbkbj = 'lbkbj' :listEditData = 'listEditData'
-			@setvalList="setvalList" @setvalTh="setvalTh" >
-		</my-table-zdy>
-	</div>
     </div>
 	<!--分页渲染后放到这个元素中 -->
 	<div 
