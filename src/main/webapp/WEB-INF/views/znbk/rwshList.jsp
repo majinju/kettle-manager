@@ -5,10 +5,11 @@
 <!-- 数据对象列表扩展 -->
 <my-list id="listPage" :fromdata="fromdata" :sjdxid="sjdxid">
 </my-list>
-<script type="text/x-tp" id="my-sjdx-lbplcz-tp">
+<script type="text/x-tp" id="my-sjdx-lbplcz-tp1">
 <span>
-{{if qxByQxm(user,sjdx,'plsh')}}
-<button class="btn btn-primary btn-sm" onclick="plcl('plsh')"><i class="icon ion-ios-copy-outline"></i> {{= qxByQxm(user,sjdx,'plsh').mc}}</button>
+{{if qxByQxm(user,sjdx,'PLSH')}}
+<button class="btn btn-primary btn-sm" onclick="plcl('plsh')"><i class="icon ion-arrow-return-left"></i>
+{{= qxByQxm(user,sjdx,'PLSH').mc}}</button>
 {{/if}}
 </span>
 </script>

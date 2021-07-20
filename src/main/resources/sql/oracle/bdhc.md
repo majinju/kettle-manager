@@ -10,7 +10,8 @@ select hm.hczjlx, hm.hczjhm
  where xm.yxx = '1'
    and rw.yxx = '1'
    and hm.yxx = '1'
-   and hm.jssj > to_char(sysdate, 'yyyymmddhh24miss')
+   and nvl(hm.jssj,rw.jssj) > to_char(sysdate, 'yyyymmddhh24miss')
+   and rw.shzt='2'
 
 selectHmByHchm
 ===
@@ -95,7 +96,8 @@ select hm.id      hm_id,
  where xm.yxx = '1'
    and rw.yxx = '1'
    and hm.yxx = '1'
-   and hm.jssj > to_char(sysdate, 'yyyymmddhh24miss')
+   and nvl(hm.jssj,rw.jssj) > to_char(sysdate, 'yyyymmddhh24miss')
+   and rw.shzt='2'
    and hm.hczjlx = #p_1#
    and hm.hczjhm = #p_2#
    

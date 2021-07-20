@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>cn.benma666</groupId>
 			<artifactId>KettleEasyExpand</artifactId>
-			<version>1.1.1</version>
+			<version>1.2.0</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging-api</artifactId>

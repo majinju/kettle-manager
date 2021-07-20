@@ -5,7 +5,7 @@
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/common"/>
-        <dependent-module archiveName="KettleEasyExpand-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KettleEasyExpand/KettleEasyExpand">
+        <dependent-module archiveName="KettleEasyExpand-1.2.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KettleEasyExpand/KettleEasyExpand">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="myutils-0.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/myutils/myutils">

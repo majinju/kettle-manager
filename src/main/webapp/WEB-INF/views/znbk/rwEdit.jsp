@@ -6,13 +6,20 @@
 </my-edit>
 <script>
 function sjdxZdy(vp){
-    vp.mounted=function () {
-		if(pagemodel=='add'){
-	        $("[name='sjwj']").after('<a target="_blank" style="margin-left: 20px;text-decoration: underline;'
-    			+'font-size: larger;vertical-align: bottom;" href="sjdx/getMb.do?dxdm=SYS_ZNBK_HM">模板下载</a>');
-		}
+    vp.data.fromdata.qdzdyFun=function(data,_this){
+        if(!data.status&&data.code=='sjnrcw'){
+            popUpFullWinLayer({"url":"sjdx/list.do?dxdm=SYS_LOG_SJSCCW&e_sjwj="+_this._data.updatedata.sjwj,
+                "name":"数据上传错误信息列表"});
+        }else{
+            if(parent.listFrom&&parent.listFrom.listPage){
+                parent.listFrom.listPage.refreshPage();
+            }
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        }
     }
 }
+
 </script>
 </jsp:body>
 </gd:sjdxEdit>

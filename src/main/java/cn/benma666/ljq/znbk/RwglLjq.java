@@ -36,8 +36,7 @@ public class RwglLjq extends DefaultLjq {
             //本系统为比对核查系统的一个子系统，本系统的数据都属于同一个固定项目
             yobj.put("ssxm", kzxx.getString("rwpz.ssxm"));
             yobj.put("id", StringUtil.getUUIDUpperStr());
-            //新增时对上传的文件进行解析，修改时不允许修改文件，所以不需要处理
-            String sjwj = yobj.getString("sjwj");
+
             r = getJcxxByDxdm(kzxx.getString("rwpz.hmdx"));
             if(!r.isStatus()){
                 return r;
@@ -47,14 +46,34 @@ public class RwglLjq extends DefaultLjq {
             hmParams.put(KEY_CLLX, KEY_CLLX_SJPLSC);
             hmParams.put(KEY_OBJ, new JSONObject());
             SysSjglSjdx hmSjdx = (SysSjglSjdx) hmParams.get(KEY_SJDX);
-            SysSjglFile fileObj = sqlManager.single(SysSjglFile.class, sjwj);
-            hmSjdx.set("file", fileObj.toString());
-            //需要重写hm的批量上传功能，将所属任务、项目设置进去。
-            hmSjdx.set("ssrw", yobj.getString("id"));
-            hmSjdx.set("ssxm", yobj.getString("ssxm"));
-            r = LjqManager.plcl(hmSjdx, hmParams);
-            if(!r.isStatus()){
-                return r;
+            
+            //新增时对上传的文件进行解析，修改时不允许修改文件，所以不需要处理
+            String sjwj = yobj.getString("sjwj");
+            if(StringUtil.isNotBlank(sjwj)){
+                //正常页面上传数据文件
+                SysSjglFile fileObj = sqlManager.single(SysSjglFile.class, sjwj);
+                hmSjdx.set("file", fileObj.toString());
+                //需要重写hm的批量上传功能，将所属任务、项目设置进去。
+                hmSjdx.set("ssrw", yobj.getString("id"));
+                hmSjdx.set("ssxm", yobj.getString("ssxm"));
+                r = LjqManager.plcl(hmSjdx, hmParams);
+                if(!r.isStatus()){
+                    return r;
+                }
+            }else{
+                //调用接口新增任务
+                if(!yobj.containsKey("hmList")){
+                    return error("号码列表必须传");
+                }
+                try {
+                    r = plSave(hmSjdx, hmParams, yobj.getJSONArray("hmList"));
+                    if(!r.isStatus()){
+                        return r;
+                    }
+                } catch (Exception e) {
+                    log.error("保存号码失败", e);
+                    return error("保存号码失败"+e.getMessage());
+                }
             }
         }
         JsonResult r1 = super.saveDb(t, myParams);

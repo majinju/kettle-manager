@@ -46,8 +46,8 @@ public class SjdxController extends BasicController {
     @RequestMapping(value = "/list.do")
     public String list(SysSjglSjdx sjdx,String myparams, Model model, 
             HttpServletRequest request,HttpServletResponse response) {
-        sjdx.set(LjqInterface.KEY_CLLX, "list");
         setEParam(sjdx, request);
+        sjdx.set(LjqInterface.KEY_CLLX, "list");
         result = LjqManager.jcxx(sjdx,myparams,request);
         if(result.isStatus()){
             myParams = (JSONObject) result.getData();
@@ -66,8 +66,8 @@ public class SjdxController extends BasicController {
     @RequestMapping(value = "/edit.do")
     public String edit(SysSjglSjdx sjdx,String myparams, Model model, 
             HttpServletRequest request,HttpServletResponse response) {
-        sjdx.set(LjqInterface.KEY_CLLX, "edit");
         setEParam(sjdx, request);
+        sjdx.set(LjqInterface.KEY_CLLX, "edit");
         result = LjqManager.jcxx(sjdx,myparams,request);
         if(result.isStatus()){
             myParams = (JSONObject) result.getData();
@@ -267,14 +267,7 @@ public class SjdxController extends BasicController {
                     //设置对象id
                     yobj.put(dbSjdx.getZjzd(), StringUtil.getUUIDUpperStr());
                 }
-                //开启事务
-                DSTransactionManager.start();
                 JsonResult r = LjqManager.save(dbSjdx, myParams);
-                if(r.isStatus()){
-                    DSTransactionManager.commit();
-                }else{
-                    DSTransactionManager.rollback();
-                }
                 sendJson(response, r);
             }
         } catch (Throwable e) {

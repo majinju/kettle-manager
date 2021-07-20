@@ -1,94 +1,133 @@
 
 ----------先用kettle创建默认资源库，然后执行如下语句，再将本地资源库在kettle导入。
-
---r_job表扩展信息
--- Add/modify columns 
-alter table R_JOB add RUN_STATUS VARCHAR2(100) default 'Stopped';
-alter table R_JOB add LAST_UPDATE VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss');
-alter table R_JOB add AUTO_RESTART_NUM VARCHAR2(10) default '0';
-alter table R_JOB add REPOSITORY_CODE VARCHAR2(100) default 'KETTLE_DEFAULT';
-alter table R_JOB add PROJECT_CODE VARCHAR2(500) default 'KM_LOCALHOST_82';
-alter table R_JOB add OORDER NUMBER default 9999;
-alter table R_JOB add ZLSJC VARCHAR2(14);
-alter table R_JOB add TIMING VARCHAR2(100);
-alter table R_JOB add LOG_LEVEL VARCHAR2(100) default '3';
-alter table R_JOB add ZYLX VARCHAR2(32) default 'cgzy';
-alter table R_JOB add GXSX NUMBER;
-alter table R_JOB add RZSX NUMBER;
-alter table R_JOB add BZSX NUMBER;
-alter table R_JOB add SCWCSJ VARCHAR2(14);
-alter table R_JOB add SCZXZT VARCHAR2(32);
-alter table R_JOB add JCPL VARCHAR2(64);
-alter table R_JOB add GZLJ VARCHAR2(255);
-alter table R_JOB add SHELL VARCHAR2(4000);
-alter table R_JOB add SJZT VARCHAR2(32);
-alter table R_JOB add SQL VARCHAR2(4000);
-alter table R_JOB add JS VARCHAR2(4000);
-alter table R_JOB add KMLM VARCHAR2(255);
-alter table R_JOB add KMPZ VARCHAR2(4000);
-alter table R_JOB add LYDX VARCHAR2(32);
-alter table R_JOB add MBDX VARCHAR2(32);
-alter table R_JOB add LZMB VARCHAR2(255);
-alter table R_JOB add SRZJ VARCHAR2(32);
-alter table R_JOB add SCZJ VARCHAR2(32);
+-- 作业扩展表
+create table JOB_EXTEND
+(
+  ID_JOB           INTEGER not null,
+  RUN_STATUS       VARCHAR2(100) default 'Stopped',
+  LAST_UPDATE      VARCHAR2(14) default to_char(sysdate,'yyyymmddhh24miss'),
+  AUTO_RESTART_NUM VARCHAR2(10) default '0',
+  REPOSITORY_CODE  VARCHAR2(100) default 'KETTLE_DEFAULT',
+  PROJECT_CODE     VARCHAR2(500) default 'KM_LOCALHOST_82',
+  OORDER           NUMBER default 9999,
+  ZLSJC            VARCHAR2(14),
+  TIMING           VARCHAR2(100),
+  LOG_LEVEL        VARCHAR2(100) default '3',
+  ZYLX             VARCHAR2(32) default 'cgzy',
+  GXSX             NUMBER,
+  RZSX             NUMBER,
+  BZSX             NUMBER,
+  SCWCSJ           VARCHAR2(14),
+  SCZXZT           VARCHAR2(32),
+  JCPL             VARCHAR2(64),
+  GZLJ             VARCHAR2(255),
+  SHELL            VARCHAR2(4000),
+  SJZT             VARCHAR2(32),
+  SQL              VARCHAR2(4000),
+  JS               VARCHAR2(4000),
+  KMLM             VARCHAR2(255),
+  KMPZ             VARCHAR2(4000),
+  LYDX             VARCHAR2(32),
+  MBDX             VARCHAR2(32),
+  LZMB             VARCHAR2(255),
+  GDPZ             VARCHAR2(4000),
+  SRZJ             VARCHAR2(32),
+  SCZJ             VARCHAR2(32)
+);
+-- Add comments to the table 
+comment on table JOB_EXTEND
+  is '作业_扩展信息';
 -- Add comments to the columns 
-comment on column R_JOB.RUN_STATUS
+comment on column JOB_EXTEND.ID_JOB
+  is '主键';
+comment on column JOB_EXTEND.RUN_STATUS
   is '运行状态';
-comment on column R_JOB.LAST_UPDATE
+comment on column JOB_EXTEND.LAST_UPDATE
   is '最后更新时间';
-comment on column R_JOB.AUTO_RESTART_NUM
+comment on column JOB_EXTEND.AUTO_RESTART_NUM
   is '自动重启次数';
-comment on column R_JOB.REPOSITORY_CODE
+comment on column JOB_EXTEND.REPOSITORY_CODE
   is '资源库代码';
-comment on column R_JOB.PROJECT_CODE
+comment on column JOB_EXTEND.PROJECT_CODE
   is '运行在';
-comment on column R_JOB.OORDER
+comment on column JOB_EXTEND.OORDER
   is '对象排序';
-comment on column R_JOB.ZLSJC
+comment on column JOB_EXTEND.ZLSJC
   is '增量时间戳';
-comment on column R_JOB.TIMING
+comment on column JOB_EXTEND.TIMING
   is '定时';
-comment on column R_JOB.LOG_LEVEL
+comment on column JOB_EXTEND.LOG_LEVEL
   is '日志级别';
-comment on column R_JOB.ZYLX
+comment on column JOB_EXTEND.ZYLX
   is '作业类型@OTHER_KETTLE_ZYLX';
-comment on column R_JOB.GXSX
+comment on column JOB_EXTEND.GXSX
   is '更新时限;单位分钟，r_job中的最后更新时间更新时限';
-comment on column R_JOB.RZSX
+comment on column JOB_EXTEND.RZSX
   is '日志时限;单位分钟，日志表更新时限';
-comment on column R_JOB.BZSX
+comment on column JOB_EXTEND.BZSX
   is '标志时限;单位分钟，抽取标志位时限';
-comment on column R_JOB.SCWCSJ
+comment on column JOB_EXTEND.SCWCSJ
   is '上次完成时间';
-comment on column R_JOB.SCZXZT
+comment on column JOB_EXTEND.SCZXZT
   is '上次执行状态';
-comment on column R_JOB.JCPL
+comment on column JOB_EXTEND.JCPL
   is '监测频率';
-comment on column R_JOB.GZLJ
+comment on column JOB_EXTEND.GZLJ
   is '工作路径';
-comment on column R_JOB.SHELL
+comment on column JOB_EXTEND.SHELL
   is 'shell脚本';
-comment on column R_JOB.SJZT
+comment on column JOB_EXTEND.SJZT
   is '数据载体';
-comment on column R_JOB.SQL
+comment on column JOB_EXTEND.SQL
   is 'sql脚本';
-comment on column R_JOB.JS
+comment on column JOB_EXTEND.JS
   is 'js脚本';
-comment on column R_JOB.KMLM
+comment on column JOB_EXTEND.KMLM
   is 'KM类名';
-comment on column R_JOB.KMPZ
+comment on column JOB_EXTEND.KMPZ
   is 'KM配置';
-comment on column R_JOB.LYDX
+comment on column JOB_EXTEND.LYDX
   is '来源对象';
-comment on column R_JOB.MBDX
+comment on column JOB_EXTEND.MBDX
   is '目标对象';
-comment on column R_JOB.LZMB
+comment on column JOB_EXTEND.LZMB
   is '流转模板';
-comment on column R_JOB.SRZJ
+comment on column JOB_EXTEND.GDPZ
+  is '更多配置';
+comment on column JOB_EXTEND.SRZJ
   is '输入组件';
-comment on column R_JOB.SCZJ
+comment on column JOB_EXTEND.SCZJ
   is '输出组件';
+  
+  --合并后的视图
+create or replace view v_job as
+select id_directory,
+       e.timing as timing_txt,
+       name,
+       to_char(description) as description,
+       to_char(extended_description) as extended_description,
+       job_version,
+       job_status,
+       id_database_log,
+       table_name_log,
+       created_user,
+       created_date,
+       modified_user,
+       modified_date,
+       use_batch_id,
+       pass_batch_id,
+       use_logfield,
+       shared_file,
+       e.*
+  from r_job j
+  left join job_extend e on e.id_job=j.id_job
+  where j.job_status<>0
+  /*
+  作业视图，默认只显示处于发布状态的作业，可以根据需要自行修改
+  */;
 
+  
+  
 -- 创建作业基础日志表
 create table JOB_LOG
 (

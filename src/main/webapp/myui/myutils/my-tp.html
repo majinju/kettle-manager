@@ -90,14 +90,16 @@ Vue.component('my-label', {
 	<slot></slot>
 </button>
 <i class="icon ion-close-round" title="清除文件" 
-	@click="qcwj" style="cursor: pointer;"></i>
+	@click="qcwj" style="cursor: pointer;vertical-align: middle;"></i>
+<a v-if="kzxxObj.file.mbxz==true" style="margin-left: 5px;text-decoration: underline;font-size: larger;vertical-align: middle;" 
+    href="javascript:void();" @click="downloadHmmb">{{kzxxObj.file.mbxzMs||'模板下载'}}</a>
 <input style="display: none;" type="text" :name="(owner||'')+field.zddm" :value="val">
 </span>
 <button v-else-if="edit&&kzxxObj.file.qcwj=='0'" type="button" class="btn btn-primary btn-sm">
 	<i class="icon ion-arrow-up-a"></i>
 	<slot></slot>
 </button>
-<span v-else v-html="ck"></span>
+<span v-else style="vertical-align: -webkit-baseline-middle;" v-html="ck"></span>
 </script>
 <script type="text/javascript">
 Vue.component('my-file', {
@@ -176,7 +178,11 @@ Vue.component('my-file', {
     		    _this.$emit('setval', _this.field, _this);
     		    alertInfo("已清除文件，点击确定进行保存后才能生效");
             }
-        }
+        },
+	    downloadHmmb:function(){
+            var _this =  this;
+            $.download(_this.kzxxObj.file.mbxzUrl,{});
+	    }
     },
     mounted: function () {
         var _this =  this;
@@ -1711,7 +1717,7 @@ Vue.component('my-echarts', {
 	                "orient": "horizontal",
 	                "left": "center",
 	                dimension:'cs',
-	                precision:2,
+	                precision:1,
 	                "text": [
 	                  "高",
 	                  "低"
@@ -1798,13 +1804,13 @@ Vue.component('my-echarts', {
           _this.myChart = echarts.init(_this.$el);
           _this.eparams = $.extend(true,{},
                   _this['tymrpz'],
+                  _this.$root.kzxx.lbymkz.echarsTymrpz,
                   _this[lbmsinfo.type||lbmsinfo.dm]);
           //若该对象设置定制配置则设置
           if(_this.lbmsinfo.options){
               _this.eparams = $.extend(true,_this.eparams,_this.lbmsinfo.options);
           }
           if(_this.lbmsinfo.funOptions){
-              debugger
               for (var j in _this.lbmsinfo.funOptions) {
                   eval(j+'='+_this.lbmsinfo.funOptions[j]);
               }
@@ -3157,7 +3163,8 @@ Vue.component('my-edit', {
                    var _params = {myparams:JSON.stringify($.extend({},this.fromdata, _this._data.updatedata))};
                    ajax(_this.action,{qrts:(!(_this.bjymkz("my-qdbts")=='1')),
                        jgts:(!(_this.bjymkz("my-jgts")=='0')),
-                       fromdata:_params,success:function(data){
+                       fromdata:_params,
+                       success:function(data){
                            if(_this.fromdata.qdzdyFun){
                                _this.fromdata.qdzdyFun(data,_this);
                            }else{
@@ -3168,10 +3175,16 @@ Vue.component('my-edit', {
     	        	   			parent.layer.close(index);
                            }
     		            },
+                        error:function(data){
+                            if(_this.fromdata.qdzdyFun){
+                                _this.fromdata.qdzdyFun(data,_this);
+                            }else{
+                                 var index = parent.layer.getFrameIndex(window.name);
+                                 parent.layer.close(index);
+                            }
+                            layer.close(loadindex);
+                        },
     		            qxbtn:function(){
-          	                layer.close(loadindex);
-    		            },
-    		            error:function(){
           	                layer.close(loadindex);
     		            }
                    });
