@@ -1,6 +1,7 @@
 
 package cn.benma666.common.service;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class SjdxService extends BasicService{
     * @param user 
     * @param myParams
     */
+    @SuppressWarnings("deprecation")
     public JsonResult txPlcl(SysSjglSjdx sjdx, JSONObject myParams) {
         Object ids = sjdx.get(LjqInterface.KEY_IDS);
         if(ids!=null&&StringUtil.isNotBlank(ids.toString())){
@@ -48,7 +50,7 @@ public class SjdxService extends BasicService{
         Object cxtj = sjdx.get("my-cxtj");
         if(cxtj!=null){
             //根据查询条件，调用select模板得到操作条件
-            myParams.put(LjqInterface.KEY_YOBJ, JSON.parseObject(cxtj.toString()));
+            myParams.put(LjqInterface.KEY_YOBJ, JSON.parseObject(URLDecoder.decode(cxtj.toString())));
             JsonResult result = DefaultLjq.getDefaultSql(sjdx, "select", myParams, sjdx.getSqlmb());
             if(!result.isStatus()){
                 return result;

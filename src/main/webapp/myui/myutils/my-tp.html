@@ -889,7 +889,7 @@ Vue.component('my-time', {
 	},
     computed : {
         nval:function (){
-            var val=this.value;
+            var val=this.dqz;
             var sf = strFunToFun(this.field.gshff||"vueTimeGsh");
             if(sf){
                 val=sf(val,this);
@@ -899,7 +899,7 @@ Vue.component('my-time', {
             return val;
         },
         nvalTitle:function (){
-            var val=this.value;
+            var val=this.dqz;
             return val;
         },
         onfocus:function (){
@@ -907,13 +907,21 @@ Vue.component('my-time', {
         }
     },
     mounted: function () {
-        
+        this.target=this;
+        this.val=this.dqz;
+        this.$emit('setval', this.field, this);
     },
     created: function () {
         var _this =  this;
         eval("var kzxx="+this.field.kzxx);
         if(kzxx["时间控件"]){
             this.WdatePicker = $.extend(this.WdatePicker, kzxx["时间控件"]);
+        }
+        var val1="";
+        if(_this.dqz){
+            if(_this.dqz.indexOf('goDay:')==0){
+                _this.dqz = dateFormat(new Date().addDays(_this.dqz.substring(6)),this.WdatePicker.hdgs);
+            }
         }
     }
   });
@@ -2838,6 +2846,38 @@ Vue.component('my-list', {
 	                }
 	            });
 	        },
+            getfile:function(cllx,_this,options){
+                if(!_this){
+                    _this = this;
+                }
+                if(!options){
+                    options={};
+                }
+                if(_this.czqbsj){
+                    options['e_my-cxtj']=JSON.stringify(_this.listPage.params);
+                }else{
+                    var ed = _this.listEditData;
+                    var ids = "";
+                    for(var i=0;i<ed.length;i++){
+                        if(ed[i]['my-lbxz']=='1'){
+                            ids=ids+","+ed[i][_this.sjdx.zjzd];
+                        }
+                    }
+                    //选择的id为空且需列表行
+                    if(ids==""&&!(options.bxlbh==false)){
+                        alertError("请选择要操作行");
+                        return;
+                    }
+                    options['e_ids']=ids.substring(1);
+                    if(options.plczqt){
+                        return options.plczqt(options['e_ids']);
+                    }
+                }
+                
+                options.id=_this.sjdx.id;
+                options['e_cllx']=cllx;
+                $.download("sjdx/getFile.do",options);
+            },
             sjplsc:function(field,e){
                 this.plcl("sjplsc",null,{"e_file":JSON.stringify(e.rep),"bxlbh":false,"qrts":false,
                     end:function(data,_this){

@@ -48,7 +48,10 @@
 		       methods:{
 		           plcl:function(cllx,_this,options){
 		               this.$children[0].plcl(cllx,_this,options);
-		         }
+		           },
+	               getfile:function(cllx,_this,options){
+	                   this.$children[0].getfile(cllx,_this,options);
+	               }
 		       },
 		       mounted:function(){
 		           lbplcz(this);
@@ -62,6 +65,9 @@
 		function plcl(cllx,_this,options){
 		    listFrom.plcl(cllx,_this,options);
 		}
+        function getfile(cllx,_this,options){
+            listFrom.getfile(cllx,_this,options);
+        }
 		function lbplcz(_this){
 		    $(".lbplcz").hide();
 		    $(".lbplcz").each(

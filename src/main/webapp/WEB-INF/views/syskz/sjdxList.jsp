@@ -13,16 +13,17 @@
 {{if qxByQxm(user,sjdx,'SCDXST')}}
 <button class="btn btn-primary btn-sm" onclick="plcl('scdxst')"><i class="icon ion-log-in"></i> {{= qxByQxm(user,sjdx,'SCDXST').mc}}</button>
 {{/if}}
+<button class="btn btn-primary btn-sm" onclick="getfile('dcsj',null,{'e_title':'导出全部','e_pageSize':'50'})"><i class="icon ion-ios-redo"></i> 导出数据</button>
 </span>
 </script>
 <script type="text/x-tp" id="my-sjdx-lbcz-tp">
 <span>
-<br/>
 {{if qxByQxm(user,sjdx,'CKDX')}}
+<span class="divider"></span>
 <a href="sjdx/list.do?dxdm={{= row.dxdm}}" target="_blank" title="查看对象，查看列表页面"><i class="icon ion-eye"></i></a>
 {{/if}}
+<br/>
 {{if qxByQxm(user,sjdx,'PZZD')}}
-<span class="divider"></span>
 <a href="sjdx/list.do?dxdm=SYS_SJGL_SJZD&e_sjdx={{= row.id}}" target="_blank" title="配置字段"><i class="icon ion-levels"></i></a>
 {{/if}}
 {{if qxByQxm(user,sjdx,'SXDX')}}
@@ -31,7 +32,7 @@
 a-oper="dxcl" title="刷新对象,从原始表信息更新字段"><i class="icon ion-ios-refresh"></i></a>
 <span class="divider"></span>
 <a href="sjdx/plcl.do?id={{= sjdx.id}}&e_cllx=bzpx&e_ids={{= row[sjdx.zjzd]}}" 
-a-oper="dxcl" title="标准排序"><i class="icon ion-grid"></i></a>
+a-oper="dxcl" title="标准排序"><i class="icon ion-android-funnel"></i></a>
 {{/if}}
 </span>
 </script>
