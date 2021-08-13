@@ -2483,7 +2483,7 @@ style="width: 4px;float: left;height: calc(( 100vh - 38px ));background-color: b
 			<button v-if="lbkbj=='1'" class="btn btn-primary btn-sm" @click="saveListData"><i class="icon ion-android-lock"></i> 保存数据</button>
 	        <button v-if="qxByQxm('XZQX')" class="btn btn-primary btn-sm" :href="'sjdx/edit.do?dxdm='+sjdx.dxdm+'&pagemodel=add'"
 				a-oper="other" :title='"新建【"+sjdx.dxmc+"】"'><i class="icon ion-ios-plus-outline"></i> {{xjanmc||'新建'}}</button>
-	        <button v-if="qxByQxm('PLSC')" class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> {{plscanmc||'批量删除'}}</button>
+	        <button v-if="qxByQxm('PLSC')" class="btn btn-primary btn-sm" @click="plcl('plsc')"><i class="icon ion-ios-trash-outline"></i> {{plscanmc||qxByQxm('PLSC').mc}}</button>
 	        <button v-if="!(lbkbj=='1')&&qxByQxm('BJMS')" class="btn btn-primary btn-sm" 
 				:href="'sjdx/list.do?dxdm='+sjdx.dxdm+'&myparams='+bjmsUrl"
 	            a-oper="newTab"><i class="icon ion-edit"></i> 编辑模式</button>
@@ -3846,16 +3846,16 @@ function getDownloadUrl(){
 <span>
 {{if qxByQxm(user,sjdx,'XGQX')}}
 <a href="sjdx/edit.do?pagemodel=edit&dxdm={{= sjdx.dxdm}}&myparams={{= editUrl(sjdx,row)}}" 
-a-oper="update" title="编辑【{{= sjdx.dxmc}}】"><i class="icon ion-compose"></i></a>
+a-oper="update" title="{{= qxByQxm(user,sjdx,'XGQX').mc}}【{{= sjdx.dxmc}}】"><i class="icon ion-compose"></i></a>
 <span class="divider"></span>
 {{/if}}
 {{if qxByQxm(user,sjdx,'SCQX')}}
 <a href="sjdx/plcl.do?dxdm={{= sjdx.dxdm}}&e_cllx=plsc&e_ids={{= row[sjdx.zjzd]}}" 
-a-oper="dxcl" title="删除【{{= sjdx.dxmc}}】"><i class="icon ion-android-delete"></i></a>
+a-oper="dxcl" title="{{= qxByQxm(user,sjdx,'SCQX').mc}}【{{= sjdx.dxmc}}】"><i class="icon ion-android-delete"></i></a>
 <span class="divider"></span>
 {{/if}}
 <a href="sjdx/edit.do?pagemodel=details&dxdm={{= sjdx.dxdm}}&myparams={{= editUrl(sjdx,row)}}" 
-a-oper="other" title="详情【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-round"></i></a>
+a-oper="other" title="{{= qxByQxm(user,sjdx,'XQQX').mc}}【{{= sjdx.dxmc}}】"><i class="icon ion-navicon-round"></i></a>
 </span>
 </script>
 <script type="text/x-tp" id="my-base64tpgsh-tp">

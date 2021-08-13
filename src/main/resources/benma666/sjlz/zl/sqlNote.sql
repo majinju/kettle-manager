@@ -103,7 +103,7 @@ comment on column JOB_EXTEND.SCZJ
 create or replace view v_job as
 select id_directory,
        e.timing as timing_txt,
-       name,
+       j.name,
        to_char(description) as description,
        to_char(extended_description) as extended_description,
        job_version,
@@ -125,8 +125,31 @@ select id_directory,
   /*
   作业视图，默认只显示处于发布状态的作业，可以根据需要自行修改
   */;
-
   
+create or replace trigger TRI_JOB_INSERT
+  before insert on r_job  
+  for each row
+declare
+  -- local variables here
+  v_count number;
+  v_gxsx number;
+  v_rzsx number;
+  v_bzsx number;
+  v_jcpl varchar2(128);
+  v_zlsjc varchar2(32);
+begin
+  select count(1) into v_count from job_extend e where e.name=:new.name;
+  if v_count=0 then
+    insert into job_extend(id_job,name) values(:new.id_job,:new.name);
+  else
+    select zlsjc,gxsx,bzsx,rzsx,jcpl into v_zlsjc,v_gxsx,v_bzsx,v_rzsx,v_jcpl from job_extend e where e.name=:new.name;
+    :new.jcpl := v_jcpl;
+    :new.gxsx := v_gxsx;
+    :new.rzsx := v_rzsx;
+    :new.bzsx := v_bzsx;
+    :new.zlsjc := v_zlsjc;
+  end if;
+end TRI_JOB_INSERT;
   
 -- 创建作业基础日志表
 create table JOB_LOG

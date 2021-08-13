@@ -314,8 +314,6 @@ public class SjdxLjq extends DefaultLjq{
             params.remove("xjdx");
             count = sqlManager.executeUpdate(r.getMsg(), params);
         }
-        oldFiledMap = Db.listToMap(db.find("select * from sys_sjgl_sjzd t where t.sjdx=?", 
-                        jtdx.getId()), "zddm");
         int idx = oldFiledMap.size()*10+50;
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
@@ -372,6 +370,10 @@ public class SjdxLjq extends DefaultLjq{
             sqlManager.insertTemplate(zd);
             oldFiledMap.put(zd.getZddm(), null);
         }
-        return success(jtdx.getDxmc()+"导入字段数："+count);
+        if(fieldsList.isEmpty()&&oldFiledMap.isEmpty()){
+            return error("没有查询到字段信息，请确认数据载体是否选择正确");
+        }else{
+            return success(jtdx.getDxmc()+"导入字段数："+count);
+        }
     }
 }

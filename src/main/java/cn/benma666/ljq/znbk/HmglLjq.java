@@ -40,7 +40,9 @@ public class HmglLjq extends DefaultLjq{
                 yobj.put("gkdw", user.getJgxx().getId());
             }
             yobj.put("ssxm", sjdx.get("ssxm"));
-            yobj.put("ssrw", sjdx.get("ssrw"));
+            if(!yobj.containsKey("ssrw")){
+                yobj.put("ssrw", sjdx.get("ssrw"));
+            }
         }
         return super.save(sjdx, myParams);
     }
