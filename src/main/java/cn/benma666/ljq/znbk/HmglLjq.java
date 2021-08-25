@@ -28,6 +28,7 @@ public class HmglLjq extends DefaultLjq{
     @Override
     public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
+        JSONObject kzxx = myParams.getJSONObject(FIELD_KZXX);
         if(KEY_CLLX_INSERT.equals(cllx)){
             //插入时，主证件号码为空则自动用核查证件号码填充
             JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
@@ -39,7 +40,7 @@ public class HmglLjq extends DefaultLjq{
                 SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
                 yobj.put("gkdw", user.getJgxx().getId());
             }
-            yobj.put("ssxm", sjdx.get("ssxm"));
+            yobj.put("ssxm", kzxx.getString("rwpz.ssxm"));
             if(!yobj.containsKey("ssrw")){
                 yobj.put("ssrw", sjdx.get("ssrw"));
             }

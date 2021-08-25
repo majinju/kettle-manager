@@ -55,7 +55,6 @@ public class RwglLjq extends DefaultLjq {
                 hmSjdx.set("file", fileObj.toString());
                 //需要重写hm的批量上传功能，将所属任务、项目设置进去。
                 hmSjdx.set("ssrw", yobj.getString("id"));
-                hmSjdx.set("ssxm", yobj.getString("ssxm"));
                 r = LjqManager.plcl(hmSjdx, hmParams);
                 if(!r.isStatus()){
                     return r;
