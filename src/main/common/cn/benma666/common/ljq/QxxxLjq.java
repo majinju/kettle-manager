@@ -88,20 +88,21 @@ public class QxxxLjq extends DefaultLjq{
         JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
         JSONObject obj = myparams.getJSONObject(KEY_OBJ);
-        if(KEY_CLLX_INSERT.equals(cllx)
+        JsonResult r = super.saveDb(t, myparams);
+        if(!r.isStatus()){
+            return r;
+        }else if(KEY_CLLX_INSERT.equals(cllx)&&r.isStatus()
                 &&UtilConst.WHETHER_TRUE.equals(yobj.getString("sczqx"))
                 &&StringUtil.isNotBlank(yobj.getString("dz"))){
             //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
-            JsonResult r = DefaultLjq.getDefaultSql(t, "sczqx",myparams);
+            r = DefaultLjq.getDefaultSql(t, "sczqx",myparams);
             sqlManager.executeUpdate(r.getMsg(), myparams);
-        }else if(StringUtil.isNotBlank(dm)){
+        }else if(KEY_CLLX_UPDATE.equals(cllx)
+                &&r.isStatus()&&StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
             db.update("update sys_qx_qxxx t set t.dm=replace(t.dm,?,?),t.fqx=replace(t.fqx,?,?),"
                     + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.dm like ?", 
                     obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,obj.getString("dm")+"_%");
-        }
-        JsonResult r = super.saveDb(t, myparams);
-        if(r.isStatus()&&StringUtil.isNotBlank(dm)){
             //修改授权信息中的权限代码。
             db.update("update sys_qx_jsqxgl t set t.qx=replace(t.qx,?,?),"
                     + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.qx like ?", 

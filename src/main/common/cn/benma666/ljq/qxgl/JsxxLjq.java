@@ -45,14 +45,12 @@ public class JsxxLjq extends DefaultLjq{
         JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
         JSONObject obj = myparams.getJSONObject(KEY_OBJ);
-        if(StringUtil.isNotBlank(dm)){
+        JsonResult r = super.saveDb(t, myparams);
+        if(r.isStatus()&&StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
             db.update("update sys_qx_jsxx t set t.dm=replace(t.dm,?,?),t.fjs=replace(t.fjs,?,?),"
                     + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.dm like ?", 
                     obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,obj.getString("dm")+"_%");
-        }
-        JsonResult r = super.saveDb(t, myparams);
-        if(r.isStatus()&&StringUtil.isNotBlank(dm)){
             //修改授权信息中的权限代码。
             db.update("update sys_qx_jsqxgl t set t.js=replace(t.js,?,?),"
                     + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js like ?", 
