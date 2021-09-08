@@ -5,7 +5,7 @@
 	<groupId>cn.benma666</groupId>
 	<artifactId>myservice</artifactId>
 	<packaging>war</packaging>
-	<version>0.2.0</version>
+	<version>0.1.1</version>
 	<name>myservice</name>
 	<url>http://www.benma666.cn</url>
 	<properties>
