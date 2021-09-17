@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cn.benma666.common.service.SjdxService;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
-import cn.benma666.myutils.PageInfo;
+import cn.benma666.iframe.PageInfo;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
 import cn.benma666.sjgl.LjqManager;
@@ -97,7 +97,7 @@ public class SjdxController extends BasicController {
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            sendJson(response, failed("数据处理异常："+e.getMessage()));
         }
     }
     /**
@@ -117,7 +117,7 @@ public class SjdxController extends BasicController {
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            sendJson(response, failed("数据处理异常："+e.getMessage()));
         }
     }
     /**
@@ -136,14 +136,14 @@ public class SjdxController extends BasicController {
                 myparams = myparams.replace("%34", "\"");
             }
             if(basicJcxx(sjdx,myparams,request,response)){
-                JsonResult r = LjqManager.export(dbSjdx,myParams, page,response);
+                Result r = LjqManager.export(dbSjdx,myParams, page,response);
                 if(!r.isStatus()){
                     sendJson(response, r);
                 }
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            sendJson(response, failed("数据处理异常："+e.getMessage()));
         }
     }
     /**
@@ -158,14 +158,14 @@ public class SjdxController extends BasicController {
         try {
             sjdx.set(LjqInterface.KEY_CLLX, "getMb");
             if(basicJcxx(sjdx,myparams,request,response)){
-                JsonResult r = LjqManager.getMb(dbSjdx,myParams, response);
+                Result r = LjqManager.getMb(dbSjdx,myParams, response);
                 if(!r.isStatus()){
                     sendJson(response, r);
                 }
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            sendJson(response, failed("数据处理异常："+e.getMessage()));
         }
     }
     /**
@@ -185,7 +185,7 @@ public class SjdxController extends BasicController {
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            sendJson(response, failed("数据处理异常："+e.getMessage()));
         }
     }
     /**
@@ -202,7 +202,7 @@ public class SjdxController extends BasicController {
         try {
             if(basicJcxx(sjdx,myparams,request,response)){
                 //后台还是走批量处理接口
-                JsonResult r = sjdxService.txPlcl(dbSjdx,myParams);
+                Result r = sjdxService.txPlcl(dbSjdx,myParams);
                 if(r.isStatus()){
                     JSONObject data = (JSONObject) r.getData();
                     sendFile(response, data.getBytes(LjqInterface.KEY_FILE_BYTES),
@@ -213,7 +213,7 @@ public class SjdxController extends BasicController {
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            sendJson(response, failed("数据处理异常："+e.getMessage()));
         }
     }
     /**
@@ -233,7 +233,7 @@ public class SjdxController extends BasicController {
             }
         } catch (Throwable e) {
             log.error("数据处理异常"+sjdx, e);
-            sendJson(response, error("数据处理异常："+e.getMessage()));
+            sendJson(response, failed("数据处理异常："+e.getMessage()));
         }
     }
     /**
@@ -267,17 +267,17 @@ public class SjdxController extends BasicController {
                     //设置对象id
                     yobj.put(dbSjdx.getZjzd(), StringUtil.getUUIDUpperStr());
                 }
-                JsonResult r = LjqManager.save(dbSjdx, myParams);
+                Result r = LjqManager.save(dbSjdx, myParams);
                 sendJson(response, r);
             }
         } catch (Throwable e) {
             try {
                 log.error("数据处理异常"+sjdx, e);
                 DSTransactionManager.rollback();
-                sendJson(response, error("数据处理异常："+e.getMessage()));
+                sendJson(response, failed("数据处理异常："+e.getMessage()));
             } catch (SQLException e1) {
                 log.error("数据处理回滚失败"+sjdx, e1);
-                sendJson(response, error("数据处理回滚失败："+e.getMessage()));
+                sendJson(response, failed("数据处理回滚失败："+e.getMessage()));
             }
         }finally{
             DSTransactionManager.clear();
@@ -297,7 +297,7 @@ public class SjdxController extends BasicController {
             sjdx.set(LjqInterface.KEY_CLLX, LjqInterface.KEY_CLLX_UPDATE);
             if(basicJcxx(sjdx,myparams,request,response)){
                 DSTransactionManager.start();
-                JsonResult r = sjdxService.txSaveListData(dbSjdx,myParams);
+                Result r = sjdxService.txSaveListData(dbSjdx,myParams);
                 if(r.isStatus()){
                     DSTransactionManager.commit();
                 }else{
@@ -309,10 +309,10 @@ public class SjdxController extends BasicController {
             try {
                 log.error("数据处理异常"+sjdx, e);
                 DSTransactionManager.rollback();
-                sendJson(response, error("数据处理异常："+e.getMessage()));
+                sendJson(response, failed("数据处理异常："+e.getMessage()));
             } catch (SQLException e1) {
                 log.error("数据处理回滚失败"+sjdx, e1);
-                sendJson(response, error("数据处理回滚失败："+e.getMessage()));
+                sendJson(response, failed("数据处理回滚失败："+e.getMessage()));
             }
         }finally{
             DSTransactionManager.clear();

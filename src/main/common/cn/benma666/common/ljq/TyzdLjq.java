@@ -8,7 +8,7 @@ package cn.benma666.common.ljq;
 
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
 
@@ -26,11 +26,11 @@ public class TyzdLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         //先更新
-        JsonResult r = super.save(sjdx, myParams);
+        Result r = super.save(sjdx, myParams);
         //再清缓存
         if(KEY_CLLX_UPDATE.equals(cllx)){
             JSONObject obj = myParams.getJSONObject(KEY_OBJ);
@@ -45,7 +45,7 @@ public class TyzdLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject params) {
         String cllx = params.getString(KEY_CLLX);
         switch (cllx) {
         case "qchc":

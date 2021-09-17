@@ -13,9 +13,9 @@ import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
+import cn.benma666.iframe.PageInfo;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.HttpUtil;
-import cn.benma666.myutils.JsonResult;
-import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.SfzhUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
@@ -39,7 +39,7 @@ public class RyhcLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         if(KEY_CLLX_SJPLSC.equals(cllx)){
             SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
@@ -53,7 +53,7 @@ public class RyhcLjq extends DefaultLjq{
     */
     @SuppressWarnings("unchecked")
     @Override
-    public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         List<JSONObject> l= null;
@@ -98,7 +98,7 @@ public class RyhcLjq extends DefaultLjq{
     */
     @SuppressWarnings("unchecked")
     @Override
-    public JsonResult page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
+    public Result page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
             String defaultSql, JSONObject myParams) {
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         if(ryhcjg.containsKey(user.getToken())){
@@ -106,7 +106,7 @@ public class RyhcLjq extends DefaultLjq{
             page.setList(list);
             return success("核查成功",page);
         }else{
-            return error("你还没有上传核查名单");
+            return failed("你还没有上传核查名单");
         }
     }
 }

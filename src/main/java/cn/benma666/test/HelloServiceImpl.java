@@ -6,7 +6,7 @@
 
 package cn.benma666.test;
 
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 
 /**
  *  <br/>
@@ -22,7 +22,7 @@ public class HelloServiceImpl implements HelloService{
     */
     @Override
     public String sayHello(String info) {
-        return JsonResult.error(info).toString();
+        return Result.failed(info).toString();
     }
 
 }

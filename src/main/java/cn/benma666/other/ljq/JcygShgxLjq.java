@@ -7,7 +7,7 @@
 package cn.benma666.other.ljq;
 
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 
@@ -25,14 +25,14 @@ public class JcygShgxLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#saveDb(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    protected JsonResult saveDb(SysSjglSjdx t, JSONObject myparams) {
+    protected Result saveDb(SysSjglSjdx t, JSONObject myparams) {
         JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
         String ygbh = yobj.getString("ygbh");
         if(StringUtil.isBlank(ygbh)){
             JSONObject obj = myparams.getJSONObject(KEY_OBJ);
             ygbh = obj.getString("ygbh");
         }
-        db.update("update jcga_jcyg_jcxx t set t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.ygbh=?",ygbh);
+        db().update("update jcga_jcyg_jcxx t set t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.ygbh=?",ygbh);
         return super.saveDb(t, myparams);
     }
     /**
@@ -40,12 +40,12 @@ public class JcygShgxLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         switch (cllx) {
         case KEY_CLLX_PLSC:
             String in = myParams.getString(KEY_IDS_IN);
-            db.update("update jcga_jcyg_jcxx t set t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.ygbh in ("
+            db().update("update jcga_jcyg_jcxx t set t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.ygbh in ("
                     + "select ygbh from jcga_jcyg_shgx where id "+in+")");
             break;
         }

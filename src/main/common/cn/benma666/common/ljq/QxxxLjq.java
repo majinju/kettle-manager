@@ -9,7 +9,7 @@ package cn.benma666.common.ljq;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.web.QxManager;
@@ -30,7 +30,7 @@ public class QxxxLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject params) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject params) {
         String cllx = params.getString(KEY_CLLX);
         JSONObject yobj = params.getJSONObject(KEY_YOBJ);
         String dqjs = yobj.getString("dqjs");
@@ -48,19 +48,19 @@ public class QxxxLjq extends DefaultLjq{
                     jsqx.put("qx", node.getString("dm"));
 
                     if(node.getBooleanValue("zAsync")){
-                        count += db.update("sys.insertJsqx", jsqx);
+                        count += db().update("sys.insertJsqx", jsqx);
                     }else{
                         //节点关闭时操作全部子权限
-                        count += db.update("sys.insertJsqxHzqx", jsqx);
+                        count += db().update("sys.insertJsqxHzqx", jsqx);
                     }
                 }else{
                     //将取消的授权改为无效
                     if(node.getBooleanValue("zAsync")){
-                        count += db.update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js=? and t.qx=? and t.yxx=?", 
+                        count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js=? and t.qx=? and t.yxx=?", 
                                 UtilConst.WHETHER_FALSE,dqjs,node.getString("dm"),UtilConst.WHETHER_TRUE);
                     }else{
                         //节点关闭时操作全部子权限
-                        count += db.update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js=? and t.qx like ? and t.yxx=?", 
+                        count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js=? and t.qx like ? and t.yxx=?", 
                                 UtilConst.WHETHER_FALSE,dqjs,node.getString("dm")+"%",UtilConst.WHETHER_TRUE);
                     }
                 }
@@ -83,12 +83,12 @@ public class QxxxLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#saveDb(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    protected JsonResult saveDb(SysSjglSjdx t, JSONObject myparams) {
+    protected Result saveDb(SysSjglSjdx t, JSONObject myparams) {
         String cllx = myparams.getString(KEY_CLLX);
         JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
         JSONObject obj = myparams.getJSONObject(KEY_OBJ);
-        JsonResult r = super.saveDb(t, myparams);
+        Result r = super.saveDb(t, myparams);
         if(!r.isStatus()){
             return r;
         }else if(KEY_CLLX_INSERT.equals(cllx)&&r.isStatus()
@@ -96,15 +96,15 @@ public class QxxxLjq extends DefaultLjq{
                 &&StringUtil.isNotBlank(yobj.getString("dz"))){
             //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
             r = DefaultLjq.getDefaultSql(t, "sczqx",myparams);
-            sqlManager.executeUpdate(r.getMsg(), myparams);
+            sqlManager().executeUpdate(r.getMsg(), myparams);
         }else if(KEY_CLLX_UPDATE.equals(cllx)
                 &&r.isStatus()&&StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
-            db.update("update sys_qx_qxxx t set t.dm=replace(t.dm,?,?),t.fqx=replace(t.fqx,?,?),"
+            db().update("update sys_qx_qxxx t set t.dm=replace(t.dm,?,?),t.fqx=replace(t.fqx,?,?),"
                     + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.dm like ?", 
                     obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,obj.getString("dm")+"_%");
             //修改授权信息中的权限代码。
-            db.update("update sys_qx_jsqxgl t set t.qx=replace(t.qx,?,?),"
+            db().update("update sys_qx_jsqxgl t set t.qx=replace(t.qx,?,?),"
                     + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.qx like ?", 
                     obj.getString("dm"),dm,obj.getString("dm")+"%");
             UserManager.flushUserQxxx();

@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 
-import cn.benma666.db.Db;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
+import cn.benma666.sjzt.Db;
 import cn.benma666.web.QxManager;
 import cn.benma666.web.UserManager;
 
@@ -37,20 +37,20 @@ public class grbjZsLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#jcxx(cn.benma666.domain.SysSjglSjdx, java.lang.String, javax.servlet.http.HttpServletRequest)
     */
     @Override
-    public JsonResult jcxx(SysSjglSjdx sjdx, String myparams,
+    public Result jcxx(SysSjglSjdx sjdx, String myparams,
             HttpServletRequest request) {
-        JsonResult r = super.jcxx(sjdx, myparams, request);
+        Result r = super.jcxx(sjdx, myparams, request);
         JSONObject p = (JSONObject)r.getData();
         JSONObject obj = p.getJSONObject(KEY_OBJ);
         SysQxYhxx user = (SysQxYhxx) p.get(KEY_USER);
         if(StringUtil.isNotBlank(obj.getString("bt"))){
-            JsonResult r1 = qxpdByBj( user,obj.getString("zt"),obj.getString("cjrdm"),
+            Result r1 = qxpdByBj( user,obj.getString("zt"),obj.getString("cjrdm"),
                     obj.getString("cjrdwdm"),obj.getString("kjx"));
             if(!r1.isStatus()){
                 return r1;
             }
         }else if(StringUtil.isNotBlank(obj.getString("id"))){
-            return error("该文档不存在或没权限");
+            return failed("该文档不存在或没权限");
         }
         JSONObject yobj = p.getJSONObject(KEY_YOBJ);
         if(yobj.getBooleanValue("yd")){
@@ -67,8 +67,8 @@ public class grbjZsLjq extends DefaultLjq{
     */
     @SuppressWarnings("unchecked")
     @Override
-    public JsonResult getdata(SysSjglSjdx sjdx, JSONObject myParams) {
-        JsonResult r = super.getdata(sjdx, myParams);
+    public Result getdata(SysSjglSjdx sjdx, JSONObject myParams) {
+        Result r = super.getdata(sjdx, myParams);
         String cllx = myParams.getString(KEY_CLLX);
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         switch (cllx) {
@@ -100,13 +100,13 @@ public class grbjZsLjq extends DefaultLjq{
     * @param kjx
     * @return
     */
-    public static JsonResult qxpdByBj(SysQxYhxx user, String zt, String cjrdm, String cjrdwdm, String kjx) {
+    public static Result qxpdByBj(SysQxYhxx user, String zt, String cjrdm, String cjrdwdm, String kjx) {
         //是否管理员
         if(QxManager.hasAuthCode(user, LjqInterface.KEY_AUTH_KFZFW_SYS)){
             //管理员无限制
             return success("系统管理员");
         }
-        JsonResult r1 = error("");
+        Result r1 = failed("");
         r1.setCode(QxManager.AUTH_CODE_WQX);
         //草稿状态，且非本人
         if("01".equals(zt)&&!cjrdm.equals(user.getYhdm())){

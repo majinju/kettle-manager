@@ -17,21 +17,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import cn.benma666.common.service.CommonService;
+import cn.benma666.crypt.DesUtil;
 import cn.benma666.domain.BasicBean;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
-import cn.benma666.myutils.DesUtil;
-import cn.benma666.myutils.ExportToExecl;
-import cn.benma666.myutils.JsonResult;
-import cn.benma666.myutils.PageInfo;
+import cn.benma666.iframe.PageInfo;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
+import cn.benma666.myutils.WebUtil;
 import cn.benma666.myutils.XmlUtil;
 import cn.benma666.web.BasicController;
 import cn.benma666.web.UserManager;
-import cn.benma666.web.WebUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -63,7 +62,7 @@ public class CommonController extends BasicController {
     public void clearCache(SysSjglTyzd obj,HttpServletRequest request, 
             HttpServletResponse response) {
         SysQxYhxx user = jkInit(obj, request);
-        JsonResult r = error("你无权清除缓存");
+        Result r = failed("你无权清除缓存");
         if(user.getQxMap().containsKey("KFZFW_SYS")){
             if(StringUtil.isBlank(obj.getDm())){
                 r = CacheFactory.clear();
@@ -88,7 +87,7 @@ public class CommonController extends BasicController {
         jkInit(obj, request);
         JSONObject map = DictManager.zdMapByCache(obj);
         if(map==null){
-            sendJson(response, error("该字典类别不支持获取列表"));
+            sendJson(response, failed("该字典类别不支持获取列表"));
         }else{
             String result = JSON.toJSONString(success("获取成功",map.values()), obj.isJsongsh());
             sendJson(response, result);
@@ -112,7 +111,7 @@ public class CommonController extends BasicController {
             result = DictManager.zdObjByDmByCache(obj);
         }
         if(result==null){
-            sendJson(response, error("该字典项不存在"));
+            sendJson(response, failed("该字典项不存在"));
         }else{
             sendJson(response, success("获取成功",result));
         }
@@ -145,21 +144,6 @@ public class CommonController extends BasicController {
         }
         sendPage(response, result);
     }
-    /**
-     * 导出Excel
-     * @param request
-     * @param response
-     */
-//    @ApiOperation(value="导出Excel",httpMethod="POST")
-    @RequestMapping(value="/saveToExecl.do")
-    public void saveToExecl(HttpServletRequest request,HttpServletResponse response){
-        try {
-            ExportToExecl.fromHtmlTable(request, response);
-        } catch (Exception e) {
-            log.error("数据处理出错", e);
-            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
-        }
-    }
    
 //    @ApiOperation(value="文件上传",httpMethod="POST")
     @RequestMapping(value = "/upload.do", method = RequestMethod.POST)
@@ -170,7 +154,7 @@ public class CommonController extends BasicController {
         MultipartFile file =((MultipartHttpServletRequest) request).getFile("file");
         try{
             //上传文件
-            JsonResult r = CommonService.upload(fileObj,file,getUser(request));
+            Result r = CommonService.upload(fileObj,file,getUser(request));
             if(r.isStatus()){
                 sendJson(response, success("上传成功",r.getData()));
             }else{
@@ -178,7 +162,7 @@ public class CommonController extends BasicController {
             }
         }catch(Exception e){
             log.error("数据处理出错", e);
-            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
+            WebUtil.sendJson(response,failed("数据处理出错："+e.getMessage()));
         }
     
     }
@@ -197,7 +181,7 @@ public class CommonController extends BasicController {
             commonService.download(response, obj);
         } catch (Exception e) {
             log.error("数据处理出错", e);
-            WebUtil.sendJson(response,error("数据处理出错："+e.getMessage()));
+            WebUtil.sendJson(response,failed("数据处理出错："+e.getMessage()));
         }
     }
     /**
@@ -237,7 +221,7 @@ public class CommonController extends BasicController {
             response.sendRedirect(url);
         } catch (Exception e) {
             log.error("用户信息编码失败", e);
-            WebUtil.sendJson(response, error("用户信息编码失败:"+e.getMessage()));
+            WebUtil.sendJson(response, failed("用户信息编码失败:"+e.getMessage()));
             return;
         }
     }
@@ -256,7 +240,7 @@ public class CommonController extends BasicController {
             sendJson(response, XmlUtil.xmlToJson(xml.toString()));
         } catch (Exception e) {
             log.debug("xml解析失败："+xml, e);
-            sendJson(response, error("解析失败:"+e.getMessage()));
+            sendJson(response, failed("解析失败:"+e.getMessage()));
         }
     }
     /**
@@ -295,7 +279,7 @@ public class CommonController extends BasicController {
             }
         } catch (Exception e) {
             log.debug("des处理异常："+mm, e);
-            sendJson(response, error("des处理异常:"+e.getMessage()));
+            sendJson(response, failed("des处理异常:"+e.getMessage()));
         }
     }
     

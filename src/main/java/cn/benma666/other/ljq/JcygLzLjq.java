@@ -14,7 +14,7 @@ import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.sjgl.DefaultLjq;
 
 import com.alibaba.fastjson.JSONObject;
@@ -32,7 +32,7 @@ public class JcygLzLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
@@ -42,15 +42,15 @@ public class JcygLzLjq extends DefaultLjq{
             //离职员工处理
             er = new JcygLzExcel(sjdx,myParams,yobj.getJSONObject("fileObj"),user);
             try {
-                JsonResult r = er.disposeExcel();
+                Result r = er.disposeExcel();
                 if(!r.isStatus()){
                     return r;
                 }
             } catch (ExcelReadException e) {
-                return error(e.getMessage());
+                return failed(e.getMessage());
             } catch (Exception e) {
                 log.error("文件处理失败："+myParams+"->"+e.getMessage(), e);
-                return error("文件处理失败："+e.getMessage());
+                return failed("文件处理失败："+e.getMessage());
             }
 
             /**
@@ -63,13 +63,13 @@ public class JcygLzLjq extends DefaultLjq{
             for(JSONObject j:er.getResult().toArray(new JSONObject[]{})){
                 j.put("zzzt", UtilConst.WHETHER_FALSE);
                 //查询是否存在
-                List<JSONObject> ygList = db.find("select * from JCGA_JCYG_JCXX t where t.gmsfhm=? and t.cjrdwdm=? and t.yxx='1' and zzzt<>'0'", 
+                List<JSONObject> ygList = db().find("select * from JCGA_JCYG_JCXX t where t.gmsfhm=? and t.cjrdwdm=? and t.yxx='1' and zzzt<>'0'", 
                         j.getString("gmsfhm"),user.getJgxx().getId());
                 for(JSONObject yg:ygList){
                     j.put("id", yg.getString("id"));
                     j.remove("gmsfhm");
                     myParams.put(KEY_YOBJ, j);
-                    JsonResult r = save(sjdx,myParams);
+                    Result r = save(sjdx,myParams);
                     if(!r.isStatus()){
                         r.setMsg("已成功处理："+count+"人后遇到错误："+r.getMsg());
                         return r;
@@ -96,7 +96,7 @@ public class JcygLzLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         if(KEY_CLLX_INSERT.equals(cllx)){
             //列表选择进行批量离职操作
@@ -107,7 +107,7 @@ public class JcygLzLjq extends DefaultLjq{
             for(String id:ids.split(",")){
                 yobj.put(FIELD_ID, id);
                 yobj.put("zzzt", UtilConst.WHETHER_FALSE);
-                JsonResult r = super.save(sjdx, myParams);
+                Result r = super.save(sjdx, myParams);
                 if(!r.isStatus()){
                     r.setMsg("已成功处理："+count+"人后遇到错误："+r.getMsg());
                     return r;

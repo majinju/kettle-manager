@@ -9,17 +9,17 @@ package cn.benma666.other.ljq;
 import java.util.Arrays;
 
 import cn.benma666.constants.UtilConst;
-import cn.benma666.db.Db;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
-import cn.benma666.myutils.AutoId;
+import cn.benma666.iframe.AutoId;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
-import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.SfzhUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqManager;
+import cn.benma666.sjzt.Db;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -41,7 +41,7 @@ public class JcygLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String msg;
@@ -49,22 +49,22 @@ public class JcygLjq extends DefaultLjq{
         case "clygsj":
             er = new JcygExcel(sjdx,myParams,yobj.getJSONObject("fileObj"),(SysQxYhxx) myParams.get(KEY_USER));
             try {
-                JsonResult r = er.disposeExcel();
+                Result r = er.disposeExcel();
                 if(!r.isStatus()){
                     return r;
                 }
             } catch (ExcelReadException e) {
-                return error(e.getMessage());
+                return failed(e.getMessage());
             } catch (Exception e) {
                 log.error("文件处理失败："+yobj+"->"+e.getMessage(), e);
-                return error("文件处理失败："+e.getMessage());
+                return failed("文件处理失败："+e.getMessage());
             }
             for(JSONObject j:er.getResult().toArray(new JSONObject[]{})){
                 myParams.put(KEY_YOBJ, j);
                 myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
-                JsonResult r = save(sjdx,myParams);
+                Result r = save(sjdx,myParams);
                 if(!r.isStatus()){
-                    return error("保存失败："+j.getString("gmsfhm")+r.getMsg());
+                    return failed("保存失败："+j.getString("gmsfhm")+r.getMsg());
                 }
             }
             msg = "成功上传员工数："+er.getResult().size();
@@ -74,7 +74,7 @@ public class JcygLjq extends DefaultLjq{
             return success(msg);
         case KEY_CLLX_PLSC:
             //批量删除时，同步删除对应社会关系
-            JsonResult result = super.plcl(sjdx, myParams);
+            Result result = super.plcl(sjdx, myParams);
             
             //物理删除关系
             int c = Db.use(sjdx.getDxzt()).update("delete from jcga_jcyg_shgx t where t.yxx='0' "
@@ -99,7 +99,7 @@ public class JcygLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult save(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         if(StringUtil.isNotBlank(yobj.getString("gmsfhm"))
                 &&SfzhUtil.validateCard(yobj.getString("gmsfhm"))){
@@ -147,7 +147,7 @@ public class JcygLjq extends DefaultLjq{
         }
         shgxYobj.put("shgx", "0");
         //保存本人关系
-        JsonResult r = LjqManager.save(shgxSjdx, shgxParams);
+        Result r = LjqManager.save(shgxSjdx, shgxParams);
         if(!r.isStatus()){
             r.setMsg("保存本人社会关系异常："+r.getMsg());
             return r;

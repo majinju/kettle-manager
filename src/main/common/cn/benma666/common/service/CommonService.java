@@ -16,22 +16,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import cn.benma666.constants.UtilConst;
-import cn.benma666.db.Db;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.exception.MyException;
+import cn.benma666.iframe.Conf;
 import cn.benma666.iframe.DictManager;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.FileUtil;
-import cn.benma666.myutils.JsonResult;
 import cn.benma666.myutils.StringUtil;
+import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjgl.LjqInterface;
+import cn.benma666.sjzt.Db;
 import cn.benma666.web.BasicService;
 import cn.benma666.web.QxManager;
-import cn.benma666.web.SConf;
-import cn.benma666.web.WebUtil;
 
-import com.alibaba.druid.util.JdbcUtils;
+import com.alibaba.druid.DbType;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
@@ -53,7 +53,7 @@ public class CommonService extends BasicService{
     * @param user
     * @return
     */
-    public static JsonResult upload(SysSjglFile fileObj,File file, SysQxYhxx user){
+    public static Result upload(SysSjglFile fileObj,File file, SysQxYhxx user){
         FileInputStream fi = null;
         try {
             //文件名称
@@ -62,7 +62,7 @@ public class CommonService extends BasicService{
             return success("上传成功", upload(fileObj, FileUtils.readFileToByteArray(file), user));
         } catch (Exception e) {
             log.error("处理文件失败", e);
-            return error("文件上传失败："+e.getMessage());
+            return failed("文件上传失败："+e.getMessage());
         }finally{
             FileUtil.closeInputStream(fi);
         }
@@ -76,7 +76,7 @@ public class CommonService extends BasicService{
      * @return
      * @throws IOException
      */
-    public static JsonResult upload(SysSjglFile fileObj,MultipartFile file, SysQxYhxx user){
+    public static Result upload(SysSjglFile fileObj,MultipartFile file, SysQxYhxx user){
         try {
             //文件名称
             String wjm = file.getOriginalFilename();
@@ -84,7 +84,7 @@ public class CommonService extends BasicService{
             return success("上传成功", upload(fileObj, file.getBytes(), user));
         } catch (Exception e) {
             log.error("处理文件失败", e);
-            return error("文件上传失败："+e.getMessage());
+            return failed("文件上传失败："+e.getMessage());
         }
     }
     public static JSONObject upload(SysSjglFile fileObj,byte[] bFile, SysQxYhxx user) throws Exception{
@@ -96,15 +96,26 @@ public class CommonService extends BasicService{
         fileObj.setQcm(fileObj.getYwdm()+fileObj.getWjlb()+FileUtil.getFileMD5(bFile));
         QxManager.setCjrInfo(user, fileObj);
         //如果表中存在此去重码则把这个文件删除
-        JSONObject f = db.findFirst("select * from sys_sjgl_file t where t.yxx='1' and t.qcm = ?", fileObj.getQcm());
+        JSONObject f = db().findFirst("select * from sys_sjgl_file t where t.yxx='1' and t.qcm = ?", fileObj.getQcm());
         if(f!=null){
             log.info(f.getString("id")+"文件已经存在");
             return f;
         }
         if(StringUtil.isBlank(fileObj.getSjzt())){
-            fileObj.setSjzt(SConf.getVal("wjsc.mrsjzt"));
+            fileObj.setSjzt(Conf.getVal("wjsc.mrsjzt"));
         }
         JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
+        if(DbType.of(sjzt.getString("lx"))!=null){
+            //数据载体为oracle
+            Db wjdb = Db.use(sjzt.getString("dm"));
+            String id = StringUtil.getUUIDUpperStr();
+            try {
+                wjdb.update("insert into sys_sjgl_blob(id,nr) values (?,?)", id,bFile);
+                fileObj.setSclj("select nr wj from sys_sjgl_blob where id='"+id+"'");
+            } catch (Exception e) {
+                throw new MyException("文件入数据库失败", e);
+            }
+        }
         switch (sjzt.getString("lx")) {
         case "bdwj":
             //数据载体为本地文件时
@@ -135,21 +146,6 @@ public class CommonService extends BasicService{
             out.write(bFile);
             out.close();
             break;
-        case JdbcUtils.ORACLE:
-        case JdbcUtils.MYSQL:
-        case JdbcUtils.POSTGRESQL:
-        case LjqInterface.ZD_SJZTLX_GREENPLUM:
-        case LjqInterface.ZD_SJZTLX_HWMPP:
-            //数据载体为oracle
-            Db wjdb = Db.use(sjzt.getString("dm"));
-            String id = StringUtil.getUUIDUpperStr();
-            try {
-                wjdb.update("insert into sys_sjgl_blob(id,nr) values (?,?)", id,bFile);
-                fileObj.setSclj("select nr wj from sys_sjgl_blob where id='"+id+"'");
-            } catch (Exception e) {
-                throw new MyException("文件入数据库失败", e);
-            }
-            break;
         case "ftp":
             //数据载体为ftp
             //ftp也需要一个类似Db的工具类
@@ -161,26 +157,16 @@ public class CommonService extends BasicService{
         //保存文件信息
         fileObj.setId(StringUtil.getUUIDUpperStr());
         fileObj.set("user", null);
-        sqlManager.insertTemplate(fileObj);
+        sqlManager().insertTemplate(fileObj);
         log.debug(fileObj+"文件上传成功");
         return (JSONObject) JSON.toJSON(fileObj);
     }
     public void download(HttpServletResponse response, SysSjglFile obj) {
-        SysSjglFile fileObj = sqlManager.single(SysSjglFile.class, obj.getId());
+        SysSjglFile fileObj = sqlManager().single(SysSjglFile.class, obj.getId());
         if(fileObj!=null){
             fileObj.setXzms(obj.isXzms());
             JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
-            switch (sjzt.getString("lx")) {
-            case "bdwj":
-                //数据载体为本地文件时
-                File file = new File(fileObj.getSclj());
-                WebUtil.sendFile(response, file, fileObj);
-                break;
-            case JdbcUtils.ORACLE:
-            case JdbcUtils.MYSQL:
-            case JdbcUtils.POSTGRESQL:
-            case LjqInterface.ZD_SJZTLX_GREENPLUM:
-            case LjqInterface.ZD_SJZTLX_HWMPP:
+            if(DbType.of(sjzt.getString("lx"))!=null){
                 //数据载体为oracle
                 Db wjdb = Db.use(sjzt.getString("dm"));
                 String sclj = obj.getSclj();
@@ -192,8 +178,14 @@ public class CommonService extends BasicService{
                     WebUtil.sendBytes(response, wj.getBytes("wj"), fileObj);
                 }else{
                     log.debug("下载的文件不存在："+sclj);
-                    WebUtil.sendJson(response,error("下载的文件不存在",sclj));
+                    WebUtil.sendJson(response,failed("下载的文件不存在",sclj));
                 }
+            }
+            switch (sjzt.getString("lx")) {
+            case "bdwj":
+                //数据载体为本地文件时
+                File file = new File(fileObj.getSclj());
+                WebUtil.sendFile(response, file, fileObj);
                 break;
             case "ftp":
                 //数据载体为ftp
@@ -213,7 +205,7 @@ public class CommonService extends BasicService{
             }
         }else{
             log.debug("下载的文件不存在："+obj.getId());
-            WebUtil.sendJson(response,error("下载的文件不存在",obj.getId()));
+            WebUtil.sendJson(response,failed("下载的文件不存在",obj.getId()));
         }
     }
 }

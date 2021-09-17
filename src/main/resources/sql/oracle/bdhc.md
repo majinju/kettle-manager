@@ -1,6 +1,7 @@
 selectHmBdhm
 ===
 * 查询-号码-比对号码
+```sql
 select hm.hczjlx, hm.hczjhm
   from sys_bdhc_xm xm
  inner join sys_bdhc_rw rw
@@ -12,10 +13,12 @@ select hm.hczjlx, hm.hczjhm
    and hm.yxx = '1'
    and nvl(hm.jssj,rw.jssj) > to_char(sysdate, 'yyyymmddhh24miss')
    and rw.shzt='2'
+```
 
 selectHmByHchm
 ===
 * 查询-号码-基于核查号码
+```sql
 select hm.id      hm_id,
        hm.cjsj    hm_cjsj,
        hm.gxsj    hm_gxsj,
@@ -98,48 +101,57 @@ select hm.id      hm_id,
    and hm.yxx = '1'
    and nvl(hm.jssj,rw.jssj) > to_char(sysdate, 'yyyymmddhh24miss')
    and rw.shzt='2'
-   and hm.hczjlx = #p_1#
-   and hm.hczjhm = #p_2#
+   and hm.hczjlx = #{p_1}
+   and hm.hczjhm = #{p_2}
+```
    
 selectZyzdysByZylb
 ===
 * 基于资源类别查询资源字段映射
+```sql
 select zd.*
 from sys_sjgl_sjzd zd
 inner join sys_sjgl_sjdx dx on dx.id=zd.sjdx
-where dx.dxdm = 'SYS_BDHC_JG_'||#p_1#
+where dx.dxdm = 'SYS_BDHC_JG_'||#{p_1}
 and zd.zddm like 'flag%' and zd.yxx='1'
 order by zd.px asc
+```
 
 selectZyzdwysByZylb
 ===
 * 基于资源类别查询资源字段未映射的字段
+```sql
 select zd.*
 from sys_sjgl_sjzd zd
 inner join sys_sjgl_sjdx dx on dx.id=zd.sjdx
-where dx.dxdm = 'SYS_BDHC_JG_'||#p_1#
+where dx.dxdm = 'SYS_BDHC_JG_'||#{p_1}
 and zd.zddm like 'flag%' and zd.yxx='0'
 order by zd.px asc
+```
  
 updateSjzdById
 ===
 * 基于主键更新数据字段
-update sys_sjgl_sjzd zd set zd.yxx='1',zd.zdmc=#p_1# where zd.id=#p_2#
+```sql
+update sys_sjgl_sjzd zd set zd.yxx='1',zd.zdmc=#{p_1} where zd.id=#{p_2}
+```
 
 selectHmxggz
 ===
 * 查询号码相关规则字段
+```sql
 select gz.*, gzzd.sjzd, gzzd.hdyzgz, gzzd.hdzhgz
   from sys_bdhc_gz gz
   left join sys_bdhc_gzzd gzzd
     on gzzd.gz = gz.id
    and gzzd.yxx = '1'
  where gz.yxx = '1'
-   and (gz.ssxm like '%'||#hm_ssxm#||'%' or gz.ssxm is null)
-   and (gz.ssrw like '%'||#hm_ssrw#||'%' or gz.ssrw is null)
-   and (gz.zylb like '%'||#jg_zylb#||'%' or gz.zylb is null)
-   and (gz.hcfs = #jg_hcfs# or gz.hcfs is null)
+   and (gz.ssxm like '%'||#{hm_ssxm}||'%' or gz.ssxm is null)
+   and (gz.ssrw like '%'||#{hm_ssrw}||'%' or gz.ssrw is null)
+   and (gz.zylb like '%'||#{jg_zylb}||'%' or gz.zylb is null)
+   and (gz.hcfs = #{jg_hcfs} or gz.hcfs is null)
  order by gz.dj, gz.px, gz.gxsj desc,gz.id, gzzd.px, gzzd.gxsj desc
+```
 
 
 

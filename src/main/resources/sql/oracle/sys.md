@@ -1,6 +1,7 @@
 yhqxxx
 ===
 * 用户权限信息
+```sql
 select distinct qx.dm, qx.mc
   from sys_qx_qxxx qx
  inner join sys_qx_jsqxgl jq
@@ -17,19 +18,24 @@ select distinct qx.dm, qx.mc
         @}
     )
     @for(js in p_1.jsxx){
-       or js.dm like #js.js#||'%'
+       or js.dm like #{js.js}||'%'
     @}
     )
+```
 
 insertJsqx
 ===
 * 插入角色权限关联信息
+```sql
 insert into sys_qx_jsqxgl( cjrxm, cjrdm, cjrdwmc, cjrdwdm, js, qx) 
-values (#cjrxm#, #cjrdm#, #cjrdwmc#, #cjrdwdm#, #js#, #qx#)
+values (#{cjrxm}, #{cjrdm}, #{cjrdwmc}, #{cjrdwdm}, #{js}, #{qx})
+```
 
 insertJsqxHzqx
 ===
 * 插入角色权限关联信息,含子权限
+```sql
 insert into sys_qx_jsqxgl( cjrxm, cjrdm, cjrdwmc, cjrdwdm, js, qx) 
-select #cjrxm#, #cjrdm#, #cjrdwmc#, #cjrdwdm#, #js#, t.dm from sys_qx_qxxx t 
-where t.dm like #qx#||'%'
+select #{cjrxm}, #{cjrdm}, #{cjrdwmc}, #{cjrdwdm}, #{js}, t.dm from sys_qx_qxxx t 
+where t.dm like #{qx}||'%'
+```

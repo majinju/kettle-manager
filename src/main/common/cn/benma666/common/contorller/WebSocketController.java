@@ -12,7 +12,7 @@ import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.benma666.common.service.WebSocketService;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.web.BasicController;
 
 /**
@@ -46,15 +46,15 @@ public class WebSocketController extends BasicController {
 
     @MessageMapping("/init")
     @SendTo("/topic/init")
-    public JsonResult init(@RequestParam String msg) {
+    public Result init(@RequestParam String msg) {
 //        template.convertAndSend("/topic/init",error("测试失败"));
         return success("测试init");
     }
 
     @MessageMapping("/init1")
     @SendTo("/topic/init1")
-    public JsonResult init1(Principal p,@RequestParam String msg) {
-        template.convertAndSend("/topic/init",error("测试失败1"));
+    public Result init1(Principal p,@RequestParam String msg) {
+        template.convertAndSend("/topic/init",failed("测试失败1"));
         return success("测试init1");
     }
     

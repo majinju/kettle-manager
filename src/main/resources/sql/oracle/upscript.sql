@@ -8,7 +8,7 @@
 
 ----------------oracle数据备份与还原---------------------------------------
 -- 远程导出数据：exp sjsj/sjsj@127.0.0.1/mydb file=d:\sjsj.dmp owner=('sjsj')
--- 远程导入数据：imp userid=sjsj/sjsj@XXX fromuser=sjsj touser=sjsj ignore=y file=d:\sjsj.dmp buffer=512000000
+-- 远程导入数据：imp userid=sjsj/sjsj@127.0.0.1/mydb fromuser=sjsj touser=sjsj2 ignore=y file=d:\sjsj.dmp buffer=512000000
 -- 远程备份重要数据：exp sjsj1/sjsj@127.0.0.1/mydb file=d:\sjsj1.dmp tables=(sys_sjgl_bhsc,sys_qx_app,sys_sjgl_tyzd,sys_sjgl_dzd,sys_sjgl_grbj,sys_sjgl_sjzd,sys_sjgl_sjdx,sys_qx_jsqxgl,sys_qx_yhjsgl,sys_qx_jsxx,sys_qx_yhxx,sys_qx_qxxx,sys_sjgl_blob)
 
 

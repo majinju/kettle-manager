@@ -7,7 +7,7 @@
 package cn.benma666.common.ljq;
 
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -23,7 +23,7 @@ public class ZyjkpzLjq extends ScjkrwLjq {
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         switch (cllx) {
         default:
@@ -36,9 +36,9 @@ public class ZyjkpzLjq extends ScjkrwLjq {
     * @see cn.benma666.sjgl.DefaultLjq#saveDb(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    protected JsonResult saveDb(SysSjglSjdx sjdx, JSONObject myParams) {
+    protected Result saveDb(SysSjglSjdx sjdx, JSONObject myParams) {
         sjdx.setJtdx("JOB_EXTEND");
-        JsonResult r = super.saveDb(sjdx, myParams);
+        Result r = super.saveDb(sjdx, myParams);
         return r;
     }
 }

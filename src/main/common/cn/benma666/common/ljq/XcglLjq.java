@@ -15,8 +15,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
-import cn.benma666.myutils.PageInfo;
+import cn.benma666.iframe.PageInfo;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 
@@ -37,7 +37,7 @@ public class XcglLjq extends DefaultLjq {
      */
     @SuppressWarnings("deprecation")
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         String[] idArr = (String[]) myParams.get(KEY_IDS_ARRAY);
         Set<String> idSet = new HashSet<String>(Arrays.asList(idArr));
@@ -71,7 +71,7 @@ public class XcglLjq extends DefaultLjq {
             return success(msg);
         default:
             // 执行默认操作
-            return error("未知操作："+cllx);
+            return failed("未知操作："+cllx);
         }
     }
     
@@ -80,7 +80,7 @@ public class XcglLjq extends DefaultLjq {
     * @see cn.benma666.sjgl.DefaultLjq#page(cn.benma666.domain.SysSjglSjdx, cn.benma666.myutils.PageInfo, java.lang.String, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
+    public Result page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
             String defaultSql, JSONObject params) {
         Map<Thread, StackTraceElement[]> maps = Thread.getAllStackTraces();
         List<JSONObject> list = new ArrayList<JSONObject>();

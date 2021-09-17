@@ -15,11 +15,11 @@ import java.util.Set;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.CacheFactory;
-import cn.benma666.myutils.JsonResult;
-import cn.benma666.myutils.PageInfo;
+import cn.benma666.iframe.Conf;
+import cn.benma666.iframe.PageInfo;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
-import cn.benma666.web.SConf;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -40,7 +40,7 @@ public class QympLjq extends DefaultLjq{
     */
     @SuppressWarnings("unchecked")
     @Override
-    public JsonResult page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
+    public Result page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
             String defaultSql, JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user = (SysQxYhxx)myParams.get(KEY_USER);
@@ -67,14 +67,14 @@ public class QympLjq extends DefaultLjq{
             }
         }
         //最大查询
-        int zdcxl = Integer.parseInt(SConf.getVal("SYS_PLBD_HM_QYMP.zdcxl"));
+        int zdcxl = Integer.parseInt(Conf.getVal("SYS_PLBD_HM_QYMP.zdcxl"));
         page.setPageSize(zdcxl);
-        page.setAutoCount(false);
-        page.setQueryList(true);
+        page.setTotalRequired(false);
+        page.setListRequired(true);
         List<JSONObject> list = new ArrayList<JSONObject>();
         JSONArray xzcxx = yobj.getJSONArray("xzcxx");
         if(xzcxx==null){
-            return error("请先选择搜索资源");
+            return failed("请先选择搜索资源");
         }
         //需要对资源进行按数据量排序（也考虑先根据条件进行数据量统计，根据统计结果进行排序），优先处理数据量较小的资源，当现存的交集数量小于1000时，
         //则直接带入sql中进行筛选，适用于数据量较大的资源。
@@ -95,7 +95,7 @@ public class QympLjq extends DefaultLjq{
                 //设置查询条件
                 zyP.put(KEY_YOBJ, zyYobj);
                 //这个查询需要改为异步统计
-                JsonResult result = DefaultLjq.getDefaultSql(zySjdx, "qymp", zyP);
+                Result result = DefaultLjq.getDefaultSql(zySjdx, "qymp", zyP);
                 if(!result.isStatus()){
                     return result;
                 }
@@ -106,7 +106,7 @@ public class QympLjq extends DefaultLjq{
                 }
                 page = (PageInfo<JSONObject>) result.getData();
                 if(page.getList().size()==zdcxl){
-                    return error(cxx.getString("mc")+"的查询条件请进一步细化，当前条件数据量过大，超过："+zdcxl);
+                    return failed(cxx.getString("mc")+"的查询条件请进一步细化，当前条件数据量过大，超过："+zdcxl);
                 }
                 Set<String> tmap = new HashSet<String>();
                 for(JSONObject r:page.getList()){

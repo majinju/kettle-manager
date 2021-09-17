@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+        
     <wb-module deploy-name="myservice">
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+                
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/common"/>
-        <dependent-module archiveName="myutils-0.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/myutils/myutils">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="beetlsql-2.8.20.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/beetlsql/beetlsql">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
+                
         <property name="java-output-path" value="/project/build/classes"/>
+                
         <property name="context-root" value="myservice"/>
+            
     </wb-module>
+    
 </project-modules>

@@ -9,7 +9,7 @@ package cn.benma666.common.ljq;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqManager;
 
@@ -28,7 +28,7 @@ public class ScjkrwLjq extends DefaultLjq {
 * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
 */
 @Override
-public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
     String cllx = myParams.getString(KEY_CLLX);
     switch (cllx) {
     case "scjkrw":
@@ -49,7 +49,7 @@ public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         int scrw = 0;
         JSONArray list = ((JSONObject)getdata(sjdx, myParams).getData()).getJSONArray("list");
         for(JSONObject rw:list.toArray(new JSONObject[]{})){
-            JSONObject oldrw = db.findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx=?", 
+            JSONObject oldrw = db().findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx=?", 
                     rw.getString("jtrw"),rw.getString("rwlx"));
             if(oldrw==null){
                 if(jkpz!=null){
@@ -57,7 +57,7 @@ public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
                 }
                 jkrw.put(KEY_YOBJ, rw);
                 jkrw.put(KEY_CLLX, KEY_CLLX_INSERT);
-                JsonResult r = LjqManager.save(jkrwdx, jkrw);
+                Result r = LjqManager.save(jkrwdx, jkrw);
                 if(!r.isStatus()){
                     return r;
                 }

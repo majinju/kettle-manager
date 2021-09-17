@@ -10,16 +10,16 @@ import java.io.File;
 import java.util.List;
 
 import cn.benma666.constants.UtilConst;
-import cn.benma666.db.Db;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.iframe.Conf;
 import cn.benma666.iframe.DictManager;
-import cn.benma666.myutils.FtpUtil;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.LjqInterface;
-import cn.benma666.web.SConf;
+import cn.benma666.sjzt.Db;
+import cn.benma666.sjzt.Ftp;
 
-import com.alibaba.druid.util.JdbcUtils;
+import com.alibaba.druid.DbType;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -34,14 +34,14 @@ public class SjztLjq extends ScjkrwLjq{
     * @see cn.benma666.sjgl.DefaultLjq#plcl(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         switch (cllx) {
         case "cszt":
             //测试载体
             if(myParams.containsKey(KEY_IDS_IN)){
                 List<JSONObject> ztList = Db.use(sjdx.getDxzt()).find("select * from sys_sjgl_sjzt t where t.id "+myParams.getString(KEY_IDS_IN));
-                JsonResult r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
+                Result r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
                 for(JSONObject obj:ztList){
                     if(!testSjzt(obj,true).isStatus()){
                         r.addMsg(obj.getString("dm"));
@@ -71,33 +71,29 @@ public class SjztLjq extends ScjkrwLjq{
     * @see cn.benma666.sjgl.DefaultLjq#save(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    public JsonResult save(SysSjglSjdx sjdx, JSONObject myJsonParams) {
+    public Result save(SysSjglSjdx sjdx, JSONObject myJsonParams) {
         String cllx = myJsonParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
         JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
         String dbdm = obj.getString("dm");
         if(UtilConst.DEFAULT.equals(dbdm)){
-            return error("默认数据源不允许修改");
+            return failed("默认数据源不允许修改");
         }
         obj.putAll(yobj);
         String ljc = obj.getString("ljc");
-        switch (obj.getString("lx")) {
-        case JdbcUtils.ORACLE:
-        case JdbcUtils.MYSQL:
-        case JdbcUtils.POSTGRESQL:
-        case LjqInterface.ZD_SJZTLX_GREENPLUM:
-        case LjqInterface.ZD_SJZTLX_HWMPP:
+        if(DbType.of(obj.getString("lx"))!=null){
             if(KEY_CLLX_UPDATE.equals(cllx)){
                 if(Db.isCz(obj.getString("dm"))){
                     Db.use(obj.getString("dm")).close();
                 }
             }else{
                 dbdm = yobj.getString("dm");
-                yobj.put("csyj", Db.getDbCsyj(yobj.getString("lx"),yobj.getString("csyj")));
+                yobj.put("csyj", yobj.getString("csyj"));
                 //处理驱动
-                yobj.put("sjkqd", Db.getDbQd(yobj.getString("lx"), ljc,yobj.getString("sjkqd")));
+                yobj.put("sjkqd", yobj.getString("sjkqd"));
             }
-            break;
+        }
+        switch (obj.getString("lx")) {
         case "ftp":
             break;
         case "bdwj":
@@ -109,7 +105,7 @@ public class SjztLjq extends ScjkrwLjq{
         default:
             break;
         }
-        JsonResult result = super.save(sjdx, myJsonParams);
+        Result result = super.save(sjdx, myJsonParams);
         if(!result.isStatus()){
             return result;
         }
@@ -127,40 +123,40 @@ public class SjztLjq extends ScjkrwLjq{
     * @param mmjm 是否密码加密
     * @return
     */
-    public JsonResult testSjzt(JSONObject sjztObj,boolean mmjm) {
-        JsonResult result = success("该数据载体可用");
+    public Result testSjzt(JSONObject sjztObj,boolean mmjm) {
+        Result result = success("该数据载体可用");
         if(sjztObj==null){
-            return error("数据载体为空");
+            return failed("数据载体为空");
         }
         String zt = "1";
         try {
-            if(SConf.getVal("sjkxsjzt").indexOf(sjztObj.getString("lx"))>-1){
+            if(Conf.getVal("sjkxsjzt").indexOf(sjztObj.getString("lx"))>-1){
                 //数据库型数据载体
                 result = Db.testDb(sjztObj, mmjm);
             }else if("ftp".equals(sjztObj.getString("lx"))){
                 //ftp测试
-                JSONObject ftpObj = FtpUtil.paseFtpUrl(sjztObj);
-                new FtpUtil(sjztObj.getString("dm"), true, ftpObj);
+                JSONObject ftpObj = Ftp.paseFtpUrl(sjztObj);
+                new Ftp(sjztObj.getString("dm"), true, ftpObj);
                 result = success("测试通过");
             }else if("bdwj".equals(sjztObj.getString("lx"))){
                 //本地文件测试
                 File f = new File(sjztObj.getString("ljc"));
                 if(!f.exists()){
-                    result = error("该文件不存在");
+                    result = failed("该文件不存在");
                 }
             }else{
                 //TODO 其他类型载体后续添加测试功能
             }
         } catch (Exception e) {
             zt = "2";
-            result = error("该数据载体当前不可用："+sjztObj+","+e.getMessage(),e);
+            result = failed("该数据载体当前不可用："+sjztObj+","+e.getMessage(),e);
             log.debug(result.getMsg(),e);
         }
         if(!result.isStatus()){
             zt = "2";
         }
         //更新数据源状态
-        db.update("update SYS_SJGL_SJZT t set t.zt=?,t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.id=?", 
+        db().update("update SYS_SJGL_SJZT t set t.zt=?,t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.id=?", 
                 zt,sjztObj.getString("id"));
         return result;
     }

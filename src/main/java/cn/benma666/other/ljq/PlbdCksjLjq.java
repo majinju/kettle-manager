@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.sjgl.DefaultLjq;
 
 import com.alibaba.fastjson.JSONObject;
@@ -26,12 +26,12 @@ public class PlbdCksjLjq extends DefaultLjq{
     * @see cn.benma666.sjgl.DefaultLjq#list(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject, org.springframework.ui.Model)
     */
     @Override
-    public JsonResult list(SysSjglSjdx sjdx, JSONObject myParams, Model model) {
+    public Result list(SysSjglSjdx sjdx, JSONObject myParams, Model model) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user = (SysQxYhxx)myParams.get(KEY_USER);
         JSONObject yhtjP = QyzsLjq.tjhc.getJSONObject(user.getToken());
         if(yhtjP==null){
-            return error("你还没有进行查询操作，可能是会话过期，请先重新查询");
+            return failed("你还没有进行查询操作，可能是会话过期，请先重新查询");
         }
         //本次查询的数据对象的参数对象
         JSONObject zyP = yhtjP.getJSONObject("xzcxxSjdxP").getJSONObject(yobj.getString("sjdx"));

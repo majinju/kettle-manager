@@ -8,7 +8,7 @@ package cn.benma666.ljq.znbk;
 
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.myutils.JsonResult;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 import cn.benma666.sjgl.LjqInterface;
@@ -28,8 +28,8 @@ public class RwglLjq extends DefaultLjq {
     * @see cn.benma666.sjgl.DefaultLjq#saveDb(cn.benma666.domain.SysSjglSjdx, com.alibaba.fastjson.JSONObject)
     */
     @Override
-    protected JsonResult saveDb(SysSjglSjdx t, JSONObject myParams) {
-        JsonResult r = null;
+    protected Result saveDb(SysSjglSjdx t, JSONObject myParams) {
+        Result r = null;
         if(KEY_CLLX_INSERT.equals(myParams.getString(KEY_CLLX))){
             JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
             JSONObject kzxx = myParams.getJSONObject(FIELD_KZXX);
@@ -51,7 +51,7 @@ public class RwglLjq extends DefaultLjq {
             String sjwj = yobj.getString("sjwj");
             if(StringUtil.isNotBlank(sjwj)){
                 //正常页面上传数据文件
-                SysSjglFile fileObj = sqlManager.single(SysSjglFile.class, sjwj);
+                SysSjglFile fileObj = sqlManager().single(SysSjglFile.class, sjwj);
                 hmSjdx.set("file", fileObj.toString());
                 //需要重写hm的批量上传功能，将所属任务、项目设置进去。
                 hmSjdx.set("ssrw", yobj.getString("id"));
@@ -62,7 +62,7 @@ public class RwglLjq extends DefaultLjq {
             }else{
                 //调用接口新增任务
                 if(!yobj.containsKey("hmList")){
-                    return error("号码列表必须传");
+                    return failed("号码列表必须传");
                 }
                 try {
                     r = plSave(hmSjdx, hmParams, yobj.getJSONArray("hmList"));
@@ -71,11 +71,11 @@ public class RwglLjq extends DefaultLjq {
                     }
                 } catch (Exception e) {
                     log.error("保存号码失败", e);
-                    return error("保存号码失败"+e.getMessage());
+                    return failed("保存号码失败"+e.getMessage());
                 }
             }
         }
-        JsonResult r1 = super.saveDb(t, myParams);
+        Result r1 = super.saveDb(t, myParams);
         if(r!=null){
             r1.addMsg(r.getMsg());
         }

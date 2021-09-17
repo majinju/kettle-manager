@@ -17,9 +17,9 @@ import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
+import cn.benma666.iframe.PageInfo;
+import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
-import cn.benma666.myutils.JsonResult;
-import cn.benma666.myutils.PageInfo;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjgl.DefaultLjq;
 
@@ -45,7 +45,7 @@ public class QyzsLjq extends DefaultLjq{
     */
     @SuppressWarnings("unchecked")
     @Override
-    public JsonResult page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
+    public Result page(SysSjglSjdx sjdx, PageInfo<JSONObject> page,
             String defaultSql, JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user = (SysQxYhxx)myParams.get(KEY_USER);
@@ -72,12 +72,12 @@ public class QyzsLjq extends DefaultLjq{
             }
         }
         page.setPageSize(5000);
-        page.setAutoCount(true);
-        page.setQueryList(false);
+        page.setTotalRequired(true);
+        page.setListRequired(false);
         List<JSONObject> list = new ArrayList<JSONObject>();
         JSONArray xzcxx = yobj.getJSONArray("xzcxx");
         if(xzcxx==null){
-            return error("请先选择搜索资源");
+            return failed("请先选择搜索资源");
         }
         for(JSONObject cxx : xzcxx.toArray(new JSONObject[xzcxx.size()])){
             if(StringUtil.isNotBlank(cxx.getString("sjdx"))){
@@ -94,7 +94,7 @@ public class QyzsLjq extends DefaultLjq{
                 zyP.put(KEY_YOBJ, zyYobj);
                 //这个查询需要改为异步统计
                 //设置页大小为1000（单类资源最多查询1000条数据），调用分页方法获取数据
-                JsonResult result = DefaultLjq.getDefaultSql(zySjdx, "qyzs", zyP);
+                Result result = DefaultLjq.getDefaultSql(zySjdx, "qyzs", zyP);
                 if(!result.isStatus()){
                     return result;
                 }
@@ -119,14 +119,14 @@ public class QyzsLjq extends DefaultLjq{
     */
     @SuppressWarnings("unchecked")
     @Override
-    public JsonResult plcl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         switch (cllx) {
         case "azylbDcsj":
             SysQxYhxx user = (SysQxYhxx)myParams.get(KEY_USER);
             JSONObject yhtjP = tjhc.getJSONObject(user.getToken());
             if(yhtjP==null){
-                return error("你还没有进行查询操作，可能是会话过期，请先重新查询");
+                return failed("你还没有进行查询操作，可能是会话过期，请先重新查询");
             }
             JSONObject yobj = yhtjP.getJSONObject(KEY_YOBJ);
             //设置分页信息
@@ -134,8 +134,8 @@ public class QyzsLjq extends DefaultLjq{
             //设置页大小为1000（单类资源最多查询1000条数据），调用分页方法获取数据
             page.setPageSize(10000);
             //不进行统计，提升性能
-            page.setAutoCount(false);
-            page.setQueryList(true);
+            page.setTotalRequired(false);
+            page.setListRequired(true);
             JSONObject xzcxxSjdxP = yhtjP.getJSONObject("xzcxxSjdxP");
             JSONArray xzcxx = yobj.getJSONArray("xzcxx");
             int sheetNum = 1;
@@ -148,7 +148,7 @@ public class QyzsLjq extends DefaultLjq{
                     SysSjglSjdx zySjdx = (SysSjglSjdx) zyP.get(KEY_SJDX);
                     //这个查询需要改为异步统计
                     //设置页大小为1000（单类资源最多查询1000条数据），调用分页方法获取数据
-                    JsonResult result = DefaultLjq.getDefaultSql(zySjdx, "qyzs", zyP);
+                    Result result = DefaultLjq.getDefaultSql(zySjdx, "qyzs", zyP);
                     if(!result.isStatus()){
                         return result;
                     }
@@ -194,7 +194,7 @@ public class QyzsLjq extends DefaultLjq{
                         writer.write0(data, sheet1);
                     } catch (Exception e) {
                         log.error("导出失败:"+zyP, e);
-                        return error("导出失败："+e.getMessage());
+                        return failed("导出失败："+e.getMessage());
                     }
                 }
             }
