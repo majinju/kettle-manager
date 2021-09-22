@@ -23,6 +23,12 @@
             <groupId>cn.benma666</groupId>
             <artifactId>sjsj-common</artifactId>
             <version>0.2.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
         </dependency>
 <!-- 		<dependency> -->
 <!-- 			<groupId>cn.benma666</groupId> -->
@@ -133,15 +139,20 @@
 			<version>2.3.1</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<!-- 添加jtl支持 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.32</version>
+            <scope>compile</scope>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 	<build>
 		<resources>
 			<resource>

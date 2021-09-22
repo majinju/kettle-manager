@@ -77,10 +77,6 @@
 		对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理
 	-->
 	<mvc:default-servlet-handler />
-	
-	<!-- 采用SpringMVC自带的JSON转换工具，支持@ResponseBody注解 -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-    </bean>
 
 	<!--避免IE执行AJAX时，返回JSON出现下载文件 -->  
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">

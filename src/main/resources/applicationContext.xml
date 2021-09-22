@@ -27,7 +27,7 @@
 		<property name="ignoreResourceNotFound" value="false" />
 		<property name="locations">
 			<list>
-				<value>file:/benma666/config/myservice.properties</value>
+				<value>file:/benma666/config/myservice2.properties</value>
 			</list>
 		</property>
 	</bean>

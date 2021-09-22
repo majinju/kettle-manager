@@ -13,13 +13,13 @@ select distinct qx.dm, qx.mc
  where qx.yxx = '1'
     and (js.dm in (
         'ADMIN_DLYH_LSYH'
-        @if(p_1.yhdm!='lsyh'){
+        -- @if(p1.yhdm!='lsyh'){
         ,'ADMIN_DLYH'
-        @}
+        -- @}
     )
-    @for(js in p_1.jsxx){
+    -- @for(js in p1.jsxx){
        or js.dm like #{js.js}||'%'
-    @}
+    -- @}
     )
 ```
 

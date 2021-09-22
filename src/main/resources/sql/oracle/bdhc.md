@@ -101,8 +101,8 @@ select hm.id      hm_id,
    and hm.yxx = '1'
    and nvl(hm.jssj,rw.jssj) > to_char(sysdate, 'yyyymmddhh24miss')
    and rw.shzt='2'
-   and hm.hczjlx = #{p_1}
-   and hm.hczjhm = #{p_2}
+   and hm.hczjlx = #{p1}
+   and hm.hczjhm = #{p2}
 ```
    
 selectZyzdysByZylb
@@ -112,7 +112,7 @@ selectZyzdysByZylb
 select zd.*
 from sys_sjgl_sjzd zd
 inner join sys_sjgl_sjdx dx on dx.id=zd.sjdx
-where dx.dxdm = 'SYS_BDHC_JG_'||#{p_1}
+where dx.dxdm = 'SYS_BDHC_JG_'||#{p1}
 and zd.zddm like 'flag%' and zd.yxx='1'
 order by zd.px asc
 ```
@@ -124,7 +124,7 @@ selectZyzdwysByZylb
 select zd.*
 from sys_sjgl_sjzd zd
 inner join sys_sjgl_sjdx dx on dx.id=zd.sjdx
-where dx.dxdm = 'SYS_BDHC_JG_'||#{p_1}
+where dx.dxdm = 'SYS_BDHC_JG_'||#{p1}
 and zd.zddm like 'flag%' and zd.yxx='0'
 order by zd.px asc
 ```
@@ -133,7 +133,7 @@ updateSjzdById
 ===
 * 基于主键更新数据字段
 ```sql
-update sys_sjgl_sjzd zd set zd.yxx='1',zd.zdmc=#{p_1} where zd.id=#{p_2}
+update sys_sjgl_sjzd zd set zd.yxx='1',zd.zdmc=#{p1} where zd.id=#{p2}
 ```
 
 selectHmxggz

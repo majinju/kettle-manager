@@ -765,7 +765,7 @@ Vue.component('my-inputn', {
                 showField: 'mc',
                 keyField: keyField,
                 searchField: "searchKey",
-                orderBy : (this.field.zdfy=='1'?['px asc','dm asc','mc']:'dm'),
+                // orderBy : (this.field.zdfy=='1'?['px asc','dm asc','mc']:'dm'),
                 eAjaxSuccess: function(d){
                     if(_this.pagemodel=='search'){
                         //查询模式时，添加为空选项，用于查询该字段为空的记录
