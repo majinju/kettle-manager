@@ -1,6 +1,0 @@
-<view wx:if="{{field.bjzs=='1'}}">
-  <mp-cell prop="{{field.zddm}}" title="{{field.zdmc}}" ext-class="">
-    <input bindinput="formInputChange" data-field="{{field.zddm}}" 
-      class="weui-input" placeholder="{{field.zdms}}" value="{{obj[field.zddm]}}" />
-  </mp-cell>
-</view>

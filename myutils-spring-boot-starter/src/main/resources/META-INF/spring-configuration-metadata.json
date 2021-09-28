@@ -1,0 +1,50 @@
+{
+  "groups": [
+    {
+      "name": "benma666",
+      "description": "奔马科技配置"
+    }
+  ],
+  "properties": [
+    {
+      "name": "benma666.service.addr",
+      "type": "java.lang.String",
+      "description": "系统服务地址，如配置、字典等公共服务系统地址"
+    },
+    {
+      "name": "benma666.config.list",
+      "type": "java.lang.String",
+      "description": "从配置中心加载的配置列表"
+    },
+    {
+      "name": "benma666.data.password",
+      "type": "java.lang.String",
+      "description": "系统一级加密密码，非常重要，能解密全部数据"
+    },
+    {
+      "name": "benma666.sjzt.ejmm",
+      "type": "java.lang.String",
+      "description": "数据载体解密二级密码，能直接解密数据载体密码"
+    },
+    {
+      "name": "benma666.yhxx.ejmm",
+      "type": "java.lang.String",
+      "description": "用户信息解密二级密码，能直接解密用户密码"
+    },
+    {
+      "name": "benma666.app.ejmm",
+      "type": "java.lang.String",
+      "description": "应用解密二级密码，能直接解密应用密码"
+    },
+    {
+      "name": "benma666.xtqx.mrtgqx'",
+      "type": "java.lang.String",
+      "description": "没有人工配置对象权限时，默认开放的权限，如：jcxx、select等"
+    },
+    {
+      "name": "spring.datasource.dbtype",
+      "type": "java.lang.String",
+      "description": "默认数据库类型，当非druid连接池时必须设置"
+    }
+  ]
+}
