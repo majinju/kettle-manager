@@ -7,6 +7,7 @@
 package cn.benma666.sjsj.ljq.sjgl;
 
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.exception.MyException;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.web.DefaultLjq;
@@ -22,30 +23,25 @@ import com.alibaba.fastjson.JSONPath;
 public class TyzdLjq extends DefaultLjq {
     @Override
     public Result insert(SysSjglSjdx sjdx, JSONObject myParams) {
-        String cllx = JSONPath.eval(myParams, $_SYS_CLLX).toString();
-        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        //先更新
-        Result r = super.insert(sjdx, myParams);
-        //再清缓存
-        if (KEY_CLLX_UPDATE.equals(cllx)) {
-            JSONObject obj = myParams.getJSONObject(KEY_OBJ);
-            DictManager.clearDict(obj.getString("zdlb"));
-        } else {
-            DictManager.clearDict(yobj.getString("zdlb"));
-        }
+        Result r = super.update(sjdx, myParams);
+        DictManager.clearDict(JSONPath.eval(myParams,"$.yobj.zdlb").toString());
+        return r;
+    }
+
+    @Override
+    public Result update(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
+        Result r = super.update(sjdx, myParams);
+        DictManager.clearDict(JSONPath.eval(myParams,"$.obj.zdlb").toString());
         return r;
     }
 
     @Override
     public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = JSONPath.eval(myParams, $_SYS_CLLX).toString();
-        switch (cllx) {
-            case "qchc":
-                DictManager.clearDict();
-                return success("清除缓存成功");
-            default:
-                //执行默认操作
-                return super.data(sjdx, myParams);
-        }
+        if ("qchc".equals(cllx)) {
+            DictManager.clearDict();
+            return success("清除缓存成功");
+        }//执行默认操作
+        return super.data(sjdx, myParams);
     }
 }

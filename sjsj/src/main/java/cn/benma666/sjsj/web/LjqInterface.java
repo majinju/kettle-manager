@@ -38,7 +38,7 @@ public interface LjqInterface extends LjqConstant {
      */
     Result upload(SysSjglSjdx sjdx, JSONObject myParams, MultipartFile[] files) throws Exception;
     /**
-     * 获取数据对象相关信息 <br/>
+     * 除上传文件外处理类型通用入口 <br/>
      * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
@@ -47,7 +47,7 @@ public interface LjqInterface extends LjqConstant {
     Result data(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
-     * 获取数据对象相关信息 <br/>
+     * 获取数据 <br/>
      * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
@@ -56,7 +56,7 @@ public interface LjqInterface extends LjqConstant {
     Result getData(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
-     * 获取数据对象相关信息 <br/>
+     * 批量处理 <br/>
      * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
@@ -65,7 +65,7 @@ public interface LjqInterface extends LjqConstant {
     Result plcl(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
-     * 获取数据对象相关信息 <br/>
+     * 导出数据文件EXCEL <br/>
      * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
@@ -74,7 +74,7 @@ public interface LjqInterface extends LjqConstant {
     Result dcsj(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
-     * 获取数据对象相关信息 <br/>
+     * 获取文件 <br/>
      * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
@@ -83,7 +83,7 @@ public interface LjqInterface extends LjqConstant {
     Result getFile(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
-     * 获取数据对象相关信息 <br/>
+     * 数据批量上传 <br/>
      * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
@@ -92,7 +92,7 @@ public interface LjqInterface extends LjqConstant {
     Result sjplsc(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
-     * 获取数据对象相关信息 <br/>
+     * 批量删除 <br/>
      * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果

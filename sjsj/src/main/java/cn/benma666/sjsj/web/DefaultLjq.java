@@ -99,7 +99,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = getCllx(myParams);
-        Result r = success("");
         JSONObject jcxx;
         switch (cllx) {
             case KEY_CLLX_XTJCXX:
