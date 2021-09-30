@@ -96,7 +96,24 @@ spring:
           config:
             multi-statement-allow: true
         slf4j:
+          #打开日志
           enabled: true
+          #关闭合并参数的sql
+          statement-executable-sql-log-enable: true
+          #关闭创建sql日志
+          statement-create-after-log-enabled: false
+          #sql预编译后
+          statement-prepare-after-log-enabled: false
+          #关闭参数
+          statement-parameter-set-log-enabled: false
+          #执行后
+          statement-execute-after-log-enabled: false
+          #关闭后
+          statement-close-after-log-enabled: false
+          #执行后，含有执行耗时
+          statement-execute-batch-after-log-enabled: false
+          statement-execute-query-after-log-enabled: false
+          statement-execute-update-after-log-enabled: false
   redis:
     # 地址
     host: localhost
