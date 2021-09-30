@@ -6,6 +6,7 @@
 
 package cn.benma666.sjsj.web;
 
+import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
@@ -92,7 +93,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
 
     public SjdxExcelReader(SysSjglSjdx sjdx, JSONObject myParams, JSONObject fileObj, SysQxYhxx user) {
         this.sjdx=sjdx;
-        this.myParams=myParams;
+        this.myParams=myParams.clone();
         this.fileObj=fileObj;
         this.user=user;
         //设置错误信息相关参数
@@ -197,9 +198,11 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
             obj.put(e.getKey(), rowList.get(idx));
             idx++;
         }
+        //设置整行数据，后续验证可能用到
+        myParams.put(UtilConst.KEY_YOBJ,obj);
         idx = 0;
         for (Entry<String, JSONObject> e : fields.entrySet()) {
-            obj.put(e.getKey(), ruleVerify(idx, rowList.get(idx), e.getValue(), obj, e.getKey()));
+            obj.put(e.getKey(), ruleVerify(idx, rowList.get(idx), e.getValue(), e.getKey()));
             idx++;
         }
         result.add(obj);
@@ -211,13 +214,12 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
      * @param idx   第几列
      * @param value 值
      * @param field 字段对象
-     * @param row   行数据
      * @param zddm  字段代码
      * @author jingma
      */
-    public Object ruleVerify(int idx, String value, JSONObject field, JSONObject row, String zddm) {
+    public Object ruleVerify(int idx, String value, JSONObject field, String zddm) {
         try {
-            value = FieldRuleVerify.ruleVerify(value, field, user, pcgzMap.get(zddm), row);
+            value = FieldRuleVerify.ruleVerify(value, field, pcgzMap.get(zddm), myParams);
         } catch (FieldRuleVerifyException e) {
             addError(idx, value, field.getString("zdmc"), e.getMessage());
         }

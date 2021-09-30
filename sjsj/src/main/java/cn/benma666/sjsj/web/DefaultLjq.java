@@ -444,8 +444,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
         Map<String, JSONObject> fields = (Map<String, JSONObject>) myParams.get(KEY_FIELDS);
         String cllx = getCllx(myParams);
-        JSONObject obj = myParams.getJSONObject(KEY_OBJ).clone();
-        obj.putAll(yobj);
         //验证转换
         for (JSONObject field : fields.values()) {
             if (!"99".equals(field.getString("zdywlb"))
@@ -454,11 +452,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 try {
                     //验证
                     if (!"not".equals(pcyzgz.getString("*"))) {
-                        value = FieldRuleVerify.ruleVerify(value, field, user,
-                                pcyzgz.getJSONObject(field.getString("zddm")), obj);
+                        value = FieldRuleVerify.ruleVerify(value, field,
+                                pcyzgz.getJSONObject(field.getString("zddm")),myParams);
                     }
                     //转换
-                    value = FieldRuleTrans.ruleTrans(value, field, user, obj);
+                    value = FieldRuleTrans.ruleTrans(value, field,myParams);
                     yobj.put(field.getString("zddm"), value);
                 } catch (FieldRuleVerifyException e) {
                     return failed("【" + field.getString("zdmc") + "】的值为【" + value + "】验证不通过：" + e.getMessage());

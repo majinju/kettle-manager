@@ -1,5 +1,6 @@
 package cn.benma666.sjsj;
 
+import cn.benma666.sjsj.web.LjqInterface;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -36,6 +37,6 @@ public class MyParamsHandlerMethodArgumentResolver implements HandlerMethodArgum
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return  (JSONObject) webRequest.getAttribute(MyHandlerInterceptor.MY_PARAMS, RequestAttributes.SCOPE_REQUEST);
+        return  (JSONObject) webRequest.getAttribute(LjqInterface.MY_PARAMS, RequestAttributes.SCOPE_REQUEST);
     }
 }

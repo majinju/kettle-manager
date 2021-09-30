@@ -28,10 +28,6 @@ import java.util.Map;
  */
 public class MyHandlerInterceptor extends BasicObject implements HandlerInterceptor {
     /**
-     * 接收参数的JSON对象key
-     */
-    public static final String MY_PARAMS = "myParams";
-    /**
      * 返回前端的对象Key
      */
     public static final String RETURN_BODY = "returnBody";
@@ -54,7 +50,7 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         try {
             LjqManager.jcxx(myParams);
             //设置参数传入控制层
-            request.setAttribute(MY_PARAMS, myParams);
+            request.setAttribute(LjqInterface.MY_PARAMS, myParams);
             request.setAttribute(LjqInterface.KEY_SJDX, myParams.get(LjqInterface.KEY_SJDX));
             //切换语言
             switchLanguage(request, myParams);
