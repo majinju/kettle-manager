@@ -7,13 +7,12 @@
 package cn.benma666.sjsj.web;
 
 import cn.benma666.constants.UtilConst;
-import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysLogSjsccw;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
 import cn.benma666.exception.FieldRuleVerifyException;
-import cn.benma666.iframe.FieldRuleVerify;
+import cn.benma666.iframe.VerifyRule;
 import cn.benma666.iframe.Result;
-import cn.benma666.myutils.StringUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
@@ -24,24 +23,32 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
  * 数据对象Excel处理工具 <br/>
  * date: 2016年9月10日 <br/>
+ *
  * @author jingma
  * @version 0.1
  */
-public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer,String>> {
+public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer, String>> {
     /**
      * 日志
      */
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     /**
-     * 列的数量
+     * 错误信息参数对象
      */
-    protected int colCount = 0;
+    private final JSONObject sjsccwParams;
+    /**
+     * 错误信息数据对象
+     */
+    private final SysSjglSjdx sjsccwSjdx;
     /**
      * 开始行,0、1、2....
      */
@@ -50,10 +57,6 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
      * 当前行
      */
     protected int currRow = 0;
-    /**
-     * 当成操作的用户，辅助数据校验
-     */
-    protected SysQxYhxx user;
     /**
      * 文件数据对象
      */
@@ -67,37 +70,30 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
      */
     protected SysSjglSjdx sjdx;
     /**
-     * 错误信息参数对象
-     */
-    private final JSONObject sjsccwParams;
-    /**
-     * 错误信息数据对象
-     */
-    private final SysSjglSjdx sjsccwSjdx;
-    /**
-     * 结果
-     */
-    protected JSONArray result = new JSONArray();
-    /**
      * 字段对象列表
      */
     protected Map<String, JSONObject> fields;
     /**
-     * 字段排除规则<字段代码，排除规则>
-     */
-    protected Map<String, JSONObject> pcgzMap = new HashMap<>();
-    /**
      * 错误信息列表
      */
-    protected List<JSONObject> errorList = new ArrayList<>();
+    protected List<SysLogSjsccw> errorList = new ArrayList<>();
+    /**
+     * 结果
+     */
+    protected JSONArray result = new JSONArray();
 
-    public SjdxExcelReader(SysSjglSjdx sjdx, JSONObject myParams, JSONObject fileObj, SysQxYhxx user) {
-        this.sjdx=sjdx;
-        this.myParams=myParams.clone();
-        this.fileObj=fileObj;
-        this.user=user;
+    /**
+     * @param sjdx     数据对象
+     * @param myParams 相关参数
+     * @param fileObj  对应的文件对象
+     */
+    public SjdxExcelReader(SysSjglSjdx sjdx, JSONObject myParams, JSONObject fileObj) {
+        this.sjdx = sjdx;
+        //克隆一个参数对象，避免被修改
+        this.myParams = myParams.clone();
+        this.fileObj = fileObj;
         //设置错误信息相关参数
-        this.sjsccwParams = LjqManager.jcxxByDxdm("SYS_LOG_SJSCCW",user);
+        this.sjsccwParams = LjqManager.jcxxByDxdm("SYS_LOG_SJSCCW");
         this.sjsccwSjdx = (SysSjglSjdx) sjsccwParams.get(LjqInterface.KEY_SJDX);
         //设置为新增模式，后续会插入读取错误信息
         JSONPath.set(sjsccwParams, LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_INSERT);
@@ -139,6 +135,12 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         return r;
     }
 
+    /**
+     * 读取表头信息
+     *
+     * @param headMap 表头数据
+     * @param context 上下文
+     */
     @Override
     public void invokeHeadMap(Map<Integer, String> headMap, AnalysisContext context) {
         log.debug("文件头信息：" + headMap);
@@ -146,12 +148,9 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
             throw new ExcelReadException("上传文件的表头少了" + (fields.size() - headMap.size())
                     + "列,请重新下载数据模板，不要修改数据模板表头。");
         }
-        if (getColCount() == 0) {
-            setColCount(headMap.size());
-        }
         int i = 0;
         for (Entry<String, JSONObject> e : fields.entrySet()) {
-            if (!(e.getValue().getString("zdmc")+"["+e.getValue().getString("zddm")+"]").equals(headMap.get(i))) {
+            if (!(e.getValue().getString("zdmc") + "[" + e.getValue().getString("zddm") + "]").equals(headMap.get(i))) {
                 throw new ExcelReadException("第[" + (i + 1) + "]列必须是["
                         + e.getValue().getString("zdmc") + "]当前实际是：" + headMap.get(i)
                         + "，请不要修改数据模板表头。");
@@ -160,110 +159,62 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         }
     }
 
-    @Override
-    public void invoke(LinkedHashMap<Integer,String> data, AnalysisContext context) {
-        //判断是否为空行，直接跳过
-        boolean kh = true;
-        for (String val : data.values()) {
-            if (!StringUtil.isBlank(val)) {
-                kh = false;
-            }
-        }
-        if (kh) {
-            return;
-        }
-        //补全列数不够的，避免后面报数组越界
-        for (int i = data.size(); i < colCount; i++) {
-            data.put(i,"");
-        }
-        doRow(data);
-
-    }
-
+    /**
+     * 数据读取完成操作
+     */
     @Override
     public void doAfterAllAnalysed(AnalysisContext context) {
 
     }
+
     /**
      * 处理具体每一行数据 <br/>
      *
-     * @param rowList 具体数据行
+     * @param rowMap 具体数据行
      * @author jingma
      */
-    protected void doRow(LinkedHashMap<Integer,String> rowList) throws RuntimeException {
+    @Override
+    public void invoke(LinkedHashMap<Integer, String> rowMap, AnalysisContext context)
+            throws RuntimeException {
         //开始包装数据
         int idx = 0;
-        JSONObject obj = new JSONObject();
+        JSONObject yobj = new JSONObject();
         for (Entry<String, JSONObject> e : fields.entrySet()) {
-            obj.put(e.getKey(), rowList.get(idx));
+            yobj.put(e.getKey(), rowMap.get(idx));
             idx++;
         }
         //设置整行数据，后续验证可能用到
-        myParams.put(UtilConst.KEY_YOBJ,obj);
+        myParams.put(UtilConst.KEY_YOBJ, yobj);
         idx = 0;
         for (Entry<String, JSONObject> e : fields.entrySet()) {
-            obj.put(e.getKey(), ruleVerify(idx, rowList.get(idx), e.getValue(), e.getKey()));
+            String val = yobj.getString(e.getKey());
+            try {
+                Object obj = JSONPath.eval(myParams, "$.yzgz[yobj." + e.getKey());
+                if(obj==null){
+                    continue;
+                }
+                val = VerifyRule.ruleVerify(val, myParams,(JSONObject) obj,
+                        LjqInterface.KEY_CLLX_INSERT);
+            } catch (FieldRuleVerifyException e1) {
+                addError(idx, val, e.getValue().getString("zdmc"), e1.getMessage());
+            }
+            yobj.put(e.getKey(), val);
             idx++;
         }
-        result.add(obj);
+        result.add(yobj);
     }
 
-    /**
-     * 规则校验 <br/>
-     *
-     * @param idx   第几列
-     * @param value 值
-     * @param field 字段对象
-     * @param zddm  字段代码
-     * @author jingma
-     */
-    public Object ruleVerify(int idx, String value, JSONObject field, String zddm) {
-        try {
-            value = FieldRuleVerify.ruleVerify(value, field, pcgzMap.get(zddm), myParams);
-        } catch (FieldRuleVerifyException e) {
-            addError(idx, value, field.getString("zdmc"), e.getMessage());
-        }
-        return value;
-    }
-
-    public void addError(int idx, String value, String name,
+    public void addError(int idx, Object value, String name,
                          String cwxx) {
-        JSONObject errorObj = new JSONObject();
-        errorObj.put("sjh", currRow + 1);
-        errorObj.put("sjl", idx + 1);
-        errorObj.put("sjlm", name);
-        errorObj.put("sjz", value);
-        errorObj.put("cwxx", cwxx);
-        errorObj.put("sjwj", fileObj.getString("id"));
-        errorObj.put("sjdx", sjdx.getId());
-        errorList.add(errorObj);
+        SysLogSjsccw sysLogSjsccw = new SysLogSjsccw(fileObj.getString("id"),
+                value + "", name, (currRow + 1) + "", sjdx.getId(), (idx + 1) + "", cwxx);
+        errorList.add(sysLogSjsccw);
         //存入数据库
-        sjsccwParams.put(LjqInterface.KEY_YOBJ, errorObj);
+        sjsccwParams.put(LjqInterface.KEY_YOBJ, sysLogSjsccw);
         Result r = LjqManager.insert(sjsccwSjdx, sjsccwParams);
         if (!r.isStatus()) {
             log.error("写入错误日志失败：" + r.getMsg());
         }
-    }
-
-    /**
-     * @return colCount
-     */
-    public int getColCount() {
-        return colCount;
-    }
-
-    /**
-     * @param colCount the colCount to set
-     */
-    public void setColCount(int colCount) {
-        this.colCount = colCount;
-    }
-
-    /**
-     * @return startRow
-     */
-    public int getStartRow() {
-        return startRow;
     }
 
     /**
@@ -274,27 +225,6 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
     }
 
     /**
-     * @return result
-     */
-    public JSONArray getResult() {
-        return result;
-    }
-
-    /**
-     * @param result the result to set
-     */
-    public void setResult(JSONArray result) {
-        this.result = result;
-    }
-
-    /**
-     * @return fields
-     */
-    public Map<String, JSONObject> getFields() {
-        return fields;
-    }
-
-    /**
      * @param fields the fields to set
      */
     public void setFields(Map<String, JSONObject> fields) {
@@ -302,52 +232,17 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
     }
 
     /**
-     * @return user
+     * @return result
      */
-    public SysQxYhxx getUser() {
-        return user;
-    }
-
-    /**
-     * @param user the user to set
-     */
-    public void setUser(SysQxYhxx user) {
-        this.user = user;
-    }
-
-    public Map<String, JSONObject> getPcgzMap() {
-        return pcgzMap;
-    }
-
-    public void setPcgzMap(Map<String, JSONObject> pcgzMap) {
-        this.pcgzMap = pcgzMap;
+    public JSONArray getResult() {
+        return result;
     }
 
     /**
      * @return errorList
      */
-    public List<JSONObject> getErrorList() {
+    public List<SysLogSjsccw> getErrorList() {
         return errorList;
     }
 
-    /**
-     * @param errorList the errorList to set
-     */
-    public void setErrorList(List<JSONObject> errorList) {
-        this.errorList = errorList;
-    }
-
-    /**
-     * @return sjdx
-     */
-    public SysSjglSjdx getSjdx() {
-        return sjdx;
-    }
-
-    /**
-     * @param sjdx the sjdx to set
-     */
-    public void setSjdx(SysSjglSjdx sjdx) {
-        this.sjdx = sjdx;
-    }
 }

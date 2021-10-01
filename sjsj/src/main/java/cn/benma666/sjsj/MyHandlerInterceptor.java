@@ -55,11 +55,11 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
             //切换语言
             switchLanguage(request, myParams);
         } catch (QxException e) {
-            r = failed(e.getMessage());
+            r = failed(e.getMessage(),e.getData());
             r.setCode(e.getCode());
         } catch (MyException e) {
             //获取基础信息，返回失败信息
-            r = failed(e.getMessage());
+            r = failed(e.getMessage(),e.getData());
         } catch (Exception e) {
             //获取基础信息，返回失败信息
             r = failed("获取基础信息异常：" + e.getMessage());
@@ -97,7 +97,7 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
      * @param myParams 参数
      */
     private void switchLanguage(HttpServletRequest request, JSONObject myParams) {
-        Object language = JSONPath.eval(myParams, "$.header.language");
+        Object language = JSONPath.eval(myParams, "$.sys.language");
         if (language != null) {
             request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME,
                     Locale.forLanguageTag(language.toString()));

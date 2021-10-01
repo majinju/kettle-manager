@@ -63,20 +63,20 @@ public class QxManager extends BasicObject {
     /**
      * 权限过滤 <br/>
      * @param myParams 参数集
+     * @param user 用户对象
      * @throws QxException 没有权限将抛出异常
      * @author jingma
      */
-    public static void auth(JSONObject myParams) throws QxException{
+    public static void auth(JSONObject myParams,SysQxYhxx user) throws QxException{
         //用户
-        SysQxYhxx user = (SysQxYhxx) myParams.get(LjqInterface.KEY_USER);
-        //处理类型
-        String cllx = JSONPath.eval(myParams, LjqInterface.$_SYS_CLLX).toString();
-        //权限码
-        Object authCode = JSONPath.eval(myParams, LjqInterface.$_SYS_AUTHCODE);
         if (user==null) {
             //没有用户信息则默认通过，此类都是系统内部调用
             return;
         }
+        //处理类型
+        String cllx = JSONPath.eval(myParams, LjqInterface.$_SYS_CLLX).toString();
+        //权限码
+        Object authCode = JSONPath.eval(myParams, LjqInterface.$_SYS_AUTHCODE);
         if ((authCode == null)&& valByDef(Conf.getVal("benma666.xtqx.mrtgxqx"),
                 "jcxx,select").contains(cllx)) {
             //没有配置权限，且在允许权限范围内则默认通过

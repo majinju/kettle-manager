@@ -28,6 +28,13 @@ public interface LjqInterface extends LjqConstant {
      * @author jingma
      */
     JSONObject jcxx(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
+    /**
+     * 验证规则
+     *
+     * @param sjdx     数据对象
+     * @param myParams 相关参数
+     */
+    void yzgz(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
      * 上传文件

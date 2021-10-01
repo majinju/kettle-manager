@@ -108,13 +108,8 @@ public class LjqManager extends BasicObject {
      * @param myParams 相关参数
      */
     public static JSONObject jcxx(JSONObject myParams) {
-        //备份原处理信息
-        Object cllx = JSONPath.eval(myParams, LjqInterface.$_SYS_CLLX);
-        if (StringUtil.isBlank(cllx)) {
-            throw new MyException(Msg.msg("interceptor.bxsscllx", LjqInterface.$_SYS_CLLX.substring(2)), myParams);
-        }
         try {
-            //TODO 后续还是考虑将该配置迁移到字典配置中
+            //TODO 后续还是将该配置迁移到字典配置中
             JSONObject defParams= JSONObject.parseObject(Utils.readFromResource("myParams.json"));
             //合并新配置与默认配置
             myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
@@ -138,8 +133,7 @@ public class LjqManager extends BasicObject {
         //设置从数据库中读取的数据对象
         myParams.put(LjqInterface.KEY_SJDX, sjdx);
         //合并数据对象的扩展信息到系统参数中
-        myParams.putAll(JsonUtil.mergeJSONObjects(myParams,JSON.parseObject(sjdx.getKzxx())));
-
+        JsonUtil.mergeJSONObjects(myParams,JSON.parseObject(sjdx.getKzxx()));
         //获取基础信息
         return LjqManager.jcxx(sjdx, myParams);
     }
@@ -156,6 +150,15 @@ public class LjqManager extends BasicObject {
         return use(sjdx).jcxx(sjdx, myParams);
     }
 
+    /**
+     * 验证规则 <br/>
+     * @param sjdx     数据对象
+     * @param myParams 相关参数
+     * @author jingma
+     */
+    public static void yzgz(SysSjglSjdx sjdx, JSONObject myParams) {
+        use(sjdx).yzgz(sjdx, myParams);
+    }
     /**
      * 数据处理 <br/>
      * @param sjdx     数据对象

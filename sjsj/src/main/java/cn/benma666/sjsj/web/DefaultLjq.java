@@ -62,6 +62,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public JSONObject jcxx(SysSjglSjdx sjdx, JSONObject myParams) {
+        if (getCllx(myParams) == null) {
+            throw new MyException(Msg.msg("interceptor.bxsscllx", LjqInterface.$_SYS_CLLX.substring(2)), myParams);
+        }
         //获取用户信息
         SysQxYhxx user = UserManager.getUser(myParams);
         myParams.put(KEY_USER, user);
@@ -69,15 +72,39 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         clAuthCode(sjdx, myParams);
         //获取字段信息
         myParams.put(KEY_FIELDS, getFields(sjdx, myParams, user));
-        //设置操作排查的验证规则
-        myParams.put(KEY_PCYZGZ, new JSONObject());
         //记录操作日志
         czrz(sjdx, myParams, user);
         //权限鉴定
-        QxManager.auth(myParams);
+        QxManager.auth(myParams, user);
         //设置需要处理的对象
         putObj(sjdx, myParams);
+        //验证规则
+        yzgz(sjdx, myParams);
         return myParams;
+    }
+
+    /**
+     * 验证规则
+     *
+     * @param sjdx     数据对象
+     * @param myParams 相关参数
+     */
+    public void yzgz(SysSjglSjdx sjdx, JSONObject myParams) {
+        if (myParams.get(KEY_USER) == null) {
+            //没有用户信息默认为系统内部调用，不进行验证
+            return;
+        }
+        //取出验证规则
+        JSONObject yzgz = myParams.getJSONObject(UtilConst.KEY_YZGZ);
+        for (String key : yzgz.keySet()) {
+            JSONObject gzObj = yzgz.getJSONObject(key);
+            try {
+                VerifyRule.ruleVerify(JSONPath.eval(myParams, "$." + key),
+                        myParams, gzObj, getCllx(myParams));
+            } catch (FieldRuleVerifyException e) {
+                throw new MyException("参数" + key + "验证不通过：" + e.getMessage(), key);
+            }
+        }
     }
 
     @Override
@@ -87,7 +114,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         List<SysSjglFile> list = new ArrayList<>();
         for (MultipartFile file : files) {
             SysSjglFile fileObj = yobj.clone().toJavaObject(SysSjglFile.class);
-            Result r = upload(sjdx, myParams,fileObj, file);
+            Result r = upload(sjdx, myParams, fileObj, file);
             if (!r.isStatus()) {
                 return r;
             }
@@ -112,9 +139,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 jcxx = new JSONObject();
                 jcxx.put(KEY_SJDX, myParams.get(KEY_SJDX));
                 jcxx.put(KEY_FIELDS, myParams.get(KEY_FIELDS));
-                JsonUtil.copy(jcxx,myParams,"$.sys.cllxkz");
-                JsonUtil.copy(jcxx,myParams,"$.sys.sjdxkz");
-                JsonUtil.copy(jcxx,myParams,"$.sys.fields");
+                JsonUtil.copy(jcxx, myParams, "$.sys.cllxkz");
+                JsonUtil.copy(jcxx, myParams, "$.sys.sjdxkz");
+                JsonUtil.copy(jcxx, myParams, "$.sys.fields");
                 return success(megCzcg(), jcxx);
             case KEY_CLLX_SELECT:
                 return success(megCzcg(), page(sjdx, myParams));
@@ -164,7 +191,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public Result dcsj(SysSjglSjdx sjdx, JSONObject myParams) {
         //导出数据
-        JSONPath.set(myParams,"$.page.totalRequired", Boolean.FALSE);
+        JSONPath.set(myParams, "$.page.totalRequired", Boolean.FALSE);
         PageInfo<JSONObject> page = page(sjdx, myParams);
         String fileName = sjdx.getDxmc();
         if (JSONPath.eval(myParams, "$.sys.dcwjm") != null) {
@@ -255,17 +282,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result sjplsc(SysSjglSjdx sjdx, JSONObject myParams) {
         Result r;
         JSONObject file = myParams.getJSONObject("file");
-        SjdxExcelReader er = new SjdxExcelReader(sjdx, myParams, file,
-                (SysQxYhxx) myParams.get(KEY_USER));
+        SjdxExcelReader er = new SjdxExcelReader(sjdx, myParams, file);
         try {
             r = er.disposeExcel();
             if (!r.isStatus()) {
                 return r;
             }
-            //因为从文件中加载数据时已经进行了数据校验，这里排查验证规则
-            JSONObject pcyzgz = new JSONObject();
-            pcyzgz.put("*", "not");
-            myParams.put(KEY_PCYZGZ, pcyzgz);
             r = plSave(sjdx, myParams, er.getResult());
             if (!r.isStatus()) {
                 return r;
@@ -312,13 +334,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public PageInfo<JSONObject> page(SysSjglSjdx sjdx, JSONObject myParams) {
         PageInfo<JSONObject> page;
         try {
-            if(!myParams.containsKey(KEY_PAGE)){
+            if (!myParams.containsKey(KEY_PAGE)) {
                 //没有传入page对象时，采用默认
-                myParams.put(KEY_PAGE,new JSONObject());
+                myParams.put(KEY_PAGE, new JSONObject());
             }
             //获取分页对象
             page = myParams.getJSONObject(KEY_PAGE).toJavaObject(PageInfo.class);
-            if(StringUtil.isBlank(page.getOrderBy())){
+            if (StringUtil.isBlank(page.getOrderBy())) {
                 //请求没有设置排序时，采用默认排序
                 page.setOrderBy(sjdx.getMrpx());
             }
@@ -342,13 +364,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public Result insert(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
-        JSONPath.set(myParams,$_SYS_CLLX,KEY_CLLX_INSERT);
+        JSONPath.set(myParams, $_SYS_CLLX, KEY_CLLX_INSERT);
         return save(sjdx, myParams);
     }
 
     @Override
     public Result update(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
-        JSONPath.set(myParams,$_SYS_CLLX,KEY_CLLX_UPDATE);
+        JSONPath.set(myParams, $_SYS_CLLX, KEY_CLLX_UPDATE);
         return save(sjdx, myParams);
     }
 
@@ -380,7 +402,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
         }
         JSONPath.set(myParams, "$.sql.from", (StringUtil.isBlank(
-                sjdx.getDxgs())?"":sjdx.getDxgs()+".")+sjdx.getJtdx());
+                sjdx.getDxgs()) ? "" : sjdx.getDxgs() + ".") + sjdx.getJtdx());
         //先生成默认SQL
         String sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
         if (sql.startsWith("error:")) {
@@ -428,7 +450,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     h = new ArrayList<>();
                     h.add(f.getValue().getString("zdmc") + "[" + f.getValue().getString("zddm") + "]");
                     header.add(h);
-                    r.add(FieldRuleVerify.rulejx(f.getValue(), (JSONObject) JSONPath.eval(f.getValue(), "$.kzxx.yzgz")));
+                    r.add(VerifyRule.rulejx(f.getValue(), (JSONObject) JSONPath.eval(f.getValue(), "$.kzxx.yzgz")));
                 }
             }
             return resultExcelFile(header, data, fileName);
@@ -439,30 +461,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     protected Result save(SysSjglSjdx sjdx, JSONObject myParams) {
-        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        JSONObject pcyzgz = myParams.getJSONObject(KEY_PCYZGZ);
-        SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-        Map<String, JSONObject> fields = (Map<String, JSONObject>) myParams.get(KEY_FIELDS);
-        String cllx = getCllx(myParams);
-        //验证转换
-        for (JSONObject field : fields.values()) {
-            if (!"99".equals(field.getString("zdywlb"))
-                    && (yobj.containsKey(field.getString("zddm")) || KEY_CLLX_INSERT.equals(cllx))) {
-                String value = yobj.getString(field.getString("zddm"));
-                try {
-                    //验证
-                    if (!"not".equals(pcyzgz.getString("*"))) {
-                        value = FieldRuleVerify.ruleVerify(value, field,
-                                pcyzgz.getJSONObject(field.getString("zddm")),myParams);
-                    }
-                    //转换
-                    value = FieldRuleTrans.ruleTrans(value, field,myParams);
-                    yobj.put(field.getString("zddm"), value);
-                } catch (FieldRuleVerifyException e) {
-                    return failed("【" + field.getString("zdmc") + "】的值为【" + value + "】验证不通过：" + e.getMessage());
-                }
-            }
-        }
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
@@ -473,7 +471,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         if (r.isStatus()) {
             //保存成功，返回主键信息
-            r.setData(yobj.getString(sjdx.getZjzd()));
+            r.setData(JSONPath.eval(myParams, "$.yobj." + sjdx.getZjzd()));
         }
         return r;
     }
@@ -506,9 +504,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         List<Object> ro1 = new ArrayList<>();
         int i = 0;
         Result r;
+        myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
         for (JSONObject j : list) {
             myParams.put(KEY_YOBJ, j);
-            myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
             r = insert(sjdx, myParams);
             if (!r.isStatus()) {
                 DSTransactionManager.rollback();
@@ -556,7 +554,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //前端没有传入使用的权限码时
             Object authCode;
             //先取对象中的默认权限码
-            if(sjdx.getMap().containsKey(KEY_AUTH_CODE)){
+            if (sjdx.getMap().containsKey(KEY_AUTH_CODE)) {
                 authCode = sjdx.get(KEY_AUTH_CODE);
             } else {
                 //对象也没有缓存权限码时，从数据库中查询并缓存到对象中
@@ -609,16 +607,23 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         if (user != null) {
             cacheKey = sjdx.getId() + user.getYhdj();
         }
+        Map<String, JSONObject> fields;
         Object obj = fieldsCache.get(cacheKey);
         if (obj != null && !TypeUtils.castToBoolean(JSONPath.eval(myParams, "$.sys.clearCache"))) {
             //没有缓存且没有要求清除缓存
-            return (Map<String, JSONObject>) obj;
+            fields = (Map<String, JSONObject>) obj;
+        }else{
+            String[] r = getSql(sjdx, myParams, "getFields");
+            fields = db(r[0]).findMap("zddm", r[1], myParams);
+            //设置缓存
+            fieldsCache.put(cacheKey, fields);
+            VerifyRule.yzgzInit(fields, myParams);
         }
-        String[] r = getSql(sjdx, myParams, "getFields");
-        Map<String, JSONObject> fields = db(r[0]).findMap("zddm", r[1], myParams);
-        FieldRuleVerify.yzgzInit(fields);
-        //设置缓存
-        fieldsCache.put(cacheKey, fields);
+        fields.forEach((key,value)->{
+            //将整个字段的验证规则设置到系统验证规则中
+            JSONPath.set(myParams, "$.yzgz['yobj." + key + "']",
+                    JSONPath.eval(value,"$.kzxx.yzgz"));
+        });
         return fields;
     }
 
@@ -772,9 +777,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //保存文件信息
         fileObj.setId(StringUtil.getUUIDUpperStr());
         JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
-        fileJcxx.put(KEY_USER,myParams.get(KEY_USER));
-        fileJcxx.put(KEY_YOBJ,fileObj);
-        LjqManager.insert((SysSjglSjdx) fileJcxx.get(KEY_SJDX),fileJcxx);
+        fileJcxx.put(KEY_USER, myParams.get(KEY_USER));
+        fileJcxx.put(KEY_YOBJ, fileObj);
+        LjqManager.insert((SysSjglSjdx) fileJcxx.get(KEY_SJDX), fileJcxx);
         slog.debug(fileObj + "文件上传成功");
         return success("文件上传成功", fileObj);
     }
