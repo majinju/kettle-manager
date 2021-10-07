@@ -14,51 +14,6 @@ import com.alibaba.fastjson.JSONPath;
  * @author jingma
  */
 public class QxManager extends BasicObject {
-    /**
-     * 应用-系统-数据管理
-     */
-    public static final String APP_SYS_SJGL_ = "SYS_SJGL_";
-
-    /**
-     * 权限-一级用户
-     */
-    public static final String AUTH_YJYH = "YJYH";
-    /**
-     * 权限-二级用户
-     */
-    public static final String AUTH_EJYH = "EJYH";
-    /**
-     * 权限-一般用户
-     */
-    public static final String AUTH_YBYH = "YBYH";
-
-    /**
-     * 权限-管理权限
-     */
-    public static final String AUTH_GL = "GL";
-
-    /**
-     * 判断这个用户是否有这个权限编码，这里的权限编码是人工输入的菜单地址
-     *
-     * @param userInfo 用户
-     * @param app_     应用系统代码
-     * @param authcode 权限编码
-     * @return
-     */
-    public static boolean hasAuthCode(SysQxYhxx userInfo, String app_, String authcode) {
-        return hasAuthCode(userInfo, app_ + authcode);
-    }
-
-    /**
-     * 判断这个用户是否有这个权限编码，这里的权限编码是人工输入的菜单地址
-     *
-     * @param user     用户
-     * @param authcode 权限编码
-     * @return 是否有权限
-     */
-    public static boolean hasAuthCode(SysQxYhxx user, String authcode) {
-        return user.getQxMap().containsKey(authcode);
-    }
 
     /**
      * 权限过滤 <br/>

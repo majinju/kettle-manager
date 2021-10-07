@@ -34,8 +34,6 @@ public class YhdlLjq extends DefaultLjq {
         String cllx = JSONPath.eval(myParams, $_SYS_CLLX).toString();
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        SysQxYhxx yr = new SysQxYhxx();
-        yr.setToken(oldUser.getToken());
         switch (cllx) {
             case "yhdl":
                 //用户账户密码登陆
@@ -47,7 +45,7 @@ public class YhdlLjq extends DefaultLjq {
                     return failed("用户名或密码为空");
                 }
                 if(oldUser.getYhdm().equals(yobj.getString("yhdm"))){
-                    return success("用户已经登录过了", yr);
+                    return success("用户已经登录过了", oldUser.getToken());
                 }
                 JSONObject jsonObj = db().findFirst(SqlId.of("sjsj", "findUser"), yobj);
                 if (jsonObj == null) {
@@ -71,7 +69,7 @@ public class YhdlLjq extends DefaultLjq {
                         UserManager.addUser(oldUser.getToken(), user);
                         //将登陆凭证存入用户信息中返回前端，便于app类接口做后续请求
                         log.info(user.getYhxm() + "登陆成功");
-                        return success("登录成功", yr);
+                        return success("登录成功", oldUser.getToken());
                     }
                 } else {
                     return failed("密码不正确");
@@ -87,7 +85,7 @@ public class YhdlLjq extends DefaultLjq {
                     SysQxYhxx user;
                     try {
                         if(oldUser.getWxyhid().equals(yobj.getString("wxyhid"))){
-                            return success("用户已经登录过了", yr);
+                            return success("用户已经登录过了", oldUser.getToken());
                         }
                         user = UserManager.getUserBydWzyhid(wxyhid);
                         user.set("wxLogin", r);

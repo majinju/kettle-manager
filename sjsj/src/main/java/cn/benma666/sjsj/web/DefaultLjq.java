@@ -12,7 +12,7 @@ import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
-import cn.benma666.exception.FieldRuleVerifyException;
+import cn.benma666.exception.VerifyRuleException;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.*;
 import cn.benma666.myutils.*;
@@ -28,6 +28,7 @@ import com.alibaba.fastjson.util.TypeUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -89,6 +90,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @param sjdx     数据对象
      * @param myParams 相关参数
      */
+    @Override
     public void yzgz(SysSjglSjdx sjdx, JSONObject myParams) {
         if (myParams.get(KEY_USER) == null) {
             //没有用户信息默认为系统内部调用，不进行验证
@@ -101,8 +103,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             try {
                 VerifyRule.ruleVerify(JSONPath.eval(myParams, "$." + key),
                         myParams, gzObj, getCllx(myParams));
-            } catch (FieldRuleVerifyException e) {
-                throw new MyException("参数" + key + "验证不通过：" + e.getMessage(), key);
+            } catch (VerifyRuleException e) {
+                throw new MyException("参数" + key + "验证不通过：" + e.getMessage(), HttpStatus.PRECONDITION_FAILED.value(), key);
             }
         }
     }

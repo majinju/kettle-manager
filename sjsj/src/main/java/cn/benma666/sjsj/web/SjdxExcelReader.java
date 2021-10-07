@@ -10,7 +10,7 @@ import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysLogSjsccw;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
-import cn.benma666.exception.FieldRuleVerifyException;
+import cn.benma666.exception.VerifyRuleException;
 import cn.benma666.iframe.VerifyRule;
 import cn.benma666.iframe.Result;
 import com.alibaba.excel.EasyExcel;
@@ -195,7 +195,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
                 }
                 val = VerifyRule.ruleVerify(val, myParams,(JSONObject) obj,
                         LjqInterface.KEY_CLLX_INSERT);
-            } catch (FieldRuleVerifyException e1) {
+            } catch (VerifyRuleException e1) {
                 addError(idx, val, e.getValue().getString("zdmc"), e1.getMessage());
             }
             yobj.put(e.getKey(), val);

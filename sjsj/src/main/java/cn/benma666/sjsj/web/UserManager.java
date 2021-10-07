@@ -44,6 +44,10 @@ public class UserManager extends BasicObject {
      */
     public static final String TOKEN = "token";
     /**
+     * 默认会话超时时长
+     */
+    public static final String DEFAULT_SESSION_TIMEOUT = "12";
+    /**
      * redis工具
      */
     private static RedisTemplate<String, Object> redisTemplate;
@@ -194,7 +198,8 @@ public class UserManager extends BasicObject {
     public static void addUser(String token, SysQxYhxx user) {
         if (StringUtil.isNotBlank(token)) {
             user.setToken(token);
-            redisTemplate.opsForValue().set(LjqInterface.KEY_USER+token, user,12, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(LjqInterface.KEY_USER+token, user,Long.parseLong(
+                    valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
         } else {
             slog.debug("权限码为空：" + user);
         }
@@ -289,11 +294,12 @@ public class UserManager extends BasicObject {
     public static void flushUserQxxx() {
         SysQxYhxx user;
         for (String key : redisTemplate.keys("user*")) {
-            Map<String, JSONObject> qxMap = db().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
-                    Db.buildMap(redisTemplate.opsForValue().get(key)));
             user = ((SysQxYhxx) redisTemplate.opsForValue().get(key));
+            Map<String, JSONObject> qxMap = db().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
+                    Db.buildMap(user));
             user.setQxMap(qxMap);
-            redisTemplate.opsForValue().set(LjqInterface.KEY_USER+key,user,12, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(LjqInterface.KEY_USER+key,user,Long.parseLong(
+                    valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
         }
     }
 

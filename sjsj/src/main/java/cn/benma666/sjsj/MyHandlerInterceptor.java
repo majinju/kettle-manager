@@ -1,7 +1,6 @@
 package cn.benma666.sjsj;
 
 import cn.benma666.exception.MyException;
-import cn.benma666.exception.QxException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.WebUtil;
@@ -12,6 +11,7 @@ import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
+import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -52,14 +52,10 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
             //设置参数传入控制层
             request.setAttribute(LjqInterface.MY_PARAMS, myParams);
             request.setAttribute(LjqInterface.KEY_SJDX, myParams.get(LjqInterface.KEY_SJDX));
-            //切换语言
-            switchLanguage(request, myParams);
-        } catch (QxException e) {
-            r = failed(e.getMessage(),e.getData());
-            r.setCode(e.getCode());
         } catch (MyException e) {
-            //获取基础信息，返回失败信息
-            r = failed(e.getMessage(),e.getData());
+            //系统预知异常
+            r = failed(e.getMessage(), e.getData());
+            r.setCode(e.getCode());
         } catch (Exception e) {
             //获取基础信息，返回失败信息
             r = failed("获取基础信息异常：" + e.getMessage());
@@ -81,11 +77,10 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
      * @param response     返回
      * @param handler      选择要执行的处理程序，用于类型和/或实例计算
      * @param modelAndView 视图
-     * @throws Exception 处理异常
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object handler, ModelAndView modelAndView) throws Exception {
+                           Object handler,@Nullable ModelAndView modelAndView) {
         //进行处理完成后的日志记录等操作
 //        log.debug("返回内容：" + request.getAttribute(RETURN_BODY));
     }
@@ -131,6 +126,8 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
                 }
             }
         }
+        //切换语言
+        switchLanguage(request, myParams);
         if (JSONPath.eval(myParams, LjqInterface.$_SYS_TOKEN) == null) {
             //常规参数中没有设置权限认证key
             JSONPath.set(myParams, LjqInterface.$_SYS_TOKEN, UserManager.getToken(request));

@@ -7,6 +7,7 @@
 package cn.benma666.sjsj.web;
 
 import cn.benma666.constants.UtilConst;
+import cn.benma666.constants.UtilConstInstance;
 import cn.benma666.domain.SysLogFwzr;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
@@ -124,7 +125,7 @@ public class LjqManager extends BasicObject {
         } else {
             JSONObject jsonObj = db().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
             if (jsonObj == null) {
-                throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams), myParams);
+                throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
             }
             sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
             //设置缓存
