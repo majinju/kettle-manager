@@ -1,0 +1,4 @@
+
+const WEB_CONFIG={
+    baseRoot:"/sjsj"
+}

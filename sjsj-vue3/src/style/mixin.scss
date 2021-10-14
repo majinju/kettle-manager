@@ -1,0 +1,108 @@
+/*引入配置*/
+@import "./varibale.scss";
+
+// 设置字体大小
+@mixin font_size($size) {
+  font-size: $size;
+}
+
+// 设置字体颜色
+@mixin font_color($color) {
+  color: $color;
+}
+
+// 设置主题颜色
+@mixin bg_color($color) {
+  background-color: $color;
+}
+
+// 设置高度和line-height
+@mixin middle_height($height) {
+  height: $height;
+  line-height: $height;
+}
+
+// 背景图片地址和大小
+@mixin bis($url) {
+  background-image: url($url);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+@mixin borderRadius($radius) {
+  border-radius: $radius;
+}
+
+%inlineblockbox {
+  display: inline-block;
+}
+
+/*弹性盒属性*/
+%flexbox {
+  display: flex;
+}
+
+// 垂直居中
+%middleBox {
+  display: flex;
+  align-items: center;
+}
+
+/*弹性盒比例*/
+@mixin flex($num:1) {
+  flex: $num;
+}
+
+// 溢出省略号显示
+@mixin overflow_ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+//transition
+@mixin transition($content:all .2s) {
+  transition: $content;
+}
+
+//transfrom
+@mixin translateX($num:-50%) {
+  transform: translateX($num);
+}
+
+@mixin translateY($num:-50%) {
+  transform: translateY($num);
+}
+
+@mixin rotate($deg:90deg) {
+  transform: rotate($deg);
+}
+
+// 计算高度
+@mixin get_cal_height($height:'') {
+  @if $height !='' {
+    height: calc(100% - #{$height}px);
+  }
+
+  @else {
+    height: 100%;
+  }
+}
+
+// 滚动条颜色
+@mixin scorll_style($thumbColor) {
+  /*定义滑块 内阴影+圆角*/
+  ::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: $thumbColor;
+  }
+}
+
+// 三角形
+@mixin triangle_bottomleft($width,$color) {
+  width: 0;
+  height: 0;
+  border-bottom: $width solid $color;
+  border-right: $width solid transparent;
+}
