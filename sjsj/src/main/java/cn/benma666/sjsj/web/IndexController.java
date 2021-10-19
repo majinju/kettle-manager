@@ -52,7 +52,8 @@ public class IndexController extends BasicObject implements ErrorController {
         try {
             r = LjqManager.upload(sjdx, myParams, files);
         }catch (MyException e){
-            r = failed(e.getMessage());
+            r = failed(e.getMessage(),e.getData());
+            r.setCode(e.getCode());
         }catch (Exception e){
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
@@ -66,7 +67,8 @@ public class IndexController extends BasicObject implements ErrorController {
         try {
             r = LjqManager.data(sjdx, myParams);
         }catch (MyException e){
-            r = failed(e.getMessage());
+            r = failed(e.getMessage(),e.getData());
+            r.setCode(e.getCode());
         }catch (Exception e){
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);

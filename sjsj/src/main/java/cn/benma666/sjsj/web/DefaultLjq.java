@@ -81,6 +81,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         putObj(sjdx, myParams);
         //验证规则
         yzgz(sjdx, myParams);
+        //TODO 转换规则
+
         return myParams;
     }
 
@@ -333,6 +335,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public PageInfo<JSONObject> page(SysSjglSjdx sjdx, JSONObject myParams) {
         PageInfo<JSONObject> page;
         try {
@@ -389,15 +392,15 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //先获取当前对象的专属模板
         String key = sjdx.getDxdm() + "." + cllx;
         String sqlTmpl = Conf.getVal(key);
-        if (key.equals(sqlTmpl)) {
+        if (StringUtil.isBlank(sqlTmpl)) {
             //不存在专属模板则获取默认模板-对应数据库类型
             key = "DEFAULT." + cllx + "." + sjdx.getDxztlx();
             sqlTmpl = Conf.getVal(key);
-            if (key.equals(sqlTmpl)) {
+            if (StringUtil.isBlank(sqlTmpl)) {
                 //最基础默认sql
                 key = "DEFAULT." + cllx;
                 sqlTmpl = Conf.getVal(key);
-                if (key.equals(sqlTmpl)) {
+                if (StringUtil.isBlank(sqlTmpl)) {
                     //默认模板都不存在哎
                     throw new MyException(Msg.msg("ljq.default.mypzgsql", cllx), myParams);
                 }
@@ -415,7 +418,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //外部没有传入sql模板时，监测字典中是否有后续模板。
             key += "." + sjdx.getDxdm();
             sqlTmpl = Conf.getVal(key);
-            if (!key.equals(sqlTmpl)) {
+            if (StringUtil.isNotBlank(sqlTmpl)) {
                 sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
                 if (sql.startsWith("error:")) {
                     throw new MyException(sql.substring("error:".length()), myParams);

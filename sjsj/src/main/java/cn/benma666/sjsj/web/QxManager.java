@@ -33,7 +33,7 @@ public class QxManager extends BasicObject {
         //权限码
         Object authCode = JSONPath.eval(myParams, LjqInterface.$_SYS_AUTHCODE);
         if ((authCode == null)&& valByDef(Conf.getVal("benma666.xtqx.mrtgxqx"),
-                "jcxx,select").contains(cllx)) {
+                "dxjcxx,select").contains(cllx)) {
             //没有配置权限，且在允许权限范围内则默认通过
             return;
         }

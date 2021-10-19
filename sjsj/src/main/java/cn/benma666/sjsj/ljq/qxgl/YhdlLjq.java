@@ -103,6 +103,9 @@ public class YhdlLjq extends DefaultLjq {
                 }
             case "yhtc":
                 return UserManager.removeUser(oldUser);
+            case "sxyhqx":
+                UserManager.flushUserQxxx();
+                return success("刷新用户权限成功");
             default:
                 //执行默认操作
                 return super.data(sjdx, myParams);
