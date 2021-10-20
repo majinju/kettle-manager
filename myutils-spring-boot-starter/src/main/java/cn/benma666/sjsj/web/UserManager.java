@@ -181,7 +181,6 @@ public class UserManager extends BasicObject {
         if (user == null) {
             user = getUserBydYhdm(LSYH);
         }
-        user.setClientIp(JSONPath.eval(myParams, LjqInterface.$_SYS_CLIENT_IP).toString());
         if (StringUtil.isNotBlank(user.getXzip())
                 && !user.getClientIp().matches(user.getXzip())) {
             throw new MyException("你未不在授权的ip范围内登录：" + user, myParams);

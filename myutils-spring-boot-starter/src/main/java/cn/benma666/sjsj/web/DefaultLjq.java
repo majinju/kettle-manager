@@ -106,7 +106,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 VerifyRule.ruleVerify(JSONPath.eval(myParams, "$." + key),
                         myParams, gzObj, getCllx(myParams));
             } catch (VerifyRuleException e) {
-                throw new MyException("参数" + key + "验证不通过：" + e.getMessage(), HttpStatus.PRECONDITION_FAILED.value(), key);
+                throw new MyException(e.getMessage(), HttpStatus.PRECONDITION_FAILED.value(), key);
             }
         }
     }
@@ -136,7 +136,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 //只取对外有用的,系统基础信息
                 jcxx = new JSONObject();
                 jcxx.put(KEY_USER, myParams.get(KEY_USER));
-                jcxx.put(KEY_CZRZ, myParams.get(KEY_CZRZ));
+                JsonUtil.copy(jcxx, myParams, "$.sys.token");
+                JsonUtil.copy(jcxx, myParams, "$.sys.clientIp");
                 return success(megCzcg(), jcxx);
             case KEY_CLLX_DXJCXX:
                 //只取对外有用的，对象基础信息

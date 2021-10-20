@@ -27,8 +27,7 @@ import watermark from './utils/watermark';
 const app = createApp(App,{});
 
 //设置服务端基础路径
-axios.serviceBasicUrl = process.env.VUE_APP_API_BASE_ROOT+WEB_CONFIG.baseRoot;
-console.log("后台服务路径："+axios.serviceBasicUrl);
+axios.setBaseURL(process.env.VUE_APP_API_BASE_ROOT+WEB_CONFIG.baseRoot);
 //设置水印
 watermark.set(store.state.user.yhxm+","+store.state.user.yhdm);
 

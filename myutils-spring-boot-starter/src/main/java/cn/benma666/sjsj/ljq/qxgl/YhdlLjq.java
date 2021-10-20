@@ -16,6 +16,7 @@ import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.HttpUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
+import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -31,25 +32,25 @@ public class YhdlLjq extends DefaultLjq {
 
     @Override
     public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
-        String cllx = JSONPath.eval(myParams, $_SYS_CLLX).toString();
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        switch (cllx) {
+        SysQxYhxx user;
+        switch (getCllx(myParams)) {
             case "yhdl":
                 //用户账户密码登陆
                 if (DateUtil.getGabDate().compareTo(Conf.getVal("sys.yxq")) > 0
-                        && !"sys".equals(yobj.getString("yhmm"))) {
+                        && !"sys".equals(yobj.getString("yhdm"))) {
                     return failed("系统版本过旧，请升级后使用");
                 }
                 if (StringUtil.isBlank(yobj.getString("yhmm")) || StringUtil.isBlank(yobj.getString("yhdm"))) {
                     return failed("用户名或密码为空");
                 }
                 if(oldUser.getYhdm().equals(yobj.getString("yhdm"))){
-                    return success("用户已经登录过了", oldUser.getToken());
+                    return xtjcxx(sjdx, myParams, oldUser);
                 }
                 JSONObject jsonObj = db().findFirst(SqlId.of("sjsj", "findUser"), yobj);
                 if (jsonObj == null) {
-                    return failed("没有找到该用户：" + yobj.getString("yhdm"));
+                    return failed("没有找到该用户" , yobj.getString("yhdm"));
                 }
                 SysQxYhxx yhxx = jsonObj.toJavaObject(SysQxYhxx.class);
                 String yhmm;
@@ -58,48 +59,37 @@ public class YhdlLjq extends DefaultLjq {
                 } catch (Exception e) {
                     return failed("用户密码解析出错，请联系管理员");
                 }
-                if (yobj.getString("yhmm").equals(yhmm)) {
-                    if (StringUtil.isNotBlank(yhxx.getXzip())
-                            && !oldUser.getClientIp().matches(yhxx.getXzip())) {
-                        return failed("你未不在授权的ip范围内登录");
-                    } else {
-                        SysQxYhxx user = UserManager.getUserBydYhdm(yobj.getString("yhdm"));
-                        //复制旧用的客户端ip到新用户
-                        user.setClientIp(oldUser.getClientIp());
-                        UserManager.addUser(oldUser.getToken(), user);
-                        //将登陆凭证存入用户信息中返回前端，便于app类接口做后续请求
-                        log.info(user.getYhxm() + "登陆成功");
-                        return success("登录成功", oldUser.getToken());
-                    }
-                } else {
+                if (!yobj.getString("yhmm").equals(yhmm)) {
                     return failed("密码不正确");
                 }
+                if (StringUtil.isNotBlank(yhxx.getXzip())
+                        && !oldUser.getClientIp().matches(yhxx.getXzip())) {
+                    return failed("你未不在授权的ip范围内登录");
+                }
+                user = UserManager.getUserBydYhdm(yobj.getString("yhdm"));
+                return xtjcxx(sjdx, myParams, user);
             case "wxdl":
                 //微信登陆
                 JSONObject r = HttpUtil.doUrl(Conf.getVal("wx.api.base.url") + "/sns/jscode2session",
                         Conf.getVal("wx.api.login.params." + yobj.getString("projectCode")) + oldUser.getToken());
-                if (r.getIntValue("errcode") == 0) {
-                    log.debug(r.toJSONString());
-                    //微信用户唯一标志
-                    String wxyhid = r.getString("openid");
-                    SysQxYhxx user;
-                    try {
-                        if(oldUser.getWxyhid().equals(yobj.getString("wxyhid"))){
-                            return success("用户已经登录过了", oldUser.getToken());
-                        }
-                        user = UserManager.getUserBydWzyhid(wxyhid);
-                        user.set("wxLogin", r);
-                        user.setClientIp(oldUser.getClientIp());
-                        UserManager.addUser(oldUser.getToken(), user);
-                        return success("登陆成功", user);
-                    } catch (MyException e) {
-                        //系统中还没有该微信用户
-                        oldUser.set("wxLogin", r);
-                        //返回临时用户
-                        return success("登陆成功", oldUser);
-                    }
-                } else {
+                if (r.getIntValue("errcode") != 0) {
                     return failed(r.getString("errmsg"));
+                }
+                log.debug("从微信获取的用户信息："+r.toJSONString());
+                //微信用户唯一标志
+                String wxyhid = r.getString("openid");
+                try {
+                    if(wxyhid.equals(oldUser.getWxyhid())){
+                        return success("用户已经登录过了", oldUser.getToken());
+                    }
+                    user = UserManager.getUserBydWzyhid(wxyhid);
+                    user.set("wxLogin", r);
+                    return xtjcxx(sjdx, myParams, user);
+                } catch (MyException e) {
+                    //系统中还没有该微信用户
+                    oldUser.set("wxLogin", r);
+                    //返回临时用户
+                    return xtjcxx(sjdx, myParams, oldUser);
                 }
             case "yhtc":
                 return UserManager.removeUser(oldUser);
@@ -110,5 +100,18 @@ public class YhdlLjq extends DefaultLjq {
                 //执行默认操作
                 return super.data(sjdx, myParams);
         }
+    }
+
+    /**
+     * @param sjdx 数据对象
+     * @param myParams 参数
+     * @param user 最新用户信息
+     * @return 系统基础信息
+     */
+    private Result xtjcxx(SysSjglSjdx sjdx, JSONObject myParams, SysQxYhxx user) {
+        UserManager.addUser(JSONPath.eval(myParams,$_SYS_TOKEN).toString(), user);
+        myParams.put(KEY_USER, user);
+        JSONPath.set(myParams,$_SYS_CLLX,KEY_CLLX_XTJCXX);
+        return LjqManager.data(sjdx, myParams);
     }
 }

@@ -47,31 +47,25 @@ public class SjdxLjq extends DefaultLjq {
         if(StringUtil.isNotBlank(yobj.getString(FIELD_DXDM))){
             yobj.put(FIELD_DXDM, yobj.getString(FIELD_DXDM).toUpperCase());
         }
-        switch (myParams.getString(KEY_CLLX)) {
-        case KEY_CLLX_INSERT:
-            SysSjglSjdx jtdx = JSON.parseObject(yobj.toString(), SysSjglSjdx.class);
-            Result r = super.insert(sjdx, myParams);
-            if(!r.isStatus()){
-                return r;
-            }
-            //新增
-            try {
-                r.addMsg(impFields(jtdx,myParams,sjdx).getMsg());
-            } catch (PinyinException e) {
-                throw new MyException("导入字段出错："+e.getMessage(),e);
-            }
-            return success("编辑成功,"+r.getMsg());
-        default:
-            return super.insert(sjdx, myParams);
+        SysSjglSjdx jtdx = JSON.parseObject(yobj.toString(), SysSjglSjdx.class);
+        Result r = super.insert(sjdx, myParams);
+        if(!r.isStatus()){
+            return r;
         }
+        //新增
+        try {
+            r.addMsg(impFields(jtdx,myParams,sjdx).getMsg());
+        } catch (PinyinException e) {
+            throw new MyException("导入字段出错："+e.getMessage(),e);
+        }
+        return success("编辑成功,"+r.getMsg());
     }
     @Override
     public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
-        String cllx = JSONPath.eval(myParams,$_SYS_CLLX).toString();
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         int count = 0;
         Result result = failed("未处理");
-        switch (cllx) {
+        switch (getCllx(myParams)) {
         case KEY_CLLX_PLSC:
             //删除相关字段
             result = super.data(sjdx, myParams);
@@ -81,7 +75,7 @@ public class SjdxLjq extends DefaultLjq {
             return result;
         case "dis":
             //获取导入字段的默认sql
-            return getDefaultImpSql(myParams, cllx);
+            return getDefaultImpSql(myParams);
         case "fzdx":
             //复制对象
             String dmhz = "_"+DateUtil.getGabDate();
@@ -174,16 +168,15 @@ public class SjdxLjq extends DefaultLjq {
     * 获取默认导入sql <br/>
     * @author jingma
     * @param params
-    * @param cllx
     * @return
     */
-    public Result getDefaultImpSql(JSONObject params,String cllx) {
+    public Result getDefaultImpSql(JSONObject params) {
         Result result;
         SysSjglSjdx ysjdx = JSON.parseObject(params.getJSONObject(KEY_YOBJ).toJSONString(), SysSjglSjdx.class);
         JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
         ysjdx.setDxztlx(dbObj.getString("lx"));
         if(DbType.of(dbObj.getString("lx"))!=null){
-            String[] arr = LjqManager.getSql(ysjdx, params, cllx);
+            String[] arr = LjqManager.getSql(ysjdx, params);
             SysSjglSjdx dx = new SysSjglSjdx();
             dx.setZddrsql(arr[1]);
             return success("获取字段默认导入sql成功", dx);

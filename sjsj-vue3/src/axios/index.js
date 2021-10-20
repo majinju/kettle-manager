@@ -14,18 +14,22 @@ let config = {
   timeout: 60 * 1000, // Timeout
   withCredentials: true, // Check cross-site Access-Control
   responseType: 'json',
+  header:{
+    'Content-Type':'application/json;charset=utf-8',
+    post:{
+      'Content-Type':'application/json;charset=utf-8'
+    },
+    get:{
+      'Content-Type':'multipart/form-data'
+    }
+  }
 };
-//设置请求参为json
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8';
-
 const server = axios.create(config);
 
 // 添加请求拦截器
 server.interceptors.request.use(
   function(config) {
     loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
-    //设置权限码
-    config.headers.token = store.state.token;
     return config;
   },
   function(error) {
@@ -87,22 +91,20 @@ function errorMessageHand(status, msg) {
   }
 }
 const httpHandle = {
-  /**
-   * 后台服务基础路径
-   * @type {string}
-   */
-  serviceBasicUrl:"",
+  setToken:function (token){
+    server.defaults.headers['token']=token;
+  },
+  setBaseURL:function (baseURL) {
+    server.defaults.baseURL=baseURL;
+    console.log("后台服务路径："+baseURL);
+  },
   /**
    * 常规数据处理
    * @param data
    * @returns {*}
    */
   post: (data)=>{
-    return server({
-      url: this.serviceBasicUrl,
-      method: 'post',
-      data: data
-    })
+    return server.post("",data)
   },
   /**
    * 上传文件
@@ -111,11 +113,7 @@ const httpHandle = {
    */
   upload:(data)=>{
     return server({
-      url: this.serviceBasicUrl,
-      method: 'post',
-      headers:{
-        "Content-Type":"multipart/form-data"
-      },
+      method: 'get',
       paramsSerializer: function(data) {
         return qs.stringify(data)
       },
@@ -127,7 +125,6 @@ const httpHandle = {
    */
   download: (data)=>{
     server({
-      url: this.serviceBasicUrl,
       method: 'post',
       data: data,
       responseType: 'blob'

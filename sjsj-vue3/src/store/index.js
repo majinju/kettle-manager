@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import watermark from '../utils/watermark';
+import axios from "../axios";
 
 export default createStore({
   state: {
@@ -8,8 +9,8 @@ export default createStore({
       yhxm:"临时用户",
       yhdm:"lsyh"
     },
-    //操作日志，记录了用户的ip等基础信息
-    czrz:{
+    //系统参数，记录了用户的ip等基础信息
+    sys:{
       token:""
     }
   },
@@ -26,12 +27,13 @@ export default createStore({
     /**
      * 设置系统基础信息
      * @param state 系统状态对象
-     * @param czrz 用户信息
+     * @param sys 系统参数
      */
-    setCzrz(state,czrz){
-      state.czrz=czrz;
+    setSys(state,sys){
+      state.sys=sys;
       //在回话中设置用户权限码
-      sessionStorage.setItem('token',czrz.token);
+      sessionStorage.setItem('token',sys.token);
+      axios.setToken(sys.token);
     }
   },
   actions: {
@@ -46,8 +48,8 @@ export default createStore({
     getUser: state => state.user,
     /**
      * @param state 系统状态对象
-     * @returns {{}} 当前用户的一些信息
+     * @returns {{}} 当前系统参数
      */
-    getCzrz: state => state.czrz,
+    getSys: state => state.sys,
   }
 })
