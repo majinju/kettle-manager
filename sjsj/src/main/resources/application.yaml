@@ -1,6 +1,6 @@
 benma666:
   service:
-    addr: /sjsj/
+    addr: /sjsj
   config:
     list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG,SYS_KP_APPCONFIG
   data:
@@ -11,6 +11,7 @@ benma666:
     ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
   app:
     ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
+    dm: sjsj
   xtqx:
     mrtgqx: jcxx,select
 

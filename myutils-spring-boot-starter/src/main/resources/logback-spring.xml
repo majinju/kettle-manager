@@ -8,8 +8,8 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     <!-- 定义变量，引用springboot的配置 -->
     <springProperty scope="context" name="file.path"
                     source="logging.file.path" defaultValue="/benma666/logs"/>
-    <springProperty scope="context" name="application.name"
-                    source="spring.application.name" defaultValue="log"/>
+    <springProperty scope="context" name="app.dm"
+                    source="benma666.app.dm" defaultValue="log"/>
     <springProperty scope="context" name="max-file-size"
                     source="logging.logback.rollingpolicy.max-file-size" defaultValue="20MB"/>
     <!--
@@ -24,7 +24,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     <springProperty scope="context" name="pattern" source="logging.pattern"
                     defaultValue="%d{MM-dd HH:mm:ss} %-5level [%t] %logger{30}.%M:%L - %msg%n"/>
 
-    <contextName>${application.name}</contextName>
+    <contextName>${app.dm}</contextName>
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -44,7 +44,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             <pattern>${pattern}</pattern>
         </layout>
         <!-- 指定日志文件的名称 -->
-        <file>${file.path}/${application.name}/debug.log</file>
+        <file>${file.path}/${app.dm}/debug.log</file>
         <!--
         当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名
         TimeBasedRollingPolicy： 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动。
@@ -55,7 +55,7 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
             %i：当文件大小超过maxFileSize时，按照i进行文件滚动
             文件名加上.gz后缀即可将滚动日志压缩
             -->
-            <fileNamePattern>${file.path}/${application.name}/debug-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${file.path}/${app.dm}/debug-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <!--
             可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每天滚动，
             且maxHistory是365，则只保存最近365天的文件，删除之前的旧文件。注意，删除旧文件是，
@@ -78,9 +78,9 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>${pattern}</pattern>
         </layout>
-        <file>${file.path}/${application.name}/info.log</file>
+        <file>${file.path}/${app.dm}/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${file.path}/${application.name}/info-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${file.path}/${app.dm}/info-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <MaxHistory>30</MaxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${max-file-size}</maxFileSize>
@@ -95,9 +95,9 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>${pattern}</pattern>
         </layout>
-        <file>${file.path}/${application.name}/warn.log</file>
+        <file>${file.path}/${app.dm}/warn.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${file.path}/${application.name}/warn-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${file.path}/${app.dm}/warn-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <MaxHistory>30</MaxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${max-file-size}</maxFileSize>
@@ -112,9 +112,9 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>${pattern}</pattern>
         </layout>
-        <file>${file.path}/${application.name}/error.log</file>
+        <file>${file.path}/${app.dm}/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${file.path}/${application.name}/error-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
+            <fileNamePattern>${file.path}/${app.dm}/error-%d{yyyy-MM-dd}-%i.log.gz</fileNamePattern>
             <MaxHistory>30</MaxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${max-file-size}</maxFileSize>

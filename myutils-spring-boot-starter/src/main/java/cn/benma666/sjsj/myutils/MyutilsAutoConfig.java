@@ -1,8 +1,11 @@
-package cn.benma666.sb.myutils;
+package cn.benma666.sjsj.myutils;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.exception.MyException;
 import cn.benma666.myutils.StringUtil;
+import cn.benma666.sjsj.ApplicationInit;
+import cn.benma666.sjsj.web.IndexController;
+import cn.benma666.sjsj.web.UserManager;
 import cn.benma666.sjzt.Db;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
@@ -10,8 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -22,7 +27,8 @@ import javax.sql.DataSource;
  * Springboot自动配置
  */
 @Configuration
-@AutoConfigureAfter({DataSourceAutoConfiguration.class})
+@AutoConfigureAfter({DataSourceAutoConfiguration.class, WebMvcAutoConfiguration.class})
+@Import({UserManager.class,Msg.class,ApplicationInit.class, IndexController.class})
 public class MyutilsAutoConfig {
 
     /**

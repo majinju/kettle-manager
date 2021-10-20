@@ -28,7 +28,7 @@ import com.alibaba.fastjson.JSONPath;
  * @author jingma
  * @version 0.1
  */
-public class SjztLjq extends ScjkrwLjq{
+public class SjztLjq extends ScjkrwLjq {
     @Override
     public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = getCllx(myParams);

@@ -8,7 +8,6 @@ package cn.benma666.sjsj.ljq.sjgl;
 
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.CacheFactory;
-import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.web.DefaultLjq;

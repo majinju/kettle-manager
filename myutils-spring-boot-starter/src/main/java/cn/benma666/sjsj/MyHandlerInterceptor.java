@@ -4,7 +4,7 @@ import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.WebUtil;
-import cn.benma666.sjsj.utils.Msg;
+import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.LjqInterface;
 import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjsj.web.UserManager;

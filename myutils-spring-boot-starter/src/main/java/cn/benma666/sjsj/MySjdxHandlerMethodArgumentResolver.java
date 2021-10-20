@@ -2,7 +2,6 @@ package cn.benma666.sjsj;
 
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.sjsj.web.LjqInterface;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

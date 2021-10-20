@@ -1,5 +1,7 @@
 package cn.benma666.sjsj;
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -15,6 +17,7 @@ import java.util.Locale;
  * 系统web配置
  */
 @Configuration
+@AutoConfigureBefore(WebMvcAutoConfiguration.class)
 public class WebConfigurer implements WebMvcConfigurer {
 
     /**

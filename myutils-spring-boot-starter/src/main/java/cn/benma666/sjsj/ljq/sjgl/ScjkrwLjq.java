@@ -6,7 +6,6 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.Result;
@@ -16,7 +15,6 @@ import cn.benma666.sjsj.web.LjqManager;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 
 /**
  * 生成监控任务-拦截器 <br/>

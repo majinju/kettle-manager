@@ -12,11 +12,11 @@ import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
-import cn.benma666.exception.VerifyRuleException;
 import cn.benma666.exception.MyException;
+import cn.benma666.exception.VerifyRuleException;
 import cn.benma666.iframe.*;
 import cn.benma666.myutils.*;
-import cn.benma666.sjsj.utils.Msg;
+import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjzt.Db;
 import com.alibaba.druid.DbType;
 import com.alibaba.excel.EasyExcel;
@@ -335,7 +335,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public PageInfo<JSONObject> page(SysSjglSjdx sjdx, JSONObject myParams) {
         PageInfo<JSONObject> page;
         try {

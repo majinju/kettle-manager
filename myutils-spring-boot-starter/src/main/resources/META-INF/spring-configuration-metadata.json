@@ -37,6 +37,11 @@
       "description": "应用解密二级密码，能直接解密应用密码"
     },
     {
+      "name": "benma666.app.dm",
+      "type": "java.lang.String",
+      "description": "应用代码，在系统应用管理中的代码，便于进行关联"
+    },
+    {
       "name": "benma666.xtqx.mrtgqx'",
       "type": "java.lang.String",
       "description": "没有人工配置对象权限时，默认开放的权限，如：jcxx、select等"

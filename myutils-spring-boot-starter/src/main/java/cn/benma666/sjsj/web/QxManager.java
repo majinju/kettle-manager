@@ -4,7 +4,6 @@ import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.exception.QxException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.Conf;
-import cn.benma666.iframe.Result;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 

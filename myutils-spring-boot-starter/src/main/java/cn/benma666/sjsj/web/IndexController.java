@@ -45,9 +45,9 @@ public class IndexController extends BasicObject implements ErrorController {
     /**
      * 系统入口
      */
-    @RequestMapping(value = "/sjsj", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void index(HttpServletResponse response,@MyParams JSONObject myParams,
-                      @MySjdx SysSjglSjdx sjdx,@RequestParam("files") MultipartFile[] files) {
+    @RequestMapping(value = "${benma666.service.addr}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void index(HttpServletResponse response, @MyParams JSONObject myParams,
+                      @MySjdx SysSjglSjdx sjdx, @RequestParam("files") MultipartFile[] files) {
         Result r;
         try {
             r = LjqManager.upload(sjdx, myParams, files);
@@ -61,7 +61,7 @@ public class IndexController extends BasicObject implements ErrorController {
         LjqManager.sendResult(response,myParams,r);
     }
 
-    @RequestMapping("/sjsj")
+    @RequestMapping("${benma666.service.addr}")
     public void data(HttpServletResponse response, @MyParams JSONObject myParams, @MySjdx SysSjglSjdx sjdx) {
         Result r;
         try {

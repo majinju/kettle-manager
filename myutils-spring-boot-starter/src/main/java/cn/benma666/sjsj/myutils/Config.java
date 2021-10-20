@@ -1,4 +1,4 @@
-package cn.benma666.sb.myutils;
+package cn.benma666.sjsj.myutils;
 
 import cn.benma666.iframe.Conf;
 import cn.benma666.iframe.ConfAbstract;

@@ -10,7 +10,7 @@ import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
-import cn.benma666.sjsj.utils.Msg;
+import cn.benma666.sjsj.myutils.Msg;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -6,8 +6,6 @@
 
 package cn.benma666.sjsj.web;
 
-import cn.benma666.constants.UtilConst;
-import cn.benma666.constants.UtilConstInstance;
 import cn.benma666.domain.SysLogFwzr;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
@@ -21,7 +19,7 @@ import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.myutils.WebUtil;
-import cn.benma666.sjsj.utils.Msg;
+import cn.benma666.sjsj.myutils.Msg;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
