@@ -22,6 +22,7 @@ import { defineComponent, reactive } from 'vue'
 import axios from '../axios'
 import {ElMessage} from "element-plus";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup () {
@@ -55,6 +56,7 @@ export default defineComponent({
     });
     document.title=data.title;
     const store = useStore();
+    const router = useRouter();
     const submitEvent = function (){
       axios.post({
         sjdx:{
@@ -69,6 +71,7 @@ export default defineComponent({
           store.commit("setSys",response.data.sys)
           store.commit("setUser",response.data.user)
           ElMessage.info("登陆成功");
+          router.push("/home");
         }else{
           ElMessage.error(response.msg)
         }
@@ -94,15 +97,6 @@ export default defineComponent({
         background: #f6f6f69e;
       }
     }
-  }
-  .el-footer{
-    text-align: center;
-    background-color: lavender;
-    position: absolute;
-    bottom: 0;
-    padding: 10px;
-    width: 100%;
-    height: 40px;
   }
 }
 </style>

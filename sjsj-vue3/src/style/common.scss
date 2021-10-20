@@ -15,3 +15,15 @@ body {
 @import '../../node_modules/font-awesome/css/font-awesome.css';
 $fa-css-prefix: el-icon-fa;
 //图标font-awesome end
+
+.el-container{
+  .el-footer{
+    text-align: center;
+    background-color: lavender;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    width: 100%;
+    height: 40px;
+  }
+}
