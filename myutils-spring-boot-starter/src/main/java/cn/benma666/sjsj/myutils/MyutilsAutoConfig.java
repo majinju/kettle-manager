@@ -46,7 +46,6 @@ public class MyutilsAutoConfig {
     }
 
     @Bean
-    @ConditionalOnBean(DataSource.class)
     public Db db() {
         if (dataSource == null) {
             throw new MyException("必须配置默认数据源");

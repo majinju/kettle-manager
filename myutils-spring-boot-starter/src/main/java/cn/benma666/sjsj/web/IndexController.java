@@ -13,6 +13,7 @@ import cn.benma666.iframe.Result;
 import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjsj.MyParams;
 import cn.benma666.sjsj.MySjdx;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -86,8 +87,8 @@ public class IndexController extends BasicObject implements ErrorController {
     public void error(HttpServletResponse response, HttpServletRequest request, final Exception ex) {
         ServletWebRequest requestAttributes = new ServletWebRequest(request);
         Map<String, Object> attr = this.errorAttributes.getErrorAttributes(requestAttributes, ErrorAttributeOptions.defaults());
-        log.error("请求异常", ex);
-        Result r = failed("请求异常", ex);
+        log.error("请求异常："+ JSON.toJSONString(attr), ex);
+        Result r = failed("请求异常："+attr.get("error"), ex);
         r.setCode(Integer.parseInt(attr.get("status").toString()));
         WebUtil.sendJson(response,r);
     }

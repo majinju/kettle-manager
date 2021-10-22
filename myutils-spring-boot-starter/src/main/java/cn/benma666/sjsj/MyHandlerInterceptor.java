@@ -48,6 +48,10 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         JSONObject myParams = getJSONParam(request);
         Result r = success("预处理成功");
         try {
+            if(request.getRequestURI().endsWith("/error")){
+                //当进入错误控制器时，不需要查询数据对象
+                return true;
+            }
             LjqManager.jcxx(myParams);
             //设置参数传入控制层
             request.setAttribute(LjqInterface.MY_PARAMS, myParams);
@@ -108,12 +112,13 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
      * @throws IOException 参数处理异常
      */
     private JSONObject getJSONParam(HttpServletRequest request) throws IOException {
-        JSONObject myParams;
+        JSONObject myParams = null;
         //请求参数为json时
         if (MediaType.APPLICATION_JSON.equals(request.getContentType())) {
             // 获取输入流读取配置，与默认配置合并
             myParams = JSONObject.parseObject(Utils.read(request.getInputStream()));
-        } else {
+        }
+        if(myParams==null){
             myParams = new JSONObject();
         }
         //合并以普通请求参数传入的参数
