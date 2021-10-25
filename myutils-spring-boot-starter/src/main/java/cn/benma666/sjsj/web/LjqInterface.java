@@ -60,7 +60,7 @@ public interface LjqInterface extends LjqConstant {
      * @return 处理结果
      * @author jingma
      */
-    Result getData(SysSjglSjdx sjdx, JSONObject myParams);
+    Result getdata(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
      * 批量处理 <br/>
@@ -87,7 +87,7 @@ public interface LjqInterface extends LjqConstant {
      * @return 处理结果
      * @author jingma
      */
-    Result getFile(SysSjglSjdx sjdx, JSONObject myParams);
+    Result getfile(SysSjglSjdx sjdx, JSONObject myParams);
 
     /**
      * 数据批量上传 <br/>
@@ -115,7 +115,7 @@ public interface LjqInterface extends LjqConstant {
      * @return 分页查询结果
      * @author jingma
      */
-    PageInfo<JSONObject> page(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
+    Result select(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
 
     /**
      * 新增数据
@@ -171,7 +171,7 @@ public interface LjqInterface extends LjqConstant {
      *
      * @return 国际化消息
      */
-    default String megCzcg() {
+    default String msgCzcg() {
         return Msg.msg("common.czcg");
     }
 }

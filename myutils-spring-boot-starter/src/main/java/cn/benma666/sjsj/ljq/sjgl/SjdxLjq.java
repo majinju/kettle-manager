@@ -38,7 +38,7 @@ import org.beetl.sql.core.SqlId;
  * 数据对象拦截器 <br/>
  * date: 2018年12月16日 <br/>
  * @author jingma
- * @version 
+ * @version 0.1
  */
 public class SjdxLjq extends DefaultLjq {
     @Override

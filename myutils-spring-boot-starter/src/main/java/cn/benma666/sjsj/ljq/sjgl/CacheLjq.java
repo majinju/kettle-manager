@@ -28,7 +28,7 @@ import java.util.Map;
 public class CacheLjq extends DefaultLjq {
 
     @Override
-    public PageInfo page(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result select(SysSjglSjdx sjdx, JSONObject myParams) {
         PageInfo<JSONObject> page = new PageInfo<>();
         List<JSONObject> list = new ArrayList<>();
         page.setList(list);
@@ -39,25 +39,18 @@ public class CacheLjq extends DefaultLjq {
             obj.put("size",cache.get(key).size());
             list.add(obj);
         }
-        return page;
+        return success(msgCzcg(),page);
     }
 
-    @Override
-    public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result qchc(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = JSONPath.eval(myParams, $_SYS_CLLX).toString();
-        switch (cllx) {
-            case "qchc":
-                Object ids = JSONPath.eval(myParams, $_SYS_IDS);
-                if(ids==null){
-                    return failed("请选择要清除的缓存");
-                }
-                ((JSONArray)ids).stream().forEach(key->{
-                    CacheFactory.clear(key.toString());
-                });
-                return success("清除缓存成功");
-            default:
-                //执行默认操作
-                return super.data(sjdx, myParams);
+        Object ids = JSONPath.eval(myParams, $_SYS_IDS);
+        if(ids==null){
+            return failed("请选择要清除的缓存");
         }
+        ((JSONArray)ids).stream().forEach(key->{
+            CacheFactory.clear(key.toString());
+        });
+        return success("清除缓存成功");
     }
 }

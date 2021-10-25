@@ -42,7 +42,7 @@ public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
         int yczrw = 0;
         //生成的任务
         int scrw = 0;
-        JSONArray list = ((JSONObject)getData(sjdx, myParams).getData()).getJSONArray("list");
+        JSONArray list = ((JSONObject) getdata(sjdx, myParams).getData()).getJSONArray("list");
         for(JSONObject rw:list.toArray(new JSONObject[]{})){
             JSONObject oldrw = db().findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx=?", 
                     rw.getString("jtrw"),rw.getString("rwlx"));

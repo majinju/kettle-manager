@@ -12,6 +12,7 @@ import java.util.List;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
+import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.LjqInterface;
@@ -37,7 +38,7 @@ public class SjztLjq extends ScjkrwLjq {
             //测试载体
             if(JSONPath.eval(myParams,$_SYS_IDS)!=null){
                 //TODO 通用查询中需要考虑ids参数
-                List<JSONObject> ztList = page(sjdx,myParams).getList();
+                List<JSONObject> ztList = ((PageInfo<JSONObject>)select(sjdx,myParams).getData()).getList();
                 Result r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
                 for(JSONObject obj:ztList){
                     if(!testSjzt(obj,true).isStatus()){

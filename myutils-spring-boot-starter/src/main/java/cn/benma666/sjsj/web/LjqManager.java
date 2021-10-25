@@ -13,7 +13,6 @@ import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.CacheFactory;
-import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonUtil;
@@ -72,7 +71,7 @@ public class LjqManager extends BasicObject {
         }
         try {
             //实例化定制拦截器
-            ljq = (LjqInterface) Class.forName(ljqStr).newInstance();
+            ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
             ljq.init();
             ljqCache.put(sjdx.getId(), ljq);
             return ljq;
@@ -189,8 +188,8 @@ public class LjqManager extends BasicObject {
      * @return 基础信息
      * @author jingma
      */
-    public static PageInfo<JSONObject> page(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).page(sjdx, myParams);
+    public static Result select(SysSjglSjdx sjdx, JSONObject myParams) {
+        return use(sjdx).select(sjdx, myParams);
     }
     public static Result insert(SysSjglSjdx sjdx, JSONObject myParams){
         return use(sjdx).insert(sjdx, myParams);
