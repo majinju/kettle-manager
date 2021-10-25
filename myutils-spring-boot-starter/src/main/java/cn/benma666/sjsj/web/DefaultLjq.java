@@ -172,7 +172,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 return getData(sjdx, myParams);
             default:
                 //执行默认操作
-                throw new MyException("暂不支持该处理类型：" + cllx);
+                Object zxcz = JSONPath.eval(myParams,"$.sys.zxcz");
+                if(zxcz==null||KEY_CLLX_GETDATA.equals(zxcz)){
+                    return getData(sjdx, myParams);
+                }else if(KEY_CLLX_PLCL.equals(zxcz)){
+                    return plcl(sjdx, myParams);
+                }else{
+                    return failed("暂不支持的执行操作："+zxcz);
+                }
         }
     }
 
