@@ -300,7 +300,7 @@ public class UserManager extends BasicObject {
             Map<String, JSONObject> qxMap = db().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
                     Db.buildMap(user));
             user.setQxMap(qxMap);
-            redisTemplate.opsForValue().set(LjqInterface.KEY_USER+key,user,Long.parseLong(
+            redisTemplate.opsForValue().set(key,user,Long.parseLong(
                     valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
         }
     }

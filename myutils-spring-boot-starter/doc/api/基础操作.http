@@ -39,6 +39,37 @@ Content-Type: application/json
     }
 }
 
+### 刷新用户权限
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_YHXX_MRDL"
+  },
+  "sys":{
+    "cllx":"sxyhqx",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "clearCache":false
+  }
+}
+
+### 系统基础信息
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"xtjcxx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
 ### 对象基础信息
 POST {{serviceAddr}}
 Content-Type: application/json
@@ -71,19 +102,35 @@ Content-Type: application/json
   }
 }
 
+### 查询数据缓存
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_COMMON_CACHE"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"select",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
 ### 清除数据缓存
 POST {{serviceAddr}}
 Content-Type: application/json
 
 {
   "sjdx":{
-    "dxdm":"SYS_SJGL_CACHE"
+    "dxdm":"SYS_COMMON_CACHE"
   },
   "yobj": {
   },
   "sys":{
     "cllx":"qchc",
-    "token":"4E7298EB66FDEE2174DAA8DD8D3F0C92"
+    "token":"4978866291C611DA0D2D5999C413107F"
   }
 }
 

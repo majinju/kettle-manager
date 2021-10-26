@@ -52,7 +52,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     /**
      * 字段信息缓存
      */
-    protected static JSONObject fieldsCache = CacheFactory.use("fieldsCache", CacheFactory.TYPE_MEMORY);
+    protected static JSONObject fieldsCache = CacheFactory.use("fields", CacheFactory.TYPE_MEMORY);
 
     /**
      * 获取处理类型
