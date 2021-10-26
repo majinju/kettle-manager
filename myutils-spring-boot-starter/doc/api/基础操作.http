@@ -1,0 +1,90 @@
+
+### 登陆
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_YHXX_MRDL"
+  },
+  "yobj": {
+    "yhdm":"sys",
+    "yhmm":"sys_123"
+  },
+  "sys":{
+    "cllx":"yhdl",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "clearCache":false
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+});
+%}
+
+### 用户退出
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+    "sjdx":{
+        "dxdm":"SYS_QX_YHXX_MRDL"
+    },
+    "sys":{
+        "cllx":"yhtc",
+        "token":"4978866291C611DA0D2D5999C413107F",
+        "clearCache":false
+    }
+}
+
+### 对象基础信息
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"dxjcxx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+### 清除字典缓存
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"qchc",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+### 清除数据缓存
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_CACHE"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"qchc",
+    "token":"4E7298EB66FDEE2174DAA8DD8D3F0C92"
+  }
+}
+
+

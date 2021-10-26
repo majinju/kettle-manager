@@ -1,0 +1,21 @@
+
+### 对象基础信息
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  //数据对象
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+    "zdlb":"SYS_COMMON_ZDLB"
+  },
+  "page":{
+    "totalRequired":true
+  },
+  "sys":{
+    "cllx":"select",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
