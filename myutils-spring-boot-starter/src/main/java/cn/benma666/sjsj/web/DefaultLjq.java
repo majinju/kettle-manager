@@ -155,7 +155,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 只取对外有用的,系统基础信息
      * @return 系统基础信息
      */
-    protected Result xtjcxx(SysSjglSjdx sjdx, JSONObject myParams){
+    public Result xtjcxx(SysSjglSjdx sjdx, JSONObject myParams){
         JSONObject jcxx = new JSONObject();
         jcxx.put(KEY_USER, myParams.get(KEY_USER));
         JsonUtil.copy(jcxx, myParams, $_SYS_TOKEN);
@@ -166,7 +166,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 只取对外有用的,对象基础信息
      * @return 对象基础信息
      */
-    protected Result dxjcxx(SysSjglSjdx sjdx, JSONObject myParams){
+    public Result dxjcxx(SysSjglSjdx sjdx, JSONObject myParams){
         //只取对外有用的，对象基础信息
         JSONObject jcxx = new JSONObject();
         jcxx.put(KEY_SJDX, myParams.get(KEY_SJDX));
@@ -392,6 +392,26 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         return save(sjdx, myParams);
     }
 
+    /**
+     * 保存数据
+     * @return 操作结果
+     */
+    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
+        Result r;
+        if (DbType.of(sjdx.getDxztlx()) != null) {
+            //数据库场景
+            r = saveDb(sjdx, myParams);
+        } else {
+            //后续支持文件等各类数据载体，暂未实现
+            throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+        }
+        if (r.isStatus()) {
+            //保存成功，返回主键信息
+            r.setData(JSONPath.eval(myParams, "$.yobj." + sjdx.getZjzd()));
+        }
+        return r;
+    }
+
     @Override
     public String[] getSql(SysSjglSjdx sjdx, JSONObject myParams) {
         Object cllx = JSONPath.eval(myParams, $_SYS_CLLX);
@@ -415,7 +435,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 sqlTmpl = Conf.getVal(key);
                 if (StringUtil.isBlank(sqlTmpl)) {
                     //默认模板都不存在哎
-                    throw new MyException(Msg.msg("ljq.default.mypzgsql", cllx), myParams);
+                    throw new MyException(Msg.msg("ljq.default.mypzgsql", cllx), sjdx);
                 }
             }
         }
@@ -425,7 +445,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         String sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
         if (sql.startsWith("error:")) {
             //用于在模板处理中，直接返回信息到前端
-            throw new MyException(sql.substring("error:".length()), myParams);
+            throw new MyException(sql.substring("error:".length()), sjdx);
         } else {
             JSONPath.set(myParams, "$.sql.defaultSql", sql);
             //外部没有传入sql模板时，监测字典中是否有后续模板。
@@ -434,7 +454,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             if (StringUtil.isNotBlank(sqlTmpl)) {
                 sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
                 if (sql.startsWith("error:")) {
-                    throw new MyException(sql.substring("error:".length()), myParams);
+                    throw new MyException(sql.substring("error:".length()), sjdx);
                 }
                 JSONPath.set(myParams, "$.sql.defaultSql", sql);
             }
@@ -476,26 +496,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             log.error("导出数据失败:" + myParams, e);
             return failed("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
         }
-    }
-
-    /**
-     * 保存数据
-     * @return 操作结果
-     */
-    protected Result save(SysSjglSjdx sjdx, JSONObject myParams) {
-        Result r;
-        if (DbType.of(sjdx.getDxztlx()) != null) {
-            //数据库场景
-            r = saveDb(sjdx, myParams);
-        } else {
-            //后续支持文件等各类数据载体，暂未实现
-            throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
-        }
-        if (r.isStatus()) {
-            //保存成功，返回主键信息
-            r.setData(JSONPath.eval(myParams, "$.yobj." + sjdx.getZjzd()));
-        }
-        return r;
     }
 
     /**
