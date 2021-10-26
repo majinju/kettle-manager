@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.util.TypeUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.beetl.sql.core.DSTransactionManager;
+import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SqlId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -851,5 +852,24 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public void end() {
         log.debug("拦截器结束：" + this.getClass().getSimpleName());
+    }
+
+    /**
+     * 获取指定数据库操作对象 <br/>
+     * @author jingma
+     * @param sjdx 数据对象
+     * @return 指定的数据库操作对象
+     */
+    protected static Db db(SysSjglSjdx sjdx){
+        return Db.use(sjdx.getDxzt());
+    }
+    /**
+     * 获取指定SqlManager <br/>
+     * @author jingma
+     * @param sjdx 数据对象
+     * @return 指定SqlManager
+     */
+    protected static SQLManager sqlManager(SysSjglSjdx sjdx){
+        return Db.useSqlManager(sjdx.getDxzt());
     }
 }

@@ -39,7 +39,7 @@ import java.math.BigDecimal;
  */
 public class LjqManager extends BasicObject {
     /**
-     * 拦截器Map<对象key，对象>
+     * 数据对象Map<对象key，对象>
      */
     private static final JSONObject sjdxMap = CacheFactory.use("sjdx");
     /**

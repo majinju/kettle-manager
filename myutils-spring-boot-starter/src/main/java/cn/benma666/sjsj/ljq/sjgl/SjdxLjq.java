@@ -64,7 +64,7 @@ public class SjdxLjq extends DefaultLjq {
         //删除相关字段
         Result result = super.plsc(sjdx, myParams);
         //后进行逻辑删除
-        int sczds = db().update(SqlId.of("sjsj","updateSjzd"),myParams);
+        int sczds = db(sjdx).update(SqlId.of("sjsj","updateSjzd"),myParams);
         result.addMsg("逻辑删除字段数："+sczds);
         return result;
     }
@@ -108,7 +108,8 @@ public class SjdxLjq extends DefaultLjq {
             newsjdx.setId(StringUtil.getUUIDUpperStr());
             newsjdx.setDxdm(newsjdx.getDxdm()+dmhz);
             newsjdx.setDxmc(newsjdx.getDxmc()+mchz);
-            sqlManager().insert(newsjdx);
+            newsjdx.setGxsj(DateUtil.getGabDate());
+            sqlManager(sjdx).insert(newsjdx);
             //复制字段
             myParams.put("oldSjdxId", id);
             myParams.put("newSjdx", newsjdx);
@@ -128,7 +129,7 @@ public class SjdxLjq extends DefaultLjq {
         Result result =  success("");
         for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
             //获取对象
-            SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
+            SysSjglSjdx jtdx = sqlManager(sjdx).single(SysSjglSjdx.class, id);
             Result r;
             try {
                 r = impFields(jtdx,myParams,sjdx);
@@ -179,7 +180,7 @@ public class SjdxLjq extends DefaultLjq {
         int idx = 50;
         for(Entry<String, JSONObject> field:fields.entrySet()){
             idx+=10;
-            db().update("update sys_sjgl_sjzd t set t.px=? where t.id=?", 
+            db(jtdx).update("update sys_sjgl_sjzd t set t.px=? where t.id=?",
                     idx,field.getValue().getString(FIELD_ID));
         }
         return success(jtdx.getDxmc()+"成功标准化排序字段数："+fields.size());
@@ -191,7 +192,7 @@ public class SjdxLjq extends DefaultLjq {
     @Override
     public Result wlscByYxx(SysSjglSjdx sjdx, JSONObject myParams) {
         Result result = super.wlscByYxx(sjdx, myParams);
-        int scs = db().update(SqlId.of("sjsj","deleteSjzd"), myParams);
+        int scs = db(sjdx).update(SqlId.of("sjsj","deleteSjzd"), myParams);
         result.addMsg("物理删除字段数："+scs);
         return result;
     }
@@ -259,8 +260,7 @@ public class SjdxLjq extends DefaultLjq {
      * @return 处理结果
     */
     private Result impFieldsDB(SysSjglSjdx jtdx, JSONObject myParams, SysSjglSjdx sjdx) throws PinyinException {
-        Db tdb = Db.use(jtdx.getDxzt());
-        List<JSONObject> fieldsList = tdb.find(jtdx.getZddrsql());
+        List<JSONObject> fieldsList = db(jtdx).find(jtdx.getZddrsql());
         return crzd(jtdx, myParams, sjdx, fieldsList);
     }
     /**
@@ -274,7 +274,7 @@ public class SjdxLjq extends DefaultLjq {
     public Result crzd(SysSjglSjdx jtdx, JSONObject myParams,
             SysSjglSjdx sjdx, List<JSONObject> fieldsList) throws PinyinException {
         Map<String, JSONObject> oldFiledMap = Db.listToMap(
-                db().find("select * from sys_sjgl_sjzd t where t.sjdx=?", 
+                db(jtdx).find("select * from sys_sjgl_sjzd t where t.sjdx=?",
                         jtdx.getId()), "zddm");
         //新导入的对象复制默认字段
         int count = 0;
@@ -341,7 +341,7 @@ public class SjdxLjq extends DefaultLjq {
                 zd.setZdmc(zd.getZddm());
             }
             //TODO 要改为通用新增方法，保存该字段
-            sqlManager().insertTemplate(zd);
+            sqlManager(sjdx).insertTemplate(zd);
             oldFiledMap.put(zd.getZddm(), null);
         }
         if(fieldsList.isEmpty()&&oldFiledMap.isEmpty()){
