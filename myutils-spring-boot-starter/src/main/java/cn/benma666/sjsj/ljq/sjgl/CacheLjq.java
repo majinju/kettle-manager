@@ -42,15 +42,16 @@ public class CacheLjq extends DefaultLjq {
         return success(msgCzcg(),page);
     }
 
+    /**
+     * 清除缓存
+     */
     public Result qchc(SysSjglSjdx sjdx, JSONObject myParams) {
         String cllx = JSONPath.eval(myParams, $_SYS_CLLX).toString();
         Object ids = JSONPath.eval(myParams, $_SYS_IDS);
         if(ids==null){
             return failed("请选择要清除的缓存");
         }
-        ((JSONArray)ids).stream().forEach(key->{
-            CacheFactory.clear(key.toString());
-        });
+        ((JSONArray)ids).forEach(key-> CacheFactory.clear(key.toString()));
         return success("清除缓存成功");
     }
 }

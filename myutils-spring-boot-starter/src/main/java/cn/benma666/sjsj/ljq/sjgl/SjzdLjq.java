@@ -20,8 +20,9 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class SjzdLjq extends DefaultLjq {
     @Override
-    public Result insert(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
+        //对数据字段的修改清除字段缓存
         fieldsCache.clear();
-        return super.insert(sjdx, myParams);
+        return super.save(sjdx, myParams);
     }
 }

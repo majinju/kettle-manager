@@ -16,7 +16,6 @@ import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.HttpUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
-import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;

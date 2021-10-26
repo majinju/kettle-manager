@@ -44,9 +44,8 @@ public class SjdxLjq extends DefaultLjq {
     @Override
     public Result insert(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        if(StringUtil.isNotBlank(yobj.getString(FIELD_DXDM))){
-            yobj.put(FIELD_DXDM, yobj.getString(FIELD_DXDM).toUpperCase());
-        }
+        //对象代码统一为大写
+        yobj.put(FIELD_DXDM, yobj.getString(FIELD_DXDM).toUpperCase());
         SysSjglSjdx jtdx = JSON.parseObject(yobj.toString(), SysSjglSjdx.class);
         Result r = super.insert(sjdx, myParams);
         if(!r.isStatus()){
@@ -61,98 +60,119 @@ public class SjdxLjq extends DefaultLjq {
         return success("编辑成功,"+r.getMsg());
     }
     @Override
-    public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plsc(SysSjglSjdx sjdx, JSONObject myParams) {
+        //删除相关字段
+        Result result = super.plsc(sjdx, myParams);
+        //后进行逻辑删除
+        int sczds = db().update(SqlId.of("sjsj","updateSjzd"),myParams);
+        result.addMsg("逻辑删除字段数："+sczds);
+        return result;
+    }
+
+    /**
+     * @return 默认导入字段的sql
+     */
+    public Result dis(SysSjglSjdx sjdx, JSONObject myParams) {
+        Result result;
+        SysSjglSjdx ysjdx = myParams.getObject(KEY_YOBJ, SysSjglSjdx.class);
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
+        ysjdx.setDxztlx(dbObj.getString("lx"));
+        if(DbType.of(dbObj.getString("lx"))!=null){
+            String[] arr = LjqManager.getSql(ysjdx, myParams);
+            SysSjglSjdx dx = new SysSjglSjdx();
+            dx.setZddrsql(arr[1]);
+            return success("获取字段默认导入sql成功", dx);
+        }
+        throw new MyException("不支持的对象载体类型："+ysjdx.getDxztlx());
+    }
+
+    /**
+     * 复制对象
+     */
+    public Result fzdx(SysSjglSjdx sjdx, JSONObject myParams) {
+        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+        Result result = failed("未处理");
+        int count = 0;
+        //复制对象
+        String dmhz = "_"+DateUtil.getGabDate();
+        String mchz = "-复制品";
+        if(StringUtil.isNotBlank(yobj.getString("dmhz"))){
+            dmhz = "_"+yobj.getString("dmhz");
+        }
+        if(StringUtil.isNotBlank(yobj.getString("mchz"))){
+            mchz = "-"+yobj.getString("mchz");
+        }
+        for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
+            //获取对象
+            SysSjglSjdx newsjdx = sqlManager().single(SysSjglSjdx.class, id);
+            newsjdx.setId(StringUtil.getUUIDUpperStr());
+            newsjdx.setDxdm(newsjdx.getDxdm()+dmhz);
+            newsjdx.setDxmc(newsjdx.getDxmc()+mchz);
+            sqlManager().insert(newsjdx);
+            //复制字段
+            myParams.put("oldSjdxId", id);
+            myParams.put("newSjdx", newsjdx);
+            String[] arr = LjqManager.getSql(sjdx, myParams, "fzzd");
+            db(arr[0]).update(result.getMsg(), myParams);
+            count++;
+        }
+        return success("成功复制对象个数："+count);
+    }
+
+    /**
+     * 刷新对象，主要是数据库中字段变化的场景
+     */
+    public Result sxdx(SysSjglSjdx sjdx, JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         int count = 0;
-        Result result = failed("未处理");
-        switch (getCllx(myParams)) {
-        case KEY_CLLX_PLSC:
-            //删除相关字段
-            result = super.data(sjdx, myParams);
-            //后进行逻辑删除
-            int sczds = db().update(SqlId.of("sjsj","updateSjzd"),myParams);
-            result.addMsg("逻辑删除字段数："+sczds);
-            return result;
-        case "dis":
-            //获取导入字段的默认sql
-            return getDefaultImpSql(myParams);
-        case "fzdx":
-            //复制对象
-            String dmhz = "_"+DateUtil.getGabDate();
-            String mchz = "-复制品";
-            if(StringUtil.isNotBlank(yobj.getString("dmhz"))){
-                dmhz = "_"+yobj.getString("dmhz");
+        Result result =  success("");
+        for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
+            //获取对象
+            SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
+            Result r;
+            try {
+                r = impFields(jtdx,myParams,sjdx);
+            } catch (PinyinException e) {
+                throw new MyException("导入字段出错："+e.getMessage(),e);
             }
-            if(StringUtil.isNotBlank(yobj.getString("mchz"))){
-                mchz = "-"+yobj.getString("mchz");
-            }
-            for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
-                //获取对象
-                SysSjglSjdx newsjdx = sqlManager().single(SysSjglSjdx.class, id);
-                newsjdx.setId(StringUtil.getUUIDUpperStr());
-                newsjdx.setDxdm(newsjdx.getDxdm()+dmhz);
-                newsjdx.setDxmc(newsjdx.getDxmc()+mchz);
-                sqlManager().insert(newsjdx);
-                //复制字段
-                myParams.put("oldSjdxId", id);
-                myParams.put("newSjdx", newsjdx);
-                String[] arr = LjqManager.getSql(sjdx, myParams, "fzzd");
-                db(arr[0]).update(result.getMsg(), myParams);
-                count++;
-            }
-            return success("成功复制对象个数："+count);
-        case "sxdx":
-            //刷新对象
-            result = success("");
-            for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
-                //获取对象
-                SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
-                Result r = null;
-                try {
-                    r = impFields(jtdx,myParams,sjdx);
-                } catch (PinyinException e) {
-                    throw new MyException("导入字段出错："+e.getMessage(),e);
-                }
-                result.addMsg(r.getMsg());
-                count++;
-            }
-            result.addMsg("成功刷新对象个数："+count);
-            return result;
-        case "bzpx":
-            //标准排序
-            result = success("");
-            for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
-                //获取对象
-                SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
-                myParams.put(KEY_SJDX, jtdx);
-                Result r = bzpxFields(jtdx,myParams);
-                result.addMsg(r.getMsg());
-                count++;
-            }
-            result.addMsg("成功重新排序对象个数："+count);
-            return result;
-        case "scdxst":
-            //生成对象实体
-            result = success("");
-            for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
-                //获取对象
-                SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
-                Result r = scdxst(jtdx,myParams);
-                result.addMsg(r.getMsg());
-                count++;
-            }
-            result.addMsg("成功生成对象实体个数："+count);
-            return result;
-        default:
-            return super.data(sjdx, myParams);
+            result.addMsg(r.getMsg());
+            count++;
         }
+        result.addMsg("成功刷新对象个数："+count);
+        return result;
+    }
+
+    /**
+     * 批量标准排序，当排序较频繁时，序号密度较高后可以采用此方法进行重新分布
+     */
+    public Result bzpx(SysSjglSjdx sjdx, JSONObject myParams) {
+        //标准排序
+        Result result = success("");
+        int count = 0;
+        for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
+            //获取对象
+            SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
+            myParams.put(KEY_SJDX, jtdx);
+            Result r = bzpxFields(jtdx,myParams);
+            result.addMsg(r.getMsg());
+            count++;
+        }
+        result.addMsg("成功重新排序对象个数："+count);
+        return result;
+    }
+
+    /**
+     * 生成对象实体，就是根据对象配置生成数据库表等
+     */
+    public Result scdxst(SysSjglSjdx sjdx, JSONObject myParams) {
+        throw new MyException("暂未实现该功能");
     }
     /**
-    * 标准排序 <br/>
+    * 单个对象标准排序 <br/>
     * @author jingma
-    * @param jtdx
-    * @param myParams
-    * @return
+    * @param jtdx 具体对象信息
+    * @param myParams 相关参数
+    * @return 处理结果
     */
     private Result bzpxFields(SysSjglSjdx jtdx, JSONObject myParams) {
         Map<String, JSONObject> fields = getFields(jtdx,myParams, (SysQxYhxx) myParams.get(KEY_USER));
@@ -164,39 +184,10 @@ public class SjdxLjq extends DefaultLjq {
         }
         return success(jtdx.getDxmc()+"成功标准化排序字段数："+fields.size());
     }
-    /**
-    * 获取默认导入sql <br/>
-    * @author jingma
-    * @param params
-    * @return
-    */
-    public Result getDefaultImpSql(JSONObject params) {
-        Result result;
-        SysSjglSjdx ysjdx = JSON.parseObject(params.getJSONObject(KEY_YOBJ).toJSONString(), SysSjglSjdx.class);
-        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
-        ysjdx.setDxztlx(dbObj.getString("lx"));
-        if(DbType.of(dbObj.getString("lx"))!=null){
-            String[] arr = LjqManager.getSql(ysjdx, params);
-            SysSjglSjdx dx = new SysSjglSjdx();
-            dx.setZddrsql(arr[1]);
-            return success("获取字段默认导入sql成功", dx);
-        }
-        switch (ysjdx.getDxztlx()) {
-        default:
-            throw new MyException("不支持的对象载体类型："+ysjdx.getDxztlx());
-        }
-    }
-    /**
-    * 生成对象实体 <br/>
-    * @author jingma
-    * @param jtdx
-    * @param params
-    * @return
-    */
-    private Result scdxst(SysSjglSjdx jtdx, JSONObject params) {
-        throw new MyException("暂未实现该功能");
-    }
 
+    /**
+     * 物理删除-基于有效性
+     */
     @Override
     public Result wlscByYxx(SysSjglSjdx sjdx, JSONObject myParams) {
         Result result = super.wlscByYxx(sjdx, myParams);
@@ -207,21 +198,21 @@ public class SjdxLjq extends DefaultLjq {
     /**
     * 导入字段 <br/>
     * @author jingma
-    * @param jtdx
-     * @param params 
-     * @param sjdx 
-    * @return 
+    * @param jtdx 要操作的具体对象
+    * @param myParams 相关参数
+    * @param sjdx 数据对象的对象
+    * @return 处理结果
     */
-    public Result impFields(SysSjglSjdx jtdx, JSONObject params, SysSjglSjdx sjdx) throws PinyinException {
+    public Result impFields(SysSjglSjdx jtdx, JSONObject myParams, SysSjglSjdx sjdx) throws PinyinException {
         JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
         String zddrsql = jtdx.getZddrsql();
         if(StringUtil.isBlank(zddrsql)){
-            String[] arr = LjqManager.getSql(jtdx, params, "dis");
+            String[] arr = LjqManager.getSql(jtdx, myParams, "dis");
             jtdx.setZddrsql(arr[1]);
         }
         if(!zddrsql.startsWith("select")){
             //非查询语句则按自定义字段规则导入。
-            List<JSONObject> fieldsList = new ArrayList<JSONObject>();
+            List<JSONObject> fieldsList = new ArrayList<>();
             for(String row:zddrsql.split("\n")){
                 JSONObject zdObj = new JSONObject();
                 String[] sxs = row.split("\\|");
@@ -231,16 +222,16 @@ public class SjdxLjq extends DefaultLjq {
                 zdObj.put("zdcd", sxs[3]);
                 fieldsList.add(zdObj);
             }
-            return crzd(jtdx, params, sjdx, fieldsList);
+            return crzd(jtdx, myParams, sjdx, fieldsList);
         }else{
             jtdx.setDxztlx(dbObj.getString("lx"));
             if(DbType.of(dbObj.getString("lx"))!=null){
-                return impFieldsDB(jtdx,params,sjdx);
+                return impFieldsDB(jtdx,myParams,sjdx);
             }
             switch (jtdx.getDxztlx()) {
             case LjqInterface.ZD_SJZTLX_FTP:
             case LjqInterface.ZD_SJZTLX_BDWJ:
-                return impFieldsBdwj(jtdx,params,sjdx);
+                return impFieldsBdwj(jtdx,myParams,sjdx);
             default:
                 throw new MyException("不支持的对象载体类型："+jtdx.getDxztlx());
             }
@@ -248,38 +239,37 @@ public class SjdxLjq extends DefaultLjq {
     }
 
     /**
-    *  <br/>
-    * @author jingma
-    * @param jtdx
-    * @param params
-    * @param sjdx
-    * @return
+     * 导入文件字段 <br/>
+     * @author jingma
+     * @param jtdx 要操作的具体对象
+     * @param myParams 相关参数
+     * @param sjdx 数据对象的对象
+     * @return 处理结果
     */
-    private Result impFieldsBdwj(SysSjglSjdx jtdx, JSONObject params,
+    private Result impFieldsBdwj(SysSjglSjdx jtdx, JSONObject myParams,
             SysSjglSjdx sjdx) {
-        return success("文件字段导入待实现");
+        return failed("文件字段导入待实现");
     }
     /**
-    * 获取默认导入sql-载体类型为数据库 <br/>
-    * @author jingma
-    * @param jtdx
-    * @param params 
-     * @param sjdx 
-    * @return
+     * 获取默认导入sql-载体类型为数据库 <br/>
+     * @author jingma
+     * @param jtdx 要操作的具体对象
+     * @param myParams 相关参数
+     * @param sjdx 数据对象的对象
+     * @return 处理结果
     */
-    private Result impFieldsDB(SysSjglSjdx jtdx, JSONObject params, SysSjglSjdx sjdx) throws PinyinException {
+    private Result impFieldsDB(SysSjglSjdx jtdx, JSONObject myParams, SysSjglSjdx sjdx) throws PinyinException {
         Db tdb = Db.use(jtdx.getDxzt());
         List<JSONObject> fieldsList = tdb.find(jtdx.getZddrsql());
-        return crzd(jtdx, params, sjdx, fieldsList);
+        return crzd(jtdx, myParams, sjdx, fieldsList);
     }
     /**
-    * 插入字段 <br/>
-    * @author jingma
-    * @param jtdx
-    * @param myParams
-    * @param sjdx
-    * @param fieldsList
-    * @return
+     * 插入字段 <br/>
+     * @author jingma
+     * @param jtdx 要操作的具体对象
+     * @param myParams 相关参数
+     * @param sjdx 数据对象的对象
+     * @return 处理结果
     */
     public Result crzd(SysSjglSjdx jtdx, JSONObject myParams,
             SysSjglSjdx sjdx, List<JSONObject> fieldsList) throws PinyinException {
@@ -331,7 +321,7 @@ public class SjdxLjq extends DefaultLjq {
                         zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_DICT);
                     }
                     zd.setZdms(zdms1[0]);
-                }else if(zdms1[0].indexOf("时间")>-1||zdms1[0].indexOf("日期")>-1){
+                }else if(zdms1[0].contains("时间") || zdms1[0].contains("日期")){
                     //时间字段的默认设置
                     zd.setKjlx("time");
                     zd.setCxmrz("goDay:-30");

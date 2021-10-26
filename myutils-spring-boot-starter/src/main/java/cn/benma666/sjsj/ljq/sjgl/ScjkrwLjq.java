@@ -19,32 +19,32 @@ import com.alibaba.fastjson.JSONObject;
 /**
  * 生成监控任务-拦截器 <br/>
  * @author jingma
- * @version 
+ * @version 0.1
  */
 public class ScjkrwLjq extends DefaultLjq {
-@Override
-public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
-    String cllx = getCllx(myParams);
-    switch (cllx) {
-    case "scjkrw":
+    /**
+     * 生成监控任务
+     * @return 生成结果
+     */
+    public Result scjkrw(SysSjglSjdx sjdx, JSONObject myParams) {
         JSONObject jkpz = new JSONObject();
         JSONObject pz = DictManager.zdObjByDmByCache("SYS_YXJK_SCRWPZ", sjdx.getDxdm());
         if(pz!=null){
             jkpz = JSON.parseObject(pz.getString("kzxx"));
         }
         //监控任务对象,及参数对象构建
-        JSONObject jkrw = (JSONObject) myParams.clone();
+        JSONObject jkrw = myParams.clone();
         JSONObject p = LjqManager.jcxxByDxdm("SYS_YXJK_JKRW");
         SysSjglSjdx jkrwdx = (SysSjglSjdx) p.get(KEY_SJDX);
         jkrw.putAll(p);
-        
+
         //已存在任务
         int yczrw = 0;
         //生成的任务
         int scrw = 0;
         JSONArray list = ((JSONObject) getdata(sjdx, myParams).getData()).getJSONArray("list");
         for(JSONObject rw:list.toArray(new JSONObject[]{})){
-            JSONObject oldrw = db().findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx=?", 
+            JSONObject oldrw = db().findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx=?",
                     rw.getString("jtrw"),rw.getString("rwlx"));
             if(oldrw==null){
                 if(jkpz!=null){
@@ -61,9 +61,5 @@ public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
             }
         }
         return success("已经存在监控任务数："+yczrw+",新生成监控任务数："+scrw);
-    default:
-        //执行默认操作
-        return super.plcl(sjdx, myParams);
     }
-}
 }

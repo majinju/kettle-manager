@@ -147,7 +147,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
         } catch (InvocationTargetException | IllegalAccessException e) {
             log.error(cllx+"方法执行失败",e);
-            return failed(cllx+"方法执行失败");
+            return failed(cllx+"方法执行失败："+e.getMessage());
         }
     }
 
@@ -158,8 +158,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result xtjcxx(SysSjglSjdx sjdx, JSONObject myParams){
         JSONObject jcxx = new JSONObject();
         jcxx.put(KEY_USER, myParams.get(KEY_USER));
-        JsonUtil.copy(jcxx, myParams, "$.sys.token");
-        JsonUtil.copy(jcxx, myParams, "$.sys.clientIp");
+        JsonUtil.copy(jcxx, myParams, $_SYS_TOKEN);
+        JsonUtil.copy(jcxx, myParams, $_SYS_CLIENT_IP);
         return success(msgCzcg(), jcxx);
     }
     /**

@@ -35,13 +35,12 @@ public class TyzdLjq extends DefaultLjq {
         return r;
     }
 
-    @Override
-    public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
-        String cllx = JSONPath.eval(myParams, $_SYS_CLLX).toString();
-        if ("qchc".equals(cllx)) {
-            DictManager.clearDict();
-            return success("清除缓存成功");
-        }//执行默认操作
-        return super.data(sjdx, myParams);
+    /**
+     * 清清除字典缓存
+     * @return 处理结果
+     */
+    public Result qchc(SysSjglSjdx sjdx, JSONObject myParams) {
+        DictManager.clearDict();
+        return success("清除缓存成功");
     }
 }

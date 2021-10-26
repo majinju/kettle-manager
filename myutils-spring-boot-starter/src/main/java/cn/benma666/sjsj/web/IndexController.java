@@ -46,8 +46,25 @@ public class IndexController extends BasicObject implements ErrorController {
     /**
      * 系统入口
      */
+    @RequestMapping("${benma666.service.addr}")
+    public void index(HttpServletResponse response, @MyParams JSONObject myParams, @MySjdx SysSjglSjdx sjdx) {
+        Result r;
+        try {
+            r = LjqManager.data(sjdx, myParams);
+        }catch (MyException e){
+            r = failed(e.getMessage(),e.getData());
+            r.setCode(e.getCode());
+        }catch (Exception e){
+            r = failed("处理异常："+e.getMessage());
+            log.error(r.getMsg(),e);
+        }
+        LjqManager.sendResult(response,myParams,r);
+    }
+    /**
+     * 系统入口-文件上传
+     */
     @RequestMapping(value = "${benma666.service.addr}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void index(HttpServletResponse response, @MyParams JSONObject myParams,
+    public void upload(HttpServletResponse response, @MyParams JSONObject myParams,
                       @MySjdx SysSjglSjdx sjdx, @RequestParam("files") MultipartFile[] files) {
         Result r;
         try {
@@ -61,22 +78,6 @@ public class IndexController extends BasicObject implements ErrorController {
         }
         LjqManager.sendResult(response,myParams,r);
     }
-
-    @RequestMapping("${benma666.service.addr}")
-    public void data(HttpServletResponse response, @MyParams JSONObject myParams, @MySjdx SysSjglSjdx sjdx) {
-        Result r;
-        try {
-            r = LjqManager.data(sjdx, myParams);
-        }catch (MyException e){
-            r = failed(e.getMessage(),e.getData());
-            r.setCode(e.getCode());
-        }catch (Exception e){
-            r = failed("处理异常："+e.getMessage());
-            log.error(r.getMsg(),e);
-        }
-        LjqManager.sendResult(response,myParams,r);
-    }
-
     /**
      * 系统范围外的异常
      * @param request 请求

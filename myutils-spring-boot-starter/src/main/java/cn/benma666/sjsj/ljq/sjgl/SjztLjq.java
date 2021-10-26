@@ -30,37 +30,30 @@ import com.alibaba.fastjson.JSONPath;
  * @version 0.1
  */
 public class SjztLjq extends ScjkrwLjq {
-    @Override
-    public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
-        String cllx = getCllx(myParams);
-        switch (cllx) {
-        case "cszt":
-            //测试载体
-            if(JSONPath.eval(myParams,$_SYS_IDS)!=null){
-                //TODO 通用查询中需要考虑ids参数
-                List<JSONObject> ztList = ((PageInfo<JSONObject>)select(sjdx,myParams).getData()).getList();
-                Result r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
-                for(JSONObject obj:ztList){
-                    if(!testSjzt(obj,true).isStatus()){
-                        r.addMsg(obj.getString("dm"));
-                    }
+    /**
+     * 测试数据载体
+     * @return 测试结果
+     */
+    public Result cszt(SysSjglSjdx sjdx, JSONObject myParams) {
+        //测试载体
+        if(JSONPath.eval(myParams,$_SYS_IDS)!=null){
+            //TODO 通用查询中需要考虑ids参数
+            List<JSONObject> ztList = ((PageInfo<JSONObject>)select(sjdx,myParams).getData()).getList();
+            Result r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
+            for(JSONObject obj:ztList){
+                if(!testSjzt(obj,true).isStatus()){
+                    r.addMsg(obj.getString("dm"));
                 }
-                r.setMsg(r.getMsg().replace("：,", "："));
-                return r;
-            }else{
-                JSONObject obj = myParams.getJSONObject(KEY_OBJ);
-                JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-                boolean mmjm = true;
-                if(StringUtil.isNotBlank(yobj.getString("mm"))){
-                    mmjm = false;
-                }
-                obj.putAll(yobj);
-                return testSjzt(obj, mmjm);
-                
             }
-        default:
-            //执行默认操作
-            return super.data(sjdx, myParams);
+            r.setMsg(r.getMsg().replace("：,", "："));
+            return r;
+        }else{
+            JSONObject obj = myParams.getJSONObject(KEY_OBJ);
+            JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+            boolean mmjm = StringUtil.isBlank(yobj.getString("mm"));
+            obj.putAll(yobj);
+            return testSjzt(obj, mmjm);
+
         }
     }
 
@@ -115,7 +108,7 @@ public class SjztLjq extends ScjkrwLjq {
     * @author jingma
     * @param sjztObj 数据载体对象
     * @param mmjm 是否密码加密
-    * @return
+    * @return 测试结果
     */
     public Result testSjzt(JSONObject sjztObj,boolean mmjm) {
         Result result = success("该数据载体可用");
