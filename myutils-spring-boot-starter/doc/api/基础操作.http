@@ -127,6 +127,7 @@ Content-Type: application/json
     "dxdm":"SYS_COMMON_CACHE"
   },
   "yobj": {
+    "key": "fields"
   },
   "sys":{
     "cllx":"qchc",
