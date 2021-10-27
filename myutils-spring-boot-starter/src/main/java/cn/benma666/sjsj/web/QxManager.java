@@ -40,6 +40,8 @@ public class QxManager extends BasicObject {
         if (user.getQxMap().containsKey(authCode + "_" + cllx)) {
             return;
         }
-        throw new QxException("没有操作权限");
+        QxException e = new QxException("没有操作权限");
+        e.setData(authCode + "_" + cllx);
+        throw e;
     }
 }

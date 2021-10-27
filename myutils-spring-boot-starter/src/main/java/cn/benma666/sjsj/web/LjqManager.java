@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.util.TypeUtils;
 import org.beetl.sql.core.SqlId;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -254,7 +255,10 @@ public class LjqManager extends BasicObject {
         }
 
         //根据返回类型向前端推送数据
-        if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {//文件下载场景
+        if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
+            response.setStatus(r.getCode());
+            WebUtil.sendJson(response, r.getMsg());
+        } else if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {//文件下载场景
             JSONObject data = (JSONObject) r.getData();
             WebUtil.sendBytes(response, data.getBytes(LjqInterface.KEY_FILE_BYTES),
                     (SysSjglFile) data.get(LjqInterface.KEY_FILE_OBJ));

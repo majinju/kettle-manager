@@ -508,7 +508,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @author jingma
      */
     protected Result saveDb(SysSjglSjdx sjdx, JSONObject myParams) {
-        Db tdb = Db.use(sjdx.getDxzt());
         String[] arr = getSql(sjdx, myParams);
         return success(msgCzcg(), db(arr[0]).update(arr[1], myParams));
     }
@@ -516,18 +515,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result plSave(SysSjglSjdx sjdx, JSONObject myParams, JSONArray list1) throws SQLException {
         JSONObject[] list = list1.toArray(new JSONObject[0]);
         //获取事务提交量
-        Object obj = JsonUtil.getJsonKeys(sjdx.getKzxx(), "$['基础配置']['事务提交量']");
-        int swtjl = 5000;
-        if (obj != null) {
-            swtjl = Integer.parseInt(obj.toString());
-        }
+        int swtjl = TypeUtils.castToInt(JSONPath.eval(myParams,"$.sys.swtjl"));
         //开启事务
         DSTransactionManager.start();
 
         List<Object> ro1 = new ArrayList<>();
         int i = 0;
         Result r;
-        myParams.put(KEY_CLLX, KEY_CLLX_INSERT);
         for (JSONObject j : list) {
             myParams.put(KEY_YOBJ, j);
             r = insert(sjdx, myParams);
@@ -641,6 +635,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //设置缓存
             fieldsCache.put(cacheKey, fields);
             VerifyRule.yzgzInit(fields, myParams);
+            //TODO 应该还需要初始化转换规则
         }
         fields.forEach((key,value)->{
             //将整个字段的验证规则设置到系统验证规则中

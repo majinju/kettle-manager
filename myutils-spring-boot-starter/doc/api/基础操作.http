@@ -20,24 +20,9 @@ Content-Type: application/json
 
 > {%
 client.test("Request executed successfully", function() {
-  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(response.status === 200, "请求异常："+response.body);
 });
 %}
-
-### 用户退出
-POST {{serviceAddr}}
-Content-Type: application/json
-
-{
-    "sjdx":{
-        "dxdm":"SYS_QX_YHXX_MRDL"
-    },
-    "sys":{
-        "cllx":"yhtc",
-        "token":"4978866291C611DA0D2D5999C413107F",
-        "clearCache":false
-    }
-}
 
 ### 刷新用户权限
 POST {{serviceAddr}}
@@ -53,6 +38,12 @@ Content-Type: application/json
     "clearCache":false
   }
 }
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
 
 ### 系统基础信息
 POST {{serviceAddr}}
@@ -70,6 +61,12 @@ Content-Type: application/json
   }
 }
 
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
 ### 对象基础信息
 POST {{serviceAddr}}
 Content-Type: application/json
@@ -85,6 +82,12 @@ Content-Type: application/json
     "token":"4978866291C611DA0D2D5999C413107F"
   }
 }
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
 
 ### 清除字典缓存
 POST {{serviceAddr}}
@@ -102,6 +105,12 @@ Content-Type: application/json
   }
 }
 
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
 ### 查询数据缓存
 POST {{serviceAddr}}
 Content-Type: application/json
@@ -117,6 +126,12 @@ Content-Type: application/json
     "token":"4978866291C611DA0D2D5999C413107F"
   }
 }
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
 
 ### 清除数据缓存
 POST {{serviceAddr}}
@@ -134,5 +149,26 @@ Content-Type: application/json
     "token":"4978866291C611DA0D2D5999C413107F"
   }
 }
+
+### 用户退出
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_YHXX_MRDL"
+  },
+  "sys":{
+    "cllx":"yhtc",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "clearCache":false
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
 
 
