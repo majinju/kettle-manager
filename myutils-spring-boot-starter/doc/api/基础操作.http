@@ -119,14 +119,67 @@ Content-Type: application/json
   "sjdx":{
     "dxdm":"SYS_COMMON_CACHE"
   },
-  "yobj": {
-    "key": "fields"
-  },
   "sys":{
+    "ids": ["fields","dict"],
     "cllx":"qchc",
     "token":"4978866291C611DA0D2D5999C413107F"
   }
 }
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 系统菜单获取
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_QTQX"
+  },
+  "yobj": {
+    "treeModel": "cds",
+    "treeRoot": "KFZFW"
+  },
+  "sys":{
+    "cllx":"getTreeCN",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 系统子菜单获取
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_QTQX"
+  },
+  "yobj": {
+    "treeModel": "cds",
+    "treeRoot": "KFZFW",
+    "fqx": "KFZFW_PTGL"
+  },
+  "sys":{
+    "cllx":"getTreeCN",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
 
 ### 用户退出
 POST {{serviceAddr}}

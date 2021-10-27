@@ -25,10 +25,9 @@ public class Config extends ConfAbstract<Environment> implements EnvironmentPost
     }
 
     /**
-     * 获取变量
-     *
-     * @param key
-     * @return
+     * 获取配置
+     * @param key 键
+     * @return 值
      */
     public String getVal(String key) {
         return config.getProperty(key);
