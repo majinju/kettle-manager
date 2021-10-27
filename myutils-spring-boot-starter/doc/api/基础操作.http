@@ -51,7 +51,7 @@ Content-Type: application/json
 
 {
   "sjdx":{
-    "dxdm":"SYS_SJGL_SJDX"
+    "dxdm":"SYS_QX_QTQX"
   },
   "yobj": {
   },
@@ -79,28 +79,6 @@ Content-Type: application/json
   },
   "sys":{
     "cllx":"dxjcxx",
-    "token":"4978866291C611DA0D2D5999C413107F"
-  }
-}
-
-> {%
-client.test("Request executed successfully", function() {
-  client.assert(response.status === 200, "请求异常："+response.body);
-});
-%}
-
-### 清除字典缓存
-POST {{serviceAddr}}
-Content-Type: application/json
-
-{
-  "sjdx":{
-    "dxdm":"SYS_SJGL_TYZD"
-  },
-  "yobj": {
-  },
-  "sys":{
-    "cllx":"qchc",
     "token":"4978866291C611DA0D2D5999C413107F"
   }
 }

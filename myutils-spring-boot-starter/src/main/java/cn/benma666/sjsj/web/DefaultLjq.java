@@ -351,20 +351,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public Result select(SysSjglSjdx sjdx, JSONObject myParams) {
-        PageInfo<JSONObject> page;
-        try {
-            if (!myParams.containsKey(KEY_PAGE)) {
-                //没有传入page对象时，采用默认
-                myParams.put(KEY_PAGE, new JSONObject());
-            }
-            //获取分页对象
-            page = myParams.getJSONObject(KEY_PAGE).toJavaObject(PageInfo.class);
-            if (StringUtil.isBlank(page.getOrderBy())) {
-                //请求没有设置排序时，采用默认排序
-                page.setOrderBy(sjdx.getMrpx());
-            }
-        } catch (Exception e) {
-            throw new MyException(Msg.msg("ljq.default.qcrzqdfydx", e.getMessage()), e, myParams);
+        //获取分页对象
+        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
+        if (StringUtil.isBlank(page.getOrderBy())) {
+            //请求没有设置排序时，采用默认排序
+            page.setOrderBy(sjdx.getMrpx());
         }
         //获取sql
         String[] arr = getSql(sjdx, myParams, KEY_CLLX_SELECT);

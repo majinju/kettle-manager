@@ -1,5 +1,54 @@
 
-### 对象基础信息
+### 字典列表获取
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  //数据对象
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+    "zdlb":"SYS_COMMON_ZDLB"
+  },
+  "sys":{
+    "cllx":"zdlist",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 字典项获取
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  //数据对象
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+    "zdlb":"SYS_COMMON_ZDLB",
+    "dm": "SYS_COMMON_LJPD"
+  },
+  "sys":{
+    "cllx":"zdObj",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 字典项查询
 POST {{serviceAddr}}
 Content-Type: application/json
 
@@ -12,10 +61,40 @@ Content-Type: application/json
     "zdlb":"SYS_COMMON_ZDLB"
   },
   "page":{
-    "totalRequired":true
+    "totalRequired":false,
+    "pageSize": 50
   },
   "sys":{
-    "cllx":"select",
+    "cllx":"zdSearch",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "searchKey": "系统-通用"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 清除字典缓存
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"qchc",
     "token":"4978866291C611DA0D2D5999C413107F"
   }
 }
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
