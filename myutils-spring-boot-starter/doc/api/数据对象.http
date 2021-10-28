@@ -35,6 +35,7 @@ Content-Type: application/json
     "dxdm":"SYS_SJGL_SJDX"
   },
   "yobj": {
+    "id": "A9C5C1D9E70D4BC09FA33E4360A1A387",
     "dxzt": "default",
     "dxgs": "sjsj",
     "jtdx": "SYS_SJGL_SJDX",
@@ -68,7 +69,7 @@ Content-Type: application/json
     "dxdm":"SYS_SJGL_SJDX"
   },
   "yobj": {
-    "id": "FE5987495C814C29941D8AE0401A9FEA",
+    "id": "A9C5C1D9E70D4BC09FA33E4360A1A387",
     "dxmc": "测试-系统-数据管理-数据对象-2"
   },
   "sys":{
@@ -92,7 +93,7 @@ Content-Type: application/json
     "dxdm":"SYS_SJGL_SJDX"
   },
   "sys":{
-    "ids": ["A9F63A1F813C4AF18223873566FF7C19"],
+    "ids": ["A9C5C1D9E70D4BC09FA33E4360A1A387"],
     "cllx":"plsc",
     "token":"4978866291C611DA0D2D5999C413107F"
   }

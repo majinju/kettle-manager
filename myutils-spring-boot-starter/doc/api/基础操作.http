@@ -73,9 +73,10 @@ Content-Type: application/json
 
 {
   "sjdx":{
-    "dxdm":"SYS_SJGL_SJDX"
+    "dxdm":"SYS_SJGL_TYZD"
   },
   "yobj": {
+    "id": "0E369823CC1A45E88ED6BE8E8F7DCBC0"
   },
   "sys":{
     "cllx":"dxjcxx",

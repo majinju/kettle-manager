@@ -175,6 +175,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject jcxx = new JSONObject();
         jcxx.put(KEY_SJDX, myParams.get(KEY_SJDX));
         jcxx.put(KEY_FIELDS, myParams.get(KEY_FIELDS));
+        jcxx.put(KEY_OBJ, myParams.get(KEY_OBJ));
         JsonUtil.copy(jcxx, myParams, "$.sys.cllxkz");
         JsonUtil.copy(jcxx, myParams, "$.sys.sjdxkz");
         JsonUtil.copy(jcxx, myParams, "$.sys.fields");
@@ -415,44 +416,45 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public String[] getSql(SysSjglSjdx sjdx, JSONObject myParams, String cllx) {
-        JSONObject dbObj = DictManager.zdObjByDmByCache(ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
-        sjdx.setDxztlx(dbObj.getString("lx"));
-        //先获取当前对象的专属模板
-        String key = sjdx.getDxdm() + "." + cllx;
-        String sqlTmpl = Conf.getVal(key);
-        if (StringUtil.isBlank(sqlTmpl)) {
-            //不存在专属模板则获取默认模板-对应数据库类型
-            key = "DEFAULT." + cllx + "." + sjdx.getDxztlx();
-            sqlTmpl = Conf.getVal(key);
-            if (StringUtil.isBlank(sqlTmpl)) {
-                //最基础默认sql
-                key = "DEFAULT." + cllx;
-                sqlTmpl = Conf.getVal(key);
-                if (StringUtil.isBlank(sqlTmpl)) {
-                    //默认模板都不存在哎
-                    throw new MyException(Msg.msg("ljq.default.mypzgsql", cllx), sjdx);
-                }
-            }
-        }
+        //设置from
         JSONPath.set(myParams, "$.sql.from", (StringUtil.isBlank(
                 sjdx.getDxgs()) ? "" : sjdx.getDxgs() + ".") + sjdx.getJtdx());
-        //先生成默认SQL
-        String sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
-        if (sql.startsWith("error:")) {
-            //用于在模板处理中，直接返回信息到前端
-            throw new MyException(sql.substring("error:".length()), sjdx);
-        } else {
-            JSONPath.set(myParams, "$.sql.defaultSql", sql);
-            //外部没有传入sql模板时，监测字典中是否有后续模板。
-            key += "." + sjdx.getDxdm();
+        //先获取该处理类型对应的数据库的默认sql
+        String key= "DEFAULT." + cllx + "." + sjdx.getDxztlx();
+        String sqlTmpl = Conf.getVal(key);
+        if (StringUtil.isBlank(sqlTmpl)) {
+            //最基础默认sql-所有数据库通用
+            key = "DEFAULT." + cllx;
             sqlTmpl = Conf.getVal(key);
-            if (StringUtil.isNotBlank(sqlTmpl)) {
-                sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
-                if (sql.startsWith("error:")) {
-                    throw new MyException(sql.substring("error:".length()), sjdx);
-                }
+        }
+        String sql = null;
+        if(StringUtil.isNotBlank(sqlTmpl)){
+            //先生成默认SQL
+            sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
+            if (sql.startsWith("error:")) {
+                //用于在模板处理中，直接返回信息到前端
+                throw new MyException(sql.substring("error:".length()), sjdx);
+            } else {
                 JSONPath.set(myParams, "$.sql.defaultSql", sql);
             }
+        }
+        //获取该对象的专有sql
+        key= sjdx.getDxdm() + "." + cllx + "." + sjdx.getDxztlx();
+        sqlTmpl = Conf.getVal(key);
+        if (StringUtil.isBlank(sqlTmpl)) {
+            //最基础默认sql-所有数据库通用
+            key = sjdx.getDxdm() + "." + cllx;
+            sqlTmpl = Conf.getVal(key);
+        }
+        if (StringUtil.isNotBlank(sqlTmpl)) {
+            sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
+            if (sql.startsWith("error:")) {
+                throw new MyException(sql.substring("error:".length()), sjdx);
+            }
+            JSONPath.set(myParams, "$.sql.defaultSql", sql);
+        }else if(sql==null){
+            //默认模板都不存在哎
+            throw new MyException(Msg.msg("ljq.default.mypzgsql", cllx), sjdx);
         }
         return Db.parseDictExp(sql, sjdx.getDxzt());
     }

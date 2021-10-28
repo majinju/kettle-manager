@@ -13,6 +13,7 @@ import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.CacheFactory;
+import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonUtil;
@@ -129,6 +130,8 @@ public class LjqManager extends BasicObject {
                 throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
             }
             sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
+            JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
+            sjdx.setDxztlx(dbObj.getString("lx"));
             //设置缓存
             sjdxMap.put(myParams.getString(LjqInterface.KEY_SJDX),sjdx);
         }
