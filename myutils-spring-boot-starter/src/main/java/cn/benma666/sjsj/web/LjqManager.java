@@ -112,6 +112,9 @@ public class LjqManager extends BasicObject {
             JSONObject defParams= JSONObject.parseObject(Utils.readFromResource("myParams.json"));
             //合并新配置与默认配置
             myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
+            defParams= JSONObject.parseObject(Utils.readFromResource("myParams2.json"));
+            //合并优先级高于用户传参的默认配置
+            myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
         } catch (IOException e) {
             throw new MyException("读取默认配置失败",e);
         }

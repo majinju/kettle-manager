@@ -1,0 +1,199 @@
+
+### 查询数据
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+    "dxmc": "对象"
+  },
+  "page": {
+    "pageNumber": "1",
+    "pageSize": "10",
+  },
+  "sys":{
+    "cllx":"select",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 导入数据对象
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+    "dxzt": "default",
+    "dxgs": "sjsj",
+    "jtdx": "SYS_SJGL_SJDX",
+    "dxdm": "TEST_SYS_SJGL_SJDX",
+    "dxmc": "测试-系统-数据管理-数据对象",
+    "px": 9999,
+    "dxlb": "02",
+    "dxlx": "table",
+    "zjzd": "id",
+    "fytjxs": "1",
+    "yxx": "1"
+  },
+  "sys":{
+    "cllx":"insert",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 修改数据
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+    "id": "FE5987495C814C29941D8AE0401A9FEA",
+    "dxmc": "测试-系统-数据管理-数据对象-2"
+  },
+  "sys":{
+    "cllx":"update",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 删除数据
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "sys":{
+    "ids": ["A9F63A1F813C4AF18223873566FF7C19"],
+    "cllx":"plsc",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 获取默认导入字段的sql
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+    "dxzt": "default",
+    "dxgs": "sjsj",
+    "jtdx": "SYS_SJGL_SJDX"
+  },
+  "sys":{
+    "cllx":"dis",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 复制对象
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "ids": ["SYS_SJGL_SJDX"],
+    "cllx":"fzdx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 刷新对象
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "ids": ["A9F63A1F813C4AF18223873566FF7C19"],
+    "cllx":"sxdx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 字段标准排序
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "ids": ["A9F63A1F813C4AF18223873566FF7C19"],
+    "cllx":"bzpx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}

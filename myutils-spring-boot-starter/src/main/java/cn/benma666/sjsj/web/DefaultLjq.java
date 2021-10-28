@@ -147,8 +147,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 return failed("暂不支持的执行操作："+zxcz);
             }
         } catch (InvocationTargetException | IllegalAccessException e) {
+            if(e.getCause()!=null&&(e.getCause() instanceof MyException)){
+                throw (MyException)e.getCause();
+            }
             log.error(cllx+"方法执行失败",e);
-            return failed(cllx+"方法执行失败："+e.getMessage());
+            return failed(cllx+"方法执行失败："+e.getCause().getMessage());
         }
     }
 
@@ -190,7 +193,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
-        String[] arr = getSql(sjdx, myParams);
+        String[] arr = getSql(sjdx, myParams,KEY_CLLX_PLCL);
         return success("操作成功", db(arr[0]).update(arr[1], myParams));
     }
 
@@ -332,9 +335,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
     @Override
     public Result plsc(SysSjglSjdx sjdx, JSONObject myParams) {
-        Object wlsc = JSONPath.eval(myParams, "$.kzxx['基础配置']['物理删除']");
+        Object wlsc = JSONPath.eval(myParams, "$.sys.wlsc");
         Result r = success("");
-        if (StringUtil.isNotBlank(sjdx.getYxxzd()) && "true".equals(wlsc)) {
+        if (StringUtil.isNotBlank(sjdx.getYxxzd()) && TypeUtils.castToBoolean(wlsc)) {
             //存在有效性字段，且允许物理删除
             r = wlscByYxx(sjdx, myParams);
         }
@@ -545,7 +548,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected Result wlscByYxx(SysSjglSjdx sjdx, JSONObject myParams) {
         //有有效性字段
-        String[] arr = getSql(sjdx, myParams, "wl" + myParams.getString(KEY_CLLX));
+        String[] arr = getSql(sjdx, myParams, "wl" + getCllx(myParams));
         //先执行物理删除，将本次删除中，已经为无效的进行物理删除
         int scs = db(arr[0]).update(arr[1], myParams);
         return success("物理删除数：" + scs);
