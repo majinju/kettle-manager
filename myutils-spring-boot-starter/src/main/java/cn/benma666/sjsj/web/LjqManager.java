@@ -263,7 +263,7 @@ public class LjqManager extends BasicObject {
         //根据返回类型向前端推送数据
         if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
             response.setStatus(r.getCode());
-            WebUtil.sendJson(response, r.getMsg());
+            WebUtil.sendJson(response, r);
         } else if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {//文件下载场景
             JSONObject data = (JSONObject) r.getData();
             WebUtil.sendBytes(response, data.getBytes(LjqInterface.KEY_FILE_BYTES),

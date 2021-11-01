@@ -61,13 +61,13 @@ Content-Type: application/json
     "zdlb":"SYS_COMMON_ZDLB"
   },
   "page":{
-    "totalRequired":false,
+    "totalRequired":true,
     "pageSize": 50
   },
   "sys":{
     "cllx":"zdSearch",
     "token":"4978866291C611DA0D2D5999C413107F",
-    "searchKey": "系统-通用"
+    "searchKey": "1"
   }
 }
 

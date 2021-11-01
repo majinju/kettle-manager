@@ -26,7 +26,7 @@ import com.alibaba.fastjson.util.TypeUtils;
 public class TyzdLjq extends DefaultLjq {
     @Override
     public Result insert(SysSjglSjdx sjdx, JSONObject myParams) {
-        Result r = super.update(sjdx, myParams);
+        Result r = super.insert(sjdx, myParams);
         DictManager.clearDict(JSONPath.eval(myParams,"$.yobj.zdlb").toString());
         return r;
     }
@@ -75,7 +75,7 @@ public class TyzdLjq extends DefaultLjq {
      */
     public Result zdSearch(SysSjglSjdx sjdx, JSONObject myParams) {
         SysSjglTyzd zd = myParams.getObject(KEY_YOBJ, SysSjglTyzd.class);
-        zd.setSearchKey(JSONPath.eval(myParams,"$.sys.searchKey")+"");
+        zd.setSearchKey(TypeUtils.castToString(JSONPath.eval(myParams,"$.sys.searchKey")));
         return success(msgCzcg(),DictManager.zdSearch(myParams.getObject(KEY_PAGE, PageInfo.class),zd));
     }
 }
