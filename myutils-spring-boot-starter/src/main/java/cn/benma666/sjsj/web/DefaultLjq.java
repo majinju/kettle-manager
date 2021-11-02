@@ -60,7 +60,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @return 处理类型
      */
     public static String getCllx(JSONObject myParams) {
-        return JSONPath.eval(myParams, $_SYS_CLLX).toString();
+        return myParams.getString($_SYS_CLLX);
     }
 
     @Override
@@ -304,7 +304,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result download(SysSjglSjdx sjdx, JSONObject myParams) {
         JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
         fileJcxx.put(KEY_YOBJ,myParams.get(KEY_YOBJ));
-        JSONPath.set(fileJcxx,"$.page.totalRequired",Boolean.FALSE);
+        fileJcxx.set("$.page.totalRequired",Boolean.FALSE);
         PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(fileJcxx.getObject(KEY_SJDX, SysSjglSjdx.class),
                 fileJcxx).getData();
         if(page.getList().size()==0){
@@ -417,7 +417,20 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             arr = Db.parseDictExp(sql, arr[0]);
         }
         //分页查询
-        return success(msgCzcg(),db(arr[0]).queryPage(page, arr[1], myParams));
+        page = db(arr[0]).queryPage(page, arr[1], myParams);
+        JSONObject fields = myParams.getJSONObject(KEY_FIELDS);
+        for(JSONObject row : page.getList()){
+            for(String zddm:fields.keySet()){
+                String kjlx = fields.getString("$."+zddm+".kjlx");
+                //对结果进行字典翻译
+                if(ZD_SJDX_KJLX_DICT.equals(kjlx)){
+                    row.put(zddm+"_mc",DictManager.zdMcByDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
+                }else if(ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)){
+                    row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
+                }
+            }
+        }
+        return success(msgCzcg(),page);
     }
 
     @Override
@@ -775,7 +788,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
         fileJcxx.put(KEY_USER, myParams.get(KEY_USER));
         fileJcxx.put(KEY_YOBJ, fileObj);
-        JSONPath.set(fileJcxx,"$.page.totalRequired",Boolean.FALSE);
+        fileJcxx.set("$.page.totalRequired",Boolean.FALSE);
         //如果表中存在此去重码则把这个文件删除
         List<JSONObject> list = ((PageInfo<JSONObject>)LjqManager.select(fileJcxx.getObject(KEY_SJDX,
                 SysSjglSjdx.class),fileJcxx).getData()).getList();
