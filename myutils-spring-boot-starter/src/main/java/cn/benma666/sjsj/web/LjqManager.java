@@ -6,6 +6,7 @@
 
 package cn.benma666.sjsj.web;
 
+import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysLogFwzr;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
@@ -99,7 +100,8 @@ public class LjqManager extends BasicObject {
             JSONPath.set(myParams,LjqInterface.$_SYS_TOKEN,user.getToken());
         }
         JSONPath.set(myParams, LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_DXJCXX);
-        return jcxx(myParams);
+        JSONPath.set(myParams, LjqInterface.$_SYS_NBDY, Boolean.TRUE);
+        return jcxx(myParams,true);
     }
 
     /**
@@ -107,15 +109,17 @@ public class LjqManager extends BasicObject {
      *
      * @param myParams 相关参数
      */
-    public static JSONObject jcxx(JSONObject myParams) {
+    public static JSONObject jcxx(JSONObject myParams,boolean nbdy) {
         try {
             //TODO 后续还是将该配置迁移到字典配置中
             JSONObject defParams= JSONObject.parseObject(Utils.readFromResource("myParams.json"));
             //合并新配置与默认配置
             myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
-            defParams= JSONObject.parseObject(Utils.readFromResource("myParams2.json"));
-            //合并优先级高于用户传参的默认配置
-            myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
+            if(!nbdy){
+                defParams= JSONObject.parseObject(Utils.readFromResource("myParams2.json"));
+                //合并优先级高于用户传参的默认配置
+                myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
+            }
         } catch (IOException e) {
             throw new MyException("读取默认配置失败",e);
         }

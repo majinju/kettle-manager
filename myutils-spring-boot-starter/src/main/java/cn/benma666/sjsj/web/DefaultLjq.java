@@ -19,6 +19,7 @@ import cn.benma666.myutils.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjzt.Db;
 import com.alibaba.druid.DbType;
+import com.alibaba.druid.util.Utils;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.fastjson.JSONArray;
@@ -33,9 +34,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -143,6 +142,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 return getdata(sjdx, myParams);
             }else if(KEY_CLLX_PLCL.equals(zxcz)){
                 return plcl(sjdx, myParams);
+            }else if(KEY_CLLX_GETFILE.equals(zxcz)){
+                return getfile(sjdx, myParams);
             }else{
                 return failed("暂不支持的执行操作："+zxcz);
             }
@@ -294,6 +295,49 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
     }
 
+    /**
+     * 下载文件
+     * @param sjdx 数据对象
+     * @param myParams 相关参数
+     * @return 处理结果
+     */
+    public Result download(SysSjglSjdx sjdx, JSONObject myParams) {
+        JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
+        fileJcxx.put(KEY_YOBJ,myParams.get(KEY_YOBJ));
+        JSONPath.set(fileJcxx,"$.page.totalRequired",Boolean.FALSE);
+        PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(fileJcxx.getObject(KEY_SJDX, SysSjglSjdx.class),
+                fileJcxx).getData();
+        if(page.getList().size()==0){
+            return failed("没有找到该文件");
+        }else if(page.getList().size()>1){
+            return failed("不能找到唯一的文件记录");
+        }
+        SysSjglFile fileObj = page.getList().get(0).toJavaObject(SysSjglFile.class);
+        JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
+        byte[] byteArr;
+        if (DbType.of(sjzt.getString("lx")) != null) {
+            byteArr = db(sjzt.getString("dm")).findFirst(fileObj.getSclj()).getBytes("wj");
+        } else {
+            switch (sjzt.getString("lx")) {
+                case "bdwj":
+                    //数据载体为本地文件时
+                    try {
+                        byteArr = Utils.readByteArray(new FileInputStream(fileObj.getSclj()));
+                    } catch (IOException e) {
+                        return failed("文件没有找到："+fileObj.getSclj());
+                    }
+                    break;
+                case "ftp":
+                    //数据载体为ftp
+                    //ftp也需要一个类似Db的工具类
+                    throw new MyException("暂不支持的数据载体类型：" + sjzt.getString("lx"));
+
+                default:
+                    throw new MyException("暂不支持的数据载体类型：" + sjzt.getString("lx"));
+            }
+        }
+        return resultFile(byteArr, fileObj);
+    }
     @Override
     public Result sjplsc(SysSjglSjdx sjdx, JSONObject myParams) {
         Result r;
@@ -650,7 +694,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @author jingma
      */
     protected void czrz(SysSjglSjdx sjdx, JSONObject myParams, SysQxYhxx user) {
-        if (user == null) {
+        if (TypeUtils.castToBoolean(JSONPath.eval(myParams,$_SYS_NBDY))) {
             //没有用户信息时不记录日志，为系统内部调用
             return;
         }
@@ -718,7 +762,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject xtqtzdParams = LjqManager.jcxxByDxdm("SYS_COMMON_XTQTZD");
         return (Map<String, JSONObject>) xtqtzdParams.get(KEY_FIELDS);
     }
-
     protected Result upload(SysSjglSjdx sjdx, JSONObject myParams, SysSjglFile fileObj, MultipartFile file) throws Exception {
         String wjm = file.getOriginalFilename();
         fileObj.setWjm(wjm);
@@ -728,14 +771,27 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         byte[] byteArr = file.getBytes();
         //去重码ywdm+wjlb+MD5
         fileObj.setQcm(fileObj.getYwdm() + fileObj.getWjlb() + FileUtil.getFileMD5(byteArr));
+        fileObj.setYxx(UtilConst.WHETHER_TRUE);
+        JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
+        fileJcxx.put(KEY_USER, myParams.get(KEY_USER));
+        fileJcxx.put(KEY_YOBJ, fileObj);
+        JSONPath.set(fileJcxx,"$.page.totalRequired",Boolean.FALSE);
         //如果表中存在此去重码则把这个文件删除
-        JSONObject f = db().findFirst(SqlId.of("sjsj", "findFile"), Db.buildMap(fileObj.getQcm()));
-        if (f != null) {
+        List<JSONObject> list = ((PageInfo<JSONObject>)LjqManager.select(fileJcxx.getObject(KEY_SJDX,
+                SysSjglSjdx.class),fileJcxx).getData()).getList();
+        if (list.size()>0) {
+            JSONObject f = list.get(0);
             log.info(f.getString("id") + "文件已经存在");
             return success("该文件已经存在", f);
         }
         if (StringUtil.isBlank(fileObj.getSjzt())) {
             fileObj.setSjzt(Conf.getVal("wjsc.mrsjzt"));
+        }
+        if(StringUtil.isBlank(fileObj.getYwdm())){
+            fileObj.setYwdm("dxsjsc");
+        }
+        if(StringUtil.isBlank(fileObj.getWjlb())){
+            fileObj.setWjlb(sjdx.getDxdm());
         }
         JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
         if (DbType.of(sjzt.getString("lx")) != null) {
@@ -790,9 +846,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         //保存文件信息
         fileObj.setId(StringUtil.getUUIDUpperStr());
-        JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
-        fileJcxx.put(KEY_USER, myParams.get(KEY_USER));
-        fileJcxx.put(KEY_YOBJ, fileObj);
         LjqManager.insert((SysSjglSjdx) fileJcxx.get(KEY_SJDX), fileJcxx);
         slog.debug(fileObj + "文件上传成功");
         return success("文件上传成功", fileObj);

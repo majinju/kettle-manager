@@ -87,14 +87,6 @@ select dm from sys_qx_qxxx t
 where t.yxx='1' and t.dz=#{sjdx.dxdm}
 ```
 
-findFile
-===
-* 获取文件对象
-```sql
-select * from sys_sjgl_file t 
-where t.yxx='1' and t.qcm = #{p1}
-```
-
 insertBlob
 ===
 * 插入大字段

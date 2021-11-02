@@ -52,7 +52,7 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
                 //当进入错误控制器时，不需要查询数据对象
                 return true;
             }
-            LjqManager.jcxx(myParams);
+            LjqManager.jcxx(myParams,false);
             //设置参数传入控制层
             request.setAttribute(LjqInterface.MY_PARAMS, myParams);
             request.setAttribute(LjqInterface.KEY_SJDX, myParams.get(LjqInterface.KEY_SJDX));

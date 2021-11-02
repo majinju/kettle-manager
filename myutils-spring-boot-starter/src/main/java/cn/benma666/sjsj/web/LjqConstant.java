@@ -77,6 +77,10 @@ public interface LjqConstant extends UtilConstInstance {
      */
     String $_SYS_CLIENT_IP = "$.sys.clientIp";
     /**
+     * jsonpath路径-内部调用
+     */
+    String $_SYS_NBDY = "$.sys.nbdy";
+    /**
      * jsonpath路径-用户权限key
      */
     String $_SYS_TOKEN = "$.sys.token";
