@@ -26,6 +26,55 @@ client.test("Request executed successfully", function() {
 });
 %}
 
+### 导出当前页
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "sys":{
+    "cllx":"dcdqysj",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  },
+  "yobj": {
+    "dxmc": "对象"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 导出全部
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_SJDX"
+  },
+  "sys":{
+    "cllx":"dcsj",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  },
+  "yobj": {
+    "dxmc": "对象"
+  },
+  "page": {
+    "pageSize": 50000
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
 ### 导入数据对象
 POST {{serviceAddr}}
 Content-Type: application/json

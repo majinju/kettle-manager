@@ -208,11 +208,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public Result dcsj(SysSjglSjdx sjdx, JSONObject myParams) {
         //导出数据
-        JSONPath.set(myParams, "$.page.totalRequired", Boolean.FALSE);
+        myParams.set("$.page.totalRequired", Boolean.FALSE);
         PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(sjdx, myParams).getData();
         String fileName = sjdx.getDxmc();
-        if (JSONPath.eval(myParams, "$.sys.dcwjm") != null) {
-            fileName = JSONPath.eval(myParams, "$.sys.dcwjm").toString();
+        if (myParams.getString("$.sys.dcwjm") != null) {
+            fileName = myParams.getString("$.sys.dcwjm");
         }
         fileName += "-" + DateUtil.getGabDate() + ".xlsx";
         try {
