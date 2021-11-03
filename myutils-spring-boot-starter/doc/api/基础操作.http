@@ -14,7 +14,7 @@ Content-Type: application/json
   "sys":{
     "cllx":"yhdl",
     "token":"4978866291C611DA0D2D5999C413107F",
-    "clearCache":false
+    "clearCache":true
   }
 }
 

@@ -1,6 +1,6 @@
 benma666:
   service:
-    addr: /sjsj
+    addr: /index
   config:
     list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG,SYS_KP_APPCONFIG
   data:
@@ -33,6 +33,8 @@ server:
 spring:
   application:
     name: 数据世界
+  profiles:
+    active: dev
   # 资源信息
   messages:
     # 国际化资源文件路径

@@ -16,7 +16,8 @@ Content-Type: application/json
   },
   "sys":{
     "cllx":"select",
-    "token":"4978866291C611DA0D2D5999C413107F"
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "ids": ["A9C5C1D9E70D4BC09FA33E4360A1A387"],
   }
 }
 

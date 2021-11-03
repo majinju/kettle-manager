@@ -71,8 +71,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //获取用户信息
         SysQxYhxx user = UserManager.getUser(myParams);
         myParams.put(KEY_USER, user);
-        //处理权限码
-        clAuthCode(sjdx, myParams);
         //获取字段信息
         myParams.put(KEY_FIELDS, getFields(sjdx, myParams, user));
         //记录操作日志
@@ -105,7 +103,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         for (String key : yzgz.keySet()) {
             JSONObject gzObj = yzgz.getJSONObject(key);
             try {
-                VerifyRule.ruleVerify(JSONPath.eval(myParams, "$." + key),
+                VerifyRule.ruleVerify(myParams.get("$." + key),
                         myParams, gzObj, getCllx(myParams));
             } catch (VerifyRuleException e) {
                 throw new MyException(e.getMessage(), HttpStatus.PRECONDITION_FAILED.value(), key);
@@ -542,7 +540,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     h = new ArrayList<>();
                     h.add(f.getValue().getString("zdmc") + "[" + f.getValue().getString("zddm") + "]");
                     header.add(h);
-                    r.add(VerifyRule.rulejx(f.getValue(), (JSONObject) JSONPath.eval(f.getValue(), "$.kzxx.yzgz")));
+                    r.add(VerifyRule.rulejx(f.getValue(), f.getValue().getJSONObject("$.kzxx.yzgz")));
                 }
             }
             return resultExcelFile(header, data, fileName);
@@ -614,28 +612,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     /**
-     * 处理权限码
-     *
-     * @param sjdx     数据对象
-     * @param myParams 相关参数
-     */
-    protected void clAuthCode(SysSjglSjdx sjdx, JSONObject myParams) {
-        if (JSONPath.eval(myParams, $_SYS_AUTHCODE) == null) {
-            //前端没有传入使用的权限码时
-            Object authCode;
-            //先取对象中的默认权限码
-            if (sjdx.getMap().containsKey(KEY_AUTH_CODE)) {
-                authCode = sjdx.get(KEY_AUTH_CODE);
-            } else {
-                //对象也没有缓存权限码时，从数据库中查询并缓存到对象中
-                authCode = db().queryStr(SqlId.of("sjsj", "findAuthCode"), myParams);
-                sjdx.set(KEY_AUTH_CODE, authCode);
-            }
-            JSONPath.set(myParams, $_SYS_AUTHCODE, authCode);
-        }
-    }
-
-    /**
      * 设置obj <br/>
      *
      * @param sjdx     数据对象
@@ -643,7 +619,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @author jingma
      */
     protected void putObj(SysSjglSjdx sjdx, JSONObject myParams) {
-        JSONPath.set(myParams, "$.sys.yzdjl", Boolean.FALSE);
+        myParams.set("$.sys.yzdjl", Boolean.FALSE);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         if (yobj == null) {
             return;
@@ -655,11 +631,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         if (StringUtil.isNotBlank(sjdx.getZjzd())
                 && !StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))) {
             //设置了主键字段，且前端传入了主键，查询模板中只要前端传入了主键，则只以主键进行查询，不管其他条件
-            JSONPath.set(myParams, "$.page.totalRequired", Boolean.FALSE);
+            myParams.set("$.page.totalRequired", Boolean.FALSE);
             PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(sjdx, myParams).getData();
             if (page.getList().size() == 1) {
                 //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
-                JSONPath.set(myParams, "$.sys.yzdjl", Boolean.TRUE);
+                myParams.set("$.sys.yzdjl", Boolean.TRUE);
                 myParams.put(KEY_OBJ, page.getList().get(0));
             }
         }
@@ -679,7 +655,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         Map<String, JSONObject> fields;
         Object obj = fieldsCache.get(cacheKey);
-        if (obj != null && !TypeUtils.castToBoolean(JSONPath.eval(myParams, "$.sys.clearCache"))) {
+        if (obj != null && !myParams.getBoolean("$.sys.clearCache")) {
             //没有缓存且没有要求清除缓存
             fields = (Map<String, JSONObject>) obj;
         }else{
@@ -691,9 +667,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //TODO 应该还需要初始化转换规则
         }
         fields.forEach((key,value)->{
-            //将整个字段的验证规则设置到系统验证规则中
-            JSONPath.set(myParams, "$.yzgz['yobj." + key + "']",
-                    JSONPath.eval(value,"$.kzxx.yzgz"));
+            //将整个字段的验证规则设置到系统验证规则中，因为内部会对规则数据进行修改
+            myParams.set("$.yzgz['yobj." + key + "']",value.getJSONObject("$.kzxx.yzgz").clone());
         });
         return fields;
     }
@@ -707,8 +682,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @author jingma
      */
     protected void czrz(SysSjglSjdx sjdx, JSONObject myParams, SysQxYhxx user) {
-        if (TypeUtils.castToBoolean(JSONPath.eval(myParams,$_SYS_NBDY))) {
-            //没有用户信息时不记录日志，为系统内部调用
+        if (myParams.getBoolean($_SYS_NBDY)) {
+            //为系统内部调用
             return;
         }
         SysLogFwzr czrz = new SysLogFwzr();

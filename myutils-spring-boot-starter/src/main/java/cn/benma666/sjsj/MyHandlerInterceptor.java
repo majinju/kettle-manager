@@ -34,7 +34,6 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
 
     /**
      * 控制器前执行
-     *
      * @param request  请求
      * @param response 返回
      * @param handler  对应的控制器中的方法
@@ -114,7 +113,8 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
     private JSONObject getJSONParam(HttpServletRequest request) throws IOException {
         JSONObject myParams = null;
         //请求参数为json时
-        if (MediaType.APPLICATION_JSON.equals(request.getContentType())) {
+        String ct = request.getContentType();
+        if (ct!=null&&ct.contains(MediaType.APPLICATION_JSON)) {
             // 获取输入流读取配置，与默认配置合并
             myParams = JSONObject.parseObject(Utils.read(request.getInputStream()));
         }
@@ -126,21 +126,21 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         for (String pk : pm.keySet()) {
             String[] va = pm.get(pk);
             if (va.length > 0) {
-                if (!JSONPath.set(myParams, "$." + pk, va[0])) {
+                if (!myParams.set("$." + pk, va[0])) {
                     log.warn(pk + "参数设置失败：" + va[0]);
                 }
             }
         }
         //切换语言
         switchLanguage(request, myParams);
-        if (JSONPath.eval(myParams, LjqInterface.$_SYS_TOKEN) == null) {
+        if (myParams.get(LjqInterface.$_SYS_TOKEN) == null) {
             //常规参数中没有设置权限认证key
-            JSONPath.set(myParams, LjqInterface.$_SYS_TOKEN, UserManager.getToken(request));
+            myParams.set(LjqInterface.$_SYS_TOKEN, UserManager.getToken(request));
         }
         //设置客户端ip
-        JSONPath.set(myParams, LjqInterface.$_SYS_CLIENT_IP, WebUtil.getIpAddr(request));
+        myParams.set(LjqInterface.$_SYS_CLIENT_IP, WebUtil.getIpAddr(request));
         //记录请求开始时间
-        JSONPath.set(myParams, "$.sys.qqkssj", System.currentTimeMillis());
+        myParams.set("$.sys.qqkssj", System.currentTimeMillis());
         return myParams;
     }
 }

@@ -27,14 +27,14 @@ public class TyzdLjq extends DefaultLjq {
     @Override
     public Result insert(SysSjglSjdx sjdx, JSONObject myParams) {
         Result r = super.insert(sjdx, myParams);
-        DictManager.clearDict(JSONPath.eval(myParams,"$.yobj.zdlb").toString());
+        DictManager.clearDict(myParams.getString("$.yobj.zdlb"));
         return r;
     }
 
     @Override
     public Result update(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
         Result r = super.update(sjdx, myParams);
-        DictManager.clearDict(JSONPath.eval(myParams,"$.obj.zdlb").toString());
+        DictManager.clearDict(myParams.getString("$.obj.zdlb"));
         return r;
     }
 
@@ -50,7 +50,7 @@ public class TyzdLjq extends DefaultLjq {
      * 获取字典列表
      */
     public Result zdlist(SysSjglSjdx sjdx, JSONObject myParams) {
-        if(TypeUtils.castToBoolean(JSONPath.eval(myParams,"$.sys.dataCache"))){
+        if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
             return success(msgCzcg(),DictManager.zdMapByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
         }else{
@@ -62,7 +62,7 @@ public class TyzdLjq extends DefaultLjq {
      * 获取字典项对象
      */
     public Result zdObj(SysSjglSjdx sjdx, JSONObject myParams) {
-        if(TypeUtils.castToBoolean(JSONPath.eval(myParams,"$.sys.dataCache"))){
+        if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
             return success(msgCzcg(),DictManager.zdObjByDmByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
         }else{
@@ -75,7 +75,7 @@ public class TyzdLjq extends DefaultLjq {
      */
     public Result zdSearch(SysSjglSjdx sjdx, JSONObject myParams) {
         SysSjglTyzd zd = myParams.getObject(KEY_YOBJ, SysSjglTyzd.class);
-        zd.setSearchKey(TypeUtils.castToString(JSONPath.eval(myParams,"$.sys.searchKey")));
+        zd.setSearchKey(myParams.getString("$.sys.searchKey"));
         return success(msgCzcg(),DictManager.zdSearch(myParams.getObject(KEY_PAGE, PageInfo.class),zd));
     }
 }

@@ -95,12 +95,12 @@ public class LjqManager extends BasicObject {
     public static JSONObject jcxxByDxdm(String dxdm, SysQxYhxx user) {
         JSONObject myParams = new JSONObject();
         myParams.put(LjqInterface.KEY_YOBJ,new JSONObject());
-        JSONPath.set(myParams, "$.sjdx.dxdm", dxdm);
+        myParams.set("$.sjdx.dxdm", dxdm);
         if(user!=null){
-            JSONPath.set(myParams,LjqInterface.$_SYS_TOKEN,user.getToken());
+            myParams.set(LjqInterface.$_SYS_TOKEN,user.getToken());
         }
-        JSONPath.set(myParams, LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_DXJCXX);
-        JSONPath.set(myParams, LjqInterface.$_SYS_NBDY, Boolean.TRUE);
+        myParams.set(LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_DXJCXX);
+        myParams.set(LjqInterface.$_SYS_NBDY, Boolean.TRUE);
         return jcxx(myParams,true);
     }
 
@@ -126,7 +126,7 @@ public class LjqManager extends BasicObject {
         SysSjglSjdx sjdx;
         //读取缓存
         Object obj = sjdxMap.get(myParams.getString(LjqInterface.KEY_SJDX));
-        if (obj != null && !TypeUtils.castToBoolean(JSONPath.eval(myParams, "$.sys.clearCache"))) {
+        if (obj != null && !myParams.getBoolean("$.sys.clearCache")) {
             sjdx = (SysSjglSjdx) obj;
         } else {
             JSONObject jsonObj = db().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
@@ -134,11 +134,15 @@ public class LjqManager extends BasicObject {
                 throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
             }
             sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
+            //设置权限码
+            sjdx.set(LjqInterface.KEY_AUTH_CODE, jsonObj.getString(LjqInterface.KEY_AUTH_CODE));
+            //设置数据载体
             JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
             sjdx.setDxztlx(dbObj.getString("lx"));
             //设置缓存
             sjdxMap.put(myParams.getString(LjqInterface.KEY_SJDX),sjdx);
         }
+        myParams.set(LjqInterface.$_SYS_AUTHCODE, sjdx.get(LjqInterface.KEY_AUTH_CODE));
         //设置从数据库中读取的数据对象
         myParams.put(LjqInterface.KEY_SJDX, sjdx);
         //合并数据对象的扩展信息到系统参数中

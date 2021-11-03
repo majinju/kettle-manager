@@ -32,3 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /.mvn/wrapper/
+/src/main/resources/application-dev.yaml

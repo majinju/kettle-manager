@@ -106,7 +106,7 @@ public class SjdxLjq extends DefaultLjq {
         if(StringUtil.isNotBlank(yobj.getString("mchz"))){
             mchz = "-"+yobj.getString("mchz");
         }
-        for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
+        for(String id:myParams.getJSONArray($_SYS_IDS).toJavaList(String.class)){
             DSTransactionManager.start();
             //获取对象
             SysSjglSjdx newsjdx = sqlManager().single(SysSjglSjdx.class, id);
@@ -116,8 +116,8 @@ public class SjdxLjq extends DefaultLjq {
             newsjdx.setGxsj(DateUtil.getGabDate());
             sqlManager(sjdx).insert(newsjdx);
             //复制字段
-            JSONPath.set(myParams,"$.sql.oldSjdxId",id);
-            JSONPath.set(myParams,"$.sql.newSjdx",newsjdx);
+            myParams.set("$.sql.oldSjdxId",id);
+            myParams.set("$.sql.newSjdx",newsjdx);
             String[] arr = LjqManager.getSql(sjdx, myParams, "fzzd");
             db(arr[0]).update(arr[1], myParams);
             count++;
@@ -133,7 +133,7 @@ public class SjdxLjq extends DefaultLjq {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         int count = 0;
         Result result =  success("");
-        for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
+        for(String id:myParams.getJSONArray($_SYS_IDS).toJavaList(String.class)){
             //获取对象
             SysSjglSjdx jtdx = sqlManager(sjdx).single(SysSjglSjdx.class, id);
             Result r;
@@ -156,7 +156,7 @@ public class SjdxLjq extends DefaultLjq {
         //标准排序
         Result result = success("");
         int count = 0;
-        for(String id:((JSONArray)JSONPath.eval(myParams,$_SYS_IDS)).toJavaList(String.class)){
+        for(String id:myParams.getJSONArray($_SYS_IDS).toJavaList(String.class)){
             //获取对象
             SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
             myParams.put(KEY_SJDX, jtdx);
@@ -285,11 +285,11 @@ public class SjdxLjq extends DefaultLjq {
         //新导入的对象复制默认字段
         int count = 0;
         if(oldFiledMap.isEmpty()){
-            JSONPath.set(myParams,"$.sql.oldSjdxId","SYS_SJGL_SJDX");
-            JSONPath.set(myParams,"$.sql.newSjdx",jtdx);
-            JSONPath.set(myParams,"$.sql.newSjzd",fieldsList);
+            myParams.set("$.sql.oldSjdxId","SYS_SJGL_SJDX");
+            myParams.set("$.sql.newSjdx",jtdx);
+            myParams.set("$.sql.newSjzd",fieldsList);
             //新建对象
-            JSONPath.set(myParams,"$.sql.xjdx",UtilConst.WHETHER_TRUE);
+            myParams.set("$.sql.xjdx",UtilConst.WHETHER_TRUE);
             String[] arr = getSql(sjdx, myParams, "fzzd");
             count = db().update(arr[1], myParams);
             //字段复制后，重新读取字段

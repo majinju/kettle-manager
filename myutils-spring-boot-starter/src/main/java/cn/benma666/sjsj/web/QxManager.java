@@ -30,9 +30,8 @@ public class QxManager extends BasicObject {
         //处理类型
         String cllx = JSONPath.eval(myParams, LjqInterface.$_SYS_CLLX).toString();
         //权限码
-        Object authCode = JSONPath.eval(myParams, LjqInterface.$_SYS_AUTHCODE);
-        if ((authCode == null)&& valByDef(Conf.getVal("benma666.xtqx.mrtgxqx"),
-                "dxjcxx,select").contains(cllx)) {
+        String authCode = myParams.getString(LjqInterface.$_SYS_AUTHCODE);
+        if ((authCode == null)&& Conf.getVal("benma666.xtqx.mrtgxqx","dxjcxx,select").contains(cllx)) {
             //没有配置权限，且在允许权限范围内则默认通过
             return;
         }
