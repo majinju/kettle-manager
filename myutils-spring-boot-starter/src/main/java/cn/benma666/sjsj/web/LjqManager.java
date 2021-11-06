@@ -125,7 +125,8 @@ public class LjqManager extends BasicObject {
         }
         SysSjglSjdx sjdx;
         //读取缓存
-        Object obj = sjdxMap.get(myParams.getString(LjqInterface.KEY_SJDX));
+        String cacheKey = myParams.getString(LjqInterface.KEY_SJDX)+myParams.getString(LjqInterface.$_SYS_AUTHCODE);
+        Object obj = sjdxMap.get(cacheKey);
         if (obj != null && !myParams.getBoolean("$.sys.clearCache")) {
             sjdx = (SysSjglSjdx) obj;
         } else {
@@ -140,7 +141,7 @@ public class LjqManager extends BasicObject {
             JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
             sjdx.setDxztlx(dbObj.getString("lx"));
             //设置缓存
-            sjdxMap.put(myParams.getString(LjqInterface.KEY_SJDX),sjdx);
+            sjdxMap.put(cacheKey,sjdx);
         }
         myParams.set(LjqInterface.$_SYS_AUTHCODE, sjdx.get(LjqInterface.KEY_AUTH_CODE));
         //设置从数据库中读取的数据对象

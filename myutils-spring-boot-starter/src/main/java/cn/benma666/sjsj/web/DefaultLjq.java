@@ -178,6 +178,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JsonUtil.copy(jcxx, myParams, "$.sys.cllxkz");
         JsonUtil.copy(jcxx, myParams, "$.sys.sjdxkz");
         JsonUtil.copy(jcxx, myParams, "$.sys.fields");
+        JsonUtil.copy(jcxx, myParams, $_SYS_AUTHCODE);
         return success(msgCzcg(), jcxx);
     }
     @Override
