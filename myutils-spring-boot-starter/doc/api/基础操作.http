@@ -121,7 +121,7 @@ Content-Type: application/json
     "dxdm":"SYS_COMMON_CACHE"
   },
   "sys":{
-    "ids": ["fields","dict"],
+    "ids": ["fields","dict","sjdx"],
     "cllx":"qchc",
     "token":"4978866291C611DA0D2D5999C413107F"
   }

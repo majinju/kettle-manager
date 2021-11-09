@@ -22,6 +22,7 @@ import com.alibaba.druid.DbType;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -664,14 +665,221 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             fields = db(r[0]).findMap("zddm", r[1], myParams);
             //设置缓存
             fieldsCache.put(cacheKey, fields);
-            VerifyRule.yzgzInit(fields, myParams);
-            //TODO 应该还需要初始化转换规则
+            fieldsInit(fields, myParams);
         }
         fields.forEach((key,value)->{
             //将整个字段的验证规则设置到系统验证规则中，因为内部会对规则数据进行修改
             myParams.set("$.yzgz['yobj." + key + "']",value.getJSONObject("$.kzxx.yzgz").clone());
+            myParams.set("$.zhgz['yobj." + key + "']",value.getJSONObject("$.kzxx.zhgz").clone());
         });
         return fields;
+    }
+
+    /**
+     * 根据字段配置进行验证规则、转换规则、处理类型等初始化 <br/>
+     * @param fields   字段列表
+     * @param myParams 相关参数
+     * @author jingma
+     */
+    protected void fieldsInit(Map<String, JSONObject> fields, JSONObject myParams) {
+        for (JSONObject field : fields.values()) {
+            JSONObject kzxx = JSON.parseObject(field.getString(UtilConst.FIELD_KZXX));
+            //顺便将字段扩展信息对象化
+            field.put(UtilConst.FIELD_KZXX, kzxx);
+            //初始化验证规则
+            fieldYzgzInit(field, kzxx);
+            //初始化转换规则
+            fieldZhgzInit(field, kzxx);
+            //处理类型扩展
+            fieldCllxInit(field, kzxx);
+        }
+    }
+
+    /**
+     * 字段处理类型初始化
+     * @param field 字段
+     * @param kzxx 扩展信息
+     */
+    protected void fieldCllxInit(JSONObject field, JSONObject kzxx) {
+        JSONObject cllxkz = kzxx.getJSONObject("cllxkz");
+        if(cllxkz==null){
+            cllxkz = new JSONObject();
+            kzxx.put("cllxkz",cllxkz);
+        }
+        //默认处理类型扩展
+        JSONObject lxkz = new JSONObject();
+//        lxkz.put("field",field.getString("zddm"));
+//        lxkz.put("title",field.getString("zdmc"));
+//        int zdkd = field.getIntValue("zdkd");
+//        if(zdkd<10||zdkd>200){
+//            lxkz.put("span",24);
+//        }else{
+//            lxkz.put("span",8);
+//        }
+//        lxkz.put("readonly",field.getBoolean("yxbj"));
+        //insert：新增页面
+        lxkz.put("show",field.getBoolean("xzzs"));
+        lxkz.put("default",field.get("xzmrz"));
+        if (cllxkz.containsKey(KEY_CLLX_INSERT)) {
+            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
+            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_INSERT));
+        }
+        cllxkz.put(KEY_CLLX_INSERT,lxkz);
+        //update：编辑
+        lxkz = new JSONObject();
+        lxkz.put("show",field.getBoolean("bjzs"));
+        if (cllxkz.containsKey(KEY_CLLX_UPDATE)) {
+            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
+            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_UPDATE));
+        }
+        cllxkz.put(KEY_CLLX_UPDATE,lxkz);
+        //dxjcxx：对象基础信息，对应详情页面
+        lxkz = new JSONObject();
+        lxkz.put("show",field.getBoolean("xqzs"));
+        if (cllxkz.containsKey(KEY_CLLX_DXJCXX)) {
+            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
+            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_DXJCXX));
+        }
+        cllxkz.put(KEY_CLLX_DXJCXX,lxkz);
+        //dcmb：导出模板
+        lxkz = new JSONObject();
+        lxkz.put("show",field.getBoolean("mbzs"));
+        cllxkz.put(KEY_CLLX_DCMB,lxkz);
+        if (cllxkz.containsKey(KEY_CLLX_DCMB)) {
+            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
+            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_DCMB));
+        }
+        cllxkz.put(KEY_CLLX_DCMB,lxkz);
+        //select：查询页面
+        lxkz = new JSONObject();
+        lxkz.put("show",false);
+        if (cllxkz.containsKey(KEY_CLLX_SELECT)) {
+            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
+            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_SELECT));
+        }
+        cllxkz.put(KEY_CLLX_SELECT,lxkz);
+        //other
+
+    }
+
+    /**
+     * 字段转换规则初始化
+     * @param field 字段
+     * @param kzxx 扩展信息
+     */
+    protected void fieldZhgzInit(JSONObject field, JSONObject kzxx) {
+        //默认转换规则
+        JSONObject zhgz = new JSONObject();
+        //清空前后空格
+        zhgz.put("qdqhkg",new JSONObject());
+        JSONObject kzhgz = kzxx.getJSONObject(UtilConst.KEY_ZHGZ);
+        if (kzhgz != null) {
+            //用户配置了该字规则
+            //新增可以通过继承更新规则使用该规则
+            if (kzhgz.containsKey("update")) {
+                //用户配置了转换规则，用户配置的与系统默认的规则合并，用户配置的优先
+                JsonUtil.mergeJSONObjects(zhgz, kzhgz.getJSONObject("update"));
+            }
+        } else {
+            kzhgz = new JSONObject();
+        }
+        //设置最新地更新规则
+        kzhgz.put("update", zhgz);
+        //开始处理新增规则
+        zhgz = new JSONObject();
+        //设置默认继承更新的规则
+        zhgz.put("extends", new String[]{"update"});
+        //设置最新地新增验证验证规则
+        kzhgz.put("insert", zhgz);
+        kzxx.put(UtilConst.KEY_ZHGZ,kzhgz);
+    }
+    /**
+     * 字段验证规则初始化
+     * @param field 字段
+     * @param kzxx 扩展信息
+     */
+    protected void fieldYzgzInit(JSONObject field, JSONObject kzxx) {
+        //默认验证规则
+        JSONObject yzgz = new JSONObject();
+        //根据字段库中的长度设置长度规则。
+        JSONObject gz = new JSONObject();
+        gz.put("max", valByDef(field.getInteger("zdcd"), Integer.MAX_VALUE));
+        gz.put("min", 0);
+        yzgz.put("length", gz);
+        //设置信息描述，作为提示的主体
+        yzgz.put("xxms", field.getString("zdmc"));
+
+        //根据控件类型生成规则
+        if (UtilConst.ZD_SJDX_KJLX_DICT.equals(field.getString("kjlx"))) {
+            gz = new JSONObject();
+            gz.put(VerifyRule.VALUE, field.getString("zdzdlb"));
+            boolean zszdx = !TypeUtils.castToBoolean(field.getString("zdfy"));
+            //字典分页，说明字典量较大，不直接展示字典项
+            gz.put("zszdx", zszdx);
+            boolean zddx = TypeUtils.castToBoolean(field.getString("zddx"));
+            //字典分页，说明字典量较大，不直接展示字典项
+            gz.put("zddx", zddx);
+            yzgz.put("zd", gz);
+        } else if (UtilConst.ZD_SJDX_KJLX_CHECKBOX.equals(field.getString("kjlx"))) {
+            gz = new JSONObject();
+            gz.put(VerifyRule.VALUE, field.getString("zdzdlb"));
+            yzgz.put("zd", gz);
+        } else if (UtilConst.ZD_SJDX_KJLX_NUMBER.equals(field.getString("kjlx"))) {
+            yzgz.put("number", new JSONObject());
+        } else if (UtilConst.ZD_SJDX_KJLX_TIME.equals(field.getString("kjlx"))) {
+            gz = new JSONObject();
+            //设置默认值，特殊情况可在字段扩展信息中自主扩展
+            gz.put(VerifyRule.VALUE, DateUtil.DATE_FORMATTER14);
+            yzgz.put("date", gz);
+        }
+
+        //根据字段业务类型设置规则
+        if ("01".equals(field.getString("zdywlb"))) {
+            yzgz.put("sfzh", new JSONObject());
+        } else if ("03".equals(field.getString("zdywlb"))) {
+            //手机号
+            gz = new JSONObject();
+            gz.put(VerifyRule.VALUE, "^([0-9]{11}|,)*$");
+            gz.put(VerifyRule.TS, "只能填写11位手机号，多个电话用英文逗号");
+            yzgz.put("zzbds", gz);
+        } else if ("04".equals(field.getString("zdywlb"))) {
+            //邮箱
+            yzgz.put("email", new JSONObject());
+        }
+
+        //根据字段类型设置规则
+        if ("NUMBER".equals(field.getString("zdlx"))) {
+            yzgz.put("number", new JSONObject());
+        }
+        JSONObject kyzgz = kzxx.getJSONObject(UtilConst.KEY_YZGZ);
+        if (kyzgz != null) {
+            //用户配置了该字段验证规则
+            //验证规则，新增可以通过继承更新验证规则使用该规则
+            if (kyzgz.containsKey("update")) {
+                //用户配置了更新验证规则，用户配置的与系统默认的规则合并，用户配置的优先
+                JsonUtil.mergeJSONObjects(yzgz, kyzgz.getJSONObject("update"));
+            }
+        } else {
+            kyzgz = new JSONObject();
+        }
+        //设置最新地更新验证验证规则
+        kyzgz.put("update", yzgz);
+
+        //开始处理新增验证规则
+        yzgz = new JSONObject();
+        //设置默认继承更新的验证规则
+        yzgz.put("extends", new String[]{"update"});
+        //必填规则，只对新增时有效
+        if (TypeUtils.castToBoolean(field.getString("bjbt"))) {
+            yzgz.put("notNull", new JSONObject());
+        }
+        if (kyzgz.containsKey("insert")) {
+            //用户配置了新增验证规则则合并
+            JsonUtil.mergeJSONObjects(yzgz, kyzgz.getJSONObject("insert"));
+        }
+        //设置最新地新增验证验证规则
+        kyzgz.put("insert", yzgz);
+        kzxx.put(UtilConst.KEY_YZGZ,kyzgz);
     }
 
     /**
