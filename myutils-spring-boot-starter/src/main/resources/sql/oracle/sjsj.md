@@ -10,11 +10,11 @@ where t.yxx='1'
 -- @ if(!isEmpty(sys.authCode)){
   and qx.dm=#{sys.authCode}
 -- @} else if(!isEmpty(sjdx.id)){
-    and t.id=#{sjdx.id}
+  and t.id=#{sjdx.id}
 -- @} else if(!isEmpty(sjdx.dxdm)){
   and t.dxdm=#{sjdx.dxdm}
 -- @} else{
-    and t.id=''
+  and t.id=''
 -- @}
 ```
 

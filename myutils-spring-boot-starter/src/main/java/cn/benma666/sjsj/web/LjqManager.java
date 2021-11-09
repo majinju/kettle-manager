@@ -34,6 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 系统-数据管理-拦截器管理 <br/>
@@ -136,7 +139,8 @@ public class LjqManager extends BasicObject {
             }
             sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
             //设置权限码
-            sjdx.set(LjqInterface.KEY_AUTH_CODE, jsonObj.getString(LjqInterface.KEY_AUTH_CODE));
+            String authCode = jsonObj.getString(LjqInterface.KEY_AUTH_CODE);
+            sjdx.set(LjqInterface.KEY_AUTH_CODE, authCode);
             //设置数据载体
             JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
             sjdx.setDxztlx(dbObj.getString("lx"));

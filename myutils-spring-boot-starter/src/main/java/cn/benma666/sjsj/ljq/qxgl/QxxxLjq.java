@@ -13,7 +13,6 @@ import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
-import cn.benma666.sjsj.web.QxManager;
 import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;

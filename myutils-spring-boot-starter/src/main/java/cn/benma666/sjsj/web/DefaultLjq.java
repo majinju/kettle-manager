@@ -13,6 +13,7 @@ import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
 import cn.benma666.exception.MyException;
+import cn.benma666.exception.QxException;
 import cn.benma666.exception.VerifyRuleException;
 import cn.benma666.iframe.*;
 import cn.benma666.myutils.*;
@@ -77,7 +78,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //记录操作日志
         czrz(sjdx, myParams, user);
         //权限鉴定
-        QxManager.auth(myParams, user);
+        auth(myParams, user);
         //设置需要处理的对象
         putObj(sjdx, myParams);
         //验证规则
@@ -550,6 +551,36 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             log.error("导出数据失败:" + myParams, e);
             return failed("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
         }
+    }
+
+    /**
+     * 权限过滤 <br/>
+     * @param myParams 参数集
+     * @param user 用户对象
+     * @throws QxException 没有权限将抛出异常
+     * @author jingma
+     */
+    protected void auth(JSONObject myParams,SysQxYhxx user) throws QxException {
+        //用户
+        if (user==null) {
+            //没有用户信息则默认通过，此类都是系统内部调用
+            return;
+        }
+        //处理类型
+        String cllx = JSONPath.eval(myParams, LjqInterface.$_SYS_CLLX).toString();
+        //权限码
+        String authCode = myParams.getString(LjqInterface.$_SYS_AUTHCODE);
+        if ((authCode == null)&& Conf.getVal("benma666.xtqx.mrtgxqx","dxjcxx,select").contains(cllx)) {
+            //没有配置权限，且在允许权限范围内则默认通过
+            return;
+        }
+        //对象权限判断
+        if (user.getQxMap().containsKey(authCode + "_" + cllx)) {
+            return;
+        }
+        QxException e = new QxException("没有操作权限");
+        e.setData(authCode + "_" + cllx);
+        throw e;
     }
 
     /**
