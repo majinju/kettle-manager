@@ -377,7 +377,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @return 操作结果
      */
     public Result delete(SysSjglSjdx sjdx, JSONObject myParams) {
-        return plcl(sjdx,myParams);
+        return plsc(sjdx,myParams);
     }
     @Override
     public Result plsc(SysSjglSjdx sjdx, JSONObject myParams) {
@@ -387,7 +387,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //存在有效性字段，且允许物理删除
             r = wlscByYxx(sjdx, myParams);
         }
-        String[] arr = getSql(sjdx, myParams);
+        String[] arr = getSql(sjdx, myParams,KEY_CLLX_PLSC);
         //后续继续进行逻辑删除操作
         int scs = db(arr[0]).update(arr[1], myParams);
         if (StringUtil.isBlank(sjdx.getYxxzd())) {

@@ -9,6 +9,49 @@
     //物理删除，默认false，配置该数据对象是否允许物理删除
     "wlsc": false,
     //内部调用，内部调用时不进行权限校验及日志记录
-    "nbdy": false
+    "nbdy": false,
+    "cllxkz": {
+      "select": {
+        "qxpz": {
+          "plclLeft": {
+            "insert": {
+              "mc": "新建",
+              "clfs": "tcck",
+              sfxyxzjl: false
+            },
+            "plsc":{
+              "mc": "批量删除",
+              "htqqts": true
+            }
+          },
+          "plclRight": {
+            "dcdqysj": {
+              "mc": "导出当前页",
+              "clfs": "wjxz",
+              sfxyxzjl: false
+            },
+            "dcsj": {
+              "mc": "导出全部",
+              "clfs": "wjxz",
+              sfxyxzjl: false
+            },
+          },
+          "lbcz": {
+            "update": {
+              "mc": "编辑",
+              "clfs": "tcck"
+            },
+            "delete": {
+              "mc": "删除",
+              "htqqts": true
+            },
+            "dxjcxx": {
+              "mc": "详情",
+              "clfs": "tcck"
+            },
+          }
+        }
+      }
+    }
   }
 }

@@ -38,12 +38,12 @@ public class DemoLjq extends DefaultLjq{
             case "zdfy":
                 return success("字典获取样例："+ DictManager.zdMcByDm(Conf.getVal("benma666.app.dm"),ZD_SYS_QX_APP));
             case "sjkcx":
-                return success("采用文件sql模板执行sql查询："+db().find(SqlId.of("com/iflytek/gxpt3/demo","findSjdx"),myParams));
+                return success("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findSjdx"),myParams));
             case "sjkgx":
-                return success("采用文件sql模板执行sql更新："+db().update(SqlId.of("com/iflytek/gxpt3/demo","updateSjzd"),myParams));
+                return success("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateSjzd"),myParams));
             case "qhsjk":
                 return success("切换数据样例",db("kettle_default").find(
-                        SqlId.of("com/iflytek/gxpt3/demo","findSysDate"), Db.buildMap()));
+                        SqlId.of("demo","findSysDate"), Db.buildMap()));
             case "hqyh":
                 return success("后端获取用户信息样例", myParams.get(KEY_USER));
             case KEY_CLLX_SELECT:

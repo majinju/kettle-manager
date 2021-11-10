@@ -11,6 +11,7 @@ import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
+import com.alibaba.fastjson.parser.Feature;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -116,10 +117,10 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         String ct = request.getContentType();
         if (ct!=null&&ct.contains(MediaType.APPLICATION_JSON)) {
             // 获取输入流读取配置，与默认配置合并
-            myParams = JSONObject.parseObject(Utils.read(request.getInputStream()));
+            myParams = JSONObject.parseObject(Utils.read(request.getInputStream()), Feature.OrderedField);
         }
         if(myParams==null){
-            myParams = new JSONObject();
+            myParams = new JSONObject(true);
         }
         //合并以普通请求参数传入的参数
         Map<String, String[]> pm = request.getParameterMap();
