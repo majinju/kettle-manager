@@ -12,7 +12,31 @@ Content-Type: application/json
     "zdlb":"SYS_COMMON_ZDLB"
   },
   "sys":{
-    "cllx":"zdlist",
+    "cllx":"zdList",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 字典树获取
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  //数据对象
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+    "zdlb":"SYS_COMMON_ORG"
+  },
+  "sys":{
+    "cllx":"zdTree",
     "token":"4978866291C611DA0D2D5999C413107F"
   }
 }

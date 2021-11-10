@@ -49,13 +49,25 @@ public class TyzdLjq extends DefaultLjq {
     /**
      * 获取字典列表
      */
-    public Result zdlist(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result zdList(SysSjglSjdx sjdx, JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
             return success(msgCzcg(),DictManager.zdMapByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
         }else{
             //不使用缓存
             return success(msgCzcg(),DictManager.zdMap(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+        }
+    }
+    /**
+     * 获取字典树
+     */
+    public Result zdTree(SysSjglSjdx sjdx, JSONObject myParams) {
+        if(myParams.getBoolean("$.sys.dataCache")){
+            //使用缓存
+            return success(msgCzcg(),DictManager.zdTreeByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+        }else{
+            //不使用缓存
+            return success(msgCzcg(),DictManager.zdTree(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
         }
     }
     /**
