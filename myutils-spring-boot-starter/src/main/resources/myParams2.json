@@ -17,6 +17,7 @@
             "insert": {
               "mc": "新建",
               "clfs": "tcck",
+              //是否需要选择记录
               sfxyxzjl: false
             },
             "plsc":{
