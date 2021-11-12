@@ -29,6 +29,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.util.TypeUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.SetUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SqlId;
@@ -74,7 +76,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         SysQxYhxx user = UserManager.getUser(myParams);
         myParams.put(KEY_USER, user);
         //获取字段信息
-        myParams.put(KEY_FIELDS, getFields(sjdx, myParams, user));
+        getFields(sjdx, myParams, user);
         //记录操作日志
         czrz(sjdx, myParams, user);
         //权限鉴定
@@ -703,6 +705,19 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             myParams.set("$.yzgz['yobj." + key + "']",value.getJSONObject("$.kzxx.yzgz").clone());
             myParams.set("$.zhgz['yobj." + key + "']",value.getJSONObject("$.kzxx.zhgz").clone());
         });
+        if(myParams.containsKey(KEY_FIELDS)){
+            //如果系统配置的有默认字段则合并,具体字段配置优先
+            JSONObject sfields = myParams.getJSONObject(KEY_FIELDS);
+            JsonUtil.mergeJSONObject(sfields,fields);
+            //根据排序字段进行排序
+            List<Object> list = new ArrayList<>(sfields.values());
+            list.sort(Comparator.comparingInt(o -> ((JSONObject) o).getIntValue("px")));
+            fields = new LinkedHashMap<>();
+            for(Object o: list){
+                fields.put(((JSONObject)o).getString("zddm"), (JSONObject) o);
+            }
+        }
+        myParams.put(KEY_FIELDS, fields);
         return fields;
     }
 
@@ -931,8 +946,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         czrz.setId(StringUtil.getUUIDUpperStr());
         czrz.setCjsj(DateUtil.getGabDate());
         czrz.setSjdx(sjdx.getId());
-        czrz.setCzip(JSONPath.eval(myParams, $_SYS_CLIENT_IP).toString());
-        czrz.setUrl(JSONPath.eval(myParams, $_SYS_AUTHCODE) + "_" + JSONPath.eval(myParams, $_SYS_CLLX));
+        czrz.setCzip(myParams.getString($_SYS_CLIENT_IP));
+        czrz.setUrl(myParams.getString($_SYS_AUTHCODE) + "_" + myParams.getString($_SYS_CLLX));
         czrz.setToken(user.getToken());
         //要进行修改，这里进行一个克隆操作
         JSONObject yobj = myParams.getJSONObject(LjqInterface.KEY_YOBJ).clone();
@@ -942,7 +957,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //设置了主键
             czrz.setSjjl(yobj.remove(sjdx.getZjzd()).toString());
         }
-        czrz.setCzlx(JSONPath.eval(myParams, $_SYS_CLLX) + "");
+        czrz.setCzlx(myParams.getString($_SYS_CLLX));
         JSONObject csObj = new JSONObject();
         for (Map.Entry<String, Object> e : yobj.entrySet()) {
             String val = e.getValue() + "";

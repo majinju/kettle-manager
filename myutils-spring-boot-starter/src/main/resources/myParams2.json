@@ -12,45 +12,202 @@
     "nbdy": false,
     "cllxkz": {
       "select": {
+        //饿了么的的按钮
         "qxpz": {
           "plclLeft": {
             "insert": {
-              "mc": "新建",
-              "clfs": "tcck",
-              //是否需要选择记录
-              sfxyxzjl: false
+              "type": "primary",
+              "content": "新建",
+              "buttonOptions": {
+                "clfs": "tcck",
+                //是否需要选择记录
+                sfxyxzjl: false
+              }
             },
-            "plsc":{
-              "mc": "批量删除",
-              "htqqts": true
+            "plsc": {
+              "type": "primary",
+              "content": "批量删除",
+              "buttonOptions": {
+                "clfs": "htqq",
+                "htqqts": true
+              }
             }
           },
           "plclRight": {
-            "dcdqysj": {
-              "mc": "导出当前页",
-              "clfs": "wjxz",
-              sfxyxzjl: false
+            "insert": {
+              "content": "导出当前页",
+              "buttonOptions": {
+                "clfs": "wjxz",
+                sfxyxzjl: false
+              }
             },
-            "dcsj": {
-              "mc": "导出全部",
-              "clfs": "wjxz",
-              sfxyxzjl: false
-            },
-          },
-          "lbcz": {
+            "plsc": {
+              "content": "导出全部",
+              "buttonOptions": {
+                "clfs": "wjxz",
+                sfxyxzjl: false
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  //对象的字段信息，可以在对象中配置字段，但一般不这么做，专门的字段配置优先级最高，全局配置文件中可以配置所有对象的通用字段
+  "fields": {
+    //查询列表
+    "myList": {
+      "px": 1,
+      "zdywlb": "99",
+      "kjlx": "MySelectGrid",
+      "kzxx": {
+        "cllxkz": {
+          "select": {
+            "show": true
+          }
+        }
+      },
+      "kjkz": {
+        "itemRender": {
+          "props": {
+            "dxjcxx": {
+              "sys": {},
+              "sjdx": {
+                "dxdm": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    //列表选择
+    "myLbxz": {
+      "px": 2,
+      "zdywlb": "99",
+      "kjlx": "checkbox",
+      "lbzs": "1",
+      "kzxx": {
+        "cllxkz": {
+        }
+      }
+    },
+    //列表序号
+    "myLbxh": {
+      "px": 3,
+      "zdmc": "序号",
+      "zdywlb": "99",
+      "kjlx": "seq",
+      "lbzs": "1",
+      "kzxx": {
+        "cllxkz": {
+        }
+      }
+    },
+    //列表操作
+    "myLbcz": {
+      "px": 5000,
+      "zdmc": "操作",
+      "zdywlb": "99",
+      "kjlx": "$buttons",
+      "lbzs": "1",
+      "kzxx": {
+        "cllxkz": {
+        },
+        "kjkz": {
+          //vxe的按钮
+          "btns": {
             "update": {
-              "mc": "编辑",
-              "clfs": "tcck"
+              "type": "text",
+              "content": "编辑",
+              "status": "primary",
+              "buttonOptions": {
+                "clfs": "tcck"
+              }
             },
             "delete": {
-              "mc": "删除",
-              "htqqts": true
+              "type": "text",
+              "content": "删除",
+              "status": "primary",
+              "buttonOptions": {
+                "clfs": "htqq",
+                "htqqts": true
+              }
             },
             "dxjcxx": {
-              "mc": "详情",
-              "clfs": "tcck"
-            },
+              "type": "text",
+              "content": "详情",
+              "status": "primary",
+              "buttonOptions": {
+                "clfs": "tcck"
+              }
+            }
           }
+        }
+      }
+    },
+    //编辑按钮字段
+    "myBjan": {
+      "px": 5000,
+      "zdywlb": "99",
+      "kjlx": "$buttons",
+      "kzxx": {
+        "cllxkz": {
+          "insert": {
+            "show": true
+          },
+          "update": {
+            "show": true
+          }
+        },
+        "kjkz": {
+          "align": "center",
+          "span": 24,
+          //vxe的按钮
+          "btns": {
+            "insert": {
+              "type": "button",
+              "content": "提交",
+              "status": "primary",
+              "buttonOptions": {
+                "htqqts": true
+              }
+            },
+            "gb": {
+              "type": "button",
+              "content": "关闭",
+              "buttonOptions": {
+                "clfs": "gbtc"
+              }
+            }
+          }
+        }
+      }
+    },
+    //详情按钮字段
+    "myXqan": {
+      "px": 5000,
+      "zdywlb": "99",
+      "kjlx": "$buttons",
+      "kzxx": {
+        "cllxkz": {
+          "dxjcxx": {
+            "show": true
+          }
+        },
+        "kjkz": {
+          //vxe的按钮
+          "btns": [
+            {
+              "name": "gb",
+              "type": "button",
+              "content": "关闭",
+              "buttonOptions": {
+                "clfs": "gbtc"
+              }
+            }
+          ],
+          "align": "center",
+          "span": 24
         }
       }
     }
