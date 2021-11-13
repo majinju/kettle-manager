@@ -1,4 +1,27 @@
 
+### 对象基础信息
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD_DEMO"
+  },
+  "yobj": {
+    "id": "0E369823CC1A45E88ED6BE8E8F7DCBC0"
+  },
+  "sys":{
+    "cllx":"dxjcxx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
 ### 查询数据
 POST {{serviceAddr}}
 Content-Type: application/json

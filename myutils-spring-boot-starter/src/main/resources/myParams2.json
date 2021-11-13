@@ -57,8 +57,10 @@
   "fields": {
     //查询列表
     "myList": {
+      "zddm": "myList",
       "px": 1,
       "zdywlb": "99",
+      "zdkd": 2,
       "kjlx": "MySelectGrid",
       "kzxx": {
         "cllxkz": {
@@ -82,6 +84,7 @@
     },
     //列表选择
     "myLbxz": {
+      "zddm": "myLbxz",
       "px": 2,
       "zdywlb": "99",
       "kjlx": "checkbox",
@@ -93,6 +96,7 @@
     },
     //列表序号
     "myLbxh": {
+      "zddm": "myLbxh",
       "px": 3,
       "zdmc": "序号",
       "zdywlb": "99",
@@ -105,6 +109,7 @@
     },
     //列表操作
     "myLbcz": {
+      "zddm": "myLbcz",
       "px": 5000,
       "zdmc": "操作",
       "zdywlb": "99",
@@ -147,6 +152,7 @@
     },
     //编辑按钮字段
     "myBjan": {
+      "zddm": "myBjan",
       "px": 5000,
       "zdywlb": "99",
       "kjlx": "$buttons",
@@ -176,7 +182,8 @@
               "type": "button",
               "content": "关闭",
               "buttonOptions": {
-                "clfs": "gbtc"
+                "clfs": "gbtc",
+                "sfjybd": false
               }
             }
           }
@@ -185,6 +192,7 @@
     },
     //详情按钮字段
     "myXqan": {
+      "zddm": "myXqan",
       "px": 5000,
       "zdywlb": "99",
       "kjlx": "$buttons",
@@ -195,19 +203,19 @@
           }
         },
         "kjkz": {
+          "align": "center",
+          "span": 24,
           //vxe的按钮
-          "btns": [
-            {
-              "name": "gb",
+          "btns": {
+            "gb": {
               "type": "button",
               "content": "关闭",
               "buttonOptions": {
-                "clfs": "gbtc"
+                "clfs": "gbtc",
+                "sfjybd": false
               }
             }
-          ],
-          "align": "center",
-          "span": 24
+          }
         }
       }
     }

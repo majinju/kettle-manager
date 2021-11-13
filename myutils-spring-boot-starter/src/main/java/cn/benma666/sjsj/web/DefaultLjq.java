@@ -27,10 +27,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
+import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.util.TypeUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.SetUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SqlId;
@@ -477,7 +476,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public String[] getSql(SysSjglSjdx sjdx, JSONObject myParams, String cllx) {
         //设置from
-        JSONPath.set(myParams, "$.sql.from", (StringUtil.isBlank(
+        myParams.set("$.sql.from", (StringUtil.isBlank(
                 sjdx.getDxgs()) ? "" : sjdx.getDxgs() + ".") + sjdx.getJtdx());
         //先获取该处理类型对应的数据库的默认sql
         String key= "DEFAULT." + cllx + "." + sjdx.getDxztlx();
@@ -490,7 +489,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         String sql = null;
         if(StringUtil.isNotBlank(sqlTmpl)){
             //先生成默认SQL
-            sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
+            try{
+                sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
+            }catch (Exception e){
+                log.error("模板渲染失败",e);
+                throw new MyException(e.getMessage(),e);
+            }
             if (sql.startsWith("error:")) {
                 //用于在模板处理中，直接返回信息到前端
                 throw new MyException(sql.substring("error:".length()), sjdx);
@@ -507,7 +511,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             sqlTmpl = Conf.getVal(key);
         }
         if (StringUtil.isNotBlank(sqlTmpl)) {
-            sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
+            try{
+                sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
+            }catch (Exception e){
+                log.error("模板渲染失败",e);
+                throw new MyException(e.getMessage(),e);
+            }
             if (sql.startsWith("error:")) {
                 throw new MyException(sql.substring("error:".length()), sjdx);
             }
@@ -696,6 +705,18 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }else{
             String[] r = getSql(sjdx, myParams, "getFields");
             fields = db(r[0]).findMap("zddm", r[1], myParams);
+            if(myParams.containsKey(KEY_FIELDS)){
+                //如果系统配置的有默认字段则合并,具体字段配置优先
+                JSONObject sfields = myParams.getJSONObject(KEY_FIELDS);
+                JsonUtil.mergeJSONObject(sfields,fields);
+                //根据排序字段进行排序
+                List<Object> list = new ArrayList<>(sfields.values());
+                list.sort(Comparator.comparingInt(o -> ((JSONObject) o).getIntValue("px")));
+                fields = new LinkedHashMap<>();
+                for(Object o: list){
+                    fields.put(((JSONObject)o).getString("zddm"), (JSONObject) o);
+                }
+            }
             //设置缓存
             fieldsCache.put(cacheKey, fields);
             fieldsInit(fields, myParams);
@@ -705,18 +726,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             myParams.set("$.yzgz['yobj." + key + "']",value.getJSONObject("$.kzxx.yzgz").clone());
             myParams.set("$.zhgz['yobj." + key + "']",value.getJSONObject("$.kzxx.zhgz").clone());
         });
-        if(myParams.containsKey(KEY_FIELDS)){
-            //如果系统配置的有默认字段则合并,具体字段配置优先
-            JSONObject sfields = myParams.getJSONObject(KEY_FIELDS);
-            JsonUtil.mergeJSONObject(sfields,fields);
-            //根据排序字段进行排序
-            List<Object> list = new ArrayList<>(sfields.values());
-            list.sort(Comparator.comparingInt(o -> ((JSONObject) o).getIntValue("px")));
-            fields = new LinkedHashMap<>();
-            for(Object o: list){
-                fields.put(((JSONObject)o).getString("zddm"), (JSONObject) o);
-            }
-        }
         myParams.put(KEY_FIELDS, fields);
         return fields;
     }
@@ -729,11 +738,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected void fieldsInit(Map<String, JSONObject> fields, JSONObject myParams) {
         for (JSONObject field : fields.values()) {
-            JSONObject kzxx = JSON.parseObject(field.getString(UtilConst.FIELD_KZXX));
+            JSONObject kzxx = JSON.parseObject(field.getString(UtilConst.FIELD_KZXX), Feature.OrderedField);
             //顺便将字段扩展信息对象化
             field.put(UtilConst.FIELD_KZXX, kzxx);
             //初始化验证规则
-            fieldYzgzInit(field, kzxx);
+            fieldYzgzInit(field, kzxx,myParams);
             //初始化转换规则
             fieldZhgzInit(field, kzxx);
             //处理类型扩展
@@ -742,7 +751,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     /**
-     * 字段处理类型初始化
+     * 字段处理类型初始化，设置各处理类型是否展示、默认值等
      * @param field 字段
      * @param kzxx 扩展信息
      */
@@ -843,8 +852,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 字段验证规则初始化
      * @param field 字段
      * @param kzxx 扩展信息
+     * @param myParams 相关参数
      */
-    protected void fieldYzgzInit(JSONObject field, JSONObject kzxx) {
+    protected void fieldYzgzInit(JSONObject field, JSONObject kzxx,JSONObject myParams) {
         //默认验证规则
         JSONObject yzgz = new JSONObject();
         //根据字段库中的长度设置长度规则。
@@ -852,6 +862,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         gz.put("max", valByDef(field.getInteger("zdcd"), Integer.MAX_VALUE));
         gz.put("min", 0);
         yzgz.put("length", gz);
+        //必填规则
+        if (valByDef(field.getBoolean("bjbt"),false)) {
+            yzgz.put("notNull", new JSONObject());
+        }
         //设置信息描述，作为提示的主体
         yzgz.put("xxms", field.getString("zdmc"));
 
@@ -915,17 +929,40 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         yzgz = new JSONObject();
         //设置默认继承更新的验证规则
         yzgz.put("extends", new String[]{"update"});
-        //必填规则，只对新增时有效
-        if (TypeUtils.castToBoolean(field.getString("bjbt"))) {
-            yzgz.put("notNull", new JSONObject());
-        }
         if (kyzgz.containsKey("insert")) {
             //用户配置了新增验证规则则合并
             JsonUtil.mergeJSONObjects(yzgz, kyzgz.getJSONObject("insert"));
         }
         //设置最新地新增验证验证规则
         kyzgz.put("insert", yzgz);
+        //处理验证规则中的继承，后续验证更方便
+        for(String cllx:kyzgz.keySet()){
+            mergeRule(myParams,kyzgz,cllx);
+        }
         kzxx.put(UtilConst.KEY_YZGZ,kyzgz);
+    }
+    /**
+     * 合并验证规则
+     * @param myParams 系统参数
+     * @param rootRule 所有规则
+     * @param cllx 处理类型
+     */
+    protected void mergeRule(JSONObject myParams, JSONObject rootRule, String cllx){
+        JSONObject yzgz = rootRule.getJSONObject(cllx);
+        if(yzgz==null){
+            //该处理类型没有设置验证规则
+            return;
+        }
+        Object et = yzgz.remove("extends");
+        if (et != null) {
+            //合并继承的规则
+            JSONObject newObj = new JSONObject(true);
+            for (String eCllx : (String[]) et) {
+                JsonUtil.mergeJSONObject(newObj, rootRule.getJSONObject(eCllx));
+            }
+            JsonUtil.mergeJSONObject(newObj,yzgz);
+            rootRule.put(cllx,newObj);
+        }
     }
 
     /**
