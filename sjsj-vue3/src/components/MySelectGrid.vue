@@ -439,7 +439,6 @@ export default defineComponent({
           getList()
         }
       }).catch((req)=>{
-        ElMessage.error(req.msg ? req.msg : "处理失败");
       });
     }
     /**

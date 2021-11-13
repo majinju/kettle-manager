@@ -93,13 +93,8 @@ function errorMessageHand(status, data) {
     // 其他错误，直接抛出错误提示
     case 403:
       // token失效
-      ElMessage({
-        type: 'error',
-        message: data.msg|| '登录已过期，请重新登录',
-        duration: 5000
-      })
-      ElMessageBox.confirm(data.msg|| '该操作没有权限，请重新登陆试试', {
-        confirmButtonText: "确定",
+      ElMessageBox.confirm((data.msg|| '该操作没有权限')+'，请重新登陆试试', {
+        confirmButtonText: "重新登陆",
         cancelButtonText: "取消",
         type: "error"
       }).then(() => {
