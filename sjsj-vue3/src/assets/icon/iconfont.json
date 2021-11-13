@@ -1,0 +1,121 @@
+{
+  "id": "2733548",
+  "name": "ttb",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2674878",
+      "name": "箭头 上",
+      "font_class": "jiantoushang",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "2674927",
+      "name": "箭头 上",
+      "font_class": "jiantoushang1",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "2674929",
+      "name": "箭头 下",
+      "font_class": "jiantouxia",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "14996399",
+      "name": "上拉",
+      "font_class": "shangla1",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "8224835",
+      "name": "上拉",
+      "font_class": "shangla",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "4229553",
+      "name": "长条",
+      "font_class": "changtiao",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "8675195",
+      "name": "下拉",
+      "font_class": "xiala",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "18192581",
+      "name": "新增",
+      "font_class": "action-add-hover",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6772747",
+      "name": "B布控撤控监控@",
+      "font_class": "Bbukongchekongjiankong",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "15554270",
+      "name": "撤控",
+      "font_class": "chekong1",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "15838999",
+      "name": "撤控",
+      "font_class": "chekong",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "18826803",
+      "name": "布撤控",
+      "font_class": "buchekong",
+      "unicode": "e6e8",
+      "unicode_decimal": 59112
+    },
+    {
+      "icon_id": "5203277",
+      "name": "链接",
+      "font_class": "lianjie",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "19532500",
+      "name": "详情",
+      "font_class": "detail",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "2551720",
+      "name": "操作-详情",
+      "font_class": "xiangqing",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "18111033",
+      "name": "记录",
+      "font_class": "record",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    }
+  ]
+}
