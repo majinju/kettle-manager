@@ -1,24 +1,23 @@
 <template>
-  <el-container>
-    <el-header>
-
-    </el-header>
-    <el-main>
-      <div class="content">
-        <div class="xtbt">{{ data.title }}</div>
-        <vxe-form :data="data.formData" :items="data.formItems" :rules="data.formRule" title-align="right"
-                  title-width="100" title-colon :loading="data.loading" @submit="submitEvent">
-        </vxe-form>
-      </div>
-    </el-main>
-    <el-footer>
-      版权所有@马进举
-    </el-footer>
-  </el-container>
+  <div class="login">
+    <el-container>
+      <el-main>
+        <div class="content1">
+          <div class="xtbt">{{ data.title }}</div>
+          <vxe-form :data="data.formData" :items="data.formItems" :rules="data.formRule"
+                    :loading="data.loading" @submit="submitEvent">
+          </vxe-form>
+        </div>
+      </el-main>
+      <el-footer>
+        @2021
+      </el-footer>
+    </el-container>
+  </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive,onMounted } from 'vue'
 import axios from '../axios'
 import {ElMessage} from "element-plus";
 import { useStore } from "vuex";
@@ -27,7 +26,7 @@ import { useRouter } from "vue-router";
 export default defineComponent({
   setup () {
     const data = reactive({
-      title:"数据世界",
+      title:"共享平台3",
       loading:false,
       formData: {
         yhdm: '',
@@ -54,6 +53,8 @@ export default defineComponent({
         ]
       }
     });
+    onMounted(()=>{
+    })
     document.title=data.title;
     const store = useStore();
     const router = useRouter();
@@ -68,8 +69,11 @@ export default defineComponent({
         yobj:data.formData
       }).then(response => {
         if(response.status){
+          console.log('用户登录成功后返回的信息')
+          console.log(response.data)
           store.commit("setSys",response.data.sys)
           store.commit("setUser",response.data.user)
+          store.state.userInfo=response.data.user
           ElMessage.info("登陆成功");
           router.push("/home");
         }else{
@@ -85,10 +89,14 @@ export default defineComponent({
 })
 </script>
 <style scoped lang="scss">
-.el-container{
+.login{
+  height: 100%;
+  width: 100%;
+  background-image: url("../assets/img/bg1.jpg");
+  background-size: 100%;
   .el-main{
-    margin-top: 120px;
-    .content{
+    margin-top: 130px;
+    .content1{
       width: 400px;
       margin: auto;
       .xtbt{

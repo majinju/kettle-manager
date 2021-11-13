@@ -22,7 +22,7 @@ module.exports = {
   //lintOnSave: process.env.NODE_ENV !== 'development',
   lintOnSave: false,
   devServer: {
-    port: 9001,
+    port: 9002,
     open: true,
     watchOptions: {
       ignored: ['node_modules'],
@@ -40,7 +40,7 @@ module.exports = {
         target: process.env.VUE_APP_API_BASE_HOST,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_API_BASE_ROOT]: '/'
+          ['^' + process.env.VUE_APP_API_BASE_ROOT]: ''
         }
       }
     },
@@ -74,7 +74,7 @@ module.exports = {
       args[0].title = name
       return args
     })
-
+    config.resolve.alias.set('vue-i18n', 'vue-i18n/dist/vue-i18n.cjs.js')
     // set svg-sprite-loader
     config.module
       .rule('svg')

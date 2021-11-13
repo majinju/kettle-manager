@@ -8,25 +8,62 @@ const routes = [
   },
   {
     path: "/home",
-    name: "Home",
+    name: "平台首页",
+    meta:{
+      title:'平台首页'
+    },
     component: () => import('../views/Home'),
-    // children: [
-    //   {
-    //     path: 'DictionaryManagement',
-    //     name:'字典管理',
-    //     component: () => import('@/views/zdgl/dictionaryManager'),
-    //   },
-    //   {
-    //     path: '/dictionaryAdd' ,
-    //     name: '详情页',
-    //     component: () => import('@/views/zdgl/dictionaryAdd')
-    //   },
-    //   {
-    //     path: '/home/dictionaryEdit',
-    //     name: '编辑页',
-    //     component: () =>import('@/views/zdgl/dictionaryEdit')
-    //   }
-    // ]
+    children: [
+      {
+        path: 'sjdx',
+        name:'数据对象',
+        component: () => import('../views/Sjdx')
+      },
+      {
+        path: 'MySelect',
+        name:'查询列表',
+        component: () => import('../views/common/MySelect'),
+        props: route => ({
+          sjdx:{
+            dxdm: route.query['sjdx.dxdm']
+          },
+          sys:{
+            authCode: route.query['sys.authCode']
+          }
+        })
+      },
+      {
+        path: 'MyUpdate',
+        name:'编辑页面',
+        component: () => import('../views/common/MyUpdate'),
+        props: route => ({
+          sjdx:{
+            dxdm: route.query['sjdx.dxdm']
+          },
+          sys:{
+            authCode: route.query['sys.authCode']
+          }
+        })
+      },
+      {
+        path: 'KFZFW_PTGL_ZDGL',
+        name:'字典管理',
+        meta:{
+          title:'字典管理'
+        },
+        component: () => import('../views/zdgl/Select'),
+      },
+      {
+        path: 'test',
+        name:'测试',
+        component: () => import('../views/common/Test'),
+      },
+      {
+        path: 'vxe',
+        name:"分页",
+        component:()=> import('../components/Test')
+      }
+    ]
   },
 ]
 

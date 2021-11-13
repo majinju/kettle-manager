@@ -1,4 +1,4 @@
 
 const WEB_CONFIG={
-    baseRoot:"/sjsj"
+    baseRoot:"/index"
 }

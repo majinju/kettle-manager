@@ -26,12 +26,14 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style>
+@import "./style/main.css";
 .body{
-  background-image: url("./assets/img/bg1.jpg");
   position: relative;
   width: 100%;
   height: 100vh;
   background-size: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>

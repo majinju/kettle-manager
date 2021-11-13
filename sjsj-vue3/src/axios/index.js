@@ -1,9 +1,7 @@
 "use strict";
 
-import { ElMessage,ElLoading } from 'element-plus'
+import {ElMessage, ElLoading, ElMessageBox} from 'element-plus'
 import axios from "axios";
-import qs from "qs";
-import store from '../store'
 import router from '../router'
 
 let loading = null
@@ -29,7 +27,7 @@ const server = axios.create(config);
 // 添加请求拦截器
 server.interceptors.request.use(
   function(config) {
-    loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
+    config.headers.token='4978866291C611DA0D2D5999C413107F';
     return config;
   },
   function(error) {
@@ -50,31 +48,45 @@ server.interceptors.response.use(
     if (loading) {
       loading.close()
     }
-    if (response.status === 200) {
-      errorMessageHand(response.data.code, response.data.msg)
-      return Promise.resolve(response.data)
+    if(response.headers["content-type"].indexOf("application/octet-stream")>-1){
+      //下载文件的场景
+      response.data.filename=response.headers["filename"];
     }
-    return Promise.reject(response)
+    return Promise.resolve(response.data)
   },
   function(error) {
     // 对响应错误做点什么
     if (loading) {
       loading.close()
     }
-    if (error.response && error.response.status) {
-      let msg = error.response.statusText || error.response.status
-      errorMessageHand(error.response.status, msg)
+    let data = error.response.data;
+    if(!data){
+      data = {
+        code:error.response.status,
+        msg:error.response.statusText || error.response.status
+      }
     }
-    return Promise.reject(error);
+    errorMessageHand(data.code, data);
+    return Promise.reject(data);
   }
 );
-function errorMessageHand(status, msg) {
+function errorMessageHand(status, data) {
   status = parseInt(status)
   switch (status) {
+    case 200:
+      //正常
+      break
+    case 412:
+      ElMessage({
+        type: 'error',
+        message: data.msg,
+        duration: 5000
+      })
+      break
     case 404:
       ElMessage({
         type: 'error',
-        message: '网络请求不存在',
+        message: data.msg||'网络请求不存在',
         duration: 5000
       })
       break
@@ -83,11 +95,24 @@ function errorMessageHand(status, msg) {
       // token失效
       ElMessage({
         type: 'error',
-        message: msg?msg: '登录已过期，请重新登录',
+        message: data.msg|| '登录已过期，请重新登录',
         duration: 5000
       })
-      router.push('/login').then();
+      ElMessageBox.confirm(data.msg|| '该操作没有权限，请重新登陆试试', {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "error"
+      }).then(() => {
+        router.push('/login').then();
+      }).catch(()=>{
+      })
       break
+    default:
+      ElMessageBox.alert(data.msg||'请求异常', '提示', {
+        confirmButtonText: 'OK',
+        callback: (action) => {
+        },
+      })
   }
 }
 const httpHandle = {
@@ -101,10 +126,17 @@ const httpHandle = {
   /**
    * 常规数据处理
    * @param data
+   * @param tloading 是否显示等待提示，默认提示
    * @returns {*}
    */
-  post: (data)=>{
-    return server.post("",data)
+  post: (data,tloading=true)=>{
+    if(tloading){
+      loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
+    }
+    return server({
+      method: 'post',
+      data:data
+    })
   },
   /**
    * 上传文件
@@ -112,11 +144,10 @@ const httpHandle = {
    * @returns {*}
    */
   upload:(data)=>{
+    loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
     return server({
       method: 'get',
-      paramsSerializer: function(data) {
-        return qs.stringify(data)
-      },
+      data:data
     })
   },
   /**
@@ -124,6 +155,7 @@ const httpHandle = {
    * @param data
    */
   download: (data)=>{
+    loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
     server({
       method: 'post',
       data: data,
@@ -134,10 +166,11 @@ const httpHandle = {
       let event = new MouseEvent("click");
       let a = document.createElement("a");
       a.href = href;
+      a.download = data.sys.dcwjm;
       a.dispatchEvent(event);
       URL.revokeObjectURL(href);
     })
-  },
+  }
 }
 
 export default httpHandle;

@@ -1,133 +1,548 @@
+import axios from "@/axios";
 
-function getType(obj) {
-    let toString = Object.prototype.toString
-    let map = {
-        '[object Boolean]' : 'boolean',
-        '[object Number]'  : 'number',
-        '[object String]'  : 'string',
-        '[object Function]' : 'function',
-        '[object Array]'  : 'array',
-        '[object Date]'   : 'date',
-        '[object RegExp]'  : 'regExp',
-        '[object Undefined]': 'undefined',
-        '[object Null]'   : 'null',
-        '[object Object]'  : 'object'
-    };
-    return map[toString.call(obj)]
+////////////////////////////////时间///////////////////////////
+//添加指定的天数,并返回新的日期
+Date.prototype.addDays = function (days) {
+  const nd = new Date(this);
+  nd.setDate(nd.getDate() + parseInt(days));
+  return nd;
+};
+//添加指定的小时,并返回新的日期
+Date.prototype.addHours = function (hours) {
+  const nd = new Date(this);
+  nd.setHours(nd.getHours() + parseInt(hours));
+  return nd;
+};
+/**
+ * 时间字符串解析为date
+ * @param dateStr 时间字符串
+ */
+Date.parseDate = function (dateStr) {
+  if (!dateStr) {
+    return null;
+  }
+  if (dateStr instanceof Date) {
+    //本身就是date类型
+    return dateStr;
+  }
+  const d = new Date();
+  if (dateStr.length === 8) {
+    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(4, 6) - 1, dateStr.substring(6, 8));
+    d.setHours(0, 0, 0);
+  } else if (dateStr.length === 10) {
+    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(5, 7) - 1, dateStr.substring(8, 10));
+    d.setHours(0, 0, 0);
+  } else if (dateStr.length === 12) {
+    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(4, 6) - 1, dateStr.substring(6, 8));
+    d.setHours(str.substring(8, 10), dateStr.substring(10, 12), 0);
+  } else if (dateStr.length === 14) {
+    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(4, 6) - 1, dateStr.substring(6, 8));
+    d.setHours(dateStr.substring(8, 10), dateStr.substring(10, 12), dateStr.substring(12, 14));
+  } else if (dateStr.length === 19) {
+    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(5, 7) - 1, dateStr.substring(8, 10));
+    d.setHours(dateStr.substring(11, 13), dateStr.substring(14, 16), dateStr.substring(17, 19));
+  }
+  return d;
 }
-function deepClone(data) {
-    let t = getType(data), o, i, ni
+/**
+ * 时间对象的格式化
+ */
+Date.prototype.format = function (format) {
+  const o = {
+    "M+": this.getMonth() + 1, // month
+    "d+": this.getDate(), // day
+    "H+": this.getHours(), // hour
+    "m+": this.getMinutes(), // minute
+    "s+": this.getSeconds(), // second
+    "q+": Math.floor((this.getMonth() + 3) / 3), // quarter
+    "S": this.getMilliseconds()
+  };
 
-    if(t === 'array') {
-        o = [];
-    }else if( t === 'object') {
-        o = {};
-    }else {
-        return data
-    }
+  if (/(y+)/.test(format)) {
+    format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  }
 
-    if(t === 'array') {
-        for (i = 0, ni = data.length; i < ni; i++) {
-            o.push(deepClone(data[i]))
-        }
-        return o;
-    }else if( t === 'object') {
-        for( i in data) {
-            o[i] = deepClone(data[i])
-        }
-        return o
+  for (const k in o) {
+    if (new RegExp("(" + k + ")").test(format)) {
+      format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
     }
+  }
+  return format;
+};
+/**
+ * 时间格式化
+ */
+export function dateFormat(dateStr, fmt) {
+  const d = Date.parseDate(dateStr);
+  if (d) {
+    if (fmt === 'date') {
+      //为时间对象时，传输中转为14位时间
+      fmt = 'yyyyMMddHHmmss';
+    }
+    return d.format(fmt);
+  } else {
+    return "";
+  }
 }
+////////////////////////////////时间///////////////////////////
 
-function setDateAndTime(date) {
-    date = date || new Date()
-    let y = date.getFullYear()
-    let M = date.getMonth()+1
-    let d = date.getDate()
-    let h = date.getHours()
-    let m = date.getMinutes()
-    let s = date.getSeconds()
-    M = M>=10?M:'0'+M
-    d = d>=10?d:'0'+d
-    h = h>=10?h:'0'+h
-    m = m>=10?m:'0'+m
-    s = s>=10?s:'0'+s
-    let num = isNaN(parseInt(""+y+M+d+h+m+s)) ? '' : parseInt(""+y+M+d+h+m+s)
-    return num
+////////////////////////////////字典///////////////////////////
+/**
+ * 字典缓存
+ * @type {{}}
+ */
+const globalData = {
+  zdListCache:{}
+};
+
+/**
+ * 获取字典项
+ * @param zdObj 字典类别等信息对象
+ * @param cache 是否缓存，默认采用缓存
+ * @returns {Promise<unknown>} 字典对象-异步
+ */
+export function zdObj(zdObj, cache) {
+  return zdObjG(globalData,zdObj,cache);
 }
 
 /**
- * 字符串拼接日期格式
- * @param val
- * @returns {string}
+ * 获取字典列表
+ * @param zdlb 字典类别
+ * @returns {Promise<unknown>} 字典列表-异步
  */
-function formatDateAndDate(val) {
-    if (!val) {
-        return "";
-    }
-    let y = val.substr(0, 4);
-    let M = val.substr(4, 2);
-    let d = val.substr(6, 2);
-    let h = val.substr(8, 2);
-    let m = val.substr(10, 2);
-    let s = val.substr(12, 2);
-    return y + "-" + M + "-" + d + " " + h + ":" + m + ":" + s;
+export function zdList(zdlb) {
+  return zdListG(globalData,zdlb);
 }
-
 /**
- * 日期时间格式转换为字符串
- * @param date
- * @returns {string}
+ * 获取字典树
+ * @param zdlb 字典类别
+ * @returns {Promise<unknown>} 字典树-异步
  */
-function  setDate(date) {
-    if (date) {
-        let sj = [];
-        date.forEach(item => {
-            let time = new Date(item);
-            let y = time.getFullYear();
-            let m = time.getMonth()+1;
-            let d = time.getDate();
-            let h = time.getHours();
-            let s = time.getMinutes();
-            let mm = time.getSeconds();
-            m = m >= 10 ? m : "0" + m;
-            d = d >= 10 ? d : "0" + d;
-            h = h >= 10 ? h : "0" + h;
-            s = s >= 10 ? s : "0" + s;
-            mm = mm >= 10 ? mm : "0" + mm;
-            sj.push("" + y + m + d + h + s + mm);
-        });
-        return sj.join(";");
+export function zdTree(zdlb) {
+  return zdTreeG(globalData,zdlb);
+}
+/**
+ * 获取字典树
+ * @param globalData 全局变量
+ * @param zdlb 字典类别
+ */
+function zdTreeG(globalData, zdlb) {
+  return new Promise((resolve, reject) => {
+    const zdListCache = globalData.zdListCache;
+    if (zdListCache[zdlb+"tree"] == null) {
+      axios.post({
+        //数据对象
+        "sjdx":{
+          "dxdm":"SYS_SJGL_TYZD"
+        },
+        "yobj": {
+          "zdlb":zdlb
+        },
+        "sys":{
+          "cllx":"zdTree",
+        }
+      },false).then(function (res){
+        zdListCache[zdlb+"_tree"] = res.data;
+        resolve(res.data);
+      }).catch(function (rep){
+        reject(null);
+      })
     } else {
-        return "";
+      resolve(zdListCache[zdlb+"_tree"]);
     }
+  });
 }
-
+/**
+ * 获取字典列表
+ * @param globalData 全局变量
+ * @param zdlb 字典类别
+ */
+function zdListG(globalData, zdlb) {
+  return new Promise((resolve, reject) => {
+    const zdListCache = globalData.zdListCache;
+    if (zdListCache[zdlb + "_nocache"]) {
+      //不支持获取列表
+      reject(null);
+    } else if (zdListCache[zdlb] == null) {
+      axios.post({
+        //数据对象
+        "sjdx":{
+          "dxdm":"SYS_SJGL_TYZD"
+        },
+        "yobj": {
+          "zdlb":zdlb
+        },
+        "sys":{
+          "cllx":"zdList",
+        }
+      },false).then(function (res){
+        if (res.status&&res.data) {
+          let list = []
+          for (const i in res.data) {
+            list.push(res.data[i])
+          }
+          zdListCache[zdlb] = list;
+          resolve(list);
+        } else {
+          //不支持获取列表
+          zdListCache[zdlb + "_nocache"] = true;
+          zdListCache[zdlb] = [];
+          reject(null);
+        }
+      }).catch(function (rep){
+        reject(null);
+      })
+    } else {
+      resolve(zdListCache[zdlb]);
+    }
+  });
+}
+/**
+ * 获取字典对象
+ * @param globalData 全局变量
+ * @param zdObj 字典对象
+ * @param cache 是否缓存
+ */
+function zdObjG(globalData, zdObj, cache) {
+  return new Promise((resolve, reject) => {
+    const zdListCache = globalData.zdListCache;
+    const zdlb = zdObj.zdlb;
+    const dm = zdObj.dm;
+    const mc = zdObj.mc;
+    let obj = null;
+    if (zdlb) {
+      if (cache === undefined) {
+        //默认走缓存
+        cache = true;
+      }
+      if(cache){
+        zdListG(globalData, zdlb).then(function (zl) {
+          let i;
+          //获取了字典列表
+          if (dm) {
+            for (i in zl) {
+              if (zl[i].dm === dm) {
+                obj = zl[i];
+                obj.idx = i;
+                break;
+              }
+            }
+            if(!obj){
+              obj = {
+                dm:dm,
+                mc:dm
+              }
+            }
+          } else if (mc) {
+            for (i in zl) {
+              if (zl[i].mc === mc) {
+                obj = zl[i];
+                obj.idx = i;
+                break;
+              }
+            }
+            if(!obj){
+              obj = {
+                dm:mc,
+                mc:mc
+              }
+            }
+          }
+          resolve(obj);
+        }).catch(function (){
+          if (zdListCache[zdlb][dm] ) {
+            //该字典的具体字典项已经缓存。
+            obj = zdListCache[zdlb][dm];
+            resolve(obj);
+          } else if (zdListCache[zdlb][mc]) {
+            //该字典的具体字典项已经缓存。
+            obj = zdListCache[zdlb][mc];
+            resolve(obj);
+          }else{
+            postZdObj(globalData, {
+              sys:{
+              },
+              yobj:zdObj
+            }).then((data)=>{
+              resolve(data);
+            }).catch(()=>{
+              reject(null);
+            })
+          }
+        });
+      }else{
+        postZdObj(globalData, {
+          sys:{
+            //不走缓存
+            dataCache:false
+          },
+          yobj:zdObj
+        },false).then((data)=>{
+          resolve(data);
+        }).catch(()=>{
+          reject(null);
+        })
+      }
+    } else {
+      resolve(null);
+    }
+  });
+}
+function postZdObj(globalData,data){
+  const zdListCache = globalData.zdListCache;
+  return new Promise(function (resolve,reject){
+    data.sjdx={
+      "dxdm":"SYS_SJGL_TYZD"
+    }
+    data.sys.cllx="zdObj";
+    axios.post(data).then(function (res){
+      let obj;
+      if (res.status) {
+        const zd = res.data;
+        zdListCache[data.yobj.zdlb][zd.dm] = zd;
+        zdListCache[data.yobj.zdlb][zd.mc] = zd;
+        obj = zd;
+      } else if (dm) {
+        obj = {
+          "dm": dm,
+          "mc": dm
+        };
+        zdListCache[data.yobj.zdlb][dm] = obj;
+      } else if (mc) {
+        obj = {
+          "dm": mc,
+          "mc": mc
+        };
+        zdListCache[data.yobj.zdlb][mc] = obj;
+      }
+      resolve(obj);
+    }).catch(function (){
+      reject(null)
+    })
+  })
+}
 
 /**
- * 默认时间向前,可通过参数来确定默认的时间.
- * 可以默认时间范围
- * @param num
- * @returns {string[]}
+ * 获取字典名称
+ * @param globalData 全局变量
+ * @param zdlb 字典类别
+ * @param dm 字典代码
  */
-function timeDefault (num,day) {
-    let date = new Date()
-    // 通过时间戳计算
-    let defalutStartTime = date.getTime() +24 * 3600 * 1000 // 转化为时间戳
-    let defalutEndTime = date.getTime()
-    let startDateNs = new Date(defalutStartTime)
-    let endDateNs = new Date(defalutEndTime)
-    // 月，日 不够10补0
-    defalutStartTime = startDateNs.getFullYear() + '-' + ((startDateNs.getMonth() + 1) > 10 ?
-        (startDateNs.getMonth() -num) + '-' + (startDateNs.getDate() >10 ? startDateNs.getDate()-day+" "+endDateNs.getHours()+":"+endDateNs.getMinutes()+":"+endDateNs.getSeconds() : '0' + endDateNs.getDate()+" "+endDateNs.getHours()+":"+endDateNs.getMinutes()+":"+endDateNs.getSeconds()) :
-        '0' + (startDateNs.getMonth() -num) + '-' + (startDateNs.getDate() >10 ? startDateNs.getDate()-day+" "+endDateNs.getHours()+":"+endDateNs.getMinutes()+":"+endDateNs.getSeconds() : '0' + endDateNs.getDate()+" "+endDateNs.getHours()+":"+endDateNs.getMinutes()+":"+endDateNs.getSeconds()))
-    return [defalutStartTime,""]
+function zdMcByDm(globalData, zdlb, dm) {
+  return new Promise((resolve) => {
+    zdObj(globalData, {
+      zdlb: zdlb,
+      dm: dm
+    }).then(function (obj) {
+      resolve(obj.mc);
+    }).catch(()=>{
+      resolve(dm);
+    });
+  });
+}
+/**
+ * 获取字典名称多个
+ * @param globalData 全局变量
+ * @param zdlb 字典类别
+ * @param dm 字典代码
+ */
+function zdMcByDmMore(globalData, zdlb, dm) {
+  return new Promise(async (resolve) => {
+    if (dm) {
+      let mcs = "";
+      const dms = (dm + "").split(",");
+      for (let i = 0; i < dms.length; i++) {
+        if (isEmpty(dms[i])) {
+          mcs += "、";
+          continue;
+        }
+        await zdMcByDm(globalData, zdlb, dms[i]).then(function(mc){
+          mcs += "、" + mc;
+        }).catch(()=>{
+          mcs += "、" + dms[i];
+        });
+      }
+      resolve(mcs.substring(1));
+    }else{
+      resolve(dm);
+    }
+  });
+}
+/**
+ * 获取字典名称
+ * @param globalData 公共变量
+ * @param zdlb 字典类别
+ * @param mc 字典名称
+ */
+function zdDmByMc(globalData, zdlb, mc) {
+  return new Promise((resolve, reject) => {
+    zdObj(globalData, {
+      zdlb: zdlb,
+      mc: mc
+    }).then(function (obj) {
+      if (obj == null) {
+        resolve(mc);
+      } else {
+        resolve(obj.dm);
+      }
+    });
+  });
+}
+/**
+ * 获取字典名称
+ * @param globalData 公共变量
+ * @param zdlb 字典类别
+ * @param mc 字典名称
+ */
+function zdIdxByMc(globalData, zdlb, mc) {
+  return new Promise((resolve, reject) => {
+    zdObj(globalData, {
+      zdlb: zdlb,
+      mc: mc
+    }).then(function (obj) {
+      if (obj == null) {
+        resolve(0);
+      } else {
+        resolve(obj.idx);
+      }
+    });
+  });
+}
+////////////////////////////////字典///////////////////////////
+
+/**
+ * 判断字符串是否为空
+ * @param str 要判断的字符串
+ * @returns 空：true，非空：false
+ */
+export function isEmpty(str) {
+  return str == null || str === "";
+}
+/**
+ * 是否是非负整数
+ * @param str
+ * @returns 非负整数：true，否则：false
+ */
+export function isNumber(str) {
+  return (/^(\+|-)?\d+$/.test(str)) && str >= 0;
 }
 
-export {
-    deepClone,
-    setDateAndTime,
-    formatDateAndDate,
-    setDate,
-    timeDefault
+/**
+ * 基于jsonpath给对象设置值
+ * @param obj 对象
+ * @param path 路径
+ * @param value 值
+ * @returns {boolean}
+ */
+export function setByPath(obj, path, value){
+  //将传入的对象路径字符串拆分为数组
+  const pathList = path.split('.');
+  if(!obj){
+    obj={}
+  }
+  for (let i = 0; i < pathList.length; i++) {
+    const key = pathList[i];
+    if(i===pathList.length-1){
+      obj[key]=value;
+      return true;
+    }
+    if(!obj[key]){
+      obj[key] = {}
+    }
+    obj = obj[key];
+  }
+}
+/**
+ * 基于jsonpath给对象设置值
+ * @param obj 对象
+ * @param path 路径
+ */
+export function getByPath(obj, path){
+  //将传入的对象路径字符串拆分为数组
+  const pathList = path.split('.');
+  if(!obj){
+    return null;
+  }
+  for (let i = 0; i < pathList.length; i++) {
+    const key = pathList[i];
+    if(i===pathList.length-1){
+      return obj[key];
+    }
+    if(!obj[key]){
+      return null
+    }
+    obj = obj[key];
+  }
+}
+
+/**
+ * 对象深拷贝合并
+ * @param target
+ * @param sources
+ * @returns {any}
+ */
+export function assignDeep(target, ...sources) {
+  // 1. 参数校验
+  if (target == null) {
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
+
+  // 2. 如果是基本类型数据转为包装对象
+  let result = Object(target);
+
+  // 3. 缓存已拷贝过的对象，解决引用关系丢失问题
+  if (!result['__hash__']) {
+    result['__hash__'] = new WeakMap();
+  }
+  let hash  = result['__hash__'];
+
+  sources.forEach(v => {
+    // 4. 如果是基本类型数据转为对象类型
+    let source = Object(v);
+    // 5. 遍历原对象属性，基本类型则值拷贝，对象类型则递归遍历
+    Reflect.ownKeys(source).forEach(key => {
+      // 6. 跳过自有的不可枚举的属性
+      if (!Object.getOwnPropertyDescriptor(source, key).enumerable) {
+        return;
+      }
+      if (typeof source[key] === 'object' && source[key] !== null) {
+        // 7. 属性的冲突处理和拷贝处理
+        let isPropertyDone = false;
+        if (!result[key] || !(typeof result[key] === 'object')
+          || Array.isArray(result[key]) !== Array.isArray(source[key])) {
+          // 当 target 没有该属性，或者属性类型和 source 不一致时，直接整个覆盖
+          if (hash.get(source[key])) {
+            result[key] = hash.get(source[key]);
+            isPropertyDone = true;
+          } else {
+            result[key] = Array.isArray(source[key]) ? [] : {};
+            hash.set(source[key], result[key]);
+          }
+        }
+        if (!isPropertyDone) {
+          result[key]['__hash__'] = hash;
+          assignDeep(result[key], source[key]);
+        }
+      } else {
+        Object.assign(result, {[key]: source[key]});
+      }
+    });
+  });
+
+  delete result['__hash__'];
+  return result;
+}
+
+export default {
+  dateFormat,
+  zdObj,
+  zdList,
+  zdTree,
+  setByJSONPath: setByPath,
+  isEmpty,
+  isNumber,
+  DATE_FORMAT_19: "yyyy-MM-dd HH:mm:ss",
+  DATE_FORMAT_14: "yyyyMMddHHmmss",
+  DATE_FORMAT_10: "yyyy-MM-dd",
+  DATE_FORMAT_8: "yyyyMMdd",
 }
