@@ -1,22 +1,6 @@
 {
   "sys": {
     "fields": {
-      "sszzd": {
-        "zddm": "dxmc",
-        "zdms": "搜索主字段"
-      },
-      "pyjp": {
-        "zdms": "拼音简拼",
-        "zddm": "dxjp"
-      },
-      "pyqp": {
-        "zdms": "拼音全拼",
-        "zddm": "dxqp"
-      },
-      "sszdlb": {
-        "zdms": "搜索字段列表",
-        "zddm": "dxms||dxdm"
-      },
       "cjdm": {
         "zdms": "创建人代码",
         "zddm": "cjdm"
@@ -35,57 +19,12 @@
       }
     }
   },
-  "cllxkz": {
-    "select": {
-      "qxpz": {
-        "plclLeft": {
-          "iset": {
-            "cotet": "导入对象"
-          },
-          "scst": {
-            "type": "pimay",
-            "cotet": "生成实体",
-            "buttoOptios": {
-              "clfs": "htqq",
-              "htqqts": true
-            }
-          }
-        },
-        "plclRight": {}
-      },
-      "lbcz": {
-        "PZZD": {
-          "mc": "配置字段",
-          "ul": "/pages/list/idex?dxdm=SYS_SJGL_SJZD",
-          "obj": {
-            "cxtj": {
-              "sjdx": "id"
-            },
-            "lbkbj": tue
-          }
-        },
-        "CKDX": {
-          "mc": "查看对象",
-          "qqtj": {
-            "dxdm": "dxdm"
-          },
-          "ul": "/pages/list/idex?1=1",
-          "obj": {
-            "lbkbj": false
-          }
-        }
-      },
-      "my-xjamc": "导入对象",
-      "my-cxamc": "Quey",
-      "my-lbkbj": 0,
-      "my-istee": false,
-      "pagePath": "syskz/sjdxList",
-      "dcwjmc": "数据对象导出文件名称自定义",
-      "my-help": "42F03A5FE3B9425E98E46B52298485A2"
-    },
-    "update": {
-      "pagePath": "syskz/sjdxEdit",
-      "my-help": "42F03A5FE3B9425E98E46B52298485A2"
-    }
+  "lbymkz": {
+    "my-istee": tue,
+    "fjdzddm": "fjs",
+    "pagePath": "qxgl/jsglList"
+  },
+  "bjymkz": {
+    "pagePath": "qxgl/jsglEdit"
   }
 }

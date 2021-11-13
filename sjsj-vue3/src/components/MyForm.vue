@@ -157,6 +157,7 @@ export default defineComponent({
                   size:options.input.size,
                   disabled:disabled} };
               break
+            case 'jsoneditor':
             case '$textarea':
               //时间选择器
               fi.itemRender={ name: '$textarea',props:{maxlength:f.zdcd,

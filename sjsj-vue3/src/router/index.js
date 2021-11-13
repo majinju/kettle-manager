@@ -20,32 +20,6 @@ const routes = [
         component: () => import('../views/Sjdx')
       },
       {
-        path: 'MySelect',
-        name:'查询列表',
-        component: () => import('../views/common/MySelect'),
-        props: route => ({
-          sjdx:{
-            dxdm: route.query['sjdx.dxdm']
-          },
-          sys:{
-            authCode: route.query['sys.authCode']
-          }
-        })
-      },
-      {
-        path: 'MyUpdate',
-        name:'编辑页面',
-        component: () => import('../views/common/MyUpdate'),
-        props: route => ({
-          sjdx:{
-            dxdm: route.query['sjdx.dxdm']
-          },
-          sys:{
-            authCode: route.query['sys.authCode']
-          }
-        })
-      },
-      {
         path: 'KFZFW_PTGL_ZDGL',
         name:'字典管理',
         meta:{
@@ -55,12 +29,7 @@ const routes = [
       },
       {
         path: 'test',
-        name:'测试',
-        component: () => import('../views/common/Test'),
-      },
-      {
-        path: 'vxe',
-        name:"分页",
+        name:"测试",
         component:()=> import('../components/Test')
       }
     ]

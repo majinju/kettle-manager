@@ -9,8 +9,8 @@
       <div class="custom-table">
         <vxe-grid
           ref="xGrid" :toolbar-config="myData.tableToolbar" :columns="myData.tableColumn"
-          :data="myData.tableData" :export-config="myData.exportConfig"
-          :seq-config="myData.seqConfig"
+          :data="myData.tableData" :export-config="myData.exportConfig" :tree-config="myData.treeConfig"
+          :seq-config="myData.seqConfig" :row-id="myData.dxjcxx.sjdx.zjzd"
           :pager-config="myData.pagerConfig"
           @page-change="pageChange"
           @sort-change="sortChange"
@@ -131,6 +131,10 @@ export default defineComponent({
         modes: ['current', 'all']
       },
       /**
+       * 树形结构配置
+       */
+      treeConfig:{},
+      /**
        * 列表字段信息
        */
       tableColumn: [],
@@ -200,6 +204,31 @@ export default defineComponent({
         });
       }
       myData.dxjcxx=dxjcxx;
+      if(getByPath(dxjcxx,"sys.cllxkz.select.tree.parentField")){
+        //树形结构
+        myData.treeConfig=getByPath(dxjcxx,"sys.cllxkz.select.tree")
+        myData.treeConfig.lazy = true
+        myData.treeConfig.loadMethod=function ({row}){
+          return new Promise((resolve, reject) => {
+            let yobj = {
+            }
+            yobj[myData.treeConfig.parentField]=row[myData.dxjcxx.sjdx.zjzd]
+            axios.post({
+              sys:{
+                authCode:dxjcxx.sys.authCode,
+                cllx: "select"
+              },
+              yobj:yobj
+            }).then(req=>{
+              resolve(req.data.list)
+            }).catch((e)=>{
+              reject(null);
+              console.log("查询失败："+e);
+            })
+          })
+        }
+        delete myData.seqConfig.seqMethod;
+      }
       const fields = myData.dxjcxx.fields;
       myData.formItems=[]
       myData.tableColumn=[]

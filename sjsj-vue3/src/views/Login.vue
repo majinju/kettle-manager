@@ -26,7 +26,7 @@ import { useRouter } from "vue-router";
 export default defineComponent({
   setup () {
     const data = reactive({
-      title:"共享平台3",
+      title:"数据世界2",
       loading:false,
       formData: {
         yhdm: '',

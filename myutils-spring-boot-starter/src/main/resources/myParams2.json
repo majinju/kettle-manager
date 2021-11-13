@@ -106,6 +106,9 @@
       "lbzs": "1",
       "kzxx": {
         "cllxkz": {
+        },
+        "kjkz": {
+          "treeNode": false
         }
       }
     },

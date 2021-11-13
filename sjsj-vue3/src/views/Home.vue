@@ -92,7 +92,7 @@ export default defineComponent({
   components:{MyTab},
   setup () {
     const param = reactive({
-      title:"共享平台3",
+      title:"数据世界2",
       asideWidth:"200px",
       orthlist:[],
       system:'',

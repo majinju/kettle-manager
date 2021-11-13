@@ -431,6 +431,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
                 }
             }
+            if(myParams.getString("$.sys.cllxkz['select'].tree.hasChild")!=null){
+                //树形结构时，将是否有子节点的标志转为boolean形
+                String hasChild = myParams.getString("$.sys.cllxkz['select'].tree.hasChild");
+                row.put(hasChild,row.getBoolean(hasChild));
+            }
         }
         return success(msgCzcg(),page);
     }
