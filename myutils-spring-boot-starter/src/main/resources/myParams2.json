@@ -86,6 +86,7 @@
     "myLbxz": {
       "zddm": "myLbxz",
       "px": 2,
+      "zdkd": 40,
       "zdywlb": "99",
       "kjlx": "checkbox",
       "lbzs": "1",
@@ -98,6 +99,7 @@
     "myLbxh": {
       "zddm": "myLbxh",
       "px": 3,
+      "zdkd": 60,
       "zdmc": "序号",
       "zdywlb": "99",
       "kjlx": "seq",
@@ -111,6 +113,7 @@
     "myLbcz": {
       "zddm": "myLbcz",
       "px": 5000,
+      "zdkd": 150,
       "zdmc": "操作",
       "zdywlb": "99",
       "kjlx": "$buttons",
@@ -150,8 +153,8 @@
         }
       }
     },
-    //编辑按钮字段
-    "myBjan": {
+    //新建按钮字段
+    "myXjan": {
       "zddm": "myBjan",
       "px": 5000,
       "zdywlb": "99",
@@ -159,9 +162,6 @@
       "kzxx": {
         "cllxkz": {
           "insert": {
-            "show": true
-          },
-          "update": {
             "show": true
           }
         },
@@ -175,7 +175,8 @@
               "content": "提交",
               "status": "primary",
               "buttonOptions": {
-                "htqqts": true
+                "htqqts": true,
+                "sfgbtc": true
               }
             },
             "gb": {
@@ -183,7 +184,47 @@
               "content": "关闭",
               "buttonOptions": {
                 "clfs": "gbtc",
-                "sfjybd": false
+                "sfjybd": false,
+                "sfsxym": false
+              }
+            }
+          }
+        }
+      }
+    },
+    //编辑按钮字段
+    "myBjan": {
+      "zddm": "myBjan",
+      "px": 5000,
+      "zdywlb": "99",
+      "kjlx": "$buttons",
+      "kzxx": {
+        "cllxkz": {
+          "update": {
+            "show": true
+          }
+        },
+        "kjkz": {
+          "align": "center",
+          "span": 24,
+          //vxe的按钮
+          "btns": {
+            "update": {
+              "type": "button",
+              "content": "提交",
+              "status": "primary",
+              "buttonOptions": {
+                "htqqts": true,
+                "sfgbtc": true
+              }
+            },
+            "gb": {
+              "type": "button",
+              "content": "关闭",
+              "buttonOptions": {
+                "clfs": "gbtc",
+                "sfjybd": false,
+                "sfsxym": false
               }
             }
           }
@@ -212,7 +253,8 @@
               "content": "关闭",
               "buttonOptions": {
                 "clfs": "gbtc",
-                "sfjybd": false
+                "sfjybd": false,
+                "sfsxym": false
               }
             }
           }

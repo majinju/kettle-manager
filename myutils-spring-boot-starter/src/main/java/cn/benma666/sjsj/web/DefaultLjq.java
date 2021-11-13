@@ -761,19 +761,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             cllxkz = new JSONObject();
             kzxx.put("cllxkz",cllxkz);
         }
-        //默认处理类型扩展
-        JSONObject lxkz = new JSONObject();
-//        lxkz.put("field",field.getString("zddm"));
-//        lxkz.put("title",field.getString("zdmc"));
-//        int zdkd = field.getIntValue("zdkd");
-//        if(zdkd<10||zdkd>200){
-//            lxkz.put("span",24);
-//        }else{
-//            lxkz.put("span",8);
-//        }
-//        lxkz.put("readonly",field.getBoolean("yxbj"));
         //insert：新增页面
+        JSONObject lxkz = new JSONObject();
         lxkz.put("show",field.getBoolean("xzzs"));
+        lxkz.put("zdkd",field.getIntValue("zdkd"));
         lxkz.put("yxbj",field.getBoolean("yxbj"));
         lxkz.put("default",field.get("xzmrz"));
         if (cllxkz.containsKey(KEY_CLLX_INSERT)) {
@@ -784,6 +775,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //update：编辑
         lxkz = new JSONObject();
         lxkz.put("show",field.getBoolean("bjzs"));
+        lxkz.put("zdkd",field.getIntValue("zdkd"));
         lxkz.put("yxbj",field.getBoolean("yxbj"));
         if (cllxkz.containsKey(KEY_CLLX_UPDATE)) {
             //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
@@ -793,6 +785,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //dxjcxx：对象基础信息，对应详情页面
         lxkz = new JSONObject();
         lxkz.put("show",field.getBoolean("xqzs"));
+        lxkz.put("zdkd",field.getIntValue("zdkd"));
         lxkz.put("yxbj",false);
         if (cllxkz.containsKey(KEY_CLLX_DXJCXX)) {
             //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
@@ -802,7 +795,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //dcmb：导出模板
         lxkz = new JSONObject();
         lxkz.put("show",field.getBoolean("mbzs"));
-        cllxkz.put(KEY_CLLX_DCMB,lxkz);
+        lxkz.put("zdkd",field.getIntValue("zdkd"));
+        lxkz.put("yxbj",field.getBoolean("yxbj"));
         if (cllxkz.containsKey(KEY_CLLX_DCMB)) {
             //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
             JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_DCMB));
@@ -811,6 +805,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //select：查询页面
         lxkz = new JSONObject();
         lxkz.put("show",false);
+        lxkz.put("zdkd",field.getIntValue("zdkd"));
         if (cllxkz.containsKey(KEY_CLLX_SELECT)) {
             //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
             JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_SELECT));
