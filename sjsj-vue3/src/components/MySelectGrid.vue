@@ -35,8 +35,10 @@
 <!--          列表操作-->
           <template #lbcz="{row,column}">
             <vxe-button v-for="(qx,cllx,idx) in column.params.btns" v-bind="qx"
-                            v-show="idx<2" @click="plcl(cllx,qx,row)"/>
-            <vxe-button type="text" status="primary" transfer content="其他操作">
+                        v-show="idx<(Object.keys(column.params.btns).length>3?2:3)"
+                        @click="plcl(cllx,qx,row)"/>
+            <vxe-button v-if="Object.keys(column.params.btns).length>3"
+                        type="text" status="primary" transfer content="其他操作">
               <template #dropdowns>
                 <vxe-button v-for="(qx,cllx,idx) in column.params.btns" v-bind="qx"
                             v-show="idx>=2" @click="plcl(cllx,qx,row)"/>
@@ -57,7 +59,7 @@
 
 <script>
 import { defineComponent, reactive ,onMounted,ref,nextTick,watch,computed} from 'vue'
-import { ElMessage ,ElMessageBox} from "element-plus";
+import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
 import { useStore } from "vuex";
 import axios from "@/axios";
 import {dateFormat, dayjsMethod, zdList} from "@/utils/common";
