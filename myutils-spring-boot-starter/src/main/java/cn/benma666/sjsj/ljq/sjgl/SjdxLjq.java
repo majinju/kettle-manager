@@ -29,9 +29,7 @@ import cn.benma666.sjzt.Db;
 
 import com.alibaba.druid.DbType;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 import com.github.stuxuhai.jpinyin.PinyinException;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
@@ -154,10 +152,11 @@ public class SjdxLjq extends DefaultLjq {
     /**
      * 批量标准排序，当排序较频繁时，序号密度较高后可以采用此方法进行重新分布
      */
-    public Result bzpx(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result bzpx(SysSjglSjdx sjdx, JSONObject myParams) throws SQLException {
         //标准排序
         Result result = success("");
         int count = 0;
+        DSTransactionManager.start();
         for(String id:myParams.getJSONArray($_SYS_IDS).toJavaList(String.class)){
             //获取对象
             SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
@@ -166,6 +165,7 @@ public class SjdxLjq extends DefaultLjq {
             result.addMsg(r.getMsg());
             count++;
         }
+        DSTransactionManager.commit();
         result.addMsg("成功重新排序对象个数："+count);
         return result;
     }

@@ -105,6 +105,7 @@ function errorMessageHand(status, data) {
     default:
       ElMessageBox.alert(data.msg||'请求异常', '提示', {
         confirmButtonText: 'OK',
+        type: "warning",
         callback: (action) => {
         },
       })

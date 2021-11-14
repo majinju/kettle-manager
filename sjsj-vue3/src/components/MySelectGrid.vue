@@ -34,8 +34,14 @@
           </template>
 <!--          列表操作-->
           <template #lbcz="{row,column}">
-            <vxe-button v-for="(qx,cllx) in column.params.btns" v-bind="qx"
-                        @click="plcl(cllx,qx,row)"/>
+            <vxe-button v-for="(qx,cllx,idx) in column.params.btns" v-bind="qx"
+                            v-show="idx<2" @click="plcl(cllx,qx,row)"/>
+            <vxe-button type="text" status="primary" transfer content="其他操作">
+              <template #dropdowns>
+                <vxe-button v-for="(qx,cllx,idx) in column.params.btns" v-bind="qx"
+                            v-show="idx>=2" @click="plcl(cllx,qx,row)"/>
+              </template>
+            </vxe-button>
           </template>
         </vxe-grid>
       </div>
@@ -544,7 +550,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .vxe-grid{
   .vxe-cell{
-    .vxe-button{
+    .vxe-button,.vxe-button--dropdown{
       padding: 0;
       margin-left: 5px;
     }
