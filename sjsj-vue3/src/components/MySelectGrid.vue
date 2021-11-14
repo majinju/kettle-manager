@@ -54,7 +54,7 @@ import { defineComponent, reactive ,onMounted,ref,nextTick,watch,computed} from 
 import { ElMessage ,ElMessageBox} from "element-plus";
 import { useStore } from "vuex";
 import axios from "@/axios";
-import {zdList} from "@/utils/common";
+import {dateFormat, dayjsMethod, zdList} from "@/utils/common";
 import {options} from "@/plugins/vxe-table";
 import MyForm from "./MyForm";
 import {getByPath,assignDeep} from "../utils/common";
@@ -280,7 +280,16 @@ export default defineComponent({
                 }
               };
               if(f.cxmrz){
-                myData.formData[f.zddm]=f.cxmrz;
+                const times = JSON.parse(f.cxmrz);
+                let val1 = "";
+                let val2 = "";
+                if(times.start){
+                  val1 = dayjsMethod(times.start)
+                }
+                if(times.end){
+                  val1 = dayjsMethod(times.end)
+                }
+                myData.formData[f.zddm]=[val1,val2];
               }
               break
             default:

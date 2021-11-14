@@ -163,7 +163,7 @@ export default defineComponent({
               //时间选择器
               fi.itemRender={
                 name: 'ElDatePicker',props:{
-                  type:'datetimerange',
+                  type:'datetime',
                   clearable:options.input.clearable,
                   size:options.input.size,
                   valueFormat:"YYYYMMDDHHmmss"

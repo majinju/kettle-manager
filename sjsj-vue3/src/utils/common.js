@@ -1,5 +1,7 @@
 import axios from "@/axios";
 import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
+dayjs.extend(customParseFormat)
 
 ////////////////////////////////时间///////////////////////////
 //添加指定的天数,并返回新的日期
@@ -26,24 +28,8 @@ Date.parseDate = function (dateStr) {
     //本身就是date类型
     return dateStr;
   }
-  const d = new Date();
-  if (dateStr.length === 8) {
-    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(4, 6) - 1, dateStr.substring(6, 8));
-    d.setHours(0, 0, 0);
-  } else if (dateStr.length === 10) {
-    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(5, 7) - 1, dateStr.substring(8, 10));
-    d.setHours(0, 0, 0);
-  } else if (dateStr.length === 12) {
-    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(4, 6) - 1, dateStr.substring(6, 8));
-    d.setHours(str.substring(8, 10), dateStr.substring(10, 12), 0);
-  } else if (dateStr.length === 14) {
-    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(4, 6) - 1, dateStr.substring(6, 8));
-    d.setHours(dateStr.substring(8, 10), dateStr.substring(10, 12), dateStr.substring(12, 14));
-  } else if (dateStr.length === 19) {
-    d.setFullYear(dateStr.substring(0, 4), dateStr.substring(5, 7) - 1, dateStr.substring(8, 10));
-    d.setHours(dateStr.substring(11, 13), dateStr.substring(14, 16), dateStr.substring(17, 19));
-  }
-  return d;
+  let d = dayjs(dateStr, ["YYYYMMDDHHmmss", "YYYYMMDD", "YYMMDD", "YYYY-MM-DD HH:mm:ss", "YYYY-MM-DD"])
+  return d.toDate();
 }
 /**
  * 时间对象的格式化
@@ -51,15 +37,15 @@ Date.parseDate = function (dateStr) {
 Date.prototype.format = function (format) {
   const o = {
     "M+": this.getMonth() + 1, // month
-    "d+": this.getDate(), // day
+    "D+": this.getDate(), // day
     "H+": this.getHours(), // hour
     "m+": this.getMinutes(), // minute
     "s+": this.getSeconds(), // second
     "q+": Math.floor((this.getMonth() + 3) / 3), // quarter
-    "S": this.getMilliseconds()
+    "S+": this.getMilliseconds()
   };
 
-  if (/(y+)/.test(format)) {
+  if (/(Y+)/.test(format)) {
     format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
   }
 
@@ -84,6 +70,15 @@ export function dateFormat(dateStr, fmt) {
   } else {
     return "";
   }
+}
+
+/**
+ * dayjs的方法调用
+ * @param obj
+ */
+export function dayjsMethod(obj){
+  let d = dayjs()[obj.method](obj.value, obj.dw).format("YYYYMMDDHHmmss")
+  return d;
 }
 ////////////////////////////////时间///////////////////////////
 
@@ -278,7 +273,7 @@ function zdObjG(globalData, zdObj, cache) {
             dataCache:false
           },
           yobj:zdObj
-        },false).then((data)=>{
+        }).then((data)=>{
           resolve(data);
         }).catch(()=>{
           reject(null);
@@ -296,7 +291,7 @@ function postZdObj(globalData,data){
       "dxdm":"SYS_SJGL_TYZD"
     }
     data.sys.cllx="zdObj";
-    axios.post(data).then(function (res){
+    axios.post(data,false).then(function (res){
       let obj;
       if (res.status) {
         const zd = res.data;

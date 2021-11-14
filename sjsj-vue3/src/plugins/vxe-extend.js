@@ -20,15 +20,6 @@ export const VxeExtend = {
             <MyDownList v-model={data[property]} {...props}/>
           ]
         },
-        renderEdit(renderOpts, params) {
-
-        },
-        renderFilter(renderOpts, params) {
-
-        },
-        defaultFilterMethod(renderOpts, params) {
-
-        },
         renderItemContent(renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts
@@ -46,15 +37,6 @@ export const VxeExtend = {
             <MySelectGrid v-model={data[property]} {...props}/>
           ]
         },
-        renderEdit(renderOpts, params) {
-
-        },
-        renderFilter(renderOpts, params) {
-
-        },
-        defaultFilterMethod(renderOpts, params) {
-
-        },
         renderItemContent(renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts
@@ -71,7 +53,7 @@ export const VxeExtend = {
  * 时间日期格式转换---日期格式
  */
 VXETable.formats.add('formatDate',({ cellValue },format)=>{
-  return dateFormat(cellValue, format || 'yyyy-MM-dd HH:mm:ss')
+  return dateFormat(cellValue, format || 'YYYY-MM-DD HH:mm:ss')
 })
 /**
  * 格式金额，默认2位数
