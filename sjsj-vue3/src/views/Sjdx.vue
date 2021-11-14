@@ -83,7 +83,7 @@ export default defineComponent({
     watch(
       () => route.query,
       async newQuery => {
-        if(Object.keys(newQuery).length>0){
+        if(route.path.startsWith("/home/sjdx")&&Object.keys(newQuery).length>0){
           await initPage(newQuery);
         }
       }

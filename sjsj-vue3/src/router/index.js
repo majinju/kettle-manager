@@ -20,7 +20,7 @@ const routes = [
         component: () => import('../views/Sjdx')
       },
       {
-        path: 'KFZFW_PTGL_ZDGL',
+        path: 'KFZFW_QTGN_CSZY',
         name:'字典管理',
         meta:{
           title:'字典管理'

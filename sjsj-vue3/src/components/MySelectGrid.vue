@@ -287,7 +287,7 @@ export default defineComponent({
                   val1 = dayjsMethod(times.start)
                 }
                 if(times.end){
-                  val1 = dayjsMethod(times.end)
+                  val2 = dayjsMethod(times.end)
                 }
                 myData.formData[f.zddm]=[val1,val2];
               }
