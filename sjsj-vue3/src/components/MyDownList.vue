@@ -1,7 +1,7 @@
 <template>
   <vxe-pulldown ref="myDownList" transfer style="width: 100%" @hide-panel="hidePanelClick">
     <template #default>
-      <vxe-input v-model="mydata.value" suffix-icon="fa fa-search"
+      <vxe-input v-model="mydata.value" suffix-icon="fa fa-search" ref="xInput"
                  @keyup="keyupEvent" @focus="focusEvent"
                  @clear="clearClick" v-bind="$attrs">
       </vxe-input>
@@ -94,6 +94,7 @@ export default defineComponent({
       }
     });
     const myDownList = ref({});
+    const xInput = ref({});
     const searchList = (tsearchKey) => {
       if(tsearchKey){
         mydata.searchKey=tsearchKey;
@@ -126,8 +127,11 @@ export default defineComponent({
      */
     const focusEvent = () => {
       const $pulldown = myDownList.value
-      $pulldown.showPanel()
-      searchList();
+      const $input = xInput.value
+      if(!$input.disabled&&!$input.readonly){
+        $pulldown.showPanel()
+        searchList();
+      }
     }
     /**
      * 用户释放键盘按键
@@ -210,6 +214,7 @@ export default defineComponent({
     return {
       mydata,
       myDownList,
+      xInput,
       focusEvent,
       keyupEvent,
       clearClick,

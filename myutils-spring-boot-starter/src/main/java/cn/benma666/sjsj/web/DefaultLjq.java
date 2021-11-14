@@ -726,10 +726,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             fieldsCache.put(cacheKey, fields);
             fieldsInit(fields, myParams);
         }
-        fields.forEach((key,value)->{
+        fields.forEach((zddm,field)->{
             //将整个字段的验证规则设置到系统验证规则中，因为内部会对规则数据进行修改
-            myParams.set("$.yzgz['yobj." + key + "']",value.getJSONObject("$.kzxx.yzgz").clone());
-            myParams.set("$.zhgz['yobj." + key + "']",value.getJSONObject("$.kzxx.zhgz").clone());
+            myParams.set("$.yzgz['yobj." + zddm + "']",field.getJSONObject("$.kzxx.yzgz").clone());
+            myParams.set("$.zhgz['yobj." + zddm + "']",field.getJSONObject("$.kzxx.zhgz").clone());
         });
         myParams.put(KEY_FIELDS, fields);
         return fields;
@@ -766,62 +766,71 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             cllxkz = new JSONObject();
             kzxx.put("cllxkz",cllxkz);
         }
+
         //insert：新增页面
-        JSONObject lxkz = new JSONObject();
+        JSONObject lxkz = getKjkzByCllx(field);
         lxkz.put("show",field.getBoolean("xzzs"));
-        lxkz.put("zdkd",field.getIntValue("zdkd"));
-        lxkz.put("yxbj",field.getBoolean("yxbj"));
+        lxkz.put("readonly",false);
         lxkz.put("default",field.get("xzmrz"));
-        if (cllxkz.containsKey(KEY_CLLX_INSERT)) {
-            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
-            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_INSERT));
-        }
-        cllxkz.put(KEY_CLLX_INSERT,lxkz);
+        mergeConfigByCllx(cllxkz, lxkz, KEY_CLLX_INSERT);
+
         //update：编辑
-        lxkz = new JSONObject();
+        lxkz = getKjkzByCllx(field);
         lxkz.put("show",field.getBoolean("bjzs"));
-        lxkz.put("zdkd",field.getIntValue("zdkd"));
-        lxkz.put("yxbj",field.getBoolean("yxbj"));
-        if (cllxkz.containsKey(KEY_CLLX_UPDATE)) {
-            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
-            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_UPDATE));
-        }
-        cllxkz.put(KEY_CLLX_UPDATE,lxkz);
+        lxkz.put("readonly",false);
+        mergeConfigByCllx(cllxkz, lxkz, KEY_CLLX_UPDATE);
+
         //dxjcxx：对象基础信息，对应详情页面
-        lxkz = new JSONObject();
+        lxkz = getKjkzByCllx(field);
         lxkz.put("show",field.getBoolean("xqzs"));
-        lxkz.put("zdkd",field.getIntValue("zdkd"));
-        lxkz.put("yxbj",false);
-        if (cllxkz.containsKey(KEY_CLLX_DXJCXX)) {
-            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
-            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_DXJCXX));
-        }
-        cllxkz.put(KEY_CLLX_DXJCXX,lxkz);
+        mergeConfigByCllx(cllxkz, lxkz, KEY_CLLX_DXJCXX);
+
         //dcmb：导出模板
-        lxkz = new JSONObject();
+        lxkz = getKjkzByCllx(field);
         lxkz.put("show",field.getBoolean("mbzs"));
-        lxkz.put("zdkd",field.getIntValue("zdkd"));
-        lxkz.put("yxbj",field.getBoolean("yxbj"));
-        if (cllxkz.containsKey(KEY_CLLX_DCMB)) {
-            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
-            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_DCMB));
-        }
-        cllxkz.put(KEY_CLLX_DCMB,lxkz);
-        //select：查询页面
-        lxkz = new JSONObject();
-        lxkz.put("show",false);
-        lxkz.put("zdkd",field.getIntValue("zdkd"));
-        if (cllxkz.containsKey(KEY_CLLX_SELECT)) {
-            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
-            JsonUtil.mergeJSONObjects(lxkz, cllxkz.getJSONObject(KEY_CLLX_SELECT));
-        }
-        cllxkz.put(KEY_CLLX_SELECT,lxkz);
+        mergeConfigByCllx(cllxkz, lxkz, KEY_CLLX_DCMB);
+
+        //select：查询页面对应的表单
+        lxkz = getKjkzByCllx(field);
+        mergeConfigByCllx(cllxkz, lxkz, KEY_CLLX_SELECT);
+
         //other
 
     }
 
     /**
-     * 字段转换规则初始化
+     * 根据处理类型配置控件扩展
+     * @param field 字段信息
+     * @return 通用扩展
+     */
+    protected JSONObject getKjkzByCllx(JSONObject field) {
+        JSONObject lxkz = new JSONObject();
+        lxkz.put("zdkd",field.getIntValue("zdkd"));
+        //默认不禁用
+        lxkz.put("disabled",!valByDef(field.getBoolean("yxbj"),true));
+        //默认只读
+        lxkz.put("readonly",true);
+        //默认都不展示，只有查询列表控件主动设置为展示
+        lxkz.put("show",false);
+        return lxkz;
+    }
+
+    /**
+     * 合并配置-基于处理类型
+     * @param pzjh 配置集合
+     * @param lxkz 处理类型扩展
+     * @param cllx 处理类型
+     */
+    protected void mergeConfigByCllx(JSONObject pzjh, JSONObject lxkz, String cllx) {
+        if (pzjh.containsKey(cllx)) {
+            //用户配置了，用户配置的与系统默认的进行合并，用户配置的优先
+            JsonUtil.mergeJSONObjects(lxkz, pzjh.getJSONObject(cllx));
+        }
+        pzjh.put(cllx, lxkz);
+    }
+
+    /**
+     * 字段转换规则初始化，转换的实现前端就不实现了，后台统一转换
      * @param field 字段
      * @param kzxx 扩展信息
      */
@@ -831,18 +840,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //清空前后空格
         zhgz.put("qdqhkg",new JSONObject());
         JSONObject kzhgz = kzxx.getJSONObject(UtilConst.KEY_ZHGZ);
-        if (kzhgz != null) {
-            //用户配置了该字规则
-            //新增可以通过继承更新规则使用该规则
-            if (kzhgz.containsKey("update")) {
-                //用户配置了转换规则，用户配置的与系统默认的规则合并，用户配置的优先
-                JsonUtil.mergeJSONObjects(zhgz, kzhgz.getJSONObject("update"));
-            }
-        } else {
+        if(kzhgz == null){
             kzhgz = new JSONObject();
         }
-        //设置最新地更新规则
-        kzhgz.put("update", zhgz);
+        mergeConfigByCllx(kzhgz,zhgz,"update");
         //开始处理新增规则
         zhgz = new JSONObject();
         //设置默认继承更新的规则
@@ -915,29 +916,17 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             yzgz.put("number", new JSONObject());
         }
         JSONObject kyzgz = kzxx.getJSONObject(UtilConst.KEY_YZGZ);
-        if (kyzgz != null) {
-            //用户配置了该字段验证规则
-            //验证规则，新增可以通过继承更新验证规则使用该规则
-            if (kyzgz.containsKey("update")) {
-                //用户配置了更新验证规则，用户配置的与系统默认的规则合并，用户配置的优先
-                JsonUtil.mergeJSONObjects(yzgz, kyzgz.getJSONObject("update"));
-            }
-        } else {
+        if(kyzgz == null){
             kyzgz = new JSONObject();
         }
-        //设置最新地更新验证验证规则
-        kyzgz.put("update", yzgz);
+        //验证规则，新增可以通过继承更新验证规则使用该规则
+        mergeConfigByCllx(kyzgz, yzgz, "update");
 
         //开始处理新增验证规则
         yzgz = new JSONObject();
         //设置默认继承更新的验证规则
         yzgz.put("extends", new String[]{"update"});
-        if (kyzgz.containsKey("insert")) {
-            //用户配置了新增验证规则则合并
-            JsonUtil.mergeJSONObjects(yzgz, kyzgz.getJSONObject("insert"));
-        }
-        //设置最新地新增验证验证规则
-        kyzgz.put("insert", yzgz);
+        mergeConfigByCllx(kyzgz, yzgz, "insert");
         //处理验证规则中的继承，后续验证更方便
         for(String cllx:kyzgz.keySet()){
             mergeRule(myParams,kyzgz,cllx);

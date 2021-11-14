@@ -1,11 +1,6 @@
 <template>
-  <vxe-form ref="xForm" :data="myData.formData" :rules="myData.formRule"
+  <vxe-form ref="xForm" :key="myData.timestamp" :data="myData.formData" :rules="myData.formRule"
             :items="myData.formItems">
-    <!--          列表操作-->
-<!--    <template #butns="{ data, property }">-->
-<!--      <vxe-button v-for="(qx,cllx) in column.params.btns" v-bind="qx"-->
-<!--                  @click="plcl(cllx,qx.buttonOptions,row)"/>-->
-<!--    </template>-->
   </vxe-form>
 </template>
 
@@ -15,7 +10,7 @@ import { ElMessage ,ElMessageBox} from "element-plus";
 import {options} from "@/plugins/vxe-table";
 import axios from "@/axios";
 import {zdList,assignDeep} from "@/utils/common";
-import {getByPath} from "../utils/common";
+import {getByPath} from "@/utils/common";
 
 export default defineComponent({
   name: "MyForm",
@@ -54,9 +49,15 @@ export default defineComponent({
       dxjcxx:{
       },
       /**
-       * 表单数据，查询默认值可以设置其中
+       * 表单数据：也表单绑定，用看到的值
        */
       formData:{
+      },
+      /**
+       * 表单数据原始值：外部传入的值
+       */
+      obj:{
+
       },
       /**
        * 表单字段信息
@@ -77,8 +78,16 @@ export default defineComponent({
      */
     onMounted(()=>{
     })
-    const initPage =async (dxjcxx,cllx,row) => {
+    /**
+     * 根据对象基础信息进行页面初始化
+     * @param dxjcxx 对象基础信息
+     * @param cllx 处理类型
+     * @param obj 数据
+     * @returns {Promise<void>}
+     */
+    const initPage =async (dxjcxx,cllx,obj) => {
       if(!cllx){
+        //外部没传处理类型时，采用基础新中的处理类型
         cllx = dxjcxx.sys.cllx
       }
       if(!dxjcxx.fields){
@@ -90,37 +99,47 @@ export default defineComponent({
             cllx:"dxjcxx"
           }
         }).then(async (rep)=>{
+          //设置处理类型
           rep.data.sys.cllx = cllx;
           dxjcxx = rep.data;
         });
       }
       myData.dxjcxx=dxjcxx;
       myData.formData={};
-      if(row){
-        myData.formData = JSON.parse(JSON.stringify(row));
+      if(obj){
+        myData.obj = obj
+        //深拷贝数据，避免修改对外部的影响
+        myData.formData = JSON.parse(JSON.stringify(obj));
       }
+      //重置表单项
       myData.formItems=[]
       const fields = dxjcxx.fields;
+      /**
+       * 表单项
+       */
       let fi;
       for(const key in fields){
+        /**
+         * 配置字段信息
+         */
         const f = fields[key];
+        //根据处理类型判断是否展示该字段
         if(f.kzxx.cllxkz[cllx]&&f.kzxx.cllxkz[cllx].show){
           //默认值
-          if(!row){
+          if(!obj){
             myData.formData[f.zddm]=f.kzxx.cllxkz[cllx].default;
           }
-          //是否禁用
-          let disabled = f.kzxx.cllxkz[cllx].yxbj!==true
           //添加校验规则
           myData.formRule[f.zddm]=[
             {
-              validator ({ cellValue }) {
-                //自定义校验规则
-                console.log(cellValue);
+              validator ({ itemValue, rule, rules, data, property }) {
+                //自定义校验规则，跟后台规则一致的前端实现
+                console.log(itemValue);
               }
             }
           ]
           if(getByPath(f.kzxx,"yzgz."+cllx+".notNull")){
+            //单独处理非空校验，便于在页面给用户红色星号提示必填字段
             myData.formRule[f.zddm].push({ required: true, message: f.zdmc+'必填',trigger: 'blur'});
           }
           fi = {field: f.zddm, title: f.zdmc, span: 8}
@@ -136,61 +155,56 @@ export default defineComponent({
                 name: 'MyDownList' ,
                 props:{
                   placeholder:f.zdts,
-                  zdlb:f.zdzdlb,
-                  disabled:disabled
+                  zdlb:f.zdzdlb
                 }
               };
-              // if(f.zdfy==='1'){
-              // }else{
-              //   //普通下拉框
-              //   fi.itemRender={ name: '$select' ,props:{placeholder:f.zdts}};
-              //   await zdList(f.zdzdlb).then((data)=>{
-              //     fi.itemRender.options=data;
-              //   }).catch(function (r){
-              //     console.log("获取字典错误："+r)
-              //   })
-              // }
               break
             case 'ElDatePicker':
               //时间选择器
-              fi.itemRender={ name: 'ElDatePicker',props:{type:'datetimerange',clearable:options.input.clearable,
-                  size:options.input.size,
-                  disabled:disabled} };
+              fi.itemRender={
+                name: 'ElDatePicker',props:{
+                  type:'datetimerange',
+                  clearable:options.input.clearable,
+                  size:options.input.size
+                }
+              };
               break
             case 'jsoneditor':
             case '$textarea':
               //时间选择器
-              fi.itemRender={ name: '$textarea',props:{maxlength:f.zdcd,
-                  disabled:disabled} };
+              fi.itemRender={
+                name: '$textarea',props:{
+                  maxlength:f.zdcd
+                }
+              };
               break
             case '$buttons':
               //按钮组
               //按钮不显示描述
               fi.title="";
-              // fi.params={
-              //   "btns":getByPath(f.kzxx,"kjkz.btns")
-              // }
-              // fi.slots={default:'butns'}
               let children = [];
+              //获取配置的按钮组
               let $buttons = getByPath(f.kzxx,"kjkz.btns");
               for(let i in $buttons){
+                //处理类型设置到名称，便于后续按钮事件中使用
                 $buttons[i].name=i;
+                //按钮点击回调方法
                 $buttons[i].click = function(option){
                   plcl(option.props.name,option.props);
                 }
                 children.push({ props: $buttons[i] })
               }
-              fi.itemRender={ name: f.kjlx,children: children};
+              fi.itemRender={ name: f.kjlx,children: children,props:{}};
               break
             case 'MySelectGrid':
               //查询表格
-              if(fi.title==='查询表格'){
-                //此场景为直接展示查询列表
-                fi.title="";
-              }
+              //此场景为直接展示查询列表
+              fi.title="";
+              //获取配置的对象信息
               let authCode = getByPath(f.kzxx,"kjkz.itemRender.props.dxjcxx.sys.authCode");
               let dxdm = getByPath(f.kzxx,"kjkz.itemRender.props.dxjcxx.sjdx.dxdm");
               if(authCode||dxdm){
+                //配置了对象信息则展示配置的对象的查询列表
                 fi.itemRender={
                   name: 'MySelectGrid',
                   props:{
@@ -202,25 +216,33 @@ export default defineComponent({
                         authCode: authCode,
                         cllx: "select"
                       }
-                    },
-                    disabled:disabled
+                    }
                   }
                 };
               }else{
+                //没有配置则展示当前页面对象的查询列表
                 fi.itemRender={
                   name: 'MySelectGrid',
                   props:{
-                    dxjcxx:dxjcxx,
-                    disabled:disabled
+                    dxjcxx:dxjcxx
                   }
                 };
               }
               break
             default:
               //默认普通输入框
-              fi.itemRender={ name: '$input' ,props:{disabled:disabled}};
+              fi.itemRender={ name: '$input' ,props:{}};
           }
+          //合并字段的控件扩展，覆盖默认值
           myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
+          //控件属性统一设置部分
+          //是否禁用
+          fi.itemRender.props.disabled = f.kzxx.cllxkz[cllx].disabled;
+          //是否只读
+          fi.itemRender.props.readonly = f.kzxx.cllxkz[cllx].readonly;
+          if (fi.itemRender.props.disabled||fi.itemRender.props.readonly){
+            fi.itemRender.props.clearable = false
+          }
         }
       }
       //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
@@ -303,11 +325,6 @@ export default defineComponent({
           myData.tcckShow=true
           //窗口标题
           myData.tcckTitle=content+"【"+myData.dxjcxx.sjdx.dxmc+"】"
-          // nextTick(()=>{
-          //   nextTick(()=>{
-          //     xUpdate.value.tcck(myData.dxjcxx,cllx,row,buttonOptions,ids);
-          //   })
-          // })
           break
         //关闭弹窗
         case "gbtc":
