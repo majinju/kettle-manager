@@ -8,11 +8,6 @@ import axios from "./axios";
 import router from './router';
 //饿了么组件
 import installElementPlus from './plugins/element';
-import 'xe-utils';
-//引入vuetable内容格式化方法，全局可用，无需单独引用
-import '@majinju/vxe-table/lib/style.css';
-import 'vxe-table-plugin-element/dist/style.css'
-
 //vxe表格
 import installVxe from './plugins/vxe-table';
 //国际化
@@ -27,6 +22,9 @@ import watermark from './utils/watermark';
 const app = createApp(App,{});
 installElementPlus(app);
 installVxe(app);
+//markdown
+import installMarkdown from "@/plugins/markdown";
+installMarkdown(app);
 app.use(router).use(store)
   .use(i18n).mount('#app');
 //设置服务端基础路径

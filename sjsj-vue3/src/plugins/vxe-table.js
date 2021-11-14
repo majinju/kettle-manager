@@ -1,4 +1,7 @@
 
+import 'xe-utils';
+import '@majinju/vxe-table/lib/style.css';
+import 'vxe-table-plugin-element/dist/style.css'
 //专业表单、表格工具vxe-table
 import VXETable from '@majinju/vxe-table';
 import MyDownList from "components/MyDownList";
