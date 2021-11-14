@@ -27,7 +27,7 @@ export default defineComponent({
    * from组件主要进行页面布局，然后需要展示的都可以以组件形式集成进去
    * @param props
    * @param context
-   * @returns {Promise<{xForm: Ref<UnwrapRef<{}>>, saveAdd: saveAdd, getDataById: getDataById, close: close, myData: UnwrapNestedRefs<{formItems: *[], options, formData: {}, formRule: {}, dxjcxx: {}, timestamp: number}>}>}
+   * @returns {Promise<{xForm: Ref<UnwrapRef<{}>>, tcck: tcck, close: () => void, myData: UnwrapNestedRefs<{formItems: *[], options, formData: {}, formRule: {}, dxjcxx: {}, timestamp: number}>}>}
    */
   setup:async (props,context)=>{
     /**
@@ -165,7 +165,8 @@ export default defineComponent({
                 name: 'ElDatePicker',props:{
                   type:'datetimerange',
                   clearable:options.input.clearable,
-                  size:options.input.size
+                  size:options.input.size,
+                  valueFormat:"YYYYMMDDHHmmss"
                 }
               };
               break
@@ -344,41 +345,7 @@ export default defineComponent({
           ElMessage.error("暂不支持该处理方式");
       }
     }
-    const saveAdd = () =>{
-      ElMessageBox.confirm("你确定要提交吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          if(myData.czlx==="xz"){
-            save("SYS_SJGL_TYZD_DEMO","insert")
-          }else {
-            save("SYS_SJGL_TYZD_DEMO","update")
-          }
-        })
-        .catch(() => {});
-    }
-    const save=(dxdm,cllx) =>{
-      axios.post({
-        sjdx:{
-          dxdm:dxdm
-        },
-        sys:{
-          cllx:cllx,
-        },
-        yobj:myData.formData
-      }).then(req=>{
-        if (req.status) {
-          ElMessage.success(req.msg);
-          context.emit('updateCallback',true)
-        } else {
-          ElMessage.success(req.msg ? req.msg : "保存失败");
-          context.emit('updateCallback')
-        }
-      })
-    }
-    return{
+    return {
       myData,
       xForm,
       tcck,

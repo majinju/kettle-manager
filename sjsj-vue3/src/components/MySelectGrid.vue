@@ -266,8 +266,22 @@ export default defineComponent({
               break
             case 'ElDatePicker':
               //时间选择器
-              fi.itemRender={ name: 'ElDatePicker',props:{type:'datetimerange',clearable:options.input.clearable,
-                  size:options.input.size} };
+              fi.itemRender={
+                name: 'ElDatePicker',
+                props:{
+                  type:'datetimerange',
+                  clearable:options.input.clearable,
+                  size:options.input.size,
+                  defaultTime:[
+                    new Date(2000, 1, 1, 0, 0, 0),
+                    new Date(2000, 2, 1, 23, 59, 59)
+                  ],
+                  valueFormat:"YYYYMMDDHHmmss"
+                }
+              };
+              if(f.cxmrz){
+                myData.formData[f.zddm]=f.cxmrz;
+              }
               break
             default:
               //默认普通输入框
