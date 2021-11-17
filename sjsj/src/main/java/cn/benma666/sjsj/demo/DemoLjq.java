@@ -1,6 +1,5 @@
 package cn.benma666.sjsj.demo;
 
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Conf;
@@ -20,12 +19,11 @@ import org.beetl.sql.core.SqlId;
 public class DemoLjq extends DefaultLjq{
     /**
      * 该方法为本系统前端的统一入口，类似常规开发的control入口，然后通过处理类型进入不同的业务方法。
-     * @param sjdx 数据对象
      * @param myParams 相关参数
      * @return 返回前端的结果
      */
     @Override
-    public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result data(JSONObject myParams) {
         switch (getCllx(myParams)){
             case "rzlj":
                 log.info("日志记录：处理了1");
@@ -36,7 +34,7 @@ public class DemoLjq extends DefaultLjq{
             case "pehq":
                 return success("配置获取样例："+Conf.getVal("spring.application.name"));
             case "zdfy":
-                return success("字典获取样例："+ DictManager.zdMcByDm(Conf.getVal("benma666.app.dm"),ZD_SYS_QX_APP));
+                return success("字典获取样例："+ DictManager.zdMcByDm(ZD_SYS_QX_APP,Conf.getVal("benma666.app.dm")));
             case "sjkcx":
                 return success("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findSjdx"),myParams));
             case "sjkgx":
@@ -48,38 +46,37 @@ public class DemoLjq extends DefaultLjq{
                 return success("后端获取用户信息样例", myParams.get(KEY_USER));
             case KEY_CLLX_SELECT:
                 //该方法为底层默认方法，此次做演示讲解用，不写此方法底层也是如此执行的。
-                return select(sjdx,myParams);
+                return select(myParams);
             default:
-                return super.data(sjdx, myParams);
+                return super.data(myParams);
         }
     }
     /**
      * 方法名称与前端传入的处理类型一致，参数固定为本方法这两个参数，处理类型可以自定义，方法名与之一致即可
-     * @param sjdx 数据对象
      * @param myParams 相关参数，具体信息请看参数说明
      * @return 处理结果
      */
-    public Result getTreeCN(SysSjglSjdx sjdx, JSONObject myParams){
+    public Result getTreeCN(JSONObject myParams){
         //获取字典中配置的sql语句，sql[]中，sql[0]为数据载体，sql[1]为待执行的sql语句
-        String[] sql = getSql(sjdx, myParams);
+        String[] sql = getSql(myParams);
         return success("获取用户菜单成功",db(sql[0]).find(sql[1],myParams));
     }
 
     @Override
-    public Result select(SysSjglSjdx sjdx, JSONObject myParams) {
-        return super.select(sjdx, myParams);
+    public Result select(JSONObject myParams) {
+        return super.select(myParams);
     }
 
     @Override
-    public Result insert(SysSjglSjdx sjdx, JSONObject myParams) {
-        Result r = super.insert(sjdx, myParams);
+    public Result insert(JSONObject myParams) {
+        Result r = super.insert(myParams);
         DictManager.clearDict(myParams.getString("$.yobj.zdlb"));
         return r;
     }
 
     @Override
-    public Result update(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
-        Result r = super.update(sjdx, myParams);
+    public Result update(JSONObject myParams) throws MyException {
+        Result r = super.update(myParams);
         DictManager.clearDict(myParams.getString("$.obj.zdlb"));
         return r;
     }
@@ -88,14 +85,14 @@ public class DemoLjq extends DefaultLjq{
      * 清清除字典缓存
      * @return 处理结果
      */
-    public Result qchc(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result qchc(JSONObject myParams) {
         DictManager.clearDict();
         return success("清除缓存成功");
     }
     /**
      * 获取字典列表
      */
-    public Result zdlist(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result zdlist(JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
             return success(msgCzcg(),DictManager.zdMapByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
@@ -107,7 +104,7 @@ public class DemoLjq extends DefaultLjq{
     /**
      * 获取字典项对象
      */
-    public Result zdObj(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result zdObj(JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
             return success(msgCzcg(),DictManager.zdObjByDmByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
@@ -119,13 +116,13 @@ public class DemoLjq extends DefaultLjq{
     /**
      * 字典搜索
      */
-    public Result zdSearch(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result zdSearch(JSONObject myParams) {
         SysSjglTyzd zd = myParams.getObject(KEY_YOBJ, SysSjglTyzd.class);
         zd.setSearchKey(myParams.getString("$.sys.searchKey"));
         return success(msgCzcg(),DictManager.zdSearch(myParams.getObject(KEY_PAGE, PageInfo.class),zd));
     }
 
-    public Result gjh(SysSjglSjdx sjdx, JSONObject myParams){
+    public Result gjh(JSONObject myParams){
         return success("国际化样例："+ Msg.msg("demo.czcg"));
     }
 }

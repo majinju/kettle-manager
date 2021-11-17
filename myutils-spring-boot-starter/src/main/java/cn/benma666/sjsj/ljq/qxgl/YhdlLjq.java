@@ -8,7 +8,6 @@ package cn.benma666.sjsj.ljq.qxgl;
 
 import cn.benma666.crypt.DesUtil;
 import cn.benma666.domain.SysQxYhxx;
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Conf;
 import cn.benma666.iframe.Result;
@@ -33,7 +32,7 @@ public class YhdlLjq extends DefaultLjq {
      * 用户登陆
      * @return 处理结果
      */
-    public Result yhdl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result yhdl(JSONObject myParams) {
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user;
@@ -46,7 +45,7 @@ public class YhdlLjq extends DefaultLjq {
             return failed("用户名或密码为空");
         }
         if(oldUser.getYhdm().equals(yobj.getString("yhdm"))){
-            return xtjcxx(sjdx, myParams, oldUser);
+            return xtjcxx(myParams, oldUser);
         }
         JSONObject jsonObj = db().findFirst(SqlId.of("sjsj", "findUser"), yobj);
         if (jsonObj == null) {
@@ -67,13 +66,13 @@ public class YhdlLjq extends DefaultLjq {
             return failed("你未不在授权的ip范围内登录");
         }
         user = UserManager.getUserBydYhdm(yobj.getString("yhdm"));
-        return xtjcxx(sjdx, myParams, user);
+        return xtjcxx(myParams, user);
     }
     /**
      * 微信登陆
      * @return 处理结果
      */
-    public Result wxdl(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result wxdl(JSONObject myParams) {
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user;
@@ -92,19 +91,19 @@ public class YhdlLjq extends DefaultLjq {
             }
             user = UserManager.getUserBydWzyhid(wxyhid);
             user.set("wxLogin", r);
-            return xtjcxx(sjdx, myParams, user);
+            return xtjcxx(myParams, user);
         } catch (MyException e) {
             //系统中还没有该微信用户
             oldUser.set("wxLogin", r);
             //返回临时用户
-            return xtjcxx(sjdx, myParams, oldUser);
+            return xtjcxx(myParams, oldUser);
         }
     }
     /**
      * 用户退出
      * @return 处理结果
      */
-    public Result yhtc(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result yhtc(JSONObject myParams) {
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
         return UserManager.removeUser(oldUser);
     }
@@ -112,20 +111,19 @@ public class YhdlLjq extends DefaultLjq {
      * 刷新用户权限
      * @return 处理结果
      */
-    public Result sxyhqx(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result sxyhqx(JSONObject myParams) {
         UserManager.flushUserQxxx();
         return success("刷新用户权限成功");
     }
 
     /**
-     * @param sjdx 数据对象
      * @param myParams 参数
      * @param user 最新用户信息
      * @return 系统基础信息
      */
-    private Result xtjcxx(SysSjglSjdx sjdx, JSONObject myParams, SysQxYhxx user) {
+    private Result xtjcxx(JSONObject myParams, SysQxYhxx user) {
         UserManager.addUser(JSONPath.eval(myParams,$_SYS_TOKEN).toString(), user);
         myParams.put(KEY_USER, user);
-        return super.xtjcxx(sjdx,myParams);
+        return super.xtjcxx(myParams);
     }
 }

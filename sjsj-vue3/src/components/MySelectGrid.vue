@@ -407,6 +407,7 @@ export default defineComponent({
     const pageChange = ( {currentPage, pageSize} )=>{
       setPageSize(pageSize);
       setPageNumber(currentPage);
+      myData.selectReqData.page.totalRequired=false
       getList();
     }
     /**
@@ -415,6 +416,7 @@ export default defineComponent({
      */
     const sortChange = ({column})=>{
       myData.selectReqData.page.orderBy = column.order?(column.property+" "+column.order):"";
+      myData.selectReqData.page.totalRequired=false
       getList();
     }
     /**
@@ -424,6 +426,7 @@ export default defineComponent({
     const updateCallback = (isFlush) =>{
       myData.tcckShow=false
       if(isFlush!==false){
+        myData.selectReqData.page.totalRequired=true
         getList()
       }
     }
@@ -433,6 +436,7 @@ export default defineComponent({
     const search = ()=>{
       //点击搜索按钮，恢复为第一页
       setPageNumber(1);
+      myData.selectReqData.page.totalRequired=true
       getList()
     }
     /**
@@ -467,6 +471,8 @@ export default defineComponent({
       }).then(req=>{
         ElMessage.success(req.msg);
         if(btnProps.sfsxym!==false){
+          //修改数据的场景要重新统计总量
+          myData.selectReqData.page.totalRequired=true
           getList()
         }
       }).catch((req)=>{

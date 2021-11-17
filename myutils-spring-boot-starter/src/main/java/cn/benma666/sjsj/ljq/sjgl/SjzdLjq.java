@@ -6,7 +6,6 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.Result;
 
 import cn.benma666.sjsj.web.DefaultLjq;
@@ -20,9 +19,9 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class SjzdLjq extends DefaultLjq {
     @Override
-    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result save(JSONObject myParams) {
         //对数据字段的修改清除字段缓存
         fieldsCache.clear();
-        return super.save(sjdx, myParams);
+        return super.save(myParams);
     }
 }

@@ -20,6 +20,7 @@ import cn.benma666.myutils.JsonUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjsj.myutils.Msg;
+import cn.benma666.sjzt.Db;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -48,10 +49,6 @@ public class LjqManager extends BasicObject {
      * 拦截器Map<对象id，拦截器实例>
      */
     private static final JSONObject ljqCache = CacheFactory.use("ljq");
-    /**
-     * 默认拦截器
-     */
-    private static LjqInterface defaultLjq = new DefaultLjq();
 
     /**
      * 使用对应的拦截器 <br/>
@@ -67,13 +64,15 @@ public class LjqManager extends BasicObject {
             return ljq;
         }
         String ljqStr = sjdx.getLjq();
-        if (StringUtil.isBlank(ljqStr)) {
-            //没有设置定制拦截器则返回默认拦截器
-            return getDefaultLjq();
-        }
         try {
-            //实例化定制拦截器
-            ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
+            if (StringUtil.isBlank(ljqStr)) {
+                //没有设置定制拦截器则使用默认拦截器，每个数据对象单独创建一个拦截器对象
+                ljq = new DefaultLjq();
+            }else{
+                //实例化定制拦截器
+                ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
+            }
+            ljq.setSjdx(sjdx);
             ljq.init();
             ljqCache.put(sjdx.getId(), ljq);
             return ljq;
@@ -83,8 +82,27 @@ public class LjqManager extends BasicObject {
     }
     /**
      * 获取数据对象基础信息 <br/>
-     *
-     * @param dxdm 数据对象
+     * @param id 数据对象id
+     * @return 基础信息
+     * @author jingma
+     */
+    public static JSONObject jcxxById(String id) {
+        return jcxxById(id,null);
+    }
+    /**
+     * 获取数据对象基础信息 <br/>
+     * @param id 数据对象id
+     * @return 基础信息
+     * @author jingma
+     */
+    public static JSONObject jcxxById(String id, SysQxYhxx user) {
+        JSONObject myParams = new JSONObject();
+        myParams.set("$.sjdx.id", id);
+        return jcxx(myParams,user);
+    }
+    /**
+     * 获取数据对象基础信息 <br/>
+     * @param dxdm 数据对象代码
      * @return 基础信息
      * @author jingma
      */
@@ -93,8 +111,18 @@ public class LjqManager extends BasicObject {
     }
     public static JSONObject jcxxByDxdm(String dxdm, SysQxYhxx user) {
         JSONObject myParams = new JSONObject();
-        myParams.put(LjqInterface.KEY_YOBJ,new JSONObject());
         myParams.set("$.sjdx.dxdm", dxdm);
+        return jcxx(myParams,user);
+    }
+
+    /**
+     * 自定义参数获取对象信息-内部调用
+     * @param myParams 自定义参数
+     * @param user 用户信息
+     * @return 对象参数
+     */
+    public static JSONObject jcxx(JSONObject myParams, SysQxYhxx user) {
+        myParams.put(LjqInterface.KEY_YOBJ,new JSONObject());
         if(user!=null){
             myParams.set(LjqInterface.$_SYS_TOKEN,user.getToken());
         }
@@ -129,7 +157,7 @@ public class LjqManager extends BasicObject {
         if (obj != null && !myParams.getBoolean("$.sys.clearCache")) {
             sjdx = (SysSjglSjdx) obj;
         } else {
-            JSONObject jsonObj = db().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
+            JSONObject jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
             if (jsonObj == null) {
                 throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
             }
@@ -149,7 +177,7 @@ public class LjqManager extends BasicObject {
         //合并数据对象的扩展信息到系统参数中
         JsonUtil.mergeJSONObjects(myParams,JSON.parseObject(sjdx.getKzxx(),Feature.OrderedField));
         //获取基础信息
-        return LjqManager.jcxx(sjdx, myParams);
+        return jcxx(sjdx,myParams);
     }
 
     /**
@@ -161,7 +189,7 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static JSONObject jcxx(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).jcxx(sjdx, myParams);
+        return use(sjdx).jcxx(myParams);
     }
 
     /**
@@ -171,7 +199,7 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static void yzgz(SysSjglSjdx sjdx, JSONObject myParams) {
-        use(sjdx).yzgz(sjdx, myParams);
+        use(sjdx).yzgz(myParams);
     }
     /**
      * 数据处理 <br/>
@@ -181,7 +209,7 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static Result data(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).data(sjdx, myParams);
+        return use(sjdx).data(myParams);
     }
 
     /**
@@ -194,7 +222,7 @@ public class LjqManager extends BasicObject {
      */
     public static Result upload(SysSjglSjdx sjdx, JSONObject myParams,
                                 MultipartFile[] files) throws Exception {
-        return use(sjdx).upload(sjdx, myParams,files);
+        return use(sjdx).upload(myParams,files);
     }
     /**
      * 分页查询 <br/>
@@ -205,13 +233,13 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static Result select(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).select(sjdx, myParams);
+        return use(sjdx).select(myParams);
     }
     public static Result insert(SysSjglSjdx sjdx, JSONObject myParams){
-        return use(sjdx).insert(sjdx, myParams);
+        return use(sjdx).insert(myParams);
     }
     public static Result update(SysSjglSjdx sjdx, JSONObject myParams){
-        return use(sjdx).update(sjdx, myParams);
+        return use(sjdx).update(myParams);
     }
     /**
      * 获取sql <br/>
@@ -222,7 +250,7 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static String[] getSql(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).getSql(sjdx, myParams);
+        return use(sjdx).getSql(myParams);
     }
     /**
      * 获取sql <br/>
@@ -234,7 +262,7 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static String[] getSql(SysSjglSjdx sjdx, JSONObject myParams,String cllx) {
-        return use(sjdx).getSql(sjdx, myParams,cllx);
+        return use(sjdx).getSql(myParams,cllx);
     }
     /**
      * 结果发送到前端
@@ -280,20 +308,6 @@ public class LjqManager extends BasicObject {
         } else {//默认JSON
             WebUtil.sendJson(response, r);
         }
-    }
-
-    /**
-     * @return defaultLjq
-     */
-    public static LjqInterface getDefaultLjq() {
-        return defaultLjq;
-    }
-
-    /**
-     * @param defaultLjq the defaultLjq to set
-     */
-    public static void setDefaultLjq(LjqInterface defaultLjq) {
-        LjqManager.defaultLjq = defaultLjq;
     }
 
 }

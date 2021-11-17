@@ -89,6 +89,7 @@ export default defineComponent({
         total: 0,
         currentPage: 1,
         pageSize: 5,
+        totalRequired:true,
         layouts:['Sizes', 'PrevJump', 'PrevPage', 'NextPage', 'NextJump', 'FullJump', 'Total']
 
       }
@@ -108,7 +109,7 @@ export default defineComponent({
           zdlb:props.zdlb
         },
         page:{
-          totalRequired:true,
+          totalRequired:mydata.tablePage.totalRequired,
           pageSize:mydata.tablePage.pageSize,
           pageNumber:mydata.tablePage.currentPage,
         },
@@ -130,6 +131,7 @@ export default defineComponent({
       const $input = xInput.value
       if(!$input.disabled&&!$input.readonly){
         $pulldown.showPanel()
+        mydata.tablePage.totalRequired=true
         searchList();
       }
     }
@@ -140,6 +142,7 @@ export default defineComponent({
      */
     const keyupEvent = ( value,$event ) => {
       mydata.tablePage.currentPage = 1
+      mydata.tablePage.totalRequired=true
       searchList(value?.value);
     }
     /**
@@ -150,6 +153,7 @@ export default defineComponent({
     const pageChangeEvent = ({ currentPage, pageSize }) => {
       mydata.tablePage.currentPage = currentPage
       mydata.tablePage.pageSize = pageSize
+      mydata.tablePage.totalRequired = false
       searchList();
     }
     /**

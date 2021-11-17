@@ -6,7 +6,6 @@
 
 package cn.benma666.sjsj.ljq.qxgl;
 
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
@@ -22,11 +21,11 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class JsxxLjq extends DefaultLjq {
     @Override
-    protected Result saveDb(SysSjglSjdx sjdx, JSONObject myParams) {
+    protected Result saveDb(JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
         JSONObject obj = myParams.getJSONObject(KEY_OBJ);
-        Result r = super.saveDb(sjdx, myParams);
+        Result r = super.saveDb(myParams);
         if(r.isStatus()&& StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
             Db.use(sjdx.getDxzt()).update("update sys_qx_jsxx t set t.dm=replace(t.dm,?,?),t.fjs=replace(t.fjs,?,?),"

@@ -26,7 +26,7 @@ public class ScjkrwLjq extends DefaultLjq {
      * 生成监控任务
      * @return 生成结果
      */
-    public Result scjkrw(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result scjkrw(JSONObject myParams) {
         JSONObject jkpz = new JSONObject();
         JSONObject pz = DictManager.zdObjByDmByCache("SYS_YXJK_SCRWPZ", sjdx.getDxdm());
         if(pz!=null){
@@ -42,7 +42,7 @@ public class ScjkrwLjq extends DefaultLjq {
         int yczrw = 0;
         //生成的任务
         int scrw = 0;
-        JSONArray list = ((JSONObject) getdata(sjdx, myParams).getData()).getJSONArray("list");
+        JSONArray list = ((JSONObject) getdata(myParams).getData()).getJSONArray("list");
         for(JSONObject rw:list.toArray(new JSONObject[]{})){
             JSONObject oldrw = db().findFirst("select * from sys_yxjk_jkrw t where t.jtrw=? and t.rwlx=?",
                     rw.getString("jtrw"),rw.getString("rwlx"));

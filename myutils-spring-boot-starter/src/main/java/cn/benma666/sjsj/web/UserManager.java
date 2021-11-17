@@ -267,7 +267,7 @@ public class UserManager extends BasicObject {
      */
     public static SysQxYhxx findUser(JSONObject yobj) throws MyException {
         //查询用户
-        JSONObject jsonObj = db().findFirst(SqlId.of("sjsj", "findUser"), yobj);
+        JSONObject jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findUser"), yobj);
         if(jsonObj==null){
             throw new MyException("没有找到用户："+yobj);
         }
@@ -275,15 +275,15 @@ public class UserManager extends BasicObject {
         //取消用户密码，登录后就不再需要使用，避免传到前端
         user.setYhmm(null);
         //查询机构
-        jsonObj = db().findFirst(SqlId.of("sjsj", "findJgxx"), Db.buildMap(user.getSsjg()));
+        jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findJgxx"), Db.buildMap(user.getSsjg()));
         if(jsonObj==null){
             throw new MyException("没有找到用户的机构："+user);
         }
         user.setJgxx(jsonObj.toJavaObject(SysQxJgxx.class));
         //查询角色
-        user.set("jsxx", db().find(SqlId.of("sjsj","findJsxx"),Db.buildMap(user.getId())));
+        user.set("jsxx", Db.use().find(SqlId.of("sjsj","findJsxx"),Db.buildMap(user.getId())));
 
-        Map<String, JSONObject> qxMap = db().findMap("dm", SqlId.of("sjsj","findYhqxxx"), Db.buildMap(user));
+        Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"), Db.buildMap(user));
         user.setQxMap(qxMap);
         return user;
     }
@@ -297,7 +297,7 @@ public class UserManager extends BasicObject {
         SysQxYhxx user;
         for (String key : redisTemplate.keys("user*")) {
             user = ((SysQxYhxx) redisTemplate.opsForValue().get(key));
-            Map<String, JSONObject> qxMap = db().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
+            Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
                     Db.buildMap(user));
             user.setQxMap(qxMap);
             redisTemplate.opsForValue().set(key,user,Long.parseLong(

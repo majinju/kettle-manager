@@ -6,7 +6,6 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
@@ -28,7 +27,7 @@ import java.util.Map;
 public class CacheLjq extends DefaultLjq {
 
     @Override
-    public Result select(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result select(JSONObject myParams) {
         PageInfo<JSONObject> page = new PageInfo<>();
         List<JSONObject> list = new ArrayList<>();
         page.setList(list);
@@ -45,7 +44,7 @@ public class CacheLjq extends DefaultLjq {
     /**
      * 清除缓存
      */
-    public Result qchc(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result qchc(JSONObject myParams) {
         Object ids = JSONPath.eval(myParams, $_SYS_IDS);
         if(ids==null){
             return failed("请选择要清除的缓存");

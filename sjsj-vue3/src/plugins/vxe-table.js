@@ -43,9 +43,9 @@ export const options ={
   textarea:{
     showWordCount:true,
     maxlength:5000,
-    rows: 7,
+    rows: 5,
     resize: "vertical",
-    autosize:{ minRows: 7, maxRows: 10 }
+    autosize:{ minRows: 5, maxRows: 10 }
   },
   form:{
     titleColon:true,

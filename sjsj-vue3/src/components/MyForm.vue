@@ -278,6 +278,10 @@ export default defineComponent({
         yobj:fromData
       }).then(req=>{
         ElMessage.success(req.msg);
+        if(btnProps.jghbdbd===true){
+          //请求结果合并到表单
+          myData.formData = assignDeep(myData.formData,req.data);
+        }
         if(btnProps.sfgbtc===true){
           context.emit('updateCallback',btnProps.sfsxym)
         }

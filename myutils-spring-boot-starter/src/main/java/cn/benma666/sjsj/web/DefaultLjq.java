@@ -57,6 +57,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected static JSONObject fieldsCache = CacheFactory.use("fields", CacheFactory.TYPE_MEMORY);
 
     /**
+     * 该拦截器对应的数据对象，每个对象一个拦截器
+     */
+    protected SysSjglSjdx sjdx;
+    /**
      * 获取处理类型
      *
      * @param myParams 参数对象
@@ -67,7 +71,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public JSONObject jcxx(SysSjglSjdx sjdx, JSONObject myParams) {
+    public JSONObject jcxx(JSONObject myParams) {
         if (getCllx(myParams) == null) {
             throw new MyException(Msg.msg("interceptor.bxsscllx", LjqInterface.$_SYS_CLLX.substring(2)), myParams);
         }
@@ -75,15 +79,15 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         SysQxYhxx user = UserManager.getUser(myParams);
         myParams.put(KEY_USER, user);
         //获取字段信息
-        getFields(sjdx, myParams, user);
+        getFields(myParams, user);
         //记录操作日志
-        czrz(sjdx, myParams, user);
+        czrz(myParams, user);
         //权限鉴定
         auth(myParams, user);
         //设置需要处理的对象
-        putObj(sjdx, myParams);
+        putObj(myParams);
         //验证规则
-        yzgz(sjdx, myParams);
+        yzgz(myParams);
         //TODO 转换规则
 
         return myParams;
@@ -91,12 +95,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     /**
      * 验证规则
-     *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      */
     @Override
-    public void yzgz(SysSjglSjdx sjdx, JSONObject myParams) {
+    public void yzgz(JSONObject myParams) {
         if (myParams.get(KEY_USER) == null) {
             //没有用户信息默认为系统内部调用，不进行验证
             return;
@@ -115,13 +117,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public Result upload(SysSjglSjdx sjdx, JSONObject myParams,
+    public Result upload(JSONObject myParams,
                          MultipartFile[] files) throws Exception {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         List<SysSjglFile> list = new ArrayList<>();
         for (MultipartFile file : files) {
             SysSjglFile fileObj = yobj.clone().toJavaObject(SysSjglFile.class);
-            Result r = upload(sjdx, myParams, fileObj, file);
+            Result r = upload(myParams, fileObj, file);
             if (!r.isStatus()) {
                 return r;
             }
@@ -131,20 +133,20 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public Result data(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result data(JSONObject myParams) {
         String cllx = getCllx(myParams);
         try{
-            Method m = this.getClass().getMethod(cllx, SysSjglSjdx.class, JSONObject.class);
-            return (Result) m.invoke(this,sjdx,myParams);
+            Method m = this.getClass().getMethod(cllx, JSONObject.class);
+            return (Result) m.invoke(this,myParams);
         }catch (NoSuchMethodException e){
             //没有找到该处理类型对应的方法，执行默认操作
             Object zxcz = JSONPath.eval(myParams,"$.sys.zxcz");
             if(zxcz==null||KEY_CLLX_GETDATA.equals(zxcz)){
-                return getdata(sjdx, myParams);
+                return getdata(myParams);
             }else if(KEY_CLLX_PLCL.equals(zxcz)){
-                return plcl(sjdx, myParams);
+                return plcl(myParams);
             }else if(KEY_CLLX_GETFILE.equals(zxcz)){
-                return getfile(sjdx, myParams);
+                return getfile(myParams);
             }else{
                 return failed("暂不支持的执行操作："+zxcz);
             }
@@ -161,7 +163,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 只取对外有用的,系统基础信息
      * @return 系统基础信息
      */
-    public Result xtjcxx(SysSjglSjdx sjdx, JSONObject myParams){
+    public Result xtjcxx(JSONObject myParams){
         JSONObject jcxx = new JSONObject();
         jcxx.put(KEY_USER, myParams.get(KEY_USER));
         JsonUtil.copy(jcxx, myParams, $_SYS_TOKEN);
@@ -172,7 +174,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 只取对外有用的,对象基础信息
      * @return 对象基础信息
      */
-    public Result dxjcxx(SysSjglSjdx sjdx, JSONObject myParams){
+    public Result dxjcxx(JSONObject myParams){
         //只取对外有用的，对象基础信息
         JSONObject jcxx = new JSONObject();
         jcxx.put(KEY_SJDX, myParams.get(KEY_SJDX));
@@ -185,33 +187,33 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         return success(msgCzcg(), jcxx);
     }
     @Override
-    public Result getdata(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result getdata(JSONObject myParams) {
         //创建个对象，用于在模板中可以设置一些数据作为结果传给前端
         JSONObject resultData = new JSONObject();
         myParams.put("resultData", resultData);
 
-        String[] arr = getSql(sjdx, myParams);
+        String[] arr = getSql(myParams);
         resultData.put("list", db(arr[0]).find(arr[1], myParams));
         return success("操作成功", resultData);
     }
 
     @Override
-    public Result plcl(SysSjglSjdx sjdx, JSONObject myParams) {
-        String[] arr = getSql(sjdx, myParams,KEY_CLLX_PLCL);
+    public Result plcl(JSONObject myParams) {
+        String[] arr = getSql(myParams,KEY_CLLX_PLCL);
         return success("操作成功", db(arr[0]).update(arr[1], myParams));
     }
 
     /**
      * 导出当前页数据
      */
-    public Result dcdqysj(SysSjglSjdx sjdx, JSONObject myParams) {
-        return dcsj(sjdx,myParams);
+    public Result dcdqysj(JSONObject myParams) {
+        return dcsj(myParams);
     }
     @Override
-    public Result dcsj(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result dcsj(JSONObject myParams) {
         //导出数据
         myParams.set("$.page.totalRequired", Boolean.FALSE);
-        PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(sjdx, myParams).getData();
+        PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(myParams).getData();
         String fileName = sjdx.getDxmc();
         if (myParams.getString("$.sys.dcwjm") != null) {
             fileName = myParams.getString("$.sys.dcwjm");
@@ -270,10 +272,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public Result getfile(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result getfile(JSONObject myParams) {
         String[] arr;
         try {
-            arr = getSql(sjdx, myParams);
+            arr = getSql(myParams);
             List<JSONObject> rl = db(arr[0]).find(arr[1], JSONObject.class, myParams);
             if (rl.size() == 0) {
                 return failed("未找到文件数据");
@@ -299,15 +301,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     /**
      * 下载文件
-     * @param sjdx 数据对象
      * @param myParams 相关参数
      * @return 处理结果
      */
-    public Result download(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result download(JSONObject myParams) {
         JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
         fileJcxx.put(KEY_YOBJ,myParams.get(KEY_YOBJ));
         fileJcxx.set("$.page.totalRequired",Boolean.FALSE);
-        PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(fileJcxx.getObject(KEY_SJDX, SysSjglSjdx.class),
+        PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(fileJcxx.getObject(KEY_SJDX,SysSjglSjdx.class),
                 fileJcxx).getData();
         if(page.getList().size()==0){
             return failed("没有找到该文件");
@@ -341,16 +342,16 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         return resultFile(byteArr, fileObj);
     }
     @Override
-    public Result sjplsc(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result sjplsc(JSONObject myParams) {
         Result r;
         JSONObject file = myParams.getJSONObject("file");
-        SjdxExcelReader er = new SjdxExcelReader(sjdx, myParams, file);
+        SjdxExcelReader er = new SjdxExcelReader(sjdx,myParams, file);
         try {
             r = er.disposeExcel();
             if (!r.isStatus()) {
                 return r;
             }
-            r = plSave(sjdx, myParams, er.getResult());
+            r = plSave(myParams, er.getResult());
             if (!r.isStatus()) {
                 return r;
             }
@@ -377,18 +378,18 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 删除数据
      * @return 操作结果
      */
-    public Result delete(SysSjglSjdx sjdx, JSONObject myParams) {
-        return plsc(sjdx,myParams);
+    public Result delete(JSONObject myParams) {
+        return plsc(myParams);
     }
     @Override
-    public Result plsc(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result plsc(JSONObject myParams) {
         Object wlsc = JSONPath.eval(myParams, "$.sys.wlsc");
         Result r = success("");
         if (StringUtil.isNotBlank(sjdx.getYxxzd()) && TypeUtils.castToBoolean(wlsc)) {
             //存在有效性字段，且允许物理删除
-            r = wlscByYxx(sjdx, myParams);
+            r = wlscByYxx(myParams);
         }
-        String[] arr = getSql(sjdx, myParams,KEY_CLLX_PLSC);
+        String[] arr = getSql(myParams,KEY_CLLX_PLSC);
         //后续继续进行逻辑删除操作
         int scs = db(arr[0]).update(arr[1], myParams);
         if (StringUtil.isBlank(sjdx.getYxxzd())) {
@@ -400,7 +401,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public Result select(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result select(JSONObject myParams) {
         //获取分页对象
         PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
         if (StringUtil.isBlank(page.getOrderBy())) {
@@ -408,7 +409,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             page.setOrderBy(sjdx.getMrpx());
         }
         //获取sql
-        String[] arr = getSql(sjdx, myParams, KEY_CLLX_SELECT);
+        String[] arr = getSql(myParams, KEY_CLLX_SELECT);
         String sql;
         if (StringUtil.isNotBlank(sjdx.getSqlmb())) {
             //对象上设置了查询sql模板
@@ -423,9 +424,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject fields = myParams.getJSONObject(KEY_FIELDS);
         for(JSONObject row : page.getList()){
             for(String zddm:fields.keySet()){
+                if(StringUtil.isBlank(row.getString(zddm))){
+                    //字段值为空时跳过
+                    continue;
+                }
                 String kjlx = fields.getString("$."+zddm+".kjlx");
-                //对结果进行字典翻译
-                if(ZD_SJDX_KJLX_DICT.equals(kjlx)){
+                //对结果进行字典翻译，字典或者级联控件
+                if(ZD_SJDX_KJLX_DICT.equals(kjlx)||"ElCascader".equals(kjlx)){
                     row.put(zddm+"_mc",DictManager.zdMcByDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
                 }else if(ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)){
                     row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
@@ -441,26 +446,26 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public Result insert(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
+    public Result insert(JSONObject myParams) throws MyException {
         JSONPath.set(myParams, $_SYS_CLLX, KEY_CLLX_INSERT);
-        return save(sjdx, myParams);
+        return save(myParams);
     }
 
     @Override
-    public Result update(SysSjglSjdx sjdx, JSONObject myParams) throws MyException {
+    public Result update(JSONObject myParams) throws MyException {
         JSONPath.set(myParams, $_SYS_CLLX, KEY_CLLX_UPDATE);
-        return save(sjdx, myParams);
+        return save(myParams);
     }
 
     /**
      * 保存数据
      * @return 操作结果
      */
-    public Result save(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result save(JSONObject myParams) {
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
-            r = saveDb(sjdx, myParams);
+            r = saveDb(myParams);
         } else {
             //后续支持文件等各类数据载体，暂未实现
             throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
@@ -473,13 +478,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public String[] getSql(SysSjglSjdx sjdx, JSONObject myParams) {
+    public String[] getSql(JSONObject myParams) {
         Object cllx = JSONPath.eval(myParams, $_SYS_CLLX);
-        return getSql(sjdx, myParams, cllx.toString());
+        return getSql(myParams, cllx.toString());
     }
 
     @Override
-    public String[] getSql(SysSjglSjdx sjdx, JSONObject myParams, String cllx) {
+    public String[] getSql(JSONObject myParams, String cllx) {
         //设置from
         myParams.set("$.sql.from", (StringUtil.isBlank(
                 sjdx.getDxgs()) ? "" : sjdx.getDxgs() + ".") + sjdx.getJtdx());
@@ -536,11 +541,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     /**
      * 导出模板
      *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      */
-    public Result dcmb(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result dcmb(JSONObject myParams) {
         //导出数据
         String fileName = sjdx.getDxmc();
         if (JSONPath.eval(myParams, "$.sys.dcwjm") != null) {
@@ -601,18 +605,16 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     /**
      * 对象数据插入-数据库 <br/>
-     *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    protected Result saveDb(SysSjglSjdx sjdx, JSONObject myParams) {
-        String[] arr = getSql(sjdx, myParams);
+    protected Result saveDb(JSONObject myParams) {
+        String[] arr = getSql(myParams);
         return success(msgCzcg(), db(arr[0]).update(arr[1], myParams));
     }
 
-    protected Result plSave(SysSjglSjdx sjdx, JSONObject myParams, JSONArray list1) throws SQLException {
+    protected Result plSave(JSONObject myParams, JSONArray list1) throws SQLException {
         JSONObject[] list = list1.toArray(new JSONObject[0]);
         //获取事务提交量
         int swtjl = TypeUtils.castToInt(JSONPath.eval(myParams,"$.sys.swtjl"));
@@ -624,7 +626,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         Result r;
         for (JSONObject j : list) {
             myParams.put(KEY_YOBJ, j);
-            r = insert(sjdx, myParams);
+            r = insert(myParams);
             if (!r.isStatus()) {
                 DSTransactionManager.rollback();
                 r.addMsg("第" + (i + 1) + "行");
@@ -646,15 +648,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     /**
      * 基于有效性的物理删除 <br/>
-     *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    protected Result wlscByYxx(SysSjglSjdx sjdx, JSONObject myParams) {
+    protected Result wlscByYxx(JSONObject myParams) {
         //有有效性字段
-        String[] arr = getSql(sjdx, myParams, "wl" + getCllx(myParams));
+        String[] arr = getSql(myParams, "wl" + getCllx(myParams));
         //先执行物理删除，将本次删除中，已经为无效的进行物理删除
         int scs = db(arr[0]).update(arr[1], myParams);
         return success("物理删除数：" + scs);
@@ -662,12 +662,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     /**
      * 设置obj <br/>
-     *
-     * @param sjdx     数据对象
      * @param myParams 参数
      * @author jingma
      */
-    protected void putObj(SysSjglSjdx sjdx, JSONObject myParams) {
+    protected void putObj(JSONObject myParams) {
         myParams.set("$.sys.yzdjl", Boolean.FALSE);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         if (yobj == null) {
@@ -681,7 +679,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 && !StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))) {
             //设置了主键字段，且前端传入了主键，查询模板中只要前端传入了主键，则只以主键进行查询，不管其他条件
             myParams.set("$.page.totalRequired", Boolean.FALSE);
-            PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(sjdx, myParams).getData();
+            PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(myParams).getData();
             if (page.getList().size() == 1) {
                 //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
                 myParams.set("$.sys.yzdjl", Boolean.TRUE);
@@ -693,10 +691,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     /**
      * 获取数据字段 <br/>
      *
-     * @return 字段信息
      * @author jingma
      */
-    protected Map<String, JSONObject> getFields(SysSjglSjdx sjdx, JSONObject myParams, SysQxYhxx user) {
+    protected void getFields(JSONObject myParams, SysQxYhxx user) {
         //基于对象和用户等级缓存对象字段
         String cacheKey = sjdx.getId();
         if (user != null) {
@@ -708,7 +705,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //没有缓存且没有要求清除缓存
             fields = (Map<String, JSONObject>) obj;
         }else{
-            String[] r = getSql(sjdx, myParams, "getFields");
+            String[] r = getSql(myParams, "getFields");
             fields = db(r[0]).findMap("zddm", r[1], myParams);
             if(myParams.containsKey(KEY_FIELDS)){
                 //如果系统配置的有默认字段则合并,具体字段配置优先
@@ -732,7 +729,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             myParams.set("$.zhgz['yobj." + zddm + "']",field.getJSONObject("$.kzxx.zhgz").clone());
         });
         myParams.put(KEY_FIELDS, fields);
-        return fields;
     }
 
     /**
@@ -959,13 +955,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     /**
      * 操作日志记录 <br/>
-     *
-     * @param sjdx     数据对象
      * @param myParams 参数
      * @param user     用户
      * @author jingma
      */
-    protected void czrz(SysSjglSjdx sjdx, JSONObject myParams, SysQxYhxx user) {
+    protected void czrz(JSONObject myParams, SysQxYhxx user) {
         if (myParams.getBoolean($_SYS_NBDY)) {
             //为系统内部调用
             return;
@@ -1034,7 +1028,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject xtqtzdParams = LjqManager.jcxxByDxdm("SYS_COMMON_XTQTZD");
         return (Map<String, JSONObject>) xtqtzdParams.get(KEY_FIELDS);
     }
-    protected Result upload(SysSjglSjdx sjdx, JSONObject myParams, SysSjglFile fileObj, MultipartFile file) throws Exception {
+    protected Result upload(JSONObject myParams, SysSjglFile fileObj, MultipartFile file) throws Exception {
         String wjm = file.getOriginalFilename();
         fileObj.setWjm(wjm);
         //文件类型
@@ -1173,19 +1167,27 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     /**
      * 获取指定数据库操作对象 <br/>
      * @author jingma
-     * @param sjdx 数据对象
      * @return 指定的数据库操作对象
      */
-    protected static Db db(SysSjglSjdx sjdx){
+    protected Db db(){
         return Db.use(sjdx.getDxzt());
     }
     /**
      * 获取指定SqlManager <br/>
      * @author jingma
-     * @param sjdx 数据对象
      * @return 指定SqlManager
      */
-    protected static SQLManager sqlManager(SysSjglSjdx sjdx){
+    protected SQLManager sqlManager(){
         return Db.useSqlManager(sjdx.getDxzt());
+    }
+
+    @Override
+    public SysSjglSjdx getSjdx() {
+        return sjdx;
+    }
+
+    @Override
+    public void setSjdx(SysSjglSjdx sjdx) {
+        this.sjdx = sjdx;
     }
 }

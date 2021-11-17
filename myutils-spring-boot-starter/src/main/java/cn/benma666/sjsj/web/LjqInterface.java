@@ -8,7 +8,6 @@ package cn.benma666.sjsj.web;
 
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
-import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.myutils.Msg;
 import com.alibaba.fastjson.JSONObject;
@@ -22,135 +21,119 @@ import org.springframework.web.multipart.MultipartFile;
 public interface LjqInterface extends LjqConstant {
     /**
      * 基础信息<br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 基础信息
      * @author jingma
      */
-    JSONObject jcxx(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
+    JSONObject jcxx(JSONObject myParams) throws MyException;
     /**
      * 验证规则
      *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      */
-    void yzgz(SysSjglSjdx sjdx, JSONObject myParams);
+    void yzgz(JSONObject myParams);
 
     /**
      * 上传文件
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @param files    文件列表
      * @return 处理结果
      */
-    Result upload(SysSjglSjdx sjdx, JSONObject myParams, MultipartFile[] files) throws Exception;
+    Result upload(JSONObject myParams, MultipartFile[] files) throws Exception;
     /**
      * 除上传文件外处理类型通用入口 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    Result data(SysSjglSjdx sjdx, JSONObject myParams);
+    Result data(JSONObject myParams);
 
     /**
      * 获取数据 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    Result getdata(SysSjglSjdx sjdx, JSONObject myParams);
+    Result getdata(JSONObject myParams);
 
     /**
      * 批量处理 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    Result plcl(SysSjglSjdx sjdx, JSONObject myParams);
+    Result plcl(JSONObject myParams);
 
     /**
      * 导出数据文件EXCEL <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    Result dcsj(SysSjglSjdx sjdx, JSONObject myParams);
+    Result dcsj(JSONObject myParams);
 
     /**
      * 获取文件 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    Result getfile(SysSjglSjdx sjdx, JSONObject myParams);
+    Result getfile(JSONObject myParams);
 
     /**
      * 数据批量上传 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    Result sjplsc(SysSjglSjdx sjdx, JSONObject myParams);
+    Result sjplsc(JSONObject myParams);
 
     /**
      * 批量删除 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
      */
-    Result plsc(SysSjglSjdx sjdx, JSONObject myParams);
+    Result plsc(JSONObject myParams);
 
     /**
      * 分页 <br/>
-     *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 分页查询结果
      * @author jingma
      */
-    Result select(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
+    Result select(JSONObject myParams) throws MyException;
 
     /**
      * 新增数据
-     * @param sjdx 数据对象
      * @param myParams 参数
      * @return 处理结果
      * @throws MyException 系统范围内处理异常
      */
-    Result insert(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
+    Result insert(JSONObject myParams) throws MyException;
     /**
      * 更新数据
-     * @param sjdx 数据对象
      * @param myParams 参数
      * @return 处理结果
      * @throws MyException 系统范围内处理异常
      */
-    Result update(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
+    Result update(JSONObject myParams) throws MyException;
     /**
      * 获取Sql <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 0:数据载体，1：sql
      * @author jingma
      */
-    String[] getSql(SysSjglSjdx sjdx, JSONObject myParams) throws MyException;
+    String[] getSql(JSONObject myParams) throws MyException;
 
     /**
      * 获取Sql <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @param cllx     处理类型
      * @return 0:数据载体，1：sql
      * @author jingma
      */
-    String[] getSql(SysSjglSjdx sjdx, JSONObject myParams, String cllx) throws MyException;
+    String[] getSql(JSONObject myParams, String cllx) throws MyException;
 
     /**
      * 拦截器初始化方法 <br/>
@@ -166,6 +149,16 @@ public interface LjqInterface extends LjqConstant {
      */
     void end();
 
+    /**
+     * @return 数据对象
+     */
+    SysSjglSjdx getSjdx();
+
+    /**
+     * 设置数据对象
+     * @param sjdx 数据对象
+     */
+    void setSjdx(SysSjglSjdx sjdx);
     /**
      * 获取国际化消息-操作成功
      *

@@ -10,7 +10,6 @@ import java.io.File;
 import java.util.List;
 
 import cn.benma666.constants.UtilConst;
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
@@ -34,11 +33,11 @@ public class SjztLjq extends ScjkrwLjq {
      * 测试数据载体
      * @return 测试结果
      */
-    public Result cszt(SysSjglSjdx sjdx, JSONObject myParams) {
+    public Result cszt(JSONObject myParams) {
         //测试载体
         if(JSONPath.eval(myParams,$_SYS_IDS)!=null){
             //TODO 通用查询中需要考虑ids参数
-            List<JSONObject> ztList = ((PageInfo<JSONObject>)select(sjdx,myParams).getData()).getList();
+            List<JSONObject> ztList = ((PageInfo<JSONObject>)select(myParams).getData()).getList();
             Result r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
             for(JSONObject obj:ztList){
                 if(!testSjzt(obj,true).isStatus()){
@@ -58,7 +57,7 @@ public class SjztLjq extends ScjkrwLjq {
     }
 
     @Override
-    public Result insert(SysSjglSjdx sjdx, JSONObject myJsonParams) {
+    public Result insert(JSONObject myJsonParams) {
         String cllx = myJsonParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
         JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
@@ -92,7 +91,7 @@ public class SjztLjq extends ScjkrwLjq {
         default:
             break;
         }
-        Result result = super.insert(sjdx, myJsonParams);
+        Result result = super.insert(myJsonParams);
         if(!result.isStatus()){
             return result;
         }
