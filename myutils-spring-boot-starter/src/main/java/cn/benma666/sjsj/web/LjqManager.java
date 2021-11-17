@@ -137,24 +137,11 @@ public class LjqManager extends BasicObject {
      * @param myParams 相关参数
      */
     public static JSONObject jcxx(JSONObject myParams,boolean nbdy) {
-        try {
-            //TODO 后续还是将该配置迁移到字典配置中
-            JSONObject defParams= JSONObject.parseObject(Utils.readFromResource("myParams.json"), Feature.OrderedField);
-            //合并新配置与默认配置
-            myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
-            if(!nbdy){
-                defParams= JSONObject.parseObject(Utils.readFromResource("myParams2.json"), Feature.OrderedField);
-                //合并优先级高于用户传参的默认配置
-                myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
-            }
-        } catch (IOException e) {
-            throw new MyException("读取默认配置失败",e);
-        }
         SysSjglSjdx sjdx;
         //读取缓存
         String cacheKey = myParams.getString(LjqInterface.KEY_SJDX)+myParams.getString(LjqInterface.$_SYS_AUTHCODE);
         Object obj = sjdxMap.get(cacheKey);
-        if (obj != null && !myParams.getBoolean("$.sys.clearCache")) {
+        if (obj != null && !valByDef(myParams.getBoolean("$.sys.clearCache"),false)) {
             sjdx = (SysSjglSjdx) obj;
         } else {
             JSONObject jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
@@ -170,6 +157,19 @@ public class LjqManager extends BasicObject {
             sjdx.setDxztlx(dbObj.getString("lx"));
             //设置缓存
             sjdxMap.put(cacheKey,sjdx);
+        }
+        try {
+            //TODO 后续还是将该配置迁移到字典配置中
+            JSONObject defParams= JSONObject.parseObject(Utils.readFromResource("myParams.json"), Feature.OrderedField);
+            //合并新配置与默认配置
+            myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
+            if(!nbdy){
+                defParams= JSONObject.parseObject(Utils.readFromResource("myParams2.json"), Feature.OrderedField);
+                //合并优先级高于用户传参的默认配置
+                myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
+            }
+        } catch (IOException e) {
+            throw new MyException("读取默认配置失败",e);
         }
         myParams.set(LjqInterface.$_SYS_AUTHCODE, sjdx.get(LjqInterface.KEY_AUTH_CODE));
         //设置从数据库中读取的数据对象

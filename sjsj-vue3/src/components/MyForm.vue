@@ -159,6 +159,12 @@ export default defineComponent({
                 }
               };
               break
+            case 'MyMarkDown':
+              fi.itemRender={ name: 'MyMarkDown' ,props:{placeholder:f.zdts}};
+              if(f.kzxx.cllxkz[cllx].disabled||f.kzxx.cllxkz[cllx].readonly){
+                fi.itemRender.props.mode="preview";
+              }
+              break
             case 'ElDatePicker':
               //时间选择器
               fi.itemRender={
@@ -170,7 +176,6 @@ export default defineComponent({
                 }
               };
               break
-            case 'jsoneditor':
             case '$textarea':
               //时间选择器
               fi.itemRender={

@@ -34,14 +34,14 @@
             }
           },
           "plclRight": {
-            "insert": {
+            "dcdqysj": {
               "content": "导出当前页",
               "buttonOptions": {
                 "clfs": "wjxz",
                 sfxyxzjl: false
               }
             },
-            "plsc": {
+            "dcsj": {
               "content": "导出全部",
               "buttonOptions": {
                 "clfs": "wjxz",
@@ -79,7 +79,9 @@
               }
             }
           }
-        }
+        },
+        "yzgz": {},
+        "zhgz": {}
       }
     },
     //列表选择
@@ -98,7 +100,9 @@
             "props": {
             }
           }
-        }
+        },
+        "yzgz": {},
+        "zhgz": {}
       }
     },
     //列表序号
@@ -115,7 +119,9 @@
         },
         "kjkz": {
           "treeNode": false
-        }
+        },
+        "yzgz": {},
+        "zhgz": {}
       }
     },
     //列表操作
@@ -159,12 +165,14 @@
               }
             }
           }
-        }
+        },
+        "yzgz": {},
+        "zhgz": {}
       }
     },
     //新建按钮字段
     "myXjan": {
-      "zddm": "myBjan",
+      "zddm": "myXjan",
       "px": 5000,
       "zdywlb": "99",
       "kjlx": "$buttons",
@@ -198,7 +206,9 @@
               }
             }
           }
-        }
+        },
+        "yzgz": {},
+        "zhgz": {}
       }
     },
     //编辑按钮字段
@@ -237,7 +247,9 @@
               }
             }
           }
-        }
+        },
+        "yzgz": {},
+        "zhgz": {}
       }
     },
     //详情按钮字段
@@ -267,7 +279,9 @@
               }
             }
           }
-        }
+        },
+        "yzgz": {},
+        "zhgz": {}
       }
     }
   }

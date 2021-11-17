@@ -707,6 +707,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }else{
             String[] r = getSql(myParams, "getFields");
             fields = db(r[0]).findMap("zddm", r[1], myParams);
+            fieldsInit(fields, myParams);
             if(myParams.containsKey(KEY_FIELDS)){
                 //如果系统配置的有默认字段则合并,具体字段配置优先
                 JSONObject sfields = myParams.getJSONObject(KEY_FIELDS);
@@ -721,7 +722,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
             //设置缓存
             fieldsCache.put(cacheKey, fields);
-            fieldsInit(fields, myParams);
         }
         fields.forEach((zddm,field)->{
             //将整个字段的验证规则设置到系统验证规则中，因为内部会对规则数据进行修改

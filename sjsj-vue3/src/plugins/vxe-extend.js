@@ -28,6 +28,23 @@ export const VxeExtend = {
           ]
         },
       },
+      MyMarkDown: {
+        autofocus: 'input.my-input__inner',
+        renderDefault (renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <v-md-editor v-model={data[property]} {...props}/>
+          ]
+        },
+        renderItemContent(renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <v-md-editor v-model={data[property]} {...props}/>
+          ]
+        },
+      },
       MySelectGrid: {
         autofocus: 'input.my-input__inner',
         renderDefault (renderOpts, params) {
