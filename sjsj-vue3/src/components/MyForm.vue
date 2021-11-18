@@ -261,11 +261,11 @@ export default defineComponent({
      * 作为弹窗窗口被调用
      * @param dxjcxx 对象基础信息
      * @param cllx 处理类型
+     * @param options 权限信息
      * @param row 当前操作的行
-     * @param qx 权限信息
      * @param ids 列表选择的id数组
      */
-    const tcck = (dxjcxx,cllx,row,qx,ids) => {
+    const tcck = (dxjcxx,cllx,options,row,ids) => {
       initPage(dxjcxx,cllx,row);
     }
     /**

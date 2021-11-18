@@ -522,7 +522,7 @@ export default defineComponent({
           myData.tcckShow=true
           await nextTick()
           await nextTick()
-          xUpdate.value.tcck(myData.dxjcxx, cllx, row, buttonOptions, ids);
+          xUpdate.value.tcck(myData.dxjcxx, cllx, buttonOptions, row, ids);
           break
         //文件下载
         case "wjxz":
@@ -533,6 +533,15 @@ export default defineComponent({
               ids:ids
             }
           })
+          break
+        //文件上传
+        case "wjsc":
+          ElMessage.error("文件上传暂未实现");
+          //调用文件上传接口后，再拿着返回的文件对象信息请求设置的处理类型。
+          break
+        //编辑模式
+        case "bjms":
+          ElMessage.error("编辑模式暂未实现");
           break
         default:
           ElMessage.error("暂不支持该处理方式");

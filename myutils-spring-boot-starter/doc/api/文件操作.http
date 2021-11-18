@@ -24,10 +24,25 @@ client.test("Request executed successfully", function() {
 
 
 ### 文件下载
-GET {{serviceAddr}}?sjdx.dxdm=SYS_QX_QTQX&sys.cllx=download&sys.token=4978866291C611DA0D2D5999C413107F&sys.id=1D775094D977439CB163DDF292931E01
+GET {{serviceAddr}}?sjdx.dxdm=SYS_QX_QTQX&sys.cllx=download&sys.token=4978866291C611DA0D2D5999C413107F&yobj.id=1D775094D977439CB163DDF292931E01
 
 > {%
 client.test("Request executed successfully", function() {
   client.assert(response.status === 200, "请求异常："+response.body);
 });
 %}
+
+### 文件上传
+POST {{serviceAddr}}
+Content-Type: multipart/form-data
+
+# 文件上传在这里不好测试，如下是参数
+sjdx.dxdm=SYS_SJGL_FILE&sys.cllx=upload&sys.token=4978866291C611DA0D2D5999C413107F
+#files为文件的字段名称，可以传多个文件
+#接口返回文件对象列表。
+
+#> {%
+#client.test("Request executed successfully", function() {
+#  client.assert(response.status === 200, "请求异常："+response.body);
+#});
+#%}

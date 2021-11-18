@@ -23,6 +23,7 @@ import com.alibaba.druid.DbType;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -344,7 +345,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public Result sjplsc(JSONObject myParams) {
         Result r;
-        JSONObject file = myParams.getJSONObject("file");
+        JSONArray files = myParams.getJSONArray("$.sys.files");
+        //暂时只考虑上传一个文件
+        JSONObject file = files.getJSONObject(0);
         SjdxExcelReader er = new SjdxExcelReader(sjdx,myParams, file);
         try {
             r = er.disposeExcel();
@@ -547,8 +550,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result dcmb(JSONObject myParams) {
         //导出数据
         String fileName = sjdx.getDxmc();
-        if (JSONPath.eval(myParams, "$.sys.dcwjm") != null) {
-            fileName = JSONPath.eval(myParams, "$.sys.dcwjm").toString();
+        if (myParams.get("$.sys.dcwjm") != null) {
+            fileName = myParams.getString("$.sys.dcwjm");
         }
         fileName += "-数据上传模板-" + DateUtil.getGabDate() + ".xlsx";
         try {
@@ -559,7 +562,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             List<String> r = new ArrayList<>();
             data.add(r);
             for (Map.Entry<String, JSONObject> f : fields.entrySet()) {
-                if (f.getValue().getBoolean("mbzs")) {
+                if (valByDef(f.getValue().getBoolean("mbzs"),false)) {
                     h = new ArrayList<>();
                     h.add(f.getValue().getString("zdmc") + "[" + f.getValue().getString("zddm") + "]");
                     header.add(h);
@@ -1029,18 +1032,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         return (Map<String, JSONObject>) xtqtzdParams.get(KEY_FIELDS);
     }
     protected Result upload(JSONObject myParams, SysSjglFile fileObj, MultipartFile file) throws Exception {
-        String wjm = file.getOriginalFilename();
-        fileObj.setWjm(wjm);
-        //文件类型
-        fileObj.setWjlx(wjm.substring(wjm.lastIndexOf('.') + 1).toLowerCase());
-        fileObj.setWjdx(BigDecimal.valueOf(file.getSize()));
         byte[] byteArr = file.getBytes();
         //去重码ywdm+wjlb+MD5
         fileObj.setQcm(fileObj.getYwdm() + fileObj.getWjlb() + FileUtil.getFileMD5(byteArr));
         fileObj.setYxx(UtilConst.WHETHER_TRUE);
         JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
         fileJcxx.put(KEY_USER, myParams.get(KEY_USER));
-        fileJcxx.put(KEY_YOBJ, fileObj);
+        fileJcxx.put(KEY_YOBJ, JSON.parseObject(fileObj.toString()));
         fileJcxx.set("$.page.totalRequired",Boolean.FALSE);
         //如果表中存在此去重码则把这个文件删除
         List<JSONObject> list = ((PageInfo<JSONObject>)LjqManager.select(fileJcxx.getObject(KEY_SJDX,
@@ -1050,6 +1048,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             log.info(f.getString("id") + "文件已经存在");
             return success("该文件已经存在", f);
         }
+        String wjm = file.getOriginalFilename();
+        fileObj.setWjm(wjm);
+        //文件类型
+        fileObj.setWjlx(wjm.substring(wjm.lastIndexOf('.') + 1).toLowerCase());
+        fileObj.setWjdx(BigDecimal.valueOf(file.getSize()));
         if (StringUtil.isBlank(fileObj.getSjzt())) {
             fileObj.setSjzt(Conf.getVal("wjsc.mrsjzt"));
         }
@@ -1112,8 +1115,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         //保存文件信息
         fileObj.setId(StringUtil.getUUIDUpperStr());
+        fileJcxx.put(KEY_YOBJ, JSON.parseObject(fileObj.toString()));
         LjqManager.insert((SysSjglSjdx) fileJcxx.get(KEY_SJDX), fileJcxx);
-        slog.debug(fileObj + "文件上传成功");
+        log.debug(fileObj + "文件上传成功");
         return success("文件上传成功", fileObj);
     }
 
@@ -1126,7 +1130,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result resultExcelFile(List<List<String>> header, List<List<String>> data, String fileName) {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         EasyExcel.write(os).head(header).autoTrim(true).excelType(ExcelTypeEnum.XLSX)
-                .sheet("Sheet1").doWrite(data);
+                //自动列宽，不合适可以自己重写
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+                .sheet("Sheet1")
+                .doWrite(data);
         SysSjglFile file1 = new SysSjglFile();
         file1.setWjlx("xlsx");
         file1.setWjm(fileName);

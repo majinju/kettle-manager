@@ -31,6 +31,54 @@
                 "clfs": "htqq",
                 "htqqts": true
               }
+            },
+            "bjms": {
+              "type": "primary",
+              "content": "编辑模式",
+              "buttonOptions": {
+                "clfs": "bjms",
+                "htqqts": false
+              }
+            },
+            "dcmb": {
+              "type": "primary",
+              "content": "导出模板",
+              "buttonOptions": {
+                "clfs": "wjxz",
+                "htqqts": false
+              }
+            },
+            "sjplsc": {
+              "type": "primary",
+              "content": "批量上传",
+              "buttonOptions": {
+                "clfs": "wjsc",
+                "htqqts": false
+              }
+            },
+            "jlfz": {
+              "type": "primary",
+              "content": "复制",
+              "buttonOptions": {
+                "clfs": "htqq",
+                "htqqts": true
+              }
+            },
+            "dxpz": {
+              "type": "primary",
+              "content": "对象配置",
+              "buttonOptions": {
+                "clfs": "tcck",
+                "htqqts": true
+              }
+            },
+            "zdpz": {
+              "type": "primary",
+              "content": "字段配置",
+              "buttonOptions": {
+                "clfs": "tcck",
+                "htqqts": true
+              }
             }
           },
           "plclRight": {

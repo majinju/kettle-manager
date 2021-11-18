@@ -49,6 +49,59 @@ client.test("Request executed successfully", function() {
 });
 %}
 
+### 模板下载
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD_DEMO"
+  },
+  "sys":{
+    "cllx":"dcmb",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  },
+  "yobj": {
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 模板下载
+GET {{serviceAddr}}?sjdx.dxdm=SYS_SJGL_TYZD_DEMO&sys.cllx=dcmb&sys.token=4978866291C611DA0D2D5999C413107F
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 数据批量上传
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD_DEMO"
+  },
+  "yobj": {
+    "dm": "3424111"
+  },
+  "page": {
+    "pageNumber": "1",
+    "pageSize": "10",
+  },
+  "sys":{
+    "cllx":"sjplsc",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "fiels": []
+  }
+}
+
 ### 导出当前页
 POST {{serviceAddr}}
 Content-Type: application/json
