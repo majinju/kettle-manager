@@ -76,21 +76,6 @@ function errorMessageHand(status, data) {
     case 200:
       //正常
       break
-    case 412:
-      ElMessage({
-        type: 'error',
-        message: data.msg,
-        duration: 5000
-      })
-      break
-    case 404:
-      ElMessage({
-        type: 'error',
-        message: data.msg||'网络请求不存在',
-        duration: 5000
-      })
-      break
-    // 其他错误，直接抛出错误提示
     case 403:
       // token失效
       ElMessageBox.confirm((data.msg|| '该操作没有权限')+'，请重新登陆试试', {
@@ -103,12 +88,13 @@ function errorMessageHand(status, data) {
       })
       break
     default:
+      // 其他错误，直接抛出错误提示
       ElMessageBox.alert(data.msg||'请求异常', '提示', {
         confirmButtonText: 'OK',
         type: "warning",
         callback: (action) => {
         },
-      })
+      }).then();
   }
 }
 const httpHandle = {
@@ -136,22 +122,31 @@ const httpHandle = {
   },
   /**
    * 上传文件
-   * @param data
+   * @param data 表单数据
+   * @param tloading 是否显示等待提示，默认提示
    * @returns {*}
    */
-  upload:(data)=>{
-    loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
+  upload:(data,tloading=true)=>{
+    if(tloading){
+      loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
+    }
     return server({
-      method: 'get',
-      data:data
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      method: 'post',
+      data: data
     })
   },
   /**
    * 下载文件
-   * @param data
+   * @param data 数据
+   * @param tloading 是否显示等待提示，默认提示
    */
-  download: (data)=>{
-    loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
+  download: (data,tloading=true)=>{
+    if(tloading){
+      loading = ElLoading.service({text:'数据请求中！', background: 'rgba(0,0,0,0.6)'});
+    }
     server({
       method: 'post',
       data: data,

@@ -14,6 +14,10 @@
       "select": {
         //饿了么的的按钮
         "qxpz": {
+          //批量处理左侧最大按钮数
+          "plclLeftZdans": 9,
+          //批量处理右侧最大按钮数
+          "plclRightZdans": 2,
           "plclLeft": {
             "insert": {
               "type": "primary",
@@ -37,7 +41,9 @@
               "content": "编辑模式",
               "buttonOptions": {
                 "clfs": "bjms",
-                "htqqts": false
+                "htqqts": false,
+                //是否需要选择记录
+                sfxyxzjl: false
               }
             },
             "dcmb": {
@@ -45,7 +51,9 @@
               "content": "导出模板",
               "buttonOptions": {
                 "clfs": "wjxz",
-                "htqqts": false
+                "htqqts": false,
+                //是否需要选择记录
+                sfxyxzjl: false
               }
             },
             "sjplsc": {
@@ -53,7 +61,9 @@
               "content": "批量上传",
               "buttonOptions": {
                 "clfs": "wjsc",
-                "htqqts": false
+                "htqqts": false,
+                //是否需要选择记录
+                sfxyxzjl: false
               }
             },
             "jlfz": {
@@ -69,7 +79,9 @@
               "content": "对象配置",
               "buttonOptions": {
                 "clfs": "tcck",
-                "htqqts": true
+                "htqqts": true,
+                //是否需要选择记录
+                sfxyxzjl: false
               }
             },
             "zdpz": {
@@ -77,7 +89,9 @@
               "content": "字段配置",
               "buttonOptions": {
                 "clfs": "tcck",
-                "htqqts": true
+                "htqqts": true,
+                //是否需要选择记录
+                sfxyxzjl: false
               }
             }
           },
@@ -93,7 +107,13 @@
               "content": "导出全部",
               "buttonOptions": {
                 "clfs": "wjxz",
-                sfxyxzjl: false
+                sfxyxzjl: false,
+                "params": {
+                  "page": {
+                    //默认导出50000条记录
+                    "pageSize": 50000
+                  }
+                }
               }
             }
           }
@@ -108,12 +128,12 @@
       "zddm": "myList",
       "px": 1,
       "zdywlb": "99",
-      "zdkd": 2,
       "kjlx": "MySelectGrid",
       "kzxx": {
         "cllxkz": {
           "select": {
-            "show": true
+            "show": true,
+            "zdkd": 2
           }
         },
         "kjkz": {
@@ -185,6 +205,7 @@
         "cllxkz": {
         },
         "kjkz": {
+          "zdans": 3,
           //vxe的按钮
           "btns": {
             "update": {

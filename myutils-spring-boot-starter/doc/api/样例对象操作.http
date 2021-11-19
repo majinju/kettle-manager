@@ -88,17 +88,10 @@ Content-Type: application/json
   "sjdx":{
     "dxdm":"SYS_SJGL_TYZD_DEMO"
   },
-  "yobj": {
-    "dm": "3424111"
-  },
-  "page": {
-    "pageNumber": "1",
-    "pageSize": "10",
-  },
   "sys":{
     "cllx":"sjplsc",
     "token":"4978866291C611DA0D2D5999C413107F",
-    "fiels": []
+    "files": []
   }
 }
 

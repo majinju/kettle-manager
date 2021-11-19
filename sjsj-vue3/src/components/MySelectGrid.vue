@@ -19,29 +19,68 @@
           <template #toolbar_left>
             <span class="page-main-header-title">数据展示</span>
             <el-button-group>
-              <el-button v-for="(qx,cllx) in qxpz.plclLeft" v-bind="qx"
-                          @click="plcl(cllx,qx)"
-                         :size="myData.options.size">{{qx.content}}</el-button>
+              <template v-for="(qx,cllx,idx) in qxpz.plclLeft">
+                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size"
+                           v-if="idx<(Object.keys(qxpz.plclLeft).length>
+                          qxpz.plclLeftZdans?(qxpz.plclLeftZdans-1):qxpz.plclLeftZdans)">
+                  {{qx.content}}
+                </el-button>
+              </template>
+              <el-dropdown v-if="Object.keys(qxpz.plclLeft).length>qxpz.plclLeftZdans">
+                <el-button type="primary" :size="myData.options.size">
+                  更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <template v-for="(qx,cllx,idx) in qxpz.plclLeft">
+                      <el-dropdown-item v-if="idx>=(qxpz.plclLeftZdans-1)" @click="plcl(cllx,qx)" v-bind="qx">
+                        {{qx.content}}
+                      </el-dropdown-item>
+                    </template>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </el-button-group>
           </template>
 <!--          工具栏右侧-->
           <template #toolbar_right>
             <el-button-group>
-              <el-button v-for="(qx,cllx) in qxpz.plclRight" v-bind="qx"
-                         @click="plcl(cllx,qx)"
-                         :size="myData.options.size">{{qx.content}}</el-button>
+              <template v-for="(qx,cllx,idx) in qxpz.plclRight">
+                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size"
+                           v-if="idx<(Object.keys(qxpz.plclRight).length>
+                          qxpz.plclRightZdans?(qxpz.plclRightZdans-1):qxpz.plclRightZdans)">
+                  {{qx.content}}
+                </el-button>
+              </template>
+              <el-dropdown v-if="Object.keys(qxpz.plclRight).length>qxpz.plclRightZdans">
+                <el-button :size="myData.options.size">
+                  更多操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <template v-for="(qx,cllx,idx) in qxpz.plclRight">
+                      <el-dropdown-item v-if="idx>=(qxpz.plclRightZdans-1)" @click="plcl(cllx,qx)" v-bind="qx">
+                        {{qx.content}}
+                      </el-dropdown-item>
+                    </template>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </el-button-group>
           </template>
 <!--          列表操作-->
           <template #lbcz="{row,column}">
-            <vxe-button v-for="(qx,cllx,idx) in column.params.btns" v-bind="qx"
-                        v-show="idx<(Object.keys(column.params.btns).length>3?2:3)"
-                        @click="plcl(cllx,qx,row)"/>
-            <vxe-button v-if="Object.keys(column.params.btns).length>3"
-                        type="text" status="primary" transfer content="其他操作">
+            <template v-for="(qx,cllx,idx) in column.params.btns">
+              <vxe-button v-bind="qx" @click="plcl(cllx,qx,row)"
+                          v-if="idx<(Object.keys(column.params.btns).length>
+                          column.params.zdans?(column.params.zdans-1):column.params.zdans)"/>
+            </template>
+            <vxe-button v-if="Object.keys(column.params.btns).length>column.params.zdans"
+                        type="text" status="primary" transfer content="更多操作">
               <template #dropdowns>
-                <vxe-button v-for="(qx,cllx,idx) in column.params.btns" v-bind="qx"
-                            v-show="idx>=2" @click="plcl(cllx,qx,row)"/>
+                <template v-for="(qx,cllx,idx) in column.params.btns">
+                  <vxe-button v-if="idx>=(column.params.zdans-1)" v-bind="qx" @click="plcl(cllx,qx,row)"/>
+                </template>
               </template>
             </vxe-button>
           </template>
@@ -59,10 +98,11 @@
 
 <script>
 import { defineComponent, reactive ,onMounted,ref,nextTick,watch,computed} from 'vue'
-import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
+import { VXETable } from '@majinju/vxe-table';
 import { useStore } from "vuex";
 import axios from "@/axios";
-import {dateFormat, dayjsMethod, zdList} from "@/utils/common";
+import {dayjsMethod, zdList} from "@/utils/common";
 import {options} from "@/plugins/vxe-table";
 import MyForm from "./MyForm";
 import {getByPath,assignDeep} from "../utils/common";
@@ -339,9 +379,7 @@ export default defineComponent({
               break
             case '$buttons':
               //按钮组
-              fi.params={
-                "btns":getByPath(f.kzxx,"kjkz.btns")
-              }
+              fi.params=getByPath(f.kzxx,"kjkz")
               fi.slots={default:'lbcz'}
               break
             default:
@@ -446,7 +484,9 @@ export default defineComponent({
       myData.selectReqData.yobj = myData.formData;
       await axios.post(myData.selectReqData).then(req=>{
         myData.tableData= req.data.list;
-        myData.pagerConfig.total=req.data.totalRow;
+        if(myData.selectReqData.page.totalRequired){
+          myData.pagerConfig.total=req.data.totalRow;
+        }
       }).catch((e)=>{
         console.log("查询失败："+e);
       })
@@ -526,18 +566,37 @@ export default defineComponent({
           break
         //文件下载
         case "wjxz":
-          axios.download({
-            sys:{
-              authCode:myData.dxjcxx.sys.authCode,
-              cllx:cllx,
-              ids:ids
-            }
-          })
+          let params = JSON.parse(JSON.stringify(myData.selectReqData));
+          params.sys.cllx = cllx;
+          params.sys.ids = ids;
+          params.sys.dcwjm = myData.dxjcxx.sjdx.dxmc+"-"+content+".xlsx";
+          axios.download(assignDeep(params,buttonOptions.params));
           break
         //文件上传
         case "wjsc":
-          ElMessage.error("文件上传暂未实现");
           //调用文件上传接口后，再拿着返回的文件对象信息请求设置的处理类型。
+          const { file,files } = await VXETable.readFile({
+            multiple: true
+          })
+          const formBody = new FormData();
+          formBody.append("sys.authCode", myData.dxjcxx.sys.authCode);
+          formBody.append("sys.cllx", "upload");
+          formBody.append("files", file);
+          axios.upload(formBody).then((res) => {
+            if (res.status) {
+              axios.post({
+                sys: {
+                  authCode: myData.dxjcxx.sys.authCode,
+                  cllx: cllx,
+                  files: res.data,
+                },
+              }).then((response) => {
+                if (response.status) {
+                  ElMessage.info(response.msg?response.msg:"操作成功")
+                }
+              });
+            }
+          });
           break
         //编辑模式
         case "bjms":

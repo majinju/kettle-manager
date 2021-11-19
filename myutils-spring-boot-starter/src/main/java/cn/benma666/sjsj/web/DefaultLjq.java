@@ -121,14 +121,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result upload(JSONObject myParams,
                          MultipartFile[] files) throws Exception {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        List<SysSjglFile> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>();
         for (MultipartFile file : files) {
-            SysSjglFile fileObj = yobj.clone().toJavaObject(SysSjglFile.class);
+            SysSjglFile fileObj = yobj.toJavaObject(SysSjglFile.class);
             Result r = upload(myParams, fileObj, file);
             if (!r.isStatus()) {
                 return r;
             }
-            list.add(fileObj);
+            list.add(r.getData());
         }
         return success("上传成功", list);
     }
@@ -215,11 +215,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //导出数据
         myParams.set("$.page.totalRequired", Boolean.FALSE);
         PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(myParams).getData();
-        String fileName = sjdx.getDxmc();
+        String fileName = sjdx.getDxmc()+"-" + DateUtil.getGabDate() + ".xlsx";
         if (myParams.getString("$.sys.dcwjm") != null) {
             fileName = myParams.getString("$.sys.dcwjm");
         }
-        fileName += "-" + DateUtil.getGabDate() + ".xlsx";
         try {
             String hiddenCol = JSONPath.eval(myParams, "$.sys.hiddenCol") + ",列表选择";
             Set<String> hiddenColSet = new HashSet<>();
@@ -230,9 +229,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             List<List<String>> header = new ArrayList<>();
             List<String> rows;
             for (Map.Entry<String, JSONObject> f : fields.entrySet()) {
-                if (f.getValue().getBoolean("xqzs")
+                String kjlx = f.getValue().getString("kjlx");
+                if (valByDef(f.getValue().getBoolean("xqzs"),false)
                         && !hiddenColSet.contains(f.getValue().getString("zdmc"))
-                        && !f.getValue().getString("kjlx").equals("password")) {
+                        && !kjlx.equals("password")
+                        && !kjlx.equals("$buttons")) {
                     rows = new ArrayList<>();
                     //详情展示且前端没有要求不导出且控件类型不是密码的字段才导出
                     rows.add(f.getValue().getString("zdmc"));
@@ -346,19 +347,22 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result sjplsc(JSONObject myParams) {
         Result r;
         JSONArray files = myParams.getJSONArray("$.sys.files");
-        //暂时只考虑上传一个文件
-        JSONObject file = files.getJSONObject(0);
-        SjdxExcelReader er = new SjdxExcelReader(sjdx,myParams, file);
+        if(files==null){
+            throw new MyException("没有获取到文件，请确认文件正确上传");
+        }
         try {
-            r = er.disposeExcel();
-            if (!r.isStatus()) {
-                return r;
+            int count = 0;
+            for(int i=0;i<files.size(); i++){
+                JSONObject file = files.getJSONObject(i);
+                SjdxExcelReader er = new SjdxExcelReader(sjdx,myParams, file);
+                r = er.disposeExcel();
+                if (!r.isStatus()) {
+                    return r;
+                }
+                r = plSave(myParams, er.getResult());
+                count+=er.getResult().size();
             }
-            r = plSave(myParams, er.getResult());
-            if (!r.isStatus()) {
-                return r;
-            }
-            return success("成功上传数据量：" + er.getResult().size(), r.getData());
+            return success("成功上传数据量：" + count);
         } catch (ExcelReadException e) {
             try {
                 DSTransactionManager.rollback();
@@ -1129,9 +1133,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected Result resultExcelFile(List<List<String>> header, List<List<String>> data, String fileName) {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
+        //
+        LongestMatchColumnWidthStyleStrategy lmcw = new LongestMatchColumnWidthStyleStrategy();
         EasyExcel.write(os).head(header).autoTrim(true).excelType(ExcelTypeEnum.XLSX)
                 //自动列宽，不合适可以自己重写
-                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+                .registerWriteHandler(lmcw)
                 .sheet("Sheet1")
                 .doWrite(data);
         SysSjglFile file1 = new SysSjglFile();

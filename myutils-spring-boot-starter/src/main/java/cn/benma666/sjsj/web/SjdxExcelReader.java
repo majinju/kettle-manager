@@ -189,7 +189,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         for (Entry<String, JSONObject> e : fields.entrySet()) {
             String val = yobj.getString(e.getKey());
             try {
-                Object obj = JSONPath.eval(myParams, "$.yzgz[yobj." + e.getKey());
+                Object obj = JSONPath.eval(myParams, "$.yzgz.yobj." + e.getKey());
                 if(obj==null){
                     continue;
                 }
