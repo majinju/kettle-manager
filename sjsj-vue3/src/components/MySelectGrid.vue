@@ -337,7 +337,7 @@ export default defineComponent({
               //默认普通输入框
               fi.itemRender={ name: '$input' ,props:{}};
           }
-          myData.formItems.push(fi);
+          myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
         }
         if(f.lbzs==='1'){
           //配置列表字段
@@ -381,9 +381,17 @@ export default defineComponent({
           myData.tableColumn.push(assignDeep(fi,f.kzxx.kjkz));
         }
       }
-      myData.formItems.push({ align: 'right', span: 24, itemRender: { name: '$buttons', children: [
+      //添加查询按钮
+      myData.formItems.push({
+        align: 'right',
+        span: 24,
+        itemRender: {
+          name: '$buttons',
+          children: [
             { props: { type: 'submit', content: '查询', status: 'primary' } }
-          ]}});
+          ]
+        }
+      });
       //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
     }
     /**

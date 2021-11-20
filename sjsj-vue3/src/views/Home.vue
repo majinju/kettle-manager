@@ -86,7 +86,7 @@ import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import { ElMessage ,ElMessageBox} from "element-plus";
 import axios from "@/axios";
-import MyTab from "../components/MyTab";
+import MyTab from "./HomeTabs";
 export default defineComponent({
   components:{MyTab},
   setup () {
