@@ -531,9 +531,6 @@ export function assignDeep(target, ...sources) {
 
 export default {
   dateFormat,
-  zdObj,
-  zdList,
-  zdTree,
   setByJSONPath: setByPath,
   isEmpty,
   isNumber,

@@ -15,10 +15,7 @@ import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.Result;
-import cn.benma666.myutils.DateUtil;
-import cn.benma666.myutils.JsonUtil;
-import cn.benma666.myutils.StringUtil;
-import cn.benma666.myutils.WebUtil;
+import cn.benma666.myutils.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjzt.Db;
 import com.alibaba.druid.util.Utils;
@@ -149,6 +146,8 @@ public class LjqManager extends BasicObject {
                 throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
             }
             sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
+            //解析扩展信息
+            sjdx.set("kzxxObj",DefaultLjq.parseKzxx(jsonObj));
             //设置权限码
             String authCode = jsonObj.getString(LjqInterface.KEY_AUTH_CODE);
             sjdx.set(LjqInterface.KEY_AUTH_CODE, authCode);
@@ -175,7 +174,7 @@ public class LjqManager extends BasicObject {
         //设置从数据库中读取的数据对象
         myParams.put(LjqInterface.KEY_SJDX, sjdx);
         //合并数据对象的扩展信息到系统参数中
-        JsonUtil.mergeJSONObjects(myParams,JSON.parseObject(sjdx.getKzxx(),Feature.OrderedField));
+        JsonUtil.mergeJSONObjects(myParams, (JSONObject) sjdx.get("kzxxObj"));
         //获取基础信息
         return jcxx(sjdx,myParams);
     }

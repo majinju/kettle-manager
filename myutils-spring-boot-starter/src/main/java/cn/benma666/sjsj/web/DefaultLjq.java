@@ -359,7 +359,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 if (!r.isStatus()) {
                     return r;
                 }
-                r = plSave(myParams, er.getResult());
+                plSave(myParams, er.getResult());
                 count+=er.getResult().size();
             }
             return success("成功上传数据量：" + count);
@@ -746,7 +746,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected void fieldsInit(Map<String, JSONObject> fields, JSONObject myParams) {
         for (JSONObject field : fields.values()) {
-            JSONObject kzxx = JSON.parseObject(field.getString(UtilConst.FIELD_KZXX), Feature.OrderedField);
+            JSONObject kzxx = parseKzxx(field);
             //顺便将字段扩展信息对象化
             field.put(UtilConst.FIELD_KZXX, kzxx);
             //初始化验证规则
@@ -842,6 +842,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject zhgz = new JSONObject();
         //清空前后空格
         zhgz.put("qdqhkg",new JSONObject());
+
         JSONObject kzhgz = kzxx.getJSONObject(UtilConst.KEY_ZHGZ);
         if(kzhgz == null){
             kzhgz = new JSONObject();
@@ -1203,5 +1204,15 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public void setSjdx(SysSjglSjdx sjdx) {
         this.sjdx = sjdx;
+    }
+
+    /**
+     * 解析对象中的扩展信息字段
+     * @param obj 待解析的对象
+     * @return 解析后的扩展信息对象
+     */
+    public static JSONObject parseKzxx(JSONObject obj) {
+        return JSON.parseObject(MdUtil.parseJson(obj.getString(FIELD_KZXX))
+                .getString("code"),Feature.OrderedField);
     }
 }
