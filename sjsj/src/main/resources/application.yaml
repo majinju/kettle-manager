@@ -164,7 +164,7 @@ logging:
     path: /benma666/logs
   level:
     root: info
-    cn.benma666: debug
+    cn.benma666: trace
     org.springframework.core: debug
     druid.sql.Statement: debug
   logback:

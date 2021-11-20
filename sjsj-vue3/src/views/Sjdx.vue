@@ -1,7 +1,7 @@
 <template>
   <div>
     <my-form :key="key" v-for="(dxjcxx,key,index) in myData.dxjcxx" :dxjcxx="dxjcxx"
-             v-show="key===myData.activeSjdx"></my-form>
+             v-show="key===myData.activeSjdx" v-cloak></my-form>
   </div>
 </template>
 

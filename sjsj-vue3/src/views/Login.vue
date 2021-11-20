@@ -69,11 +69,8 @@ export default defineComponent({
         yobj:data.formData
       }).then(response => {
         if(response.status){
-          console.log('用户登录成功后返回的信息')
-          console.log(response.data)
           store.commit("setSys",response.data.sys)
           store.commit("setUser",response.data.user)
-          store.state.userInfo=response.data.user
           ElMessage.info("登陆成功");
           router.push("/home");
         }else{

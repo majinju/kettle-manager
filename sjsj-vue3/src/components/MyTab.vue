@@ -1,17 +1,17 @@
 <template>
-  <div class="tags"  v-if="showTags">
+  <div class="tags" v-if="Object.keys(myData.tags).length>0">
     <el-tabs
-      v-model="currTag"
+      v-model="myData.currTag"
       type="card"
       closable
       @tab-click="tabClick"
       @tab-remove="removeTab"
     >
       <el-tab-pane
-        v-for="(item,index) in tagsList"
-        :key="index"
-        :label="item.pathName"
-        :name="item.path"
+        v-for="(item,key,index) in myData.tags"
+        :key="key"
+        :label="item.query.pathName"
+        :name="key"
       >
       </el-tab-pane>
     </el-tabs>
@@ -33,104 +33,94 @@
 </template>
 
 <script>
-import { computed ,reactive,watch,onMounted} from "vue";
-import { useStore } from "vuex";
+import { onMounted,reactive} from "vue";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 export default {
   setup() {
+    const myData = reactive({
+      tags:{},
+      currTag:""
+    })
     const route = useRoute();
     const router = useRouter();
-    const parms = reactive({
-      editableTabsValue:''
-    })
     onMounted(()=>{
-      getPath();
+      //页面初始化设置
+      setTags(router.currentRoute.value);
     })
     /**
-     * 页面刷新执行，只保留当前tab
+     * 监听页面路由变化
      */
-    const getPath = () =>{
-      const path = router.currentRoute.value.path
-      router.getRoutes().map((item, index) => {
-        if (path === item.path) {
-            store.commit("setTagsItem", {
-              name: route.name,
-              title: route.meta.title,
-              path: route.fullPath,
-              pathName:route.query.pathName === undefined ? route.meta.title : route.query.pathName
-            });
-            store.commit("setCurrTag", route.fullPath);
-        }else {
-        }
-      })
-    }
-    const tabClick = (index, event) =>{
-      router.push(index.props.name)
-    }
-    const removeTab = (index,val) => {
-      for (let i = 0; i <= tagsList.value.length+1; i++) {
-        if(tagsList.value[i].path===index){
-          const delItem = tagsList.value[i];
-          store.commit("delTagsItem", { i });
-          const item = tagsList.value[i]
-            ? tagsList.value[i]
-            : tagsList.value[i - 1];
-          if(item){
-            delItem.path === route.fullPath && router.push(item.path);
-          }else {
-            router.push("/home");
-          }
-        }else {
-        }
-      }
-    }
-    const store = useStore();
-    const tagsList = computed(() => store.state.tagsList);
-    const currTag = computed(() => store.state.currTag);
-    const showTags = computed(() => tagsList.value.length > 0);
-    // 设置标签
-    const setTags = (route) => {
-      const isExist = tagsList.value.some((item) => {
-        return item.path === route.fullPath;
-      });
-      if (!isExist) {
-        if (tagsList.value.length >= 15) {
-          store.commit("delTagsItem", { index: 0 });
-        }
-        store.commit("setTagsItem", {
-          name: route.name,
-          title: route.meta.title,
-          path: route.fullPath,
-          pathName:route.query.pathName === undefined ? route.meta.title : route.query.pathName
-        });
-      }
-      store.commit("setCurrTag", route.fullPath);
-    };
     onBeforeRouteUpdate((to) => {
       setTags(to);
     });
-    // 关闭全部标签
+    /**
+     * 设置标签
+     * @param route 当前路由
+     */
+    const setTags = (route) => {
+      const currTag = route.query["sys.authCode"];
+      if(!currTag){
+        return;
+      }
+      //判断当前路由是否已经存在
+      let isExist = false;
+      for(const i in myData.tags){
+        if(i===currTag){
+          isExist = true;
+        }
+      }
+      if (!isExist) {
+        myData.tags[currTag] = route;
+      }
+      myData.currTag = currTag;
+    };
+    /**
+     * tab点击事件
+     * @param index tab项
+     * @param event 事件对象
+     */
+    const tabClick = (index, event) =>{
+      router.push(myData.tags[index.props.name])
+    }
+    /**
+     * 关闭标签
+     * @param index 标签值
+     */
+    const removeTab = (index) => {
+      for(const i in myData.tags){
+        if(i===index){
+          delete myData.tags[i];
+        }
+      }
+      if(Object.keys(myData.tags).length>0){
+        myData.currTag = Object.keys(myData.tags)[0];
+        router.push(myData.tags[myData.currTag]);
+      }else{
+        router.push("/home");
+      }
+    }
     // 关闭全部标签
     const closeAll = () => {
-      store.commit("clearTags");
+      myData.tags={}
       router.push("/home");
     };
     // 关闭其他标签
     const closeOther = () => {
-      const curItem = tagsList.value.filter((item) => {
-        return item.path === route.fullPath;
-      });
-      store.commit("closeTagsOther", curItem);
+      for(const i in myData.tags){
+        if(i!==myData.currTag){
+          delete myData.tags[i];
+        }
+      }
     };
+    /**
+     * 末尾操作
+     * @param command
+     */
     const handleTags = (command) => {
       command === "other" ? closeOther() : closeAll();
     };
-
     return {
-      tagsList,
-      showTags,
-      currTag,
-      parms,
+      myData,
       tabClick,
       removeTab,
       handleTags

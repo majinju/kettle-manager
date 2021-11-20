@@ -877,7 +877,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         yzgz.put("xxms", field.getString("zdmc"));
 
         //根据控件类型生成规则
-        if (UtilConst.ZD_SJDX_KJLX_DICT.equals(field.getString("kjlx"))) {
+        if (UtilConst.ZD_SJDX_KJLX_DICT.equals(field.getString("kjlx"))
+            ||"ElCascader".equals(field.getString("kjlx"))) {
             gz = new JSONObject();
             gz.put(VerifyRule.VALUE, field.getString("zdzdlb"));
             boolean zszdx = !TypeUtils.castToBoolean(field.getString("zdfy"));

@@ -54,6 +54,7 @@ public class IndexController extends BasicObject implements ErrorController {
         }catch (MyException e){
             r = failed(e.getMessage(),e.getData());
             r.setCode(e.getCode());
+            log.trace(r.toString(),e);
         }catch (Exception e){
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
@@ -72,6 +73,7 @@ public class IndexController extends BasicObject implements ErrorController {
         }catch (MyException e){
             r = failed(e.getMessage(),e.getData());
             r.setCode(e.getCode());
+            log.trace(r.toString(),e);
         }catch (Exception e){
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);

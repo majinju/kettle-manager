@@ -1,15 +1,15 @@
 <template>
   <vxe-form ref="xForm" :key="myData.timestamp" :data="myData.formData" :rules="myData.formRule"
-            :items="myData.formItems">
+            :items="myData.formItems" v-cloak>
   </vxe-form>
 </template>
 
 <script>
-import {defineComponent, nextTick, onMounted, reactive, ref, watch} from 'vue'
+import {defineComponent, onMounted, reactive, ref} from 'vue'
 import { ElMessage ,ElMessageBox} from "element-plus";
 import {options} from "@/plugins/vxe-table";
 import axios from "@/axios";
-import {zdList,assignDeep} from "@/utils/common";
+import {assignDeep} from "@/utils/common";
 import {getByPath} from "@/utils/common";
 
 export default defineComponent({

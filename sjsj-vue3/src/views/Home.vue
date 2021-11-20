@@ -4,11 +4,11 @@
       <el-header class="home-heard">
         <div class="heard-title">
           <img class="title-img" src="~assets/img/title.png" alt="">
-          <span class="title-span">{{param.title}}</span>
+          <span class="title-span">{{myData.title}}</span>
         </div>
         <div class="title-dw">
           <span class="title-ssjg">所属机构></span>
-          <span class="title-name">{{cjrdwmc}}</span>
+          <span class="title-name">{{user.jgxx.jgmc}}</span>
         </div>
       </el-header>
       <el-container>
@@ -18,7 +18,7 @@
             <div class="">
               <el-row>
                 <el-col :span="19">
-                  <p class="user-name">{{yhxm}}</p>
+                  <p class="user-name">{{user.yhxm}}</p>
                 </el-col>
                 <el-col :span="5">
                   <span class="btn el-icon-switch-button" @click="logout"></span>
@@ -29,27 +29,26 @@
           <ul>
             <li
               class="menu-item"
-              :class="param.activeMenu === item.id ? 'active' : ''"
-              v-for="item in param.menuList"
+              :class="myData.activeMenu === item.id ? 'active' : ''"
+              v-for="item in myData.menuList"
               :key="item.id"
             >
               <div class="menu-item-title" @click="selectMenu(item)">
                 <i class="el-icon-menu"></i>
                 {{ item.mc }}
-                <i
-                  :class="param.activeMenu !== item.id ? 'iconfont icon-jiantouxia arrow-icon' : 'iconfont icon-jiantoushang1 arrow-icon'"
-                  v-if="param.activeMenu !== item.id"
-                ></i>
+                <i :class="myData.activeMenu !== item.id ? 'iconfont icon-jiantouxia arrow-icon' :
+                  'iconfont icon-jiantoushang1 arrow-icon'"
+                  v-if="myData.activeMenu !== item.id"></i>
                 <i class="iconfont icon-jiantoushang1 arrow-icon" v-else></i>
               </div>
               <ul
                 class="menu-item-child"
-                v-show="item.children && param.activeMenu === item.id"
+                v-show="item.children && myData.activeMenu === item.id"
               >
                 <li
                   class="child-item"
                   @click="selectMenuChild(child)"
-                  :class="param.activeId === child.id ? 'active' : ''"
+                  :class="myData.activeId === child.id ? 'active' : ''"
                   v-for="child in item.children"
                   :key="child.id"
                 >
@@ -82,7 +81,7 @@
   </div>
 </template>
 <script>
-import { onMounted,defineComponent, reactive,computed ,watch} from 'vue'
+import { onMounted,defineComponent, reactive,computed } from 'vue'
 import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import { ElMessage ,ElMessageBox} from "element-plus";
@@ -91,27 +90,23 @@ import MyTab from "../components/MyTab";
 export default defineComponent({
   components:{MyTab},
   setup () {
-    const param = reactive({
+    const myData = reactive({
       title:"数据世界2",
-      asideWidth:"200px",
-      orthlist:[],
-      system:'',
       menuList:[],
       activeMenu:'',
       activeId:'',
     });
-    const store = useStore();
-    const router = useRouter();
     onMounted (() =>{
-      getUserInfo();
       getMenuList('KFZFW')
     })
+    const store = useStore();
+    const router = useRouter();
+    /**
+     * 加载菜单
+     * @param dm 菜单根节点
+     * @param fqx 菜单父节点
+     */
     const getMenuList = (dm,fqx) =>{
-      let parmes = {
-        treeModel: 'cds',
-        treeRoot: dm,
-        fqx: fqx?fqx:''
-      }
       axios.post({
         sjdx:{
           dxdm:"SYS_QX_QTQX"
@@ -119,7 +114,11 @@ export default defineComponent({
         sys:{
           cllx:"getTreeCN"
         },
-        yobj:parmes
+        yobj:{
+          treeModel: 'cds',
+          treeRoot: dm,
+          fqx: fqx?fqx:''
+        }
       }).then(response => {
         if (response.status) {
           response.data.list.forEach((item) => {
@@ -131,74 +130,84 @@ export default defineComponent({
         }
       })
     }
-    const setMenuList = (dm,list) =>{
-      if(!dm){
-        param.menuList = list
+    /**
+     * 设置菜单数据
+     * @param fqx 父权限
+     * @param list 菜单列表
+     */
+    const setMenuList = (fqx,list) =>{
+      if(!fqx){
+        myData.menuList = list
       }else {
-        param.menuList.forEach((item) =>{
-          if(item.dm===dm) {
+        myData.menuList.forEach((item) =>{
+          if(item.dm===fqx) {
             item.children = list
           }
         })
       }
     }
+    /**
+     * 点击某个菜单时
+     * @param data 菜单项
+     */
     const selectMenu = (data) =>{
-      if(param.activeMenu === data.id){
-        param.activeMenu = ''
+      if(myData.activeMenu === data.id){
+        //点击当前展开的菜单则关闭展开的菜单
+        myData.activeMenu = ''
         return
       }
-      param.activeMenu =data.id
+      myData.activeMenu =data.id
       if (!data.children.length) {
+        //加载子菜单
         getMenuList("KFZFW", data.dm);
       }
     }
+    /**
+     * 点击某个具体菜单项
+     * @param data 菜单数据
+     */
     const selectMenuChild = (data) =>{
-      if(param.activeId === data.id) {
+      if(myData.activeId === data.id) {
+        //后续这里改为重新加载页面
         return
       }
-      param.activeId = data.id
-      if(data.dzlx==='01'){
-        router.push({path:'/home/'+data.dm, query:{
-            "sys.authCode":data.dm,
-            pathName:data.name
-          }})
-
-      }else{
-        router.push({path:'/home/sjdx',query:{
-            "sys.authCode":data.dm,
-            pathName:data.name
-          }})
+      myData.activeId = data.id
+      switch (data.dzlx) {
+        case "01":
+          router.push({path:'/home/'+data.dm, query:{
+              "sys.authCode":data.dm,
+              pathName:data.name
+            }})
+          break
+        case "04":
+          router.push({path:'/home/sjdx',query:{
+              "sys.authCode":data.dm,
+              pathName:data.name
+            }})
+          break
+        default:
+          ElMessage.error("暂不支持的地址类型："+data.dzlx);
       }
     }
-    const getUserInfo = ()=>{
-     axios.post({
-       "sjdx":{
-         "dxdm":"SYS_QX_QTQX"
-       },
-       "yobj": {
-       },
-       "sys":{
-         "cllx":"xtjcxx",
-         "token":sessionStorage.getItem('token')
-       }
-     }).then(response=>{
-       store.commit("setSys",response.data.sys)
-       store.commit("setUser",response.data.user)
-       store.state.userInfo=response.data.user
-     })
-    }
-    const cjrdwmc = computed(() =>{
-      return store.state.userInfo.cjrdwmc
+    /**
+     * 用户信息
+     * @type {ComputedRef<{yhdm: string, yhxm: string}>}
+     */
+    const user = computed(() => {
+      return store.state.user;
     })
+    /**
+     * 用户头像
+     * @type {ComputedRef<unknown>}
+     */
     const userImg = computed(() =>{
-      if(store.state.userInfo.tx){
-        return process.env.VUE_APP_API_BASE_ROOT+WEB_CONFIG.baseRoot+'?sjdx.dxdm=SYS_QX_QTQX&sys.cllx=download&yobj.id='+store.state.userInfo.tx
+      if(store.state.user.tx){
+        return axios.getBaseURL()+'?sjdx.dxdm=SYS_QX_QTQX&sys.cllx=download&yobj.id='+store.state.user.tx
       }
     })
-    const yhxm = computed(() =>{
-      return store.state.userInfo.yhxm
-    })
-
+    /**
+     * 用户退出操作
+     */
     const logout = () =>{
       ElMessageBox.confirm(
         '你确定要退出吗?','提示',{
@@ -223,14 +232,12 @@ export default defineComponent({
         })
       }).catch(() =>{})
     }
-
     return {
-      param,
+      myData,
+      user,
+      userImg,
       selectMenu,
       selectMenuChild,
-      cjrdwmc,
-      userImg,
-      yhxm,
       logout
     }
   }
@@ -246,7 +253,7 @@ export default defineComponent({
     position: relative;
     height: 58px;
     width: 100%;
-    padding: 0px;
+    padding: 0;
     background: #ffffff;
     font-family: arial,sans-serif,宋体;
     .heard-title{

@@ -19,21 +19,19 @@
           <template #toolbar_left>
             <span class="page-main-header-title">数据展示</span>
             <el-button-group>
-              <template v-for="(qx,cllx,idx) in qxpz.plclLeft">
-                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size"
-                           v-if="idx<(Object.keys(qxpz.plclLeft).length>
-                          qxpz.plclLeftZdans?(qxpz.plclLeftZdans-1):qxpz.plclLeftZdans)">
+              <template v-for="(qx,cllx) in hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,false)">
+                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size">
                   {{qx.content}}
                 </el-button>
               </template>
-              <el-dropdown v-if="Object.keys(qxpz.plclLeft).length>qxpz.plclLeftZdans">
+              <el-dropdown v-if="Object.keys(hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,true)).length>0">
                 <el-button type="primary" :size="myData.options.size">
                   更多操作<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <template v-for="(qx,cllx,idx) in qxpz.plclLeft">
-                      <el-dropdown-item v-if="idx>=(qxpz.plclLeftZdans-1)" @click="plcl(cllx,qx)" v-bind="qx">
+                    <template v-for="(qx,cllx) in hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,true)">
+                      <el-dropdown-item v-bind="qx" @click="plcl(cllx,qx)">
                         {{qx.content}}
                       </el-dropdown-item>
                     </template>
@@ -45,21 +43,19 @@
 <!--          工具栏右侧-->
           <template #toolbar_right>
             <el-button-group>
-              <template v-for="(qx,cllx,idx) in qxpz.plclRight">
-                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size"
-                           v-if="idx<(Object.keys(qxpz.plclRight).length>
-                          qxpz.plclRightZdans?(qxpz.plclRightZdans-1):qxpz.plclRightZdans)">
+              <template v-for="(qx,cllx) in hqqxlb(qxpz.plclRight,qxpz.plclRightZdans,false)">
+                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size">
                   {{qx.content}}
                 </el-button>
               </template>
-              <el-dropdown v-if="Object.keys(qxpz.plclRight).length>qxpz.plclRightZdans">
+              <el-dropdown v-if="Object.keys(hqqxlb(qxpz.plclRight,qxpz.plclRightZdans,true)).length>0">
                 <el-button :size="myData.options.size">
                   更多操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
                 </el-button>
                 <template #dropdown>
                   <el-dropdown-menu>
-                    <template v-for="(qx,cllx,idx) in qxpz.plclRight">
-                      <el-dropdown-item v-if="idx>=(qxpz.plclRightZdans-1)" @click="plcl(cllx,qx)" v-bind="qx">
+                    <template v-for="(qx,cllx) in hqqxlb(qxpz.plclRight,qxpz.plclRightZdans,true)">
+                      <el-dropdown-item @click="plcl(cllx,qx)" v-bind="qx">
                         {{qx.content}}
                       </el-dropdown-item>
                     </template>
@@ -70,16 +66,14 @@
           </template>
 <!--          列表操作-->
           <template #lbcz="{row,column}">
-            <template v-for="(qx,cllx,idx) in column.params.btns">
-              <vxe-button v-bind="qx" @click="plcl(cllx,qx,row)"
-                          v-if="idx<(Object.keys(column.params.btns).length>
-                          column.params.zdans?(column.params.zdans-1):column.params.zdans)"/>
+            <template v-for="(qx,cllx) in hqqxlb(column.params.btns,column.params.zdans,false)">
+              <vxe-button v-bind="qx" @click="plcl(cllx,qx,row)"/>
             </template>
-            <vxe-button v-if="Object.keys(column.params.btns).length>column.params.zdans"
+            <vxe-button v-if="Object.keys(hqqxlb(column.params.btns,column.params.zdans,true)).length>0"
                         type="text" status="primary" transfer content="更多操作">
               <template #dropdowns>
-                <template v-for="(qx,cllx,idx) in column.params.btns">
-                  <vxe-button v-if="idx>=(column.params.zdans-1)" v-bind="qx" @click="plcl(cllx,qx,row)"/>
+                <template v-for="(qx,cllx) in hqqxlb(column.params.btns,column.params.zdans,true)">
+                  <vxe-button v-bind="qx" @click="plcl(cllx,qx,row)"/>
                 </template>
               </template>
             </vxe-button>
@@ -97,7 +91,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive ,onMounted,ref,nextTick,watch,computed} from 'vue'
+import { defineComponent, reactive ,onMounted,ref,nextTick,computed} from 'vue'
 import {ElMessage, ElMessageBox} from "element-plus";
 import { VXETable } from '@majinju/vxe-table';
 import { useStore } from "vuex";
@@ -105,7 +99,7 @@ import axios from "@/axios";
 import {dayjsMethod, zdList} from "@/utils/common";
 import {options} from "@/plugins/vxe-table";
 import MyForm from "./MyForm";
-import {getByPath,assignDeep} from "../utils/common";
+import {getByPath,assignDeep} from "@/utils/common";
 
 export default defineComponent({
   name: "MySelectGrid",
@@ -215,7 +209,6 @@ export default defineComponent({
        */
       tcckTitle:''
     })
-    const store = useStore();
     /**
      * 查询表单引用
      * @type {Ref<UnwrapRef<{}>>}
@@ -404,9 +397,48 @@ export default defineComponent({
       }
       return qxpz
     })
-    // watch(()=>props.dxjcxx,newDxjcxx=>{
-    //   initPage(newDxjcxx)
-    // })
+    const store = useStore();
+    /**
+     * 获取权限列表
+     * @param qxz 权限组
+     * @param gdczSize 区分更多操作的按钮数
+     * @param gdcz 本次是否获取更多操作
+     */
+    const hqqxlb = (qxz,gdczSize,gdcz=false) => {
+      let qxlb = {}
+      let qxlb1 = {}
+      const qxMap = store.state.user.qxMap;
+      const authCode = myData.dxjcxx.sys.authCode;
+      for(const cllx in qxz){
+        if(qxMap[authCode+"_"+cllx]){
+          qxlb[cllx]=qxz[cllx];
+        }
+      }
+      let count = 0;
+      if(gdcz){
+        //获取更多操作
+        if(Object.keys(qxlb).length>gdczSize){
+          for(const cllx in qxlb){
+            if(count>=gdczSize-1){
+              qxlb1[cllx]=qxlb[cllx];
+            }
+            count++
+          }
+        }else{
+          return {}
+        }
+      }else{
+        //获取默认展示的操作
+        const size = Object.keys(qxlb).length>gdczSize?gdczSize-1:gdczSize;
+        for(const cllx in qxlb){
+          if(count<size){
+            qxlb1[cllx]=qxlb[cllx];
+          }
+          count++
+        }
+      }
+      return qxlb1;
+    }
     await initPage(props.dxjcxx)
     /**
      * 查询请求数据
@@ -494,11 +526,11 @@ export default defineComponent({
     /**
      * 通用后台请求
      * @param cllx 处理类型
-     * @param btnProps 按钮参数
+     * @param buttonOptions 按钮参数
      * @param ids 操作id数组
      * @param row 操作行
      */
-    const htqq = (cllx,btnProps,ids,row) => {
+    const htqq = (cllx,buttonOptions,ids,row) => {
       if(row){
         ids = [row[myData.dxjcxx.sjdx.zjzd]];
       }
@@ -510,7 +542,7 @@ export default defineComponent({
         }
       }).then(req=>{
         ElMessage.success(req.msg);
-        if(btnProps.sfsxym!==false){
+        if(buttonOptions.sfsxym!==false){
           //修改数据的场景要重新统计总量
           myData.selectReqData.page.totalRequired=true
           getList()
@@ -581,7 +613,9 @@ export default defineComponent({
           const formBody = new FormData();
           formBody.append("sys.authCode", myData.dxjcxx.sys.authCode);
           formBody.append("sys.cllx", "upload");
-          formBody.append("files", file);
+          for(let i=0;i<files.length;i++){
+            formBody.append("files", files[i]);
+          }
           axios.upload(formBody).then((res) => {
             if (res.status) {
               axios.post({
@@ -593,6 +627,11 @@ export default defineComponent({
               }).then((response) => {
                 if (response.status) {
                   ElMessage.info(response.msg?response.msg:"操作成功")
+                  if(buttonOptions.sfsxym!==false){
+                    //修改数据的场景要重新统计总量
+                    myData.selectReqData.page.totalRequired=true
+                    getList()
+                  }
                 }
               });
             }
@@ -606,6 +645,13 @@ export default defineComponent({
           ElMessage.error("暂不支持该处理方式");
       }
     }
+    /**
+     * 批量处理后的
+     * @param buttonOptions
+     */
+    const hxcz = (buttonOptions) => {
+
+    }
     return{
       myData,
       qxpz,
@@ -616,6 +662,7 @@ export default defineComponent({
       pageChange,
       sortChange,
       close,
+      hqqxlb,
       plcl,
       updateCallback
     }

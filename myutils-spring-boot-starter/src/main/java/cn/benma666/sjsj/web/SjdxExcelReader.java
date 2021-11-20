@@ -96,7 +96,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         this.sjsccwParams = LjqManager.jcxxByDxdm("SYS_LOG_SJSCCW");
         this.sjsccwSjdx = (SysSjglSjdx) sjsccwParams.get(LjqInterface.KEY_SJDX);
         //设置为新增模式，后续会插入读取错误信息
-        JSONPath.set(sjsccwParams, LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_INSERT);
+        sjsccwParams.set(LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_INSERT);
 
         //设置字段信息
         this.fields = new LinkedHashMap<>();
@@ -151,9 +151,9 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         int i = 0;
         for (Entry<String, JSONObject> e : fields.entrySet()) {
             if (!(e.getValue().getString("zdmc") + "[" + e.getValue().getString("zddm") + "]").equals(headMap.get(i))) {
-                throw new ExcelReadException("第[" + (i + 1) + "]列必须是["
-                        + e.getValue().getString("zdmc") + "]当前实际是：" + headMap.get(i)
-                        + "，请不要修改数据模板表头。");
+                throw new ExcelReadException("第[" + (i + 1) + "]列必须是\""
+                        + e.getValue().getString("zdmc") + "[" + e.getValue().getString("zddm") + "]"
+                        + "\"当前实际是\"" + headMap.get(i) + "\"，请不要修改数据模板表头。");
             }
             i++;
         }
@@ -189,12 +189,11 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         for (Entry<String, JSONObject> e : fields.entrySet()) {
             String val = yobj.getString(e.getKey());
             try {
-                Object obj = JSONPath.eval(myParams, "$.yzgz.yobj." + e.getKey());
+                JSONObject obj = myParams.getJSONObject("$.yzgz['yobj." + e.getKey()+"']");
                 if(obj==null){
                     continue;
                 }
-                val = VerifyRule.ruleVerify(val, myParams,(JSONObject) obj,
-                        LjqInterface.KEY_CLLX_INSERT);
+                val = VerifyRule.ruleVerify(val, myParams,obj,LjqInterface.KEY_CLLX_INSERT);
             } catch (VerifyRuleException e1) {
                 addError(idx, val, e.getValue().getString("zdmc"), e1.getMessage());
             }

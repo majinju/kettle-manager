@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import {useStore} from "vuex";
 
 const routes = [
   {
@@ -40,17 +41,21 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
 router.beforeEach((to, from, next) => {
   /** 页面发生变化修改页面title*/
   if(to.meta.title){
     document.title = to.meta.title
   }
-  let token = sessionStorage.getItem('token')
-  if (to.name === 'Login'||token) {
+  const store = useStore();
+  if(store){
+    let token = store.state.user.token;
+    if (to.name === 'Login'||token) {
+      next()
+    } else {
+      next({ path: '/login' })
+    }
+  }else{
     next()
-  } else {
-    next({ path: '/login' })
   }
 
 });

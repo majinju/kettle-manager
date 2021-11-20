@@ -27,6 +27,7 @@ const server = axios.create(config);
 // 添加请求拦截器
 server.interceptors.request.use(
   function(config) {
+    //开发环境设置固定值
     config.headers.token='4978866291C611DA0D2D5999C413107F';
     return config;
   },
@@ -104,6 +105,9 @@ const httpHandle = {
   setBaseURL:function (baseURL) {
     server.defaults.baseURL=baseURL;
     console.log("后台服务路径："+baseURL);
+  },
+  getBaseURL:function () {
+    return server.defaults.baseURL;
   },
   /**
    * 常规数据处理
