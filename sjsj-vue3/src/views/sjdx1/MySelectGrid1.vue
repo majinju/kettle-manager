@@ -1,17 +1,17 @@
 <template>
-  <div :key="myData.timestamp" class="page-warp" v-cloak>
-    <div class="page-title"><i class="el-icon-s-home"> / {{myData.dxjcxx.sjdx.dxmc}}</i></div>
+<div :key="timestamp" class="page-warp" v-cloak>
+    <div class="page-title"><i class="el-icon-s-home"> / {{dxjcxx.sjdx.dxmc}}</i></div>
     <div class="page-header">
-      <vxe-form ref="xForm" :data="myData.formData" :items="myData.formItems" :rules="myData.formRule" @submit="search">
+      <vxe-form ref="xForm" :data="formData" :items="formItems" :rules="formRule" @submit="search">
       </vxe-form>
     </div>
     <div class="page-main">
       <div class="custom-table">
         <vxe-grid
-          ref="xGrid" :toolbar-config="myData.tableToolbar" :columns="myData.tableColumn"
-          :data="myData.tableData" :export-config="myData.exportConfig" :tree-config="myData.treeConfig"
-          :seq-config="myData.seqConfig" :row-id="myData.dxjcxx.sjdx.zjzd"
-          :pager-config="myData.pagerConfig"
+          ref="xGrid" :toolbar-config="tableToolbar" :columns="tableColumn"
+          :data="tableData" :export-config="exportConfig" :tree-config="treeConfig"
+          :seq-config="seqConfig" :row-id="dxjcxx.sjdx.zjzd"
+          :pager-config="pagerConfig"
           @page-change="pageChange"
           @sort-change="sortChange"
         >
@@ -20,12 +20,12 @@
             <span class="page-main-header-title">数据展示</span>
             <el-button-group>
               <template v-for="(qx,cllx) in hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,false)">
-                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size">
+                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="options.size">
                   {{qx.content}}
                 </el-button>
               </template>
               <el-dropdown v-if="Object.keys(hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,true)).length>0">
-                <el-button type="primary" :size="myData.options.size">
+                <el-button type="primary" :size="options.size">
                   更多操作<i class="el-icon-arrow-down el-icon--right"></i>
                 </el-button>
                 <template #dropdown>
@@ -44,12 +44,12 @@
           <template #toolbar_right>
             <el-button-group>
               <template v-for="(qx,cllx) in hqqxlb(qxpz.plclRight,qxpz.plclRightZdans,false)">
-                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size">
+                <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="options.size">
                   {{qx.content}}
                 </el-button>
               </template>
               <el-dropdown v-if="Object.keys(hqqxlb(qxpz.plclRight,qxpz.plclRightZdans,true)).length>0">
-                <el-button :size="myData.options.size">
+                <el-button :size="options.size">
                   更多操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
                 </el-button>
                 <template #dropdown>
@@ -81,7 +81,7 @@
         </vxe-grid>
       </div>
     </div>
-    <vxe-modal v-model="myData.tcckShow" :title="myData.tcckTitle"
+    <vxe-modal v-model="tcckShow" :title="tcckTitle"
                :before-hide-method="close">
         <my-form ref="xUpdate" @updateCallback="updateCallback"></my-form>
       <suspense>
@@ -91,18 +91,17 @@
 </template>
 
 <script>
-import { defineComponent, reactive ,onMounted,ref,nextTick,computed} from 'vue'
+import {defineComponent, nextTick, ref} from 'vue'
 import {ElMessage, ElMessageBox} from "element-plus";
 import { VXETable } from '@majinju/vxe-table';
-import { useStore } from "vuex";
 import axios from "@/axios";
 import {dayjsMethod, zdList} from "@/utils/common";
 import {options} from "@/plugins/vxe-table";
-import MyForm from "./MyForm";
+import MyForm from "@/views/sjdx1/MyForm1";
 import {getByPath,assignDeep} from "@/utils/common";
 
 export default defineComponent({
-  name: "MySelectGrid",
+  name: "MySelectGrid1",
   components:{MyForm},
   props:{
     /**
@@ -120,12 +119,12 @@ export default defineComponent({
     }
   },
   emits:["update:modelValue"],
-  setup:async (props,context)=>{
-    const myData = reactive({
+  data:function (){
+    return {
       /**
        * 对象基础信息
        */
-      dxjcxx:{
+      myDxjcxx:{
         sjdx:{
           dxmc:''
         }
@@ -188,9 +187,6 @@ export default defineComponent({
        * 列表序号配置
        */
       seqConfig:{
-        seqMethod ({ rowIndex }) {
-          return myData.pagerConfig.pageSize*(myData.pagerConfig.currentPage-1)+rowIndex+1;
-        }
       },
       /**
        * 分页配置
@@ -200,6 +196,7 @@ export default defineComponent({
         currentPage:1,
         total: null
       },
+      selectReqData:{},
       /**
        * 弹出窗口是否展示
        */
@@ -207,31 +204,29 @@ export default defineComponent({
       /**
        * 弹出窗口标题
        */
-      tcckTitle:''
-    })
+      tcckTitle:'',
+      xFrom:{},
+      xGrid:{},
+      xUpdate:{}
+    }
+  },
+  computed:{
     /**
-     * 查询表单引用
-     * @type {Ref<UnwrapRef<{}>>}
+     * 获取查询权限的子权限配置
      */
-    const xFrom = ref({});
-    /**
-     * 表格引用
-     * @type {Ref<UnwrapRef<{}>>}
-     */
-    const xGrid = ref({});
-    /**
-     * 修改页面引用
-     * @type {Ref<UnwrapRef<{}>>}
-     */
-    const xUpdate = ref({});
-    /**
-     * 页面挂载后执行
-     */
-    onMounted(()=>{
-      //初始化查询
-      getList();
-    })
-    const initPage = async (dxjcxx)=>{
+    qxpz : function(){
+      let qxpz = getByPath(this.myDxjcxx,"sys.cllxkz.select.qxpz");
+      if(!qxpz){
+        qxpz = {}
+      }
+      return qxpz
+    }
+  },
+  methods:{
+    idx:function({ rowIndex }) {
+      return this.pagerConfig.pageSize*(this.pagerConfig.currentPage-1)+rowIndex+1;
+    },
+    initPage : async function(dxjcxx){
       if(!dxjcxx.fields){
         //加载对象基础信息
         await axios.post({
@@ -244,16 +239,16 @@ export default defineComponent({
           dxjcxx = rep.data;
         });
       }
-      myData.dxjcxx=dxjcxx;
+      this.myDxjcxx=dxjcxx;
       if(getByPath(dxjcxx,"sys.cllxkz.select.tree.parentField")){
         //树形结构
-        myData.treeConfig=getByPath(dxjcxx,"sys.cllxkz.select.tree")
-        myData.treeConfig.lazy = true
-        myData.treeConfig.loadMethod=function ({row}){
+        this.treeConfig=getByPath(dxjcxx,"sys.cllxkz.select.tree")
+        this.treeConfig.lazy = true
+        this.treeConfig.loadMethod=function ({row}){
           return new Promise((resolve, reject) => {
             let yobj = {
             }
-            yobj[myData.treeConfig.parentField]=row[myData.dxjcxx.sjdx.zjzd]
+            yobj[this.treeConfig.parentField]=row[this.myDxjcxx.sjdx.zjzd]
             axios.post({
               sys:{
                 authCode:dxjcxx.sys.authCode,
@@ -268,18 +263,18 @@ export default defineComponent({
             })
           })
         }
-        delete myData.seqConfig.seqMethod;
+        delete this.seqConfig.seqMethod;
       }
-      const fields = myData.dxjcxx.fields;
-      myData.formItems=[]
-      myData.tableColumn=[]
+      const fields = this.myDxjcxx.fields;
+      this.formItems=[]
+      this.tableColumn=[]
       let fi;
       for(const key in fields){
         const f = fields[key];
         if(f.cxzs==='1'){
           //查询默认值
           if(f.cxmrz){
-            myData.formData[f.zddm]=f.cxmrz;
+            this.formData[f.zddm]=f.cxmrz;
           }
           //配置查询项
           fi = {field: f.zddm, title: f.zdmc, span: 8}
@@ -330,14 +325,14 @@ export default defineComponent({
                 if(times.end){
                   val2 = dayjsMethod(times.end)
                 }
-                myData.formData[f.zddm]=[val1,val2];
+                this.formData[f.zddm]=[val1,val2];
               }
               break
             default:
               //默认普通输入框
               fi.itemRender={ name: '$input' ,props:{}};
           }
-          myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
+          this.formItems.push(assignDeep(fi,f.kzxx.kjkz));
         }
         if(f.lbzs==='1'){
           //配置列表字段
@@ -359,7 +354,7 @@ export default defineComponent({
               fi.type='seq';
               break
             case '$switch':
-              //开关控件
+            //开关控件
             case '$select':
               //下拉字典
               fi.formatter='formatterZd';
@@ -378,11 +373,11 @@ export default defineComponent({
             default:
               fi.cellRender={};
           }
-          myData.tableColumn.push(assignDeep(fi,f.kzxx.kjkz));
+          this.tableColumn.push(assignDeep(fi,f.kzxx.kjkz));
         }
       }
       //添加查询按钮
-      myData.formItems.push({
+      this.formItems.push({
         align: 'right',
         span: 24,
         itemRender: {
@@ -392,31 +387,21 @@ export default defineComponent({
           ]
         }
       });
+      this.formItems = ref(this.formItems)
+      this.tableColumn = ref(this.tableColumn)
       //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
-    }
-    /**
-     * 获取查询权限的子权限配置
-     * @type {ComputedRef<unknown>}
-     */
-    const qxpz = computed(()=>{
-      let qxpz = getByPath(myData,"dxjcxx.sys.cllxkz.select.qxpz");
-      if(!qxpz){
-        qxpz = {}
-      }
-      return qxpz
-    })
-    const store = useStore();
+    },
     /**
      * 获取权限列表
      * @param qxz 权限组
      * @param gdczSize 区分更多操作的按钮数
      * @param gdcz 本次是否获取更多操作
      */
-    const hqqxlb = (qxz,gdczSize,gdcz=false) => {
+    hqqxlb : function(qxz,gdczSize,gdcz=false) {
       let qxlb = {}
       let qxlb1 = {}
-      const qxMap = store.state.user.qxMap;
-      const authCode = myData.dxjcxx.sys.authCode;
+      const qxMap = this.$store.state.user.qxMap;
+      const authCode = this.myDxjcxx.sys.authCode;
       for(const cllx in qxz){
         if(qxMap[authCode+"_"+cllx]){
           qxlb[cllx]=qxz[cllx];
@@ -446,91 +431,77 @@ export default defineComponent({
         }
       }
       return qxlb1;
-    }
-    await initPage(props.dxjcxx)
-    /**
-     * 查询请求数据
-     */
-    myData.selectReqData = {
-      sys:{
-        authCode:myData.dxjcxx.sys.authCode,
-        cllx:"select",
-        dcwjm:myData.dxjcxx.sjdx.dxmc
-      },
-      page:{
-        totalRequired:true
-      }
-    }
+    },
     /**
      * 设置页大小
      * @param pageSize 页大小
      */
-    const setPageSize = (pageSize) => {
-      myData.selectReqData.page.pageSize=pageSize;
-      myData.pagerConfig.pageSize=pageSize
-    }
+    setPageSize : function (pageSize){
+      this.selectReqData.page.pageSize=pageSize;
+      this.pagerConfig.pageSize=pageSize
+    },
     /**
      * 设置当前页
      * @param currentPage 页大小
      */
-    const setPageNumber = (currentPage) => {
-      myData.selectReqData.page.pageNumber=currentPage;
-      myData.pagerConfig.currentPage=currentPage
-    }
+    setPageNumber: function(currentPage) {
+      this.selectReqData.page.pageNumber=currentPage;
+      this.pagerConfig.currentPage=currentPage
+    },
     /**
      * 分页切换事件
      * @param currentPage 当前页
      * @param pageSize 页大小
      */
-    const pageChange = ( {currentPage, pageSize} )=>{
-      setPageSize(pageSize);
-      setPageNumber(currentPage);
-      myData.selectReqData.page.totalRequired=false
-      getList();
-    }
+    pageChange : function( {currentPage, pageSize} ){
+      this.setPageSize(pageSize);
+      this.setPageNumber(currentPage);
+      this.selectReqData.page.totalRequired=false
+      this.getList();
+    },
     /**
      * 自定义字段排序
      * @param column
      */
-    const sortChange = ({column})=>{
-      myData.selectReqData.page.orderBy = column.order?(column.property+" "+column.order):"";
-      myData.selectReqData.page.totalRequired=false
-      getList();
-    }
+    sortChange : function({column}){
+      this.selectReqData.page.orderBy = column.order?(column.property+" "+column.order):"";
+      this.selectReqData.page.totalRequired=false
+      this.getList();
+    },
     /**
      * 修改页面回调
      * @param isFlush 是否刷新页面
      */
-    const updateCallback = (isFlush) =>{
-      myData.tcckShow=false
+    updateCallback : function(isFlush){
+      this.tcckShow=false
       if(isFlush!==false){
-        myData.selectReqData.page.totalRequired=true
-        getList()
+        this.selectReqData.page.totalRequired=true
+        this.getList()
       }
-    }
+    },
     /**
      * 搜索按钮
      */
-    const search = ()=>{
+    search : function(){
       //点击搜索按钮，恢复为第一页
-      setPageNumber(1);
-      myData.selectReqData.page.totalRequired=true
-      getList()
-    }
+      this.setPageNumber(1);
+      this.selectReqData.page.totalRequired=true
+      this.getList()
+    },
     /**
      * 执行分页查询
      */
-    const getList =async () =>{
-      myData.selectReqData.yobj = myData.formData;
-      await axios.post(myData.selectReqData).then(req=>{
-        myData.tableData= req.data.list;
-        if(myData.selectReqData.page.totalRequired){
-          myData.pagerConfig.total=req.data.totalRow;
+    getList :async function(){
+      this.selectReqData.yobj = this.formData;
+      await axios.post(this.selectReqData).then(req=>{
+        this.tableData= req.data.list;
+        if(this.selectReqData.page.totalRequired){
+          this.pagerConfig.total=req.data.totalRow;
         }
       }).catch((e)=>{
         console.log("查询失败："+e);
       })
-    }
+    },
     /**
      * 通用后台请求
      * @param cllx 处理类型
@@ -538,13 +509,13 @@ export default defineComponent({
      * @param ids 操作id数组
      * @param row 操作行
      */
-    const htqq = (cllx,buttonOptions,ids,row) => {
+    htqq : function(cllx,buttonOptions,ids,row){
       if(row){
-        ids = [row[myData.dxjcxx.sjdx.zjzd]];
+        ids = [row[this.myDxjcxx.sjdx.zjzd]];
       }
       axios.post({
         sys:{
-          authCode:myData.dxjcxx.sys.authCode,
+          authCode:this.myDxjcxx.sys.authCode,
           cllx:cllx,
           ids:ids
         }
@@ -552,17 +523,17 @@ export default defineComponent({
         ElMessage.success(req.msg);
         if(buttonOptions.sfsxym!==false){
           //修改数据的场景要重新统计总量
-          myData.selectReqData.page.totalRequired=true
-          getList()
+          this.selectReqData.page.totalRequired=true
+          this.getList()
         }
       }).catch((req)=>{
       });
-    }
+    },
     /**
      * 批量处理<br/>
      * 考虑场景：直接后台调用、弹窗
      */
-    const plcl = async (cllx,btnProps,row) =>{
+    plcl : async function(cllx,btnProps,row){
       const buttonOptions = btnProps.buttonOptions;
       //处理方式
       const clfs = buttonOptions.clfs||'htqq';
@@ -586,30 +557,30 @@ export default defineComponent({
               cancelButtonText: "取消",
               type: "warning"
             }).then(() => {
-              htqq(cllx,buttonOptions,ids,row)
+              this.htqq(cllx,buttonOptions,ids,row)
             }).catch(function (){
               console.info("用户取消操作："+content)
             })
           }else{
-            htqq(cllx,buttonOptions,ids,row)
+            this.htqq(cllx,buttonOptions,ids,row)
           }
           break
         //弹出窗口
         case "tcck":
           //窗口标题
-          myData.tcckTitle=content+"【"+myData.dxjcxx.sjdx.dxmc+"】"
+          this.tcckTitle=content+"【"+this.myDxjcxx.sjdx.dxmc+"】"
           //窗口显示
-          myData.tcckShow=true
+          this.tcckShow=true
           await nextTick()
           await nextTick()
-          xUpdate.value.tcck(myData.dxjcxx, cllx, buttonOptions, row, ids);
+          xUpdate.value.tcck(this.myDxjcxx, cllx, buttonOptions, row, ids);
           break
         //文件下载
         case "wjxz":
-          let params = JSON.parse(JSON.stringify(myData.selectReqData));
+          let params = JSON.parse(JSON.stringify(this.selectReqData));
           params.sys.cllx = cllx;
           params.sys.ids = ids;
-          params.sys.dcwjm = myData.dxjcxx.sjdx.dxmc+"-"+content+".xlsx";
+          params.sys.dcwjm = this.myDxjcxx.sjdx.dxmc+"-"+content+".xlsx";
           axios.download(assignDeep(params,buttonOptions.params));
           break
         //文件上传
@@ -619,7 +590,7 @@ export default defineComponent({
             multiple: true
           })
           const formBody = new FormData();
-          formBody.append("sys.authCode", myData.dxjcxx.sys.authCode);
+          formBody.append("sys.authCode", this.myDxjcxx.sys.authCode);
           formBody.append("sys.cllx", "upload");
           for(let i=0;i<files.length;i++){
             formBody.append("files", files[i]);
@@ -628,7 +599,7 @@ export default defineComponent({
             if (res.status) {
               axios.post({
                 sys: {
-                  authCode: myData.dxjcxx.sys.authCode,
+                  authCode: this.myDxjcxx.sys.authCode,
                   cllx: cllx,
                   files: res.data,
                 },
@@ -637,8 +608,8 @@ export default defineComponent({
                   ElMessage.info(response.msg?response.msg:"操作成功")
                   if(buttonOptions.sfsxym!==false){
                     //修改数据的场景要重新统计总量
-                    myData.selectReqData.page.totalRequired=true
-                    getList()
+                    this.selectReqData.page.totalRequired=true
+                    this.getList()
                   }
                 }else{
                   //TODO 需要展示错误数据信息
@@ -655,28 +626,35 @@ export default defineComponent({
         default:
           ElMessage.error("暂不支持该处理方式");
       }
-    }
+    },
     /**
      * 批量处理后的
      * @param buttonOptions
      */
-    const hxcz = (buttonOptions) => {
+    hxcz : function (buttonOptions)  {
 
     }
-    return{
-      myData,
-      qxpz,
-      xFrom,
-      xGrid,
-      xUpdate,
-      search,
-      pageChange,
-      sortChange,
-      close,
-      hqqxlb,
-      plcl,
-      updateCallback
-    }
+  },
+  created:async function() {
+    await this.initPage(this.dxjcxx)
+    this.seqConfig.seqMethod=this.idx
+    /**
+     * 查询请求数据
+     */
+    this.selectReqData = ref({
+      sys:{
+        authCode:this.myDxjcxx.sys.authCode,
+        cllx:"select",
+        dcwjm:this.myDxjcxx.sjdx.dxmc
+      },
+      page:{
+        totalRequired:true
+      }
+    })
+  },
+  mounted() {
+    //初始化查询
+    // this.getList();
   }
 })
 </script>

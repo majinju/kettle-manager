@@ -61,12 +61,12 @@
         <el-container>
           <el-main>
             <div class="content-box">
-              <MyTab></MyTab>
+              <home-tabs></home-tabs>
               <div class="content">
                 <suspense>
                   <router-view v-slot="{ Component }">
                     <transition name="move" mode="out-in">
-                      <keep-alive :include="tagsList">
+                      <keep-alive :exclude="Sjdx">
                         <component :is="Component" />
                       </keep-alive>
                     </transition>
@@ -86,9 +86,9 @@ import {useStore} from "vuex";
 import {useRouter} from "vue-router";
 import { ElMessage ,ElMessageBox} from "element-plus";
 import axios from "@/axios";
-import MyTab from "./HomeTabs";
+import HomeTabs from "./HomeTabs";
 export default defineComponent({
-  components:{MyTab},
+  components:{HomeTabs},
   setup () {
     const myData = reactive({
       title:"数据世界2",
@@ -180,7 +180,7 @@ export default defineComponent({
             }})
           break
         case "04":
-          router.push({path:'/home/sjdx',query:{
+          router.push({path:'/home/sjdx1',query:{
               "sys.authCode":data.dm,
               pathName:data.name
             }})

@@ -2,6 +2,7 @@ import VXETable from '@majinju/vxe-table';
 import XEUtils from "xe-utils";
 import MyDownList from "components/MyDownList";
 import MySelectGrid from "../components/MySelectGrid";
+import MySelectGrid1 from "@/views/sjdx1/MySelectGrid1";
 import { dateFormat } from "@/utils/common"
 
 /**
@@ -76,6 +77,23 @@ export const VxeExtend = {
           const { props } = renderOpts
           return[
             <MySelectGrid v-model={data[property]} {...props}/>
+          ]
+        },
+      },
+      MySelectGrid1: {
+        autofocus: 'input.my-input__inner',
+        renderDefault (renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MySelectGrid1 v-model={data[property]} {...props}/>
+          ]
+        },
+        renderItemContent(renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MySelectGrid1 v-model={data[property]} {...props}/>
           ]
         },
       }

@@ -18,7 +18,12 @@ const routes = [
       {
         path: 'sjdx',
         name:'数据对象',
-        component: () => import('../views/Sjdx')
+        component: () => import('components/Sjdx')
+      },
+      {
+        path: 'sjdx1',
+        name:'数据对象1',
+        component: () => import('../views/sjdx1/Sjdx1')
       },
       {
         path: 'KFZFW_QTGN_CSZY',
