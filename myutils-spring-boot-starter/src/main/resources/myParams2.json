@@ -223,7 +223,7 @@
     "myLbcz": {
       "zddm": "myLbcz",
       "px": 5000,
-      "zdkd": 120,
+      "zdkd": 165,
       "zdmc": "操作",
       "zdywlb": "99",
       "kjlx": "$buttons",
@@ -259,6 +259,20 @@
               "status": "primary",
               "buttonOptions": {
                 "clfs": "tcck"
+              }
+            },
+            "fzjl": {
+              "type": "text",
+              "status": "primary",
+              "content": "复制",
+              "buttonOptions": {
+                "clfs": "htqq",
+                "htqqts": true,
+                "params": {
+                  "sys": {
+                    "zxcz": "plcl"
+                  }
+                }
               }
             }
           }

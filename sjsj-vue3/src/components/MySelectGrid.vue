@@ -354,7 +354,7 @@ export default defineComponent({
           //配置列表字段
           fi = {field: f.zddm, title: f.zdmc,align:'center'}
           if(f.zdkd>10){
-            fi.width = f.zdkd;
+            fi.width = f.zdkd+"px";
           }
           if(f.yxpx==='1'){
             fi.sortable = true;
