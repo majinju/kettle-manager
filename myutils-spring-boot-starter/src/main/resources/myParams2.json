@@ -36,16 +36,6 @@
                 "htqqts": true
               }
             },
-            "bjms": {
-              "type": "primary",
-              "content": "编辑模式",
-              "buttonOptions": {
-                "clfs": "bjms",
-                "htqqts": false,
-                //是否需要选择记录
-                sfxyxzjl: false
-              }
-            },
             "dcmb": {
               "type": "primary",
               "content": "导出模板",
@@ -97,6 +87,36 @@
                 "htqqts": true,
                 //是否需要选择记录
                 sfxyxzjl: false
+              }
+            },
+            "bjms": {
+              "type": "primary",
+              "content": "编辑模式",
+              "buttonOptions": {
+                "clfs": "ymcsth",
+                "htqqts": false,
+                //是否需要选择记录
+                sfxyxzjl: false,
+                "params": {
+                  "editCofnig": {
+                    "enabled": true
+                  }
+                }
+              }
+            },
+            "qxbj": {
+              "type": "primary",
+              "content": "取消编辑",
+              "buttonOptions": {
+                "clfs": "ymcsth",
+                "htqqts": false,
+                //是否需要选择记录
+                sfxyxzjl: false,
+                "params": {
+                  "editCofnig": {
+                    "enabled": false
+                  }
+                }
               }
             }
           },

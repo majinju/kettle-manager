@@ -153,10 +153,6 @@ export default defineComponent({
       formRule:{
       },
       /**
-       * 表格字段验证规则
-       */
-      tableRule:{},
-      /**
        * 列表批量操作栏
        */
       tableToolbar: {
@@ -181,6 +177,10 @@ export default defineComponent({
         mode: 'cell',
         showStatus: true
       },
+      /**
+       * 表格字段验证规则
+       */
+      tableRule:{},
       /**
        * 树形结构配置
        */
@@ -402,6 +402,7 @@ export default defineComponent({
                   maxlength:f.zdcd
                 }
               };
+              break
             case '$buttons':
               //按钮组
               fi.params=getByPath(f.kzxx,"kjkz")

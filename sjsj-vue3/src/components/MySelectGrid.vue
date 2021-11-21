@@ -11,6 +11,7 @@
           ref="xGrid" :toolbar-config="myData.tableToolbar" :columns="myData.tableColumn"
           :data="myData.tableData" :export-config="myData.exportConfig" :tree-config="myData.treeConfig"
           :seq-config="myData.seqConfig" :row-id="myData.dxjcxx.sjdx.zjzd"
+          :edit-config="myData.editCofnig" :edit-rules="myData.tableRule"
           :pager-config="myData.pagerConfig"
           @page-change="pageChange"
           @sort-change="sortChange"
@@ -120,7 +121,7 @@ export default defineComponent({
   },
   emits:["update:modelValue"],
   setup:async (props,context)=>{
-    const myData = reactive({
+    let myData = reactive({
       /**
        * 对象基础信息
        */
@@ -199,6 +200,19 @@ export default defineComponent({
         currentPage:1,
         total: null
       },
+      /**
+       * 表格编辑配置
+       */
+      editCofnig:{
+        enabled: false,
+        trigger: 'click',
+        mode: 'cell',
+        showStatus: true
+      },
+      /**
+       * 表格字段验证规则
+       */
+      tableRule:{},
       /**
        * 弹出窗口是否展示
        */
@@ -358,16 +372,44 @@ export default defineComponent({
               fi.type='seq';
               break
             case '$switch':
-              //开关控件
+            //开关控件
             case '$select':
               //下拉字典
               fi.formatter='formatterZd';
-              fi.cellRender={ };
+              //还要考虑字典树
+              if(f.zdfy==='1'){
+                //大字典，采用下拉分页搜索框
+                fi.editRender={ name: 'MyDownList' ,props:{placeholder:f.zdts,zdlb:f.zdzdlb}};
+                //还要考虑多选
+              }else{
+                //普通下拉框
+                fi.editRender={ name: '$select' ,props:{placeholder:f.zdts}};
+                await zdList(f.zdzdlb).then((data)=>{
+                  fi.editRender.options=data;
+                })
+                //还要考虑多选
+              }
               break
             case 'ElDatePicker':
               //时间控件
               fi.formatter='formatDate';
-              fi.cellRender={ };
+              fi.editRender={
+                name: 'ElDatePicker',props:{
+                  type:'datetime',
+                  clearable:options.input.clearable,
+                  size:options.input.size,
+                  valueFormat:"YYYYMMDDHHmmss"
+                }
+              };
+              break
+            case '$textarea':
+              //时间选择器
+              fi.editRender={
+                name: '$textarea',
+                props:{
+                  maxlength:f.zdcd
+                }
+              };
               break
             case '$buttons':
               //按钮组
@@ -375,7 +417,7 @@ export default defineComponent({
               fi.slots={default:'lbcz'}
               break
             default:
-              fi.cellRender={};
+              fi.editRender={name: '$input' ,props:{}};
           }
           myData.tableColumn.push(assignDeep(fi,f.kzxx.kjkz));
         }
@@ -645,9 +687,9 @@ export default defineComponent({
             }
           });
           break
-        //编辑模式
-        case "bjms":
-          ElMessage.error("编辑模式暂未实现");
+        //页面参数替换
+        case "ymcsth":
+          myData = assignDeep(myData,buttonOptions.params)
           break
         default:
           ElMessage.error("暂不支持该处理方式");
