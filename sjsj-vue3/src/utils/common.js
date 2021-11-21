@@ -1,6 +1,7 @@
 import axios from "@/axios";
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
+import {useStore} from "vuex";
 dayjs.extend(customParseFormat)
 
 ////////////////////////////////时间///////////////////////////
@@ -81,6 +82,17 @@ export function dayjsMethod(obj){
   return d;
 }
 ////////////////////////////////时间///////////////////////////
+
+/**
+ * 是否有权限
+ * @param auth 权限码
+ * @returns {*} 权限对象，为空则没权限
+ */
+export const hasAuth = (auth) => {
+  const store = useStore();
+  const qxMap = store.state.user.qxMap;
+  return qxMap[auth];
+}
 
 ////////////////////////////////字典///////////////////////////
 /**

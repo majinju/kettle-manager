@@ -94,9 +94,8 @@
 import { defineComponent, reactive ,onMounted,ref,nextTick,computed} from 'vue'
 import {ElMessage, ElMessageBox} from "element-plus";
 import { VXETable } from '@majinju/vxe-table';
-import { useStore } from "vuex";
 import axios from "@/axios";
-import {dayjsMethod, zdList} from "@/utils/common";
+import {dayjsMethod, zdList,hasAuth} from "@/utils/common";
 import {options} from "@/plugins/vxe-table";
 import MyForm from "./MyForm";
 import {getByPath,assignDeep} from "@/utils/common";
@@ -405,7 +404,6 @@ export default defineComponent({
       }
       return qxpz
     })
-    const store = useStore();
     /**
      * 获取权限列表
      * @param qxz 权限组
@@ -415,10 +413,9 @@ export default defineComponent({
     const hqqxlb = (qxz,gdczSize,gdcz=false) => {
       let qxlb = {}
       let qxlb1 = {}
-      const qxMap = store.state.user.qxMap;
       const authCode = myData.dxjcxx.sys.authCode;
       for(const cllx in qxz){
-        if(qxMap[authCode+"_"+cllx]){
+        if(hasAuth(authCode+"_"+cllx)){
           qxlb[cllx]=qxz[cllx];
         }
       }
@@ -542,13 +539,13 @@ export default defineComponent({
       if(row){
         ids = [row[myData.dxjcxx.sjdx.zjzd]];
       }
-      axios.post({
+      axios.post(assignDeep({
         sys:{
           authCode:myData.dxjcxx.sys.authCode,
           cllx:cllx,
           ids:ids
         }
-      }).then(req=>{
+      },buttonOptions.params)).then(req=>{
         ElMessage.success(req.msg);
         if(buttonOptions.sfsxym!==false){
           //修改数据的场景要重新统计总量

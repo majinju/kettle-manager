@@ -71,7 +71,7 @@ export default defineComponent({
         if(response.status){
           store.commit("setSys",response.data.sys)
           store.commit("setUser",response.data.user)
-          ElMessage.info("登陆成功");
+          ElMessage.success("登陆成功");
           router.push("/home");
         }else{
           ElMessage.error(response.msg)

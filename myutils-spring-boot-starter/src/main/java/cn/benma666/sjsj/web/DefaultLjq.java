@@ -141,7 +141,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             return (Result) m.invoke(this,myParams);
         }catch (NoSuchMethodException e){
             //没有找到该处理类型对应的方法，执行默认操作
-            Object zxcz = JSONPath.eval(myParams,"$.sys.zxcz");
+            Object zxcz = myParams.get("$.sys.zxcz");
             if(zxcz==null||KEY_CLLX_GETDATA.equals(zxcz)){
                 return getdata(myParams);
             }else if(KEY_CLLX_PLCL.equals(zxcz)){
@@ -200,7 +200,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public Result plcl(JSONObject myParams) {
-        String[] arr = getSql(myParams,KEY_CLLX_PLCL);
+        String[] arr = getSql(myParams);
         return success("操作成功", db(arr[0]).update(arr[1], myParams));
     }
 
@@ -544,10 +544,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         return Db.parseDictExp(sql, sjdx.getDxzt());
     }
-
     /**
      * 导出模板
-     *
      * @param myParams 相关参数
      * @return 处理结果
      */

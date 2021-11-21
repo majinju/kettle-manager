@@ -17,6 +17,7 @@ import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.domain.SysSjglSjzd;
 import cn.benma666.exception.MyException;
+import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
@@ -58,8 +59,18 @@ public class SjdxLjq extends DefaultLjq {
         }
         //清除对象的字典缓存
         DictManager.clearDict("SYS_SJGL_SJDX");
+        CacheFactory.clear(KEY_SJDX);
         return success("编辑成功,"+r.getMsg());
     }
+
+    @Override
+    public Result update(JSONObject myParams) throws MyException {
+        Result r = super.update(myParams);
+        DictManager.clearDict("SYS_SJGL_SJDX");
+        CacheFactory.clear(KEY_SJDX);
+        return r;
+    }
+
     @Override
     public Result plsc(JSONObject myParams) {
         //删除相关字段
@@ -90,7 +101,7 @@ public class SjdxLjq extends DefaultLjq {
     /**
      * 复制对象
      */
-    public Result fzdx(JSONObject myParams) throws SQLException {
+    public Result fzjl(JSONObject myParams) throws Exception {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         Result result = failed("未处理");
         int count = 0;

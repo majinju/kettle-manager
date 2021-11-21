@@ -71,7 +71,12 @@
               "content": "复制",
               "buttonOptions": {
                 "clfs": "htqq",
-                "htqqts": true
+                "htqqts": true,
+                "params": {
+                  "sys": {
+                    "zxcz": "plcl"
+                  }
+                }
               }
             },
             "pzdx": {
@@ -111,7 +116,9 @@
                 "params": {
                   "page": {
                     //默认导出50000条记录
-                    "pageSize": 50000
+                    "pageSize": 50000,
+                    //导出全部默认只允许导出第一页
+                    "pageNumber": 1
                   }
                 }
               }

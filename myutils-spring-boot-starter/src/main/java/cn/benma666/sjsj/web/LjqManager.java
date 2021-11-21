@@ -41,7 +41,7 @@ public class LjqManager extends BasicObject {
     /**
      * 数据对象Map<对象key，对象>
      */
-    private static final JSONObject sjdxMap = CacheFactory.use("sjdx");
+    private static final JSONObject sjdxMap = CacheFactory.use(LjqInterface.KEY_SJDX);
     /**
      * 拦截器Map<对象id，拦截器实例>
      */
