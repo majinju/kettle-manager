@@ -164,7 +164,8 @@ export default {
             case '$textarea':
               //时间选择器
               fi.itemRender={
-                name: '$textarea',props:{
+                name: '$textarea',
+                props:{
                   maxlength:f.zdcd
                 }
               };
@@ -213,7 +214,7 @@ export default {
               }else{
                 //没有配置则展示当前页面对象的查询列表
                 fi.itemRender={
-                  name: 'MySelectGrid',
+                  name: 'MySelectGrid1',
                   props:{
                     dxjcxx:dxjcxx
                   }

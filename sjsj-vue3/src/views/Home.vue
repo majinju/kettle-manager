@@ -180,7 +180,7 @@ export default defineComponent({
             }})
           break
         case "04":
-          router.push({path:'/home/sjdx1',query:{
+          router.push({path:'/home/sjdx',query:{
               "sys.authCode":data.dm,
               pathName:data.name
             }})

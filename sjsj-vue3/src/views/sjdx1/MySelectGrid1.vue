@@ -11,10 +11,11 @@
           ref="xGrid" :toolbar-config="tableToolbar" :columns="tableColumn"
           :data="tableData" :export-config="exportConfig" :tree-config="treeConfig"
           :seq-config="seqConfig" :row-id="dxjcxx.sjdx.zjzd"
-          :pager-config="pagerConfig"
+          :pager-config="pagerConfig" :edit-rules="tableRule"
           @page-change="pageChange"
           @sort-change="sortChange"
         >
+          <!--          :edit-config="editCofnig"-->
 <!--          工具栏左侧-->
           <template #toolbar_left>
             <span class="page-main-header-title">数据展示</span>
@@ -152,6 +153,10 @@ export default defineComponent({
       formRule:{
       },
       /**
+       * 表格字段验证规则
+       */
+      tableRule:{},
+      /**
        * 列表批量操作栏
        */
       tableToolbar: {
@@ -170,6 +175,11 @@ export default defineComponent({
         types: [ 'csv', 'html', 'xml', 'txt'],
         // 自定义数据量列表
         modes: ['current', 'all']
+      },
+      editCofnig:{
+        trigger: 'click',
+        mode: 'cell',
+        showStatus: true
       },
       /**
        * 树形结构配置
@@ -358,20 +368,47 @@ export default defineComponent({
             case '$select':
               //下拉字典
               fi.formatter='formatterZd';
-              fi.cellRender={ };
+              //还要考虑字典树
+              if(f.zdfy==='1'){
+                //大字典，采用下拉分页搜索框
+                fi.editRender={ name: 'MyDownList' ,props:{placeholder:f.zdts,zdlb:f.zdzdlb}};
+                //还要考虑多选
+              }else{
+                //普通下拉框
+                fi.editRender={ name: '$select' ,props:{placeholder:f.zdts}};
+                await zdList(f.zdzdlb).then((data)=>{
+                  fi.editRender.options=data;
+                })
+                //还要考虑多选
+              }
               break
             case 'ElDatePicker':
               //时间控件
               fi.formatter='formatDate';
-              fi.cellRender={ };
+              fi.editRender={
+                name: 'ElDatePicker',props:{
+                  type:'datetime',
+                  clearable:options.input.clearable,
+                  size:options.input.size,
+                  valueFormat:"YYYYMMDDHHmmss"
+                }
+              };
               break
+            case '$textarea':
+              //时间选择器
+              fi.editRender={
+                name: '$textarea',
+                props:{
+                  maxlength:f.zdcd
+                }
+              };
             case '$buttons':
               //按钮组
               fi.params=getByPath(f.kzxx,"kjkz")
               fi.slots={default:'lbcz'}
               break
             default:
-              fi.cellRender={};
+              fi.editRender={name: '$input' ,props:{}};
           }
           this.tableColumn.push(assignDeep(fi,f.kzxx.kjkz));
         }
