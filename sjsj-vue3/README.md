@@ -5,7 +5,7 @@
 # 常规安装
 yarn install
 # 使用淘宝源
-npm install --registry=https://registry.npm.taobao.org
+npm install --registry=https://registry.npmmirror.com
 # 若安装确实搞不定可以直接解压根目录下的node_modules.zip
 ```
 

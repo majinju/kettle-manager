@@ -274,7 +274,7 @@ public class LjqManager extends BasicObject {
         if(czrz!=null){
             //记录日志
             String fhnr = r.toString();
-            if(fhnr.length()<3000){
+            if(fhnr.length()<2000){
                 czrz.setFhnr(fhnr);
             }else{
                 JSONObject fhnrObj = JSON.parseObject(fhnr);

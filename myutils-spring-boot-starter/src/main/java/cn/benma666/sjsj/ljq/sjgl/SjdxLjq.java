@@ -57,17 +57,14 @@ public class SjdxLjq extends DefaultLjq {
         } catch (Exception e) {
             throw new MyException("导入字段出错："+e.getMessage(),e);
         }
-        //清除对象的字典缓存
-        DictManager.clearDict("SYS_SJGL_SJDX");
-        CacheFactory.clear(KEY_SJDX);
+        CacheFactory.clear();
         return success("编辑成功,"+r.getMsg());
     }
 
     @Override
     public Result update(JSONObject myParams) throws MyException {
         Result r = super.update(myParams);
-        DictManager.clearDict("SYS_SJGL_SJDX");
-        CacheFactory.clear(KEY_SJDX);
+        CacheFactory.clear();
         return r;
     }
 
