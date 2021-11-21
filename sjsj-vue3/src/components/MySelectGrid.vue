@@ -352,7 +352,7 @@ export default defineComponent({
         }
         if(f.lbzs==='1'){
           //配置列表字段
-          fi = {field: f.zddm, title: f.zdmc,align:'center'}
+          fi = {field: f.zddm, title: f.zdmc,align:'center',editRender:{props:{}}}
           if(f.zdkd>10){
             fi.width = f.zdkd+"px";
           }
@@ -414,6 +414,13 @@ export default defineComponent({
               break
             default:
               fi.editRender={name: '$input' ,props:{}};
+          }
+          //是否禁用
+          fi.editRender.props.disabled = getByPath(f.kzxx,"cllxkz.update.disabled");
+          //是否只读
+          fi.editRender.props.readonly = getByPath(f.kzxx,"cllxkz.update.readonly");
+          if (fi.editRender.props.disabled||fi.editRender.props.readonly){
+            delete fi.editRender
           }
           myData.tableColumn.push(assignDeep(fi,f.kzxx.kjkz));
         }
