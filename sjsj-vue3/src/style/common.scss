@@ -13,7 +13,12 @@ body {
     height: 40px;
   }
 }
-
+.vxe-form{
+  .v-md-editor{
+    min-height: 250px;
+    max-height: 500px;
+  }
+}
 //表格样式设置
 .vxe-grid{
   .vxe-toolbar{

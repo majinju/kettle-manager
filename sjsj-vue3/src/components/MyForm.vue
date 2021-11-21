@@ -160,6 +160,7 @@ export default defineComponent({
               };
               break
             case 'MyMarkDown':
+              //,height:"250px"
               fi.itemRender={ name: 'MyMarkDown' ,props:{placeholder:f.zdts}};
               if(f.kzxx.cllxkz[cllx].disabled||f.kzxx.cllxkz[cllx].readonly){
                 fi.itemRender.props.mode="preview";
