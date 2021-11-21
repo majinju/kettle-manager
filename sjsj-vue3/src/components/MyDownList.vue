@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, ref,watch,h } from 'vue'
+import { defineComponent, onMounted, reactive, ref,watch} from 'vue'
 import axios from "@/axios";
 import { zdObj } from "@/utils/common"
 export default defineComponent({

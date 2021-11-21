@@ -307,16 +307,14 @@ export default defineComponent({
               //还要考虑字典树
               if(f.zdfy==='1'){
                 //大字典，采用下拉分页搜索框
-                fi.itemRender={ name: 'MyDownList' ,props:{placeholder:f.zdts,zdlb:f.zdzdlb}};
+                fi.itemRender={ name: 'MyDownList'};
                 //还要考虑多选
               }else{
                 //普通下拉框
-                fi.itemRender={ name: '$select' ,props:{placeholder:f.zdts}};
-                await zdList(f.zdzdlb).then((data)=>{
-                  fi.itemRender.options=data;
-                })
+                fi.itemRender={ name: 'MySelect'};
                 //还要考虑多选
               }
+              fi.itemRender.props={placeholder:f.zdts,zdlb:f.zdzdlb};
               break
             case 'ElDatePicker':
               //时间选择器
@@ -379,16 +377,14 @@ export default defineComponent({
               //还要考虑字典树
               if(f.zdfy==='1'){
                 //大字典，采用下拉分页搜索框
-                fi.editRender={ name: 'MyDownList' ,props:{placeholder:f.zdts,zdlb:f.zdzdlb}};
+                fi.editRender={ name: 'MyDownList'};
                 //还要考虑多选
               }else{
                 //普通下拉框
-                fi.editRender={ name: '$select' ,props:{placeholder:f.zdts}};
-                await zdList(f.zdzdlb).then((data)=>{
-                  fi.editRender.options=data;
-                })
+                fi.editRender={ name: 'MySelect'};
                 //还要考虑多选
               }
+              fi.editRender.props={placeholder:f.zdts,zdlb:f.zdzdlb};
               break
             case 'ElDatePicker':
               //时间控件

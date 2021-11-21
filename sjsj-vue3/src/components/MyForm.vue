@@ -9,7 +9,7 @@ import {defineComponent, onMounted, reactive, ref} from 'vue'
 import { ElMessage ,ElMessageBox} from "element-plus";
 import {options} from "@/plugins/vxe-table";
 import axios from "@/axios";
-import {assignDeep,getByPath} from "@/utils/common";
+import {assignDeep, getByPath, zdList} from "@/utils/common";
 
 export default defineComponent({
   name: "MyForm",
@@ -149,14 +149,17 @@ export default defineComponent({
           switch (f.kjlx){
             case '$switch':
             case '$select':
-              //大字典，采用下拉分页搜索框
-              fi.itemRender={
-                name: 'MyDownList' ,
-                props:{
-                  placeholder:f.zdts,
-                  zdlb:f.zdzdlb
-                }
-              };
+              //还要考虑字典树
+              if(f.zdfy==='1'){
+                //大字典，采用下拉分页搜索框
+                fi.itemRender={ name: 'MyDownList'};
+                //还要考虑多选
+              }else{
+                //普通下拉框
+                fi.itemRender={ name: 'MySelect'};
+                //还要考虑多选
+              }
+              fi.itemRender.props={placeholder:f.zdts,zdlb:f.zdzdlb};
               break
             case 'MyMarkDown':
               //,height:"250px"

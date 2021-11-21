@@ -1,6 +1,7 @@
 import VXETable from '@majinju/vxe-table';
 import XEUtils from "xe-utils";
 import MyDownList from "components/MyDownList";
+import MySelect from "components/MySelect";
 import MySelectGrid from "../components/MySelectGrid";
 import MySelectGrid1 from "@/views/sjdx1/MySelectGrid1";
 import { dateFormat } from "@/utils/common"
@@ -12,9 +13,40 @@ export const VxeExtend = {
   install (vxetablecore) {
     const {renderer } = vxetablecore
     renderer.mixin({
+      MySelect: {
+        autofocus: 'input.my-input__inner',
+        renderDefault (renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MySelect v-model={data[property]} {...props}/>
+          ]
+        },
+        renderEdit (renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MySelect v-model={data[property]} {...props}/>
+          ]
+        },
+        renderItemContent(renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MySelect v-model={data[property]} {...props}/>
+          ]
+        },
+      },
       MyDownList: {
         autofocus: 'input.my-input__inner',
         renderDefault (renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MyDownList v-model={data[property]} {...props}/>
+          ]
+        },
+        renderEdit (renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts
           return[
