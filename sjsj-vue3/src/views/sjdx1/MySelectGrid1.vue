@@ -337,7 +337,7 @@ export default defineComponent({
         if(f.lbzs==='1'){
           //配置列表字段
           fi = {field: f.zddm, title: f.zdmc,align:'center'}
-          if(f.zdkd>10&&f.zdkd<=200){
+          if(f.zdkd>10){
             fi.width = f.zdkd;
           }
           if(f.yxpx==='1'){

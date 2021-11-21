@@ -12,7 +12,7 @@ import axios from "@/axios";
 import MyForm from "@/views/sjdx1/MyForm1";
 
 export default {
-  name: "Sjdx",
+  name: "Sjdx1",
   components:{MyForm},
   props:{
   },

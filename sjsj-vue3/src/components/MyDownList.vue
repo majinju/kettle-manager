@@ -120,7 +120,9 @@ export default defineComponent({
       },false).then(req=>{
         mydata.tableData=req.data.list
         mydata.loading = false
-        mydata.tablePage.total=req.data.totalRow;
+        if(mydata.tablePage.totalRequired){
+          mydata.tablePage.total=req.data.totalRow;
+        }
       })
     }
     /**

@@ -12,7 +12,7 @@ import {assignDeep} from "@/utils/common";
 import {getByPath} from "@/utils/common";
 
 export default {
-  name: "MyForm",
+  name: "MyForm1",
   components:{},
   props:{
     /**
