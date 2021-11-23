@@ -15,7 +15,6 @@ export default createStore({
      * 系统参数，记录了用户的ip等基础信息
      */
     sys:{
-      token:""
     }
   },
   mutations: {

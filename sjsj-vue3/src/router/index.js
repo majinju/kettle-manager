@@ -9,6 +9,7 @@ const routes = [
   },
   {
     path: "/home",
+    alias: "/",
     name: "平台首页",
     meta:{
       title:'平台首页'
@@ -49,7 +50,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   /** 页面发生变化修改页面title*/
   if(to.meta.title){
-    document.title = to.meta.title
+    document.title = to.name
   }
   const store = useStore();
   if(store){

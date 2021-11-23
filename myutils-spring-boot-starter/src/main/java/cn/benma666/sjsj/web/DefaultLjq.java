@@ -537,7 +537,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             if (sql.startsWith("error:")) {
                 throw new MyException(sql.substring("error:".length()), sjdx);
             }
-            JSONPath.set(myParams, "$.sql.defaultSql", sql);
+            myParams.set("$.sql.defaultSql", sql);
         }else if(sql==null){
             //默认模板都不存在哎
             throw new MyException(Msg.msg("ljq.default.mypzgsql", cllx), sjdx);
@@ -592,7 +592,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             return;
         }
         //处理类型
-        String cllx = JSONPath.eval(myParams, LjqInterface.$_SYS_CLLX).toString();
+        String cllx = myParams.getString(LjqInterface.$_SYS_CLLX);
         //权限码
         String authCode = myParams.getString(LjqInterface.$_SYS_AUTHCODE);
         if ((authCode == null)&& Conf.getVal("benma666.xtqx.mrtgxqx","dxjcxx,select").contains(cllx)) {
