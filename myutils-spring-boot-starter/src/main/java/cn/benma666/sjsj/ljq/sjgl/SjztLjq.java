@@ -80,14 +80,13 @@ public class SjztLjq extends ScjkrwLjq {
             }
         }
         switch (obj.getString("lx")) {
-        case "ftp":
-            break;
         case "bdwj":
             //本地文件都以/结尾
             if(!ljc.endsWith("/")){
                 yobj.put("ljc", ljc+"/");
             }
             break;
+        case "ftp":
         default:
             break;
         }
@@ -114,7 +113,6 @@ public class SjztLjq extends ScjkrwLjq {
         if(sjztObj==null){
             return failed("数据载体为空");
         }
-        String zt = "1";
         try {
             if(DbType.of(sjztObj.getString("lx"))!=null){
                 //数据库型数据载体
@@ -134,16 +132,9 @@ public class SjztLjq extends ScjkrwLjq {
                 //TODO 其他类型载体后续添加测试功能
             }
         } catch (Exception e) {
-            zt = "2";
             result = failed("该数据载体当前不可用："+sjztObj+","+e.getMessage(),e);
             log.debug(result.getMsg(),e);
         }
-        if(!result.isStatus()){
-            zt = "2";
-        }
-        //更新数据源状态
-        db().update("update SYS_SJGL_SJZT t set t.zt=?,t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.id=?", 
-                zt,sjztObj.getString("id"));
         return result;
     }
 

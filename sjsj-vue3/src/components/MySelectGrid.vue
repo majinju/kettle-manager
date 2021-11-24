@@ -266,7 +266,7 @@ export default defineComponent({
           return new Promise((resolve, reject) => {
             let yobj = {
             }
-            yobj[myData.treeConfig.parentField]=row[myData.dxjcxx.sjdx.zjzd]
+            yobj[myData.treeConfig.parentField]=row[myData.treeConfig.rowField]
             axios.post({
               sys:{
                 authCode:dxjcxx.sys.authCode,

@@ -29,11 +29,10 @@ import com.alibaba.fastjson.JSONPath;
  */
 public class FileLjq extends DefaultLjq {
 
-    @Override
-    public Result plsc(JSONObject params) {
+    protected Result wlscByYxx(JSONObject myParams) {
         //删除物理删除记录的对应的文件
-        JSONPath.set(params,"$.yobj.yxx", UtilConst.WHETHER_FALSE);
-        List<JSONObject> list = ((PageInfo<JSONObject>)select(params).getData()).getList();
+        myParams.set("$.yobj.yxx", UtilConst.WHETHER_FALSE);
+        List<JSONObject> list = ((PageInfo<JSONObject>)select(myParams).getData()).getList();
         int count = 0;
         String msg;
         for(JSONObject fileObj:list){
@@ -67,7 +66,7 @@ public class FileLjq extends DefaultLjq {
             }
         }
         msg = "删除原始文件数："+count;
-        Result result = super.plcl(params);
+        Result result = super.wlscByYxx(myParams);
         result.addMsg(msg);
         return result;
     }

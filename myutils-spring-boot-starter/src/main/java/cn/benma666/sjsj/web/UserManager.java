@@ -67,7 +67,7 @@ public class UserManager extends BasicObject {
      * @author jingma
      */
     public static SysQxYhxx getUser(JSONObject myParams) {
-        Object token = JSONPath.eval(myParams, LjqInterface.$_SYS_TOKEN);
+        String token = myParams.getString(LjqInterface.$_SYS_TOKEN);
         if (StringUtil.isBlank(token)) {
             //token一般来说一定会有值，没有值为系统内部调用
             return null;
@@ -76,11 +76,13 @@ public class UserManager extends BasicObject {
         SysQxYhxx user = null;
         if(obj != null){
             user = (SysQxYhxx) obj;
+            redisTemplate.expire(LjqInterface.KEY_USER+token,Long.parseLong(
+                    valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
         }
         //实现免登陆，处理带用户信息的url
         if (user == null || (LSYH.equals(user.getYhdm()) && JSONPath.eval(myParams, "$.sys.userInfo") != null)) {
             //第一次请求或（是临时用户且提供了加密用户信息）
-            return zddl(myParams, token.toString());
+            return zddl(myParams, token);
         }
         return user;
     }

@@ -167,14 +167,14 @@ public class LjqManager extends BasicObject {
                 //合并优先级高于用户传参的默认配置
                 myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
             }
+            //合并数据对象的扩展信息到系统参数中
+            JsonUtil.mergeJSONObjects(myParams, (JSONObject) sjdx.get("kzxxObj"));
         } catch (IOException e) {
             throw new MyException("读取默认配置失败",e);
         }
         myParams.set(LjqInterface.$_SYS_AUTHCODE, sjdx.get(LjqInterface.KEY_AUTH_CODE));
         //设置从数据库中读取的数据对象
         myParams.put(LjqInterface.KEY_SJDX, sjdx);
-        //合并数据对象的扩展信息到系统参数中
-        JsonUtil.mergeJSONObjects(myParams, (JSONObject) sjdx.get("kzxxObj"));
         //获取基础信息
         return jcxx(sjdx,myParams);
     }

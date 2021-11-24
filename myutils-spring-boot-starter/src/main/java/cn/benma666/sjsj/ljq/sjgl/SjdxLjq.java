@@ -334,12 +334,8 @@ public class SjdxLjq extends DefaultLjq {
                     zd.setZdms(zdms1[0]);
                 }else if(zdms1[0].contains("时间") || zdms1[0].contains("日期")){
                     //时间字段的默认设置
-                    zd.setKjlx("time");
-                    zd.setCxmrz("goDay:-30");
-                    zd.setGshff("vueTimeGsh");
-                    zd.setFgshff("vueTimeFgsh");
+                    zd.setKjlx(ZD_SJDX_KJLX_TIME);
                     zd.setZdkd(BigDecimal.valueOf(130));
-                    zd.setHdyzgz("date:yyyyMMddHHmmss");
                 }
                 if(zdms.length==2){
                     //存在单独的字段描述信息
