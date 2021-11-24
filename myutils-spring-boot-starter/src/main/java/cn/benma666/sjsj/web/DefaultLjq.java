@@ -744,7 +744,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected void fieldsInit(Map<String, JSONObject> fields, JSONObject myParams) {
         for (JSONObject field : fields.values()) {
-            JSONObject kzxx = parseKzxx(field);
+            JSONObject kzxx = JSON.parseObject(field.getString(FIELD_KZXX),Feature.OrderedField);
             //顺便将字段扩展信息对象化
             field.put(UtilConst.FIELD_KZXX, kzxx);
             //初始化验证规则
@@ -1202,15 +1202,5 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public void setSjdx(SysSjglSjdx sjdx) {
         this.sjdx = sjdx;
-    }
-
-    /**
-     * 解析对象中的扩展信息字段
-     * @param obj 待解析的对象
-     * @return 解析后的扩展信息对象
-     */
-    public static JSONObject parseKzxx(JSONObject obj) {
-        return JSON.parseObject(MdUtil.parseJson(obj.getString(FIELD_KZXX))
-                .getString("code"),Feature.OrderedField);
     }
 }

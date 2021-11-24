@@ -147,7 +147,7 @@ public class LjqManager extends BasicObject {
             }
             sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
             //解析扩展信息
-            sjdx.set("kzxxObj",DefaultLjq.parseKzxx(jsonObj));
+            sjdx.set("kzxxObj",JSON.parseObject(jsonObj.getString(LjqInterface.FIELD_KZXX),Feature.OrderedField));
             //设置权限码
             String authCode = jsonObj.getString(LjqInterface.KEY_AUTH_CODE);
             sjdx.set(LjqInterface.KEY_AUTH_CODE, authCode);

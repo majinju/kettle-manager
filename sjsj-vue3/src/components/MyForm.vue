@@ -161,6 +161,12 @@ export default defineComponent({
               }
               fi.itemRender.props={placeholder:f.zdts,zdlb:f.zdzdlb};
               break
+            case 'jsoneditor':
+              fi.itemRender={ name: 'MyMarkDown' ,props:{placeholder:f.zdts,codeType:"json"}};
+              if(f.kzxx.cllxkz[cllx].disabled||f.kzxx.cllxkz[cllx].readonly){
+                fi.itemRender.props.mode="preview";
+              }
+              break
             case 'MyMarkDown':
               //,height:"250px"
               fi.itemRender={ name: 'MyMarkDown' ,props:{placeholder:f.zdts}};

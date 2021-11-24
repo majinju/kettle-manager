@@ -5,6 +5,7 @@ import MySelect from "components/MySelect";
 import MySelectGrid from "../components/MySelectGrid";
 import MySelectGrid1 from "@/views/sjdx1/MySelectGrid1";
 import { dateFormat } from "@/utils/common"
+import MyMarkDown from "components/MyMarkDown";
 
 /**
  * 基于 vxe-table 表格的适配插件
@@ -67,14 +68,14 @@ export const VxeExtend = {
           const { data, property } = params
           const { props } = renderOpts
           return[
-            <v-md-editor v-model={data[property]} {...props}/>
+            <MyMarkDown v-model={data[property]} {...props}/>
           ]
         },
         renderItemContent(renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts
           return[
-            <v-md-editor v-model={data[property]} {...props}/>
+            <MyMarkDown v-model={data[property]} {...props}/>
           ]
         },
       },
