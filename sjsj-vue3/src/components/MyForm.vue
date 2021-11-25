@@ -22,6 +22,7 @@ export default defineComponent({
       type: Object
     }
   },
+  emits:["close"],
   /**
    * from组件主要进行页面布局，然后需要展示的都可以以组件形式集成进去
    * @param props
@@ -81,10 +82,12 @@ export default defineComponent({
      * 根据对象基础信息进行页面初始化
      * @param dxjcxx 对象基础信息
      * @param cllx 处理类型
-     * @param obj 数据
+     * @param boptions 权限信息
+     * @param obj 当前操作的行
+     * @param ids 列表选择的id数组
      * @returns {Promise<void>}
      */
-    const initPage =async (dxjcxx,cllx,obj) => {
+    const initPage =async (dxjcxx,cllx,boptions,obj,ids) => {
       if(!cllx){
         //外部没传处理类型时，采用基础新中的处理类型
         cllx = dxjcxx.sys.cllx
@@ -105,7 +108,7 @@ export default defineComponent({
       }
       myData.dxjcxx=dxjcxx;
       myData.formData={};
-      if(obj){
+      if(obj&&Object.keys(obj).length>0){
         myData.obj = obj
         //深拷贝数据，避免修改对外部的影响
         myData.formData = JSON.parse(JSON.stringify(obj));
@@ -125,7 +128,7 @@ export default defineComponent({
         //根据处理类型判断是否展示该字段
         if(f.kzxx.cllxkz[cllx]&&f.kzxx.cllxkz[cllx].show){
           //默认值
-          if(!obj){
+          if(!obj||Object.keys(obj).length===0){
             myData.formData[f.zddm]=f.kzxx.cllxkz[cllx].default;
           }
           //添加校验规则
@@ -271,11 +274,11 @@ export default defineComponent({
      * @param dxjcxx 对象基础信息
      * @param cllx 处理类型
      * @param options 权限信息
-     * @param row 当前操作的行
+     * @param obj 当前操作的行
      * @param ids 列表选择的id数组
      */
-    const tcck = (dxjcxx,cllx,options,row,ids) => {
-      initPage(dxjcxx,cllx,row);
+    const tcck = (dxjcxx,cllx,options,obj,ids) => {
+      initPage(dxjcxx,cllx,options,obj,ids);
     }
     /**
      * 通用后台请求
@@ -297,7 +300,7 @@ export default defineComponent({
           myData.formData = assignDeep(myData.formData,req.data);
         }
         if(btnProps.sfgbtc===true){
-          context.emit('updateCallback',btnProps.sfsxym)
+          context.emit('close',btnProps.sfsxym)
         }
       });
     }
@@ -347,7 +350,7 @@ export default defineComponent({
           break
         //关闭弹窗
         case "gbtc":
-          context.emit('updateCallback',buttonOptions.sfsxym)
+          context.emit('close',buttonOptions.sfsxym)
           break
         //文件下载
         case "wjxz":

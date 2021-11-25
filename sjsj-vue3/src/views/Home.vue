@@ -87,6 +87,7 @@ import {useRouter} from "vue-router";
 import { ElMessage ,ElMessageBox} from "element-plus";
 import axios from "@/axios";
 import HomeTabs from "./HomeTabs";
+import {assignDeep} from "@/utils/common";
 export default defineComponent({
   components:{HomeTabs},
   setup () {
@@ -178,6 +179,13 @@ export default defineComponent({
               "sys.authCode":data.dm,
               pathName:data.name
             }})
+          break
+        case "03":
+          const query = {
+            "sys.authCode":data.dm,
+            pathName:data.name
+          }
+          router.push({path:'/home/sjdx',query:assignDeep(query,JSON.parse(data.kzxx).cdkz)})
           break
         case "04":
           router.push({path:'/home/sjdx',query:{

@@ -6,7 +6,6 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.Map.Entry;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.domain.SysSjglSjzd;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
@@ -29,6 +27,7 @@ import cn.benma666.sjsj.web.LjqManager;
 import com.alibaba.druid.DbType;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.parser.Feature;
 import com.github.stuxuhai.jpinyin.PinyinException;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
@@ -43,8 +42,14 @@ public class SjdxLjq extends DefaultLjq {
     @Override
     public Result insert(JSONObject myParams) throws MyException {
         SysSjglSjdx jtdx = myParams.getObject(KEY_YOBJ,SysSjglSjdx.class);
+        jtdx.setId(StringUtil.getUUIDUpperStr());
         //对象代码统一为大写
         jtdx.setDxdm(jtdx.getDxdm().toUpperCase());
+        //解析扩展信息
+        sjdx.set("kzxxObj",JSON.parseObject(jtdx.getKzxx(), Feature.OrderedField));
+        //设置数据载体
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
+        sjdx.setDxztlx(dbObj.getString("lx"));
         DSTransactionManager.start();
         Result r = super.insert(myParams);
         if(!r.isStatus()){
@@ -55,7 +60,13 @@ public class SjdxLjq extends DefaultLjq {
             r.addMsg(impFields(jtdx,myParams).getMsg());
             DSTransactionManager.commit();
         } catch (Exception e) {
-            throw new MyException("导入字段出错："+e.getMessage(),e);
+            try {
+                DSTransactionManager.rollback();
+            }catch (Exception e1){
+                log.error("事务回滚失败",e1);
+            }
+            log.error("导入字段出错："+e.getMessage(),e);
+            return failed("导入字段出错："+e.getMessage());
         }
         CacheFactory.clear();
         return success("编辑成功,"+r.getMsg());
@@ -294,62 +305,58 @@ public class SjdxLjq extends DefaultLjq {
             String[] arr = getSql(myParams, "fzzd");
             count = db().update(arr[1], myParams);
             //字段复制后，重新读取字段
-            oldFiledMap = db().findMap("zddm","select * from sys_sjgl_sjzd t where t.sjdx=?",
-                            jtdx.getId());
+            oldFiledMap = db().findMap("zddm",
+                    "select * from sys_sjgl_sjzd t where t.sjdx=?",jtdx.getId());
         }
         JSONObject zdParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJZD");
         SysSjglSjdx zdSjdx = zdParams.getObject(KEY_SJDX,SysSjglSjdx.class);
         int idx = oldFiledMap.size()*10+50;
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
-            SysSjglSjzd zd = JSON.parseObject(fieldObj.toJSONString(), SysSjglSjzd.class);
             //设置字段代码，统一用小写
-            zd.setZddm(zd.getZddm().toLowerCase());
-            if(oldFiledMap.containsKey(zd.getZddm())){
+            fieldObj.put("zddm",fieldObj.getString("zddm").toLowerCase());
+            if(oldFiledMap.containsKey(fieldObj.getString("zddm"))){
                 //存在的字段
                 continue;
             }
             count++;
             //设置对应的数据对象关联信息
-            zd.setSjdx(jtdx.getId());
+            fieldObj.put("sjdx",jtdx.getId());
             //根据数据库顺序进行设置px作为默认排序
-            zd.setPx(BigDecimal.valueOf(idx));
-            if(StringUtil.isNotBlank(zd.getZdms())){
+            fieldObj.put("px",idx);
+            if(StringUtil.isNotBlank(fieldObj.getString("zdms"))){
                 //根据字段描述进行默认设置
-                String[] zdms = zd.getZdms().replace("；", ";").split(";");
+                String[] zdms = fieldObj.getString("zdms").replace("；", ";").split(";");
                 String[] zdms1 = zdms[0].split("@");
                 //设置字段名称
-                zd.setZdmc(zdms1[0]);
+                fieldObj.put("zdmc",zdms1[0]);
                 if(zdms1.length==2){
                     //配置了字典信息
-                    zd.setZdzdlb(zdms1[1]);
+                    fieldObj.put("zdzdlb",zdms1[1]);
                     //逻辑判断类的字段一般都比较短
                     if("SYS_COMMON_LJPD".equals(zdms1[1])){
-                        zd.setZdkd(BigDecimal.valueOf(80));
-                        zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_CHECKBOX);
+                        fieldObj.put("zdkd",80);
+                        fieldObj.put("kjlx",ZD_SJDX_KJLX_CHECKBOX);
                     }else{
                         //自动进行字典的一些常见设置
-                        zd.setKjlx(LjqInterface.ZD_SJDX_KJLX_DICT);
+                        fieldObj.put("kjlx",ZD_SJDX_KJLX_DICT);
                     }
-                    zd.setZdms(zdms1[0]);
+                    fieldObj.put("zdms",zdms1[1]);
                 }else if(zdms1[0].contains("时间") || zdms1[0].contains("日期")){
                     //时间字段的默认设置
-                    zd.setKjlx(ZD_SJDX_KJLX_TIME);
-                    zd.setZdkd(BigDecimal.valueOf(130));
+                    fieldObj.put("kjlx",ZD_SJDX_KJLX_TIME);
+                    fieldObj.put("zdkd",130);
                 }
                 if(zdms.length==2){
                     //存在单独的字段描述信息
-                    zd.setZdms(zdms[1]);
+                    fieldObj.put("zdms",zdms[1]);
                 }
-                //设置字段的简拼和全拼
-                zd.setZdjp(StringUtil.getSimpleSpell(zd.getZdmc()));
-                zd.setZdqp(StringUtil.getFullSpell(zd.getZdmc()));
             }else{
-                zd.setZdmc(zd.getZddm());
+                fieldObj.put("zdmc",fieldObj.get("zddm"));
             }
-            zdParams.put(KEY_YOBJ,zd);
+            zdParams.put(KEY_YOBJ,fieldObj);
             LjqManager.insert(zdSjdx,zdParams);
-            oldFiledMap.put(zd.getZddm(), null);
+            oldFiledMap.put(fieldObj.getString("zddm"), null);
         }
         if(fieldsList.isEmpty()&&oldFiledMap.isEmpty()){
             return failed("没有查询到字段信息，请确认数据载体是否选择正确");

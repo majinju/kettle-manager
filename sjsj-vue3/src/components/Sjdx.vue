@@ -1,12 +1,12 @@
 <template>
   <div>
     <my-form :key="key" v-for="(dxjcxx,key,index) in myData.dxjcxx" :dxjcxx="dxjcxx"
-             v-show="key===myData.activeSjdx" v-cloak></my-form>
+             v-show="key===myData.activeSjdx" @close="close" v-cloak></my-form>
   </div>
 </template>
 
 <script>
-import {defineComponent, reactive, ref, watch} from "vue";
+import {defineComponent, reactive, watch} from "vue";
 import { ElMessage} from "element-plus";
 import {useRoute} from "vue-router";
 import {setByPath} from "@/utils/common";
@@ -26,6 +26,7 @@ export default defineComponent({
    */
   beforeRouteUpdate: (to, from)=>{
   },
+  emits:["close"],
   /**
    * 所有页面入口，该组件会缓存各数据对象基础信息，对各页面进行复用
    * @param props
@@ -90,8 +91,17 @@ export default defineComponent({
     )
     //初次进入调用
     await initPage(route.query);
+    /**
+     * 表单页面关闭事件
+     * @param sfsxym 是否刷新页面
+     */
+    const close = (sfsxym) => {
+      console.info(sfsxym,this)
+      context.emit("close",sfsxym,this);
+    }
     return {
-      myData
+      myData,
+      close
     }
   }
 });

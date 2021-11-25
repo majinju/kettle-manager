@@ -10,6 +10,7 @@ import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 
 import cn.benma666.iframe.Result;
+import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
@@ -47,12 +48,13 @@ public class QxxxLjq extends DefaultLjq {
             }else{
                 //将取消的授权改为无效
                 if(node.getBooleanValue("zAsync")){
-                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js=? and t.qx=? and t.yxx=?",
-                            UtilConst.WHETHER_FALSE,dqjs,node.getString("dm"),UtilConst.WHETHER_TRUE);
+                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx=? and t.yxx=?",
+                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,node.getString("dm"),UtilConst.WHETHER_TRUE);
                 }else{
                     //节点关闭时操作全部子权限
-                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js=? and t.qx like ? and t.yxx=?",
-                            UtilConst.WHETHER_FALSE,dqjs,node.getString("dm")+"%",UtilConst.WHETHER_TRUE);
+                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx like ? and t.yxx=?",
+                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,
+                            node.getString("dm")+"%",UtilConst.WHETHER_TRUE);
                 }
             }
         }
@@ -69,7 +71,21 @@ public class QxxxLjq extends DefaultLjq {
         return success("刷新用户权限成功！");
     }
     @Override
-    protected Result saveDb(JSONObject myParams) {
+    public Result insert(JSONObject myParams) {
+        Result r = super.insert(myParams);
+        if(!r.isStatus()){
+            return r;
+        }
+        if(valByDef(myParams.getBoolean("$.yobj.sczqx"),false)
+                && StringUtil.isNotBlank(myParams.getString("$.yobj.dz"))){
+            //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
+            String[] rr = getSql(myParams, "sczqx");
+            sqlManager(rr[0]).executeUpdate(rr[1], myParams);
+        }
+        return r;
+    }
+    @Override
+    public Result update(JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
@@ -77,22 +93,17 @@ public class QxxxLjq extends DefaultLjq {
         Result r = super.saveDb(myParams);
         if(!r.isStatus()){
             return r;
-        }else if(KEY_CLLX_INSERT.equals(cllx)&&r.isStatus()
-                &&UtilConst.WHETHER_TRUE.equals(yobj.getString("sczqx"))
-                && StringUtil.isNotBlank(yobj.getString("dz"))){
-            //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
-            String[] rr = getSql(myParams, "sczqx");
-            sqlManager(rr[0]).executeUpdate(rr[1], myParams);
-        }else if(KEY_CLLX_UPDATE.equals(cllx)
-                &&r.isStatus()&&StringUtil.isNotBlank(dm)){
+        }
+        if(StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
             db().update("update sys_qx_qxxx t set t.dm=replace(t.dm,?,?),t.fqx=replace(t.fqx,?,?),"
-                    + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.dm like ?", 
-                    obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,obj.getString("dm")+"_%");
+                    + "t.gxsj=? where t.dm like ?",
+                    obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,
+                    DateUtil.getGabDate(),obj.getString("dm")+"_%");
             //修改授权信息中的权限代码。
             db().update("update sys_qx_jsqxgl t set t.qx=replace(t.qx,?,?),"
-                    + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.qx like ?", 
-                    obj.getString("dm"),dm,obj.getString("dm")+"%");
+                    + "t.gxsj=? where t.qx like ?",
+                    obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
             UserManager.flushUserQxxx();
         }
         return r;

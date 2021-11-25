@@ -75,9 +75,21 @@
               "content": "对象配置",
               "buttonOptions": {
                 "clfs": "tcck",
-                "htqqts": true,
                 //是否需要选择记录
-                sfxyxzjl: false
+                sfxyxzjl: false,
+                "dxjcxx": {
+                  "sjdx": {
+                    "dxdm": "SYS_SJGL_SJDX"
+                  },
+                  "sys": {
+                    "cllx": "update"
+                  }
+                },
+                //基础信息扩展，可以把当前页面参数取出来设置到dxjcxx中
+                "jcxxkz": {
+                  //<设置到obj中的key，从myData中取的只路径>
+                  "obj": "dxjcxx.sjdx"
+                }
               }
             },
             "pzzd": {
@@ -85,9 +97,22 @@
               "content": "字段配置",
               "buttonOptions": {
                 "clfs": "tcck",
-                "htqqts": true,
                 //是否需要选择记录
-                sfxyxzjl: false
+                sfxyxzjl: false,
+                tcqp: true,
+                "dxjcxx": {
+                  "sjdx": {
+                    "dxdm": "SYS_SJGL_SJZD"
+                  },
+                  "sys": {
+                    "cllx": "select"
+                  }
+                },
+                //基础信息扩展，可以把当前页面参数取出来设置到dxjcxx中
+                "jcxxkz": {
+                  //<设置到obj中的key，从myData中取的只路径>
+                  "fields.sjdx.cxmrz": "dxjcxx.sjdx.id"
+                }
               }
             },
             "bjms": {
@@ -179,10 +204,6 @@
           "itemRender": {
             "props": {
               "dxjcxx": {
-                "sys": {},
-                "sjdx": {
-                  "dxdm": ""
-                }
               }
             }
           }

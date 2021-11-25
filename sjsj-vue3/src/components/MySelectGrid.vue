@@ -82,11 +82,9 @@
         </vxe-grid>
       </div>
     </div>
-    <vxe-modal v-model="myData.tcckShow" :title="myData.tcckTitle"
+    <vxe-modal ref="xModal" v-model="myData.tcckShow" :title="myData.tcckTitle"
                :before-hide-method="close">
-        <my-form ref="xUpdate" @updateCallback="updateCallback"></my-form>
-      <suspense>
-      </suspense>
+      <my-form ref="xUpdate" @close="fromClose"></my-form>
     </vxe-modal>
   </div>
 </template>
@@ -96,7 +94,7 @@ import { defineComponent, reactive ,onMounted,ref,nextTick,computed} from 'vue'
 import {ElMessage, ElMessageBox} from "element-plus";
 import { VXETable } from '@majinju/vxe-table';
 import axios from "@/axios";
-import {dayjsMethod, zdList,hasAuth} from "@/utils/common";
+import {dayjsMethod, zdList, hasAuth, setByPath} from "@/utils/common";
 import {options} from "@/plugins/vxe-table";
 import MyForm from "./MyForm";
 import {getByPath,assignDeep} from "@/utils/common";
@@ -237,6 +235,11 @@ export default defineComponent({
      * @type {Ref<UnwrapRef<{}>>}
      */
     const xUpdate = ref({});
+    /**
+     * 弹窗
+     * @type {Ref<UnwrapRef<{}>>}
+     */
+    const xModal = ref({});
     /**
      * 页面挂载后执行
      */
@@ -543,7 +546,7 @@ export default defineComponent({
      * 修改页面回调
      * @param isFlush 是否刷新页面
      */
-    const updateCallback = (isFlush) =>{
+    const fromClose = (isFlush) =>{
       myData.tcckShow=false
       if(isFlush!==false){
         myData.selectReqData.page.totalRequired=true
@@ -642,16 +645,61 @@ export default defineComponent({
           myData.tcckTitle=content+"【"+myData.dxjcxx.sjdx.dxmc+"】"
           //窗口显示
           myData.tcckShow=true
+          if(buttonOptions.tcqp){
+            //最大化
+            xModal.value.maximize()
+          }else{
+            //还原
+            xModal.value.revert()
+          }
+          let tdxjcxx = myData.dxjcxx;
+          if(buttonOptions.dxjcxx){
+            //加载对象基础信息，该按钮设置了处理其他数据对象
+            await axios.post({
+              sjdx:buttonOptions.dxjcxx.sjdx,
+              sys:{
+                authCode: buttonOptions.dxjcxx.sys.authCode,
+                cllx:"dxjcxx"
+              }
+            }).then((rep)=>{
+              tdxjcxx = rep.data;
+            });
+            if(buttonOptions.dxjcxx.obj){
+              //该按钮设置了数据
+              tdxjcxx.obj = buttonOptions.dxjcxx.obj;
+            }
+            tdxjcxx.sys.cllx = getByPath(buttonOptions,"dxjcxx.sys.cllx");
+            if(!tdxjcxx.sys.cllx){
+              //按钮没有设置处理类型时，采用按钮的处理类型
+              tdxjcxx.sys.cllx = cllx
+            }
+          }else{
+            //默认采用按钮的处理类型
+            tdxjcxx.sys.cllx = cllx
+          }
+          tdxjcxx.obj = row||{};
+          if(buttonOptions.jcxxkz){
+            //基础扩展
+            for(const key in buttonOptions.jcxxkz){
+              //根据当前页面的参数设置新页面的参数
+              setByPath(tdxjcxx,key,getByPath(myData,buttonOptions.jcxxkz[key]))
+            }
+          }
           await nextTick()
           await nextTick()
-          xUpdate.value.tcck(myData.dxjcxx, cllx, buttonOptions, row, ids);
+          xUpdate.value.tcck(tdxjcxx, tdxjcxx.sys.cllx, buttonOptions, tdxjcxx.obj, ids);
           break
         //文件下载
         case "wjxz":
           let params = JSON.parse(JSON.stringify(myData.selectReqData));
           params.sys.cllx = cllx;
           params.sys.ids = ids;
-          params.sys.dcwjm = myData.dxjcxx.sjdx.dxmc+"-"+content+".xlsx";
+          if(buttonOptions.dcwjm){
+            //后台定制了文件名称
+            params.sys.dcwjm = buttonOptions.dcwjm
+          }else{
+            params.sys.dcwjm = myData.dxjcxx.sjdx.dxmc+"-"+content+".xlsx";
+          }
           axios.download(assignDeep(params,buttonOptions.params));
           break
         //文件上传
@@ -711,13 +759,14 @@ export default defineComponent({
       xFrom,
       xGrid,
       xUpdate,
+      xModal,
       search,
       pageChange,
       sortChange,
       close,
       hqqxlb,
       plcl,
-      updateCallback
+      fromClose
     }
   }
 })
