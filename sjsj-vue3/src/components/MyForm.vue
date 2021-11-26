@@ -92,6 +92,7 @@ export default defineComponent({
         //外部没传处理类型时，采用基础新中的处理类型
         cllx = dxjcxx.sys.cllx
       }
+      let isObj = obj&&Object.keys(obj).length>0;
       if(!dxjcxx.fields){
         //加载对象基础信息
         await axios.post({
@@ -99,7 +100,8 @@ export default defineComponent({
           sys:{
             authCode: dxjcxx.sys.authCode,
             cllx:"dxjcxx"
-          }
+          },
+          yobj:dxjcxx.yobj
         }).then(async (rep)=>{
           //设置处理类型
           rep.data.sys.cllx = cllx;
@@ -108,7 +110,7 @@ export default defineComponent({
       }
       myData.dxjcxx=dxjcxx;
       myData.formData={};
-      if(obj&&Object.keys(obj).length>0){
+      if(isObj){
         myData.obj = obj
         //深拷贝数据，避免修改对外部的影响
         myData.formData = JSON.parse(JSON.stringify(obj));
@@ -128,7 +130,7 @@ export default defineComponent({
         //根据处理类型判断是否展示该字段
         if(f.kzxx.cllxkz[cllx]&&f.kzxx.cllxkz[cllx].show){
           //默认值
-          if(!obj||Object.keys(obj).length===0){
+          if(!isObj){
             myData.formData[f.zddm]=f.kzxx.cllxkz[cllx].default;
           }
           //添加校验规则
@@ -251,8 +253,6 @@ export default defineComponent({
               //默认普通输入框
               fi.itemRender={ name: '$input' ,props:{}};
           }
-          //合并字段的控件扩展，覆盖默认值
-          myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
           //控件属性统一设置部分
           //是否禁用
           fi.itemRender.props.disabled = f.kzxx.cllxkz[cllx].disabled;
@@ -261,6 +261,8 @@ export default defineComponent({
           if (fi.itemRender.props.disabled||fi.itemRender.props.readonly){
             fi.itemRender.props.clearable = false
           }
+          //合并字段的控件扩展，覆盖默认值
+          myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
         }
       }
       //TODO 此处再进行一次myData与对象中的该处理类型扩展合并

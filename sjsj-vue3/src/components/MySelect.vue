@@ -27,6 +27,11 @@ export default defineComponent({
     await zdList(props.zdlb).then(function (data){
       mydata.options=data;
     });
+    watch(()=>props.zdlb,(newZdlb)=>{
+      zdList(props.zdlb).then(function (data){
+        mydata.options=data;
+      })
+    })
     /**
      * 返回值
      */

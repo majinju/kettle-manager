@@ -16,6 +16,7 @@ import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.beetl.sql.core.DSTransactionManager;
 
 /**
  * 权限信息拦截器 <br/>
@@ -72,6 +73,7 @@ public class QxxxLjq extends DefaultLjq {
     }
     @Override
     public Result insert(JSONObject myParams) {
+        DSTransactionManager.start();
         Result r = super.insert(myParams);
         if(!r.isStatus()){
             return r;
@@ -82,6 +84,7 @@ public class QxxxLjq extends DefaultLjq {
             String[] rr = getSql(myParams, "sczqx");
             sqlManager(rr[0]).executeUpdate(rr[1], myParams);
         }
+        DSTransactionManager.start();
         return r;
     }
     @Override

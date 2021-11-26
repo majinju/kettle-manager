@@ -267,7 +267,11 @@ export default defineComponent({
         myData.treeConfig.lazy = true
         myData.treeConfig.loadMethod=function ({row}){
           return new Promise((resolve, reject) => {
-            let yobj = {
+            // let yobj = assignDeep({},myData.selectReqData.yobj);
+            let yobj = {};
+            if(myData.dxjcxx.sjdx.yxxzd){
+              //加载树还是要考虑有效性
+              yobj[myData.dxjcxx.sjdx.yxxzd] = myData.formData[myData.dxjcxx.sjdx.yxxzd];
             }
             yobj[myData.treeConfig.parentField]=row[myData.treeConfig.rowField]
             axios.post({
@@ -275,7 +279,10 @@ export default defineComponent({
                 authCode:dxjcxx.sys.authCode,
                 cllx: "select"
               },
-              yobj:yobj
+              yobj:yobj,
+              page:{
+                pageSize: 500
+              }
             }).then(req=>{
               resolve(req.data.list)
             }).catch((e)=>{

@@ -622,7 +622,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result plSave(JSONObject myParams, JSONArray list1) throws SQLException {
         JSONObject[] list = list1.toArray(new JSONObject[0]);
         //获取事务提交量
-        int swtjl = TypeUtils.castToInt(JSONPath.eval(myParams,"$.sys.swtjl"));
+        int swtjl = myParams.getIntValue("$.sys.swtjl");
         //开启事务
         DSTransactionManager.start();
 
@@ -676,8 +676,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         if (yobj == null) {
             return;
         }
-        myParams.put(KEY_OBJ, yobj.clone());
         if (KEY_CLLX_SELECT.equals(getCllx(myParams))) {
+            //查询场景不进行具体对象查询
             return;
         }
         if (StringUtil.isNotBlank(sjdx.getZjzd())
