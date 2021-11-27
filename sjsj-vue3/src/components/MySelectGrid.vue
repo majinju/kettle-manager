@@ -343,8 +343,6 @@ export default defineComponent({
         const fi = {field: f.zddm, title: f.zdmc, span: 8}
         switch (f.kjlx) {
           case '$switch':
-          // fi.itemRender={ name: '$switch' ,props:{placeholder:f.zdts}};
-          // break
           case '$select':
             //还要考虑字典树
             if (f.zdfy === '1') {
@@ -437,7 +435,12 @@ export default defineComponent({
             fi.type = 'seq';
             break
           case '$switch':
-          //开关控件
+            //开关控件
+            fi.formatter = 'formatterZd';
+            fi.editRender={ name: 'MySwitch' ,
+              props:{placeholder:f.zdts, zdlb: f.zdzdlb,openValue:"1",closeValue:"0"}
+            };
+            break
           case '$select':
             //下拉字典
             fi.formatter = 'formatterZd';
@@ -468,7 +471,7 @@ export default defineComponent({
           case '$textarea':
             //时间选择器
             fi.editRender = {
-              name: '$textarea',
+              name: 'textarea',
               props: {
                 maxlength: f.zdcd
               }
@@ -512,6 +515,7 @@ export default defineComponent({
       }
       //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
     }
+    await initPage(props.dxjcxx)
     /**
      * 获取查询权限的子权限配置
      * @type {ComputedRef<unknown>}
@@ -563,7 +567,6 @@ export default defineComponent({
       }
       return qxlb1;
     }
-    await initPage(props.dxjcxx)
     /**
      * 查询请求数据
      */
@@ -653,8 +656,9 @@ export default defineComponent({
      * @param buttonOptions 按钮参数
      * @param ids 操作id数组
      * @param row 操作行
+     * @param ur 表格编辑的数据列表
      */
-    const htqq = (cllx,buttonOptions,ids,row) => {
+    const htqq = (cllx,buttonOptions,ids,row,ur) => {
       if(row){
         ids = [row[myData.dxjcxx.sjdx.zjzd]];
       }
@@ -662,7 +666,8 @@ export default defineComponent({
         sys:{
           authCode:myData.dxjcxx.sys.authCode,
           cllx:cllx,
-          ids:ids
+          ids:ids,
+          editTableData:ur
         }
       },buttonOptions.params)).then(req=>{
         ElMessage.success(req.msg);
@@ -713,19 +718,27 @@ export default defineComponent({
         //批量保存
         case "plbc":
           const ur = xGrid.value.getUpdateRecords()
-          console.info(ur)
+          if(ur.length===0){
+            ElMessage.error("没有编辑待保存的数据");
+            return
+          }
+          const errMap = await xGrid.value.validate()
+          if (errMap) {
+            ElMessage.error("数据校验不通过，请检查编辑的数据！");
+            return
+          }
           if(buttonOptions.htqqts){
             ElMessageBox.confirm("你确定"+content+"吗?", "提示", {
               confirmButtonText: "确定",
               cancelButtonText: "取消",
               type: "warning"
             }).then(() => {
-              htqq(cllx,buttonOptions,ids,row)
+              htqq(cllx,buttonOptions,ids,row,ur)
             }).catch(function (){
               console.info("用户取消操作："+content)
             })
           }else{
-            htqq(cllx,buttonOptions,ids,row)
+            htqq(cllx,buttonOptions,ids,row,ur)
           }
           break
         //弹出窗口

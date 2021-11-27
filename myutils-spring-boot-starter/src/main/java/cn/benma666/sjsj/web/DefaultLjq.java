@@ -343,6 +343,50 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         return resultFile(byteArr, fileObj);
     }
+
+    /**
+     * 批量保存
+     * @param myParams 相关参数
+     * @return 操作结果
+     */
+    public Result plbc(JSONObject myParams) throws SQLException {
+        JSONArray editTableData = myParams.getJSONArray("$.sys.editTableData");
+        JSONObject[] list = editTableData.toArray(new JSONObject[0]);
+        //获取事务提交量
+        int swtjl = myParams.getIntValue("$.sys.swtjl");
+        //开启事务
+        DSTransactionManager.start();
+
+        List<Object> ro1 = new ArrayList<>();
+        int i = 0;
+        Result r;
+        for (JSONObject j : list) {
+            myParams.put(KEY_YOBJ, j);
+            if(StringUtil.isBlank(j.getString(sjdx.getZjzd()))){
+                r = insert(myParams);
+            }else{
+                myParams.set("$.sys.yzdjl",Boolean.TRUE);
+                r = update(myParams);
+            }
+            if (!r.isStatus()) {
+                DSTransactionManager.rollback();
+                r.addMsg("第" + (i + 1) + "行");
+                return r;
+            } else {
+                ro1.add(r.getData());
+                i++;
+                if (i % swtjl == 0) {
+                    //达到设置的事务提交量，提交事务并开启新事务。
+                    DSTransactionManager.commit();
+                    DSTransactionManager.start();
+                }
+            }
+        }
+        //入库完成提交事务。
+        DSTransactionManager.commit();
+        return success("入库成功", ro1);
+    }
+
     @Override
     public Result sjplsc(JSONObject myParams) {
         Result r;
@@ -359,7 +403,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 if (!r.isStatus()) {
                     return r;
                 }
-                plSave(myParams, er.getResult());
+                myParams.set("$.sys.editTableData",er.getResult());
+                plbc(myParams);
                 count+=er.getResult().size();
             }
             return success("成功上传数据量：" + count);
@@ -479,7 +524,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         if (r.isStatus()) {
             //保存成功，返回主键信息
-            r.setData(JSONPath.eval(myParams, "$.yobj." + sjdx.getZjzd()));
+            r.setData(myParams.get("$.yobj." + sjdx.getZjzd()));
         }
         return r;
     }
@@ -617,38 +662,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result saveDb(JSONObject myParams) {
         String[] arr = getSql(myParams);
         return success(msgCzcg(), db(arr[0]).update(arr[1], myParams));
-    }
-
-    protected Result plSave(JSONObject myParams, JSONArray list1) throws SQLException {
-        JSONObject[] list = list1.toArray(new JSONObject[0]);
-        //获取事务提交量
-        int swtjl = myParams.getIntValue("$.sys.swtjl");
-        //开启事务
-        DSTransactionManager.start();
-
-        List<Object> ro1 = new ArrayList<>();
-        int i = 0;
-        Result r;
-        for (JSONObject j : list) {
-            myParams.put(KEY_YOBJ, j);
-            r = insert(myParams);
-            if (!r.isStatus()) {
-                DSTransactionManager.rollback();
-                r.addMsg("第" + (i + 1) + "行");
-                return r;
-            } else {
-                ro1.add(r.getData());
-                i++;
-                if (i % swtjl == 0) {
-                    //达到设置的事务提交量，提交事务并开启新事务。
-                    DSTransactionManager.commit();
-                    DSTransactionManager.start();
-                }
-            }
-        }
-        //入库完成提交事务。
-        DSTransactionManager.commit();
-        return success("入库成功", ro1);
     }
 
     /**

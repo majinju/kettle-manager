@@ -38,6 +38,30 @@ export const VxeExtend = {
           ]
         },
       },
+      MySwitch: {
+        autofocus: 'input.my-input__inner',
+        // 可编辑激活模板
+        renderEdit (renderOpts, params) {
+          let { row, column } = params
+          const { props } = renderOpts
+          let val = row[column.property];
+          if(val){
+            zdObj({zdlb:column.editRender.props.zdlb,dm:val}).then(function (obj){
+              row[column.property+"_mc"]=obj.mc;
+            })
+          }
+          return [
+            <vxe-switch v-model={row[column.property]} {...props}/>
+          ]
+        },
+        renderItemContent(renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <vxe-switch v-model={data[property]} {...props}/>
+          ]
+        },
+      },
       MyDownList: {
         autofocus: 'input.my-input__inner',
         // 可编辑激活模板
