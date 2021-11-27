@@ -1,5 +1,5 @@
 <template>
-  <vxe-select ref="xInput" :options="mydata.options">
+  <vxe-select ref="xInput" :options="mydata.options" :disabled="readonly||disabled">
   </vxe-select>
 </template>
 
@@ -16,6 +16,12 @@ export default defineComponent({
     zdlb:{
       type: String,
       required: true
+    },
+    disabled:{
+      type: String
+    },
+    readonly:{
+      type: String
     }
   },
   setup:async (props,context)=> {
@@ -27,6 +33,7 @@ export default defineComponent({
     await zdList(props.zdlb).then(function (data){
       mydata.options=data;
     });
+
     watch(()=>props.zdlb,(newZdlb)=>{
       zdList(props.zdlb).then(function (data){
         mydata.options=data;
