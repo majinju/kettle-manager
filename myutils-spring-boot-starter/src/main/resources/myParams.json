@@ -37,6 +37,103 @@
                 "htqqts": true
               }
             },
+            "bjms": {
+              "type": "primary",
+              "content": "编辑模式",
+              "buttonOptions": {
+                "clfs": "ymcsth",
+                "htqqts": false,
+                //是否需要选择记录
+                sfxyxzjl: false,
+                "isshow": true,
+                "params": {
+                  "editCofnig": {
+                    "enabled": true
+                  },
+                  "dxjcxx": {
+                    "sys": {
+                      "cllxkz": {
+                        "select": {
+                          "qxpz": {
+                            "plclLeft": {
+                              "plbc": {
+                                "buttonOptions": {
+                                  "isshow": true
+                                }
+                              },
+                              "qxbj": {
+                                "buttonOptions": {
+                                  "isshow": true
+                                }
+                              },
+                              "bjms": {
+                                "buttonOptions": {
+                                  "isshow": false
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "qxbj": {
+              "type": "primary",
+              "content": "取消编辑",
+              "buttonOptions": {
+                "clfs": "ymcsth",
+                "htqqts": false,
+                //是否需要选择记录
+                sfxyxzjl: false,
+                "isshow": false,
+                "params": {
+                  "editCofnig": {
+                    "enabled": false
+                  },
+                  "dxjcxx": {
+                    "sys": {
+                      "cllxkz": {
+                        "select": {
+                          "qxpz": {
+                            "plclLeft": {
+                              "qxbj": {
+                                "buttonOptions": {
+                                  "isshow": false
+                                }
+                              },
+                              "plbc": {
+                                "buttonOptions": {
+                                  "isshow": false
+                                }
+                              },
+                              "bjms": {
+                                "buttonOptions": {
+                                  "isshow": true
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "plbc": {
+              "type": "primary",
+              "content": "保存",
+              "buttonOptions": {
+                "clfs": "plbc",
+                "htqqts": true,
+                //是否需要选择记录
+                sfxyxzjl: false,
+                "isshow": false
+              }
+            },
             "dcmb": {
               "type": "primary",
               "content": "导出模板",
@@ -112,103 +209,6 @@
                 "jcxxkz": {
                   //<设置到obj中的key，从myData中取的只路径>
                   "fields.sjdx.cxmrz": "dxjcxx.sjdx.id"
-                }
-              }
-            },
-            "bjms": {
-              "type": "primary",
-              "content": "编辑模式",
-              "buttonOptions": {
-                "clfs": "ymcsth",
-                "htqqts": false,
-                //是否需要选择记录
-                sfxyxzjl: false,
-                "isshow": true,
-                "params": {
-                  "editCofnig": {
-                    "enabled": true
-                  },
-                  "dxjcxx": {
-                    "sys": {
-                      "cllxkz": {
-                        "select": {
-                          "qxpz": {
-                            "plclLeft": {
-                              "plSave": {
-                                "buttonOptions": {
-                                  "isshow": true
-                                }
-                              },
-                              "qxbj": {
-                                "buttonOptions": {
-                                  "isshow": true
-                                }
-                              },
-                              "bjms": {
-                                "buttonOptions": {
-                                  "isshow": false
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "plSave": {
-              "type": "primary",
-              "content": "保存",
-              "buttonOptions": {
-                "clfs": "htqq",
-                "htqqts": true,
-                //是否需要选择记录
-                sfxyxzjl: false,
-                "isshow": false
-              }
-            },
-            "qxbj": {
-              "type": "primary",
-              "content": "取消编辑",
-              "buttonOptions": {
-                "clfs": "ymcsth",
-                "htqqts": false,
-                //是否需要选择记录
-                sfxyxzjl: false,
-                "isshow": false,
-                "params": {
-                  "editCofnig": {
-                    "enabled": false
-                  },
-                  "dxjcxx": {
-                    "sys": {
-                      "cllxkz": {
-                        "select": {
-                          "qxpz": {
-                            "plclLeft": {
-                              "qxbj": {
-                                "buttonOptions": {
-                                  "isshow": false
-                                }
-                              },
-                              "plSave": {
-                                "buttonOptions": {
-                                  "isshow": false
-                                }
-                              },
-                              "bjms": {
-                                "buttonOptions": {
-                                  "isshow": true
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
                 }
               }
             }
@@ -373,6 +373,35 @@
                     "zxcz": "plcl"
                   }
                 }
+              }
+            }
+          }
+        },
+        "yzgz": {},
+        "zhgz": {}
+      }
+    },
+    //查询按钮字段
+    "myCxan": {
+      "zddm": "myCxan",
+      "px": 5000,
+      "zdywlb": "99",
+      "cxzs": "1",
+      "kjlx": "$buttons",
+      "kzxx": {
+        "cllxkz": {
+        },
+        "kjkz": {
+          "align": "right",
+          "span": 24,
+          //vxe的按钮
+          "btns": {
+            "cxan": {
+              "type": "submit",
+              "content": "查询",
+              "status": "primary",
+              "buttonOptions": {
+
               }
             }
           }
