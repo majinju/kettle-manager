@@ -64,7 +64,8 @@ export const options ={
     stripe:true,
     showOverflow: "tooltip",
     highlightHoverRow: true,
-    maxHeight: 550
+    maxHeight: 550,
+    keepSource: true
   },
   pager:{
     pageSize:10,

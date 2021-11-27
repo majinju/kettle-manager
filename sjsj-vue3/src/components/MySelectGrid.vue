@@ -306,9 +306,6 @@ export default defineComponent({
           }
           //配置查询项
           fi = {field: f.zddm, title: f.zdmc, span: 8}
-          // if(f.zdkd<10||f.zdkd>200){
-          //   fi.span = 24;
-          // }
           switch (f.kjlx){
             case '$switch':
             // fi.itemRender={ name: '$switch' ,props:{placeholder:f.zdts}};
@@ -430,7 +427,7 @@ export default defineComponent({
           //是否只读
           fi.editRender.props.readonly = getByPath(f.kzxx,"cllxkz.update.readonly");
           if (fi.editRender.props.disabled||fi.editRender.props.readonly){
-            delete fi.editRender
+            fi.editRender.enabled = false
           }
           myData.tableColumn.push(assignDeep(fi,f.kzxx.kjkz));
         }
@@ -470,7 +467,7 @@ export default defineComponent({
       let qxlb1 = {}
       const authCode = myData.dxjcxx.sys.authCode;
       for(const cllx in qxz){
-        if(hasAuth(authCode+"_"+cllx)){
+        if(hasAuth(authCode+"_"+cllx)&&qxz[cllx].buttonOptions.isshow!==false){
           qxlb[cllx]=qxz[cllx];
         }
       }

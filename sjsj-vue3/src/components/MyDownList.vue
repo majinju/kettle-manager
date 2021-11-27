@@ -54,7 +54,7 @@ export default defineComponent({
       default: {}
     }
   },
-  emits:["update:modelValue"],
+  emits:["update:modelValue","updateZdmc"],
   setup (props,context) {
     const mydata = reactive({
       /**
@@ -194,10 +194,12 @@ export default defineComponent({
       if(!newVal){
         //如果新值为空
         mydata.value="";
+        context.emit("updateZdmc","")
         return
       }
       zdObj({zdlb:props.zdlb,dm:newVal}).then(zd=>{
         mydata.value=zd.mc;
+        context.emit("updateZdmc",zd.mc)
       })
     }
     if(props.modelValue){

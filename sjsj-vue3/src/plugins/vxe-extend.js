@@ -4,7 +4,7 @@ import MyDownList from "components/MyDownList";
 import MySelect from "components/MySelect";
 import MySelectGrid from "../components/MySelectGrid";
 import MySelectGrid1 from "@/views/sjdx1/MySelectGrid1";
-import { dateFormat } from "@/utils/common"
+import {dateFormat, zdObj} from "@/utils/common"
 import MyMarkDown from "components/MyMarkDown";
 
 /**
@@ -16,18 +16,18 @@ export const VxeExtend = {
     renderer.mixin({
       MySelect: {
         autofocus: 'input.my-input__inner',
-        renderDefault (renderOpts, params) {
-          const { data, property } = params
-          const { props } = renderOpts
-          return[
-            <MySelect v-model={data[property]} {...props}/>
-          ]
-        },
+        // 可编辑激活模板
         renderEdit (renderOpts, params) {
-          const { data, property } = params
+          let { row, column } = params
           const { props } = renderOpts
-          return[
-            <MySelect v-model={data[property]} {...props}/>
+          let val = row[column.property];
+          if(val){
+            zdObj({zdlb:column.editRender.props.zdlb,dm:val}).then(function (obj){
+              row[column.property+"_mc"]=obj.mc;
+            })
+          }
+          return [
+            <MySelect v-model={row[column.property]} {...props}/>
           ]
         },
         renderItemContent(renderOpts, params) {
@@ -40,18 +40,19 @@ export const VxeExtend = {
       },
       MyDownList: {
         autofocus: 'input.my-input__inner',
-        renderDefault (renderOpts, params) {
-          const { data, property } = params
-          const { props } = renderOpts
-          return[
-            <MyDownList v-model={data[property]} {...props}/>
-          ]
-        },
+        // 可编辑激活模板
         renderEdit (renderOpts, params) {
-          const { data, property } = params
+          let { row, column } = params
           const { props } = renderOpts
-          return[
-            <MyDownList v-model={data[property]} {...props}/>
+          let val = row[column.property];
+          if(val){
+            zdObj({zdlb:column.editRender.props.zdlb,dm:val}).then(function (obj){
+              row[column.property+"_mc"]=obj.mc;
+            })
+          }
+          return [
+            <MyDownList v-model={row[column.property]} {...props}
+            />
           ]
         },
         renderItemContent(renderOpts, params) {
@@ -64,13 +65,6 @@ export const VxeExtend = {
       },
       MyMarkDown: {
         autofocus: 'input.my-input__inner',
-        renderDefault (renderOpts, params) {
-          const { data, property } = params
-          const { props } = renderOpts
-          return[
-            <MyMarkDown v-model={data[property]} {...props}/>
-          ]
-        },
         renderItemContent(renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts
@@ -81,13 +75,6 @@ export const VxeExtend = {
       },
       MyJsonEditor: {
         autofocus: 'input.my-input__inner',
-        renderDefault (renderOpts, params) {
-          const { data, property } = params
-          const { props } = renderOpts
-          return[
-            <v-md-editor v-model={data[property]} {...props}/>
-          ]
-        },
         renderItemContent(renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts
@@ -98,13 +85,6 @@ export const VxeExtend = {
       },
       MySelectGrid: {
         autofocus: 'input.my-input__inner',
-        renderDefault (renderOpts, params) {
-          const { data, property } = params
-          const { props } = renderOpts
-          return[
-            <MySelectGrid v-model={data[property]} {...props}/>
-          ]
-        },
         renderItemContent(renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts
@@ -115,13 +95,6 @@ export const VxeExtend = {
       },
       MySelectGrid1: {
         autofocus: 'input.my-input__inner',
-        renderDefault (renderOpts, params) {
-          const { data, property } = params
-          const { props } = renderOpts
-          return[
-            <MySelectGrid1 v-model={data[property]} {...props}/>
-          ]
-        },
         renderItemContent(renderOpts, params) {
           const { data, property } = params
           const { props } = renderOpts

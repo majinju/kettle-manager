@@ -123,11 +123,50 @@
                 "htqqts": false,
                 //是否需要选择记录
                 sfxyxzjl: false,
+                "isshow": true,
                 "params": {
                   "editCofnig": {
                     "enabled": true
+                  },
+                  "dxjcxx": {
+                    "sys": {
+                      "cllxkz": {
+                        "select": {
+                          "qxpz": {
+                            "plclLeft": {
+                              "plSave": {
+                                "buttonOptions": {
+                                  "isshow": true
+                                }
+                              },
+                              "qxbj": {
+                                "buttonOptions": {
+                                  "isshow": true
+                                }
+                              },
+                              "bjms": {
+                                "buttonOptions": {
+                                  "isshow": false
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
+              }
+            },
+            "plSave": {
+              "type": "primary",
+              "content": "保存",
+              "buttonOptions": {
+                "clfs": "htqq",
+                "htqqts": true,
+                //是否需要选择记录
+                sfxyxzjl: false,
+                "isshow": false
               }
             },
             "qxbj": {
@@ -138,9 +177,37 @@
                 "htqqts": false,
                 //是否需要选择记录
                 sfxyxzjl: false,
+                "isshow": false,
                 "params": {
                   "editCofnig": {
                     "enabled": false
+                  },
+                  "dxjcxx": {
+                    "sys": {
+                      "cllxkz": {
+                        "select": {
+                          "qxpz": {
+                            "plclLeft": {
+                              "qxbj": {
+                                "buttonOptions": {
+                                  "isshow": false
+                                }
+                              },
+                              "plSave": {
+                                "buttonOptions": {
+                                  "isshow": false
+                                }
+                              },
+                              "bjms": {
+                                "buttonOptions": {
+                                  "isshow": true
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
