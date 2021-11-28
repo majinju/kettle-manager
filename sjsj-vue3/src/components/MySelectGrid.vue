@@ -12,13 +12,14 @@
           :data="myData.tableData" :export-config="myData.exportConfig" :tree-config="myData.treeConfig"
           :seq-config="myData.seqConfig" :row-id="myData.dxjcxx.sjdx.zjzd"
           :edit-config="myData.editCofnig" :edit-rules="myData.tableRule"
-          :pager-config="myData.pagerConfig"
+          :pager-config="myData.pagerConfig" :checkbox-config="myData.checkboxConfig"
           @page-change="pageChange"
           @sort-change="sortChange"
         >
 <!--          工具栏左侧-->
           <template #toolbar_left>
             <span class="page-main-header-title">数据展示</span>
+<!--            <vxe-checkbox content="操作全部"></vxe-checkbox>-->
             <el-button-group>
               <template v-for="(qx,cllx) in hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,false)">
                 <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size">
@@ -90,7 +91,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive ,onMounted,ref,nextTick,computed} from 'vue'
+import { defineComponent, reactive ,onMounted,ref,nextTick,computed,watch} from 'vue'
 import {ElMessage, ElMessageBox} from "element-plus";
 import { VXETable } from '@majinju/vxe-table';
 import axios from "@/axios";
@@ -208,6 +209,12 @@ export default defineComponent({
         showStatus: true
       },
       /**
+       * 列表复选框配置
+       */
+      checkboxConfig:{
+
+      },
+      /**
        * 表格字段验证规则
        */
       tableRule:{},
@@ -240,13 +247,6 @@ export default defineComponent({
      * @type {Ref<UnwrapRef<{}>>}
      */
     const xModal = ref({});
-    /**
-     * 页面挂载后执行
-     */
-    onMounted(()=>{
-      //初始化查询
-      getList();
-    })
 
     /**
      * 初始化基础信息
@@ -495,27 +495,6 @@ export default defineComponent({
         myData.tableColumn.push(assignDeep(fi, f.kzxx.kjkz));
       }
     }
-
-    /**
-     * 页面初始化
-     * @param dxjcxx 外部提供的基础信息
-     * @returns {Promise<void>}
-     */
-    const initPage = async (dxjcxx)=>{
-      dxjcxx = await initJcxx(dxjcxx);
-      initTableTree(dxjcxx);
-      myData.formItems=[]
-      myData.tableColumn=[]
-      const fields = myData.dxjcxx.fields;
-      for(const key in fields){
-        const f = fields[key];
-        initTableRule(f);
-        initCxx(f);
-        initTableColumn(f);
-      }
-      //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
-    }
-    await initPage(props.dxjcxx)
     /**
      * 获取查询权限的子权限配置
      * @type {ComputedRef<unknown>}
@@ -566,19 +545,6 @@ export default defineComponent({
         }
       }
       return qxlb1;
-    }
-    /**
-     * 查询请求数据
-     */
-    myData.selectReqData = {
-      sys:{
-        authCode:myData.dxjcxx.sys.authCode,
-        cllx:"select",
-        dcwjm:myData.dxjcxx.sjdx.dxmc
-      },
-      page:{
-        totalRequired:true
-      }
     }
     /**
      * 设置页大小
@@ -685,6 +651,8 @@ export default defineComponent({
      */
     const plcl = async (cllx,btnProps,row) =>{
       const buttonOptions = btnProps.buttonOptions;
+      //操作的行数据设置为obj，便于后续使用
+      myData.dxjcxx.obj = row
       //处理方式
       const clfs = buttonOptions.clfs||'htqq';
       let content = btnProps.content;
@@ -757,13 +725,21 @@ export default defineComponent({
           let tdxjcxx = myData.dxjcxx;
           if(buttonOptions.dxjcxx){
             //加载对象基础信息，该按钮设置了处理其他数据对象
-            await axios.post({
+            let jcxxqqcs={
               sjdx:buttonOptions.dxjcxx.sjdx,
               sys:{
                 authCode: buttonOptions.dxjcxx.sys.authCode,
                 cllx:"dxjcxx"
               }
-            }).then((rep)=>{
+            }
+            if(buttonOptions.jcxxqqcskz){
+              //基础扩展
+              for(const key in buttonOptions.jcxxqqcskz){
+                //根据当前页面的参数设置新页面的参数
+                setByPath(jcxxqqcs,key,getByPath(myData,buttonOptions.jcxxqqcskz[key]))
+              }
+            }
+            await axios.post(jcxxqqcs).then((rep)=>{
               tdxjcxx = rep.data;
             });
             if(buttonOptions.dxjcxx.obj){
@@ -855,6 +831,50 @@ export default defineComponent({
     const hxcz = (buttonOptions) => {
 
     }
+
+    /**
+     * 页面初始化
+     * @param dxjcxx 外部提供的基础信息
+     * @returns {Promise<void>}
+     */
+    const initPage = async (dxjcxx)=>{
+      dxjcxx = await initJcxx(dxjcxx);
+      initTableTree(dxjcxx);
+      myData.formItems=[]
+      myData.tableColumn=[]
+      const fields = myData.dxjcxx.fields;
+      for(const key in fields){
+        const f = fields[key];
+        initTableRule(f);
+        initCxx(f);
+        initTableColumn(f);
+      }
+      //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
+      /**
+       * 查询请求数据
+       */
+      myData.selectReqData = {
+        sys:{
+          authCode:myData.dxjcxx.sys.authCode,
+          cllx:"select",
+          dcwjm:myData.dxjcxx.sjdx.dxmc
+        },
+        page:{
+          totalRequired:true
+        }
+      }
+      //初始化查询
+      getList();
+    }
+    await initPage(props.dxjcxx)
+    watch(()=>props.dxjcxx,function (newJcxx){
+      initPage(newJcxx);
+    })
+    /**
+     * 页面挂载后执行
+     */
+    onMounted(()=>{
+    })
     return{
       myData,
       qxpz,

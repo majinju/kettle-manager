@@ -64,6 +64,7 @@ export const options ={
     stripe:true,
     showOverflow: "tooltip",
     highlightHoverRow: true,
+    highlightCurrentRow: true,
     maxHeight: 550,
     keepSource: true
   },

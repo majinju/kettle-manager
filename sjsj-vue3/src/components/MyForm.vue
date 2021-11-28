@@ -9,7 +9,7 @@ import {defineComponent, onMounted, reactive, ref} from 'vue'
 import { ElMessage ,ElMessageBox} from "element-plus";
 import {options} from "@/plugins/vxe-table";
 import axios from "@/axios";
-import {assignDeep, getByPath, zdList} from "@/utils/common";
+import {assignDeep, getByPath,} from "@/utils/common";
 
 export default defineComponent({
   name: "MyForm",
