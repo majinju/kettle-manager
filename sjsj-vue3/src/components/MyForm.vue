@@ -92,6 +92,10 @@ export default defineComponent({
         //外部没传处理类型时，采用基础新中的处理类型
         cllx = dxjcxx.sys.cllx
       }
+      myData.formData={};
+      //重置表单项
+      myData.formItems=[]
+      myData.formRule = {}
       let isObj = obj&&Object.keys(obj).length>0;
       if(!dxjcxx.fields){
         //加载对象基础信息
@@ -109,14 +113,11 @@ export default defineComponent({
         });
       }
       myData.dxjcxx=dxjcxx;
-      myData.formData={};
       if(isObj){
         myData.obj = obj
         //深拷贝数据，避免修改对外部的影响
         myData.formData = JSON.parse(JSON.stringify(obj));
       }
-      //重置表单项
-      myData.formItems=[]
       const fields = dxjcxx.fields;
       /**
        * 表单项
@@ -128,7 +129,7 @@ export default defineComponent({
          */
         const f = fields[key];
         //根据处理类型判断是否展示该字段
-        if(f.kzxx.cllxkz[cllx]&&f.kzxx.cllxkz[cllx].show){
+        if(getByPath(f,"kzxx.cllxkz."+cllx)&&f.kzxx.cllxkz[cllx].show){
           //默认值
           if(!isObj){
             myData.formData[f.zddm]=f.kzxx.cllxkz[cllx].default;

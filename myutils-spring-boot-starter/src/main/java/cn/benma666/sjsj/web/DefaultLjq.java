@@ -474,6 +474,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //分页查询
         page = db(arr[0]).queryPage(page, arr[1], myParams);
         JSONObject fields = myParams.getJSONObject(KEY_FIELDS);
+        //树形结构时，将是否有子节点的标志转为boolean形
+        String hasChild = myParams.getString("$.sys.cllxkz['select'].tree.hasChild");
+        String checkField = myParams.getString("$.sys.cllxkz['select'].checkboxConfig.checkField");
         for(JSONObject row : page.getList()){
             for(String zddm:fields.keySet()){
                 if(StringUtil.isBlank(row.getString(zddm))){
@@ -488,10 +491,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
                 }
             }
-            if(myParams.getString("$.sys.cllxkz['select'].tree.hasChild")!=null){
-                //树形结构时，将是否有子节点的标志转为boolean形
-                String hasChild = myParams.getString("$.sys.cllxkz['select'].tree.hasChild");
+            if(hasChild!=null){
                 row.put(hasChild,row.getBoolean(hasChild));
+            }
+            if(checkField!=null){
+                row.put(checkField,row.getBoolean(checkField));
             }
         }
         return success(msgCzcg(),page);
@@ -504,7 +508,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     @Override
-    public Result update(JSONObject myParams) throws MyException {
+    public Result update(JSONObject myParams) throws MyException{
         JSONPath.set(myParams, $_SYS_CLLX, KEY_CLLX_UPDATE);
         return save(myParams);
     }

@@ -9,6 +9,7 @@ package cn.benma666.sjsj.ljq.qxgl;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 
+import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
@@ -18,6 +19,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.DSTransactionManager;
 
+import java.sql.SQLException;
+
 /**
  * 权限信息拦截器 <br/>
  * date: 2018年12月16日 <br/>
@@ -26,9 +29,9 @@ import org.beetl.sql.core.DSTransactionManager;
  */
 public class QxxxLjq extends DefaultLjq {
     /**
-     * 保存角色权限信息
+     * 保存授权
      */
-    public Result saveJsSqxx(JSONObject myParams){
+    public Result bcsq(@org.jetbrains.annotations.NotNull JSONObject myParams){
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String dqjs = yobj.getString("dqjs");
         SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
@@ -72,7 +75,7 @@ public class QxxxLjq extends DefaultLjq {
         return success("刷新用户权限成功！");
     }
     @Override
-    public Result insert(JSONObject myParams) {
+    public Result insert(JSONObject myParams){
         DSTransactionManager.start();
         Result r = super.insert(myParams);
         if(!r.isStatus()){
@@ -84,15 +87,21 @@ public class QxxxLjq extends DefaultLjq {
             String[] rr = getSql(myParams, "sczqx");
             sqlManager(rr[0]).executeUpdate(rr[1], myParams);
         }
-        DSTransactionManager.start();
+        try {
+            DSTransactionManager.commit();
+        } catch (SQLException e) {
+            log.error("事务提交失败",e);
+            throw new MyException("事务提交失败");
+        }
         return r;
     }
     @Override
-    public Result update(JSONObject myParams) {
+    public Result update(JSONObject myParams){
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
         JSONObject obj = myParams.getJSONObject(KEY_OBJ);
+        DSTransactionManager.start();
         Result r = super.saveDb(myParams);
         if(!r.isStatus()){
             return r;
@@ -108,6 +117,12 @@ public class QxxxLjq extends DefaultLjq {
                     + "t.gxsj=? where t.qx like ?",
                     obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
             UserManager.flushUserQxxx();
+        }
+        try {
+            DSTransactionManager.commit();
+        } catch (SQLException e) {
+            log.error("事务提交失败",e);
+            throw new MyException("事务提交失败");
         }
         return r;
     }

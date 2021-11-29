@@ -7,6 +7,7 @@
 package cn.benma666.sjsj.ljq.qxgl;
 
 import cn.benma666.iframe.Result;
+import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
@@ -29,15 +30,16 @@ public class JsxxLjq extends DefaultLjq {
         if(r.isStatus()&& StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
             Db.use(sjdx.getDxzt()).update("update sys_qx_jsxx t set t.dm=replace(t.dm,?,?),t.fjs=replace(t.fjs,?,?),"
-                    + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.dm like ?", 
-                    obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,obj.getString("dm")+"_%");
+                    + "t.gxsj=? where t.dm like ?",
+                    obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,
+                    DateUtil.getGabDate(),obj.getString("dm")+"_%");
             //修改授权信息中的权限代码。
             Db.use(sjdx.getDxzt()).update("update sys_qx_jsqxgl t set t.js=replace(t.js,?,?),"
-                    + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js like ?", 
-                    obj.getString("dm"),dm,obj.getString("dm")+"%");
+                    + "t.gxsj=? where t.js like ?",
+                    obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
             Db.use(sjdx.getDxzt()).update("update sys_qx_yhjsgl t set t.js=replace(t.js,?,?),"
-                    + "t.gxsj=to_char(sysdate,'YYYYMMDDHH24MISS') where t.js like ?", 
-                    obj.getString("dm"),dm,obj.getString("dm")+"%");
+                    + "t.gxsj=? where t.js like ?",
+                    obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
             UserManager.flushUserQxxx();
         }
         return r;

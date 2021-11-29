@@ -181,17 +181,12 @@ export default defineComponent({
             }})
           break
         case "03":
+        case "04":
           const query = {
             "sys.authCode":data.dm,
             pathName:data.name
           }
           router.push({path:'/home/sjdx',query:assignDeep(query,JSON.parse(data.kzxx).cdkz)})
-          break
-        case "04":
-          router.push({path:'/home/sjdx',query:{
-              "sys.authCode":data.dm,
-              pathName:data.name
-            }})
           break
         default:
           ElMessage.error("暂不支持的地址类型："+data.dzlx);

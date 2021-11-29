@@ -58,39 +58,30 @@ public class SjztLjq extends ScjkrwLjq {
 
     @Override
     public Result insert(JSONObject myJsonParams) {
-        String cllx = myJsonParams.getString(LjqInterface.KEY_CLLX);
         JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
         JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
         String dbdm = obj.getString("dm");
-        if(UtilConst.DEFAULT.equals(dbdm)){
-            return failed("默认数据源不允许修改");
-        }
         obj.putAll(yobj);
         String ljc = obj.getString("ljc");
         if(DbType.of(obj.getString("lx"))!=null){
-            if(KEY_CLLX_UPDATE.equals(cllx)){
-                if(Db.isCz(obj.getString("dm"))){
-                    Db.use(obj.getString("dm")).close();
-                }
-            }else{
-                dbdm = yobj.getString("dm");
-                yobj.put("csyj", yobj.getString("csyj"));
-                //处理驱动
-                yobj.put("sjkqd", yobj.getString("sjkqd"));
-            }
+            dbdm = yobj.getString("dm");
+            yobj.put("csyj", yobj.getString("csyj"));
+            //处理驱动
+            yobj.put("sjkqd", yobj.getString("sjkqd"));
         }
         switch (obj.getString("lx")) {
-        case "bdwj":
-            //本地文件都以/结尾
-            if(!ljc.endsWith("/")){
-                yobj.put("ljc", ljc+"/");
-            }
-            break;
-        case "ftp":
-        default:
-            break;
+            case "bdwj":
+                //本地文件都以/结尾
+                if(!ljc.endsWith("/")){
+                    yobj.put("ljc", ljc+"/");
+                }
+                break;
+            case "ftp":
+            default:
+                break;
         }
-        Result result = super.insert(myJsonParams);
+        Result result = null;
+        result = super.insert(myJsonParams);
         if(!result.isStatus()){
             return result;
         }
@@ -101,6 +92,43 @@ public class SjztLjq extends ScjkrwLjq {
         return result;
     }
 
+    @Override
+    public Result update(JSONObject myJsonParams) {
+        JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
+        JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
+        String dbdm = obj.getString("dm");
+        if(UtilConst.DEFAULT.equals(dbdm)){
+            return failed("默认数据源不允许修改");
+        }
+        obj.putAll(yobj);
+        String ljc = obj.getString("ljc");
+        if(DbType.of(obj.getString("lx"))!=null){
+            if(Db.isCz(obj.getString("dm"))){
+                Db.use(obj.getString("dm")).close();
+            }
+        }
+        switch (obj.getString("lx")) {
+            case "bdwj":
+                //本地文件都以/结尾
+                if(!ljc.endsWith("/")){
+                    yobj.put("ljc", ljc+"/");
+                }
+                break;
+            case "ftp":
+            default:
+                break;
+        }
+        Result result = null;
+        result = super.update(myJsonParams);
+        if(!result.isStatus()){
+            return result;
+        }
+        DictManager.clearDict(ZD_SYS_COMMON_SJZT);
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, dbdm);
+        //数据库型数据载体才进行测试
+        result = testSjzt(dbObj,true);
+        return result;
+    }
     /**
     * 测试数据载体是否可用 <br/>
     * @author jingma

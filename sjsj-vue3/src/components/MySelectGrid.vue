@@ -290,6 +290,15 @@ export default defineComponent({
     }
 
     /**
+     * 初始化表复选框相关配置
+     * @param dxjcxx 对象基础信息
+     */
+    function initTableCheckbox(dxjcxx) {
+      if (getByPath(dxjcxx, "sys.cllxkz.select.checkboxConfig")) {
+        myData.checkboxConfig = getByPath(dxjcxx, "sys.cllxkz.select.checkboxConfig")
+      }
+    }
+    /**
      * 初始化表格树相关配置
      * @param dxjcxx 对象基础信息
      */
@@ -307,7 +316,12 @@ export default defineComponent({
               yobj[myData.dxjcxx.sjdx.yxxzd] = myData.formData[myData.dxjcxx.sjdx.yxxzd];
             }
             yobj[myData.treeConfig.parentField] = row[myData.treeConfig.rowField]
-            axios.post({
+            //树形结构请求数据
+            const treeQqsj = {
+              sjdx:{
+                "dxdm":myData.dxjcxx.sjdx.dxdm,
+                "id":myData.dxjcxx.sjdx.id
+              },
               sys: {
                 authCode: dxjcxx.sys.authCode,
                 cllx: "select"
@@ -316,7 +330,16 @@ export default defineComponent({
               page: {
                 pageSize: 500
               }
-            }).then(req => {
+            }
+            if(myData.treeConfig.treeQqsjkz){
+              const treeQqsjkz = myData.treeConfig.treeQqsjkz;
+              //请求数据扩展
+              for(const key in treeQqsjkz){
+                //根据当前页面的参数设置新页面的参数
+                setByPath(treeQqsj,key,getByPath(myData,treeQqsjkz[key]))
+              }
+            }
+            axios.post(treeQqsj).then(req => {
               resolve(req.data.list)
             }).catch((e) => {
               reject(null);
@@ -337,6 +360,7 @@ export default defineComponent({
       if (f.cxzs === '1') {
         //查询默认值
         if (f.cxmrz) {
+          //不管查询是否展示，查询默认值都要生效，这样可以生成一些隐藏查询条件
           myData.formData[f.zddm] = f.cxmrz;
         }
         //配置查询项
@@ -608,6 +632,7 @@ export default defineComponent({
     const getList =async () =>{
       myData.selectReqData.yobj = myData.formData;
       await axios.post(myData.selectReqData).then(req=>{
+        myData.tableData=req.data.list
         xGrid.value.reloadData(req.data.list)
         if(myData.selectReqData.page.totalRequired){
           myData.pagerConfig.total=req.data.totalRow;
@@ -840,8 +865,11 @@ export default defineComponent({
     const initPage = async (dxjcxx)=>{
       dxjcxx = await initJcxx(dxjcxx);
       initTableTree(dxjcxx);
+      initTableCheckbox(dxjcxx)
       myData.formItems=[]
       myData.tableColumn=[]
+      myData.tableData=[]
+      myData.formData={}
       const fields = myData.dxjcxx.fields;
       for(const key in fields){
         const f = fields[key];
@@ -854,6 +882,10 @@ export default defineComponent({
        * 查询请求数据
        */
       myData.selectReqData = {
+        sjdx:{
+          "dxdm":myData.dxjcxx.sjdx.dxdm,
+          "id":myData.dxjcxx.sjdx.id
+        },
         sys:{
           authCode:myData.dxjcxx.sys.authCode,
           cllx:"select",
