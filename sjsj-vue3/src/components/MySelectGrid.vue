@@ -296,6 +296,8 @@ export default defineComponent({
     function initTableCheckbox(dxjcxx) {
       if (getByPath(dxjcxx, "sys.cllxkz.select.checkboxConfig")) {
         myData.checkboxConfig = getByPath(dxjcxx, "sys.cllxkz.select.checkboxConfig")
+        //设置判断复选框选中的字段
+        myData.checkboxConfig.checkField = myData.checkboxConfig.checkFieldOld+"_boolean"
       }
     }
     /**
@@ -303,51 +305,58 @@ export default defineComponent({
      * @param dxjcxx 对象基础信息
      */
     function initTableTree(dxjcxx) {
-      if (getByPath(dxjcxx, "sys.cllxkz.select.tree.parentField")) {
-        //树形结构
-        myData.treeConfig = getByPath(dxjcxx, "sys.cllxkz.select.tree")
-        myData.treeConfig.lazy = true
-        myData.treeConfig.loadMethod = function ({row}) {
-          return new Promise((resolve, reject) => {
-            // let yobj = assignDeep({},myData.selectReqData.yobj);
-            let yobj = {};
-            if (myData.dxjcxx.sjdx.yxxzd) {
-              //加载树还是要考虑有效性
-              yobj[myData.dxjcxx.sjdx.yxxzd] = myData.formData[myData.dxjcxx.sjdx.yxxzd];
+      if (!getByPath(dxjcxx, "sys.cllxkz.select.tree.parentField")) {
+        //没有配置树
+        return
+      }
+      //树形结构采用默认序号方法
+      delete myData.seqConfig.seqMethod;
+      //树形结构
+      myData.treeConfig = getByPath(dxjcxx, "sys.cllxkz.select.tree")
+      if(myData.treeConfig.lazy===false){
+        //不是懒加载
+        return;
+      }
+      myData.treeConfig.lazy = true
+      myData.treeConfig.loadMethod = function ({row}) {
+        return new Promise((resolve, reject) => {
+          // let yobj = assignDeep({},myData.selectReqData.yobj);
+          let yobj = {};
+          if (myData.dxjcxx.sjdx.yxxzd) {
+            //加载树还是要考虑有效性
+            yobj[myData.dxjcxx.sjdx.yxxzd] = myData.formData[myData.dxjcxx.sjdx.yxxzd];
+          }
+          yobj[myData.treeConfig.parentField] = row[myData.treeConfig.rowField]
+          //树形结构请求数据
+          const treeQqsj = {
+            sjdx:{
+              "dxdm":myData.dxjcxx.sjdx.dxdm,
+              "id":myData.dxjcxx.sjdx.id
+            },
+            sys: {
+              authCode: dxjcxx.sys.authCode,
+              cllx: "select"
+            },
+            yobj: yobj,
+            page: {
+              pageSize: 500
             }
-            yobj[myData.treeConfig.parentField] = row[myData.treeConfig.rowField]
-            //树形结构请求数据
-            const treeQqsj = {
-              sjdx:{
-                "dxdm":myData.dxjcxx.sjdx.dxdm,
-                "id":myData.dxjcxx.sjdx.id
-              },
-              sys: {
-                authCode: dxjcxx.sys.authCode,
-                cllx: "select"
-              },
-              yobj: yobj,
-              page: {
-                pageSize: 500
-              }
+          }
+          if(myData.treeConfig.treeQqsjkz){
+            const treeQqsjkz = myData.treeConfig.treeQqsjkz;
+            //请求数据扩展
+            for(const key in treeQqsjkz){
+              //根据当前页面的参数设置新页面的参数
+              setByPath(treeQqsj,key,getByPath(myData,treeQqsjkz[key]))
             }
-            if(myData.treeConfig.treeQqsjkz){
-              const treeQqsjkz = myData.treeConfig.treeQqsjkz;
-              //请求数据扩展
-              for(const key in treeQqsjkz){
-                //根据当前页面的参数设置新页面的参数
-                setByPath(treeQqsj,key,getByPath(myData,treeQqsjkz[key]))
-              }
-            }
-            axios.post(treeQqsj).then(req => {
-              resolve(req.data.list)
-            }).catch((e) => {
-              reject(null);
-              console.log("查询失败：" + e);
-            })
+          }
+          axios.post(treeQqsj).then(req => {
+            resolve(req.data.list)
+          }).catch((e) => {
+            reject(null);
+            console.log("查询失败：" + e);
           })
-        }
-        delete myData.seqConfig.seqMethod;
+        })
       }
     }
 
@@ -632,11 +641,11 @@ export default defineComponent({
     const getList =async () =>{
       myData.selectReqData.yobj = myData.formData;
       await axios.post(myData.selectReqData).then(req=>{
-        myData.tableData=req.data.list
-        xGrid.value.reloadData(req.data.list)
         if(myData.selectReqData.page.totalRequired){
           myData.pagerConfig.total=req.data.totalRow;
         }
+        myData.tableData=req.data.list
+        xGrid.value.reloadData(req.data.list)
       }).catch((e)=>{
         console.log("查询失败："+e);
       })
@@ -648,19 +657,30 @@ export default defineComponent({
      * @param ids 操作id数组
      * @param row 操作行
      * @param ur 表格编辑的数据列表
+     * @param changeCheckData 变化的选择数据
      */
-    const htqq = (cllx,buttonOptions,ids,row,ur) => {
+    const htqq = (cllx,buttonOptions,ids,row,ur,changeCheckData) => {
       if(row){
         ids = [row[myData.dxjcxx.sjdx.zjzd]];
       }
-      axios.post(assignDeep({
+      //后台请求参数
+      const htqqcs = {
         sys:{
           authCode:myData.dxjcxx.sys.authCode,
           cllx:cllx,
           ids:ids,
-          editTableData:ur
+          editTableData:ur,
+          changeCheckData:changeCheckData
         }
-      },buttonOptions.params)).then(req=>{
+      }
+      if(buttonOptions.htqqcskz){
+        //基础扩展
+        for(const key in buttonOptions.htqqcskz){
+          //根据当前页面的参数设置新页面的参数
+          setByPath(htqqcs,key,getByPath(myData,buttonOptions.htqqcskz[key]))
+        }
+      }
+      axios.post(assignDeep(htqqcs,buttonOptions.params)).then(req=>{
         ElMessage.success(req.msg);
         if(buttonOptions.sfsxym!==false){
           //修改数据的场景要重新统计总量
@@ -670,6 +690,36 @@ export default defineComponent({
       }).catch((req)=>{
       });
     }
+
+    /**
+     * 获取列表复选框变化的数据
+     * @param changeData 存储变化的数据
+     * @param tableData 表格数据
+     */
+    function getChangeCheck(changeData, tableData) {
+      const checkFieldOld = myData.checkboxConfig.checkFieldOld
+      if(!checkFieldOld){
+        //没有配置选中状态字段，无法区分状态变化
+        return
+      }
+      const checkFieldNew = checkFieldOld+"_boolean"
+      for(const i in tableData){
+        const row = tableData[i];
+        if((row[checkFieldOld] == 1) !== row[checkFieldNew]){
+          //原始值不等于新值则表示变化了
+          changeData[row[myData.dxjcxx.sjdx.zjzd]] = {
+            "checked":row[checkFieldNew],
+            "expand":xGrid.value.isTreeExpandLoaded(row),
+            "obj":row
+          }
+        }
+        if(row.children){
+          //子元素迭代获取
+          getChangeCheck(changeData, row.children)
+        }
+      }
+    }
+
     /**
      * 批量处理<br/>
      * 考虑场景：直接后台调用、弹窗
@@ -691,6 +741,13 @@ export default defineComponent({
       cr.forEach(item => {
         ids.push(item.id);
       });
+      //计算树形复选场景的选中取消情况
+      //获取当前列表数据
+      const tableData = xGrid.value.getTableData().tableData
+      //存储复选框变化的数据
+      const changeCheckData = {}
+      getChangeCheck(changeCheckData,tableData);
+
       switch (clfs) {
         //后台请求
         case "htqq":
@@ -700,12 +757,12 @@ export default defineComponent({
               cancelButtonText: "取消",
               type: "warning"
             }).then(() => {
-              htqq(cllx,buttonOptions,ids,row)
+              htqq(cllx,buttonOptions,ids,row,null,changeCheckData)
             }).catch(function (){
               console.info("用户取消操作："+content)
             })
           }else{
-            htqq(cllx,buttonOptions,ids,row)
+            htqq(cllx,buttonOptions,ids,row,null,changeCheckData)
           }
           break
         //批量保存
@@ -877,7 +934,6 @@ export default defineComponent({
         initCxx(f);
         initTableColumn(f);
       }
-      //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
       /**
        * 查询请求数据
        */
@@ -892,11 +948,14 @@ export default defineComponent({
           dcwjm:myData.dxjcxx.sjdx.dxmc
         },
         page:{
-          totalRequired:true
+          totalRequired:true,
+          pageSize: myData.pagerConfig.pageSize
         }
       }
+      //此处再进行一次myData与对象中的该处理类型扩展合并,便于对页面其他参数的设置
+      myData = assignDeep(myData,getByPath(dxjcxx, "sys.cllxkz.select.pagekz"))
       //初始化查询
-      getList();
+      await getList();
     }
     await initPage(props.dxjcxx)
     watch(()=>props.dxjcxx,function (newJcxx){

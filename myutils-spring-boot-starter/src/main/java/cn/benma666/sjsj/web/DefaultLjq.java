@@ -435,9 +435,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
     @Override
     public Result plsc(JSONObject myParams) {
-        Object wlsc = JSONPath.eval(myParams, "$.sys.wlsc");
+        boolean wlsc = myParams.getBoolean("$.sys.wlsc");
         Result r = success("");
-        if (StringUtil.isNotBlank(sjdx.getYxxzd()) && TypeUtils.castToBoolean(wlsc)) {
+        if (StringUtil.isNotBlank(sjdx.getYxxzd()) && wlsc) {
             //存在有效性字段，且允许物理删除
             r = wlscByYxx(myParams);
         }
@@ -476,7 +476,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject fields = myParams.getJSONObject(KEY_FIELDS);
         //树形结构时，将是否有子节点的标志转为boolean形
         String hasChild = myParams.getString("$.sys.cllxkz['select'].tree.hasChild");
-        String checkField = myParams.getString("$.sys.cllxkz['select'].checkboxConfig.checkField");
+        String checkField = myParams.getString("$.sys.cllxkz['select'].checkboxConfig.checkFieldOld");
         for(JSONObject row : page.getList()){
             for(String zddm:fields.keySet()){
                 if(StringUtil.isBlank(row.getString(zddm))){
@@ -495,7 +495,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 row.put(hasChild,row.getBoolean(hasChild));
             }
             if(checkField!=null){
-                row.put(checkField,row.getBoolean(checkField));
+                row.put(checkField+"_boolean",row.getBoolean(checkField));
             }
         }
         return success(msgCzcg(),page);

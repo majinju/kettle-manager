@@ -7,19 +7,20 @@
 package cn.benma666.sjsj.ljq.qxgl;
 
 import cn.benma666.constants.UtilConst;
-import cn.benma666.domain.SysQxYhxx;
 
 import cn.benma666.exception.MyException;
+import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.DSTransactionManager;
+import org.beetl.sql.core.SqlId;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * 权限信息拦截器 <br/>
@@ -32,34 +33,30 @@ public class QxxxLjq extends DefaultLjq {
      * 保存授权
      */
     public Result bcsq(@org.jetbrains.annotations.NotNull JSONObject myParams){
-        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        String dqjs = yobj.getString("dqjs");
-        SysQxYhxx user = (SysQxYhxx) myParams.get(KEY_USER);
-        JSONArray changeNodes = yobj.getJSONArray("changeNodes");
+        JSONObject changeCheckData = myParams.getJSONObject("$.sys.changeCheckData");
+        String dqjs = myParams.getString("$.yobj.js");
         int count = 0;
-        for(JSONObject node:changeNodes.toArray(new JSONObject[]{})){
+        for(String key:changeCheckData.keySet()){
+            JSONObject node = changeCheckData.getJSONObject(key);
+            myParams.set("$.sql.changeNode",node.get("obj"));
             if(node.getBooleanValue("checked")){
-                JSONObject jsqx = new JSONObject();
-                jsqx.put("js", dqjs);
-                jsqx.put("qx", node.getString("dm"));
-
-                if(node.getBooleanValue("zAsync")){
-                    count += db().update("sys.insertJsqx", jsqx);
-                }else{
-                    //节点关闭时操作全部子权限
-                    count += db().update("sys.insertJsqxHzqx", jsqx);
-                }
+//                if(node.getBooleanValue("expand")){
+                    count += db().update(SqlId.of("sjsj","insertJsqx"), myParams);
+//                }else{
+//                    //节点关闭时操作全部子权限
+//                    count += db().update("sjsj.insertJsqxHzqx", myParams);
+//                }
             }else{
                 //将取消的授权改为无效
-                if(node.getBooleanValue("zAsync")){
+//                if(node.getBooleanValue("expand")){
                     count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx=? and t.yxx=?",
-                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,node.getString("dm"),UtilConst.WHETHER_TRUE);
-                }else{
-                    //节点关闭时操作全部子权限
-                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx like ? and t.yxx=?",
-                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,
-                            node.getString("dm")+"%",UtilConst.WHETHER_TRUE);
-                }
+                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,node.getString("$.obj.dm"),UtilConst.WHETHER_TRUE);
+//                }else{
+//                    //节点关闭时操作全部子权限
+//                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx like ? and t.yxx=?",
+//                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,
+//                            node.getString("dm")+"%",UtilConst.WHETHER_TRUE);
+//                }
             }
         }
         UserManager.flushUserQxxx();
@@ -126,4 +123,42 @@ public class QxxxLjq extends DefaultLjq {
         }
         return r;
     }
+    @Override
+    public Result plsc(JSONObject myParams){
+        DSTransactionManager.start();
+        //同时逻辑删除对应的子权限
+        int countLj = 0;
+        int countWl = 0;
+        myParams.set("$.page.pageSize",5000);
+        boolean wlsc = myParams.getBoolean("$.sys.wlsc");
+        List<JSONObject> list = ((PageInfo<JSONObject>) select(myParams).getData()).getList();
+        for(JSONObject obj:list){
+            if(!obj.getBoolean("myhaschild")){
+                //没有子权限跳过
+                continue;
+            }
+            if(!obj.getBoolean("yxx")&&wlsc){
+                //无效的数据且允许物理删除，删除对应的子权限
+                countWl+=db().update("delete from sys_qx_qxxx t where t.dm like ?",obj.getString("dm")+"%");
+            }else{
+                //有效数据逻辑删除子权限
+                countLj+=db().update("update sys_qx_qxxx t set t.yxx=?,t.gxsj=? where t.dm like ?",
+                        WHETHER_FALSE,DateUtil.getGabDate(),obj.getString("dm")+"%");
+            }
+        }
+        Result r = super.plsc(myParams);
+        r.addMsg("逻辑删除相关子权限"+countLj+"个");
+        if(countWl>0){
+            r.addMsg("物理删除相关子权限"+countWl+"个");
+        }
+        //同时逻辑删除对应的子权限
+        try {
+            DSTransactionManager.commit();
+        } catch (SQLException e) {
+            log.error("批量删除权限提交事务失败",e);
+            throw new MyException("批量删除权限提交事务失败");
+        }
+        return r;
+    }
+
 }

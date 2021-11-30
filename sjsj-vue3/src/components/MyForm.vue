@@ -34,7 +34,7 @@ export default defineComponent({
      * 我的组件数据
      * @type {UnwrapNestedRefs<{formItems: *[], options, formData: {}, formRule: {}, dxjcxx: {}, timestamp: number}>}
      */
-    const myData =reactive({
+    let myData =reactive({
       /**
        * 全局统一配置
        */
@@ -266,7 +266,8 @@ export default defineComponent({
           myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
         }
       }
-      //TODO 此处再进行一次myData与对象中的该处理类型扩展合并
+      //此处再进行一次myData与对象中的该处理类型扩展合并
+      myData = assignDeep(myData,getByPath(dxjcxx, "sys.cllxkz."+cllx+".pagekz"))
     }
     //初始进入页面
     if(props.dxjcxx){

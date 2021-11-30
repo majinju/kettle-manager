@@ -83,6 +83,23 @@ findYhqxxx
   )
 ```
 
+insertJsqx
+===
+* 插入角色权限关联信息
+```sql
+  insert into sys_qx_jsqxgl( cjrxm, cjrdm, cjrdwmc, cjrdwdm, js, qx)
+  values (#{user.cjrxm}, #{user.cjrdm}, #{user.cjrdwmc}, #{user.cjrdwdm},#{yobj.js}, #{sql.changeNode.dm})
+```
+
+insertJsqxHzqx
+===
+* 插入角色权限关联信息,含子权限
+```sql
+  insert into sys_qx_jsqxgl( cjrxm, cjrdm, cjrdwmc, cjrdwdm, js, qx)
+  select #{user.cjrxm}, #{user.cjrdm}, #{user.cjrdwmc}, #{user.cjrdwdm}, #{yobj.js}, t.dm from sys_qx_qxxx t
+  where t.dm like #{sql.changeNode.dm}||'%'
+```
+
 insertBlob
 ===
 * 插入大字段
