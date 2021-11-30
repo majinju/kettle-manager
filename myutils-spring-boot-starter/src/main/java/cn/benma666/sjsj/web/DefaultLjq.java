@@ -676,7 +676,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected Result wlscByYxx(JSONObject myParams) {
         //有有效性字段
-        String[] arr = getSql(myParams, "wl" + getCllx(myParams));
+        String[] arr = getSql(myParams, "wl" + KEY_CLLX_PLSC);
         //先执行物理删除，将本次删除中，已经为无效的进行物理删除
         int scs = db(arr[0]).update(arr[1], myParams);
         return success("物理删除数：" + scs);

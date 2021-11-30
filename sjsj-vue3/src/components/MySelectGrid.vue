@@ -741,7 +741,7 @@ export default defineComponent({
         return;
       }
       cr.forEach(item => {
-        ids.push(item.id);
+        ids.push(item[myData.dxjcxx.sjdx.zjzd]);
       });
       //计算树形复选场景的选中取消情况
       //获取当前列表数据
