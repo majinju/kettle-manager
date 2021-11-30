@@ -375,6 +375,7 @@ export default defineComponent({
         //配置查询项
         const fi = {field: f.zddm, title: f.zdmc, span: 8}
         switch (f.kjlx) {
+          case 'ElCascader':
           case '$switch':
           case '$select':
             //还要考虑字典树
@@ -474,6 +475,7 @@ export default defineComponent({
               props:{placeholder:f.zdts, zdlb: f.zdzdlb,openValue:"1",closeValue:"0"}
             };
             break
+          case 'ElCascader':
           case '$select':
             //下拉字典
             fi.formatter = 'formatterZd';

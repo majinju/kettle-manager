@@ -153,6 +153,7 @@ export default defineComponent({
             fi.span=24;
           }
           switch (f.kjlx){
+            case 'ElCascader':
             case '$switch':
             case '$select':
               //还要考虑字典树
