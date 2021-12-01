@@ -166,6 +166,7 @@ export default defineComponent({
                 fi.itemRender={ name: 'MySelect'};
                 //还要考虑多选
               }
+              // fi.itemRender={ name: 'MyDownList'};
               fi.itemRender.props={placeholder:f.zdts,zdlb:f.zdzdlb};
               break
             case 'jsoneditor':
@@ -256,6 +257,7 @@ export default defineComponent({
               fi.itemRender={ name: '$input' ,props:{}};
           }
           //控件属性统一设置部分
+          fi.itemRender.props.key = f.id;
           //是否禁用
           fi.itemRender.props.disabled = f.kzxx.cllxkz[cllx].disabled;
           //是否只读

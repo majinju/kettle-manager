@@ -388,6 +388,7 @@ export default defineComponent({
               fi.itemRender = {name: 'MySelect'};
               //还要考虑多选
             }
+            // fi.itemRender = {name: 'MyDownList'};
             fi.itemRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
             break
           case 'ElDatePicker':
@@ -440,6 +441,7 @@ export default defineComponent({
             //默认普通输入框
             fi.itemRender = {name: '$input', props: {}};
         }
+        fi.itemRender.props.key = myData.timestamp+"_cx_"+f.id;
         myData.formItems.push(assignDeep(fi, f.kzxx.kjkz));
       }
     }
@@ -489,6 +491,7 @@ export default defineComponent({
               fi.editRender = {name: 'MySelect'};
               //还要考虑多选
             }
+            // fi.editRender = {name: 'MyDownList'};
             fi.editRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
             break
           case 'ElDatePicker':
@@ -520,6 +523,7 @@ export default defineComponent({
           default:
             fi.editRender = {name: '$input', props: {}};
         }
+        fi.editRender.props.key = myData.timestamp+"_lb_"+f.id;
         //是否禁用
         fi.editRender.props.disabled = getByPath(f.kzxx, "cllxkz.update.disabled");
         //是否只读

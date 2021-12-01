@@ -28,7 +28,7 @@ const server = axios.create(config);
 server.interceptors.request.use(
   function(config) {
     //开发环境设置固定值
-    config.headers.token='4978866291C611DA0D2D5999C413107F';
+    // config.headers.token='4978866291C611DA0D2D5999C413107F';
     return config;
   },
   function(error) {

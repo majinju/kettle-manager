@@ -40,23 +40,11 @@ public class QxxxLjq extends DefaultLjq {
             JSONObject node = changeCheckData.getJSONObject(key);
             myParams.set("$.sql.changeNode",node.get("obj"));
             if(node.getBooleanValue("checked")){
-//                if(node.getBooleanValue("expand")){
-                    count += db().update(SqlId.of("sjsj","insertJsqx"), myParams);
-//                }else{
-//                    //节点关闭时操作全部子权限
-//                    count += db().update("sjsj.insertJsqxHzqx", myParams);
-//                }
+                count += db().update(SqlId.of("sjsj","insertJsqx"), myParams);
             }else{
                 //将取消的授权改为无效
-//                if(node.getBooleanValue("expand")){
-                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx=? and t.yxx=?",
-                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,node.getString("$.obj.dm"),UtilConst.WHETHER_TRUE);
-//                }else{
-//                    //节点关闭时操作全部子权限
-//                    count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx like ? and t.yxx=?",
-//                            UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,
-//                            node.getString("dm")+"%",UtilConst.WHETHER_TRUE);
-//                }
+                count += db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.js=? and t.qx=? and t.yxx=?",
+                        UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,node.getString("$.obj.dm"),UtilConst.WHETHER_TRUE);
             }
         }
         UserManager.flushUserQxxx();
@@ -129,6 +117,9 @@ public class QxxxLjq extends DefaultLjq {
         //同时逻辑删除对应的子权限
         int countLj = 0;
         int countWl = 0;
+        int countLjSq = 0;
+        int countWlSq = 0;
+        //查询出全部操作记录
         myParams.set("$.page.pageSize",5000);
         boolean wlsc = myParams.getBoolean("$.sys.wlsc");
         List<JSONObject> list = ((PageInfo<JSONObject>) select(myParams).getData()).getList();
@@ -140,16 +131,19 @@ public class QxxxLjq extends DefaultLjq {
             if(!obj.getBoolean("yxx")&&wlsc){
                 //无效的数据且允许物理删除，删除对应的子权限
                 countWl+=db().update("delete from sys_qx_qxxx t where t.dm like ?",obj.getString("dm")+"%");
+                countWlSq+=db().update("delete from sys_qx_jsqxgl t where t.qx like ?",obj.getString("dm")+"%");
             }else{
                 //有效数据逻辑删除子权限
-                countLj+=db().update("update sys_qx_qxxx t set t.yxx=?,t.gxsj=? where t.dm like ?",
-                        WHETHER_FALSE,DateUtil.getGabDate(),obj.getString("dm")+"%");
+                countLj+=db().update("update sys_qx_qxxx t set t.yxx=?,t.gxsj=? where t.dm like ? and t.yxx=?",
+                        WHETHER_FALSE,DateUtil.getGabDate(),obj.getString("dm")+"%",WHETHER_TRUE);
+                countLjSq+=db().update("update sys_qx_jsqxgl t set t.yxx=?,t.gxsj=? where t.qx like ? and t.yxx=?",
+                        WHETHER_FALSE,DateUtil.getGabDate(),obj.getString("dm")+"%",WHETHER_TRUE);
             }
         }
         Result r = super.plsc(myParams);
-        r.addMsg("逻辑删除相关子权限"+countLj+"个");
+        r.addMsg("逻辑删除相关子权限"+countLj+"个，逻辑删除相关授权"+countLjSq+"个");
         if(countWl>0){
-            r.addMsg("物理删除相关子权限"+countWl+"个");
+            r.addMsg("物理删除相关子权限"+countWl+"个，物理删除相关授权"+countWlSq+"个");
         }
         //同时逻辑删除对应的子权限
         try {
