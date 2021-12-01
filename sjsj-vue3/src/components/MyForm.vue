@@ -257,7 +257,7 @@ export default defineComponent({
               fi.itemRender={ name: '$input' ,props:{}};
           }
           //控件属性统一设置部分
-          fi.itemRender.props.key = f.id;
+          fi.itemRender.props.key = cllx+f.id;
           //是否禁用
           fi.itemRender.props.disabled = f.kzxx.cllxkz[cllx].disabled;
           //是否只读
