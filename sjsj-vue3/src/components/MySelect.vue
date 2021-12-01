@@ -48,12 +48,12 @@ export default defineComponent({
         mydata.options=data;
       })
     })
-    // watch(()=>props.disabled,(newValue)=>{
-    //   mydata.isdisabled = props.readonly||newValue
-    // })
-    // watch(()=>props.readonly,(newValue)=>{
-    //   mydata.isdisabled = props.disabled||newValue
-    // })
+    watch(()=>props.disabled,(newValue)=>{
+      mydata.isdisabled = props.readonly||newValue
+    })
+    watch(()=>props.readonly,(newValue)=>{
+      mydata.isdisabled = props.disabled||newValue
+    })
     watch(()=>props.modelValue,(newValue)=>{
       mydata.valve = newValue
     })
