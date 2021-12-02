@@ -41,15 +41,16 @@ import org.beetl.sql.core.SqlId;
 public class SjdxLjq extends DefaultLjq {
     @Override
     public Result insert(JSONObject myParams) throws MyException {
-        SysSjglSjdx jtdx = myParams.getObject(KEY_YOBJ,SysSjglSjdx.class);
-        jtdx.setId(StringUtil.getUUIDUpperStr());
+        JSONObject jtdx = myParams.getJSONObject(KEY_YOBJ);
+        jtdx.put(FIELD_ID,StringUtil.getUUIDUpperStr());
         //对象代码统一为大写
-        jtdx.setDxdm(jtdx.getDxdm().toUpperCase());
+        jtdx.put(FIELD_DXDM,jtdx.getString(FIELD_DXDM).toUpperCase());
         //解析扩展信息
-        sjdx.set("kzxxObj",JSON.parseObject(jtdx.getKzxx(), Feature.OrderedField));
+        jtdx.set("kzxxObj",JSON.parseObject(jtdx.getString(FIELD_KZXX), Feature.OrderedField));
         //设置数据载体
-        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
-        sjdx.setDxztlx(dbObj.getString("lx"));
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, jtdx.getString("dxzt"));
+        jtdx.put("dxztlx",dbObj.getString("lx"));
+        myParams.put(KEY_YOBJ,jtdx);
         DSTransactionManager.start();
         Result r = super.insert(myParams);
         if(!r.isStatus()){
@@ -57,7 +58,7 @@ public class SjdxLjq extends DefaultLjq {
         }
         //新增
         try {
-            r.addMsg(impFields(jtdx,myParams).getMsg());
+            r.addMsg(impFields(myParams.getObject(KEY_YOBJ,SysSjglSjdx.class),myParams).getMsg());
             DSTransactionManager.commit();
         } catch (Exception e) {
             try {
@@ -279,7 +280,7 @@ public class SjdxLjq extends DefaultLjq {
      * @param myParams 相关参数
      * @return 处理结果
     */
-    private Result impFieldsDB(SysSjglSjdx jtdx, JSONObject myParams) throws PinyinException {
+    private Result impFieldsDB(SysSjglSjdx jtdx, JSONObject myParams) {
         List<JSONObject> fieldsList = db(jtdx.getDxzt()).find(jtdx.getZddrsql());
         return crzd(jtdx, myParams, fieldsList);
     }
@@ -291,7 +292,7 @@ public class SjdxLjq extends DefaultLjq {
      * @return 处理结果
     */
     private Result crzd(SysSjglSjdx jtdx, JSONObject myParams,
-            List<JSONObject> fieldsList) throws PinyinException {
+            List<JSONObject> fieldsList) {
         Map<String, JSONObject> oldFiledMap = db().findMap("zddm",
                 "select * from sys_sjgl_sjzd t where t.sjdx=?",jtdx.getId());
         //新导入的对象复制默认字段

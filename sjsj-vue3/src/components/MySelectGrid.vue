@@ -1,5 +1,5 @@
 <template>
-  <div :key="myData.timestamp" class="page-warp" v-cloak>
+  <div :key="key" class="page-warp" v-cloak>
     <div class="page-title"><i class="el-icon-s-home"> / {{myData.dxjcxx.sjdx.dxmc}}</i></div>
     <div class="page-header">
       <vxe-form ref="xForm" :data="myData.formData" :items="myData.formItems" :rules="myData.formRule" @submit="search">
@@ -105,7 +105,7 @@ export default defineComponent({
   components:{MyForm},
   props:{
     /**
-     * 输入值
+     * 输入值，应该是查询条件
      */
     modelValue:{
       type: String
@@ -116,8 +116,27 @@ export default defineComponent({
     dxjcxx:{
       type: Object,
       required: true
+    },
+    /**
+     * 是否禁用
+     */
+    disabled:{
+      type: Boolean
+    },
+    /**
+     * 是否只读
+     */
+    readonly:{
+      type: Boolean
+    },
+    /**
+     * key组件标志
+     */
+    key:{
+      type: String
     }
   },
+  //返回列表数据（可以在批量保存时调用）
   emits:["update:modelValue"],
   setup:async (props,context)=>{
     let myData = reactive({
@@ -133,10 +152,6 @@ export default defineComponent({
        * 全局统一配置
        */
       options: options,
-      /**
-       * 当前时间作为id
-       */
-      timestamp:new Date().getTime(),
       /**
        * 表单数据，查询默认值可以设置其中
        */
@@ -441,7 +456,7 @@ export default defineComponent({
             //默认普通输入框
             fi.itemRender = {name: '$input', props: {}};
         }
-        fi.itemRender.props.key = myData.timestamp+"_cx_"+f.id;
+        fi.itemRender.props.key = "cx_"+f.id;
         myData.formItems.push(assignDeep(fi, f.kzxx.kjkz));
       }
     }
@@ -523,7 +538,7 @@ export default defineComponent({
           default:
             fi.editRender = {name: '$input', props: {}};
         }
-        fi.editRender.props.key = myData.timestamp+"_lb_"+f.id;
+        fi.editRender.props.key = "lb_"+f.id;
         //是否禁用
         fi.editRender.props.disabled = getByPath(f.kzxx, "cllxkz.update.disabled");
         //是否只读

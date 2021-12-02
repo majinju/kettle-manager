@@ -251,13 +251,16 @@ export default defineComponent({
                   }
                 };
               }
+              fi.itemRender.props.key = new Date().getTime();
               break
             default:
               //默认普通输入框
               fi.itemRender={ name: '$input' ,props:{}};
           }
           //控件属性统一设置部分
-          fi.itemRender.props.key = cllx+f.id;
+          if(!fi.itemRender.props.key){
+            fi.itemRender.props.key = cllx+f.id;
+          }
           //是否禁用
           fi.itemRender.props.disabled = f.kzxx.cllxkz[cllx].disabled;
           //是否只读

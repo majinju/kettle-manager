@@ -82,6 +82,44 @@ export function dayjsMethod(obj){
   return d;
 }
 ////////////////////////////////时间///////////////////////////
+/**
+ * json字符串格式化
+ * @param text_value 待格式化字符串
+ * @returns {string|boolean}
+ */
+export function jsonFormat(text_value){
+  if(text_value === ""){
+    alert("不能为空");
+    return false;
+  }
+  let res = "";
+  let i = 0, j = 0, k = 0, ii, ele;
+  for(; i<text_value.length; i++)
+  {//k:缩进，j:""个数
+    ele=text_value.charAt(i);
+    if(j%2===0&&ele==="}")
+    {
+      k--;
+      for(ii=0;ii<k;ii++) ele="    "+ele;
+      ele="\n"+ele;
+    }
+    else if(j%2===0&&ele==="{")
+    {
+      ele+="\n";
+      k++;
+      debugger;
+      for(ii=0;ii<k;ii++) ele+="    ";
+    }
+    else if(j%2===0&&ele===",")
+    {
+      ele+="\n";
+      for(ii=0;ii<k;ii++) ele+="    ";
+    }
+    else if(ele==="\"") j++;
+    res+=ele;
+  }
+  return res
+}
 
 /**
  * 是否有权限

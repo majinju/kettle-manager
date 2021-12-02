@@ -1022,7 +1022,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 String kjlx = f.getString("kjlx");
                 if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)) {
                     val = DictManager.zdMcByMoreDm(f.getString("zdzdlb"), val);
-                } else if (ZD_SJDX_KJLX_TIME.equals(kjlx) && !val.contains(";")) {
+                } else if (ZD_SJDX_KJLX_TIME.equals(kjlx) && !KEY_CLLX_SELECT.equals(czrz.getCzlx())) {
                     //排除时间范围的场景
                     val = DateUtil.doFormatDate(DateUtil.parseDate(val), DateUtil.DATE_FORMATTER_L);
                     if (val == null) {
@@ -1039,7 +1039,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 csObj.put(zdmc, val);
             }
         }
-        czrz.setXgcs(csObj.toJSONString());
+        czrz.setXgcs(JSON.toJSONString(csObj,false));
     }
 
     /**

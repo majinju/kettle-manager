@@ -5,6 +5,7 @@
 <script>
 
 import {defineComponent, reactive, watch} from "vue";
+import {jsonFormat} from "@/utils/common"
 
 export default defineComponent({
   name: "MyMarkDown",
@@ -38,6 +39,9 @@ export default defineComponent({
         }
         context.emit('update:modelValue',val)
       }
+      // if(props.codeType==='json'){
+      //   val = jsonFormat(val);
+      // }
       if(props.codeType){
         //设置了代码类型
         myData.value = "```"+props.codeType+"\n"+val+"\n```"

@@ -284,7 +284,7 @@ public class LjqManager extends BasicObject {
                 if(r.getMsg().length()>2000){
                     fhnrObj.put("msg",r.getMsg().substring(0,2000));
                 }
-                czrz.setFhnr(fhnrObj.toJSONString());
+                czrz.setFhnr(fhnrObj.toString());
             }
             //设置请求耗时
             long kssj = (long) JSONPath.eval(myParams, "$.sys.qqkssj");
