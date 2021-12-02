@@ -129,6 +129,7 @@ export default defineComponent({
           })
           setMenuList(fqx, response.data.list)
         }
+      }).catch((e)=>{
       })
     }
     /**
