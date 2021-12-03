@@ -36,7 +36,7 @@ export default defineComponent({
         { field: 'yhdm', title: '用户名', span: 24, itemRender: { name: 'ElInput', props:
               { placeholder: '请输入用户名',clearable:true,"prefix-icon":"el-icon-user" } } },
         { field: 'yhmm', title: '密码', span: 24, itemRender: { name: 'ElInput', props:
-              { placeholder: '请输入密码',type:"password",clearable:true,"show-password":true,"prefix-icon":"fa fad fa-key" } } },
+              { placeholder: '请输入密码',type:"password",clearable:true,"show-password":true,"prefix-icon":"el-icon-key" } } },
         { align: 'center', span: 24, itemRender: { name: '$buttons', children: [
               { props: { type: 'button', content: '忘记密码' } },
               { props: { type: 'submit', content: '登陆', status: 'primary' } }

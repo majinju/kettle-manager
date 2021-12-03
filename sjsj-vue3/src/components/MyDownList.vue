@@ -1,7 +1,7 @@
 <template>
   <vxe-pulldown ref="myDownList" transfer style="width: 100%" @hide-panel="hidePanelClick">
     <template #default>
-      <vxe-input v-model="mydata.value" suffix-icon="fa fa-search" ref="xInput"
+      <vxe-input v-model="mydata.value" suffix-icon="el-icon-search" ref="xInput"
                  @change="keyupEvent" @focus="focusEvent"
                  @clear="clearClick" v-bind="$attrs">
       </vxe-input>

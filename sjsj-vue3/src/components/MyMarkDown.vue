@@ -1,7 +1,10 @@
 <template>
   <v-md-editor v-model="myData.value"
                left-toolbar="undo redo clear | codeType h bold italic strikethrough quote | ul ol table hr | link image code | save"
-               :toolbar="myData.toolbar" @change="valChange"/>
+               :toolbar="myData.toolbar"
+               @change="valChange"
+               :disabled-menus="[]"
+               @upload-image="uploadImage"/>
 </template>
 
 <script>
@@ -33,7 +36,7 @@ export default defineComponent({
       toolbar:{
         codeType: {
           title: '代码风格',
-          icon: 'v-md-icon-tip',
+          icon: 'el-icon-price-tag',
           menus: [
             {
               name: 'json',
