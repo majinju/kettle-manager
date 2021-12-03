@@ -72,7 +72,8 @@ export default defineComponent({
         }).then((rep)=>{
           rep.data.sys.cllx=dxjcxx.sys.cllx;
           myData.dxjcxx[cacheKey] = rep.data;
-        });
+        }).catch((e)=>{
+        })
       }
       //将当前传入的部分定制信息设置进去传入子组件
       myData.dxjcxx[cacheKey].sys.cllx=dxjcxx.sys.cllx;

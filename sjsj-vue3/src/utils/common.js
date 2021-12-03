@@ -5,18 +5,6 @@ import {useStore} from "vuex";
 dayjs.extend(customParseFormat)
 
 ////////////////////////////////时间///////////////////////////
-//添加指定的天数,并返回新的日期
-Date.prototype.addDays = function (days) {
-  const nd = new Date(this);
-  nd.setDate(nd.getDate() + parseInt(days));
-  return nd;
-};
-//添加指定的小时,并返回新的日期
-Date.prototype.addHours = function (hours) {
-  const nd = new Date(this);
-  nd.setHours(nd.getHours() + parseInt(hours));
-  return nd;
-};
 /**
  * 时间字符串解析为date
  * @param dateStr 时间字符串
@@ -88,34 +76,38 @@ export function dayjsMethod(obj){
  * @returns {string|boolean}
  */
 export function jsonFormat(text_value){
-  if(text_value === ""){
+  if(isEmpty(text_value)){
     alert("不能为空");
     return false;
   }
+  if(text_value.indexOf("\n")>0){
+    //存在换行，不进行格式化
+    return text_value
+  }
+  //结果
   let res = "";
   let i = 0, j = 0, k = 0, ii, ele;
-  for(; i<text_value.length; i++)
-  {//k:缩进，j:""个数
+  for(; i<text_value.length; i++){
+    //k:缩进，j:""个数
     ele=text_value.charAt(i);
-    if(j%2===0&&ele==="}")
-    {
+    if(j%2===0&&ele==="}"){
       k--;
-      for(ii=0;ii<k;ii++) ele="    "+ele;
+      for(ii=0;ii<k;ii++) {
+        ele="  "+ele;
+      }
       ele="\n"+ele;
-    }
-    else if(j%2===0&&ele==="{")
-    {
+    }else if(j%2===0&&ele==="{"){
       ele+="\n";
       k++;
-      debugger;
-      for(ii=0;ii<k;ii++) ele+="    ";
-    }
-    else if(j%2===0&&ele===",")
-    {
+      for(ii=0;ii<k;ii++) ele+="  ";
+    }else if(j%2===0&&ele===","){
       ele+="\n";
-      for(ii=0;ii<k;ii++) ele+="    ";
+      for(ii=0;ii<k;ii++){
+        ele+="  ";
+      }
+    }else if(ele==="\""){
+      j++;
     }
-    else if(ele==="\"") j++;
     res+=ele;
   }
   return res
