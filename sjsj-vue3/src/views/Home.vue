@@ -36,10 +36,8 @@
               <div class="menu-item-title" @click="selectMenu(item)">
                 <i class="el-icon-menu"></i>
                 {{ item.mc }}
-                <i :class="myData.activeMenu !== item.id ? 'iconfont icon-jiantouxia arrow-icon' :
-                  'iconfont icon-jiantoushang1 arrow-icon'"
-                  v-if="myData.activeMenu !== item.id"></i>
-                <i class="iconfont icon-jiantoushang1 arrow-icon" v-else></i>
+                <i v-if="myData.activeMenu !== item.id" class="el-icon-arrow-down"></i>
+                <i v-else class="el-icon-arrow-up"></i>
               </div>
               <ul
                 class="menu-item-child"
@@ -88,6 +86,7 @@ import { ElMessage ,ElMessageBox} from "element-plus";
 import axios from "@/axios";
 import HomeTabs from "./HomeTabs";
 import {assignDeep} from "@/utils/common";
+
 export default defineComponent({
   components:{HomeTabs},
   setup () {

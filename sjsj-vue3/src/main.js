@@ -12,9 +12,6 @@ import installElementPlus from './plugins/element';
 import installVxe from './plugins/vxe-table';
 //国际化
 import i18n from './i18n';
-//图标:font-awesome
-import "font-awesome/css/font-awesome.min.css";
-import '@/assets/icon/iconfont.css';
 //自定义公共样式
 import './style/common.scss';
 //水印
