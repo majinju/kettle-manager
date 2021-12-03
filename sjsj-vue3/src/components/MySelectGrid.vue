@@ -95,10 +95,9 @@ import { defineComponent, reactive ,onMounted,ref,nextTick,computed,watch} from 
 import {ElMessage, ElMessageBox} from "element-plus";
 import { VXETable } from '@majinju/vxe-table';
 import axios from "@/axios";
-import {dayjsMethod, zdList, hasAuth, setByPath} from "@/utils/common";
+import {dayjsMethod, hasAuth, getByPath,assignDeep, copyByPathMap} from "@/utils/common";
 import {options} from "@/plugins/vxe-table";
 import MyForm from "./MyForm";
-import {getByPath,assignDeep} from "@/utils/common";
 
 export default defineComponent({
   name: "MySelectGrid",
@@ -357,14 +356,7 @@ export default defineComponent({
               pageSize: 500
             }
           }
-          if(myData.treeConfig.treeQqsjkz){
-            const treeQqsjkz = myData.treeConfig.treeQqsjkz;
-            //请求数据扩展
-            for(const key in treeQqsjkz){
-              //根据当前页面的参数设置新页面的参数
-              setByPath(treeQqsj,key,getByPath(myData,treeQqsjkz[key]))
-            }
-          }
+          copyByPathMap(treeQqsj,myData,myData.treeConfig.treeQqsjkz)
           axios.post(treeQqsj).then(req => {
             resolve(req.data.list)
           }).catch((e) => {
@@ -694,13 +686,7 @@ export default defineComponent({
           changeCheckData:changeCheckData
         }
       }
-      if(buttonOptions.htqqcskz){
-        //基础扩展
-        for(const key in buttonOptions.htqqcskz){
-          //根据当前页面的参数设置新页面的参数
-          setByPath(htqqcs,key,getByPath(myData,buttonOptions.htqqcskz[key]))
-        }
-      }
+      copyByPathMap(htqqcs,myData,buttonOptions.htqqcskz)
       axios.post(assignDeep(htqqcs,buttonOptions.params)).then(req=>{
         ElMessage.success(req.msg);
         if(buttonOptions.sfsxym!==false){
@@ -835,13 +821,7 @@ export default defineComponent({
                 cllx:"dxjcxx"
               }
             }
-            if(buttonOptions.jcxxqqcskz){
-              //基础扩展
-              for(const key in buttonOptions.jcxxqqcskz){
-                //根据当前页面的参数设置新页面的参数
-                setByPath(jcxxqqcs,key,getByPath(myData,buttonOptions.jcxxqqcskz[key]))
-              }
-            }
+            copyByPathMap(jcxxqqcs,myData,buttonOptions.jcxxqqcskz)
             await axios.post(jcxxqqcs).then((rep)=>{
               tdxjcxx = rep.data;
             });
@@ -859,13 +839,7 @@ export default defineComponent({
             tdxjcxx.sys.cllx = cllx
           }
           tdxjcxx.obj = row||{};
-          if(buttonOptions.jcxxkz){
-            //基础扩展
-            for(const key in buttonOptions.jcxxkz){
-              //根据当前页面的参数设置新页面的参数
-              setByPath(tdxjcxx,key,getByPath(myData,buttonOptions.jcxxkz[key]))
-            }
-          }
+          copyByPathMap(tdxjcxx,myData,buttonOptions.jcxxkz)
           await nextTick()
           await nextTick()
           xUpdate.value.tcck(tdxjcxx, tdxjcxx.sys.cllx, buttonOptions, tdxjcxx.obj, ids);

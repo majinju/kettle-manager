@@ -514,6 +514,30 @@ export function getByPath(obj, path){
 }
 
 /**
+ * 基于jsonpath进行属性拷贝
+ * @param target 目标对象
+ * @param source 来源对象
+ * @param path 路径
+ */
+export function copyByPath(target,source,path){
+  setByPath(target,path,getByPath(source,path))
+}
+
+/**
+ * 基于jsonpath进行属性拷贝
+ * @param target 目标对象
+ * @param source 来源对象
+ * @param map 路径映射集合
+ */
+export function copyByPathMap(target,source,map){
+  if(map){
+    for(const key in map){
+      setByPath(target,key,getByPath(source,map[key]))
+    }
+  }
+}
+
+/**
  * 对象深拷贝合并
  * @param target
  * @param sources

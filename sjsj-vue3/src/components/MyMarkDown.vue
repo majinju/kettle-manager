@@ -1,11 +1,13 @@
 <template>
-  <v-md-editor v-model="myData.value" @change="valChange"/>
+  <v-md-editor v-model="myData.value"
+               left-toolbar="undo redo clear | codeType h bold italic strikethrough quote | ul ol table hr | link image code | save"
+               :toolbar="myData.toolbar" @change="valChange"/>
 </template>
 
 <script>
 
 import {defineComponent, reactive, watch} from "vue";
-import {jsonFormat} from "@/utils/common"
+import {isEmpty, jsonFormat} from "@/utils/common"
 
 export default defineComponent({
   name: "MyMarkDown",
@@ -26,12 +28,61 @@ export default defineComponent({
   emits:["update:modelValue"],
   setup (props,context) {
     const myData = reactive({
-      value:""
+      value:"",
+      codeType:props.codeType,
+      toolbar:{
+        codeType: {
+          title: '代码风格',
+          icon: 'v-md-icon-tip',
+          menus: [
+            {
+              name: 'json',
+              text: 'json格式',
+              action() {
+                myData.codeType = "json"
+                setValue(props.modelValue)
+              },
+            },
+            {
+              name: 'sql',
+              text: 'sql格式',
+              action() {
+                myData.codeType = "sql"
+                setValue(props.modelValue)
+              },
+            },
+            {
+              name: 'java',
+              text: 'java格式',
+              action() {
+                myData.codeType = "java"
+                setValue(props.modelValue)
+              },
+            },
+            {
+              name: 'javascript',
+              text: 'javascript格式',
+              action() {
+                myData.codeType = "javascript"
+                setValue(props.modelValue)
+              },
+            },
+            {
+              name: 'null',
+              text: '无格式',
+              action() {
+                myData.codeType = ""
+                setValue(props.modelValue)
+              },
+            },
+          ],
+        }
+      }
     });
     const setValue = (val) => {
       if(!val){
         //设置默认值
-        if(props.codeType==='json'){
+        if(myData.codeType==='json'){
           //json编辑器
           val = "{}"
         }else{
@@ -39,12 +90,12 @@ export default defineComponent({
         }
         context.emit('update:modelValue',val)
       }
-      if(props.codeType==='json'){
+      if(myData.codeType==='json'){
         val = jsonFormat(val);
       }
-      if(props.codeType){
+      if(myData.codeType){
         //设置了代码类型
-        myData.value = "```"+props.codeType+"\n"+val+"\n```"
+        myData.value = "```"+myData.codeType+"\n"+val+"\n```"
       }else{
         //普通markdown编辑器
         myData.value = val
@@ -55,7 +106,9 @@ export default defineComponent({
       setValue(newValue)
     });
     const valChange = function (val) {
-      context.emit('update:modelValue',val.replace("```"+props.codeType+"\n","").replace("\n```",""))
+      if(!isEmpty(myData.codeType)){
+        context.emit('update:modelValue',val.replace(/```.*\n/,"").replace("\n```",""))
+      }
     }
     return {
       myData,
