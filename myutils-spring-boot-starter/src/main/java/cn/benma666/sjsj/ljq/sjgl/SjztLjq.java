@@ -7,6 +7,7 @@
 package cn.benma666.sjsj.ljq.sjgl;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 import cn.benma666.constants.UtilConst;
@@ -19,8 +20,11 @@ import cn.benma666.sjzt.Db;
 import cn.benma666.sjzt.Ftp;
 
 import com.alibaba.druid.DbType;
+import com.alibaba.druid.util.JdbcUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
+import org.beetl.sql.core.SQLManager;
+import org.beetl.sql.core.SqlId;
 
 /**
  * 数据载体拦截器 <br/>
@@ -34,8 +38,9 @@ public class SjztLjq extends ScjkrwLjq {
      * @return 测试结果
      */
     public Result cszt(JSONObject myParams) {
+        log.debug(sqlManager().getSQLResult(SqlId.of("util","getDate14"),null).jdbcSql);
         //测试载体
-        if(JSONPath.eval(myParams,$_SYS_IDS)!=null){
+        if(myParams.get($_SYS_IDS)!=null){
             //TODO 通用查询中需要考虑ids参数
             List<JSONObject> ztList = ((PageInfo<JSONObject>)select(myParams).getData()).getList();
             Result r = success("测试完成,测试了"+ztList.size()+"个数据源，其中如下数据源未通过：");
@@ -47,67 +52,61 @@ public class SjztLjq extends ScjkrwLjq {
             r.setMsg(r.getMsg().replace("：,", "："));
             return r;
         }else{
-            JSONObject obj = myParams.getJSONObject(KEY_OBJ);
             JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
             boolean mmjm = StringUtil.isBlank(yobj.getString("mm"));
-            obj.putAll(yobj);
-            return testSjzt(obj, mmjm);
+            return testSjzt(yobj, mmjm);
 
         }
     }
 
     @Override
-    public Result insert(JSONObject myJsonParams) {
-        JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
-        JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
-        String dbdm = obj.getString("dm");
-        obj.putAll(yobj);
-        String ljc = obj.getString("ljc");
-        if(DbType.of(obj.getString("lx"))!=null){
-            dbdm = yobj.getString("dm");
-            yobj.put("csyj", yobj.getString("csyj"));
-            //处理驱动
-            yobj.put("sjkqd", yobj.getString("sjkqd"));
-        }
-        switch (obj.getString("lx")) {
-            case "bdwj":
-                //本地文件都以/结尾
-                if(!ljc.endsWith("/")){
-                    yobj.put("ljc", ljc+"/");
+    public Result insert(JSONObject myParams) {
+        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+        String dbdm = yobj.getString("dm");
+        if(DbType.of(yobj.getString("lx"))!=null){
+            if(StringUtil.isBlank(yobj.getString("sjkqd"))){
+                try {
+                    yobj.put("sjkqd", JdbcUtils.getDriverClassName(yobj.getString("ljc")));
+                } catch (SQLException e) {
+                    log.debug(yobj+"驱动获取失败",e);
                 }
-                break;
-            case "ftp":
-            default:
-                break;
+            }
+            if(StringUtil.isBlank(yobj.getString("csyj"))){
+                SQLManager sm = SQLManager.newBuilder(yobj.getString("sjkqd"),
+                        yobj.getString("ljc"), yobj.getString("yhm"),
+                        yobj.getString("mm")).build();
+                yobj.put("csyj", sm.getSQLResult(SqlId.of("util","getDate14"),null).jdbcSql);
+            }
         }
-        Result result = null;
-        result = super.insert(myJsonParams);
+        Result result = super.insert(myParams);
         if(!result.isStatus()){
             return result;
         }
         DictManager.clearDict(ZD_SYS_COMMON_SJZT);
-        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, dbdm);
+        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT,dbdm);
         //数据库型数据载体才进行测试
         result = testSjzt(dbObj,true);
         return result;
     }
 
     @Override
-    public Result update(JSONObject myJsonParams) {
-        JSONObject yobj = myJsonParams.getJSONObject(KEY_YOBJ);
-        JSONObject obj = myJsonParams.getJSONObject(KEY_OBJ);
-        String dbdm = obj.getString("dm");
+    public Result update(JSONObject myParams) {
+        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+        String dbdm = myParams.getString("$.obj.dm");
         if(UtilConst.DEFAULT.equals(dbdm)){
             return failed("默认数据源不允许修改");
         }
-        obj.putAll(yobj);
-        String ljc = obj.getString("ljc");
-        if(DbType.of(obj.getString("lx"))!=null){
-            if(Db.isCz(obj.getString("dm"))){
-                Db.use(obj.getString("dm")).close();
+        if(!dbdm.equals(myParams.getString("$.yobj.dm"))){
+            return failed("数据载体代码不允许修改");
+        }
+        String ljc = yobj.getString("ljc");
+        if(DbType.of(yobj.getString("lx"))!=null){
+            if(Db.isCz(yobj.getString("dm"))){
+                //修改已经加载的数据源，此处进行关闭
+                Db.use(yobj.getString("dm")).close();
             }
         }
-        switch (obj.getString("lx")) {
+        switch (yobj.getString("lx")) {
             case "bdwj":
                 //本地文件都以/结尾
                 if(!ljc.endsWith("/")){
@@ -118,8 +117,7 @@ public class SjztLjq extends ScjkrwLjq {
             default:
                 break;
         }
-        Result result = null;
-        result = super.update(myJsonParams);
+        Result result = super.update(myParams);
         if(!result.isStatus()){
             return result;
         }

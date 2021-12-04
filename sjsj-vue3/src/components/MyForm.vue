@@ -1,15 +1,21 @@
 <template>
-  <vxe-form ref="xForm" :key="myData.timestamp" :data="myData.formData" :rules="myData.formRule"
-            :items="myData.formItems" v-cloak>
-  </vxe-form>
+  <div>
+    <vxe-form ref="xForm" :key="myData.timestamp" :data="myData.formData" :rules="myData.formRule"
+              :items="myData.formItems" v-cloak>
+    </vxe-form>
+    <vxe-modal ref="xModal" v-model="myData.tcckShow" v-bind="myData.tcckProps"
+               :before-hide-method="close">
+      <my-form ref="xUpdate" @close="fromClose"></my-form>
+    </vxe-modal>
+  </div>
 </template>
 
 <script>
-import {defineComponent, onMounted, reactive, ref} from 'vue'
+import {defineComponent, nextTick, onMounted, reactive, ref} from 'vue'
 import { ElMessage ,ElMessageBox} from "element-plus";
 import {options} from "@/plugins/vxe-table";
 import axios from "@/axios";
-import {assignDeep, getByPath,} from "@/utils/common";
+import {assignDeep, copyByPathMap, getByPath,} from "@/utils/common";
 
 export default defineComponent({
   name: "MyForm",
@@ -22,6 +28,7 @@ export default defineComponent({
       type: Object
     }
   },
+  //关闭弹窗
   emits:["close"],
   /**
    * from组件主要进行页面布局，然后需要展示的都可以以组件形式集成进去
@@ -66,7 +73,19 @@ export default defineComponent({
       /**
        * 表单字段验证规则
        */
-      formRule:{}
+      formRule:{},
+      /**
+       * 弹出窗口是否展示
+       */
+      tcckShow:false,
+      tcckProps:{
+        /**
+         * 弹出窗口标题
+         */
+        title:"",
+        width:undefined,
+        height:undefined
+      }
     })
     /**
      * 表单引用对象
@@ -147,10 +166,30 @@ export default defineComponent({
             //单独处理非空校验，便于在页面给用户红色星号提示必填字段
             myData.formRule[f.zddm].push({ required: true, message: f.zdmc+'必填',trigger: 'blur'});
           }
-          fi = {field: f.zddm, title: f.zdmc, span: 8}
+          fi = {
+            field: f.zddm,
+            title: f.zdmc,
+            span: 8,
+            itemRender:{
+              name: f.kjlx,
+              props:{
+                placeholder:f.zdts,
+                disabled:f.kzxx.cllxkz[cllx].disabled,
+                readonly:f.kzxx.cllxkz[cllx].readonly,
+                maxlength:f.zdcd
+              }
+            }
+          }
           let zdkd = f.kzxx.cllxkz[cllx].zdkd;
           if(zdkd<10||zdkd>200){
             fi.span=24;
+          }
+          //控件属性统一设置部分
+          if(!fi.itemRender.props.key){
+            fi.itemRender.props.key = cllx+f.id;
+          }
+          if (fi.itemRender.props.disabled||fi.itemRender.props.readonly){
+            fi.itemRender.props.clearable = false
           }
           switch (f.kjlx){
             case 'ElCascader':
@@ -159,47 +198,37 @@ export default defineComponent({
               //还要考虑字典树
               if(f.zdfy==='1'){
                 //大字典，采用下拉分页搜索框
-                fi.itemRender={ name: 'MyDownList'};
+                fi.itemRender.name='MyDownList';
                 //还要考虑多选
               }else{
                 //普通下拉框
-                fi.itemRender={ name: 'MySelect'};
+                fi.itemRender.name='MySelect';
                 //还要考虑多选
               }
-              // fi.itemRender={ name: 'MyDownList'};
-              fi.itemRender.props={placeholder:f.zdts,zdlb:f.zdzdlb};
+              fi.itemRender.props.zdlb=f.zdzdlb;
               break
             case 'jsoneditor':
-              fi.itemRender={ name: 'MyMarkDown' ,props:{placeholder:f.zdts,codeType:"json"}};
-              if(f.kzxx.cllxkz[cllx].disabled||f.kzxx.cllxkz[cllx].readonly){
+              fi.itemRender.props.codeType="json";
+              fi.itemRender.name='MyMarkDown';
+              if(fi.itemRender.props.clearable===false){
                 fi.itemRender.props.mode="preview";
               }
               break
             case 'MyMarkDown':
-              //,height:"250px"
-              fi.itemRender={ name: 'MyMarkDown' ,props:{placeholder:f.zdts}};
-              if(f.kzxx.cllxkz[cllx].disabled||f.kzxx.cllxkz[cllx].readonly){
+              if(fi.itemRender.props.clearable===false){
                 fi.itemRender.props.mode="preview";
               }
               break
             case 'ElDatePicker':
               //时间选择器
-              fi.itemRender={
-                name: 'ElDatePicker',props:{
-                  type:'datetime',
-                  clearable:options.input.clearable,
-                  size:options.input.size,
-                  valueFormat:"YYYYMMDDHHmmss"
-                }
-              };
+              fi.itemRender.props.type="datetime";
+              fi.itemRender.props.valueFormat="YYYYMMDDHHmmss";
+              fi.itemRender.props.size=options.input.size;
+              if(fi.itemRender.props.clearable!==false){
+                fi.itemRender.props.clearable = options.input.clearable
+              }
               break
             case '$textarea':
-              //时间选择器
-              fi.itemRender={
-                name: '$textarea',props:{
-                  maxlength:f.zdcd
-                }
-              };
               break
             case '$buttons':
               //按钮组
@@ -217,7 +246,7 @@ export default defineComponent({
                 }
                 children.push({ props: $buttons[i] })
               }
-              fi.itemRender={ name: f.kjlx,children: children,props:{}};
+              fi.itemRender.children = children;
               break
             case 'MySelectGrid':
               //查询表格
@@ -228,45 +257,70 @@ export default defineComponent({
               let dxdm = getByPath(f.kzxx,"kjkz.itemRender.props.dxjcxx.sjdx.dxdm");
               if(authCode||dxdm){
                 //配置了对象信息则展示配置的对象的查询列表
-                fi.itemRender={
-                  name: 'MySelectGrid',
-                  props:{
-                    dxjcxx: {
-                      sjdx:{
-                        dxdm:dxdm
-                      },
-                      sys:{
-                        authCode: authCode,
-                        cllx: "select"
-                      }
-                    }
+                fi.itemRender.props.dxjcxx = {
+                  sjdx:{
+                    dxdm:dxdm
+                  },
+                  sys:{
+                    authCode: authCode,
+                    cllx: "select"
                   }
-                };
+                }
               }else{
                 //没有配置则展示当前页面对象的查询列表
-                fi.itemRender={
-                  name: 'MySelectGrid',
-                  props:{
-                    dxjcxx:dxjcxx
-                  }
-                };
+                fi.itemRender.props.dxjcxx = dxjcxx
               }
               fi.itemRender.props.key = new Date().getTime();
               break
+            case "password":
+              //密码框
+              if(fi.itemRender.props.clearable!==false){
+                //编辑状态
+                fi.itemRender.name = '$input'
+                fi.itemRender.props.type = "password"
+                //编辑状态清除原始值，避免没修过传到后台
+                delete myData.formData[f.zddm]
+              }else{
+                //不可编辑状态，显示查看密码的按钮
+                fi.itemRender.name = '$buttons'
+                let obj = {}
+                obj.value = myData.formData[f.zddm];
+                obj.kjmm = f.kzxx.kjkz.mm
+                fi.itemRender.children = [
+                  {
+                    props: {
+                      "type": "button",
+                      "content": "查看密码",
+                      "status": "primary",
+                      name:"ckmm",
+                      buttonOptions:{
+                        "clfs": "tcck",
+                        sfgbtc:false,
+                        tckz:{
+                          width:400,
+                          height:200
+                        },
+                        "dxjcxx": {
+                          "sjdx": {
+                            "dxdm": "SYS_SJGL_MMCK"
+                          },
+                          "sys": {
+                            "cllx": "insert"
+                          },
+                          "obj":obj
+                        },
+                      },
+                      click:function(option){
+                        plcl(option.props.name,option.props);
+                      }
+                    }
+                  }
+                ]
+              }
+              break
             default:
               //默认普通输入框
-              fi.itemRender={ name: '$input' ,props:{}};
-          }
-          //控件属性统一设置部分
-          if(!fi.itemRender.props.key){
-            fi.itemRender.props.key = cllx+f.id;
-          }
-          //是否禁用
-          fi.itemRender.props.disabled = f.kzxx.cllxkz[cllx].disabled;
-          //是否只读
-          fi.itemRender.props.readonly = f.kzxx.cllxkz[cllx].readonly;
-          if (fi.itemRender.props.disabled||fi.itemRender.props.readonly){
-            fi.itemRender.props.clearable = false
+              fi.itemRender.name = '$input'
           }
           //合并字段的控件扩展，覆盖默认值
           myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
@@ -293,25 +347,30 @@ export default defineComponent({
     /**
      * 通用后台请求
      * @param cllx 处理类型
-     * @param btnProps 按钮参数
+     * @param buttonOptions 按钮参数
      * @param fromData 表单数据
      */
-    const htqq = (cllx,btnProps,fromData) => {
-      axios.post({
+    const htqq = (cllx,buttonOptions,fromData) => {
+      //后台请求参数
+      const htqqcs = {
         sys:{
           authCode:myData.dxjcxx.sys.authCode,
           cllx:cllx
         },
         yobj:fromData
-      }).then(req=>{
+      }
+      copyByPathMap(htqqcs,myData,buttonOptions.htqqcskz)
+      axios.post(assignDeep(htqqcs,buttonOptions.params)).then(req=>{
         ElMessage.success(req.msg);
-        if(btnProps.jghbdbd===true){
+        if(buttonOptions.jghbdbd===true){
           //请求结果合并到表单
           myData.formData = assignDeep(myData.formData,req.data);
         }
-        if(btnProps.sfgbtc===true){
-          context.emit('close',btnProps.sfsxym)
+        if(buttonOptions.sfgbtc===true){
+          context.emit('close',buttonOptions.sfsxym)
         }
+      }).catch((req)=>{
+        console.log("处理异常",req)
       });
     }
     /**
@@ -346,17 +405,61 @@ export default defineComponent({
               type: "warning"
             }).then(() => {
               htqq(cllx,buttonOptions,myData.formData)
-            }).catch(function (){})
+            }).catch(function (){
+              console.info("用户取消操作："+content)
+            })
           }else{
             htqq(cllx,buttonOptions,myData.formData)
           }
           break
         //弹出窗口
         case "tcck":
+          //窗口标题
+          myData.tcckProps.title=content+"【"+myData.dxjcxx.sjdx.dxmc+"】"
           //窗口显示
           myData.tcckShow=true
-          //窗口标题
-          myData.tcckTitle=content+"【"+myData.dxjcxx.sjdx.dxmc+"】"
+          assignDeep(myData.tcckProps,buttonOptions.tckz)
+          if(buttonOptions.tcqp){
+            //最大化
+            xModal.value.maximize()
+          }else{
+            //还原
+            xModal.value.revert()
+          }
+          let tdxjcxx = myData.dxjcxx;
+          if(buttonOptions.dxjcxx){
+            //加载对象基础信息，该按钮设置了处理其他数据对象
+            let jcxxqqcs={
+              sjdx:buttonOptions.dxjcxx.sjdx,
+              sys:{
+                authCode: buttonOptions.dxjcxx.sys.authCode,
+                cllx:"dxjcxx"
+              }
+            }
+            copyByPathMap(jcxxqqcs,myData,buttonOptions.jcxxqqcskz)
+            await axios.post(jcxxqqcs).then((rep)=>{
+              tdxjcxx = rep.data;
+            });
+            if(buttonOptions.dxjcxx.obj){
+              //该按钮设置了数据
+              tdxjcxx.obj = buttonOptions.dxjcxx.obj;
+            }
+            tdxjcxx.sys.cllx = getByPath(buttonOptions,"dxjcxx.sys.cllx");
+            if(!tdxjcxx.sys.cllx){
+              //按钮没有设置处理类型时，采用按钮的处理类型
+              tdxjcxx.sys.cllx = cllx
+            }
+          }else{
+            //默认采用按钮的处理类型
+            tdxjcxx.sys.cllx = cllx
+          }
+          if(!tdxjcxx.obj){
+            tdxjcxx.obj = myData.formData;
+          }
+          copyByPathMap(tdxjcxx,myData,buttonOptions.jcxxkz)
+          await nextTick()
+          await nextTick()
+          xUpdate.value.tcck(tdxjcxx, tdxjcxx.sys.cllx, buttonOptions, tdxjcxx.obj);
           break
         //关闭弹窗
         case "gbtc":
@@ -376,11 +479,33 @@ export default defineComponent({
           ElMessage.error("暂不支持该处理方式");
       }
     }
+    /**
+     * 弹窗页面引用
+     * @type {Ref<UnwrapRef<{}>>}
+     */
+    const xUpdate = ref({});
+    /**
+     * 弹窗引用
+     * @type {Ref<UnwrapRef<{}>>}
+     */
+    const xModal = ref({});
+    /**
+     * 弹窗页面回调
+     * @param isFlush 是否刷新页面
+     */
+    const fromClose = (isFlush) =>{
+      myData.tcckShow=false
+      console.log("弹窗回调："+isFlush)
+    }
     return {
       myData,
       xForm,
       tcck,
-      close
+      //弹窗
+      xUpdate,
+      xModal,
+      close,
+      fromClose
     }
   }
 })

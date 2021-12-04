@@ -119,7 +119,7 @@ export default defineComponent({
           treeRoot: dm,
           fqx: fqx?fqx:''
         }
-      }).then(response => {
+      },false).then(response => {
         if (response.status) {
           response.data.list.forEach((item) => {
             if (item.parent) {
@@ -129,6 +129,7 @@ export default defineComponent({
           setMenuList(fqx, response.data.list)
         }
       }).catch((e)=>{
+        console.log("获取菜单失败",e)
       })
     }
     /**

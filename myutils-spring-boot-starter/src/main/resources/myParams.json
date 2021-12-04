@@ -432,7 +432,7 @@
               "content": "提交",
               "status": "primary",
               "buttonOptions": {
-                "htqqts": true,
+                "htqqts": false,
                 "sfgbtc": true
               }
             },

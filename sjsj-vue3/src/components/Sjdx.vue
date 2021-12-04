@@ -72,14 +72,21 @@ export default defineComponent({
         }).then((rep)=>{
           rep.data.sys.cllx=dxjcxx.sys.cllx;
           myData.dxjcxx[cacheKey] = rep.data;
+          //将当前传入的部分定制信息设置进去传入子组件
+          myData.dxjcxx[cacheKey].sys.cllx=dxjcxx.sys.cllx;
+          myData.dxjcxx[cacheKey].yobj=dxjcxx.yobj;
+          //设置当前显示的组件
+          myData.activeSjdx=cacheKey;
         }).catch((e)=>{
+          console.log("获取基础信息失败",e)
         })
+      }else{
+        //将当前传入的部分定制信息设置进去传入子组件
+        myData.dxjcxx[cacheKey].sys.cllx=dxjcxx.sys.cllx;
+        myData.dxjcxx[cacheKey].yobj=dxjcxx.yobj;
+        //设置当前显示的组件
+        myData.activeSjdx=cacheKey;
       }
-      //将当前传入的部分定制信息设置进去传入子组件
-      myData.dxjcxx[cacheKey].sys.cllx=dxjcxx.sys.cllx;
-      myData.dxjcxx[cacheKey].yobj=dxjcxx.yobj;
-      //设置当前显示的组件
-      myData.activeSjdx=cacheKey;
     }
     // 当参数更改时获取用户信息
     watch(

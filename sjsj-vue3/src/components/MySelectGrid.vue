@@ -83,7 +83,7 @@
         </vxe-grid>
       </div>
     </div>
-    <vxe-modal ref="xModal" v-model="myData.tcckShow" :title="myData.tcckTitle"
+    <vxe-modal ref="xModal" v-model="myData.tcckShow" v-bind="myData.tcckProps"
                :before-hide-method="close">
       <my-form ref="xUpdate" @close="fromClose"></my-form>
     </vxe-modal>
@@ -135,8 +135,8 @@ export default defineComponent({
       type: String
     }
   },
-  //返回列表数据（可以在批量保存时调用）
-  emits:["update:modelValue"],
+  //返回列表数据（可以在批量保存时调用），关闭弹窗
+  emits:["update:modelValue","close"],
   setup:async (props,context)=>{
     let myData = reactive({
       /**
@@ -236,10 +236,14 @@ export default defineComponent({
        * 弹出窗口是否展示
        */
       tcckShow:false,
-      /**
-       * 弹出窗口标题
-       */
-      tcckTitle:''
+      tcckProps:{
+        /**
+         * 弹出窗口标题
+         */
+        title:"",
+        width:undefined,
+        height:undefined
+      }
     })
     /**
      * 查询表单引用
@@ -251,16 +255,6 @@ export default defineComponent({
      * @type {Ref<UnwrapRef<{}>>}
      */
     const xGrid = ref({});
-    /**
-     * 修改页面引用
-     * @type {Ref<UnwrapRef<{}>>}
-     */
-    const xUpdate = ref({});
-    /**
-     * 弹窗
-     * @type {Ref<UnwrapRef<{}>>}
-     */
-    const xModal = ref({});
 
     /**
      * 初始化基础信息
@@ -629,17 +623,6 @@ export default defineComponent({
       getList();
     }
     /**
-     * 修改页面回调
-     * @param isFlush 是否刷新页面
-     */
-    const fromClose = (isFlush) =>{
-      myData.tcckShow=false
-      if(isFlush!==false){
-        myData.selectReqData.page.totalRequired=true
-        getList()
-      }
-    }
-    /**
      * 搜索按钮
      */
     const search = ()=>{
@@ -694,7 +677,11 @@ export default defineComponent({
           myData.selectReqData.page.totalRequired=true
           getList()
         }
+        if(buttonOptions.sfgbtc===true){
+          context.emit('close',buttonOptions.sfsxym)
+        }
       }).catch((req)=>{
+        console.log("处理异常",req)
       });
     }
 
@@ -710,13 +697,14 @@ export default defineComponent({
         return
       }
       const checkFieldNew = checkFieldOld+"_boolean"
+      const grid = xGrid.value;
       for(const i in tableData){
         const row = tableData[i];
-        if((row[checkFieldOld] == 1) !== row[checkFieldNew]){
+        if((row[checkFieldOld] == 1) !== (row[checkFieldNew]||grid.isIndeterminateByCheckboxRow(row))){
           //原始值不等于新值则表示变化了
           changeData[row[myData.dxjcxx.sjdx.zjzd]] = {
-            "checked":row[checkFieldNew],
-            "expand":xGrid.value.isTreeExpandLoaded(row),
+            "checked":(row[checkFieldNew]||grid.isIndeterminateByCheckboxRow(row)),
+            "expand":grid.isTreeExpandLoaded(row),
             "obj":row
           }
         }
@@ -801,9 +789,10 @@ export default defineComponent({
         //弹出窗口
         case "tcck":
           //窗口标题
-          myData.tcckTitle=content+"【"+myData.dxjcxx.sjdx.dxmc+"】"
+          myData.tcckProps.title=content+"【"+myData.dxjcxx.sjdx.dxmc+"】"
           //窗口显示
           myData.tcckShow=true
+          assignDeep(myData.tcckProps,buttonOptions.tckz)
           if(buttonOptions.tcqp){
             //最大化
             xModal.value.maximize()
@@ -838,7 +827,9 @@ export default defineComponent({
             //默认采用按钮的处理类型
             tdxjcxx.sys.cllx = cllx
           }
-          tdxjcxx.obj = row||{};
+          if(!tdxjcxx.obj){
+            tdxjcxx.obj = row||{};
+          }
           copyByPathMap(tdxjcxx,myData,buttonOptions.jcxxkz)
           await nextTick()
           await nextTick()
@@ -896,6 +887,7 @@ export default defineComponent({
         //页面参数替换
         case "ymcsth":
           myData = assignDeep(myData,buttonOptions.params)
+          ElMessage.info("["+content+"]设置成功")
           break
         default:
           ElMessage.error("暂不支持该处理方式");
@@ -961,19 +953,41 @@ export default defineComponent({
      */
     onMounted(()=>{
     })
+    /**
+     * 弹窗页面引用
+     * @type {Ref<UnwrapRef<{}>>}
+     */
+    const xUpdate = ref({});
+    /**
+     * 弹窗引用
+     * @type {Ref<UnwrapRef<{}>>}
+     */
+    const xModal = ref({});
+    /**
+     * 弹窗页面回调
+     * @param isFlush 是否刷新页面
+     */
+    const fromClose = (isFlush) =>{
+      myData.tcckShow=false
+      if(isFlush!==false){
+        myData.selectReqData.page.totalRequired=true
+        getList()
+      }
+    }
     return{
       myData,
       qxpz,
       xFrom,
       xGrid,
-      xUpdate,
-      xModal,
       search,
       pageChange,
       sortChange,
-      close,
       hqqxlb,
       plcl,
+      //弹窗
+      xUpdate,
+      xModal,
+      close,
       fromClose
     }
   }

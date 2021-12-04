@@ -79,7 +79,7 @@ function errorMessageHand(status, data) {
       break
     case 403:
       // token失效
-      ElMessageBox.confirm((data.msg|| '该操作没有权限')+'，请重新登陆试试', {
+      ElMessageBox.confirm((data.msg|| '该操作没有权限')+'，请确认是否拥有该权限，重新登陆试试', {
         confirmButtonText: "重新登陆",
         cancelButtonText: "取消",
         type: "error"
