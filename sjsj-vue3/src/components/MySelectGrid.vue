@@ -667,7 +667,9 @@ export default defineComponent({
           ids:ids,
           editTableData:ur,
           changeCheckData:changeCheckData
-        }
+        },
+        yobj:myData.selectReqData.yobj,
+        page:myData.selectReqData.page
       }
       copyByPathMap(htqqcs,myData,buttonOptions.htqqcskz)
       axios.post(assignDeep(htqqcs,buttonOptions.params)).then(req=>{
