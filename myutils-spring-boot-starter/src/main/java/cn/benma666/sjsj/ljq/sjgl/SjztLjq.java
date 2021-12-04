@@ -30,6 +30,7 @@ public class SjztLjq extends ScjkrwLjq {
      * @return 测试结果
      */
     public Result cszt(JSONObject myParams) {
+        myParams.set("$.page.totalRequired",false);
         List<JSONObject> ztList = ((PageInfo<JSONObject>)select(myParams).getData()).getList();
         int tgs = 0;
         StringBuilder wtg = new StringBuilder();
