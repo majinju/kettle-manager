@@ -44,4 +44,12 @@ public class JsxxLjq extends DefaultLjq {
         }
         return r;
     }
+    /**
+     * 刷新用户权限
+     * @return 处理结果
+     */
+    public Result sxyhqx(JSONObject myParams) {
+        UserManager.flushUserQxxx();
+        return success("刷新用户权限成功");
+    }
 }

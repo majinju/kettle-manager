@@ -107,14 +107,6 @@ public class YhdlLjq extends DefaultLjq {
         SysQxYhxx oldUser = (SysQxYhxx) myParams.get(KEY_USER);
         return UserManager.removeUser(oldUser);
     }
-    /**
-     * 刷新用户权限
-     * @return 处理结果
-     */
-    public Result sxyhqx(JSONObject myParams) {
-        UserManager.flushUserQxxx();
-        return success("刷新用户权限成功");
-    }
 
     /**
      * @param myParams 参数
