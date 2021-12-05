@@ -656,9 +656,6 @@ export default defineComponent({
      * @param changeCheckData 变化的选择数据
      */
     const htqq = (cllx,buttonOptions,ids,row,ur,changeCheckData) => {
-      if(row){
-        ids = [row[myData.dxjcxx.sjdx.zjzd]];
-      }
       //后台请求参数
       const htqqcs = {
         sys:{
@@ -738,6 +735,9 @@ export default defineComponent({
       cr.forEach(item => {
         ids.push(item[myData.dxjcxx.sjdx.zjzd]);
       });
+      if(row){
+        ids = [row[myData.dxjcxx.sjdx.zjzd]];
+      }
       //计算树形复选场景的选中取消情况
       //获取当前列表数据
       const tableData = xGrid.value.getTableData().tableData
@@ -838,26 +838,25 @@ export default defineComponent({
           xUpdate.value.tcck(tdxjcxx, tdxjcxx.sys.cllx, buttonOptions, tdxjcxx.obj, ids);
           break
         //文件下载
-        case "wjxz":
+        case "download":
           let params = JSON.parse(JSON.stringify(myData.selectReqData));
           params.sys.cllx = cllx;
           params.sys.ids = ids;
+          params.yobj.xzms = true;
           if(buttonOptions.dcwjm){
             //后台定制了文件名称
             params.sys.dcwjm = buttonOptions.dcwjm
-          }else{
-            params.sys.dcwjm = myData.dxjcxx.sjdx.dxmc+"-"+content+".xlsx";
           }
           axios.download(assignDeep(params,buttonOptions.params));
           break
         //文件上传
-        case "wjsc":
+        case "upload":
           //调用文件上传接口后，再拿着返回的文件对象信息请求设置的处理类型。
           const { file,files } = await VXETable.readFile({
             multiple: true
           })
           const formBody = new FormData();
-          formBody.append("sys.authCode", myData.dxjcxx.sys.authCode);
+          formBody.append("sys.authCode", "QTQX");
           formBody.append("sys.cllx", "upload");
           for(let i=0;i<files.length;i++){
             formBody.append("files", files[i]);
@@ -933,8 +932,7 @@ export default defineComponent({
         },
         sys:{
           authCode:myData.dxjcxx.sys.authCode,
-          cllx:"select",
-          dcwjm:myData.dxjcxx.sjdx.dxmc
+          cllx:"select"
         },
         page:{
           totalRequired:true,

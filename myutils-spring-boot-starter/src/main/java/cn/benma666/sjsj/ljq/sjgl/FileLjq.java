@@ -6,20 +6,19 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import java.io.File;
-import java.util.List;
-
 import cn.benma666.constants.UtilConst;
 import cn.benma666.iframe.DictManager;
-
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqInterface;
 import cn.benma666.sjzt.Db;
 import com.alibaba.druid.DbType;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * 文件管理拦截器 <br/>
@@ -28,7 +27,10 @@ import com.alibaba.fastjson.JSONPath;
  * @version 0.1
  */
 public class FileLjq extends DefaultLjq {
-
+    public Result upload(JSONObject myParams){
+        JSONArray files = myParams.getJSONArray("$.sys.files");
+        return success("成功上传"+files.size()+"个文件");
+    }
     protected Result wlscByYxx(JSONObject myParams) {
         //删除物理删除记录的对应的文件
         myParams.set("$.yobj.yxx", UtilConst.WHETHER_FALSE);

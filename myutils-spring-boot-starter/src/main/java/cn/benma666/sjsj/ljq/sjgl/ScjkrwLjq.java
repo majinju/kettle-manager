@@ -6,6 +6,7 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.Result;
@@ -33,10 +34,8 @@ public class ScjkrwLjq extends DefaultLjq {
             jkpz = JSON.parseObject(pz.getString("kzxx"));
         }
         //监控任务对象,及参数对象构建
-        JSONObject jkrw = myParams.clone();
-        JSONObject p = LjqManager.jcxxByDxdm("SYS_YXJK_JKRW");
-        SysSjglSjdx jkrwdx = (SysSjglSjdx) p.get(KEY_SJDX);
-        jkrw.putAll(p);
+        JSONObject jkrw = LjqManager.jcxxByDxdm("SYS_YXJK_JKRW",myParams.getObject(KEY_USER, SysQxYhxx.class));
+        SysSjglSjdx jkrwdx = (SysSjglSjdx) jkrw.get(KEY_SJDX);
 
         //已存在任务
         int yczrw = 0;

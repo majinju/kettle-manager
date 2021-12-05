@@ -138,7 +138,7 @@
               "type": "primary",
               "content": "导出模板",
               "buttonOptions": {
-                "clfs": "wjxz",
+                "clfs": "download",
                 "htqqts": false,
                 //是否需要选择记录
                 sfxyxzjl: false
@@ -148,7 +148,7 @@
               "type": "primary",
               "content": "批量上传",
               "buttonOptions": {
-                "clfs": "wjsc",
+                "clfs": "upload",
                 "htqqts": false,
                 //是否需要选择记录
                 sfxyxzjl: false
@@ -217,14 +217,14 @@
             "dcdqysj": {
               "content": "导出当前页",
               "buttonOptions": {
-                "clfs": "wjxz",
+                "clfs": "download",
                 sfxyxzjl: false
               }
             },
             "dcsj": {
               "content": "导出全部",
               "buttonOptions": {
-                "clfs": "wjxz",
+                "clfs": "download",
                 sfxyxzjl: false,
                 "params": {
                   "page": {

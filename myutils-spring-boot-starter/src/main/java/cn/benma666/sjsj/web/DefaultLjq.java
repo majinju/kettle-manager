@@ -191,7 +191,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result getdata(JSONObject myParams) {
         //创建个对象，用于在模板中可以设置一些数据作为结果传给前端
         JSONObject resultData = new JSONObject();
-        myParams.put("resultData", resultData);
+        myParams.set("sql.resultData", resultData);
 
         String[] arr = getSql(myParams);
         resultData.put("list", db(arr[0]).find(arr[1], myParams));
@@ -283,10 +283,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 return failed("未找到文件数据");
             }
             JSONObject fo = rl.get(0);
-            SysSjglFile file1 = new SysSjglFile();
-            file1.setWjlx(fo.getString("wjlx"));
-            file1.setWjm(fo.getString("wjm"));
-            file1.setXzms(fo.getBooleanValue("xzms"));
+            SysSjglFile file = fo.toJavaObject(SysSjglFile.class);
             String sjxs = fo.getString("sjxs");
             byte[] byteArr = null;
             if ("bdwjjl".equals(sjxs)) {
@@ -294,7 +291,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             } else if ("blob".equals(sjxs)) {
                 byteArr = fo.getBytes("data");
             }
-            return resultFile(byteArr, file1);
+            file.setXzms(valByDef(myParams.getBoolean("$.yobj.xzms"),false));
+            return resultFile(byteArr, file);
         } catch (Exception e) {
             log.error("获取文件失败:" + myParams, e);
             return failed("获取文件失败，请查看系统日志分析原因:" + e.getMessage());
@@ -308,28 +306,30 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     public Result download(JSONObject myParams) {
         JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
-        fileJcxx.put(KEY_YOBJ,myParams.get(KEY_YOBJ));
-        fileJcxx.set("$.page.totalRequired",Boolean.FALSE);
-        PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(fileJcxx.getObject(KEY_SJDX,SysSjglSjdx.class),
-                fileJcxx).getData();
-        if(page.getList().size()==0){
+        fileJcxx.set("$.page.totalRequired", Boolean.FALSE);
+        JsonUtil.copy(fileJcxx,myParams,"$.yobj.id");
+        JsonUtil.copy(fileJcxx,myParams,"$.sys.ids");
+        PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(
+                fileJcxx.getObject(KEY_SJDX,SysSjglSjdx.class),fileJcxx).getData();
+        if (page.getList().size() == 0) {
             return failed("没有找到该文件");
-        }else if(page.getList().size()>1){
+        } else if (page.getList().size() > 1) {
             return failed("不能找到唯一的文件记录");
         }
-        SysSjglFile fileObj = page.getList().get(0).toJavaObject(SysSjglFile.class);
-        JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
+        SysSjglFile file = page.getList().get(0).toJavaObject(SysSjglFile.class);
+        file.setXzms(valByDef(myParams.getBoolean("$.yobj.xzms"),false));
+        JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, file.getSjzt());
         byte[] byteArr;
         if (DbType.of(sjzt.getString("lx")) != null) {
-            byteArr = db(sjzt.getString("dm")).findFirst(fileObj.getSclj()).getBytes("wj");
+            byteArr = db(sjzt.getString("dm")).findFirst(file.getSclj()).getBytes("wj");
         } else {
             switch (sjzt.getString("lx")) {
                 case "bdwj":
                     //数据载体为本地文件时
                     try {
-                        byteArr = Utils.readByteArray(new FileInputStream(fileObj.getSclj()));
+                        byteArr = Utils.readByteArray(new FileInputStream(file.getSclj()));
                     } catch (IOException e) {
-                        return failed("文件没有找到："+fileObj.getSclj());
+                        return failed("文件没有找到："+ file.getSclj());
                     }
                     break;
                 case "ftp":
@@ -341,7 +341,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     throw new MyException("暂不支持的数据载体类型：" + sjzt.getString("lx"));
             }
         }
-        return resultFile(byteArr, fileObj);
+        return resultFile(byteArr, file);
     }
 
     /**
@@ -600,11 +600,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     public Result dcmb(JSONObject myParams) {
         //导出数据
-        String fileName = sjdx.getDxmc();
+        String fileName = sjdx.getDxmc()+"-数据上传模板-" + DateUtil.getGabDate() + ".xlsx";
         if (myParams.get("$.sys.dcwjm") != null) {
             fileName = myParams.getString("$.sys.dcwjm");
         }
-        fileName += "-数据上传模板-" + DateUtil.getGabDate() + ".xlsx";
         try {
             Map<String, JSONObject> fields = (Map<String, JSONObject>) myParams.get(KEY_FIELDS);
             List<List<String>> header = new ArrayList<>();
@@ -1007,18 +1006,18 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         czrz.setCzlx(myParams.getString($_SYS_CLLX));
         JSONObject csObj = new JSONObject();
         for (Map.Entry<String, Object> e : yobj.entrySet()) {
-            String val = e.getValue() + "";
-            String zdmc = e.getKey();
-            JSONObject f = fields.get(zdmc);
-            if (StringUtil.isBlank(val)) {
+            if (StringUtil.isBlank(e.getValue())) {
                 continue;
             }
+            String key = e.getKey();
+            String val = yobj.getString(key);
+            JSONObject f = fields.get(key);
             if (f == null) {
                 //获取系统其他字段信息
-                f = xtqtzd.get(zdmc);
+                f = xtqtzd.get(key);
             }
             if (f != null) {
-                zdmc = f.getString("zdmc");
+                key = f.getString("zdmc");
                 String kjlx = f.getString("kjlx");
                 if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)) {
                     val = DictManager.zdMcByMoreDm(f.getString("zdzdlb"), val);
@@ -1034,9 +1033,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
             if (val.length() > 300) {
                 log.info("操作参数超长：" + csObj + "->>" + val);
-                csObj.put(zdmc, val.substring(0, 300) + "[超长截取]");
+                csObj.put(key, val.substring(0, 300) + "[超长截取]");
             } else {
-                csObj.put(zdmc, val);
+                csObj.put(key, val);
             }
         }
         czrz.setXgcs(JSON.toJSONString(csObj,false));

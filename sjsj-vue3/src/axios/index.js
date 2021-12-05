@@ -49,9 +49,9 @@ server.interceptors.response.use(
     if (loading) {
       loading.close()
     }
-    if(response.headers["content-type"].indexOf("application/octet-stream")>-1){
+    if(response.headers["filename"]){
       //下载文件的场景
-      response.data.filename=response.headers["filename"];
+      response.data.filename=decodeURI(response.headers["filename"]);
     }
     return Promise.resolve(response.data)
   },
@@ -161,7 +161,11 @@ const httpHandle = {
       let event = new MouseEvent("click");
       let a = document.createElement("a");
       a.href = href;
-      a.download = data.sys.dcwjm;
+      if(req.filename){
+        a.download = req.filename;
+      }else{
+        a.download = data.sys.dcwjm;
+      }
       a.dispatchEvent(event);
       URL.revokeObjectURL(href);
     })
