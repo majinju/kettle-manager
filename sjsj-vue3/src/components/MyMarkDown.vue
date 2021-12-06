@@ -71,6 +71,14 @@ export default defineComponent({
               },
             },
             {
+              name: 'code',
+              text: '任何代码',
+              action() {
+                myData.codeType = "code"
+                setValue(props.modelValue)
+              },
+            },
+            {
               name: 'null',
               text: '无格式',
               action() {
@@ -96,7 +104,10 @@ export default defineComponent({
       if(myData.codeType==='json'){
         val = jsonFormat(val);
       }
-      if(myData.codeType){
+      if(myData.codeType === "code"){
+        //设置了代码类型
+        myData.value = "```\n"+val+"\n```"
+      }else if(myData.codeType){
         //设置了代码类型
         myData.value = "```"+myData.codeType+"\n"+val+"\n```"
       }else{

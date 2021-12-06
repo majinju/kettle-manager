@@ -193,6 +193,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject resultData = new JSONObject();
         myParams.set("sql.resultData", resultData);
 
+        //先调用一次查询语句，获取默认查询条件
+        getSql(myParams,KEY_CLLX_SELECT);
         String[] arr = getSql(myParams);
         resultData.put("list", db(arr[0]).find(arr[1], myParams));
         return success("操作成功", resultData);
@@ -200,6 +202,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public Result plcl(JSONObject myParams) {
+        //先调用一次查询语句，获取默认查询条件
+        getSql(myParams,KEY_CLLX_SELECT);
         String[] arr = getSql(myParams);
         return success("操作成功", db(arr[0]).update(arr[1], myParams));
     }
@@ -435,6 +439,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
     @Override
     public Result plsc(JSONObject myParams) {
+        //先调用一次查询语句，获取默认查询条件
+        getSql(myParams,KEY_CLLX_SELECT);
         boolean wlsc = myParams.getBoolean("$.sys.wlsc");
         Result r = success("");
         if (StringUtil.isNotBlank(sjdx.getYxxzd()) && wlsc) {

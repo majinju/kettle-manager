@@ -19,7 +19,7 @@
 <!--          工具栏左侧-->
           <template #toolbar_left>
             <span class="page-main-header-title">数据展示</span>
-<!--            <vxe-checkbox content="操作全部"></vxe-checkbox>-->
+            <vxe-checkbox v-if="tHasAuth('czqbsj')" v-model="myData.czqbsj" content="操作全部数据"></vxe-checkbox>
             <el-button-group>
               <template v-for="(qx,cllx) in hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,false)">
                 <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size">
@@ -147,6 +147,10 @@ export default defineComponent({
           dxmc:''
         }
       },
+      /**
+       * 操作全部数据
+       */
+      czqbsj: false,
       /**
        * 全局统一配置
        */
@@ -547,6 +551,14 @@ export default defineComponent({
       return qxpz
     })
     /**
+     * 当前对象是否有权限
+     * @param cllx 处理类型
+     * @returns {*} true：有权限，false：无权限
+     */
+    const tHasAuth = (cllx) => {
+      return hasAuth(myData.dxjcxx.sys.authCode + "_" + cllx)
+    }
+    /**
      * 获取权限列表
      * @param qxz 权限组
      * @param gdczSize 区分更多操作的按钮数
@@ -555,9 +567,8 @@ export default defineComponent({
     const hqqxlb = (qxz,gdczSize,gdcz=false) => {
       let qxlb = {}
       let qxlb1 = {}
-      const authCode = myData.dxjcxx.sys.authCode;
       for(const cllx in qxz){
-        if(hasAuth(authCode+"_"+cllx)&&!(qxz[cllx].buttonOptions.isshow===false)){
+        if(tHasAuth(cllx)&&!(qxz[cllx].buttonOptions.isshow===false)){
           qxlb[cllx]=qxz[cllx];
         }
       }
@@ -665,8 +676,7 @@ export default defineComponent({
           editTableData:ur,
           changeCheckData:changeCheckData
         },
-        yobj:myData.selectReqData.yobj,
-        page:myData.selectReqData.page
+        yobj:myData.selectReqData.yobj
       }
       copyByPathMap(htqqcs,myData,buttonOptions.htqqcskz)
       axios.post(assignDeep(htqqcs,buttonOptions.params)).then(req=>{
@@ -728,7 +738,9 @@ export default defineComponent({
       let ids = []
       const cr = xGrid.value.getCheckboxRecords(true);
       //TODO 暂时只做列表选择操作，后续支持“操作全部”
-      if (cr.length === 0&&(buttonOptions.sfxyxzjl!==false)&&row===undefined) {
+      if (cr.length === 0&&(buttonOptions.sfxyxzjl!==false)
+        &&row===undefined&&myData.czqbsj===false) {
+        //没有选中行，且没有要求不选择记录，且不是操作具体某行记录,且没有操作全部数据
         ElMessage.warning("请选择要操作的数据");
         return;
       }
@@ -984,6 +996,7 @@ export default defineComponent({
       sortChange,
       hqqxlb,
       plcl,
+      tHasAuth,
       //弹窗
       xUpdate,
       xModal,
@@ -995,7 +1008,31 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+
 .vxe-grid{
+  .vxe-toolbar{
+    .page-main-header-title{
+      color: #000000;
+      font-weight: bold;
+      position: relative;
+      display: inline-block;
+      padding-left: 5px;
+      font-size: 14px;
+      margin-right: 12px;
+      &:before{
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 8px;
+        background-color: #2d8cf0;
+        left: -8px;
+        top: 0px;
+      }
+    }
+    .vxe-checkbox{
+      margin-right: 5px;
+    }
+  }
   .vxe-cell{
     .vxe-button,.vxe-button--dropdown{
       padding: 0;

@@ -18,12 +18,12 @@ benma666:
 server:
   # 服务器的HTTP端口，默认为8080
   port: 8090
-  session:
-    #单位(s)  这里是24小时
-    timeout: 86400
   servlet:
     # 应用的访问路径
     context-path: /
+    session:
+      #单位(s)  这里是24小时
+      timeout: 24h
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8

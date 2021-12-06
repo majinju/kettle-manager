@@ -31,6 +31,8 @@ public class SjztLjq extends ScjkrwLjq {
      */
     public Result cszt(JSONObject myParams) {
         myParams.set("$.page.totalRequired",false);
+        //最多操作50000，暂时写死，后面可以改为配置
+        myParams.set("$.page.pageSize",50000);
         List<JSONObject> ztList = ((PageInfo<JSONObject>)select(myParams).getData()).getList();
         int tgs = 0;
         StringBuilder wtg = new StringBuilder();
