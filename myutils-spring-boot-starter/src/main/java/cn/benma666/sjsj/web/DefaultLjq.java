@@ -366,6 +366,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         Result r;
         for (JSONObject j : list) {
             myParams.put(KEY_YOBJ, j);
+
             if(StringUtil.isBlank(j.getString(sjdx.getZjzd()))){
                 r = insert(myParams);
             }else{

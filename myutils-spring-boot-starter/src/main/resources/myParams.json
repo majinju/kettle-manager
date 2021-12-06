@@ -20,23 +20,6 @@
           //批量处理右侧最大按钮数
           "plclRightZdans": 2,
           "plclLeft": {
-            "insert": {
-              "type": "primary",
-              "content": "新建",
-              "buttonOptions": {
-                "clfs": "tcck",
-                //是否需要选择记录
-                sfxyxzjl: false
-              }
-            },
-            "plsc": {
-              "type": "primary",
-              "content": "批量删除",
-              "buttonOptions": {
-                "clfs": "htqq",
-                "htqqts": true
-              }
-            },
             "bjms": {
               "type": "primary",
               "content": "编辑模式",
@@ -123,15 +106,32 @@
                 }
               }
             },
-            "plbc": {
+//            "plbc": {
+//              "type": "primary",
+//              "content": "保存",
+//              "buttonOptions": {
+//                "clfs": "plbc",
+//                "htqqts": true,
+//                //是否需要选择记录
+//                sfxyxzjl: false,
+//                "isshow": false
+//              }
+//            },
+            "insert": {
               "type": "primary",
-              "content": "保存",
+              "content": "新建",
               "buttonOptions": {
-                "clfs": "plbc",
-                "htqqts": true,
+                "clfs": "tcck",
                 //是否需要选择记录
-                sfxyxzjl: false,
-                "isshow": false
+                sfxyxzjl: false
+              }
+            },
+            "plsc": {
+              "type": "primary",
+              "content": "批量删除",
+              "buttonOptions": {
+                "clfs": "htqq",
+                "htqqts": true
               }
             },
             "dcmb": {
@@ -267,7 +267,8 @@
             "zdkd": 2
           }
         },
-        "kjkz": {
+        "kjkz":{
+          "title":"",
           "itemRender": {
             "props": {
               "dxjcxx": {
@@ -392,6 +393,7 @@
         "cllxkz": {
         },
         "kjkz": {
+          "title":"",
           "align": "right",
           "span": 24,
           //vxe的按钮
@@ -423,6 +425,7 @@
           }
         },
         "kjkz": {
+          "title":"",
           "align": "center",
           "span": 24,
           //vxe的按钮
@@ -464,6 +467,7 @@
           }
         },
         "kjkz": {
+          "title":"",
           "align": "center",
           "span": 24,
           //vxe的按钮
@@ -505,6 +509,7 @@
           }
         },
         "kjkz": {
+          "title":"",
           "align": "center",
           "span": 24,
           //vxe的按钮

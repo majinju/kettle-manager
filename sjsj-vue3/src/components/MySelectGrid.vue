@@ -1,7 +1,7 @@
 <template>
   <div :key="key" class="page-warp" v-cloak>
     <div class="page-title"><i class="el-icon-s-home"> / {{myData.dxjcxx.sjdx.dxmc}}</i></div>
-    <div class="page-header">
+    <div v-show="myData.dxjcxx.sjdx.cxtj==='1'" class="page-header">
       <vxe-form ref="xForm" :data="myData.formData" :items="myData.formItems" :rules="myData.formRule" @submit="search">
       </vxe-form>
     </div>
@@ -19,8 +19,11 @@
 <!--          工具栏左侧-->
           <template #toolbar_left>
             <span class="page-main-header-title">数据展示</span>
-            <vxe-checkbox v-if="tHasAuth('czqbsj')" v-model="myData.czqbsj" content="操作全部数据"></vxe-checkbox>
+            <vxe-checkbox v-if="tHasAuth('czqbsj')" v-model="myData.czqbsj" content="操作全部"></vxe-checkbox>
             <el-button-group>
+              <el-button v-if="myData.editCofnig.enabled" type="primary"
+                         @click="plcl('plbc',{content:'保存',buttonOptions:{clfs:'plbc',htqqts:true,sfxyxzjl:false}})"
+                         :size="myData.options.size">保存</el-button>
               <template v-for="(qx,cllx) in hqqxlb(qxpz.plclLeft,qxpz.plclLeftZdans,false)">
                 <el-button v-bind="qx" @click="plcl(cllx,qx)" :size="myData.options.size">
                   {{qx.content}}
@@ -110,6 +113,12 @@ export default defineComponent({
       type: String
     },
     /**
+     * 关联字段，控件值通过该字段关联
+     */
+    glzd:{
+      type: String
+    },
+    /**
      * 父页面传入对象基础信息
      */
     dxjcxx:{
@@ -120,13 +129,15 @@ export default defineComponent({
      * 是否禁用
      */
     disabled:{
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     /**
      * 是否只读
      */
     readonly:{
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     /**
      * key组件标志
@@ -221,7 +232,7 @@ export default defineComponent({
        * 表格编辑配置
        */
       editCofnig:{
-        enabled: false,
+        enabled: !(props.readonly||props.disabled),
         trigger: 'click',
         mode: 'cell',
         showStatus: true
@@ -951,10 +962,16 @@ export default defineComponent({
           pageSize: myData.pagerConfig.pageSize
         }
       }
+      //关联键
+      if(props.glzd){
+        myData.formData[props.glzd] = props.modelValue
+      }
       //此处再进行一次myData与对象中的该处理类型扩展合并,便于对页面其他参数的设置
       myData = assignDeep(myData,getByPath(dxjcxx, "sys.cllxkz.select.pagekz"))
       //初始化查询
-      await getList();
+      if(myData.dxjcxx.sjdx.cscx==='1'){
+        await getList();
+      }
     }
     await initPage(props.dxjcxx)
     watch(()=>props.dxjcxx,function (newJcxx){
@@ -1019,6 +1036,7 @@ export default defineComponent({
       padding-left: 5px;
       font-size: 14px;
       margin-right: 12px;
+      vertical-align: middle;
       &:before{
         content: "";
         position: absolute;
@@ -1031,6 +1049,7 @@ export default defineComponent({
     }
     .vxe-checkbox{
       margin-right: 5px;
+      color: chocolate;
     }
   }
   .vxe-cell{

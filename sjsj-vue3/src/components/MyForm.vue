@@ -232,8 +232,6 @@ export default defineComponent({
               break
             case '$buttons':
               //按钮组
-              //按钮不显示描述
-              fi.title="";
               let children = [];
               //获取配置的按钮组
               let $buttons = getByPath(f.kzxx,"kjkz.btns");
@@ -250,8 +248,6 @@ export default defineComponent({
               break
             case 'MySelectGrid':
               //查询表格
-              //此场景为直接展示查询列表
-              fi.title="";
               //获取配置的对象信息
               let authCode = getByPath(f.kzxx,"kjkz.itemRender.props.dxjcxx.sys.authCode");
               let dxdm = getByPath(f.kzxx,"kjkz.itemRender.props.dxjcxx.sjdx.dxdm");
@@ -271,6 +267,10 @@ export default defineComponent({
                 fi.itemRender.props.dxjcxx = dxjcxx
               }
               fi.itemRender.props.key = new Date().getTime();
+              if(myData.dxjcxx.sjdx.zjzd){
+                //将主键设置为表格的值
+                myData.formData[f.zddm] = myData.formData[myData.dxjcxx.sjdx.zjzd]
+              }
               break
             case "password":
               //密码框
@@ -324,6 +324,8 @@ export default defineComponent({
           }
           //合并字段的控件扩展，覆盖默认值
           myData.formItems.push(assignDeep(fi,f.kzxx.kjkz));
+          //属性复制
+          copyByPathMap(fi,myData,f.kzxx.sxkz)
         }
       }
       //此处再进行一次myData与对象中的该处理类型扩展合并
