@@ -39,11 +39,11 @@
                     "select": {
                       "qxpz": {
                         "plclLeft": {
-                          "plbc": {
-                            "buttonOptions": {
-                              "isshow": true
-                            }
-                          },
+//                          "plbc": {
+//                            "buttonOptions": {
+//                              "isshow": true
+//                            }
+//                          },
                           "qxbj": {
                             "buttonOptions": {
                               "isshow": true
@@ -80,12 +80,12 @@
                     "select": {
                       "qxpz": {
                         "plclLeft": {
+//                          "plbc": {
+//                            "buttonOptions": {
+//                              "isshow": false
+//                            }
+//                          },
                           "qxbj": {
-                            "buttonOptions": {
-                              "isshow": false
-                            }
-                          },
-                          "plbc": {
                             "buttonOptions": {
                               "isshow": false
                             }
