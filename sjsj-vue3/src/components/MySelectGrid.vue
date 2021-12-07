@@ -317,8 +317,8 @@ export default defineComponent({
      * @param dxjcxx 对象基础信息
      */
     function initTableCheckbox(dxjcxx) {
-      if (getByPath(dxjcxx, "sys.cllxkz.select.checkboxConfig")) {
-        myData.checkboxConfig = getByPath(dxjcxx, "sys.cllxkz.select.checkboxConfig")
+      if (getByPath(dxjcxx, "cllxkz.select.checkboxConfig")) {
+        myData.checkboxConfig = getByPath(dxjcxx, "cllxkz.select.checkboxConfig")
         //设置判断复选框选中的字段
         myData.checkboxConfig.checkField = myData.checkboxConfig.checkFieldOld+"_boolean"
       }
@@ -328,14 +328,14 @@ export default defineComponent({
      * @param dxjcxx 对象基础信息
      */
     function initTableTree(dxjcxx) {
-      if (!getByPath(dxjcxx, "sys.cllxkz.select.tree.parentField")) {
+      if (!getByPath(dxjcxx, "cllxkz.select.tree.parentField")) {
         //没有配置树
         return
       }
       //树形结构采用默认序号方法
       delete myData.seqConfig.seqMethod;
       //树形结构
-      myData.treeConfig = getByPath(dxjcxx, "sys.cllxkz.select.tree")
+      myData.treeConfig = getByPath(dxjcxx, "cllxkz.select.tree")
       if(myData.treeConfig.lazy===false){
         //不是懒加载
         return;
@@ -555,7 +555,7 @@ export default defineComponent({
      * @type {ComputedRef<unknown>}
      */
     const qxpz = computed(()=>{
-      let qxpz = getByPath(myData,"dxjcxx.sys.cllxkz.select.qxpz");
+      let qxpz = getByPath(myData,"dxjcxx.cllxkz.select.qxpz");
       if(!qxpz){
         qxpz = {}
       }
@@ -967,7 +967,7 @@ export default defineComponent({
         myData.formData[props.glzd] = props.modelValue
       }
       //此处再进行一次myData与对象中的该处理类型扩展合并,便于对页面其他参数的设置
-      myData = assignDeep(myData,getByPath(dxjcxx, "sys.cllxkz.select.pagekz"))
+      myData = assignDeep(myData,getByPath(dxjcxx, "cllxkz.select.pagekz"))
       //初始化查询
       if(myData.dxjcxx.sjdx.cscx==='1'){
         await getList();

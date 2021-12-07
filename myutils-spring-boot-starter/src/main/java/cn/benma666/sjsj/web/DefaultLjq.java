@@ -181,7 +181,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         jcxx.put(KEY_SJDX, myParams.get(KEY_SJDX));
         jcxx.put(KEY_FIELDS, myParams.get(KEY_FIELDS));
         jcxx.put(KEY_OBJ, myParams.get(KEY_OBJ));
-        JsonUtil.copy(jcxx, myParams, "$.sys.cllxkz");
+        JsonUtil.copy(jcxx, myParams, "$.cllxkz");
         JsonUtil.copy(jcxx, myParams, "$.sys.sjdxkz");
         JsonUtil.copy(jcxx, myParams, "$.sys.fields");
         JsonUtil.copy(jcxx, myParams, $_SYS_AUTHCODE);
@@ -224,7 +224,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             fileName = myParams.getString("$.sys.dcwjm");
         }
         try {
-            String hiddenCol = JSONPath.eval(myParams, "$.sys.hiddenCol") + ",列表选择";
+            String hiddenCol = myParams.getString("$.sys.hiddenCol") + ",列表选择";
             Set<String> hiddenColSet = new HashSet<>();
             CollectionUtils.addAll(hiddenColSet, hiddenCol.split(","));
             Map<String, JSONObject> fields = (Map<String, JSONObject>) myParams.get(KEY_FIELDS);
@@ -482,8 +482,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         page = db(arr[0]).queryPage(page, arr[1], myParams);
         JSONObject fields = myParams.getJSONObject(KEY_FIELDS);
         //树形结构时，将是否有子节点的标志转为boolean形
-        String hasChild = myParams.getString("$.sys.cllxkz['select'].tree.hasChild");
-        String checkField = myParams.getString("$.sys.cllxkz['select'].checkboxConfig.checkFieldOld");
+        String hasChild = myParams.getString("$.cllxkz['select'].tree.hasChild");
+        String checkField = myParams.getString("$.cllxkz['select'].checkboxConfig.checkFieldOld");
         for(JSONObject row : page.getList()){
             for(String zddm:fields.keySet()){
                 if(StringUtil.isBlank(row.getString(zddm))){

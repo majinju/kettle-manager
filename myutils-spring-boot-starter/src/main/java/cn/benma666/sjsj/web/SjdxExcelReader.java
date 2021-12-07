@@ -18,7 +18,6 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -94,6 +93,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         this.fileObj = fileObj;
         //设置错误信息相关参数
         this.sjsccwParams = LjqManager.jcxxByDxdm("SYS_LOG_SJSCCW");
+        this.sjsccwParams.put(LjqInterface.KEY_USER,myParams.get(LjqInterface.KEY_USER));
         this.sjsccwSjdx = (SysSjglSjdx) sjsccwParams.get(LjqInterface.KEY_SJDX);
         //设置为新增模式，后续会插入读取错误信息
         sjsccwParams.set(LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_INSERT);

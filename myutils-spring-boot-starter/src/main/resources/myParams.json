@@ -10,229 +10,225 @@
     //请求时清除缓存，默认false，重新加载对象、字段等信息
     "clearCache": false,
     //数据是否使用缓存，部分功能数据存在缓存会用到，默认true
-    "dataCache": true,
-    "cllxkz": {
-      "select": {
-        //饿了么的的按钮
-        "qxpz": {
-          //批量处理左侧最大按钮数
-          "plclLeftZdans": 9,
-          //批量处理右侧最大按钮数
-          "plclRightZdans": 2,
-          "plclLeft": {
-            "bjms": {
-              "type": "primary",
-              "content": "编辑模式",
-              "buttonOptions": {
-                "clfs": "ymcsth",
-                "htqqts": false,
-                //是否需要选择记录
-                sfxyxzjl: false,
-                "isshow": true,
-                "params": {
-                  "editCofnig": {
-                    "enabled": true
-                  },
-                  "dxjcxx": {
-                    "sys": {
-                      "cllxkz": {
-                        "select": {
-                          "qxpz": {
-                            "plclLeft": {
-                              "plbc": {
-                                "buttonOptions": {
-                                  "isshow": true
-                                }
-                              },
-                              "qxbj": {
-                                "buttonOptions": {
-                                  "isshow": true
-                                }
-                              },
-                              "bjms": {
-                                "buttonOptions": {
-                                  "isshow": false
-                                }
-                              }
+    "dataCache": true
+  },
+  "cllxkz": {
+    "select": {
+      //饿了么的的按钮
+      "qxpz": {
+        //批量处理左侧最大按钮数
+        "plclLeftZdans": 9,
+        //批量处理右侧最大按钮数
+        "plclRightZdans": 2,
+        "plclLeft": {
+          "bjms": {
+            "type": "primary",
+            "content": "编辑模式",
+            "buttonOptions": {
+              "clfs": "ymcsth",
+              "htqqts": false,
+              //是否需要选择记录
+              sfxyxzjl: false,
+              "isshow": true,
+              "params": {
+                "editCofnig": {
+                  "enabled": true
+                },
+                "dxjcxx": {
+                  "cllxkz": {
+                    "select": {
+                      "qxpz": {
+                        "plclLeft": {
+                          "plbc": {
+                            "buttonOptions": {
+                              "isshow": true
+                            }
+                          },
+                          "qxbj": {
+                            "buttonOptions": {
+                              "isshow": true
+                            }
+                          },
+                          "bjms": {
+                            "buttonOptions": {
+                              "isshow": false
                             }
                           }
                         }
                       }
                     }
                   }
-                }
-              }
-            },
-            "qxbj": {
-              "type": "primary",
-              "content": "取消编辑",
-              "buttonOptions": {
-                "clfs": "ymcsth",
-                "htqqts": false,
-                //是否需要选择记录
-                sfxyxzjl: false,
-                "isshow": false,
-                "params": {
-                  "editCofnig": {
-                    "enabled": false
-                  },
-                  "dxjcxx": {
-                    "sys": {
-                      "cllxkz": {
-                        "select": {
-                          "qxpz": {
-                            "plclLeft": {
-                              "qxbj": {
-                                "buttonOptions": {
-                                  "isshow": false
-                                }
-                              },
-                              "plbc": {
-                                "buttonOptions": {
-                                  "isshow": false
-                                }
-                              },
-                              "bjms": {
-                                "buttonOptions": {
-                                  "isshow": true
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-//            "plbc": {
-//              "type": "primary",
-//              "content": "保存",
-//              "buttonOptions": {
-//                "clfs": "plbc",
-//                "htqqts": true,
-//                //是否需要选择记录
-//                sfxyxzjl: false,
-//                "isshow": false
-//              }
-//            },
-            "insert": {
-              "type": "primary",
-              "content": "新建",
-              "buttonOptions": {
-                "clfs": "tcck",
-                //是否需要选择记录
-                sfxyxzjl: false
-              }
-            },
-            "plsc": {
-              "type": "primary",
-              "content": "批量删除",
-              "buttonOptions": {
-                "clfs": "htqq",
-                "htqqts": true
-              }
-            },
-            "dcmb": {
-              "type": "primary",
-              "content": "导出模板",
-              "buttonOptions": {
-                "clfs": "download",
-                "htqqts": false,
-                //是否需要选择记录
-                sfxyxzjl: false
-              }
-            },
-            "sjplsc": {
-              "type": "primary",
-              "content": "批量上传",
-              "buttonOptions": {
-                "clfs": "upload",
-                "htqqts": false,
-                //是否需要选择记录
-                sfxyxzjl: false
-              }
-            },
-            "fzjl": {
-              "type": "primary",
-              "content": "复制",
-              "buttonOptions": {
-                "clfs": "htqq",
-                "htqqts": true,
-                "params": {
-                  "sys": {
-                    "zxcz": "plcl"
-                  }
-                }
-              }
-            },
-            "pzdx": {
-              "type": "primary",
-              "content": "对象配置",
-              "buttonOptions": {
-                "clfs": "tcck",
-                //是否需要选择记录
-                sfxyxzjl: false,
-                "dxjcxx": {
-                  "sjdx": {
-                    "dxdm": "SYS_SJGL_SJDX"
-                  },
-                  "sys": {
-                    "cllx": "update"
-                  }
-                },
-                //基础信息扩展，可以把当前页面参数取出来设置到dxjcxx中
-                "jcxxkz": {
-                  //<设置到obj中的key，从myData中取的只路径>
-                  "obj": "dxjcxx.sjdx"
-                }
-              }
-            },
-            "pzzd": {
-              "type": "primary",
-              "content": "字段配置",
-              "buttonOptions": {
-                "clfs": "tcck",
-                //是否需要选择记录
-                sfxyxzjl: false,
-                tcqp: true,
-                "dxjcxx": {
-                  "sjdx": {
-                    "dxdm": "SYS_SJGL_SJZD"
-                  },
-                  "sys": {
-                    "cllx": "select"
-                  }
-                },
-                //基础信息扩展，可以把当前页面参数取出来设置到dxjcxx中
-                "jcxxkz": {
-                  //<设置到obj中的key，从myData中取的只路径>
-                  "fields.sjdx.cxmrz": "dxjcxx.sjdx.id"
                 }
               }
             }
           },
-          "plclRight": {
-            "dcdqysj": {
-              "content": "导出当前页",
-              "buttonOptions": {
-                "clfs": "download",
-                sfxyxzjl: false
-              }
-            },
-            "dcsj": {
-              "content": "导出全部",
-              "buttonOptions": {
-                "clfs": "download",
-                sfxyxzjl: false,
-                "params": {
-                  "page": {
-                    //默认导出50000条记录
-                    "pageSize": 50000,
-                    //导出全部默认只允许导出第一页
-                    "pageNumber": 1
+          "qxbj": {
+            "type": "primary",
+            "content": "取消编辑",
+            "buttonOptions": {
+              "clfs": "ymcsth",
+              "htqqts": false,
+              //是否需要选择记录
+              sfxyxzjl: false,
+              "isshow": false,
+              "params": {
+                "editCofnig": {
+                  "enabled": false
+                },
+                "dxjcxx": {
+                  "cllxkz": {
+                    "select": {
+                      "qxpz": {
+                        "plclLeft": {
+                          "qxbj": {
+                            "buttonOptions": {
+                              "isshow": false
+                            }
+                          },
+                          "plbc": {
+                            "buttonOptions": {
+                              "isshow": false
+                            }
+                          },
+                          "bjms": {
+                            "buttonOptions": {
+                              "isshow": true
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
+                }
+              }
+            }
+          },
+          //            "plbc": {
+          //              "type": "primary",
+          //              "content": "保存",
+          //              "buttonOptions": {
+          //                "clfs": "plbc",
+          //                "htqqts": true,
+          //                //是否需要选择记录
+          //                sfxyxzjl: false,
+          //                "isshow": false
+          //              }
+          //            },
+          "insert": {
+            "type": "primary",
+            "content": "新建",
+            "buttonOptions": {
+              "clfs": "tcck",
+              //是否需要选择记录
+              sfxyxzjl: false
+            }
+          },
+          "plsc": {
+            "type": "primary",
+            "content": "批量删除",
+            "buttonOptions": {
+              "clfs": "htqq",
+              "htqqts": true
+            }
+          },
+          "dcmb": {
+            "type": "primary",
+            "content": "导出模板",
+            "buttonOptions": {
+              "clfs": "download",
+              "htqqts": false,
+              //是否需要选择记录
+              sfxyxzjl: false
+            }
+          },
+          "sjplsc": {
+            "type": "primary",
+            "content": "批量上传",
+            "buttonOptions": {
+              "clfs": "upload",
+              "htqqts": false,
+              //是否需要选择记录
+              sfxyxzjl: false
+            }
+          },
+          "fzjl": {
+            "type": "primary",
+            "content": "复制",
+            "buttonOptions": {
+              "clfs": "htqq",
+              "htqqts": true,
+              "params": {
+                "sys": {
+                  "zxcz": "plcl"
+                }
+              }
+            }
+          },
+          "pzdx": {
+            "type": "primary",
+            "content": "对象配置",
+            "buttonOptions": {
+              "clfs": "tcck",
+              //是否需要选择记录
+              sfxyxzjl: false,
+              "dxjcxx": {
+                "sjdx": {
+                  "dxdm": "SYS_SJGL_SJDX"
+                },
+                "sys": {
+                  "cllx": "update"
+                }
+              },
+              //基础信息扩展，可以把当前页面参数取出来设置到dxjcxx中
+              "jcxxkz": {
+                //<设置到obj中的key，从myData中取的只路径>
+                "obj": "dxjcxx.sjdx"
+              }
+            }
+          },
+          "pzzd": {
+            "type": "primary",
+            "content": "字段配置",
+            "buttonOptions": {
+              "clfs": "tcck",
+              //是否需要选择记录
+              sfxyxzjl: false,
+              tcqp: true,
+              "dxjcxx": {
+                "sjdx": {
+                  "dxdm": "SYS_SJGL_SJZD"
+                },
+                "sys": {
+                  "cllx": "select"
+                }
+              },
+              //基础信息扩展，可以把当前页面参数取出来设置到dxjcxx中
+              "jcxxkz": {
+                //<设置到obj中的key，从myData中取的只路径>
+                "fields.sjdx.cxmrz": "dxjcxx.sjdx.id"
+              }
+            }
+          }
+        },
+        "plclRight": {
+          "dcdqysj": {
+            "content": "导出当前页",
+            "buttonOptions": {
+              "clfs": "download",
+              sfxyxzjl: false
+            }
+          },
+          "dcsj": {
+            "content": "导出全部",
+            "buttonOptions": {
+              "clfs": "download",
+              sfxyxzjl: false,
+              "params": {
+                "page": {
+                  //默认导出50000条记录
+                  "pageSize": 50000,
+                  //导出全部默认只允许导出第一页
+                  "pageNumber": 1
                 }
               }
             }

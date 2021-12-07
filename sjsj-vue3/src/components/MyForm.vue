@@ -329,7 +329,7 @@ export default defineComponent({
         }
       }
       //此处再进行一次myData与对象中的该处理类型扩展合并
-      myData = assignDeep(myData,getByPath(dxjcxx, "sys.cllxkz."+cllx+".pagekz"))
+      myData = assignDeep(myData,getByPath(dxjcxx, "cllxkz."+cllx+".pagekz"))
     }
     //初始进入页面
     if(props.dxjcxx){
