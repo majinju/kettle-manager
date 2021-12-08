@@ -241,6 +241,9 @@ public class LjqManager extends BasicObject {
     public static Result update(SysSjglSjdx sjdx, JSONObject myParams){
         return use(sjdx).update(myParams);
     }
+    public static Result save(SysSjglSjdx sjdx, JSONObject myParams){
+        return use(sjdx).save(myParams);
+    }
     /**
      * 获取sql <br/>
      *

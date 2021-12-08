@@ -39,7 +39,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
     /**
      * 日志
      */
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
     /**
      * 错误信息参数对象
      */

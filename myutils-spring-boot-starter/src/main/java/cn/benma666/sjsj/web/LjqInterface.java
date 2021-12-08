@@ -121,6 +121,13 @@ public interface LjqInterface extends LjqConstant {
      */
     Result update(JSONObject myParams) throws MyException;
     /**
+     * 保存数据，可用进行新增和修改
+     * @param myParams 参数
+     * @return 处理结果
+     * @throws MyException 系统范围内处理异常
+     */
+    Result save(JSONObject myParams) throws MyException;
+    /**
      * 获取Sql <br/>
      * @param myParams 相关参数
      * @return 0:数据载体，1：sql

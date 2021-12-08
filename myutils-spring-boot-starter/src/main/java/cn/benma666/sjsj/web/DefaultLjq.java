@@ -106,11 +106,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         //取出验证规则
         JSONObject yzgz = myParams.getJSONObject(UtilConst.KEY_YZGZ);
+        String cllx = getCllx(myParams);
         for (String key : yzgz.keySet()) {
             JSONObject gzObj = yzgz.getJSONObject(key);
             try {
                 VerifyRule.ruleVerify(myParams.get("$." + key),
-                        myParams, gzObj, getCllx(myParams));
+                        myParams, gzObj, cllx);
             } catch (VerifyRuleException e) {
                 throw new MyException(e.getMessage(), HttpStatus.PRECONDITION_FAILED.value(), key);
             }
