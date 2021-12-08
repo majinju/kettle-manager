@@ -232,6 +232,7 @@ public class SjdxLjq extends DefaultLjq {
         if(StringUtil.isBlank(zddrsql)){
             String[] arr = LjqManager.getSql(jtdx, myParams, "dis");
             jtdx.setZddrsql(arr[1]);
+            zddrsql = arr[1];
         }
         if(!zddrsql.startsWith("select")){
             //非查询语句则按自定义字段规则导入。
@@ -239,6 +240,9 @@ public class SjdxLjq extends DefaultLjq {
             for(String row:zddrsql.split("\n")){
                 JSONObject zdObj = new JSONObject();
                 String[] sxs = row.split("\\|");
+                if(sxs.length!=4){
+                    return failed("非自动导出字段场景，自定义字段没有按指定规则填写："+row);
+                }
                 zdObj.put("zddm", sxs[0]);
                 zdObj.put("zdms", sxs[1]);
                 zdObj.put("zdlx", sxs[2]);

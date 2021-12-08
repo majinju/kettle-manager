@@ -1,6 +1,6 @@
 <template>
   <div :key="key" class="page-warp" v-cloak>
-    <div class="page-title"><i class="el-icon-s-home"> / {{myData.dxjcxx.sjdx.dxmc}}</i></div>
+    <div v-if="myData.dxjcxx.cllxkz.select.titleShow!==false" class="page-title"><i class="el-icon-s-home"> / {{myData.dxjcxx.sjdx.dxmc}}</i></div>
     <div v-show="myData.dxjcxx.sjdx.cxtj==='1'" class="page-header">
       <vxe-form ref="xForm" :data="myData.formData" :items="myData.formItems" :rules="myData.formRule" @submit="search">
       </vxe-form>

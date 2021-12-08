@@ -169,6 +169,7 @@
             "content": "对象配置",
             "buttonOptions": {
               "clfs": "tcck",
+              "tcqp": true,
               //是否需要选择记录
               sfxyxzjl: false,
               "dxjcxx": {

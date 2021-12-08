@@ -10,6 +10,7 @@ export default createStore({
     user:{
       yhxm:"临时用户",
       yhdm:"lsyh",
+      jgxx:{}
     },
     /**
      * 系统参数，记录了用户的ip等基础信息

@@ -71,6 +71,11 @@ server.interceptors.response.use(
     return Promise.reject(data);
   }
 );
+/**
+ * 提示标志，避免重复提示
+ * @type {boolean}
+ */
+let ts = false;
 function errorMessageHand(status, data) {
   status = parseInt(status)
   switch (status) {
@@ -79,14 +84,20 @@ function errorMessageHand(status, data) {
       break
     case 403:
       // token失效
-      ElMessageBox.confirm((data.msg|| '该操作没有权限')+'，请确认是否拥有该权限，重新登陆试试', {
-        confirmButtonText: "重新登陆",
-        cancelButtonText: "取消",
-        type: "error"
-      }).then(() => {
-        router.push('/login').then();
-      }).catch(()=>{
-      })
+      if(!ts){
+        ts = true;
+        ElMessageBox.confirm((data.msg|| '该操作没有权限')+'，请确认是否拥有该权限，重新登陆试试', {
+          confirmButtonText: "重新登陆",
+          cancelButtonText: "取消",
+          type: "error"
+        }).then(() => {
+          ts = false
+          router.push('/login').then();
+        }).catch(()=>{
+          ts = false
+          console.log("没有权限，用户没有重新登陆");
+        })
+      }
       break
     default:
       // 其他错误，直接抛出错误提示
