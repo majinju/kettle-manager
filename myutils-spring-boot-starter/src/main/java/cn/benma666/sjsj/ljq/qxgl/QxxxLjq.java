@@ -66,8 +66,10 @@ public class QxxxLjq extends DefaultLjq {
         if(!r.isStatus()){
             return r;
         }
-        if(valByDef(myParams.getBoolean("$.yobj.sczqx"),false)
-                && StringUtil.isNotBlank(myParams.getString("$.yobj.dz"))){
+        if(valByDef(myParams.getBoolean("$.yobj.sczqx"),false)){
+            if(StringUtil.isBlank(myParams.getString("$.yobj.dz"))){
+                throw new MyException("要生成子权限，必须在权限地址中填写对应的数据对象代码");
+            }
             //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
             String[] rr = getSql(myParams, "sczqx");
             sqlManager(rr[0]).executeUpdate(rr[1], myParams);

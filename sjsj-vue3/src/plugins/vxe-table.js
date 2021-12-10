@@ -72,7 +72,8 @@ export const options ={
     pageSize:10,
     pageSizes: [10, 20, 50, 100, 500],
     layouts:['Sizes', 'PrevJump', 'PrevPage', 'Number', 'NextPage', 'NextJump', 'FullJump','PageCount', 'Total'],
-    className:"my-pager"
+    className:"my-pager",
+    autoHidden: true
   },
   modal:{
     width:"1000px",

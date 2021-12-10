@@ -22,22 +22,22 @@ import com.alibaba.fastjson.JSONObject;
  */
 public class JsxxLjq extends DefaultLjq {
     @Override
-    protected Result saveDb(JSONObject myParams) {
+    public Result update(JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
         JSONObject obj = myParams.getJSONObject(KEY_OBJ);
-        Result r = super.saveDb(myParams);
+        Result r = super.update(myParams);
         if(r.isStatus()&& StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
-            Db.use(sjdx.getDxzt()).update("update sys_qx_jsxx t set t.dm=replace(t.dm,?,?),t.fjs=replace(t.fjs,?,?),"
+            db().update("update sys_qx_jsxx t set t.dm=replace(t.dm,?,?),t.fjs=replace(t.fjs,?,?),"
                     + "t.gxsj=? where t.dm like ?",
                     obj.getString("dm")+"_",dm+"_",obj.getString("dm"),dm,
                     DateUtil.getGabDate(),obj.getString("dm")+"_%");
             //修改授权信息中的权限代码。
-            Db.use(sjdx.getDxzt()).update("update sys_qx_jsqxgl t set t.js=replace(t.js,?,?),"
+            db().update("update sys_qx_jsqxgl t set t.js=replace(t.js,?,?),"
                     + "t.gxsj=? where t.js like ?",
                     obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
-            Db.use(sjdx.getDxzt()).update("update sys_qx_yhjsgl t set t.js=replace(t.js,?,?),"
+            db().update("update sys_qx_yhjsgl t set t.js=replace(t.js,?,?),"
                     + "t.gxsj=? where t.js like ?",
                     obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
             UserManager.flushUserQxxx();
