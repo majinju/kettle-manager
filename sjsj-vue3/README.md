@@ -40,4 +40,3 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 3. [element-plus](https://element-plus.gitee.io/zh-CN/component/container.html#footer-attributes)
 4. [vxe-table-plugin-element](https://github.com/x-extends/vxe-table-plugin-element)
 5. [sass](https://www.sass.hk/guide/)
-6. [图标库](https://fontawesome.com/v5.15/icons?d=gallery&p=2)

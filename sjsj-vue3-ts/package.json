@@ -2,11 +2,33 @@
   "name": "sjsj-vue3-ts",
   "version": "0.1.0",
   "private": true,
+  "description": "数据世界-vue",
+  "author": "majinju",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-test": "vue-cli-service build --mode development",
     "lint": "vue-cli-service lint"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,vue}": [
+      "prettier --write",
+      "vue-cli-service lint",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "element"
+  ],
   "dependencies": {
     "@element-plus/icons": "^0.0.11",
     "axios": "^0.22.0",
@@ -85,24 +107,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "keywords": [
-    "vue",
-    "vue3",
-    "element"
-  ],
-  "license": "MIT",
-  "lint-staged": {
-    "src/**/*.{js,vue}": [
-      "prettier --write",
-      "vue-cli-service lint",
-      "eslint --fix",
-      "git add"
-    ]
-  }
+  ]
 }
