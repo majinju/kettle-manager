@@ -6,6 +6,8 @@ import MySelectGrid from "../components/MySelectGrid";
 import MySelectGrid1 from "@/views/sjdx1/MySelectGrid1";
 import {dateFormat, zdObj} from "@/utils/common"
 import MyMarkDown from "components/MyMarkDown";
+import MyRadio from "components/MyRadio";
+import MyCheckbox from "components/MyCheckbox";
 /**
  * 基于 vxe-table 表格的适配插件
  */
@@ -34,6 +36,54 @@ export const VxeExtend = {
           const { props } = renderOpts
           return[
             <MySelect v-model={data[property]} {...props}/>
+          ]
+        },
+      },
+      MyRadio: {
+        autofocus: 'input.my-input__inner',
+        // 可编辑激活模板
+        renderEdit (renderOpts, params) {
+          let { row, column } = params
+          const { props } = renderOpts
+          let val = row[column.property];
+          if(val){
+            zdObj({zdlb:column.editRender.props.zdlb,dm:val}).then(function (obj){
+              row[column.property+"_mc"]=obj.mc;
+            })
+          }
+          return [
+            <MySelect v-model={row[column.property]} {...props}/>
+          ]
+        },
+        renderItemContent(renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MyRadio v-model={data[property]} {...props}/>
+          ]
+        },
+      },
+      MyCheckbox: {
+        autofocus: 'input.my-input__inner',
+        // 可编辑激活模板
+        renderEdit (renderOpts, params) {
+          let { row, column } = params
+          const { props } = renderOpts
+          let val = row[column.property];
+          if(val){
+            zdObj({zdlb:column.editRender.props.zdlb,dm:val}).then(function (obj){
+              row[column.property+"_mc"]=obj.mc;
+            })
+          }
+          return [
+            <MySelect v-model={row[column.property]} {...props}/>
+          ]
+        },
+        renderItemContent(renderOpts, params) {
+          const { data, property } = params
+          const { props } = renderOpts
+          return[
+            <MyCheckbox v-model={data[property]} {...props}/>
           ]
         },
       },

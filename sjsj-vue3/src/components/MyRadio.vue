@@ -1,14 +1,15 @@
 <template>
-  <vxe-select ref="xInput" :options="mydata.options" :disabled="mydata.isdisabled"
-              :model-value="mydata.valve" @update:modelValue="updateVal">
-  </vxe-select>
+  <vxe-radio-group ref="xInput" :disabled="mydata.isdisabled"
+    :model-value="mydata.valve" @update:modelValue="updateVal">
+    <vxe-radio v-for="(zd,key,index) in mydata.options" :label="zd.dm" :content="zd.mc"></vxe-radio>
+  </vxe-radio-group>
 </template>
 
 <script>
 import { defineComponent, reactive, ref,watch } from 'vue'
 import { zdList } from "@/utils/common"
 export default defineComponent({
-  name:'MySelect',
+  name:'MyRadio',
   inheritAttrs: true,
   props: {
     /**

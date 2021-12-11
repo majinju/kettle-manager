@@ -407,6 +407,16 @@ export default defineComponent({
             // fi.itemRender = {name: 'MyDownList'};
             fi.itemRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
             break
+          case '$radio':
+            //还要考虑字典树
+            fi.itemRender = {name: 'MyRadio'};
+            fi.itemRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
+            break
+          case '$checkbox':
+            //还要考虑字典树
+            fi.itemRender = {name: 'MyCheckbox'};
+            fi.itemRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
+            break
           case 'ElDatePicker':
             //时间选择器
             fi.itemRender = {
@@ -493,6 +503,8 @@ export default defineComponent({
               props:{placeholder:f.zdts, zdlb: f.zdzdlb,openValue:"1",closeValue:"0"}
             };
             break
+          case '$radio':
+          case '$checkbox':
           case 'ElCascader':
           case '$select':
             //下拉字典

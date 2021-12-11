@@ -1,14 +1,15 @@
 <template>
-  <vxe-select ref="xInput" :options="mydata.options" :disabled="mydata.isdisabled"
-              :model-value="mydata.valve" @update:modelValue="updateVal">
-  </vxe-select>
+  <vxe-checkbox-group ref="xInput" :disabled="mydata.isdisabled"
+    :model-value="mydata.valve" @update:modelValue="updateVal">
+    <vxe-checkbox v-for="(zd,key,index) in mydata.options" :label="zd.dm" :content="zd.mc"></vxe-checkbox>
+  </vxe-checkbox-group>
 </template>
 
 <script>
 import { defineComponent, reactive, ref,watch } from 'vue'
 import { zdList } from "@/utils/common"
 export default defineComponent({
-  name:'MySelect',
+  name:'MyRadio',
   inheritAttrs: true,
   props: {
     /**
@@ -35,10 +36,13 @@ export default defineComponent({
   setup:async (props,context)=> {
     const mydata = reactive({
       options:{},
-      valve:props.modelValue,
+      valve:[],
       isdisabled:props.readonly||props.disabled
     });
     const xInput = ref({});
+    if(props.modelValue){
+      mydata.valve=props.modelValue.split(",");
+    }
     //加载字典
     await zdList(props.zdlb).then(function (data){
       mydata.options=data;
@@ -55,10 +59,10 @@ export default defineComponent({
       mydata.isdisabled = props.disabled||newValue
     })
     watch(()=>props.modelValue,(newValue)=>{
-      mydata.valve = newValue
+      mydata.valve = newValue.split(",");
     })
     const updateVal = (newValue) => {
-      context.emit("update:modelValue",newValue)
+      context.emit("update:modelValue",newValue.join(","))
       mydata.valve = newValue
     }
     /**

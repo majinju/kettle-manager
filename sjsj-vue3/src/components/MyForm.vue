@@ -207,6 +207,16 @@ export default defineComponent({
               }
               fi.itemRender.props.zdlb=f.zdzdlb;
               break
+            case '$radio':
+              //还要考虑字典树
+              fi.itemRender = {name: 'MyRadio'};
+              fi.itemRender.props.zdlb=f.zdzdlb;
+              break
+            case '$checkbox':
+              //还要考虑字典树
+              fi.itemRender = {name: 'MyCheckbox'};
+              fi.itemRender.props.zdlb=f.zdzdlb;
+              break
             case 'jsoneditor':
               fi.itemRender.props.codeType="json";
               fi.itemRender.name='MyMarkDown';

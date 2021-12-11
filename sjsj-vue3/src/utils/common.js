@@ -2,6 +2,7 @@ import axios from "@/axios";
 import dayjs from "dayjs"
 import customParseFormat from "dayjs/plugin/customParseFormat"
 import {useStore} from "vuex";
+
 dayjs.extend(customParseFormat)
 
 ////////////////////////////////时间///////////////////////////
@@ -17,7 +18,8 @@ Date.parseDate = function (dateStr) {
     //本身就是date类型
     return dateStr;
   }
-  let d = dayjs(dateStr, ["YYYYMMDDHHmmss", "YYYYMMDD", "YYMMDD", "YYYY-MM-DD HH:mm:ss", "YYYY-MM-DD"])
+  let d = dayjs(dateStr, ["YYYYMMDDHHmmss", "YYYYMMDD", "YYMMDD", "YYYY-MM-DD HH:mm:ss", "YYYY-MM-DD",
+    "YYYY年MM月DD日HH时mm分ss秒", "YYYY年MM月DD日"])
   return d.toDate();
 }
 /**
@@ -62,12 +64,11 @@ export function dateFormat(dateStr, fmt) {
 }
 
 /**
- * dayjs的方法调用
+ * dayjs的加减方法调用
  * @param obj
  */
 export function dayjsMethod(obj){
-  let d = dayjs()[obj.method](obj.value, obj.dw).format("YYYYMMDDHHmmss")
-  return d;
+  return dayjs()[obj.method](obj.value, obj.dw).format("YYYYMMDDHHmmss");
 }
 ////////////////////////////////时间///////////////////////////
 /**
@@ -120,8 +121,7 @@ export function jsonFormat(text_value){
  */
 export const hasAuth = (auth) => {
   const store = useStore();
-  const qxMap = store.state.user.qxMap;
-  return qxMap[auth];
+  return store.state.user.qxMap[auth];
 }
 
 ////////////////////////////////字典///////////////////////////
@@ -597,7 +597,6 @@ export function assignDeep(target, ...sources) {
 
 export default {
   dateFormat,
-  setByJSONPath: setByPath,
   isEmpty,
   isNumber,
   DATE_FORMAT_19: "yyyy-MM-dd HH:mm:ss",
