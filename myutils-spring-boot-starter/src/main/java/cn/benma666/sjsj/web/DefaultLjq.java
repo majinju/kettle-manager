@@ -254,7 +254,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 for (String f : showCol) {
                     String kjlx = fields.get(f).getString("kjlx");
                     String val = r2.getString(f);
-                    if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)) {
+                    if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)
+                            || "ElCascader".equals(kjlx)|| "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
                         rows.add(DictManager.zdMcByMoreDm(fields.get(f).getString("zdzdlb"), r2.getString(f)));
                     } else if (ZD_SJDX_KJLX_TIME.equals(kjlx)) {
                         String v = DateUtil.doFormatDate(val, DateUtil.DATE_FORMATTER_L);
@@ -493,8 +494,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 }
                 String kjlx = fields.getString("$."+zddm+".kjlx");
                 //对结果进行字典翻译，字典或者级联控件
-                if(ZD_SJDX_KJLX_DICT.equals(kjlx)||"ElCascader".equals(kjlx)){
-                    row.put(zddm+"_mc",DictManager.zdMcByDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
+                if (ZD_SJDX_KJLX_DICT.equals(kjlx) || "ElCascader".equals(kjlx)
+                        || "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
+                    row.put(zddm+"_mc",DictManager.zdMcByMoreDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
                 }else if(ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)){
                     row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
                 }
@@ -1027,7 +1029,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             if (f != null) {
                 key = f.getString("zdmc");
                 String kjlx = f.getString("kjlx");
-                if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)) {
+                if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)|| "ElCascader".equals(kjlx)
+                        || "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
                     val = DictManager.zdMcByMoreDm(f.getString("zdzdlb"), val);
                 } else if (ZD_SJDX_KJLX_TIME.equals(kjlx) && !KEY_CLLX_SELECT.equals(czrz.getCzlx())) {
                     //排除时间范围的场景

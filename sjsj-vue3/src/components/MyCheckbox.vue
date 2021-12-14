@@ -9,7 +9,7 @@
 import { defineComponent, reactive, ref,watch } from 'vue'
 import { zdList } from "@/utils/common"
 export default defineComponent({
-  name:'MyRadio',
+  name:'MyCheckbox',
   inheritAttrs: true,
   props: {
     /**
