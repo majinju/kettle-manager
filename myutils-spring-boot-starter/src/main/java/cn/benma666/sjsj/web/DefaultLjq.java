@@ -756,8 +756,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         fields.forEach((zddm,field)->{
             //将整个字段的验证规则设置到系统验证规则中，因为内部会对规则数据进行修改
-            myParams.set("$.yzgz['yobj." + zddm + "']",field.getJSONObject("$.kzxx.yzgz").clone());
-            myParams.set("$.zhgz['yobj." + zddm + "']",field.getJSONObject("$.kzxx.zhgz").clone());
+            JSONObject gz = field.getJSONObject("$.kzxx.yzgz");
+            if(gz != null){
+                myParams.set("$.yzgz['yobj." + zddm + "']",gz.clone());
+            }
+            gz = field.getJSONObject("$.kzxx.zhgz");
+            if(gz != null){
+                myParams.set("$.zhgz['yobj." + zddm + "']",gz.clone());
+            }
         });
         myParams.put(KEY_FIELDS, fields);
     }

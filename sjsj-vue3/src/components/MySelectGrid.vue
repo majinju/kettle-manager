@@ -389,49 +389,57 @@ export default defineComponent({
           myData.formData[f.zddm] = f.cxmrz;
         }
         //配置查询项
-        const fi = {field: f.zddm, title: f.zdmc, span: 8}
+        const fi = {
+          field: f.zddm,
+          title: f.zdmc,
+          span: 8,
+          itemRender:{
+            name: f.kjlx,
+            props:{
+              key: "cx_"+f.id,
+              placeholder:f.zdts,
+              maxlength:f.zdcd
+            }
+          }
+        }
         switch (f.kjlx) {
           case 'ElCascader':
           case '$switch':
           case '$select':
             //还要考虑字典树
             if (f.zdfy === '1') {
-              //大字典，采用下拉分页搜索框
-              fi.itemRender = {name: 'MyDownList'};
+              //大字典，采用下拉分页搜索框、
+              fi.itemRender.name='MyDownList';
               //还要考虑多选
             } else {
               //普通下拉框
-              fi.itemRender = {name: 'MySelect'};
+              fi.itemRender.name='MySelect';
               //还要考虑多选
             }
-            // fi.itemRender = {name: 'MyDownList'};
-            fi.itemRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
+            fi.itemRender.props.zdlb=f.zdzdlb;
             break
           case '$radio':
             //还要考虑字典树
-            fi.itemRender = {name: 'MyRadio'};
-            fi.itemRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
+            fi.itemRender.name='MyRadio';
+            fi.itemRender.props.zdlb=f.zdzdlb;
             break
           case '$checkbox':
             //还要考虑字典树
-            fi.itemRender = {name: 'MyCheckbox'};
-            fi.itemRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
+            fi.itemRender.name='MyCheckbox';
+            fi.itemRender.props.zdlb=f.zdzdlb;
             break
           case 'ElDatePicker':
             //时间选择器
-            fi.itemRender = {
-              name: 'ElDatePicker',
-              props: {
-                type: 'datetimerange',
-                clearable: options.input.clearable,
-                size: options.input.size,
-                defaultTime: [
-                  new Date(2000, 1, 1, 0, 0, 0),
-                  new Date(2000, 2, 1, 23, 59, 59)
-                ],
-                valueFormat: "YYYYMMDDHHmmss"
-              }
-            };
+            fi.itemRender.props = Object.assign(fi.itemRender.props,{
+              type: 'datetimerange',
+              clearable: options.input.clearable,
+              size: options.input.size,
+              defaultTime: [
+                new Date(2000, 1, 1, 0, 0, 0),
+                new Date(2000, 2, 1, 23, 59, 59)
+              ],
+              valueFormat: "YYYYMMDDHHmmss"
+            });
             if (f.cxmrz) {
               const times = JSON.parse(f.cxmrz);
               let val1 = "";
@@ -447,8 +455,6 @@ export default defineComponent({
             break
           case '$buttons':
             //按钮组
-            //按钮不显示描述
-            fi.title="";
             let children = [];
             //获取配置的按钮组
             let $buttons = getByPath(f.kzxx,"kjkz.btns");
@@ -461,13 +467,12 @@ export default defineComponent({
               // }
               children.push({ props: $buttons[i] })
             }
-            fi.itemRender={ name: f.kjlx,children: children,props:{}};
+            fi.itemRender.children = children;
             break
           default:
             //默认普通输入框
-            fi.itemRender = {name: '$input', props: {}};
+            fi.itemRender.name = '$input';
         }
-        fi.itemRender.props.key = "cx_"+f.id;
         myData.formItems.push(assignDeep(fi, f.kzxx.kjkz));
       }
     }
@@ -479,7 +484,22 @@ export default defineComponent({
     function initTableColumn(f) {
       if (f.lbzs === '1') {
         //配置列表字段
-        const fi = {field: f.zddm, title: f.zdmc, align: 'center', editRender: {props: {}}}
+        const fi = {
+          field: f.zddm,
+          title: f.zdmc,
+          align: 'center',
+          editRender: {
+            props: {
+              key: "lb_"+f.id,
+              placeholder:f.zdts,
+              //是否禁用
+              disabled: getByPath(f.kzxx, "cllxkz.update.disabled"),
+              //是否只读
+              readonly: getByPath(f.kzxx, "cllxkz.update.readonly")
+            }
+          }
+        }
+        fi.editRender.props.enabled = !(fi.editRender.props.disabled || fi.editRender.props.readonly)
         if (f.zdkd > 10) {
           fi.width = f.zdkd + "px";
         }
@@ -489,7 +509,6 @@ export default defineComponent({
         switch (f.kjlx) {
           case 'checkbox':
             //列表选择
-            fi.title = '';
             fi.type = 'checkbox';
             break
           case 'seq':
@@ -499,9 +518,12 @@ export default defineComponent({
           case '$switch':
             //开关控件
             fi.formatter = 'formatterZd';
-            fi.editRender={ name: 'MySwitch' ,
-              props:{placeholder:f.zdts, zdlb: f.zdzdlb,openValue:"1",closeValue:"0"}
-            };
+            fi.editRender.name = 'MySwitch';
+            fi.editRender.props = Object.assign(fi.editRender.props,{
+              zdlb: f.zdzdlb,
+              openValue:"1",
+              closeValue:"0"
+            });
             break
           case '$radio':
           case '$checkbox':
@@ -512,36 +534,30 @@ export default defineComponent({
             //还要考虑字典树
             if (f.zdfy === '1') {
               //大字典，采用下拉分页搜索框
-              fi.editRender = {name: 'MyDownList'};
+              fi.editRender.name = 'MyDownList';
               //还要考虑多选
             } else {
               //普通下拉框
-              fi.editRender = {name: 'MySelect'};
+              fi.editRender.name = 'MySelect';
               //还要考虑多选
             }
-            // fi.editRender = {name: 'MyDownList'};
-            fi.editRender.props = {placeholder: f.zdts, zdlb: f.zdzdlb};
+            fi.editRender.props.zdlb = f.zdzdlb;
             break
           case 'ElDatePicker':
             //时间控件
+            fi.editRender.name = 'ElDatePicker';
             fi.formatter = 'formatDate';
-            fi.editRender = {
-              name: 'ElDatePicker', props: {
-                type: 'datetime',
-                clearable: options.input.clearable,
-                size: options.input.size,
-                valueFormat: "YYYYMMDDHHmmss"
-              }
-            };
+            fi.editRender.props = Object.assign(fi.editRender.props,{
+              type: 'datetime',
+              clearable: options.input.clearable,
+              size: options.input.size,
+              valueFormat: "YYYYMMDDHHmmss"
+            });
             break
           case '$textarea':
             //时间选择器
-            fi.editRender = {
-              name: 'textarea',
-              props: {
-                maxlength: f.zdcd
-              }
-            };
+            fi.editRender.name = 'textarea';
+            fi.editRender.props.maxlength = f.zdcd;
             break
           case '$buttons':
             //按钮组
@@ -549,15 +565,10 @@ export default defineComponent({
             fi.slots = {default: 'lbcz'}
             break
           default:
-            fi.editRender = {name: '$input', props: {}};
+            fi.editRender.name = '$input';
         }
-        fi.editRender.props.key = "lb_"+f.id;
-        //是否禁用
-        fi.editRender.props.disabled = getByPath(f.kzxx, "cllxkz.update.disabled");
-        //是否只读
-        fi.editRender.props.readonly = getByPath(f.kzxx, "cllxkz.update.readonly");
-        if (fi.editRender.props.disabled || fi.editRender.props.readonly) {
-          fi.editRender.enabled = false
+        if(!fi.editRender.props.enabled){
+          fi.editRender = undefined
         }
         myData.tableColumn.push(assignDeep(fi, f.kzxx.kjkz));
       }
