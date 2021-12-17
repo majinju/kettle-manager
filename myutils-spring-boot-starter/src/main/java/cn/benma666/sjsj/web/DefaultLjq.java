@@ -706,7 +706,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //查询场景不进行具体对象查询
             return;
         }
-        if (StringUtil.isNotBlank(sjdx.getZjzd())
+        if (StringUtil.isNotBlank(sjdx.getZjzd())&&!"v_xndx".equals(sjdx.getJtdx())
                 && !StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))) {
             //设置了主键字段，且前端传入了主键，查询模板中只要前端传入了主键，则只以主键进行查询，不管其他条件
             myParams.set("$.page.totalRequired", Boolean.FALSE);

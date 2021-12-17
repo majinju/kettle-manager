@@ -59,7 +59,11 @@ export default defineComponent({
       mydata.isdisabled = props.disabled||newValue
     })
     watch(()=>props.modelValue,(newValue)=>{
-      mydata.valve = newValue.split(",");
+      if(newValue){
+        mydata.valve = newValue.split(",");
+      }else{
+        mydata.valve = undefined;
+      }
     })
     const updateVal = (newValue) => {
       context.emit("update:modelValue",newValue.join(","))

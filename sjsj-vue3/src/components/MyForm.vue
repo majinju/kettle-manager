@@ -209,12 +209,12 @@ export default defineComponent({
               break
             case '$radio':
               //还要考虑字典树
-              fi.itemRender = {name: 'MyRadio'};
+              fi.itemRender.name='MyRadio';
               fi.itemRender.props.zdlb=f.zdzdlb;
               break
             case '$checkbox':
               //还要考虑字典树
-              fi.itemRender = {name: 'MyCheckbox'};
+              fi.itemRender.name='MyCheckbox';
               fi.itemRender.props.zdlb=f.zdzdlb;
               break
             case 'jsoneditor':
