@@ -17,6 +17,7 @@ import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.CacheFactory;
 import cn.benma666.iframe.DictManager;
+import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
@@ -123,18 +124,19 @@ public class SjdxLjq extends DefaultLjq {
         if(StringUtil.isNotBlank(yobj.getString("mchz"))){
             mchz = "-"+yobj.getString("mchz");
         }
-        for(String id:myParams.getJSONArray($_SYS_IDS).toJavaList(String.class)){
+        List<JSONObject> list = ((PageInfo<JSONObject>) select(myParams).getData()).getList();
+        for(JSONObject obj : list){
+            String id = obj.getString(FIELD_ID);
             DSTransactionManager.start();
             //获取对象
-            SysSjglSjdx newsjdx = sqlManager().single(SysSjglSjdx.class, id);
-            newsjdx.setId(StringUtil.getUUIDUpperStr());
-            newsjdx.setDxdm(newsjdx.getDxdm()+dmhz);
-            newsjdx.setDxmc(newsjdx.getDxmc()+mchz);
-            newsjdx.setGxsj(DateUtil.getGabDate());
-            sqlManager().insert(newsjdx);
+            obj.put(FIELD_ID,StringUtil.getUUIDUpperStr());
+            obj.put(FIELD_DXDM,obj.getString(FIELD_DXDM)+dmhz);
+            obj.put("dxmc",obj.getString("dxmc")+mchz);
+            myParams.put(KEY_YOBJ,obj);
+            super.insert(myParams);
             //复制字段
             myParams.set("$.sql.oldSjdxId",id);
-            myParams.set("$.sql.newSjdx",newsjdx);
+            myParams.set("$.sql.newSjdx",obj);
             String[] arr = LjqManager.getSql(sjdx, myParams, "fzzd");
             db(arr[0]).update(arr[1], myParams);
             count++;
@@ -150,12 +152,13 @@ public class SjdxLjq extends DefaultLjq {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         int count = 0;
         Result result =  success("");
-        for(String id:myParams.getJSONArray($_SYS_IDS).toJavaList(String.class)){
+        List<JSONObject> list = ((PageInfo<JSONObject>) select(myParams).getData()).getList();
+        for(JSONObject obj : list){
             //获取对象
-            SysSjglSjdx jtdx = sqlManager().single(SysSjglSjdx.class, id);
+            SysSjglSjdx newsjdx = obj.toJavaObject(SysSjglSjdx.class);
             Result r;
             try {
-                r = impFields(jtdx,myParams);
+                r = impFields(newsjdx,myParams);
             } catch (PinyinException e) {
                 throw new MyException("导入字段出错："+e.getMessage(),e);
             }

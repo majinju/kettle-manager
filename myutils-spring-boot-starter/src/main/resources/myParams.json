@@ -17,7 +17,7 @@
       //饿了么的的按钮
       "qxpz": {
         //批量处理左侧最大按钮数
-        "plclLeftZdans": 9,
+        "plclLeftZdans": 7,
         //批量处理右侧最大按钮数
         "plclRightZdans": 2,
         "plclLeft": {

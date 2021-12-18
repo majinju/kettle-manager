@@ -33,6 +33,11 @@ public class DemoLjq extends DefaultLjq{
         log.info("切换数据样例",db("kettle_default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));
         log.info("后端获取用户信息样例", myParams.get(KEY_USER));
+        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
+        log.info("分页对象"+page);
+        //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询
+        page = db().queryPage(page, "select * from #{sjdx.jtdx}", myParams);
+        log.info("分页查询结果："+page);
         return success("java开发各种常见代码演示");
     }
     /**
