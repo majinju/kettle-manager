@@ -186,7 +186,7 @@ export default defineComponent({
           }
           //控件属性统一设置部分
           if(!fi.itemRender.props.key){
-            fi.itemRender.props.key = cllx+f.id;
+            fi.itemRender.props.key = cllx+f.id+myData.formData[myData.dxjcxx.sjdx.zjzd];
           }
           if (fi.itemRender.props.disabled||fi.itemRender.props.readonly){
             fi.itemRender.props.clearable = false

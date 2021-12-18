@@ -1,7 +1,8 @@
 <template>
-  <vxe-checkbox-group ref="xInput" :disabled="mydata.isdisabled"
-    :model-value="mydata.valve" @update:modelValue="updateVal">
-    <vxe-checkbox v-for="(zd,key,index) in mydata.options" :label="zd.dm" :content="zd.mc"></vxe-checkbox>
+  <vxe-checkbox v-model="myData.qx" content="全选"></vxe-checkbox>
+  <vxe-checkbox-group ref="xInput" :disabled="myData.isdisabled"
+    :model-value="myData.valve" @update:modelValue="updateVal">
+    <vxe-checkbox v-for="(zd,key,index) in myData.options" :label="zd.dm" :content="zd.mc"></vxe-checkbox>
   </vxe-checkbox-group>
 </template>
 
@@ -34,46 +35,83 @@ export default defineComponent({
   },
   emits:["update:modelValue"],
   setup:async (props,context)=> {
-    const mydata = reactive({
+    const myData = reactive({
+      /**
+       * 全选状态
+       */
+      qx:false,
+      flag:false,
+      /**
+       * 复选框选项
+       */
       options:{},
       valve:[],
       isdisabled:props.readonly||props.disabled
     });
     const xInput = ref({});
-    if(props.modelValue){
-      mydata.valve=props.modelValue.split(",");
-    }
     //加载字典
     await zdList(props.zdlb).then(function (data){
-      mydata.options=data;
+      myData.options=data;
     });
+    if(props.modelValue){
+      myData.valve=props.modelValue.split(",");
+    }else{
+      myData.valve = [];
+    }
+    myData.qx = myData.valve.length === myData.options.length;
+
     watch(()=>props.zdlb,async (newZdlb)=>{
       await zdList(props.zdlb).then(function (data){
-        mydata.options=data;
+        myData.options=data;
       })
     })
     watch(()=>props.disabled,(newValue)=>{
-      mydata.isdisabled = props.readonly||newValue
+      myData.isdisabled = props.readonly||newValue
     })
     watch(()=>props.readonly,(newValue)=>{
-      mydata.isdisabled = props.disabled||newValue
+      myData.isdisabled = props.disabled||newValue
     })
     watch(()=>props.modelValue,(newValue)=>{
       if(newValue){
-        mydata.valve = newValue.split(",");
+        myData.valve = newValue.split(",");
       }else{
-        mydata.valve = undefined;
+        myData.valve = [];
+      }
+      const qx = myData.valve.length === myData.options.length;
+      if(myData.qx!==qx){
+        myData.qx = qx;
+        myData.flag=true
       }
     })
     const updateVal = (newValue) => {
       context.emit("update:modelValue",newValue.join(","))
-      mydata.valve = newValue
+      myData.valve = newValue
+      const qx = myData.valve.length === myData.options.length;
+      if(myData.qx!==qx){
+        myData.qx = qx;
+        myData.flag=true
+      }else{
+        myData.flag=false
+      }
     }
+    watch(()=>myData.qx,(newValue)=>{
+      if(myData.flag){
+        myData.flag=false
+        return
+      }
+      myData.valve = [];
+      if(newValue){
+        for(let key in myData.options){
+          myData.valve.push(myData.options[key].dm)
+        }
+      }
+      context.emit("update:modelValue",myData.valve.join(","))
+    })
     /**
      * 返回值
      */
     return {
-      mydata,
+      myData,
       xInput,
       updateVal
     }

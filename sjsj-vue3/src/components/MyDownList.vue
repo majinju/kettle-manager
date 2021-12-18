@@ -1,7 +1,7 @@
 <template>
   <vxe-pulldown ref="myDownList" transfer style="width: 100%" @hide-panel="hidePanelClick">
     <template #default>
-      <vxe-input v-model="mydata.value" suffix-icon="el-icon-search" ref="xInput"
+      <vxe-input v-model="myData.value" suffix-icon="el-icon-search" ref="xInput"
                  @change="keyupEvent" @focus="focusEvent"
                  @clear="clearClick" v-bind="$attrs">
       </vxe-input>
@@ -11,10 +11,10 @@
         <vxe-grid
           auto-resize
           height="auto"
-          :loading="mydata.loading"
-          :pager-config="mydata.tablePage"
-          :data="mydata.tableData"
-          :columns="mydata.tableColumn"
+          :loading="myData.loading"
+          :pager-config="myData.tablePage"
+          :data="myData.tableData"
+          :columns="myData.tableColumn"
           @cell-click="cellClickEvent"
           @page-change="pageChangeEvent"
           v-bind="gridOptions"
@@ -56,7 +56,7 @@ export default defineComponent({
   },
   emits:["update:modelValue","updateZdmc"],
   setup (props,context) {
-    const mydata = reactive({
+    const myData = reactive({
       /**
        * 绑定输入框值
        */
@@ -98,9 +98,9 @@ export default defineComponent({
     const xInput = ref({});
     const searchList = (tsearchKey) => {
       if(tsearchKey){
-        mydata.searchKey=tsearchKey;
+        myData.searchKey=tsearchKey;
       }
-      mydata.loading = true
+      myData.loading = true
       axios.post({
         sjdx:{
           dxdm:"SYS_SJGL_TYZD"
@@ -109,19 +109,19 @@ export default defineComponent({
           zdlb:props.zdlb
         },
         page:{
-          totalRequired:mydata.tablePage.totalRequired,
-          pageSize:mydata.tablePage.pageSize,
-          pageNumber:mydata.tablePage.currentPage,
+          totalRequired:myData.tablePage.totalRequired,
+          pageSize:myData.tablePage.pageSize,
+          pageNumber:myData.tablePage.currentPage,
         },
         sys:{
           cllx:"zdSearch",
-          searchKey:mydata.searchKey
+          searchKey:myData.searchKey
         }
       },false).then(req=>{
-        mydata.tableData=req.data.list
-        mydata.loading = false
-        if(mydata.tablePage.totalRequired){
-          mydata.tablePage.total=req.data.totalRow;
+        myData.tableData=req.data.list
+        myData.loading = false
+        if(myData.tablePage.totalRequired){
+          myData.tablePage.total=req.data.totalRow;
         }
       })
     }
@@ -133,7 +133,7 @@ export default defineComponent({
       const $input = xInput.value
       if(!$input.disabled&&!$input.readonly){
         $pulldown.showPanel()
-        mydata.tablePage.totalRequired=true
+        myData.tablePage.totalRequired=true
         searchList();
       }
     }
@@ -143,8 +143,8 @@ export default defineComponent({
      * @param $event
      */
     const keyupEvent = ( value,$event ) => {
-      mydata.tablePage.currentPage = 1
-      mydata.tablePage.totalRequired=true
+      myData.tablePage.currentPage = 1
+      myData.tablePage.totalRequired=true
       searchList(value?.value);
     }
     /**
@@ -153,9 +153,9 @@ export default defineComponent({
      * @param pageSize 页大小
      */
     const pageChangeEvent = ({ currentPage, pageSize }) => {
-      mydata.tablePage.currentPage = currentPage
-      mydata.tablePage.pageSize = pageSize
-      mydata.tablePage.totalRequired = false
+      myData.tablePage.currentPage = currentPage
+      myData.tablePage.pageSize = pageSize
+      myData.tablePage.totalRequired = false
       searchList();
     }
     /**
@@ -166,8 +166,8 @@ export default defineComponent({
       //恢复输入框的值为用户当前选择的值的翻译结果
       modelValueWatch(props.modelValue,null);
       //清除搜索条件
-      mydata.searchKey="";
-      mydata.tablePage.currentPage=1;
+      myData.searchKey="";
+      myData.tablePage.currentPage=1;
     }
     /**
      * 在点击尾部图标时触发该事件
@@ -193,12 +193,12 @@ export default defineComponent({
     const modelValueWatch = function(newVal,oldVal){
       if(!newVal){
         //如果新值为空
-        mydata.value="";
+        myData.value="";
         context.emit("updateZdmc","")
         return
       }
       zdObj({zdlb:props.zdlb,dm:newVal}).then(zd=>{
-        mydata.value=zd.mc;
+        myData.value=zd.mc;
         context.emit("updateZdmc",zd.mc)
       })
     }
@@ -220,7 +220,7 @@ export default defineComponent({
      * 返回值
      */
     return {
-      mydata,
+      myData,
       myDownList,
       xInput,
       focusEvent,

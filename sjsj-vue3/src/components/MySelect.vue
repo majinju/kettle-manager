@@ -1,6 +1,6 @@
 <template>
-  <vxe-select ref="xInput" :options="mydata.options" :disabled="mydata.isdisabled"
-              :model-value="mydata.valve" @update:modelValue="updateVal">
+  <vxe-select ref="xInput" :options="myData.options" :disabled="myData.isdisabled"
+              :model-value="myData.valve" @update:modelValue="updateVal">
   </vxe-select>
 </template>
 
@@ -33,7 +33,7 @@ export default defineComponent({
   },
   emits:["update:modelValue"],
   setup:async (props,context)=> {
-    const mydata = reactive({
+    const myData = reactive({
       options:{},
       valve:props.modelValue,
       isdisabled:props.readonly||props.disabled
@@ -41,31 +41,31 @@ export default defineComponent({
     const xInput = ref({});
     //加载字典
     await zdList(props.zdlb).then(function (data){
-      mydata.options=data;
+      myData.options=data;
     });
     watch(()=>props.zdlb,async (newZdlb)=>{
       await zdList(props.zdlb).then(function (data){
-        mydata.options=data;
+        myData.options=data;
       })
     })
     watch(()=>props.disabled,(newValue)=>{
-      mydata.isdisabled = props.readonly||newValue
+      myData.isdisabled = props.readonly||newValue
     })
     watch(()=>props.readonly,(newValue)=>{
-      mydata.isdisabled = props.disabled||newValue
+      myData.isdisabled = props.disabled||newValue
     })
     watch(()=>props.modelValue,(newValue)=>{
-      mydata.valve = newValue
+      myData.valve = newValue
     })
     const updateVal = (newValue) => {
       context.emit("update:modelValue",newValue)
-      mydata.valve = newValue
+      myData.valve = newValue
     }
     /**
      * 返回值
      */
     return {
-      mydata,
+      myData,
       xInput,
       updateVal
     }
