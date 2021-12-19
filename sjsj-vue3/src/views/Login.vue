@@ -21,7 +21,7 @@ import { defineComponent, reactive,onMounted } from 'vue'
 import axios from '../axios'
 import {ElMessage} from "element-plus";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 
 export default defineComponent({
   setup () {
@@ -58,6 +58,8 @@ export default defineComponent({
     document.title=data.title;
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
+    console.log(route.params.sys)
     const submitEvent = function (){
       axios.post({
         sjdx:{

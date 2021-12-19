@@ -1,5 +1,5 @@
 <template>
-  <vxe-checkbox v-model="myData.qx" content="全选"></vxe-checkbox>
+  <vxe-checkbox v-model="myData.qx" content="全选" :disabled="myData.isdisabled"></vxe-checkbox>
   <vxe-checkbox-group ref="xInput" :disabled="myData.isdisabled"
     :model-value="myData.valve" @update:modelValue="updateVal">
     <vxe-checkbox v-for="(zd,key,index) in myData.options" :label="zd.dm" :content="zd.mc"></vxe-checkbox>

@@ -3,7 +3,7 @@ import {useStore} from "vuex";
 
 const routes = [
   {
-    path: "/login",
+    path: "/login/:sys?",
     name: "Login",
     component: () => import ('../views/Login')
   },

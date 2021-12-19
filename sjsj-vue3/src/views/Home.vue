@@ -175,12 +175,6 @@ export default defineComponent({
       }
       myData.activeId = data.id
       switch (data.dzlx) {
-        case "01":
-          router.push({path:'/home/'+data.dm, query:{
-              "sys.authCode":data.dm,
-              pathName:data.name
-            }})
-          break
         case "03":
         case "04":
           const query = {
@@ -189,6 +183,13 @@ export default defineComponent({
           }
           router.push({path:'/home/sjdx',query:assignDeep(query,JSON.parse(data.kzxx).cdkz)})
           break
+        case "01":
+        // router.push({path:'/home/'+data.dm, query:{
+        //     "sys.authCode":data.dm,
+        //     pathName:data.name
+        //   }})
+        // break
+        case "02":
         default:
           ElMessage.error("暂不支持的地址类型："+data.dzlx);
       }
