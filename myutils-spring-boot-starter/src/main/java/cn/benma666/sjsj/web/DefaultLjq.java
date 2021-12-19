@@ -1038,7 +1038,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)|| "ElCascader".equals(kjlx)
                         || "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
                     val = DictManager.zdMcByMoreDm(f.getString("zdzdlb"), val);
-                } else if (ZD_SJDX_KJLX_TIME.equals(kjlx) && !KEY_CLLX_SELECT.equals(czrz.getCzlx())) {
+                } else if (ZD_SJDX_KJLX_TIME.equals(kjlx) && !val.startsWith("[")) {
                     //排除时间范围的场景
                     val = DateUtil.doFormatDate(DateUtil.parseDate(val), DateUtil.DATE_FORMATTER_L);
                     if (val == null) {

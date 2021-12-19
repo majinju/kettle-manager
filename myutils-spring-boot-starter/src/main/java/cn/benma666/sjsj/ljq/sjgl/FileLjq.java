@@ -6,7 +6,6 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import cn.benma666.constants.UtilConst;
 import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
@@ -32,12 +31,15 @@ public class FileLjq extends DefaultLjq {
         return success("成功上传"+files.size()+"个文件");
     }
     protected Result wlscByYxx(JSONObject myParams) {
+        myParams.set("$.page.totalRequired",false);
         //删除物理删除记录的对应的文件
-        myParams.set("$.yobj.yxx", UtilConst.WHETHER_FALSE);
         List<JSONObject> list = ((PageInfo<JSONObject>)select(myParams).getData()).getList();
         int count = 0;
-        String msg;
         for(JSONObject fileObj:list){
+            if(fileObj.getBoolean("yxx")){
+                //有效的过滤掉，只对已经逻辑删除过的文件进行物理删除
+                continue;
+            }
             JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getString("sjzt"));
             if (DbType.of(sjzt.getString("lx")) != null) {
                 //数据载体为数据库
@@ -67,9 +69,8 @@ public class FileLjq extends DefaultLjq {
                 }
             }
         }
-        msg = "删除原始文件数："+count;
         Result result = super.wlscByYxx(myParams);
-        result.addMsg(msg);
+        result.addMsg("删除原始文件数："+count);
         return result;
     }
 }
