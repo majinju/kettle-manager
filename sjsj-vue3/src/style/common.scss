@@ -1,6 +1,6 @@
 
 body {
-  margin: 0px;
+  margin: 0;
 }
 .el-container{
   .el-footer{
@@ -17,11 +17,16 @@ body {
   .v-md-editor{
     //min-height: 250px;
     max-height: 500px;
+    .v-md-editor-preview{
+      ol{
+        white-space: nowrap;
+      }
+    }
   }
   .vxe-form--item .vxe-form--item-inner .vxe-form--item-content{
     width: 100px;
     label.vxe-checkbox{
-      margin: 5px 10px 5px 0px;
+      margin: 5px 10px 5px 0;
     }
   }
 }
@@ -35,23 +40,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-}
-
-// 全局设置的基本样式
-* {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  font-style: normal;
-  text-decoration: none;
-  border: none;
-  font-weight: normal;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-font-smoothing: antialiased;
-  &:hover {
-    outline: none;
   }
 }
 
