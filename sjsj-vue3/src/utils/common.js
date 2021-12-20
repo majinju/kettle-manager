@@ -170,15 +170,13 @@ function zdTreeG(globalData, zdlb) {
     if (zdListCache[zdlb+"tree"] == null) {
       axios.post({
         //数据对象
-        "sjdx":{
-          "dxdm":"SYS_SJGL_TYZD"
+        "sys":{
+          "authCode":"KFZFW_PTGL_ZDGL",
+          "cllx":"zdTree",
         },
         "yobj": {
           "zdlb":zdlb
         },
-        "sys":{
-          "cllx":"zdTree",
-        }
       },false).then(function (res){
         zdListCache[zdlb+"_tree"] = res.data;
         resolve(res.data);
@@ -204,14 +202,12 @@ function zdListG(globalData, zdlb) {
     } else if (zdListCache[zdlb] == null) {
       axios.post({
         //数据对象
-        "sjdx":{
-          "dxdm":"SYS_SJGL_TYZD"
+        "sys":{
+          "authCode":"KFZFW_PTGL_ZDGL",
+          "cllx":"zdTree",
         },
         "yobj": {
           "zdlb":zdlb
-        },
-        "sys":{
-          "cllx":"zdList",
         }
       },false).then(function (res){
         if (res.status&&res.data) {
@@ -329,9 +325,7 @@ function zdObjG(globalData, zdObj, cache) {
 function postZdObj(globalData,data){
   const zdListCache = globalData.zdListCache;
   return new Promise(function (resolve,reject){
-    data.sjdx={
-      "dxdm":"SYS_SJGL_TYZD"
-    }
+    data.sys.cllx="KFZFW_PTGL_ZDGL";
     data.sys.cllx="zdObj";
     axios.post(data,false).then(function (res){
       let obj;
