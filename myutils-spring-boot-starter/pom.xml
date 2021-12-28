@@ -5,21 +5,21 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.5</version>
+		<version>2.6.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cn.benma666.sb</groupId>
 	<artifactId>myutils-spring-boot-starter</artifactId>
 	<version>0.2.0</version>
 	<name>myutils-spring-boot-starter</name>
-	<description>Demo project for Spring Boot</description>
+	<description>针对sb的通用工具集</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<druid.version>1.2.7_preview_05</druid.version>
 		<spring-boot.version>2.5.4</spring-boot.version>
 		<kaptcha.version>2.3.2</kaptcha.version>
 		<bitwalker.version>1.21</bitwalker.version>
-		<oshi.version>5.8.0</oshi.version>
+		<oshi.version>5.8.5</oshi.version>
 	</properties>
 	<developers>
 		<developer>
@@ -126,7 +126,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>22.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

@@ -84,15 +84,15 @@ public class QxxxLjq extends DefaultLjq {
     }
     @Override
     public Result update(JSONObject myParams){
-        String cllx = myParams.getString(KEY_CLLX);
-        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        String dm = yobj.getString("dm");
-        JSONObject obj = myParams.getJSONObject(KEY_OBJ);
         DSTransactionManager.start();
-        Result r = super.saveDb(myParams);
-        if(!r.isStatus()){
+        JSONObject obj = myParams.getJSONObject(KEY_OBJ);
+        Result r = super.update(myParams);
+        if(!r.isStatus()||obj==null){
+            //批量保存场景没有自动读取数据库对象
             return r;
         }
+        JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
+        String dm = yobj.getString("dm");
         if(StringUtil.isNotBlank(dm)){
             //权限代码调整时，联动调整子权限的代码
             db().update("update sys_qx_qxxx t set t.dm=replace(t.dm,?,?),t.fqx=replace(t.fqx,?,?),"

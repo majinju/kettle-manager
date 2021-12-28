@@ -131,7 +131,7 @@ spring:
     # 密码
     password:
     # 连接超时时间
-    timeout: 10s
+    timeout: 30s
     lettuce:
       pool:
         # 连接池中的最小空闲连接

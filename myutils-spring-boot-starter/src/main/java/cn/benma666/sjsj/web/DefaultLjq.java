@@ -391,7 +391,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         //入库完成提交事务。
         DSTransactionManager.commit();
-        return success("入库成功", ro1);
+        return success("批量保存成功："+i, ro1);
     }
 
     @Override
