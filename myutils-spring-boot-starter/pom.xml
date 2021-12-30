@@ -46,6 +46,12 @@
 			<groupId>cn.benma666</groupId>
 			<artifactId>myutils</artifactId>
 			<version>0.2.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>asm</artifactId>
+					<groupId>org.ow2.asm</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>

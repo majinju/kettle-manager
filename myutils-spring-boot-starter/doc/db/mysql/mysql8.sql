@@ -1,8 +1,8 @@
 
 CREATE TABLE JCGA_JCYG_JCXX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -69,8 +69,8 @@ CREATE TABLE JCGA_JCYG_JCXX (
 
 CREATE TABLE JCGA_JCYG_SHGX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -95,8 +95,8 @@ CREATE TABLE JCGA_JCYG_SHGX (
 
 CREATE TABLE QT_DCXT_CZ (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -117,8 +117,8 @@ CREATE TABLE QT_DCXT_CZ (
 
 CREATE TABLE QT_DCXT_DPGL (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -138,8 +138,8 @@ CREATE TABLE QT_DCXT_DPGL (
 
 CREATE TABLE QT_GJZQ_ZHMX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -171,8 +171,8 @@ CREATE TABLE QT_GJZQ_ZHMX (
 
 CREATE TABLE SHRMYY_HLB_GPHSZS (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -213,8 +213,8 @@ CREATE TABLE SHRMYY_HLB_GPHSZS (
 
 CREATE TABLE SHRMYY_HLB_HSRYXX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -248,8 +248,8 @@ CREATE TABLE SHRMYY_HLB_HSRYXX (
 
 CREATE TABLE SHRMYY_HLB_ZLJCJL (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -270,8 +270,8 @@ CREATE TABLE SHRMYY_HLB_ZLJCJL (
 
 CREATE TABLE SHRMYY_HLB_ZLJCX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   SSJL VARCHAR(32),
@@ -287,8 +287,8 @@ CREATE TABLE SHRMYY_HLB_ZLJCX (
 
 CREATE TABLE SHRMYY_HLB_ZLJCZB (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -310,8 +310,8 @@ CREATE TABLE SHRMYY_HLB_ZLJCZB (
 
 CREATE TABLE SHRMYY_JCXX_KSXX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -332,8 +332,8 @@ CREATE TABLE SHRMYY_JCXX_KSXX (
 
 CREATE TABLE SYS_BDHC_FK (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -376,8 +376,8 @@ CREATE TABLE SYS_BDHC_FK (
 
 CREATE TABLE SYS_BDHC_GZ (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -403,8 +403,8 @@ CREATE TABLE SYS_BDHC_GZ (
 
 CREATE TABLE SYS_BDHC_GZZD (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -426,8 +426,8 @@ CREATE TABLE SYS_BDHC_GZZD (
 
 CREATE TABLE SYS_BDHC_HM (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -469,8 +469,8 @@ CREATE TABLE SYS_BDHC_HM (
 
 CREATE TABLE SYS_BDHC_JG (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -564,8 +564,8 @@ CREATE TABLE SYS_BDHC_JG (
 
 CREATE TABLE SYS_BDHC_RW (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -592,7 +592,7 @@ CREATE TABLE SYS_BDHC_RW (
   SHZT VARCHAR(32) DEFAULT 0,
   SHDJ VARCHAR(32) DEFAULT '01',
   SHYJ text,
-  KSSJ VARCHAR(32) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  KSSJ VARCHAR(32) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   JSSJ VARCHAR(32)
 )
 ;
@@ -603,8 +603,8 @@ CREATE TABLE SYS_BDHC_RW (
 
 CREATE TABLE SYS_BDHC_XM (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -632,8 +632,8 @@ CREATE TABLE SYS_BDHC_XM (
 
 CREATE TABLE SYS_BDHC_ZY (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -665,8 +665,8 @@ CREATE TABLE SYS_BDHC_ZY (
 
 CREATE TABLE SYS_LOG_FWZR (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -692,8 +692,8 @@ CREATE TABLE SYS_LOG_FWZR (
 
 CREATE TABLE SYS_LOG_HTRZ (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   XC VARCHAR(512),
   JB VARCHAR(512),
@@ -710,8 +710,8 @@ CREATE TABLE SYS_LOG_HTRZ (
 
 CREATE TABLE SYS_LOG_SJSCCW (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -735,8 +735,8 @@ CREATE TABLE SYS_LOG_SJSCCW (
 
 CREATE TABLE SYS_QX_APP (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -769,8 +769,8 @@ CREATE TABLE SYS_QX_APP (
 
 CREATE TABLE SYS_QX_FWQ (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -795,8 +795,8 @@ CREATE TABLE SYS_QX_FWQ (
 
 CREATE TABLE SYS_QX_JGXX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -828,8 +828,8 @@ CREATE TABLE SYS_QX_JGXX (
 
 CREATE TABLE SYS_QX_JSQXGL (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -849,8 +849,8 @@ CREATE TABLE SYS_QX_JSQXGL (
 
 CREATE TABLE SYS_QX_JSXX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -875,8 +875,8 @@ CREATE TABLE SYS_QX_JSXX (
 
 CREATE TABLE SYS_QX_QXXX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -907,8 +907,8 @@ CREATE TABLE SYS_QX_QXXX (
 
 CREATE TABLE SYS_QX_YHJSGL (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -930,8 +930,8 @@ CREATE TABLE SYS_QX_YHJSGL (
 
 CREATE TABLE SYS_QX_YHXX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(32) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -974,8 +974,8 @@ CREATE TABLE SYS_QX_YHXX (
 
 CREATE TABLE SYS_SJGL_BHSC (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1001,8 +1001,8 @@ CREATE TABLE SYS_SJGL_BHSC (
 
 CREATE TABLE SYS_SJGL_BLOB (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   NR longblob
 )
@@ -1014,8 +1014,8 @@ CREATE TABLE SYS_SJGL_BLOB (
 
 CREATE TABLE SYS_SJGL_DZD (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1042,8 +1042,8 @@ CREATE TABLE SYS_SJGL_DZD (
 
 CREATE TABLE SYS_SJGL_FILE (
   ID VARCHAR(256) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1070,8 +1070,8 @@ CREATE TABLE SYS_SJGL_FILE (
 
 CREATE TABLE SYS_SJGL_GRBJ (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1101,8 +1101,8 @@ CREATE TABLE SYS_SJGL_GRBJ (
 
 CREATE TABLE SYS_SJGL_SJDX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1153,8 +1153,8 @@ CREATE TABLE SYS_SJGL_SJDX (
 
 CREATE TABLE SYS_SJGL_SJZD (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1207,8 +1207,8 @@ CREATE TABLE SYS_SJGL_SJZD (
 
 CREATE TABLE SYS_SJGL_SJZT (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1239,8 +1239,8 @@ CREATE TABLE SYS_SJGL_SJZT (
 
 CREATE TABLE SYS_SJGL_TYZD (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1269,8 +1269,8 @@ CREATE TABLE SYS_SJGL_TYZD (
 
 CREATE TABLE SYS_SJGL_TYZD_DEMO (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1299,8 +1299,8 @@ CREATE TABLE SYS_SJGL_TYZD_DEMO (
 
 CREATE TABLE SYS_SJGL_XTCS (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1325,8 +1325,8 @@ CREATE TABLE SYS_SJGL_XTCS (
 
 CREATE TABLE SYS_TEST_USER (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1365,8 +1365,8 @@ CREATE TABLE SYS_TEST_USER (
 
 CREATE TABLE SYS_YXJK_JKRW (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
@@ -1384,7 +1384,7 @@ CREATE TABLE SYS_YXJK_JKRW (
   RWZT VARCHAR(32) DEFAULT '0' NOT NULL,
   RWDJ VARCHAR(32) DEFAULT '1' NOT NULL,
   CLFK VARCHAR(1024),
-  JCSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')) NOT NULL,
+  JCSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')) NOT NULL,
   XXMB VARCHAR(512),
   YCYY text,
   RWMC VARCHAR(256) NOT NULL,
@@ -1402,8 +1402,8 @@ CREATE TABLE SYS_YXJK_JKRW (
 
 CREATE TABLE SYS_YXJK_XX (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   JKRW VARCHAR(32),
@@ -1421,8 +1421,8 @@ CREATE TABLE SYS_YXJK_XX (
 
 CREATE TABLE SYS_YXJK_ZDYSQL (
   ID VARCHAR(32) DEFAULT (REPLACE(UUID(),'-','')) NOT NULL,
-  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
-  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%I%S')),
+  CJSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
+  GXSJ VARCHAR(14) DEFAULT (date_format(now(), '%Y%m%d%H%i%S')),
   YXX VARCHAR(8) DEFAULT '1',
   PX bigint DEFAULT 99999,
   KZXX VARCHAR(4000) DEFAULT '{}',
