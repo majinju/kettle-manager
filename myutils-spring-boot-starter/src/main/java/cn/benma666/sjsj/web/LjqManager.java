@@ -11,10 +11,7 @@ import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
-import cn.benma666.iframe.BasicObject;
-import cn.benma666.iframe.CacheFactory;
-import cn.benma666.iframe.DictManager;
-import cn.benma666.iframe.Result;
+import cn.benma666.iframe.*;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonUtil;
 import cn.benma666.myutils.StringUtil;
@@ -59,26 +56,21 @@ public class LjqManager extends BasicObject {
      */
     public static LjqInterface use(SysSjglSjdx sjdx) {
         LjqInterface ljq = (LjqInterface) ljqCache.get(sjdx.getId());
-        if (ljq != null) {
-            //已经实例化则直接返回
-            return ljq;
-        }
-        String ljqStr = sjdx.getLjq();
-        try {
-            if (StringUtil.isBlank(ljqStr)) {
-                //没有设置定制拦截器则使用默认拦截器，每个数据对象单独创建一个拦截器对象
-                ljq = new DefaultLjq();
-            }else{
+        if (ljq == null) {
+            String ljqStr = valByDef(sjdx.getLjq(), Conf.getVal("benma666.ljq.default-ljq",
+                    "cn.benma666.sjsj.web.DefaultLjq"));
+            try {
                 //实例化定制拦截器
                 ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
+                ljq.setSjdx(sjdx);
+                ljq.init();
+                ljqCache.put(sjdx.getId(), ljq);
+                return ljq;
+            } catch (Exception e) {
+                throw new MyException(Msg.msg("ljq.mamanger.scljqsb", ljqStr), e);
             }
-            ljq.setSjdx(sjdx);
-            ljq.init();
-            ljqCache.put(sjdx.getId(), ljq);
-            return ljq;
-        } catch (Exception e) {
-            throw new MyException(Msg.msg("ljq.mamanger.scljqsb", ljqStr), e);
         }
+        return ljq;
     }
     /**
      * 获取数据对象基础信息 <br/>
@@ -292,7 +284,7 @@ public class LjqManager extends BasicObject {
                 czrz.setFhnr(fhnrObj.toString());
             }
             //设置请求耗时
-            long kssj = (long) JSONPath.eval(myParams, "$.sys.qqkssj");
+            long kssj = myParams.getLong("$.sys.qqkssj");
             czrz.setQqhs(BigDecimal.valueOf(System.currentTimeMillis()-kssj));
             //设置更新时间
             czrz.setGxsj(DateUtil.getGabDate());

@@ -34,10 +34,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SqlId;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -73,11 +76,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public JSONObject jcxx(JSONObject myParams) {
-        if (getCllx(myParams) == null) {
+        if (StringUtil.isBlank(myParams.getString($_SYS_CLLX))) {
             throw new MyException(Msg.msg("interceptor.bxsscllx", LjqInterface.$_SYS_CLLX.substring(2)), myParams);
         }
+        //获取权限key
+        getToken(myParams);
         //获取用户信息
-        SysQxYhxx user = UserManager.getUser(myParams);
+        SysQxYhxx user = getUser(myParams);
         myParams.put(KEY_USER, user);
         //获取字段信息
         getFields(myParams, user);
@@ -637,6 +642,50 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     /**
+     * 获取权限id
+     * @param myParams 参数对象
+     */
+    protected void getToken(JSONObject myParams) {
+        if (StringUtil.isNotBlank(myParams.getString(LjqInterface.$_SYS_TOKEN))) {
+            return;
+        }
+        HttpServletRequest req = myParams.getObject(LjqInterface.$_OTHEROBJ_REQUEST, HttpServletRequest.class);
+        if(req==null){
+            return;
+        }
+        //先取header中
+        String token = req.getHeader(UserManager.TOKEN);
+        if(StringUtil.isBlank(token)){
+            Cookie[] cookies = req.getCookies();
+            if(cookies!=null){
+                for(Cookie cookie:cookies) {
+                    //获取新GAW可信代理的认证key
+                    if("acsgToken".equals(cookie.getName())) {
+                        token = cookie.getValue();
+                        break;
+                    }
+                }
+            }
+        }
+        if (StringUtil.isBlank(token)) {
+            //再取常规浏览器会话id
+            token = req.getSession().getId();
+        }
+        //常规参数中没有设置权限认证key
+        myParams.set(LjqInterface.$_SYS_TOKEN, token);
+    }
+
+    /**
+     * 获取用户信息
+     * @param myParams 参数对象
+     * @return 用户信息
+     */
+    @Nullable
+    protected SysQxYhxx getUser(JSONObject myParams) {
+        return UserManager.getUser(myParams);
+    }
+
+    /**
      * 权限过滤 <br/>
      * @param myParams 参数集
      * @param user 用户对象
@@ -644,21 +693,21 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @author jingma
      */
     protected void auth(JSONObject myParams,SysQxYhxx user) throws QxException {
-        //用户
-        if (user==null) {
-            //没有用户信息则默认通过，此类都是系统内部调用
-            return;
-        }
         //处理类型
         String cllx = myParams.getString(LjqInterface.$_SYS_CLLX);
         //权限码
         String authCode = myParams.getString(LjqInterface.$_SYS_AUTHCODE);
-        if ((authCode == null)&& Conf.getVal("benma666.xtqx.mrtgxqx","dxjcxx,select").contains(cllx)) {
-            //没有配置权限，且在允许权限范围内则默认通过
+        //用户
+        if (user==null) {
+            //没有用户信息则默认通过，此类都是系统内部调用
             return;
-        }
-        //对象权限判断
-        if (user.getQxMap().containsKey(authCode + "_" + cllx)) {
+        }else if ((authCode == null)&&!UserManager.LSYH.equals(user.getYhdm())
+                && Conf.getVal("benma666.xtqx.mrtgxqx","dxjcxx,select").contains(cllx)) {
+            //没有配置权限,且不是临时用户，且在允许权限范围内则默认通过
+            //就是说没有配置权限的对象只有登陆用户可以访问，这样至少可以识别出是哪个人
+            return;
+        }else if (user.getQxMap().containsKey(authCode + "_" + cllx)) {
+            //对象权限判断
             return;
         }
         QxException e = new QxException("没有操作权限");

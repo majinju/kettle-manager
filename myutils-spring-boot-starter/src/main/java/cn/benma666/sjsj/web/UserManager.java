@@ -17,6 +17,7 @@ import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjzt.Db;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import org.beetl.sql.core.SqlId;
@@ -160,9 +161,18 @@ public class UserManager extends BasicObject {
                     if (Math.abs(urlDate.getTime() - new Date().getTime()) > 1000 * 60 * 5) {
                         throw new MyException("用户信息过期：" + userInfo, myParams);
                     }
-                } else if ("pwd_user".equals(zddlms) && !pwd.equals(userInfo.substring(0, idx))) {
-                    //明文密码加用户模式，不推荐使用
-                    throw new MyException("密码不正确：" + userInfo, myParams);
+                } else if ("pwd_user".equals(zddlms)) {
+                    String ipxz = JSON.parseObject(app.getString("kzxx")).getString("ipxz");
+                    if(StringUtil.isBlank(ipxz)){
+                        throw new MyException("一般密码模式自动登陆的应用必须配置ip限制：" + userInfo, myParams);
+                    }
+                    if(!myParams.getString("$.sys.clientIp").matches(ipxz)){
+                        throw new MyException("请在规定的ip机器上访问：" + userInfo, myParams);
+                    }
+                    if(!pwd.equals(userInfo.substring(0, idx))){
+                        //明文密码加用户模式，内部调用
+                        throw new MyException("密码不正确：" + userInfo, myParams);
+                    }
                 }
                 try {
                     String u = userInfo.substring(idx + 1);
@@ -305,33 +315,5 @@ public class UserManager extends BasicObject {
             redisTemplate.opsForValue().set(key,user,Long.parseLong(
                     valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
         }
-    }
-
-    /**
-     * 获取权限token <br/>
-     * @param req 请求
-     * @return 用户认证id
-     * @author jingma
-     */
-    public static String getToken(HttpServletRequest req) {
-        //先取header中
-        String token = req.getHeader(UserManager.TOKEN);
-        if(StringUtil.isBlank(token)){
-            Cookie[] cookies = req.getCookies();
-            if(cookies!=null){
-                for(Cookie cookie:cookies) {
-                    //获取新GAW可信代理的认证key
-                    if("acsgToken".equals(cookie.getName())) {
-                        token = cookie.getValue();
-                        break;
-                    }
-                }
-            }
-        }
-        if (StringUtil.isBlank(token)) {
-            //再取常规浏览器会话id
-            token = req.getSession().getId();
-        }
-        return token;
     }
 }

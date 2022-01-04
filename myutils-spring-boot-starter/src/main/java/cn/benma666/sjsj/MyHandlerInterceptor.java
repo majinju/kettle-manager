@@ -134,10 +134,8 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         }
         //切换语言
         switchLanguage(request, myParams);
-        if (myParams.get(LjqInterface.$_SYS_TOKEN) == null) {
-            //常规参数中没有设置权限认证key
-            myParams.set(LjqInterface.$_SYS_TOKEN, UserManager.getToken(request));
-        }
+        //将请求对象注入参数对象中
+        myParams.set(LjqInterface.$_OTHEROBJ_REQUEST,request);
         //设置客户端ip
         myParams.set(LjqInterface.$_SYS_CLIENT_IP, WebUtil.getIpAddr(request));
         //记录请求开始时间

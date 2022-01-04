@@ -96,6 +96,10 @@ public interface LjqConstant extends UtilConstInstance {
      * jsonpath路径-页面批量操作选择的记录id列表
      */
     String $_SYS_IDS = "$.sys.ids";
+    /**
+     * jsonpath路径-http请求对象
+     */
+    String $_OTHEROBJ_REQUEST = "$.otherObj.request";
 
     /**
      * 字典-系统-通用-数据载体

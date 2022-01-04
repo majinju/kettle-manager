@@ -1,6 +1,10 @@
 benma666:
   service:
     addr: /index
+  ljq:
+    default-ljq: cn.benma666.sjsj.web.DefaultLjq
+  xtqx:
+    mrtgqx: dxjcxx,select
   config:
     list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG,SYS_KP_APPCONFIG
   data:
@@ -12,8 +16,6 @@ benma666:
   app:
     ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
     dm: sjsj
-  xtqx:
-    mrtgqx: dxjcxx,select
 
 server:
   # 服务器的HTTP端口，默认为8080

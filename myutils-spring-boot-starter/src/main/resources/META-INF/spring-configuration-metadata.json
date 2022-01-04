@@ -42,9 +42,14 @@
       "description": "应用代码，在系统应用管理中的代码，便于进行关联"
     },
     {
-      "name": "benma666.xtqx.mrtgqx'",
+      "name": "benma666.xtqx.mrtgqx",
       "type": "java.lang.String",
       "description": "没有人工配置对象权限时，默认开放的权限，如：jcxx、select等"
+    },
+    {
+      "name": "benma666.ljq.default-ljq",
+      "type": "java.lang.String",
+      "description": "系统默认拦截器，各个系统可以实现自己的默认拦截器"
     },
     {
       "name": "spring.datasource.dbtype",
