@@ -93,6 +93,6 @@ public class IndexController extends BasicObject implements ErrorController {
         log.error("请求异常："+ JSON.toJSONString(attr), ex);
         Result r = failed("请求异常："+attr.get("error"));
         r.setCode(Integer.parseInt(attr.get("status").toString()));
-        WebUtil.sendJson(response,r);
+        LjqManager.sendResult(response,null,r);
     }
 }

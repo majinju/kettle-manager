@@ -100,6 +100,10 @@ public interface LjqConstant extends UtilConstInstance {
      * jsonpath路径-http请求对象
      */
     String $_OTHEROBJ_REQUEST = "$.otherObj.request";
+    /**
+     * jsonpath路径-http返回对象
+     */
+    String $_OTHEROBJ_RESPONSE = "$.otherObj.response";
 
     /**
      * 字典-系统-通用-数据载体

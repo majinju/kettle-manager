@@ -114,7 +114,7 @@ public class YhdlLjq extends DefaultLjq {
      * @return 系统基础信息
      */
     private Result xtjcxx(JSONObject myParams, SysQxYhxx user) {
-        UserManager.addUser(JSONPath.eval(myParams,$_SYS_TOKEN).toString(), user);
+        UserManager.addUser(myParams.getString($_SYS_TOKEN), user);
         myParams.put(KEY_USER, user);
         return super.xtjcxx(myParams);
     }

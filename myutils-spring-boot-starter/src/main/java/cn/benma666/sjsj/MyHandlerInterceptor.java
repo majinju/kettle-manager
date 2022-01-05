@@ -46,6 +46,9 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
                              Object handler) throws Exception {
         //自定义参数读取逻辑，支持json和普通参数混合传参
         JSONObject myParams = getJSONParam(request);
+        //将请求对象注入参数对象中
+        myParams.set(LjqInterface.$_OTHEROBJ_REQUEST,request);
+        myParams.set(LjqInterface.$_OTHEROBJ_RESPONSE,response);
         Result r = success("预处理成功");
         try {
             if(request.getRequestURI().endsWith("/error")){
@@ -134,8 +137,6 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         }
         //切换语言
         switchLanguage(request, myParams);
-        //将请求对象注入参数对象中
-        myParams.set(LjqInterface.$_OTHEROBJ_REQUEST,request);
         //设置客户端ip
         myParams.set(LjqInterface.$_SYS_CLIENT_IP, WebUtil.getIpAddr(request));
         //记录请求开始时间

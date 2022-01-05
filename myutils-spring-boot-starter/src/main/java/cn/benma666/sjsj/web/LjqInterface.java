@@ -13,7 +13,7 @@ import cn.benma666.sjsj.myutils.Msg;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.SQLException;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 系统-数据管理-拦截器接口 <br/>
@@ -143,6 +143,13 @@ public interface LjqInterface extends LjqConstant {
      * @author jingma
      */
     String[] getSql(JSONObject myParams, String cllx) throws MyException;
+    /**
+     * 结果发送到前端
+     * @param response 返回对象
+     * @param myParams 相关参数
+     * @param r 结果
+     */
+    void sendResult(HttpServletResponse response, JSONObject myParams, Result r);
 
     /**
      * 拦截器初始化方法 <br/>

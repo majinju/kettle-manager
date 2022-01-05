@@ -14,14 +14,12 @@ import cn.benma666.exception.MyException;
 import cn.benma666.iframe.*;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonUtil;
-import cn.benma666.myutils.StringUtil;
 import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjzt.Db;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.parser.Feature;
 import org.beetl.sql.core.SqlId;
 import org.springframework.http.HttpStatus;
@@ -268,43 +266,19 @@ public class LjqManager extends BasicObject {
      * @param r 结果
      */
     public static void sendResult(HttpServletResponse response,JSONObject myParams, Result r) {
-        SysLogFwzr czrz = myParams.getObject(LjqInterface.KEY_CZRZ, SysLogFwzr.class);
-        if(czrz!=null){
-            //记录日志
-            String fhnr = r.toString();
-            if(fhnr.length()<2000){
-                czrz.setFhnr(fhnr);
-            }else{
-                JSONObject fhnrObj = JSON.parseObject(fhnr);
-                //返回内容较大，不记录内容
-                fhnrObj.remove("data");
-                if(r.getMsg().length()>2000){
-                    fhnrObj.put("msg",r.getMsg().substring(0,2000));
-                }
-                czrz.setFhnr(fhnrObj.toString());
-            }
-            //设置请求耗时
-            long kssj = myParams.getLong("$.sys.qqkssj");
-            czrz.setQqhs(BigDecimal.valueOf(System.currentTimeMillis()-kssj));
-            //设置更新时间
-            czrz.setGxsj(DateUtil.getGabDate());
-            JSONObject rzJcxx = jcxxByDxdm("SYS_LOG_FWZR");
-            rzJcxx.put(LjqInterface.KEY_YOBJ,czrz);
-            rzJcxx.put(LjqInterface.KEY_USER,myParams.get(LjqInterface.KEY_USER));
-            insert((SysSjglSjdx) rzJcxx.get(LjqInterface.KEY_SJDX),rzJcxx);
+        SysSjglSjdx sjdx;
+        if(myParams==null){
+            myParams = new JSONObject();
         }
-
-        //根据返回类型向前端推送数据
-        if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
-            response.setStatus(r.getCode());
-            WebUtil.sendJson(response, r);
-        } else if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {//文件下载场景
-            JSONObject data = (JSONObject) r.getData();
-            WebUtil.sendBytes(response, data.getBytes(LjqInterface.KEY_FILE_BYTES),
-                    (SysSjglFile) data.get(LjqInterface.KEY_FILE_OBJ));
-        } else {//默认JSON
-            WebUtil.sendJson(response, r);
+        if(!myParams.containsKey(LjqInterface.KEY_SJDX)){
+            //没有参数时，虚拟一个对象
+            sjdx = new SysSjglSjdx();
+            sjdx.setId(LjqInterface.ZD_SJDX_ZDYWLB_XNZD);
+            myParams.put(LjqInterface.KEY_SJDX,sjdx);
+        }else{
+            sjdx = myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class);
         }
+        use(sjdx).sendResult(response,myParams,r);
     }
 
 }
