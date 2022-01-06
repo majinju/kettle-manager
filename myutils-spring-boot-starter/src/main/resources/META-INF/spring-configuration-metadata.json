@@ -7,6 +7,11 @@
   ],
   "properties": [
     {
+      "name": "benma666.debug",
+      "type": "java.lang.String",
+      "description": "调试模式，默认false，系统中如sql监测等涉及调试的会采用该参数"
+    },
+    {
       "name": "benma666.service.addr",
       "type": "java.lang.String",
       "description": "系统服务地址，如配置、字典等公共服务系统地址"

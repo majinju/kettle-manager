@@ -124,7 +124,7 @@ public class UserManager extends BasicObject {
         } else {
             url += "?";
         }
-        url += "userInfo=" + URLEncoder.encode(userInfo, "utf8");
+        url += "sys.userInfo=" + URLEncoder.encode(userInfo, "utf8");
         return url;
     }
 

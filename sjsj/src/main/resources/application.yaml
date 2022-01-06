@@ -1,4 +1,5 @@
 benma666:
+  debug: true
   service:
     addr: /index
   ljq:
