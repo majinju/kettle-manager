@@ -330,7 +330,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         SysSjglFile file = page.getList().get(0).toJavaObject(SysSjglFile.class);
         file.setXzms(valByDef(myParams.getBoolean("$.yobj.xzms"),false));
-        JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, file.getSjzt());
+        JSONObject sjzt = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, file.getSjzt());
         byte[] byteArr;
         if (DbType.of(sjzt.getString("lx")) != null) {
             byteArr = db(sjzt.getString("dm")).findFirst(file.getSclj()).getBytes("wj");
@@ -1149,7 +1149,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         if(StringUtil.isBlank(fileObj.getWjlb())){
             fileObj.setWjlb(sjdx.getDxdm());
         }
-        JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
+        JSONObject sjzt = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getSjzt());
         if (DbType.of(sjzt.getString("lx")) != null) {
             //数据载体为oracle
             String id = StringUtil.getUUIDUpperStr();

@@ -1,6 +1,5 @@
 package cn.benma666.sjsj.ljq;
 
-import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Conf;
 import cn.benma666.iframe.DictManager;
@@ -81,13 +80,25 @@ public class DemoLjq extends DefaultLjq{
     /**
      * 获取字典列表
      */
-    public Result zdlist(JSONObject myParams) {
+    public Result zdList(JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
-            return success(msgCzcg(),DictManager.zdMapByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdMap(myParams));
         }else{
             //不使用缓存
-            return success(msgCzcg(),DictManager.zdMap(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdMapNoCache(myParams));
+        }
+    }
+    /**
+     * 获取字典树
+     */
+    public Result zdTree(JSONObject myParams) {
+        if(myParams.getBoolean("$.sys.dataCache")){
+            //使用缓存
+            return success(msgCzcg(),DictManager.zdTree(myParams));
+        }else{
+            //不使用缓存
+            return success(msgCzcg(),DictManager.zdTreeNoCache(myParams));
         }
     }
     /**
@@ -96,19 +107,17 @@ public class DemoLjq extends DefaultLjq{
     public Result zdObj(JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
-            return success(msgCzcg(),DictManager.zdObjByDmByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdObj(myParams));
         }else{
             //不使用缓存
-            return success(msgCzcg(),DictManager.zdObj(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdObjNoCache(myParams));
         }
     }
     /**
      * 字典搜索
      */
     public Result zdSearch(JSONObject myParams) {
-        SysSjglTyzd zd = myParams.getObject(KEY_YOBJ, SysSjglTyzd.class);
-        zd.setSearchKey(myParams.getString("$.sys.searchKey"));
-        return success(msgCzcg(),DictManager.zdSearch(myParams.getObject(KEY_PAGE, PageInfo.class),zd));
+        return success(msgCzcg(),DictManager.zdSearch(myParams));
     }
 
     public Result gjh(JSONObject myParams){

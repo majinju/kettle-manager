@@ -24,8 +24,6 @@ import org.beetl.sql.core.SqlId;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -100,7 +98,7 @@ public class UserManager extends BasicObject {
     public static String doDesEncryptUrl(String url, String projectCode, String userid)
             throws UnsupportedEncodingException {
         String userInfo = DateUtil.getGabDate() + "@" + userid;
-        JSONObject app = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_QX_APP, projectCode);
+        JSONObject app = DictManager.zdObjByDm(LjqInterface.ZD_SYS_QX_APP, projectCode);
         String pwd = app.getString("mm");
         if (StringUtil.isBlank(pwd)) {
             throw new MyException("应用必须设置密码");
@@ -140,7 +138,7 @@ public class UserManager extends BasicObject {
         Object obj = JSONPath.eval(myParams, "$.sys.userInfo");
         if (!StringUtil.isBlank(obj)) {
             String userInfo = obj.toString();
-            JSONObject app = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_QX_APP,
+            JSONObject app = DictManager.zdObjByDm(LjqInterface.ZD_SYS_QX_APP,
                     Conf.getVal("project.code"));
             String pwd = app.getString("mm");
             String zddlms = app.getString("zddlms");

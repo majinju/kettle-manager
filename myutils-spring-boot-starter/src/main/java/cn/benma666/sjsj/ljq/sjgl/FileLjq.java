@@ -40,7 +40,7 @@ public class FileLjq extends DefaultLjq {
                 //有效的过滤掉，只对已经逻辑删除过的文件进行物理删除
                 continue;
             }
-            JSONObject sjzt = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getString("sjzt"));
+            JSONObject sjzt = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, fileObj.getString("sjzt"));
             if (DbType.of(sjzt.getString("lx")) != null) {
                 //数据载体为数据库
                 String sclj = fileObj.getString("sclj");

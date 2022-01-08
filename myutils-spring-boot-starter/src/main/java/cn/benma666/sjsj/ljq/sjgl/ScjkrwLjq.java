@@ -29,7 +29,7 @@ public class ScjkrwLjq extends DefaultLjq {
      */
     public Result scjkrw(JSONObject myParams) {
         JSONObject jkpz = new JSONObject();
-        JSONObject pz = DictManager.zdObjByDmByCache("SYS_YXJK_SCRWPZ", sjdx.getDxdm());
+        JSONObject pz = DictManager.zdObjByDm("SYS_YXJK_SCRWPZ", sjdx.getDxdm());
         if(pz!=null){
             jkpz = JSON.parseObject(pz.getString("kzxx"));
         }

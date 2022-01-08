@@ -6,10 +6,8 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import cn.benma666.domain.SysSjglTyzd;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.DictManager;
-import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.web.DefaultLjq;
 import com.alibaba.fastjson.JSONObject;
@@ -49,10 +47,10 @@ public class TyzdLjq extends DefaultLjq {
     public Result zdList(JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
-            return success(msgCzcg(),DictManager.zdMapByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdMap(myParams));
         }else{
             //不使用缓存
-            return success(msgCzcg(),DictManager.zdMap(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdMapNoCache(myParams));
         }
     }
     /**
@@ -61,10 +59,10 @@ public class TyzdLjq extends DefaultLjq {
     public Result zdTree(JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
-            return success(msgCzcg(),DictManager.zdTreeByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdTree(myParams));
         }else{
             //不使用缓存
-            return success(msgCzcg(),DictManager.zdTree(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdTreeNoCache(myParams));
         }
     }
     /**
@@ -73,18 +71,16 @@ public class TyzdLjq extends DefaultLjq {
     public Result zdObj(JSONObject myParams) {
         if(myParams.getBoolean("$.sys.dataCache")){
             //使用缓存
-            return success(msgCzcg(),DictManager.zdObjByDmByCache(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdObj(myParams));
         }else{
             //不使用缓存
-            return success(msgCzcg(),DictManager.zdObj(myParams.getObject(KEY_YOBJ, SysSjglTyzd.class)));
+            return success(msgCzcg(),DictManager.zdObjNoCache(myParams));
         }
     }
     /**
      * 字典搜索
      */
     public Result zdSearch(JSONObject myParams) {
-        SysSjglTyzd zd = myParams.getObject(KEY_YOBJ, SysSjglTyzd.class);
-        zd.setSearchKey(myParams.getString("$.sys.searchKey"));
-        return success(msgCzcg(),DictManager.zdSearch(myParams.getObject(KEY_PAGE, PageInfo.class),zd));
+        return success(msgCzcg(),DictManager.zdSearch(myParams));
     }
 }

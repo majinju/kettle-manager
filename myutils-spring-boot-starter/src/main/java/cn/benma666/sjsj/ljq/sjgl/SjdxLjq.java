@@ -49,7 +49,7 @@ public class SjdxLjq extends DefaultLjq {
         //解析扩展信息
         jtdx.set("kzxxObj",JSON.parseObject(jtdx.getString(FIELD_KZXX), Feature.OrderedField));
         //设置数据载体
-        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, jtdx.getString("dxzt"));
+        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, jtdx.getString("dxzt"));
         jtdx.put("dxztlx",dbObj.getString("lx"));
         myParams.put(KEY_YOBJ,jtdx);
         DSTransactionManager.start();
@@ -97,7 +97,7 @@ public class SjdxLjq extends DefaultLjq {
     public Result dis(JSONObject myParams) {
         Result result;
         SysSjglSjdx ysjdx = myParams.getObject(KEY_YOBJ, SysSjglSjdx.class);
-        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
+        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
         ysjdx.setDxztlx(dbObj.getString("lx"));
         if(DbType.of(dbObj.getString("lx"))!=null){
             String[] arr = LjqManager.getSql(ysjdx, myParams);
@@ -230,7 +230,7 @@ public class SjdxLjq extends DefaultLjq {
     * @return 处理结果
     */
     private Result impFields(SysSjglSjdx jtdx, JSONObject myParams) throws PinyinException {
-        JSONObject dbObj = DictManager.zdObjByDmByCache(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
+        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
         String zddrsql = jtdx.getZddrsql();
         if(StringUtil.isBlank(zddrsql)){
             String[] arr = LjqManager.getSql(jtdx, myParams, "dis");
