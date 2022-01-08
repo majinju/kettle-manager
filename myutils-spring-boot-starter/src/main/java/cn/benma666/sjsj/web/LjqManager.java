@@ -6,29 +6,20 @@
 
 package cn.benma666.sjsj.web;
 
-import cn.benma666.domain.SysLogFwzr;
 import cn.benma666.domain.SysQxYhxx;
-import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.*;
-import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.JsonUtil;
-import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjzt.Db;
-import com.alibaba.druid.util.Utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import org.beetl.sql.core.SqlId;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * 系统-数据管理-拦截器管理 <br/>
@@ -150,21 +141,20 @@ public class LjqManager extends BasicObject {
             //设置缓存
             sjdxMap.put(cacheKey,sjdx);
         }
-        try {
-            //TODO 后续还是将该配置迁移到字典配置中
-            JSONObject defParams= JSONObject.parseObject(Utils.readFromResource("myParams.json"), Feature.OrderedField);
-            //合并新配置与默认配置
-            myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
-            if(!nbdy){
-                defParams= JSONObject.parseObject(Utils.readFromResource("myParams2.json"), Feature.OrderedField);
-                //合并优先级高于用户传参的默认配置
-                myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
+        JSONObject defParams = JSONObject.parseObject(Conf.getVal("sjdx.jcxx1"), Feature.OrderedField);
+        //合并新配置与默认配置
+        myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
+        if(!nbdy){
+            defParams = defaultCache.getJSONObject("sjdx.jcxx2");
+            if(defParams==null){
+                defParams= JSONObject.parseObject(Conf.getVal("sjdx.jcxx2"), Feature.OrderedField);
+                defaultCache.put("sjdx.jcxx2",defParams);
             }
-            //合并数据对象的扩展信息到系统参数中
-            JsonUtil.mergeJSONObjects(myParams, (JSONObject) sjdx.get("kzxxObj"));
-        } catch (IOException e) {
-            throw new MyException("读取默认配置失败",e);
+            //合并优先级高于用户传参的默认配置
+            myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
         }
+        //合并数据对象的扩展信息到系统参数中
+        JsonUtil.mergeJSONObjects(myParams, (JSONObject) sjdx.get("kzxxObj"));
         myParams.set(LjqInterface.$_SYS_AUTHCODE, sjdx.get(LjqInterface.KEY_AUTH_CODE));
         //设置从数据库中读取的数据对象
         myParams.put(LjqInterface.KEY_SJDX, sjdx);
