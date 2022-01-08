@@ -88,7 +88,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //获取字段信息
         getFields(myParams, user);
         //记录操作日志
-        czrz(myParams, user);
+        initCzrz(myParams, user);
         //权限鉴定
         auth(myParams, user);
         //设置需要处理的对象
@@ -1043,12 +1043,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     /**
-     * 操作日志记录 <br/>
+     * 初始化操作日志记录 <br/>
      * @param myParams 参数
      * @param user     用户
      * @author jingma
      */
-    protected void czrz(JSONObject myParams, SysQxYhxx user) {
+    protected void initCzrz(JSONObject myParams, SysQxYhxx user) {
         if (myParams.getBoolean($_SYS_NBDY)) {
             //为系统内部调用
             return;
@@ -1106,6 +1106,39 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
         }
         czrz.setXgcs(JSON.toJSONString(csObj,false));
+    }
+
+    /**
+     * 写操作日志
+     * @param myParams 相关参数
+     * @param r 待返回前端的操作结果
+     */
+    protected void writeCzrz(JSONObject myParams, Result r) {
+        SysLogFwzr czrz = myParams.getObject(LjqInterface.KEY_CZRZ, SysLogFwzr.class);
+        if(czrz!=null){
+            //记录日志
+            String fhnr = r.toString();
+            if(fhnr.length()<2000){
+                czrz.setFhnr(fhnr);
+            }else{
+                JSONObject fhnrObj = JSON.parseObject(fhnr);
+                //返回内容较大，不记录内容
+                fhnrObj.remove("data");
+                if(r.getMsg().length()>2000){
+                    fhnrObj.put("msg", r.getMsg().substring(0,2000));
+                }
+                czrz.setFhnr(fhnrObj.toString());
+            }
+            //设置请求耗时
+            long kssj = myParams.getLong("$.sys.qqkssj");
+            czrz.setQqhs(BigDecimal.valueOf(System.currentTimeMillis()-kssj));
+            //设置更新时间
+            czrz.setGxsj(DateUtil.getGabDate());
+            JSONObject rzJcxx = LjqManager.jcxxByDxdm("SYS_LOG_FWZR");
+            rzJcxx.put(LjqInterface.KEY_YOBJ,czrz);
+            rzJcxx.put(LjqInterface.KEY_USER, myParams.get(LjqInterface.KEY_USER));
+            LjqManager.insert((SysSjglSjdx) rzJcxx.get(LjqInterface.KEY_SJDX),rzJcxx);
+        }
     }
 
     /**
@@ -1254,33 +1287,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public void sendResult(HttpServletResponse response, JSONObject myParams, Result r) {
         if(!ZD_SJDX_ZDYWLB_XNZD.equals(sjdx.getId())){
             //非虚拟对象时才记录日志
-            SysLogFwzr czrz = myParams.getObject(LjqInterface.KEY_CZRZ, SysLogFwzr.class);
-            if(czrz!=null){
-                //记录日志
-                String fhnr = r.toString();
-                if(fhnr.length()<2000){
-                    czrz.setFhnr(fhnr);
-                }else{
-                    JSONObject fhnrObj = JSON.parseObject(fhnr);
-                    //返回内容较大，不记录内容
-                    fhnrObj.remove("data");
-                    if(r.getMsg().length()>2000){
-                        fhnrObj.put("msg",r.getMsg().substring(0,2000));
-                    }
-                    czrz.setFhnr(fhnrObj.toString());
-                }
-                //设置请求耗时
-                long kssj = myParams.getLong("$.sys.qqkssj");
-                czrz.setQqhs(BigDecimal.valueOf(System.currentTimeMillis()-kssj));
-                //设置更新时间
-                czrz.setGxsj(DateUtil.getGabDate());
-                JSONObject rzJcxx = LjqManager.jcxxByDxdm("SYS_LOG_FWZR");
-                rzJcxx.put(LjqInterface.KEY_YOBJ,czrz);
-                rzJcxx.put(LjqInterface.KEY_USER,myParams.get(LjqInterface.KEY_USER));
-                LjqManager.insert((SysSjglSjdx) rzJcxx.get(LjqInterface.KEY_SJDX),rzJcxx);
-            }
+            writeCzrz(myParams, r);
         }
-
         //根据返回类型向前端推送数据
         if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
             response.setStatus(r.getCode());
