@@ -551,8 +551,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public String[] getSql(JSONObject myParams) {
-        Object cllx = JSONPath.eval(myParams, $_SYS_CLLX);
-        return getSql(myParams, cllx.toString());
+        String cllx = myParams.getString($_SYS_CLLX);
+        return getSql(myParams, cllx);
     }
 
     @Override
@@ -1135,9 +1135,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //设置更新时间
             czrz.setGxsj(DateUtil.getGabDate());
             JSONObject rzJcxx = LjqManager.jcxxByDxdm("SYS_LOG_FWZR");
-            rzJcxx.put(LjqInterface.KEY_YOBJ,czrz);
-            rzJcxx.put(LjqInterface.KEY_USER, myParams.get(LjqInterface.KEY_USER));
-            LjqManager.insert((SysSjglSjdx) rzJcxx.get(LjqInterface.KEY_SJDX),rzJcxx);
+            rzJcxx.put(KEY_YOBJ,czrz);
+            rzJcxx.put(KEY_USER, myParams.get(KEY_USER));
+            LjqManager.insert((SysSjglSjdx) rzJcxx.get(KEY_SJDX),rzJcxx);
         }
     }
 
