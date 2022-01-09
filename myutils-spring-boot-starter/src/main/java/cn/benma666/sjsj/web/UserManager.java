@@ -189,7 +189,13 @@ public class UserManager extends BasicObject {
         }
         //没有登录时，返回临时用户，后续可以在权限系统中对临时用户进行授权
         if (user == null) {
-            user = getUserBydYhdm(LSYH);
+            obj = redisTemplate.opsForValue().get(LjqInterface.KEY_USER+LSYH);
+            if(obj==null){
+                user = getUserBydYhdm(LSYH);
+                addUser(LSYH, user);
+            }else{
+                user = (SysQxYhxx) obj;
+            }
         }
         if (StringUtil.isNotBlank(user.getXzip())
                 && !user.getClientIp().matches(user.getXzip())) {
@@ -277,9 +283,12 @@ public class UserManager extends BasicObject {
      */
     public static SysQxYhxx findUser(JSONObject yobj) throws MyException {
         //查询用户
-        JSONObject jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findUser"), yobj);
-        if(jsonObj==null){
-            throw new MyException("没有找到用户："+yobj);
+        JSONObject jsonObj = yobj;
+        if(StringUtil.isBlank(yobj.getString(LjqInterface.FIELD_ID))){
+            jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findUser"), yobj);
+            if(jsonObj==null){
+                throw new MyException("没有找到用户："+yobj);
+            }
         }
         SysQxYhxx user = jsonObj.toJavaObject(SysQxYhxx.class);
         //取消用户密码，登录后就不再需要使用，避免传到前端

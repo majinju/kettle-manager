@@ -121,25 +121,28 @@ public class LjqManager extends BasicObject {
         SysSjglSjdx sjdx;
         //读取缓存
         String cacheKey = myParams.getString(LjqInterface.KEY_SJDX)+myParams.getString(LjqInterface.$_SYS_AUTHCODE);
-        Object obj = sjdxMap.get(cacheKey);
-        if (obj != null && !valByDef(myParams.getBoolean("$.sys.clearCache"),false)) {
-            sjdx = (SysSjglSjdx) obj;
-        } else {
-            JSONObject jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
-            if (jsonObj == null) {
-                throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
+        synchronized (sjdxMap){
+            //进行同步操作，不免重复查询，缓存加载完成后这里应该耗时很少，应该不会成为瓶颈
+            Object obj = sjdxMap.get(cacheKey);
+            if (obj != null && !valByDef(myParams.getBoolean("$.sys.clearCache"),false)) {
+                sjdx = (SysSjglSjdx) obj;
+            } else {
+                JSONObject jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
+                if (jsonObj == null) {
+                    throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
+                }
+                sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
+                //解析扩展信息
+                sjdx.set("kzxxObj",JSON.parseObject(jsonObj.getString(LjqInterface.FIELD_KZXX),Feature.OrderedField));
+                //设置权限码
+                String authCode = jsonObj.getString(LjqInterface.KEY_AUTH_CODE);
+                sjdx.set(LjqInterface.KEY_AUTH_CODE, authCode);
+                //设置数据载体
+                JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
+                sjdx.setDxztlx(dbObj.getString("lx"));
+                //设置缓存
+                sjdxMap.put(cacheKey,sjdx);
             }
-            sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
-            //解析扩展信息
-            sjdx.set("kzxxObj",JSON.parseObject(jsonObj.getString(LjqInterface.FIELD_KZXX),Feature.OrderedField));
-            //设置权限码
-            String authCode = jsonObj.getString(LjqInterface.KEY_AUTH_CODE);
-            sjdx.set(LjqInterface.KEY_AUTH_CODE, authCode);
-            //设置数据载体
-            JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
-            sjdx.setDxztlx(dbObj.getString("lx"));
-            //设置缓存
-            sjdxMap.put(cacheKey,sjdx);
         }
         JSONObject defParams = JSONObject.parseObject(Conf.getVal("sjdx.jcxx1"), Feature.OrderedField);
         //合并新配置与默认配置
@@ -151,7 +154,7 @@ public class LjqManager extends BasicObject {
                 defaultCache.put("sjdx.jcxx2",defParams);
             }
             //合并优先级高于用户传参的默认配置
-            myParams.putAll(JsonUtil.mergeJSONObjects(myParams,defParams));
+            JsonUtil.mergeJSONObjects(myParams,defParams);
         }
         //合并数据对象的扩展信息到系统参数中
         JsonUtil.mergeJSONObjects(myParams, (JSONObject) sjdx.get("kzxxObj"));

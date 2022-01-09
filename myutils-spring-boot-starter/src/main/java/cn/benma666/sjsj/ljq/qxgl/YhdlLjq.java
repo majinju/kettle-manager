@@ -65,7 +65,7 @@ public class YhdlLjq extends DefaultLjq {
                 && !oldUser.getClientIp().matches(yhxx.getXzip())) {
             return failed("你未不在授权的ip范围内登录");
         }
-        user = UserManager.getUserBydYhdm(yobj.getString("yhdm"));
+        user = UserManager.findUser(jsonObj);
         return xtjcxx(myParams, user);
     }
     /**
