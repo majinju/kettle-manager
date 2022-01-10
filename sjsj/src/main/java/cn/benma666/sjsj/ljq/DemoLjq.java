@@ -1,5 +1,6 @@
 package cn.benma666.sjsj.ljq;
 
+import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Conf;
 import cn.benma666.iframe.DictManager;
@@ -7,6 +8,7 @@ import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.DefaultLjq;
+import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjzt.Db;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.SqlId;
@@ -37,6 +39,14 @@ public class DemoLjq extends DefaultLjq{
         //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询
         page = db().queryPage(page, "select * from #{sjdx.jtdx}", myParams);
         log.info("分页查询结果："+page);
+        //获取其他对象的基础信息进行方法调用
+        JSONObject sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX");
+        //设置查询条件，类似前端查询传参
+        sjdxParams.set("$.yobj.dxdm","SYS_SJGL_SJDX");
+        //调用查询
+        Result r = LjqManager.select(sjdxParams.getObject(KEY_SJDX, SysSjglSjdx.class), sjdxParams);
+        //获取数据
+        log.info("调用其他对象的方法查询数据："+r.getData());
         return success("java开发各种常见代码演示");
     }
     /**
