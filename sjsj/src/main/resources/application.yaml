@@ -65,6 +65,10 @@ spring:
     username: sjsj2
     password: sjsj
     dbtype: oracle
+#    url: jdbc:mysql://127.0.0.1:3307/sjsj2?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true
+#    username: sjsj2
+#    password: sjsj
+#    dbtype: mysql
     druid:
       # 初始连接数
       initial-size: 2

@@ -101,6 +101,38 @@ client.test("Request executed successfully", function() {
 });
 %}
 
+### 系统表搜索
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  //数据对象
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+    "zdlb":"SYS_COMMON_TABLES",
+    "ztlx": "oracle",
+    "sjzt": "default",
+    "owner": "SJSJ"
+  },
+  "page":{
+    "totalRequired":true,
+    "pageSize": 5
+  },
+  "sys":{
+    "cllx":"zdSearch",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "searchKey": "S"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
 ### 清除字典缓存
 POST {{serviceAddr}}
 Content-Type: application/json
