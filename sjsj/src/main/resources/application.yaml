@@ -40,8 +40,8 @@ spring:
   application:
     name: 数据世界
   profiles:
-    active: dev
-    #active: mysql
+    active: oracle
+#    active: mysql
   # 资源信息
   messages:
     # 国际化资源文件路径
