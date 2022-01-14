@@ -7,6 +7,7 @@
 package cn.benma666.sjsj.web;
 
 import cn.benma666.constants.UtilConst;
+import cn.benma666.crypt.MD5Util;
 import cn.benma666.domain.SysLogFwzr;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
@@ -378,7 +379,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             if(StringUtil.isBlank(j.getString(sjdx.getZjzd()))){
                 r = insert(myParams);
             }else{
-                myParams.set("$.sys.yzdjl",Boolean.TRUE);
+                myParams.set($_SYS_CLLX,KEY_CLLX_UPDATE);
+                //修改时先查询原来值，与单个记录一致
+                putObj(myParams);
                 r = update(myParams);
             }
             if (!r.isStatus()) {
@@ -465,6 +468,19 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             r.addMsg("逻辑删除记录数：" + scs);
         }
         return r;
+    }
+
+    /**
+     * @return 核查结果，正确：true，错误：false
+     */
+    public Result inspect(JSONObject myParams) {
+        //不进行列表查询
+        myParams.set("$.page.listRequired",false);
+        Result r = select(myParams);
+        if(!r.isStatus()){
+            return r;
+        }
+        return success("核查成功",((PageInfo<JSONObject>)r.getData()).getTotalRow()>0);
     }
 
     @Override
@@ -749,23 +765,51 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected void putObj(JSONObject myParams) {
         myParams.set("$.sys.yzdjl", Boolean.FALSE);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        if (yobj == null) {
+        if (KEY_CLLX_SELECT.equals(getCllx(myParams))||"v_xndx".equals(sjdx.getJtdx())||yobj==null) {
+            //查询场景、虚拟对象场景、没有输入参数不进行具体对象查询
             return;
         }
-        if (KEY_CLLX_SELECT.equals(getCllx(myParams))) {
-            //查询场景不进行具体对象查询
-            return;
+        List<JSONObject> qcList = (List<JSONObject>) sjdx.get("qcList");
+        JSONObject qcObj = new JSONObject();
+        if(qcList.size()==1){
+            //一个去重字段
+            JSONObject f = qcList.get(0);
+            if (f!=null&&StringUtil.isNotBlank(yobj.getString(f.getString(FIELD_ZDDM)))) {
+                //该去重字段不为空
+                qcObj.put(f.getString(FIELD_ZDDM),yobj.getString(f.getString(FIELD_ZDDM)));
+            }
+        }else if(StringUtil.isNotBlank(sjdx.getQczd())){
+            //多个去重字段，且设置了去重字段
+            StringBuilder key = new StringBuilder();
+            for(JSONObject f : qcList){
+                //将去重字段的值拼接
+                key.append(yobj.getString(f.getString(FIELD_ZDDM))).append("_");
+            }
+            //对去重字段进行md5编码
+            qcObj.put(sjdx.getQczd(), MD5Util.encode(key.toString()));
+            //对原对象进行去重字段值补充，便于后续入库
+            yobj.put(sjdx.getQczd(), MD5Util.encode(key.toString()));
+        }else{
+            throw new MyException("配置了具体的多个去重字段，但没有在数据对象中配置存储去重字段md5值的“去重字段”");
         }
-        if (StringUtil.isNotBlank(sjdx.getZjzd())&&!"v_xndx".equals(sjdx.getJtdx())
-                && !StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))) {
-            //设置了主键字段，且前端传入了主键，查询模板中只要前端传入了主键，则只以主键进行查询，不管其他条件
+        if (qcObj.size()>0) {
+            //存在去重字段
+            //不进行总量查询
             myParams.set("$.page.totalRequired", Boolean.FALSE);
+            //设置根据去重字段查询数据的条件
+            myParams.put(KEY_YOBJ,qcObj);
             PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(myParams).getData();
             if (page.getList().size() == 1) {
                 //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
                 myParams.set("$.sys.yzdjl", Boolean.TRUE);
                 myParams.put(KEY_OBJ, page.getList().get(0));
+                //把查询出来的主键设置到原输入参数中，便于配置了去重字段的场景基于主键进行更新
+                if(StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))){
+                    yobj.put(sjdx.getZjzd(),page.getList().get(0).getString(sjdx.getZjzd()));
+                }
             }
+            //还原原来的输入参数
+            myParams.put(KEY_YOBJ,yobj);
         }
     }
 
@@ -797,9 +841,23 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 List<Object> list = new ArrayList<>(sfields.values());
                 list.sort(Comparator.comparingInt(o -> ((JSONObject) o).getIntValue("px")));
                 fields = new LinkedHashMap<>();
+                List<JSONObject> qcList = new ArrayList<>();
                 for(Object o: list){
-                    fields.put(((JSONObject)o).getString("zddm"), (JSONObject) o);
+                    JSONObject f = (JSONObject) o;
+                    if(StringUtil.isNotBlank(f.getString("qcbh"))){
+                        //去重字段
+                        qcList.add(f);
+                    }
+                    fields.put(f.getString("zddm"), f);
                 }
+                if(qcList.size()>0){
+                    //对去重字段按去重编号排序
+                    qcList.sort(Comparator.comparingInt(o -> o.getIntValue("qcbh")));
+                }else{
+                    //当没有配置去重字段时，直接采用主键作为去重字段
+                    qcList.add(fields.get(sjdx.getZjzd()));
+                }
+                sjdx.set("qcList",qcList);
             }
             //设置缓存
             fieldsCache.put(cacheKey, fields);
