@@ -65,6 +65,16 @@
       "name": "spring.redis.enabled",
       "type": "java.lang.Boolean",
       "description": "是否使用redis，默认false"
+    },
+    {
+      "name": "logging.pattern-db",
+      "type": "java.lang.String",
+      "description": "写入数据库的日志表达式"
+    },
+    {
+      "name": "logging.logback.mylog.insert-sql",
+      "type": "java.lang.String",
+      "description": "插入数据库的sql语句，基于beetlsql模板sql"
     }
   ],
 }

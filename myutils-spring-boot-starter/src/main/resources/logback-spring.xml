@@ -12,6 +12,8 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
                     source="benma666.app.dm" defaultValue="log"/>
     <springProperty scope="context" name="max-file-size"
                     source="logging.logback.rollingpolicy.max-file-size" defaultValue="20MB"/>
+    <springProperty scope="context" name="insert-sql"
+                    source="logging.logback.mylog.insert-sql" defaultValue="未配置插入语句"/>
     <!--
        日志输出格式：
        %d表示日期时间，
@@ -23,6 +25,8 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
     -->
     <springProperty scope="context" name="pattern" source="logging.pattern"
                     defaultValue="%d{MM-dd HH:mm:ss} %-5level [%t] %logger{30}.%M:%L - %msg%n"/>
+    <springProperty scope="context" name="pattern-db" source="logging.pattern-db"
+                    defaultValue="{'scff':'%M','sch':'%L'}"/>
 
     <contextName>${app.dm}</contextName>
     <!-- 控制台输出 -->
@@ -122,14 +126,15 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         </rollingPolicy>
     </appender>
     <!-- 输出错误日志到数据库 -->
-<!--    <appender name="db" class="ch.qos.logback.classic.db.DBAppender">-->
-<!--        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
-<!--            <driverClass>com.mysql.cj.jdbc.Driver</driverClass>-->
-<!--            <url>jdbc:mysql://127.0.0.1:3306/log?serverTimezone=UTC</url>-->
-<!--            <user>root</user>-->
-<!--            <password>z111111</password>-->
-<!--        </connectionSource>-->
-<!--    </appender>-->
+    <appender name="my" class="cn.benma666.iframe.MyLogBackAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${pattern-db}</pattern>
+        </layout>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <insertSql>${insert-sql}</insertSql>
+    </appender>
     <!--
       logger主要用于存放日志对象，也可以定义日志类型、级别
       name：表示匹配的logger类型前缀，也就是包的前半部分
@@ -151,5 +156,6 @@ debug：当此属性设置为true时，将打印出logback内部日志信息，�
         <appender-ref ref="info"/>
         <appender-ref ref="warn"/>
         <appender-ref ref="error"/>
+        <appender-ref ref="my"/>
     </root>
 </configuration>
