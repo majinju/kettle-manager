@@ -75,7 +75,6 @@ public class MyutilsAutoConfig {
         redisTemplate.setHashKeySerializer(redisKeySerializer);
         redisTemplate.setHashValueSerializer(redisValueSerializer);
         new UserManager(redisTemplate);
-        new CacheFactory(redisTemplate);
         return redisTemplate;
     }
 }

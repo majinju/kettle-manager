@@ -8,7 +8,7 @@
   "properties": [
     {
       "name": "benma666.debug",
-      "type": "java.lang.String",
+      "type": "java.lang.Boolean",
       "description": "调试模式，默认false，系统中如sql监测等涉及调试的会采用该参数"
     },
     {
@@ -63,7 +63,7 @@
     },
     {
       "name": "spring.redis.enabled",
-      "type": "java.lang.String",
+      "type": "java.lang.Boolean",
       "description": "是否使用redis，默认false"
     }
   ],
