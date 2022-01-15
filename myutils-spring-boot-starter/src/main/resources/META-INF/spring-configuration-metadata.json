@@ -60,6 +60,11 @@
       "name": "spring.datasource.dbtype",
       "type": "java.lang.String",
       "description": "默认数据库类型，当非druid连接池时必须设置"
+    },
+    {
+      "name": "spring.redis.enabled",
+      "type": "java.lang.String",
+      "description": "是否使用redis，默认false"
     }
-  ]
+  ],
 }

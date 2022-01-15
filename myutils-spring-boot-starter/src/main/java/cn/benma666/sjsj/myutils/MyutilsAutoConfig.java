@@ -2,6 +2,7 @@ package cn.benma666.sjsj.myutils;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.exception.MyException;
+import cn.benma666.iframe.CacheFactory;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.ApplicationInit;
 import cn.benma666.sjsj.web.IndexController;
@@ -12,9 +13,11 @@ import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -28,7 +31,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @AutoConfigureAfter({DataSourceAutoConfiguration.class, WebMvcAutoConfiguration.class})
-@Import({UserManager.class,Msg.class,ApplicationInit.class, IndexController.class})
+@Import({Msg.class,ApplicationInit.class, IndexController.class})
 public class MyutilsAutoConfig {
 
     /**
@@ -60,6 +63,7 @@ public class MyutilsAutoConfig {
 
     @Bean("redisTemplate")
     @SuppressWarnings("all")
+    @ConditionalOnProperty("spring.redis.enabled")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         StringRedisSerializer redisKeySerializer = new StringRedisSerializer();
@@ -70,6 +74,8 @@ public class MyutilsAutoConfig {
         redisTemplate.setValueSerializer(redisValueSerializer);
         redisTemplate.setHashKeySerializer(redisKeySerializer);
         redisTemplate.setHashValueSerializer(redisValueSerializer);
+        new UserManager(redisTemplate);
+        new CacheFactory(redisTemplate);
         return redisTemplate;
     }
 }

@@ -841,24 +841,26 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 List<Object> list = new ArrayList<>(sfields.values());
                 list.sort(Comparator.comparingInt(o -> ((JSONObject) o).getIntValue("px")));
                 fields = new LinkedHashMap<>();
-                List<JSONObject> qcList = new ArrayList<>();
                 for(Object o: list){
                     JSONObject f = (JSONObject) o;
-                    if(StringUtil.isNotBlank(f.getString("qcbh"))){
-                        //去重字段
-                        qcList.add(f);
-                    }
                     fields.put(f.getString("zddm"), f);
                 }
-                if(qcList.size()>0){
-                    //对去重字段按去重编号排序
-                    qcList.sort(Comparator.comparingInt(o -> o.getIntValue("qcbh")));
-                }else{
-                    //当没有配置去重字段时，直接采用主键作为去重字段
-                    qcList.add(fields.get(sjdx.getZjzd()));
-                }
-                sjdx.set("qcList",qcList);
             }
+            List<JSONObject> qcList = new ArrayList<>();
+            for(JSONObject f: fields.values()){
+                if(StringUtil.isNotBlank(f.getString("qcbh"))){
+                    //去重字段
+                    qcList.add(f);
+                }
+            }
+            if(qcList.size()>0){
+                //对去重字段按去重编号排序
+                qcList.sort(Comparator.comparingInt(o -> o.getIntValue("qcbh")));
+            }else{
+                //当没有配置去重字段时，直接采用主键作为去重字段
+                qcList.add(fields.get(sjdx.getZjzd()));
+            }
+            sjdx.set("qcList",qcList);
             //设置缓存
             fieldsCache.put(cacheKey, fields);
         }

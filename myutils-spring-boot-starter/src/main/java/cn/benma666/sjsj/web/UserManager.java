@@ -10,10 +10,7 @@ import cn.benma666.crypt.DesUtil;
 import cn.benma666.domain.SysQxJgxx;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.exception.MyException;
-import cn.benma666.iframe.BasicObject;
-import cn.benma666.iframe.Conf;
-import cn.benma666.iframe.DictManager;
-import cn.benma666.iframe.Result;
+import cn.benma666.iframe.*;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjzt.Db;
@@ -22,10 +19,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import org.beetl.sql.core.SqlId;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +32,6 @@ import java.util.concurrent.TimeUnit;
  * date: 2018年12月19日 <br/>
  * @author jingma
  */
-@Component
 public class UserManager extends BasicObject {
     /**
      * 临时用户
@@ -46,16 +42,26 @@ public class UserManager extends BasicObject {
      */
     public static final String TOKEN = "token";
     /**
-     * 默认会话超时时长
+     * 登陆时间KEY
      */
-    public static final String DEFAULT_SESSION_TIMEOUT = "12";
+    public static final String DLSJ = "dlsj";
     /**
      * redis工具
      */
     private static RedisTemplate<String, Object> redisTemplate;
+    /**
+     * 会话有效期
+     */
+    private static long sessionYxq = 12*60;
+    /**
+     * 用户信息缓存
+     */
+    private static final JSONObject userCache = CacheFactory.use(LjqInterface.KEY_USER);
 
     public UserManager(RedisTemplate<String, Object> redisTemplate) {
         UserManager.redisTemplate = redisTemplate;
+        sessionYxq = Duration.parse("PT"+valByDef(Conf.getVal("server.servlet.session.timeout"),
+                sessionYxq+"m")).toMinutes();
     }
 
     /**
@@ -71,12 +77,29 @@ public class UserManager extends BasicObject {
             //token一般来说一定会有值，没有值为系统内部调用
             return null;
         }
-        Object obj = redisTemplate.opsForValue().get(LjqInterface.KEY_USER+token);
-        SysQxYhxx user = null;
-        if(obj != null){
-            user = (SysQxYhxx) obj;
-            redisTemplate.expire(LjqInterface.KEY_USER+token,Long.parseLong(
-                    valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
+        SysQxYhxx user = userCache.getObject(token,SysQxYhxx.class);
+        if(user!=null){
+            long dlsj = (long) user.get(DLSJ);
+            if(System.currentTimeMillis()-dlsj>sessionYxq*600000){
+                //过期
+                user = null;
+            }else{
+                //重置有效期
+                if(redisTemplate!=null){
+                    redisTemplate.expire(LjqInterface.KEY_USER+token,sessionYxq, TimeUnit.MINUTES);
+                }
+                user.set(DLSJ,System.currentTimeMillis());
+            }
+        }
+        if(user==null&&redisTemplate!=null){
+            Object obj = redisTemplate.opsForValue().get(LjqInterface.KEY_USER+token);
+            if(obj != null) {
+                //本系统过期，或本系统第一次访问，其他子系统还在访问的场景
+                user = (SysQxYhxx) obj;
+                redisTemplate.expire(LjqInterface.KEY_USER+token,sessionYxq, TimeUnit.MINUTES);
+                user.set(DLSJ,System.currentTimeMillis());
+                userCache.put(user.getToken(),user);
+            }
         }
         //实现免登陆，处理带用户信息的url
         if (user == null || (LSYH.equals(user.getYhdm()) && JSONPath.eval(myParams, "$.sys.userInfo") != null)) {
@@ -189,7 +212,7 @@ public class UserManager extends BasicObject {
         }
         //没有登录时，返回临时用户，后续可以在权限系统中对临时用户进行授权
         if (user == null) {
-            obj = redisTemplate.opsForValue().get(LjqInterface.KEY_USER+LSYH);
+            obj = userCache.get(LSYH);
             if(obj==null){
                 user = getUserBydYhdm(LSYH);
                 addUser(LSYH, user);
@@ -216,8 +239,12 @@ public class UserManager extends BasicObject {
     public static void addUser(String token, SysQxYhxx user) {
         if (StringUtil.isNotBlank(token)) {
             user.setToken(token);
-            redisTemplate.opsForValue().set(LjqInterface.KEY_USER+token, user,Long.parseLong(
-                    valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
+            if(redisTemplate!=null){
+                redisTemplate.opsForValue().set(LjqInterface.KEY_USER+token, user, sessionYxq, TimeUnit.MINUTES);
+            }
+            //设置登陆时间
+            user.set(DLSJ,System.currentTimeMillis());
+            userCache.put(token,user);
         } else {
             slog.debug("权限码为空：" + user);
         }
@@ -231,7 +258,10 @@ public class UserManager extends BasicObject {
      * @author jingma
      */
     public static Result removeUser(SysQxYhxx user) {
-        redisTemplate.delete(LjqInterface.KEY_USER+user.getToken());
+        if(redisTemplate!=null){
+            redisTemplate.delete(LjqInterface.KEY_USER+user.getToken());
+        }
+        userCache.remove(user.getToken());
         return success("退出成功");
     }
 
@@ -314,13 +344,25 @@ public class UserManager extends BasicObject {
      */
     public static void flushUserQxxx() {
         SysQxYhxx user;
-        for (String key : redisTemplate.keys("user*")) {
-            user = ((SysQxYhxx) redisTemplate.opsForValue().get(key));
-            Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
-                    Db.buildMap(user));
-            user.setQxMap(qxMap);
-            redisTemplate.opsForValue().set(key,user,Long.parseLong(
-                    valByDef(Conf.getVal("benma666.session.timeout"), DEFAULT_SESSION_TIMEOUT)), TimeUnit.HOURS);
+        if(redisTemplate!=null){
+            //使用redis
+            for (String key : redisTemplate.keys("user*")) {
+                user = ((SysQxYhxx) redisTemplate.opsForValue().get(key));
+                Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
+                        Db.buildMap(user));
+                user.setQxMap(qxMap);
+                userCache.put(user.getToken(),user);
+                redisTemplate.opsForValue().set(key,user,sessionYxq, TimeUnit.MINUTES);
+            }
+        }else{
+            //不使用redis
+            for (String key : userCache.keySet()) {
+                user = userCache.getObject(key,SysQxYhxx.class);
+                Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
+                        Db.buildMap(user));
+                user.setQxMap(qxMap);
+                userCache.put(user.getToken(),user);
+            }
         }
     }
 }
