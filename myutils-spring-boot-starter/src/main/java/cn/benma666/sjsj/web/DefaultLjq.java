@@ -371,27 +371,34 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         DSTransactionManager.start();
 
         List<Object> ro1 = new ArrayList<>();
-        int i = 0;
+        //总共多少条记录
+        int count = 0;
+        //插入多少记录
+        int insert = 0;
+        //更新多少记录
+        int update = 0;
         Result r;
         for (JSONObject j : list) {
             myParams.put(KEY_YOBJ, j);
-
-            if(StringUtil.isBlank(j.getString(sjdx.getZjzd()))){
-                r = insert(myParams);
-            }else{
-                myParams.set($_SYS_CLLX,KEY_CLLX_UPDATE);
-                //修改时先查询原来值，与单个记录一致
-                putObj(myParams);
-                r = update(myParams);
-            }
+            //根据输入参数进行重复查询
+            putObj(myParams);
+            //取消原来的处理类型，由保存方法自动判断
+            myParams.set($_SYS_CLLX,"");
+            r = save(myParams);
             if (!r.isStatus()) {
                 DSTransactionManager.rollback();
-                r.addMsg("第" + (i + 1) + "行");
+                r.addMsg("第" + (count + 1) + "行");
                 return r;
             } else {
-                ro1.add(r.getData());
-                i++;
-                if (i % swtjl == 0) {
+                JSONObject data = (JSONObject)r.getData();
+                if(KEY_CLLX_INSERT.equals(data.getString(KEY_CLLX))){
+                    insert++;
+                }else{
+                    update++;
+                }
+                ro1.add(data);
+                count++;
+                if (count % swtjl == 0) {
                     //达到设置的事务提交量，提交事务并开启新事务。
                     DSTransactionManager.commit();
                     DSTransactionManager.start();
@@ -400,7 +407,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         //入库完成提交事务。
         DSTransactionManager.commit();
-        return success("批量保存成功："+i, ro1);
+        return success("共计"+count+"条记录，其中新增："+insert+"条，更新"+update+"条", ro1);
     }
 
     @Override
@@ -535,13 +542,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public Result insert(JSONObject myParams) throws MyException {
-        JSONPath.set(myParams, $_SYS_CLLX, KEY_CLLX_INSERT);
+        myParams.set($_SYS_CLLX, KEY_CLLX_INSERT);
         return save(myParams);
     }
 
     @Override
     public Result update(JSONObject myParams) throws MyException{
-        JSONPath.set(myParams, $_SYS_CLLX, KEY_CLLX_UPDATE);
+        myParams.set($_SYS_CLLX, KEY_CLLX_UPDATE);
         return save(myParams);
     }
 
@@ -550,6 +557,22 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @return 操作结果
      */
     public Result save(JSONObject myParams) {
+        Result res = success("新增成功");
+        if(KEY_CLLX_UPDATE.equals(myParams.getString($_SYS_CLLX))){
+            //更新
+            if(!myParams.getBoolean($_SYS_YZDJL)){
+                return failed("没有找到要更新的记录");
+            }
+            //根据处理类型设置消息
+            res.setMsg("更新成功");
+        }else if(!KEY_CLLX_INSERT.equals(myParams.getString($_SYS_CLLX))){
+            //非插入更新,自动判断是插入还是更新
+            if(myParams.getBoolean($_SYS_YZDJL)){
+                myParams.set($_SYS_CLLX, KEY_CLLX_UPDATE);
+            }else{
+                myParams.set($_SYS_CLLX, KEY_CLLX_INSERT);
+            }
+        }
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
@@ -558,11 +581,16 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //后续支持文件等各类数据载体，暂未实现
             throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
         }
-        if (r.isStatus()) {
-            //保存成功，返回主键信息
-            r.setData(myParams.get("$.yobj." + sjdx.getZjzd()));
+        if(!r.isStatus()){
+            return r;
         }
-        return r;
+        JSONObject data = new JSONObject();
+        //保存成功，返回主键信息
+        data.put(sjdx.getZjzd(),myParams.get("$.yobj." + sjdx.getZjzd()));
+        //返回处理类型，针对自动判断处理类型时，告知前端时进行了插入还是更新
+        data.put(KEY_CLLX,myParams.getString($_SYS_CLLX));
+        res.setData(data);
+        return res;
     }
 
     @Override
@@ -763,7 +791,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @author jingma
      */
     protected void putObj(JSONObject myParams) {
-        myParams.set("$.sys.yzdjl", Boolean.FALSE);
+        myParams.set($_SYS_YZDJL, Boolean.FALSE);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         if (KEY_CLLX_SELECT.equals(getCllx(myParams))||"v_xndx".equals(sjdx.getJtdx())||yobj==null) {
             //查询场景、虚拟对象场景、没有输入参数不进行具体对象查询
@@ -801,7 +829,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(myParams).getData();
             if (page.getList().size() == 1) {
                 //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
-                myParams.set("$.sys.yzdjl", Boolean.TRUE);
+                myParams.set($_SYS_YZDJL, Boolean.TRUE);
                 myParams.put(KEY_OBJ, page.getList().get(0));
                 //把查询出来的主键设置到原输入参数中，便于配置了去重字段的场景基于主键进行更新
                 if(StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))){
