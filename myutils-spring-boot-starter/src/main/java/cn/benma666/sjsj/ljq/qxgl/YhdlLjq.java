@@ -77,7 +77,7 @@ public class YhdlLjq extends DefaultLjq {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         SysQxYhxx user;
         //微信登陆
-        JSONObject r = HttpUtil.doUrl(Conf.getVal("wx.api.base.url") + "/sns/jscode2session",
+        JSONObject r = HttpUtil.doJosnByFrom(Conf.getVal("wx.api.base.url") + "/sns/jscode2session",
                 Conf.getVal("wx.api.login.params." + yobj.getString("projectCode")) + oldUser.getToken());
         if (r.getIntValue("errcode") != 0) {
             return failed(r.getString("errmsg"));

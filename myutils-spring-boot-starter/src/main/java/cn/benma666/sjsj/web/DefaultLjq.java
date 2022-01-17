@@ -96,9 +96,25 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         putObj(myParams);
         //验证规则
         yzgz(myParams);
-        //TODO 转换规则
-
+        //转换规则
+        zhgz(myParams);
         return myParams;
+    }
+
+    /**
+     * 转换规则
+     * @param myParams 相关参数
+     */
+    public void zhgz(JSONObject myParams) {
+        //取出验证规则
+        JSONObject zhgz = myParams.getJSONObject(UtilConst.KEY_ZHGZ);
+        String cllx = getCllx(myParams);
+        for (String key : zhgz.keySet()) {
+            JSONObject gzObj = zhgz.getJSONObject(key);
+            //转换数据
+            myParams.set("$." + key,TransRule.ruleTrans(myParams.get("$." + key),
+                    myParams, gzObj, cllx));
+        }
     }
 
     /**
@@ -676,12 +692,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     h = new ArrayList<>();
                     h.add(f.getValue().getString("zdmc") + "[" + f.getValue().getString("zddm") + "]");
                     header.add(h);
-                    r.add(VerifyRule.rulejx(f.getValue(), f.getValue().getJSONObject("$.kzxx.yzgz")));
+                    r.add(VerifyRule.rulejx(f.getValue(), f.getValue().getJSONObject("$.kzxx.yzgz").getJSONObject(KEY_CLLX_INSERT)));
                 }
             }
             return resultExcelFile(header, data, fileName);
         } catch (Exception e) {
-            log.error("导出数据失败:" + myParams, e);
+            log.error("导出数据失败", e);
             return failed("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
         }
     }
@@ -920,7 +936,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //初始化验证规则
             fieldYzgzInit(field, kzxx,myParams);
             //初始化转换规则
-            fieldZhgzInit(field, kzxx);
+            fieldZhgzInit(field, kzxx,myParams);
             //处理类型扩展
             fieldCllxInit(field, kzxx);
         }
@@ -1005,7 +1021,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @param field 字段
      * @param kzxx 扩展信息
      */
-    protected void fieldZhgzInit(JSONObject field, JSONObject kzxx) {
+    protected void fieldZhgzInit(JSONObject field, JSONObject kzxx,JSONObject myParams) {
         //默认转换规则
         JSONObject zhgz = new JSONObject();
         //清空前后空格
@@ -1015,13 +1031,18 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         if(kzhgz == null){
             kzhgz = new JSONObject();
         }
-        mergeConfigByCllx(kzhgz,zhgz,"update");
+        mergeConfigByCllx(kzhgz,zhgz,KEY_CLLX_SELECT);
+        mergeConfigByCllx(kzhgz,zhgz,KEY_CLLX_UPDATE);
         //开始处理新增规则
         zhgz = new JSONObject();
         //设置默认继承更新的规则
-        zhgz.put("extends", new String[]{"update"});
+        zhgz.put("extends", new String[]{KEY_CLLX_UPDATE});
         //设置最新地新增验证验证规则
-        kzhgz.put("insert", zhgz);
+        kzhgz.put(KEY_CLLX_INSERT, zhgz);
+        //处理验证规则中的继承，后续验证更方便
+        for(String cllx:kzhgz.keySet()){
+            mergeRule(myParams,kzhgz,cllx);
+        }
         kzxx.put(UtilConst.KEY_ZHGZ,kzhgz);
     }
     /**
@@ -1093,13 +1114,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             kyzgz = new JSONObject();
         }
         //验证规则，新增可以通过继承更新验证规则使用该规则
-        mergeConfigByCllx(kyzgz, yzgz, "update");
+        mergeConfigByCllx(kyzgz, yzgz, KEY_CLLX_UPDATE);
 
         //开始处理新增验证规则
         yzgz = new JSONObject();
         //设置默认继承更新的验证规则
-        yzgz.put("extends", new String[]{"update"});
-        mergeConfigByCllx(kyzgz, yzgz, "insert");
+        yzgz.put("extends", new String[]{KEY_CLLX_UPDATE});
+        mergeConfigByCllx(kyzgz, yzgz, KEY_CLLX_INSERT);
         //处理验证规则中的继承，后续验证更方便
         for(String cllx:kyzgz.keySet()){
             mergeRule(myParams,kyzgz,cllx);
