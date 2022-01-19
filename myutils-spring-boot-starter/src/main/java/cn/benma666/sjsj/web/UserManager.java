@@ -113,14 +113,14 @@ public class UserManager extends BasicObject {
      * 将用户信息加密，然后重定向到指定url <br/>
      * @param url 待转发地址
      * @param projectCode 项目代码
-     * @param userid 用户代码
+     * @param user 用户标志，默认为用户身份证号，可以采用“yhdm=xxx”的形式传入用户代码进行自动登陆
      * @return 带用户信息的地址
      * @throws UnsupportedEncodingException 编码异常
      * @author jingma
      */
-    public static String doDesEncryptUrl(String url, String projectCode, String userid)
+    public static String doDesEncryptUrl(String url, String projectCode, String user)
             throws UnsupportedEncodingException {
-        String userInfo = DateUtil.getGabDate() + "@" + userid;
+        String userInfo = DateUtil.getGabDate() + "@" + user;
         JSONObject app = DictManager.zdObjByDm(LjqInterface.ZD_SYS_QX_APP, projectCode);
         String pwd = app.getString("mm");
         if (StringUtil.isBlank(pwd)) {
@@ -162,7 +162,7 @@ public class UserManager extends BasicObject {
         if (!StringUtil.isBlank(obj)) {
             String userInfo = obj.toString();
             JSONObject app = DictManager.zdObjByDm(LjqInterface.ZD_SYS_QX_APP,
-                    Conf.getVal("project.code"));
+                    Conf.getVal("benma666.app.dm"));
             String pwd = app.getString("mm");
             String zddlms = app.getString("zddlms");
             if (StringUtil.isBlank(pwd)) {
@@ -171,43 +171,43 @@ public class UserManager extends BasicObject {
             try {
                 //解密应用密码
                 pwd = DesUtil.decrypt(pwd, Conf.getVal("benma666.app.ejmm"));
-                if ("date_user".equals(zddlms)) {
-                    //用户时间加密模式，用户信息解密
-                    userInfo = DesUtil.decrypt(userInfo, pwd);
-                }
-                int idx = userInfo.indexOf("@");
-                if ("date_user".equals(zddlms)) {
-                    //用户时间加密模式，推荐使用
-                    Date urlDate = DateUtil.parseDate(userInfo.substring(0, idx));
-                    if (Math.abs(urlDate.getTime() - new Date().getTime()) > 1000 * 60 * 5) {
-                        throw new MyException("用户信息过期：" + userInfo, myParams);
-                    }
-                } else if ("pwd_user".equals(zddlms)) {
-                    String ipxz = JSON.parseObject(app.getString("kzxx")).getString("ipxz");
-                    if(StringUtil.isBlank(ipxz)){
-                        throw new MyException("一般密码模式自动登陆的应用必须配置ip限制：" + userInfo, myParams);
-                    }
-                    if(!myParams.getString("$.sys.clientIp").matches(ipxz)){
-                        throw new MyException("请在规定的ip机器上访问：" + userInfo, myParams);
-                    }
-                    if(!pwd.equals(userInfo.substring(0, idx))){
-                        //明文密码加用户模式，内部调用
-                        throw new MyException("密码不正确：" + userInfo, myParams);
-                    }
-                }
-                try {
-                    String u = userInfo.substring(idx + 1);
-                    if (u.startsWith("yhdm=")) {
-                        user = getUserBydYhdm(userInfo.substring(idx + 6));
-                    } else {
-                        user = getUserBydSfzh(u);
-                    }
-                    slog.info("自动登陆成功:" + user.getSfzh());
-                } catch (MyException e) {
-                    throw new MyException("用户不存在：" + userInfo, myParams);
-                }
             } catch (Exception e) {
-                throw new MyException("解析用户信息失败：" + userInfo + ">" + e.getMessage(), e, myParams);
+                throw new MyException("解析用户信息失败：" + userInfo + ">" + e.getMessage(), e);
+            }
+            if ("date_user".equals(zddlms)) {
+                //用户时间加密模式，用户信息解密
+                userInfo = DesUtil.decrypt(userInfo, pwd);
+            }
+            int idx = userInfo.indexOf("@");
+            if ("date_user".equals(zddlms)) {
+                //用户时间加密模式，推荐使用
+                Date urlDate = DateUtil.parseDate(userInfo.substring(0, idx));
+                if (Math.abs(urlDate.getTime() - new Date().getTime()) > 1000 * 60 * 5) {
+                    throw new MyException("用户信息过期：" + userInfo, myParams);
+                }
+            } else if ("pwd_user".equals(zddlms)) {
+                String ipxz = JSON.parseObject(app.getString("kzxx")).getString("ipxz");
+                if(StringUtil.isBlank(ipxz)){
+                    throw new MyException("一般密码模式自动登陆的应用必须配置ip限制：" + userInfo, myParams);
+                }
+                if(!myParams.getString("$.sys.clientIp").matches(ipxz)){
+                    throw new MyException("请在规定的ip机器上访问：" + userInfo, myParams);
+                }
+                if(!pwd.equals(userInfo.substring(0, idx))){
+                    //明文密码加用户模式，内部调用
+                    throw new MyException("密码不正确：" + userInfo, myParams);
+                }
+            }
+            try {
+                String u = userInfo.substring(idx + 1);
+                if (u.startsWith("yhdm=")) {
+                    user = getUserBydYhdm(userInfo.substring(idx + 6));
+                } else {
+                    user = getUserBydSfzh(u);
+                }
+                slog.info("自动登陆成功:" + user.getSfzh());
+            } catch (MyException e) {
+                throw new MyException("查找用户失败，" + e.getMessage(), myParams);
             }
         }
         //没有登录时，返回临时用户，后续可以在权限系统中对临时用户进行授权

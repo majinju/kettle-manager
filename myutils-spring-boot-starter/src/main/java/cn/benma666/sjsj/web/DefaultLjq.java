@@ -35,6 +35,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SqlId;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -353,7 +354,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             byteArr = db(sjzt.getString("dm")).findFirst(file.getSclj()).getBytes("wj");
         } else {
             switch (sjzt.getString("lx")) {
-                case "bdwj":
+                case ZD_SJZTLX_BDWJ:
                     //数据载体为本地文件时
                     try {
                         byteArr = Utils.readByteArray(new FileInputStream(file.getSclj()));
@@ -361,7 +362,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                         return failed("文件没有找到："+ file.getSclj());
                     }
                     break;
-                case "ftp":
+                case ZD_SJZTLX_FTP:
                     //数据载体为ftp
                     //ftp也需要一个类似Db的工具类
                     throw new MyException("暂不支持的数据载体类型：" + sjzt.getString("lx"));
@@ -508,52 +509,26 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public Result select(JSONObject myParams) {
-        //获取分页对象
-        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
-        if (StringUtil.isBlank(page.getOrderBy())) {
-            //请求没有设置排序时，采用默认排序
-            page.setOrderBy(sjdx.getMrpx());
-        }
-        //获取sql
-        String[] arr = getSql(myParams, KEY_CLLX_SELECT);
-        String sql;
-        if (StringUtil.isNotBlank(sjdx.getSqlmb())) {
-            //对象上设置了查询sql模板
-            sql = TmplUtil.buildStrSql(sjdx.getSqlmb(), myParams).trim();
-            if (sql.startsWith("error:")) {
-                throw new MyException(sql.substring("error:".length()));
-            }
-            arr = Db.parseDictExp(sql, arr[0]);
-        }
-        //分页查询
-        page = db(arr[0]).queryPage(page, arr[1], myParams);
-        JSONObject fields = myParams.getJSONObject(KEY_FIELDS);
-        //树形结构时，将是否有子节点的标志转为boolean形
-        String hasChild = myParams.getString("$.cllxkz['select'].tree.hasChild");
-        String checkField = myParams.getString("$.cllxkz['select'].checkboxConfig.checkFieldOld");
-        for(JSONObject row : page.getList()){
-            for(String zddm:fields.keySet()){
-                if(StringUtil.isBlank(row.getString(zddm))){
-                    //字段值为空时跳过
-                    continue;
-                }
-                String kjlx = fields.getString("$."+zddm+".kjlx");
-                //对结果进行字典翻译，字典或者级联控件
-                if (ZD_SJDX_KJLX_DICT.equals(kjlx) || "ElCascader".equals(kjlx)
-                        || "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
-                    row.put(zddm+"_mc",DictManager.zdMcByMoreDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
-                }else if(ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)){
-                    row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
-                }
-            }
-            if(hasChild!=null){
-                row.put(hasChild,row.getBoolean(hasChild));
-            }
-            if(checkField!=null){
-                row.put(checkField+"_boolean",row.getBoolean(checkField));
+        Result r;
+        if (DbType.of(sjdx.getDxztlx()) != null) {
+            //数据库场景
+            r = selectDb(myParams);
+        } else {
+            switch (sjdx.getDxztlx()){
+                case ZD_SJZTLX_KAFKA:
+                    //kafka场景
+                    r = selectKafka(myParams);
+                case ZD_SJZTLX_FTP:
+                    r = selectFtp(myParams);
+                case ZD_SJZTLX_BDWJ:
+                    //本地文件
+                    r = selectBdwj(myParams);
+                default:
+                    //后续支持文件等各类数据载体，暂未实现
+                    throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
             }
         }
-        return success(msgCzcg(),page);
+        return r;
     }
 
     @Override
@@ -594,8 +569,19 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //数据库场景
             r = saveDb(myParams);
         } else {
-            //后续支持文件等各类数据载体，暂未实现
-            throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+            switch (sjdx.getDxztlx()){
+                case ZD_SJZTLX_KAFKA:
+                    //kafka场景
+                    r = saveKafka(myParams);
+                case ZD_SJZTLX_FTP:
+                    r = saveFtp(myParams);
+                case ZD_SJZTLX_BDWJ:
+                    //本地文件
+                    r = saveBdwj(myParams);
+                default:
+                    //后续支持文件等各类数据载体，暂未实现
+                    throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+            }
         }
         if(!r.isStatus()){
             return r;
@@ -777,7 +763,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     }
 
     /**
-     * 对象数据插入-数据库 <br/>
+     * 保存数据-数据库 <br/>
      * @param myParams 相关参数
      * @return 处理结果
      * @author jingma
@@ -785,6 +771,92 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result saveDb(JSONObject myParams) {
         String[] arr = getSql(myParams);
         return success(msgCzcg(), db(arr[0]).update(arr[1], myParams));
+    }
+    /**
+     * 保存数据-本地文件
+     */
+    protected Result saveBdwj(JSONObject myParams) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+    /**
+     * 保存数据-FTP
+     */
+    protected Result saveFtp(JSONObject myParams) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+    /**
+     * 保存数据-kafka
+     */
+    protected Result saveKafka(JSONObject myParams) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+
+    @NotNull
+    protected Result selectDb(JSONObject myParams) {
+        //获取分页对象
+        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
+        if (StringUtil.isBlank(page.getOrderBy())) {
+            //请求没有设置排序时，采用默认排序
+            page.setOrderBy(sjdx.getMrpx());
+        }
+        //获取sql
+        String[] arr = getSql(myParams, KEY_CLLX_SELECT);
+        String sql;
+        if (StringUtil.isNotBlank(sjdx.getSqlmb())) {
+            //对象上设置了查询sql模板
+            sql = TmplUtil.buildStrSql(sjdx.getSqlmb(), myParams).trim();
+            if (sql.startsWith("error:")) {
+                throw new MyException(sql.substring("error:".length()));
+            }
+            arr = Db.parseDictExp(sql, arr[0]);
+        }
+        //分页查询
+        page = db(arr[0]).queryPage(page, arr[1], myParams);
+        JSONObject fields = myParams.getJSONObject(KEY_FIELDS);
+        //树形结构时，将是否有子节点的标志转为boolean形
+        String hasChild = myParams.getString("$.cllxkz['select'].tree.hasChild");
+        String checkField = myParams.getString("$.cllxkz['select'].checkboxConfig.checkFieldOld");
+        for(JSONObject row : page.getList()){
+            for(String zddm:fields.keySet()){
+                if(StringUtil.isBlank(row.getString(zddm))){
+                    //字段值为空时跳过
+                    continue;
+                }
+                String kjlx = fields.getString("$."+zddm+".kjlx");
+                //对结果进行字典翻译，字典或者级联控件
+                if (ZD_SJDX_KJLX_DICT.equals(kjlx) || "ElCascader".equals(kjlx)
+                        || "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
+                    row.put(zddm+"_mc",DictManager.zdMcByMoreDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
+                }else if(ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)){
+                    row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
+                }
+            }
+            if(hasChild!=null){
+                row.put(hasChild,row.getBoolean(hasChild));
+            }
+            if(checkField!=null){
+                row.put(checkField+"_boolean",row.getBoolean(checkField));
+            }
+        }
+        return success(msgCzcg(),page);
+    }
+    /**
+     * 查询数据-本地文件
+     */
+    protected Result selectBdwj(JSONObject myParams) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+    /**
+     * 查询数据-FTP
+     */
+    protected Result selectFtp(JSONObject myParams) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+    /**
+     * 查询数据-kafka
+     */
+    protected Result selectKafka(JSONObject myParams) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
     }
 
     /**
@@ -1304,7 +1376,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
         } else {
             switch (sjzt.getString("lx")) {
-                case "bdwj":
+                case ZD_SJZTLX_BDWJ:
                     //数据载体为本地文件时
                     //文件上传路径:上传后文件的路径以及文件的名称
                     String currDate = DateUtil.getGabDate();
@@ -1333,7 +1405,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     out.write(byteArr);
                     out.close();
                     break;
-                case "ftp":
+                case ZD_SJZTLX_FTP:
                     //数据载体为ftp
                     //ftp也需要一个类似Db的工具类
                     throw new MyException("暂不支持的数据载体类型：" + sjzt.getString("lx"));

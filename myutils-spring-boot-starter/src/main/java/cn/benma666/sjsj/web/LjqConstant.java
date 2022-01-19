@@ -122,6 +122,10 @@ public interface LjqConstant extends UtilConstInstance {
      * 字典-数据载体类型-本地文件
      */
     String ZD_SJZTLX_BDWJ = "bdwj";
+    /**
+     * 字典-数据载体类型-kafka
+     */
+    String ZD_SJZTLX_KAFKA = "kafka";
 
     /**
      * 权限码-平台-管理员

@@ -10,7 +10,6 @@ import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.Result;
-import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjsj.MyParams;
 import cn.benma666.sjsj.MySjdx;
 import com.alibaba.fastjson.JSON;
