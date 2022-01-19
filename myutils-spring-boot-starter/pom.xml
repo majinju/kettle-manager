@@ -16,10 +16,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<druid.version>1.2.7_preview_05</druid.version>
-		<spring-boot.version>2.5.4</spring-boot.version>
-		<kaptcha.version>2.3.2</kaptcha.version>
-		<bitwalker.version>1.21</bitwalker.version>
-		<oshi.version>5.8.5</oshi.version>
 	</properties>
 	<developers>
 		<developer>
@@ -35,7 +31,7 @@
                     management as the parent import style -->
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring-boot.version}</version>
+				<version>${parent.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -93,41 +89,6 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
-		</dependency>
-		<!-- 解析客户端操作系统、浏览器等 -->
-		<dependency>
-			<groupId>eu.bitwalker</groupId>
-			<artifactId>UserAgentUtils</artifactId>
-			<version>${bitwalker.version}</version>
-		</dependency>
-		<!-- 获取系统信息 -->
-		<dependency>
-			<groupId>com.github.oshi</groupId>
-			<artifactId>oshi-core</artifactId>
-			<version>${oshi.version}</version>
-		</dependency>
-		<!-- 汉字拼音全拼和简拼获取 -->
-		<dependency>
-			<groupId>com.github.stuxuhai</groupId>
-			<artifactId>jpinyin</artifactId>
-			<version>1.1.8</version>
-		</dependency>
-		<!-- 验证码 -->
-		<dependency>
-			<groupId>com.github.penggle</groupId>
-			<artifactId>kaptcha</artifactId>
-			<version>${kaptcha.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>javax.servlet-api</artifactId>
-					<groupId>javax.servlet</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.commonjava.googlecode.markdown4j</groupId>
-			<artifactId>markdown4j</artifactId>
-			<version>2.2-cj-1.1</version>
 		</dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
