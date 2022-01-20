@@ -37,7 +37,7 @@ public class SjztLjq extends ScjkrwLjq {
         int tgs = 0;
         StringBuilder wtg = new StringBuilder();
         for(JSONObject obj:ztList){
-            if(testSjzt(obj,true).isStatus()) {
+            if(testSjzt(obj).isStatus()) {
                 tgs++;
             } else {
                 wtg.append(obj.getString("mc")).append(",");
@@ -109,10 +109,9 @@ public class SjztLjq extends ScjkrwLjq {
     * 测试数据载体是否可用 <br/>
     * @author jingma
     * @param yobj 数据载体对象
-    * @param mmjm 是否密码加密
     * @return 测试结果
     */
-    public Result testSjzt(JSONObject yobj,boolean mmjm) {
+    public Result testSjzt(JSONObject yobj) {
         Result result = success("该数据载体可用");
         if(yobj==null){
             return failed("数据载体为空");
@@ -120,11 +119,11 @@ public class SjztLjq extends ScjkrwLjq {
         try {
             if(DbType.of(yobj.getString("lx"))!=null){
                 //数据库型数据载体
-                result = Db.testDb(yobj, mmjm);
+                result = Db.testDb(yobj, true);
             }else if("ftp".equals(yobj.getString("lx"))){
                 //ftp测试
-                JSONObject ftpObj = Ftp.paseFtpUrl(yobj);
-                new Ftp(yobj.getString("dm"), true, ftpObj);
+                JSONObject ftpObj = Ftp.parseSjztFtp(yobj);
+                new Ftp(ftpObj.getString("dm"),ftpObj).close();
                 result = success("测试通过");
             }else if("bdwj".equals(yobj.getString("lx"))){
                 //本地文件测试

@@ -317,7 +317,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             String sjxs = fo.getString("sjxs");
             byte[] byteArr = null;
             if ("bdwjjl".equals(sjxs)) {
-                byteArr = FileUtil.getBytes(fo.getString("data"));
+                byteArr = Utils.readByteArray(new FileInputStream(fo.getString("data")));
             } else if ("blob".equals(sjxs)) {
                 byteArr = fo.getBytes("data");
             }
