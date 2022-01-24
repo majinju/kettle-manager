@@ -19,6 +19,7 @@ import cn.benma666.exception.VerifyRuleException;
 import cn.benma666.iframe.*;
 import cn.benma666.myutils.*;
 import cn.benma666.sjsj.myutils.Msg;
+import cn.benma666.sjzt.Bdwj;
 import cn.benma666.sjzt.Db;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.util.Utils;
@@ -250,53 +251,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         try {
             String hiddenCol = myParams.getString("$.sys.hiddenCol") + ",列表选择";
-            Set<String> hiddenColSet = new HashSet<>();
-            CollectionUtils.addAll(hiddenColSet, hiddenCol.split(","));
-            Map<String, JSONObject> fields = (Map<String, JSONObject>) myParams.get(KEY_FIELDS);
-
-            List<String> showCol = new ArrayList<>();
-            List<List<String>> header = new ArrayList<>();
-            List<String> rows;
-            for (Map.Entry<String, JSONObject> f : fields.entrySet()) {
-                String kjlx = f.getValue().getString("kjlx");
-                if (valByDef(f.getValue().getBoolean("xqzs"),false)
-                        && !hiddenColSet.contains(f.getValue().getString("zdmc"))
-                        && !kjlx.equals("password")
-                        && !kjlx.equals("$buttons")) {
-                    rows = new ArrayList<>();
-                    //详情展示且前端没有要求不导出且控件类型不是密码的字段才导出
-                    rows.add(f.getValue().getString("zdmc"));
-                    header.add(rows);
-                    showCol.add(f.getKey());
-                }
-            }
-
-            List<List<String>> data = new ArrayList<>();
-            for (JSONObject r2 : page.getList()) {
-                rows = new ArrayList<>();
-                data.add(rows);
-                for (String f : showCol) {
-                    String kjlx = fields.get(f).getString("kjlx");
-                    String val = r2.getString(f);
-                    if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)
-                            || "ElCascader".equals(kjlx)|| "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
-                        rows.add(DictManager.zdMcByMoreDm(fields.get(f).getString("zdzdlb"), r2.getString(f)));
-                    } else if (ZD_SJDX_KJLX_TIME.equals(kjlx)) {
-                        String v = DateUtil.doFormatDate(val, DateUtil.DATE_FORMATTER_L);
-                        if (StringUtil.isBlank(v)) {
-                            v = val;
-                        }
-                        rows.add(v);
-                    } else {
-                        //EXCEL限制单个大小
-                        if (StringUtil.isNotBlank(val)) {
-                            val = val.length() > 32767 ? val.substring(0, 32767) : val;
-                        }
-                        rows.add(val);
-                    }
-                }
-            }
-            return resultExcelFile(header, data, fileName);
+            dcsjYcl(myParams,page.getList(),hiddenCol);
+            return resultExcelFile((List<List<String>>)myParams.get($_OTHEROBJ_DCSJYCL_HEADER),
+                    (List<List<String>>)myParams.get($_OTHEROBJ_DCSJYCL_DATA), fileName);
         } catch (Exception e) {
             log.error("导出数据失败:" + myParams, e);
             return failed("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
@@ -372,59 +329,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
         }
         return resultFile(byteArr, file);
-    }
-
-    /**
-     * 批量保存
-     * @param myParams 相关参数
-     * @return 操作结果
-     */
-    public Result plbc(JSONObject myParams) throws SQLException {
-        JSONArray editTableData = myParams.getJSONArray("$.sys.editTableData");
-        JSONObject[] list = editTableData.toArray(new JSONObject[0]);
-        //获取事务提交量
-        int swtjl = myParams.getIntValue("$.sys.swtjl");
-        //开启事务
-        DSTransactionManager.start();
-
-        List<Object> ro1 = new ArrayList<>();
-        //总共多少条记录
-        int count = 0;
-        //插入多少记录
-        int insert = 0;
-        //更新多少记录
-        int update = 0;
-        Result r;
-        for (JSONObject j : list) {
-            myParams.put(KEY_YOBJ, j);
-            //根据输入参数进行重复查询
-            putObj(myParams);
-            //取消原来的处理类型，由保存方法自动判断
-            myParams.set($_SYS_CLLX,"");
-            r = save(myParams);
-            if (!r.isStatus()) {
-                DSTransactionManager.rollback();
-                r.addMsg("第" + (count + 1) + "行");
-                return r;
-            } else {
-                JSONObject data = (JSONObject)r.getData();
-                if(KEY_CLLX_INSERT.equals(data.getString(KEY_CLLX))){
-                    insert++;
-                }else{
-                    update++;
-                }
-                ro1.add(data);
-                count++;
-                if (count % swtjl == 0) {
-                    //达到设置的事务提交量，提交事务并开启新事务。
-                    DSTransactionManager.commit();
-                    DSTransactionManager.start();
-                }
-            }
-        }
-        //入库完成提交事务。
-        DSTransactionManager.commit();
-        return success("共计"+count+"条记录，其中新增："+insert+"条，更新"+update+"条", ro1);
     }
 
     @Override
@@ -593,6 +497,36 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         data.put(KEY_CLLX,myParams.getString($_SYS_CLLX));
         res.setData(data);
         return res;
+    }
+
+    /**
+     * 批量保存
+     * @param myParams 相关参数
+     * @return 操作结果
+     */
+    public Result plbc(JSONObject myParams) throws SQLException {
+        JSONArray editTableData = myParams.getJSONArray("$.sys.editTableData");
+        JSONObject[] list = editTableData.toArray(new JSONObject[0]);
+        Result r;
+        if (DbType.of(sjdx.getDxztlx()) != null) {
+            //数据库场景
+            r = plbcDb(myParams,list);
+        } else {
+            switch (sjdx.getDxztlx()){
+                case ZD_SJZTLX_KAFKA:
+                    //kafka场景
+                    r = plbcKafka(myParams,list);
+                case ZD_SJZTLX_FTP:
+                    r = plbcFtp(myParams,list);
+                case ZD_SJZTLX_BDWJ:
+                    //本地文件
+                    r = plbcBdwj(myParams,list);
+                default:
+                    //后续支持文件等各类数据载体，暂未实现
+                    throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+            }
+        }
+        return r;
     }
 
     @Override
@@ -776,19 +710,127 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 保存数据-本地文件
      */
     protected Result saveBdwj(JSONObject myParams) {
-        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+        return plbcBdwj(myParams,new JSONObject[]{myParams.getJSONObject(KEY_YOBJ)});
     }
     /**
      * 保存数据-FTP
      */
     protected Result saveFtp(JSONObject myParams) {
+
         throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
     }
     /**
      * 保存数据-kafka
      */
     protected Result saveKafka(JSONObject myParams) {
+
         throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+
+    /**
+     * 批量保存数据到本地文件
+     */
+    protected Result plbcBdwj(JSONObject myParams, JSONObject[] list) {
+        dcsjYcl(myParams,Arrays.asList(list),"");
+        OutputStream os = null;
+        String fileName = Bdwj.use(sjdx.getDxzt()).getPathFile().getAbsolutePath()+ UtilConst.FXG
+                + System.currentTimeMillis();
+        try {
+            switch (sjdx.getDxlx()){
+                case "excel":
+                    LongestMatchColumnWidthStyleStrategy lmcw = new LongestMatchColumnWidthStyleStrategy();
+                    os = new FileOutputStream(fileName+".xlsx");
+                    EasyExcel.write(os).head((List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_HEADER))
+                            .autoTrim(true).excelType(ExcelTypeEnum.XLSX)
+                            //自动列宽，不合适可以自己重写
+                            .registerWriteHandler(lmcw)
+                            .sheet("Sheet1")
+                            .doWrite((List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_DATA));
+                    break;
+                case "wbwj":
+                    //获取数据对象扩展
+                    JSONObject sjdxkz = myParams.getJSONObject("$.sys.sjdxkz");
+                    //分隔符
+                    String fgf = valByDef(sjdxkz.getString("fgf"),",");
+                    //文本限定符
+                    String wbxdf = sjdxkz.getString("wbxdf");
+                    //编码方式
+                    String bmfs = valByDef(sjdxkz.getString("bmfs"),"utf8");
+                    StringBuilder context = new StringBuilder();
+                    for(List<String> h:(List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_HEADER)){
+                        context.append(fgf).append(wbxdf).append(h.get(0)).append(wbxdf);
+                    }
+                    context.append("\n");
+                    for(List<String> h:(List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_DATA)){
+                        context.append(wbxdf).append(StringUtil.join(h,wbxdf+fgf+wbxdf)).append(wbxdf).append("\n");
+                    }
+                    os = new FileOutputStream(fileName+".txt");
+                    os.write(context.substring(fgf.length()).getBytes(bmfs));
+                    break;
+                default:
+                    throw new MyException("不支持的对象类型："+sjdx.getDxlx());
+            }
+            return success("保存文件成功："+fileName);
+        }catch (Exception e){
+            log.error("数据处理失败，"+e.getMessage(),e);
+            throw new MyException("数据处理失败，"+e.getMessage(),e);
+        }finally {
+            FileUtil.closeOutputStream(os);
+        }
+    }
+
+    protected Result plbcFtp(JSONObject myParams, JSONObject[] list) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+
+    protected Result plbcKafka(JSONObject myParams, JSONObject[] list) {
+        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+
+    protected Result plbcDb(JSONObject myParams, JSONObject[] list) throws SQLException {
+        //获取事务提交量
+        int swtjl = myParams.getIntValue("$.sys.swtjl");
+        //开启事务
+        DSTransactionManager.start();
+
+        List<Object> ro1 = new ArrayList<>();
+        //总共多少条记录
+        int count = 0;
+        //插入多少记录
+        int insert = 0;
+        //更新多少记录
+        int update = 0;
+        Result r;
+        for (JSONObject j : list) {
+            myParams.put(KEY_YOBJ, j);
+            //根据输入参数进行重复查询
+            putObj(myParams);
+            //取消原来的处理类型，由保存方法自动判断
+            myParams.set($_SYS_CLLX,"");
+            r = save(myParams);
+            if (!r.isStatus()) {
+                DSTransactionManager.rollback();
+                r.addMsg("第" + (count + 1) + "行");
+                return r;
+            } else {
+                JSONObject data = (JSONObject)r.getData();
+                if(KEY_CLLX_INSERT.equals(data.getString(KEY_CLLX))){
+                    insert++;
+                }else{
+                    update++;
+                }
+                ro1.add(data);
+                count++;
+                if (count % swtjl == 0) {
+                    //达到设置的事务提交量，提交事务并开启新事务。
+                    DSTransactionManager.commit();
+                    DSTransactionManager.start();
+                }
+            }
+        }
+        //入库完成提交事务。
+        DSTransactionManager.commit();
+        return success("共计"+count+"条记录，其中新增："+insert+"条，更新"+update+"条", ro1);
     }
 
     @NotNull
@@ -857,6 +899,60 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected Result selectKafka(JSONObject myParams) {
         throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+    }
+
+    protected void dcsjYcl(JSONObject myParams,List<JSONObject> list,String hiddenCol){
+        Set<String> hiddenColSet = new HashSet<>();
+        CollectionUtils.addAll(hiddenColSet, hiddenCol.split(","));
+        Map<String, JSONObject> fields = (Map<String, JSONObject>) myParams.get(KEY_FIELDS);
+
+        List<String> showCol = new ArrayList<>();
+        List<List<String>> header = new ArrayList<>();
+        List<String> rows;
+        for (Map.Entry<String, JSONObject> f : fields.entrySet()) {
+            String kjlx = f.getValue().getString("kjlx");
+            if (valByDef(f.getValue().getBoolean("xqzs"),false)
+                    && !hiddenColSet.contains(f.getValue().getString("zdmc"))
+                    && !kjlx.equals("password")
+                    && !kjlx.equals("$buttons")) {
+                rows = new ArrayList<>();
+                //详情展示且前端没有要求不导出且控件类型不是密码的字段才导出
+                rows.add(f.getValue().getString("zdmc"));
+                header.add(rows);
+                showCol.add(f.getKey());
+            }
+        }
+
+        List<List<String>> data = new ArrayList<>();
+        for (JSONObject r2 : list) {
+            rows = new ArrayList<>();
+            data.add(rows);
+            for (String f : showCol) {
+                JSONObject field = fields.get(f);
+                String kjlx = field.getString("kjlx");
+                String val = r2.getString(f);
+                if (ZD_SJDX_KJLX_DICT.equals(kjlx) || ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)
+                        || "ElCascader".equals(kjlx)|| "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
+                    rows.add(DictManager.zdMcByMoreDm(fields.get(f).getString("zdzdlb"), r2.getString(f)));
+                } else if (ZD_SJDX_KJLX_TIME.equals(kjlx)) {
+                    //这个格式可定制
+                    String fmt = valByDef(field.getString("$.kzxx.kjkz.zsgs"),DateUtil.DATE_FORMATTER_L);
+                    String v = DateUtil.doFormatDate(val, fmt);
+                    if (StringUtil.isBlank(v)) {
+                        v = val;
+                    }
+                    rows.add(v);
+                } else {
+                    //EXCEL限制单个大小
+                    if (StringUtil.isNotBlank(val)) {
+                        val = val.length() > 32767 ? val.substring(0, 32767) : val;
+                    }
+                    rows.add(val);
+                }
+            }
+        }
+        myParams.set($_OTHEROBJ_DCSJYCL_HEADER,header);
+        myParams.set($_OTHEROBJ_DCSJYCL_DATA,data);
     }
 
     /**

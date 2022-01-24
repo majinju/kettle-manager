@@ -104,6 +104,14 @@ public interface LjqConstant extends UtilConstInstance {
      * jsonpath路径-http返回对象
      */
     String $_OTHEROBJ_RESPONSE = "$.otherObj.response";
+    /**
+     * jsonpath路径-导出数据预处理-表头
+     */
+    String $_OTHEROBJ_DCSJYCL_HEADER = "$.otherObj.dcsjycl.header";
+    /**
+     * jsonpath路径-导出数据预处理-数据
+     */
+    String $_OTHEROBJ_DCSJYCL_DATA = "$.otherObj.dcsjycl.data";
 
     /**
      * 字典-系统-通用-数据载体
