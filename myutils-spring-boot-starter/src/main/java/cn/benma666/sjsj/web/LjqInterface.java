@@ -6,6 +6,7 @@
 
 package cn.benma666.sjsj.web;
 
+import cn.benma666.constants.UtilConstInstance;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Result;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * date: 2018年12月16日 <br/>
  * @author jingma
  */
-public interface LjqInterface extends LjqConstant {
+public interface LjqInterface extends UtilConstInstance {
     /**
      * 基础信息<br/>
      * @param myParams 相关参数

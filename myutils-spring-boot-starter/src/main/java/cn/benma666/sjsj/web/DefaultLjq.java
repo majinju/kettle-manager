@@ -21,6 +21,7 @@ import cn.benma666.myutils.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjzt.Bdwj;
 import cn.benma666.sjzt.Db;
+import cn.benma666.sjzt.Ftp;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.excel.EasyExcel;
@@ -422,11 +423,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 case ZD_SJZTLX_KAFKA:
                     //kafka场景
                     r = selectKafka(myParams);
+                    break;
                 case ZD_SJZTLX_FTP:
                     r = selectFtp(myParams);
+                    break;
                 case ZD_SJZTLX_BDWJ:
                     //本地文件
                     r = selectBdwj(myParams);
+                    break;
                 default:
                     //后续支持文件等各类数据载体，暂未实现
                     throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
@@ -477,11 +481,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 case ZD_SJZTLX_KAFKA:
                     //kafka场景
                     r = saveKafka(myParams);
+                    break;
                 case ZD_SJZTLX_FTP:
                     r = saveFtp(myParams);
+                    break;
                 case ZD_SJZTLX_BDWJ:
                     //本地文件
                     r = saveBdwj(myParams);
+                    break;
                 default:
                     //后续支持文件等各类数据载体，暂未实现
                     throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
@@ -516,11 +523,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 case ZD_SJZTLX_KAFKA:
                     //kafka场景
                     r = plbcKafka(myParams,list);
+                    break;
                 case ZD_SJZTLX_FTP:
                     r = plbcFtp(myParams,list);
+                    break;
                 case ZD_SJZTLX_BDWJ:
                     //本地文件
                     r = plbcBdwj(myParams,list);
+                    break;
                 default:
                     //后续支持文件等各类数据载体，暂未实现
                     throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
@@ -716,8 +726,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 保存数据-FTP
      */
     protected Result saveFtp(JSONObject myParams) {
-
-        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+        return plbcFtp(myParams,new JSONObject[]{myParams.getJSONObject(KEY_YOBJ)});
     }
     /**
      * 保存数据-kafka
@@ -732,58 +741,16 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected Result plbcBdwj(JSONObject myParams, JSONObject[] list) {
         dcsjYcl(myParams,Arrays.asList(list),"");
-        OutputStream os = null;
-        String fileName = Bdwj.use(sjdx.getDxzt()).getPathFile().getAbsolutePath()+ UtilConst.FXG
-                + System.currentTimeMillis();
-        try {
-            switch (sjdx.getDxlx()){
-                case "excel":
-                    LongestMatchColumnWidthStyleStrategy lmcw = new LongestMatchColumnWidthStyleStrategy();
-                    os = new FileOutputStream(fileName+".xlsx");
-                    EasyExcel.write(os).head((List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_HEADER))
-                            .autoTrim(true).excelType(ExcelTypeEnum.XLSX)
-                            //自动列宽，不合适可以自己重写
-                            .registerWriteHandler(lmcw)
-                            .sheet("Sheet1")
-                            .doWrite((List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_DATA));
-                    break;
-                case "wbwj":
-                    //获取数据对象扩展
-                    JSONObject sjdxkz = myParams.getJSONObject("$.sys.sjdxkz");
-                    //分隔符
-                    String fgf = valByDef(sjdxkz.getString("fgf"),",");
-                    //文本限定符
-                    String wbxdf = sjdxkz.getString("wbxdf");
-                    //编码方式
-                    String bmfs = valByDef(sjdxkz.getString("bmfs"),"utf8");
-                    StringBuilder context = new StringBuilder();
-                    for(List<String> h:(List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_HEADER)){
-                        context.append(fgf).append(wbxdf).append(h.get(0)).append(wbxdf);
-                    }
-                    context.append("\n");
-                    for(List<String> h:(List<List<String>>) myParams.get($_OTHEROBJ_DCSJYCL_DATA)){
-                        context.append(wbxdf).append(StringUtil.join(h,wbxdf+fgf+wbxdf)).append(wbxdf).append("\n");
-                    }
-                    os = new FileOutputStream(fileName+".txt");
-                    os.write(context.substring(fgf.length()).getBytes(bmfs));
-                    break;
-                default:
-                    throw new MyException("不支持的对象类型："+sjdx.getDxlx());
-            }
-            return success("保存文件成功："+fileName);
-        }catch (Exception e){
-            log.error("数据处理失败，"+e.getMessage(),e);
-            throw new MyException("数据处理失败，"+e.getMessage(),e);
-        }finally {
-            FileUtil.closeOutputStream(os);
-        }
+        return Bdwj.use(sjdx.getDxzt()).plbc(sjdx,myParams);
     }
 
     protected Result plbcFtp(JSONObject myParams, JSONObject[] list) {
-        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+        dcsjYcl(myParams,Arrays.asList(list),"");
+        return Ftp.use(sjdx.getDxzt()).plbc(sjdx,myParams);
     }
 
     protected Result plbcKafka(JSONObject myParams, JSONObject[] list) {
+
         throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
     }
 
