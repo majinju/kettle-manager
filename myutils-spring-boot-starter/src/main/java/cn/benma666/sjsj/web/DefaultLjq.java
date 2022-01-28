@@ -252,7 +252,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         try {
             String hiddenCol = myParams.getString("$.sys.hiddenCol") + ",列表选择";
-            dcsjYcl(myParams,page.getList(),hiddenCol);
+            dcsjYcl(myParams,page.getList(),hiddenCol,KEY_CLLX_DCSJ);
             return resultExcelFile((List<List<String>>)myParams.get($_OTHEROBJ_DCSJYCL_HEADER),
                     (List<List<String>>)myParams.get($_OTHEROBJ_DCSJYCL_DATA), fileName);
         } catch (Exception e) {
@@ -740,12 +740,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 批量保存数据到本地文件
      */
     protected Result plbcBdwj(JSONObject myParams, JSONObject[] list) {
-        dcsjYcl(myParams,Arrays.asList(list),"");
+        dcsjYcl(myParams,Arrays.asList(list), "", KEY_CLLX_INSERT);
         return Bdwj.use(sjdx.getDxzt()).plbc(sjdx,myParams);
     }
 
     protected Result plbcFtp(JSONObject myParams, JSONObject[] list) {
-        dcsjYcl(myParams,Arrays.asList(list),"");
+        dcsjYcl(myParams,Arrays.asList(list), "", KEY_CLLX_INSERT);
         return Ftp.use(sjdx.getDxzt()).plbc(sjdx,myParams);
     }
 
@@ -868,7 +868,15 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
     }
 
-    protected void dcsjYcl(JSONObject myParams,List<JSONObject> list,String hiddenCol){
+    /**
+     * 导出数据预处理,处理结果在系统参数myParams中。<br/>
+     * 表头：$_OTHEROBJ_DCSJYCL_HEADER、数据：$_OTHEROBJ_DCSJYCL_DATA
+     * @param myParams 系统参数
+     * @param list 要导出的数据
+     * @param hiddenCol 不展示的列字段名称
+     * @param cllx 处理类型
+     */
+    protected void dcsjYcl(JSONObject myParams, List<JSONObject> list, String hiddenCol, String cllx){
         Set<String> hiddenColSet = new HashSet<>();
         CollectionUtils.addAll(hiddenColSet, hiddenCol.split(","));
         Map<String, JSONObject> fields = (Map<String, JSONObject>) myParams.get(KEY_FIELDS);
@@ -878,7 +886,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         List<String> rows;
         for (Map.Entry<String, JSONObject> f : fields.entrySet()) {
             String kjlx = f.getValue().getString("kjlx");
-            if (valByDef(f.getValue().getBoolean("xqzs"),false)
+            if (valByDef(f.getValue().getBoolean("$.kzxx.cllxkz."+cllx+".show"),false)
                     && !hiddenColSet.contains(f.getValue().getString("zdmc"))
                     && !kjlx.equals("password")
                     && !kjlx.equals("$buttons")) {
@@ -1106,6 +1114,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         lxkz = getKjkzByCllx(field);
         lxkz.put("show",field.getBoolean("xqzs"));
         mergeConfigByCllx(cllxkz, lxkz, KEY_CLLX_DXJCXX);
+
+        //导出字段配置，默认与详情字段一致
+        lxkz = getKjkzByCllx(field);
+        lxkz.put("show",field.getBoolean("xqzs"));
+        mergeConfigByCllx(cllxkz, lxkz, KEY_CLLX_DCSJ);
 
         //dcmb：导出模板
         lxkz = getKjkzByCllx(field);

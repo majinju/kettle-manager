@@ -160,6 +160,8 @@ export default defineComponent({
     const valChange = function (val) {
       if(!isEmpty(myData.codeType)){
         context.emit('update:modelValue',val.replace(/```.*\n/,"").replace("\n```",""))
+      }else{
+        context.emit('update:modelValue',val)
       }
     }
     /**

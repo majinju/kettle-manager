@@ -29,6 +29,7 @@
 import { defineComponent, onMounted, reactive, ref,watch} from 'vue'
 import axios from "@/axios";
 import { zdObj } from "@/utils/common"
+import {assignDeep} from "../utils/common";
 export default defineComponent({
   name:'MyDownList',
   inheritAttrs: false,
@@ -52,6 +53,13 @@ export default defineComponent({
     gridOptions:{
       type: Object,
       default: {}
+    },
+    /**
+     * 搜索参数，与默认参数合并
+     */
+    searchParams:{
+      type: Object,
+      default: {}
     }
   },
   emits:["update:modelValue","updateZdmc"],
@@ -61,10 +69,6 @@ export default defineComponent({
        * 绑定输入框值
        */
       value: "",
-      /**
-       * 搜索关键字
-       */
-      searchKey: "",
       /**
        * 数据加载中
        */
@@ -89,19 +93,12 @@ export default defineComponent({
         total: 0,
         currentPage: 1,
         pageSize: 5,
-        totalRequired:true,
         layouts:['Sizes', 'PrevJump', 'PrevPage', 'NextPage', 'NextJump', 'FullJump', 'Total']
-
-      }
-    });
-    const myDownList = ref({});
-    const xInput = ref({});
-    const searchList = (tsearchKey) => {
-      if(tsearchKey){
-        myData.searchKey=tsearchKey;
-      }
-      myData.loading = true
-      axios.post({
+      },
+      /**
+       * 搜索参数-默认
+       */
+      searchParamsDefault:{
         sjdx:{
           dxdm:"SYS_SJGL_TYZD"
         },
@@ -109,18 +106,27 @@ export default defineComponent({
           zdlb:props.zdlb
         },
         page:{
-          totalRequired:myData.tablePage.totalRequired,
-          pageSize:myData.tablePage.pageSize,
-          pageNumber:myData.tablePage.currentPage,
+          pageSize: 5,
+          totalRequired:true
         },
         sys:{
-          cllx:"zdSearch",
-          searchKey:myData.searchKey
+          cllx:"zdSearch"
         }
-      },false).then(req=>{
+      }
+    });
+    myData.searchParams = assignDeep({},myData.searchParamsDefault,props.searchParams);
+    const myDownList = ref({});
+    const xInput = ref({});
+    const searchList = (tsearchKey) => {
+      if(tsearchKey){
+        myData.searchParams.sys.searchKey=tsearchKey;
+      }
+      myData.loading = true
+      myData.searchParams.page.pageNumber=myData.tablePage.currentPage
+      axios.post(myData.searchParams,false).then(req=>{
         myData.tableData=req.data.list
         myData.loading = false
-        if(myData.tablePage.totalRequired){
+        if(myData.searchParams.page.totalRequired){
           myData.tablePage.total=req.data.totalRow;
         }
       })
@@ -133,7 +139,7 @@ export default defineComponent({
       const $input = xInput.value
       if(!$input.disabled&&!$input.readonly){
         $pulldown.showPanel()
-        myData.tablePage.totalRequired=true
+        myData.searchParams.page.totalRequired=true
         searchList();
       }
     }
@@ -144,7 +150,7 @@ export default defineComponent({
      */
     const keyupEvent = ( value,$event ) => {
       myData.tablePage.currentPage = 1
-      myData.tablePage.totalRequired=true
+      myData.searchParams.page.totalRequired=true
       searchList(value?.value);
     }
     /**
@@ -155,7 +161,8 @@ export default defineComponent({
     const pageChangeEvent = ({ currentPage, pageSize }) => {
       myData.tablePage.currentPage = currentPage
       myData.tablePage.pageSize = pageSize
-      myData.tablePage.totalRequired = false
+      myData.searchParams.page.pageSize=pageSize
+      myData.searchParams.page.totalRequired=false
       searchList();
     }
     /**
@@ -166,7 +173,7 @@ export default defineComponent({
       //恢复输入框的值为用户当前选择的值的翻译结果
       modelValueWatch(props.modelValue,null);
       //清除搜索条件
-      myData.searchKey="";
+      myData.searchParams.sys.searchKey="";
       myData.tablePage.currentPage=1;
     }
     /**
@@ -215,6 +222,12 @@ export default defineComponent({
      * 监听传入的值的变化
      */
     watch(()=>props.modelValue,modelValueWatch);
+    /**
+     * 监听搜索参数变化
+     */
+    watch(()=>props.searchParams,(newVal)=>{
+      myData.searchParams = assignDeep(myData.searchParams,myData.searchParamsDefault,newVal);
+    })
 
     /**
      * 返回值

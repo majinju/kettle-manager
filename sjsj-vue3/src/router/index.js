@@ -4,8 +4,14 @@ import {useStore} from "vuex";
 const routes = [
   {
     path: "/login/:sys?",
+    alias: "/",
     name: "Login",
     component: () => import ('../views/Login')
+  },
+  {
+    path: '/test1',
+    name: "测试1",
+    component:()=> import('../views/test/text')
   },
   {
     path: '/sjdx1',
@@ -18,12 +24,8 @@ const routes = [
     component: () => import('../components/Sjdx')
   },
   {
-    path: "/home",
-    alias: "/",
+    path: "/home/:sys?",
     name: "平台首页",
-    meta:{
-      title:'平台首页'
-    },
     component: () => import('../views/Home'),
     children: [
       {
@@ -32,20 +34,20 @@ const routes = [
         component: () => import('../components/Sjdx')
       },
       {
-        path: 'KFZFW_QTGN_CSZY',
-        name:'字典管理',
-        meta:{
-          title:'字典管理'
-        },
-        component: () => import('../views/zdgl/Select'),
-      },
-      {
         path: 'test',
-        name:"测试",
-        component:()=> import('../components/Test')
+        name:'测试1',
+        component: ()=> import('../views/test/text'),
+        children:[
+          {
+            path: 'sjdxs',
+            name:'数据对象1',
+            component: () => import('../components/Sjdx')
+          },
+        ]
       }
     ]
   },
+
 ]
 
 const router = createRouter({
@@ -53,10 +55,6 @@ const router = createRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  /** 页面发生变化修改页面title*/
-  if(to.meta.title){
-    document.title = to.name
-  }
   const store = useStore();
   if(store){
     let token = store.state.user.token;

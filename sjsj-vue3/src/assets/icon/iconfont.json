@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "107548",
+      "name": "x",
+      "font_class": "x",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "2517749",
+      "name": "方块",
+      "font_class": "fangkuai",
+      "unicode": "e71d",
+      "unicode_decimal": 59165
+    },
+    {
+      "icon_id": "12070339",
+      "name": "方块",
+      "font_class": "juxing",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "8942243",
+      "name": "上箭头圆圈",
+      "font_class": "up-circle",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "13029880",
+      "name": "箭头",
+      "font_class": "jiantou_o2_x",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "3930487",
+      "name": "下双箭头",
+      "font_class": "xiashuangjiantou",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "6605907",
+      "name": "67下双箭头",
+      "font_class": "xiashuangjiantou1",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "18174926",
+      "name": "双箭头,双角符,下",
+      "font_class": "double-arrow-down",
+      "unicode": "ea4e",
+      "unicode_decimal": 59982
+    },
+    {
       "icon_id": "2674878",
       "name": "箭头 上",
       "font_class": "jiantoushang",

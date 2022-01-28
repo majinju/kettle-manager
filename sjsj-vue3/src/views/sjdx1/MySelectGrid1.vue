@@ -521,6 +521,7 @@ export default defineComponent({
      * 搜索按钮
      */
     search : function(){
+      console.log('进入查询页面')
       //点击搜索按钮，恢复为第一页
       this.setPageNumber(1);
       this.selectReqData.page.totalRequired=true
@@ -530,6 +531,7 @@ export default defineComponent({
      * 执行分页查询
      */
     getList :async function(){
+      console.log('进入查询页面')
       this.selectReqData.yobj = this.formData;
       await axios.post(this.selectReqData).then(req=>{
         this.tableData= req.data.list;

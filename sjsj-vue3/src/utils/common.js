@@ -204,7 +204,7 @@ function zdListG(globalData, zdlb) {
         //数据对象
         "sys":{
           "authCode":"KFZFW_PTGL_ZDGL",
-          "cllx":"zdTree",
+          "cllx":"zdList",
         },
         "yobj": {
           "zdlb":zdlb
@@ -325,7 +325,7 @@ function zdObjG(globalData, zdObj, cache) {
 function postZdObj(globalData,data){
   const zdListCache = globalData.zdListCache;
   return new Promise(function (resolve,reject){
-    data.sys.cllx="KFZFW_PTGL_ZDGL";
+    data.sys.authCode="KFZFW_PTGL_ZDGL";
     data.sys.cllx="zdObj";
     axios.post(data,false).then(function (res){
       let obj;
@@ -448,7 +448,7 @@ function zdIdxByMc(globalData, zdlb, mc) {
  * @returns 空：true，非空：false
  */
 export function isEmpty(str) {
-  return str == null || str === "";
+  return str === null || str === undefined || str === "";
 }
 /**
  * 是否是非负整数

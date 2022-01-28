@@ -101,12 +101,18 @@ function errorMessageHand(status, data) {
       break
     default:
       // 其他错误，直接抛出错误提示
-      ElMessageBox.alert(data.msg||'请求异常', '提示', {
-        confirmButtonText: 'OK',
-        type: "warning",
-        callback: (action) => {
-        },
-      }).then();
+      if(!ts) {
+        ts = true;
+        ElMessageBox.alert(data.msg||'网络请求异常，请联系管理员', '提示', {
+          confirmButtonText: 'OK',
+          type: "warning",
+          callback: (action) => {
+            ts = false
+          },
+        }).then(function (){
+          ts = false
+        });
+      }
   }
 }
 const httpHandle = {

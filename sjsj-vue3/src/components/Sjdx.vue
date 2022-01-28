@@ -97,6 +97,15 @@ export default defineComponent({
         }
       }
     )
+    //走tab标签路由
+    watch(
+      () => route.query,
+      async newQuery => {
+        if(route.path.startsWith("/home/test/sjdxs")&&Object.keys(newQuery).length>0){
+          await initPage(newQuery);
+        }
+      }
+    )
     //初次进入调用
     await initPage(route.query);
     /**

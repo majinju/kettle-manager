@@ -351,6 +351,7 @@ public class UserManager extends BasicObject {
                 Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
                         Db.buildMap(user));
                 user.setQxMap(qxMap);
+                user.set(DLSJ,System.currentTimeMillis());
                 userCache.put(user.getToken(),user);
                 redisTemplate.opsForValue().set(key,user,sessionYxq, TimeUnit.MINUTES);
             }
@@ -361,6 +362,7 @@ public class UserManager extends BasicObject {
                 Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
                         Db.buildMap(user));
                 user.setQxMap(qxMap);
+                user.set(DLSJ,System.currentTimeMillis());
                 userCache.put(user.getToken(),user);
             }
         }

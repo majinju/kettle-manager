@@ -4,7 +4,7 @@
       <el-header class="home-heard">
         <div class="heard-title">
           <img class="title-img" src="~assets/img/title.png" alt="">
-          <span class="title-span">{{myData.title}}</span>
+          <span class="title-span">{{myData.xtxx.mc}}</span>
         </div>
         <div class="title-dw">
           <span class="title-ssjg">所属机构></span>
@@ -26,35 +26,25 @@
               </el-row>
             </div>
           </div>
-          <ul>
-            <li
-              class="menu-item"
-              :class="myData.activeMenu === item.id ? 'active' : ''"
-              v-for="item in myData.menuList"
-              :key="item.id"
-            >
-              <div class="menu-item-title" @click="selectMenu(item)">
-                <i class="el-icon-menu"></i>
-                {{ item.mc }}
-                <i v-if="myData.activeMenu !== item.id" class="el-icon-arrow-down"></i>
-                <i v-else class="el-icon-arrow-up"></i>
+          <el-tree
+            :data="myData.menuList"
+            accordion
+            :load="loadNode"
+            lazy
+            class="menu-item"
+            node-key="dm"
+            icon-class="el-icon-arrow-down"
+            :props="myData.props"
+            @node-click="selectMenu"
+            highlight-current
+          >
+            <template #default="{ node, data }">
+              <div class="worker-tree-node flex-box">
+                <i class="el-icon-menu" v-if="node.level === 1"></i>
+                {{ data.mc }}
               </div>
-              <ul
-                class="menu-item-child"
-                v-show="item.children && myData.activeMenu === item.id"
-              >
-                <li
-                  class="child-item"
-                  @click="selectMenuChild(child)"
-                  :class="myData.activeId === child.id ? 'active' : ''"
-                  v-for="child in item.children"
-                  :key="child.id"
-                >
-                  <div class="child-item-title">{{ child.mc }}</div>
-                </li>
-              </ul>
-            </li>
-          </ul>
+            </template>
+          </el-tree>
         </el-aside>
         <el-container>
           <el-main>
@@ -79,35 +69,86 @@
   </div>
 </template>
 <script>
-import { onMounted,defineComponent, reactive,computed } from 'vue'
+import { defineComponent, reactive,computed } from 'vue'
 import {useStore} from "vuex";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import { ElMessage ,ElMessageBox} from "element-plus";
 import axios from "@/axios";
 import HomeTabs from "./HomeTabs";
-import {assignDeep} from "@/utils/common";
+import {assignDeep,zdObj,isEmpty} from "@/utils/common";
 
 export default defineComponent({
   components:{HomeTabs},
   setup () {
     const myData = reactive({
-      title:"数据世界2",
+      /**
+       * 系统代码
+       */
+      xtdm:"",
+      /**
+       * 系统信息
+       */
+      xtxx:{},
+      /**
+       * 菜单列表
+       */
       menuList:[],
-      activeMenu:'',
-      activeId:'',
+      props: {
+        label: "mc",
+        isLeaf: "leaf",
+      },
     });
-    onMounted (() =>{
-      getMenuList('KFZFW')
-    })
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
+    myData.xtdm = route.params.sys;
+    if(isEmpty(myData.xtdm)){
+      myData.xtdm = store.state.xtxx.dm
+    }
+    zdObj({zdlb:"SYS_QX_QXXX",dm:myData.xtdm}).then((xtxx)=>{
+      myData.xtxx=xtxx
+      store.commit("setXtxx",xtxx)
+      document.title=xtxx.mc
+    }).catch(err=>{
+    })
+    /**
+     * 获取菜单
+     */
+    const loadNode =async function (node,resolve){
+      if (node.data.parent > 0) {
+        axios.post({
+          sjdx: {
+            dxdm: "SYS_QX_QTQX",
+          },
+          sys: {
+            cllx: "getTreeCN",
+          },
+          yobj:{
+            treeModel: "cds",
+            treeRoot: myData.xtdm,
+            fqx: node.data.dm ? node.data.dm : "",
+          }
+        }).then((response) => {
+          if (response.status) {
+            response.data.list.map((x) => {
+              x.leaf = x.parent <= 0;
+            });
+            resolve(response.data.list);
+          } else {
+            this.$message.error(response.msg);
+          }
+        });
+      } else {
+        resolve([]);
+      }
+    }
     /**
      * 加载菜单
      * @param dm 菜单根节点
      * @param fqx 菜单父节点
      */
-    const getMenuList = (dm,fqx) =>{
-      axios.post({
+    const getMenuList = function(dm,fqx){
+       axios.post({
         sjdx:{
           dxdm:"SYS_QX_QTQX"
         },
@@ -153,50 +194,33 @@ export default defineComponent({
      * @param data 菜单项
      */
     const selectMenu = (data) =>{
-      if(myData.activeMenu === data.id){
-        //点击当前展开的菜单则关闭展开的菜单
-        myData.activeMenu = ''
-        return
-      }
-      myData.activeMenu =data.id
-      if (!data.children.length) {
-        //加载子菜单
-        getMenuList("KFZFW", data.dm);
-      }
-    }
-    /**
-     * 点击某个具体菜单项
-     * @param data 菜单数据
-     */
-    const selectMenuChild = (data) =>{
-      if(myData.activeId === data.id) {
-        //后续这里改为重新加载页面
-        return
-      }
-      myData.activeId = data.id
-      switch (data.dzlx) {
-        case "03":
-        case "04":
-          const query = {
-            "sys.authCode":data.dm,
-            pathName:data.name
+      if (data.parent === 0) {
+        if(data.dzlx==="04"){
+          switch (data.dzlx) {
+            case "03":
+            case "04":
+              const query = {
+                "sys.authCode":data.dm,
+                pathName:data.name
+              }
+              router.push({path:'/home/sjdx',query:assignDeep(query,JSON.parse(data.kzxx).cdkz)})
+              break
+            case "01":
+            // router.push({path:'/home/'+data.dm, query:{
+            //     "sys.authCode":data.dm,
+            //     pathName:data.name
+            //   }})
+            // break
+            case "02":
+            default:
+              ElMessage.error("暂不支持的地址类型："+data.dzlx);
           }
-          router.push({path:'/home/sjdx',query:assignDeep(query,JSON.parse(data.kzxx).cdkz)})
-          break
-        case "01":
-        // router.push({path:'/home/'+data.dm, query:{
-        //     "sys.authCode":data.dm,
-        //     pathName:data.name
-        //   }})
-        // break
-        case "02":
-        default:
-          ElMessage.error("暂不支持的地址类型："+data.dzlx);
+        }
       }
     }
     /**
      * 用户信息
-     * @type {ComputedRef<{yhdm: string, yhxm: string}>}
+     * @type {ComputedRef<{}>}
      */
     const user = computed(() => {
       return store.state.user;
@@ -210,6 +234,7 @@ export default defineComponent({
         return axios.getBaseURL()+'?sjdx.dxdm=SYS_QX_QTQX&sys.cllx=download&yobj.id='+store.state.user.tx
       }
     })
+
     /**
      * 用户退出操作
      */
@@ -230,25 +255,96 @@ export default defineComponent({
         }).then(req=>{
           if (req.status) {
             ElMessage.success(req.msg)
-            router.push('/login')
+            //将当前系统代码返回回去
+            router.push('/login/'+myData.xtdm)
           } else {
             ElMessage.warning(req.msg)
           }
         })
       }).catch(() =>{})
     }
+    getMenuList(myData.xtdm)
     return {
       myData,
       user,
       userImg,
       selectMenu,
-      selectMenuChild,
-      logout
+      logout,
+      loadNode,
     }
   }
 })
 </script>
 <style scoped lang="scss">
+::v-deep(.el-tree-node__expand-icon) {
+  color: rgb(39, 138, 236);
+  font-size: 20px;
+  position: absolute;
+  right: 15px;
+}
+::v-deep(.el-tree-node) {
+  border-bottom: 1px solid #ddd;
+}
+
+::v-deep(.el-tree-node__content) {
+  flex-direction: row-reverse;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 55px;
+  padding-right: 20px;
+  font-size: 17px;
+  &:hover {
+    color: #ffffff;
+    background: linear-gradient(to right, #8dbceb, #1b7ee5);
+    .el-tree-node__expand-icon {
+      color: #ffffff;
+    }
+    .is-leaf {
+      display: none;
+    }
+  }
+}
+
+::v-deep(.el-tree-node__expand-icon) {
+  &.expanded {
+    transform: rotate(180deg);
+  }
+}
+.worker-tree-node {
+  flex: 1;
+  overflow: hidden;
+  padding-left: 10px;
+  & > * {
+    margin: 0 5px;
+  }
+}
+::v-deep(.el-tree-node__loading-icon ){
+  position: absolute;
+  right: 0px;
+}
+::v-deep(.el-tree-node__expand-icon.is-leaf) {
+  color: rgba(0, 0, 0, 0);
+  cursor: default;
+}
+::v-deep(.is-current) {
+  .el-tree-node__expand-icon {
+  }
+}
+::v-deep(.el-tree-node__children .worker-tree-node) {
+  font-size: 14px;
+  padding-left: 25px;
+  .expanded {
+    color: #fff;
+  }
+}
+::v-deep(.el-tree--highlight-current
+.el-tree-node.is-current)
+> .el-tree-node__content {
+  color: #ffffff;
+  background: linear-gradient(to right, #428dd8, #d2e0ee);
+}
+
+
 .home-body{
   width: 100%;
   height: 100%;

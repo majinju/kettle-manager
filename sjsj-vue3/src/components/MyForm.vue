@@ -4,7 +4,7 @@
               :items="myData.formItems" v-cloak>
     </vxe-form>
     <vxe-modal ref="xModal" v-model="myData.tcckShow" v-bind="myData.tcckProps"
-               :before-hide-method="close">
+               :before-hide-method="close" show-zoom resize>
       <my-form ref="xUpdate" @close="fromClose"></my-form>
     </vxe-modal>
   </div>
@@ -193,17 +193,25 @@ export default defineComponent({
           }
           switch (f.kjlx){
             case 'ElCascader':
+              fi.itemRender.name='MyCascader';
+              fi.itemRender.props.size=options.input.size;
+              if(fi.itemRender.props.clearable!==false){
+                fi.itemRender.props.clearable = options.input.clearable
+              }
+              fi.itemRender.props.zdlb=f.zdzdlb;
+              break
             case '$switch':
             case '$select':
               //还要考虑字典树
-              if(f.zdfy==='1'){
-                //大字典，采用下拉分页搜索框
+              if (f.zddx === '1') {
+                //大字典，采用下拉分页搜索框、
+                fi.itemRender.name='MyDownListMultiple';
+              } else if (f.zdfy === '1') {
+                //大字典，采用下拉分页搜索框、
                 fi.itemRender.name='MyDownList';
-                //还要考虑多选
-              }else{
+              } else {
                 //普通下拉框
                 fi.itemRender.name='MySelect';
-                //还要考虑多选
               }
               fi.itemRender.props.zdlb=f.zdzdlb;
               break
@@ -228,6 +236,20 @@ export default defineComponent({
               if(fi.itemRender.props.clearable===false){
                 fi.itemRender.props.mode="preview";
               }
+              break
+            case 'MyImage':
+              fi.itemRender.name='MyImage';
+              fi.itemRender.props.zdlb=f.sjdx;
+              break
+            case 'MyFile':
+              fi.itemRender.name='MyFile';
+              fi.itemRender.props.zdlb=f.sjdx;
+              fi.span=24;
+              break
+            case 'MyDownListMultiple' :
+              fi.itemRender.name='MyDownListMultiple';
+              fi.itemRender.props.zdlb=f.zdzdlb;
+              fi.span=24
               break
             case 'ElDatePicker':
               //时间选择器

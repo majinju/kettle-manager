@@ -3,9 +3,9 @@
     <el-container>
       <el-main>
         <div class="content1">
-          <div class="xtbt">{{ data.title }}</div>
-          <vxe-form :data="data.formData" :items="data.formItems" :rules="data.formRule"
-                    :loading="data.loading" @submit="submitEvent">
+          <div class="xtbt">{{ myData.xtxx.mc }}</div>
+          <vxe-form :data="myData.formData" :items="myData.formItems" :rules="myData.formRule"
+                    :loading="myData.loading" @submit="submitEvent">
           </vxe-form>
         </div>
       </el-main>
@@ -17,16 +17,18 @@
 </template>
 
 <script>
-import { defineComponent, reactive,onMounted } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import axios from '../axios'
 import {ElMessage} from "element-plus";
 import { useStore } from "vuex";
 import { useRouter,useRoute } from "vue-router";
+import {zdObj,isEmpty} from "../utils/common";
 
 export default defineComponent({
   setup () {
-    const data = reactive({
-      title:"数据世界2",
+    const myData = reactive({
+      xtdm:'',
+      xtxx:{},
       loading:false,
       formData: {
         yhdm: '',
@@ -53,13 +55,19 @@ export default defineComponent({
         ]
       }
     });
-    onMounted(()=>{
-    })
-    document.title=data.title;
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    console.log(route.params.sys)
+    myData.xtdm = route.params.sys;
+    if(isEmpty(myData.xtdm)){
+      myData.xtdm = store.state.xtxx.dm
+    }
+    zdObj({zdlb:"SYS_QX_QXXX",dm:myData.xtdm}).then((xtxx)=>{
+      myData.xtxx=xtxx
+      store.commit("setXtxx",xtxx)
+      document.title=xtxx.mc
+    }).catch(err=>{
+    })
     const submitEvent = function (){
       axios.post({
         sjdx:{
@@ -68,20 +76,20 @@ export default defineComponent({
         sys:{
           cllx:"yhdl"
         },
-        yobj:data.formData
+        yobj:myData.formData
       }).then(response => {
         if(response.status){
           store.commit("setSys",response.data.sys)
           store.commit("setUser",response.data.user)
           ElMessage.success("登陆成功");
-          router.push("/home");
+          router.push("/home/"+myData.xtdm);
         }else{
           ElMessage.error(response.msg)
         }
       })
     }
     return {
-      data,
+      myData,
       submitEvent
     }
   }

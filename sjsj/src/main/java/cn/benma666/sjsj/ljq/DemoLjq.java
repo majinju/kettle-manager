@@ -15,7 +15,8 @@ import org.beetl.sql.core.SqlId;
 
 /**
  * 演示拦截器。<br/>
- * 拦截器需要在数据对象的“拦截器”中配置该类的完整类路径才会在对应的数据对象上生效，数据对象不配做拦截器时会采用默认拦截器。
+ * 拦截器需要在数据对象的“拦截器”中配置该类的完整类路径才会在对应的数据对象上生效，数据对象不配做拦截器时会采用默认拦截器。<br/>
+ * 禁止直接在java中拼接sql
  */
 public class DemoLjq extends DefaultLjq{
     /**
@@ -37,7 +38,7 @@ public class DemoLjq extends DefaultLjq{
         PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
         log.info("分页对象"+page);
         //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询
-        page = db().queryPage(page, "select * from #{sjdx.jtdx}", myParams);
+        page = db().queryPage(page, SqlId.of("demo","findDemo"), myParams);
         log.info("分页查询结果："+page);
         //获取其他对象的基础信息进行方法调用
         JSONObject sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX");
