@@ -71,7 +71,7 @@ public class SjdxLjq extends DefaultLjq {
             return failed("导入字段出错："+e.getMessage());
         }
         CacheFactory.clear();
-        return success("编辑成功,"+r.getMsg());
+        return r;
     }
 
     @Override
