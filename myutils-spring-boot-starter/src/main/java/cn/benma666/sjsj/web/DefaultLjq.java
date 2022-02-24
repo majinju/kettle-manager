@@ -1546,6 +1546,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //非虚拟对象时才记录日志
             writeCzrz(myParams, r);
         }
+        if(r.getData()!=null&&r.getData() instanceof JSONObject){
+            //移除不需要显示到前端的参数
+            JSONObject data = (JSONObject) r.getData();
+            if(data.containsKey(LjqInterface.KEY_OTHEROBJ)){
+                data.remove(LjqInterface.KEY_OTHEROBJ);
+                r.setData(data);
+            }
+        }
         //根据返回类型向前端推送数据
         if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
             response.setStatus(r.getCode());

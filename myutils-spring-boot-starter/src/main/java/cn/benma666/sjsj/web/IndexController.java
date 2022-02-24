@@ -90,7 +90,7 @@ public class IndexController extends BasicObject implements ErrorController {
         ServletWebRequest requestAttributes = new ServletWebRequest(request);
         Map<String, Object> attr = this.errorAttributes.getErrorAttributes(requestAttributes, ErrorAttributeOptions.defaults());
         log.error("请求异常："+ JSON.toJSONString(attr), ex);
-        Result r = failed("请求异常："+attr.get("error"));
+        Result r = failed("请求异常："+attr.get("error")+"->"+ex.getMessage());
         r.setCode(Integer.parseInt(attr.get("status").toString()));
         LjqManager.sendResult(response,null,r);
     }

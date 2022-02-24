@@ -130,7 +130,7 @@ spring:
           statement-execute-update-after-log-enabled: false
   redis:
     # 是否使用redis
-    enabled: true
+    enabled: false
     # 地址
     host: localhost
     # 端口，默认为6379
