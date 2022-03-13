@@ -309,7 +309,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JSONObject sjzt = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, file.getSjzt());
         byte[] byteArr;
         if (DbType.of(sjzt.getString("lx")) != null) {
-            byteArr = db(sjzt.getString("dm")).findFirst(file.getSclj()).getBytes("wj");
+            JSONObject file1 = db(sjzt.getString("dm")).findFirst(file.getSclj());
+            if(file1==null){
+                throw new MyException("该文件没找到："+myParams.getString("$.yobj.id"));
+            }
+            byteArr = file1.getBytes("wj");
         } else {
             switch (sjzt.getString("lx")) {
                 case ZD_SJZTLX_BDWJ:
@@ -551,54 +555,16 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         myParams.set("$.sql.from", (StringUtil.isBlank(
                 sjdx.getDxgs()) ? "" : sjdx.getDxgs() + ".") + sjdx.getJtdx());
         //先获取该处理类型对应的数据库的默认sql
-        String key= "DEFAULT." + cllx + "." + sjdx.getDxztlx();
-        String sqlTmpl = Conf.getVal(key);
-        if (StringUtil.isBlank(sqlTmpl)) {
-            //最基础默认sql-所有数据库通用
-            key = "DEFAULT." + cllx;
-            sqlTmpl = Conf.getVal(key);
-        }
-        String sql = null;
-        if(StringUtil.isNotBlank(sqlTmpl)){
-            //先生成默认SQL
-            try{
-                sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
-            }catch (Exception e){
-                log.error("模板渲染失败",e);
-                throw new MyException(e.getMessage(),e);
-            }
-            if (sql.startsWith("error:")) {
-                //用于在模板处理中，直接返回信息到前端
-                throw new MyException(sql.substring("error:".length()), sjdx);
-            } else {
-                JSONPath.set(myParams, "$.sql.defaultSql", sql);
-            }
-        }
+        Db.getZdSqlTmpl(myParams,"DEFAULT."+cllx,sjdx.getDxztlx());
         //获取该对象的专有sql
-        key= sjdx.getDxdm() + "." + cllx + "." + sjdx.getDxztlx();
-        sqlTmpl = Conf.getVal(key);
-        if (StringUtil.isBlank(sqlTmpl)) {
-            //最基础默认sql-所有数据库通用
-            key = sjdx.getDxdm() + "." + cllx;
-            sqlTmpl = Conf.getVal(key);
-        }
-        if (StringUtil.isNotBlank(sqlTmpl)) {
-            try{
-                sql = TmplUtil.buildStrSql(sqlTmpl, myParams).trim();
-            }catch (Exception e){
-                log.error("模板渲染失败",e);
-                throw new MyException(e.getMessage(),e);
-            }
-            if (sql.startsWith("error:")) {
-                throw new MyException(sql.substring("error:".length()), sjdx);
-            }
-            myParams.set("$.sql.defaultSql", sql);
-        }else if(sql==null){
-            //默认模板都不存在哎
+        String sql = Db.getZdSqlTmpl(myParams,sjdx.getDxdm() + "." + cllx,sjdx.getDxztlx());
+        if(isBlank(sql)){
+            //模板都不存在哎
             throw new MyException(Msg.msg("ljq.default.mypzgsql", cllx), sjdx);
         }
         return Db.parseDictExp(sql, sjdx.getDxzt());
     }
+
     /**
      * 导出模板
      * @param myParams 相关参数
