@@ -95,6 +95,20 @@ public class LjqManager extends BasicObject {
         myParams.set("$.sjdx.dxdm", dxdm);
         return jcxx(myParams,user);
     }
+    /**
+     * 获取数据对象基础信息 <br/>
+     * @param authCode 数据对象代码
+     * @return 基础信息
+     * @author jingma
+     */
+    public static JSONObject jcxxByAuthCode(String authCode) {
+        return jcxxByDxdm(authCode,null);
+    }
+    public static JSONObject jcxxByAuthCode(String authCode, SysQxYhxx user) {
+        JSONObject myParams = new JSONObject();
+        myParams.set("$.sys.authCode", authCode);
+        return jcxx(myParams,user);
+    }
 
     /**
      * 自定义参数获取对象信息-内部调用

@@ -288,7 +288,7 @@ public class SjdxLjq extends DefaultLjq {
      * @return 处理结果
     */
     private Result impFieldsDB(SysSjglSjdx jtdx, JSONObject myParams) {
-        List<JSONObject> fieldsList = db(jtdx.getDxzt()).find(jtdx.getZddrsql());
+        List<JSONObject> fieldsList = db(jtdx.getDxzt()).find(jtdx.getZddrsql(),myParams);
         return crzd(jtdx, myParams, fieldsList);
     }
     /**

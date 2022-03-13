@@ -2,10 +2,10 @@
 
 findSjdx
 ===
-* 获取数据载体
+* 获取数据对象
 ```sql
 select t.*,qx.dm auth_code from sys_sjgl_sjdx t
-left join sys_qx_qxxx qx on qx.dz=t.dxdm and qx.yxx='1'
+left join sys_qx_qxxx qx on qx.sjdx=t.id and qx.yxx='1'
 where t.yxx='1' 
 -- @ if(!isEmpty(sys.authCode)){
   and qx.dm=#{sys.authCode}

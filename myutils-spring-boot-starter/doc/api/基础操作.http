@@ -182,6 +182,28 @@ client.test("Request executed successfully", function() {
 });
 %}
 
+### 系统完整菜单树获取
+POST {{serviceAddr}}
+Content-Type: application/json
+
+{
+  "yobj": {
+    "treeModel": "cds",
+    "treeRoot": "KFZFW",
+  },
+  "sys": {
+    "authCode": "QTQX_QXXX",
+    "cllx": "cds",
+    "token": "4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
 ### 用户退出
 POST {{serviceAddr}}
 Content-Type: application/json

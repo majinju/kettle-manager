@@ -9,12 +9,14 @@ package cn.benma666.sjsj.ljq.qxgl;
 import cn.benma666.constants.UtilConst;
 
 import cn.benma666.exception.MyException;
+import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
@@ -59,6 +61,15 @@ public class QxxxLjq extends DefaultLjq {
         UserManager.flushUserQxxx();
         return success("刷新用户权限成功！");
     }
+
+    /**
+     * 获取菜单树，完整的菜单
+     */
+    public Result cds(JSONObject myParams){
+        String[] sql = getSql(myParams);
+        List<JSONObject> list = db(sql[0]).find(sql[1],myParams);
+        return success("获取菜单成功",StringUtil.buildTree(list,"fqx","dm"));
+    }
     @Override
     public Result insert(JSONObject myParams){
         DSTransactionManager.start();
@@ -67,7 +78,7 @@ public class QxxxLjq extends DefaultLjq {
             return r;
         }
         if(valByDef(myParams.getBoolean("$.yobj.sczqx"),false)){
-            if(StringUtil.isBlank(myParams.getString("$.yobj.dz"))){
+            if(StringUtil.isBlank(myParams.getString("$.yobj.sjdx"))){
                 throw new MyException("要生成子权限，必须在权限地址中填写对应的数据对象代码");
             }
             //新增权限且类型是连接且地址类型是数据对象则自动生成默认子权限且要求自动生成子权限
@@ -103,10 +114,10 @@ public class QxxxLjq extends DefaultLjq {
             db().update("update sys_qx_jsqxgl t set t.qx=replace(t.qx,?,?),"
                     + "t.gxsj=? where t.qx like ?",
                     obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
-            UserManager.flushUserQxxx();
         }
         try {
             DSTransactionManager.commit();
+            UserManager.flushUserQxxx();
         } catch (SQLException e) {
             log.error("事务提交失败",e);
             throw new MyException("事务提交失败");
