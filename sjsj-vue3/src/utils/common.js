@@ -171,7 +171,7 @@ function zdTreeG(globalData, zdlb) {
       axios.post({
         //数据对象
         "sys":{
-          "authCode":"KFZFW_PTGL_ZDGL",
+          authCode:"QTQX_ZDGL",
           "cllx":"zdTree",
         },
         "yobj": {
@@ -203,7 +203,7 @@ function zdListG(globalData, zdlb) {
       axios.post({
         //数据对象
         "sys":{
-          "authCode":"KFZFW_PTGL_ZDGL",
+          authCode:"QTQX_ZDGL",
           "cllx":"zdList",
         },
         "yobj": {
@@ -325,7 +325,7 @@ function zdObjG(globalData, zdObj, cache) {
 function postZdObj(globalData,data){
   const zdListCache = globalData.zdListCache;
   return new Promise(function (resolve,reject){
-    data.sys.authCode="KFZFW_PTGL_ZDGL";
+    data.sys.authCode="QTQX_ZDGL";
     data.sys.cllx="zdObj";
     axios.post(data,false).then(function (res){
       let obj;

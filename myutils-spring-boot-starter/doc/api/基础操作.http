@@ -226,3 +226,24 @@ client.test("Request executed successfully", function() {
 %}
 
 
+### 业务系统自定义controller
+POST {{serviceRoot}}/demo/xxxx/select
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_COMMON_CACHE"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"select",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}

@@ -1,4 +1,4 @@
-package cn.benma666.sjsj.ljq;
+package cn.benma666.sjsj.demo.ljq;
 
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
@@ -18,7 +18,7 @@ import org.beetl.sql.core.SqlId;
  * 拦截器需要在数据对象的“拦截器”中配置该类的完整类路径才会在对应的数据对象上生效，数据对象不配做拦截器时会采用默认拦截器。<br/>
  * 禁止直接在java中拼接sql
  */
-public class DemoLjq extends DefaultLjq{
+public class XxxxLjq extends DefaultLjq{
     /**
      * 测试演示功能
      * @param myParams 相关参数

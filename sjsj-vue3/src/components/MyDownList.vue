@@ -99,9 +99,6 @@ export default defineComponent({
        * 搜索参数-默认
        */
       searchParamsDefault:{
-        sjdx:{
-          dxdm:"SYS_SJGL_TYZD"
-        },
         yobj: {
           zdlb:props.zdlb
         },
@@ -110,6 +107,7 @@ export default defineComponent({
           totalRequired:true
         },
         sys:{
+          authCode:"QTQX_ZDGL",
           cllx:"zdSearch"
         }
       }
