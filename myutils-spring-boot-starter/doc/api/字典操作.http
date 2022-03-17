@@ -5,13 +5,11 @@ Content-Type: application/json
 
 {
   //数据对象
-  "sjdx":{
-    "dxdm":"SYS_SJGL_TYZD"
-  },
   "yobj": {
     "zdlb":"SYS_COMMON_ZDLB"
   },
   "sys":{
+    "authCode": "QTQX_ZDGL",
     "cllx":"zdList",
     "token":"4978866291C611DA0D2D5999C413107F"
   }
@@ -28,14 +26,11 @@ POST {{serviceAddr}}
 Content-Type: application/json
 
 {
-  //数据对象
-  "sjdx":{
-    "dxdm":"SYS_SJGL_TYZD"
-  },
   "yobj": {
     "zdlb":"SYS_COMMON_ORG"
   },
   "sys":{
+    "authCode": "QTQX_ZDGL",
     "cllx":"zdTree",
     "token":"4978866291C611DA0D2D5999C413107F"
   }
@@ -52,15 +47,12 @@ POST {{serviceAddr}}
 Content-Type: application/json
 
 {
-  //数据对象
-  "sjdx":{
-    "dxdm":"SYS_SJGL_TYZD"
-  },
   "yobj": {
     "zdlb":"SYS_COMMON_ZDLB",
     "dm": "SYS_COMMON_LJPD"
   },
   "sys":{
+    "authCode": "QTQX_ZDGL",
     "cllx":"zdObj",
     "token":"4978866291C611DA0D2D5999C413107F"
   }
@@ -77,10 +69,6 @@ POST {{serviceAddr}}
 Content-Type: application/json
 
 {
-  //数据对象
-  "sjdx":{
-    "dxdm":"SYS_SJGL_TYZD"
-  },
   "yobj": {
     "zdlb":"SYS_COMMON_ZDLB"
   },
@@ -89,6 +77,7 @@ Content-Type: application/json
     "pageSize": 50
   },
   "sys":{
+    "authCode": "QTQX_ZDGL",
     "cllx":"zdSearch",
     "token":"4978866291C611DA0D2D5999C413107F",
     "searchKey": "1"
@@ -106,10 +95,6 @@ POST {{serviceAddr}}
 Content-Type: application/json
 
 {
-  //数据对象
-  "sjdx":{
-    "dxdm":"SYS_SJGL_TYZD"
-  },
   "yobj": {
     "zdlb":"SYS_COMMON_TABLES",
     "ztlx": "oracle",
@@ -121,6 +106,7 @@ Content-Type: application/json
     "pageSize": 5
   },
   "sys":{
+    "authCode": "QTQX_ZDGL",
     "cllx":"zdSearch",
     "token":"4978866291C611DA0D2D5999C413107F",
     "searchKey": "S"
@@ -138,12 +124,10 @@ POST {{serviceAddr}}
 Content-Type: application/json
 
 {
-  "sjdx":{
-    "dxdm":"SYS_SJGL_TYZD"
-  },
   "yobj": {
   },
   "sys":{
+    "authCode": "QTQX_ZDGL",
     "cllx":"qchc",
     "token":"4978866291C611DA0D2D5999C413107F"
   }

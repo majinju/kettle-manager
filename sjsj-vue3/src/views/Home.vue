@@ -195,26 +195,24 @@ export default defineComponent({
      */
     const selectMenu = (data) =>{
       if (data.parent === 0) {
-        if(data.dzlx==="04"){
-          switch (data.dzlx) {
-            case "03":
-            case "04":
-              const query = {
-                "sys.authCode":data.dm,
-                pathName:data.name
-              }
-              router.push({path:'/home/sjdx',query:assignDeep(query,JSON.parse(data.kzxx).cdkz)})
-              break
-            case "01":
-            // router.push({path:'/home/'+data.dm, query:{
-            //     "sys.authCode":data.dm,
-            //     pathName:data.name
-            //   }})
-            // break
-            case "02":
-            default:
-              ElMessage.error("暂不支持的地址类型："+data.dzlx);
-          }
+        switch (data.dzlx) {
+          case "01":
+          // router.push({path:'/home/'+data.dm, query:{
+          //     "sys.authCode":data.dm,
+          //     pathName:data.name
+          //   }})
+          // break
+          case "02":
+          case "03":
+          case "04":
+            const query = {
+              "sys.authCode":data.dm,
+              pathName:data.name
+            }
+            router.push({path:'/home/sjdx',query:assignDeep(query,JSON.parse(data.kzxx).cdkz)})
+            break
+          default:
+            ElMessage.error("暂不支持的地址类型："+data.dzlx);
         }
       }
     }

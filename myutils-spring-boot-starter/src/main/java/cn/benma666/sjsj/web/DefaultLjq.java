@@ -114,9 +114,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         String cllx = getCllx(myParams);
         for (String key : zhgz.keySet()) {
             JSONObject gzObj = zhgz.getJSONObject(key);
+            Object val = myParams.get("$." + key);
+            String newVal = TransRule.ruleTrans(val,myParams, gzObj, cllx);
+            if((isBlank(val)&&isBlank(newVal))){
+                //原始值为空，转换后也为空则跳过
+                continue;
+            }
             //转换数据
-            myParams.set("$." + key,TransRule.ruleTrans(myParams.get("$." + key),
-                    myParams, gzObj, cllx));
+            myParams.set("$." + key,newVal);
         }
     }
 
@@ -659,7 +664,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //没有用户信息则默认通过，此类都是系统内部调用
             return;
         }else if ((authCode == null)&&!UserManager.LSYH.equals(user.getYhdm())
-                && Conf.getVal("benma666.xtqx.mrtgxqx","dxjcxx,select").contains(cllx)) {
+                && Conf.getVal("benma666.xtqx.mrtgqx","dxjcxx,select").contains(cllx)) {
             //没有配置权限,且不是临时用户，且在允许权限范围内则默认通过
             //就是说没有配置权限的对象只有登陆用户可以访问，这样至少可以识别出是哪个人
             return;
