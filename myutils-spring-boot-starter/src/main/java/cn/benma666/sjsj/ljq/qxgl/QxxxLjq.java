@@ -49,7 +49,7 @@ public class QxxxLjq extends DefaultLjq {
                         UtilConst.WHETHER_FALSE,DateUtil.getGabDate(),dqjs,node.getString("$.obj.dm"),UtilConst.WHETHER_TRUE);
             }
         }
-        UserManager.flushUserQxxx();
+//        UserManager.flushUserQxxx();
         return success("成功修改授权信息数:"+count);
     }
 
@@ -117,7 +117,7 @@ public class QxxxLjq extends DefaultLjq {
         }
         try {
             DSTransactionManager.commit();
-            UserManager.flushUserQxxx();
+//            UserManager.flushUserQxxx();
         } catch (SQLException e) {
             log.error("事务提交失败",e);
             throw new MyException("事务提交失败");

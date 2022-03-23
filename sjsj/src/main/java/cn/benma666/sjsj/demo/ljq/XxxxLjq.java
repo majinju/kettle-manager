@@ -35,7 +35,7 @@ public class XxxxLjq extends DefaultLjq{
         log.info("切换数据样例",db("kettle_default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));
         log.info("后端获取用户信息样例", myParams.get(KEY_USER));
-        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
+        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);page.getList(JSONObject.class);
         log.info("分页对象"+page);
         //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询
         page = db().queryPage(page, SqlId.of("demo","findDemo"), myParams);
@@ -47,7 +47,7 @@ public class XxxxLjq extends DefaultLjq{
         //调用查询
         Result r = LjqManager.select(sjdxParams.getObject(KEY_SJDX, SysSjglSjdx.class), sjdxParams);
         //获取数据
-        log.info("调用其他对象的方法查询数据："+r.getData());
+        log.info("调用其他对象的方法查询数据："+r.getData(PageInfo.class).getList(SysSjglSjdx.class));
         return success("java开发各种常见代码演示");
     }
     /**

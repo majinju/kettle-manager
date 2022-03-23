@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -120,8 +121,13 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         Result r = Result.success("处理完成");
         //若是07版excel
         try {
-            EasyExcel.read(fileObj.getString("sclj"), this).sheet()
-                    .headRowNumber(startRow).doRead();
+            File file = new File(fileObj.getString("sclj"));
+            if(file.exists()){
+                EasyExcel.read(file, this).sheet()
+                        .headRowNumber(startRow).doRead();
+            }else{
+                return Result.failed("文件找不到："+file.getAbsolutePath());
+            }
         } catch (ExcelReadException e) {
             return Result.failed(e.getMessage());
         } catch (Exception e) {
