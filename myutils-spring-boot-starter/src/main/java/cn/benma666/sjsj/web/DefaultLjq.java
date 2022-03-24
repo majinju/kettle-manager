@@ -109,8 +109,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @param myParams 相关参数
      */
     public void zhgz(JSONObject myParams) {
+        JSONObject zhgz = myParams.getJSONObject(KEY_ZHGZ);
+        if (zhgz==null) {
+            //没有配置转换信息
+            return;
+        }
         //取出验证规则
-        JSONObject zhgz = myParams.getJSONObject(UtilConst.KEY_ZHGZ);
         String cllx = getCllx(myParams);
         for (String key : zhgz.keySet()) {
             JSONObject gzObj = zhgz.getJSONObject(key);
@@ -131,12 +135,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     @Override
     public void yzgz(JSONObject myParams) {
-        if (myParams.get(KEY_USER) == null) {
-            //没有用户信息默认为系统内部调用，不进行验证
+        //取出验证规则
+        JSONObject yzgz = myParams.getJSONObject(KEY_YZGZ);
+        if (myParams.get(KEY_USER) == null||yzgz==null) {
+            //没有用户信息默认为系统内部调用，不进行验证，或没有配置验证信息
             return;
         }
-        //取出验证规则
-        JSONObject yzgz = myParams.getJSONObject(UtilConst.KEY_YZGZ);
         String cllx = getCllx(myParams);
         for (String key : yzgz.keySet()) {
             JSONObject gzObj = yzgz.getJSONObject(key);
