@@ -9,7 +9,7 @@ let loading = null
 // Full config:  https://github.com/axios/axios#request-config
 let config = {
   baseURL: process.env.baseURL || process.env.apiUrl || "",
-  timeout: 60 * 1000, // Timeout
+  timeout: 60 * 1000 * 10, // Timeout
   withCredentials: true, // Check cross-site Access-Control
   responseType: 'json',
   header:{
