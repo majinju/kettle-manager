@@ -915,6 +915,7 @@ export default defineComponent({
           const formBody = new FormData();
           formBody.append("sys.authCode", "QTQX");
           formBody.append("sys.cllx", "upload");
+          formBody.append("yobj.sjzt", "default");
           for(let i=0;i<files.length;i++){
             formBody.append("files", files[i]);
           }

@@ -143,8 +143,10 @@ public class QxxxLjq extends DefaultLjq {
             }
             if(!obj.getBoolean("yxx")&&wlsc){
                 //无效的数据且允许物理删除，删除对应的子权限
-                countWl+=db().update("delete from sys_qx_qxxx t where t.dm like ?",obj.getString("dm")+"%");
-                countWlSq+=db().update("delete from sys_qx_jsqxgl t where t.qx like ?",obj.getString("dm")+"%");
+                countWl+=db().update("delete from sys_qx_qxxx t where t.dm like ? and t.yxx=?",
+                        obj.getString("dm")+"%",WHETHER_FALSE);
+                countWlSq+=db().update("delete from sys_qx_jsqxgl t where t.qx like ? and t.yxx=?",
+                        obj.getString("dm")+"%",WHETHER_FALSE);
             }else{
                 //有效数据逻辑删除子权限
                 countLj+=db().update("update sys_qx_qxxx t set t.yxx=?,t.gxsj=? where t.dm like ? and t.yxx=?",

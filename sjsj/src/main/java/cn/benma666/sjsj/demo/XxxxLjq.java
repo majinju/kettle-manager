@@ -1,4 +1,4 @@
-package cn.benma666.sjsj.demo.ljq;
+package cn.benma666.sjsj.demo;
 
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
