@@ -15,8 +15,9 @@ import javax.servlet.http.HttpServletResponse;
  * 演示控制器
  */
 @RestController
+@RequestMapping("/demo/xxxx")
 public class XxxxController extends BasicObject {
-    @RequestMapping("/demo/xxxx/select")
+    @RequestMapping("select")
     public void select(HttpServletResponse response, @MyParams JSONObject myParams, @MySjdx SysSjglSjdx sjdx) {
         //写自己的业务
         LjqManager.sendResult(response,myParams,success("请求成功"));

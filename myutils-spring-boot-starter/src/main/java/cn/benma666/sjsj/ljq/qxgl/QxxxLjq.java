@@ -75,7 +75,7 @@ public class QxxxLjq extends DefaultLjq {
         DSTransactionManager.start();
         Result r = super.insert(myParams);
         if(!r.isStatus()){
-            return r;
+            return swtj(r);
         }
         if(valByDef(myParams.getBoolean("$.yobj.sczqx"),false)){
             if(StringUtil.isBlank(myParams.getString("$.yobj.sjdx"))){
@@ -85,13 +85,7 @@ public class QxxxLjq extends DefaultLjq {
             String[] rr = getSql(myParams, "sczqx");
             sqlManager(rr[0]).executeUpdate(rr[1], myParams);
         }
-        try {
-            DSTransactionManager.commit();
-        } catch (SQLException e) {
-            log.error("事务提交失败",e);
-            throw new MyException("事务提交失败");
-        }
-        return r;
+        return swtj(r);
     }
     @Override
     public Result update(JSONObject myParams){
@@ -100,7 +94,7 @@ public class QxxxLjq extends DefaultLjq {
         Result r = super.update(myParams);
         if(!r.isStatus()||obj==null){
             //批量保存场景没有自动读取数据库对象
-            return r;
+            return swtj(r);
         }
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
@@ -115,14 +109,7 @@ public class QxxxLjq extends DefaultLjq {
                     + "t.gxsj=? where t.qx like ?",
                     obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
         }
-        try {
-            DSTransactionManager.commit();
-//            UserManager.flushUserQxxx();
-        } catch (SQLException e) {
-            log.error("事务提交失败",e);
-            throw new MyException("事务提交失败");
-        }
-        return r;
+        return swtj(r);
     }
     @Override
     public Result plsc(JSONObject myParams){
@@ -156,18 +143,12 @@ public class QxxxLjq extends DefaultLjq {
             }
         }
         Result r = super.plsc(myParams);
+        //同时逻辑删除对应的子权限
         r.addMsg("逻辑删除相关子权限"+countLj+"个，逻辑删除相关授权"+countLjSq+"个");
         if(countWl>0){
             r.addMsg("物理删除相关子权限"+countWl+"个，物理删除相关授权"+countWlSq+"个");
         }
-        //同时逻辑删除对应的子权限
-        try {
-            DSTransactionManager.commit();
-        } catch (SQLException e) {
-            log.error("批量删除权限提交事务失败",e);
-            throw new MyException("批量删除权限提交事务失败");
-        }
-        return r;
+        return swtj(r);
     }
 
 }

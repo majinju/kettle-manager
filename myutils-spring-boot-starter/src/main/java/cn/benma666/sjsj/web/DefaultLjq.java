@@ -960,14 +960,17 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             myParams.set("$.page.totalRequired", Boolean.FALSE);
             //设置根据去重字段查询数据的条件
             myParams.put(KEY_YOBJ,qcObj);
-            PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(myParams).getData();
-            if (page.getList().size() == 1) {
-                //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
-                myParams.set($_SYS_YZDJL, Boolean.TRUE);
-                myParams.put(KEY_OBJ, page.getList().get(0));
-                //把查询出来的主键设置到原输入参数中，便于配置了去重字段的场景基于主键进行更新
-                if(StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))){
-                    yobj.put(sjdx.getZjzd(),page.getList().get(0).getString(sjdx.getZjzd()));
+            Result r = select(myParams);
+            if(r.isStatus()){
+                PageInfo<JSONObject> page = r.getData(PageInfo.class);
+                if (page.getList().size() == 1) {
+                    //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
+                    myParams.set($_SYS_YZDJL, Boolean.TRUE);
+                    myParams.put(KEY_OBJ, page.getList().get(0));
+                    //把查询出来的主键设置到原输入参数中，便于配置了去重字段的场景基于主键进行更新
+                    if(StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))){
+                        yobj.put(sjdx.getZjzd(),page.getList().get(0).getString(sjdx.getZjzd()));
+                    }
                 }
             }
             //还原原来的输入参数

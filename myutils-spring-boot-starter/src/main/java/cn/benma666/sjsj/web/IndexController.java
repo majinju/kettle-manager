@@ -58,7 +58,7 @@ public class IndexController extends BasicObject implements ErrorController {
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
         }
-        LjqManager.sendResult(response,myParams,r);
+        LjqManager.sendResult(response,myParams,swtj(r));
     }
     /**
      * 系统入口-文件上传
@@ -77,7 +77,7 @@ public class IndexController extends BasicObject implements ErrorController {
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
         }
-        LjqManager.sendResult(response,myParams,r);
+        LjqManager.sendResult(response,myParams,swtj(r));
     }
     /**
      * 系统范围外的异常
