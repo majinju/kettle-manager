@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.stuxuhai.jpinyin.PinyinException;
+import org.beetl.sql.clazz.kit.StringKit;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
 
@@ -321,9 +322,11 @@ public class SjdxLjq extends DefaultLjq {
         int idx = oldFiledMap.size()*10+50;
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
+            //本系统统一，数据库中带下划线，本系统采用驼峰命名字段，实体类、数据库查询结果、数据对象中的字段统一
+            String zddm = StringKit.deCodeUnderlined(fieldObj.getString("zddm"));
             //设置字段代码，统一用小写
-            fieldObj.put("zddm",fieldObj.getString("zddm").toLowerCase());
-            if(oldFiledMap.containsKey(fieldObj.getString("zddm"))){
+            fieldObj.put("zddm", zddm);
+            if(oldFiledMap.containsKey(zddm)){
                 //存在的字段
                 continue;
             }
@@ -360,11 +363,11 @@ public class SjdxLjq extends DefaultLjq {
                     fieldObj.put("zdms",zdms[1]);
                 }
             }else{
-                fieldObj.put("zdmc",fieldObj.get("zddm"));
+                fieldObj.put("zdmc",zddm);
             }
             zdParams.put(KEY_YOBJ,fieldObj);
             LjqManager.insert(zdSjdx,zdParams);
-            oldFiledMap.put(fieldObj.getString("zddm"), null);
+            oldFiledMap.put(zddm, null);
         }
         if(fieldsList.isEmpty()&&oldFiledMap.isEmpty()){
             return failed("没有查询到字段信息，请确认数据载体是否选择正确");
