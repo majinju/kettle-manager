@@ -98,7 +98,7 @@ public class QxxxLjq extends DefaultLjq {
         }
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String dm = yobj.getString("dm");
-        if(StringUtil.isNotBlank(dm)){
+        if(StringUtil.isNotBlank(dm)&&!dm.equals(obj.getString("dm"))){
             //权限代码调整时，联动调整子权限的代码
             db().update("update sys_qx_qxxx t set t.dm=replace(t.dm,?,?),t.fqx=replace(t.fqx,?,?),"
                     + "t.gxsj=? where t.dm like ?",

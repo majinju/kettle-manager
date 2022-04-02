@@ -154,6 +154,7 @@ public class LjqManager extends BasicObject {
                 //设置数据载体
                 JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
                 sjdx.setDxztlx(dbObj.getString("lx"));
+                sjdx.set("sjztObj",dbObj);
                 //设置缓存
                 sjdxMap.put(cacheKey,sjdx);
             }

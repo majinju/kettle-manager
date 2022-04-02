@@ -41,6 +41,9 @@ import org.beetl.sql.core.SqlId;
  * @version 0.1
  */
 public class SjdxLjq extends DefaultLjq {
+
+    public static final String KEY_SJZT_OBJ = "sjztObj";
+
     @Override
     public Result insert(JSONObject myParams) throws MyException {
         JSONObject jtdx = myParams.getJSONObject(KEY_YOBJ);
@@ -60,6 +63,7 @@ public class SjdxLjq extends DefaultLjq {
         }
         //新增
         try {
+            jtdx.set(KEY_SJZT_OBJ,dbObj);
             r.addMsg(impFields(myParams.getObject(KEY_YOBJ,SysSjglSjdx.class),myParams).getMsg());
             DSTransactionManager.commit();
         } catch (Exception e) {
@@ -101,7 +105,9 @@ public class SjdxLjq extends DefaultLjq {
         JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, ysjdx.getDxzt());
         ysjdx.setDxztlx(dbObj.getString("lx"));
         if(DbType.of(dbObj.getString("lx"))!=null){
-            String[] arr = LjqManager.getSql(ysjdx, myParams);
+            ysjdx.set(KEY_SJZT_OBJ,dbObj);
+            myParams.put(KEY_YOBJ,ysjdx);
+            String[] arr = getSql(myParams,"dis");
             SysSjglSjdx dx = new SysSjglSjdx();
             dx.setZddrsql(arr[1]);
             return success("获取字段默认导入sql成功", dx);
@@ -156,6 +162,7 @@ public class SjdxLjq extends DefaultLjq {
         List<JSONObject> list = ((PageInfo<JSONObject>) select(myParams).getData()).getList();
         for(JSONObject obj : list){
             //获取对象
+            myParams.put(KEY_YOBJ,obj);
             SysSjglSjdx newsjdx = obj.toJavaObject(SysSjglSjdx.class);
             Result r;
             try {
@@ -231,12 +238,16 @@ public class SjdxLjq extends DefaultLjq {
     * @return 处理结果
     */
     private Result impFields(SysSjglSjdx jtdx, JSONObject myParams) throws PinyinException {
-        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, sjdx.getDxzt());
+        JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, jtdx.getDxzt());
         String zddrsql = jtdx.getZddrsql();
         if(StringUtil.isBlank(zddrsql)){
-            String[] arr = LjqManager.getSql(jtdx, myParams, "dis");
-            jtdx.setZddrsql(arr[1]);
-            zddrsql = arr[1];
+            Result r = dis(myParams);
+            if(!r.isStatus()){
+                //获取导入字段sql失败
+                return r;
+            }
+            zddrsql = r.getData(SysSjglSjdx.class).getZddrsql();
+            jtdx.setZddrsql(zddrsql);
         }
         if(!zddrsql.startsWith("select")){
             //非查询语句则按自定义字段规则导入。
@@ -323,7 +334,7 @@ public class SjdxLjq extends DefaultLjq {
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
             //本系统统一，数据库中带下划线，本系统采用驼峰命名字段，实体类、数据库查询结果、数据对象中的字段统一
-            String zddm = StringKit.deCodeUnderlined(fieldObj.getString("zddm"));
+            String zddm = StringUtil.underlineTohump(fieldObj.getString("zddm"));
             //设置字段代码，统一用小写
             fieldObj.put("zddm", zddm);
             if(oldFiledMap.containsKey(zddm)){

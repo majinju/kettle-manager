@@ -30,7 +30,6 @@ import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.util.TypeUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -1519,7 +1518,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @param r 结果
      */
     @Override
-    public void sendResult(HttpServletResponse response, JSONObject myParams, Result r) {
+    public void sendResult(HttpServletResponse response, JSONObject myParams, Result r){
         if(!ZD_SJDX_ZDYWLB_XNZD.equals(sjdx.getId())){
             //非虚拟对象时才记录日志
             writeCzrz(myParams, r);
@@ -1533,7 +1532,15 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }
         }
         //根据返回类型向前端推送数据
-        if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
+        if (HttpStatus.FOUND.value()==r.getCode()) {//重定向
+            response.setStatus(r.getCode());
+            try{
+                response.sendRedirect(r.getData()+"");
+            }catch (Exception e){
+                log.error("重定向失败："+r,e);
+                WebUtil.sendJson(response, failed("重定向失败："+r));
+            }
+        } else if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
             response.setStatus(r.getCode());
             WebUtil.sendJson(response, r);
         } else if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {//文件下载场景
