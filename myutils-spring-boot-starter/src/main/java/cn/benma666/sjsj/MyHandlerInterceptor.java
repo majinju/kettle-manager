@@ -3,6 +3,7 @@ package cn.benma666.sjsj;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.Result;
+import cn.benma666.myutils.MyJSONObject;
 import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.LjqInterface;
@@ -120,10 +121,10 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         String ct = request.getContentType();
         if (ct!=null&&ct.contains(MediaType.APPLICATION_JSON)) {
             // 获取输入流读取配置，与默认配置合并
-            myParams = JSONObject.parseObject(Utils.read(request.getInputStream()), Feature.OrderedField);
+            myParams = MyJSONObject.parseObject(Utils.read(request.getInputStream()), Feature.OrderedField);
         }
         if(myParams==null){
-            myParams = new JSONObject(true);
+            myParams = new MyJSONObject(true);
         }
         //合并以普通请求参数传入的参数
         Map<String, String[]> pm = request.getParameterMap();

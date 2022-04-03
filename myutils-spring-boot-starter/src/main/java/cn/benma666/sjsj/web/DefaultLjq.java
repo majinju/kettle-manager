@@ -1523,14 +1523,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //非虚拟对象时才记录日志
             writeCzrz(myParams, r);
         }
-        if(r.getData()!=null&&r.getData() instanceof JSONObject){
-            //移除不需要显示到前端的参数
-            JSONObject data = (JSONObject) r.getData();
-            if(data.containsKey(LjqInterface.KEY_OTHEROBJ)){
-                data.remove(LjqInterface.KEY_OTHEROBJ);
-                r.setData(data);
-            }
-        }
         //根据返回类型向前端推送数据
         if (HttpStatus.FOUND.value()==r.getCode()) {//重定向
             response.setStatus(r.getCode());
@@ -1540,14 +1532,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 log.error("重定向失败："+r,e);
                 WebUtil.sendJson(response, failed("重定向失败："+r));
             }
-        } else if (HttpStatus.OK.value()!=r.getCode()) {//错误场景
-            response.setStatus(r.getCode());
-            WebUtil.sendJson(response, r);
         } else if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {//文件下载场景
             JSONObject data = (JSONObject) r.getData();
             WebUtil.sendBytes(response, data.getBytes(LjqInterface.KEY_FILE_BYTES),
                     (SysSjglFile) data.get(LjqInterface.KEY_FILE_OBJ));
         } else {//默认JSON
+            response.setStatus(r.getCode());
             WebUtil.sendJson(response, r);
         }
     }
