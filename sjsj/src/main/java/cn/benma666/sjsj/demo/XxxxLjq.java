@@ -1,5 +1,6 @@
 package cn.benma666.sjsj.demo;
 
+import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Conf;
@@ -34,7 +35,7 @@ public class XxxxLjq extends DefaultLjq{
         log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateSjzd"),myParams));
         log.info("切换数据样例",db("kettle_default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));
-        log.info("后端获取用户信息样例", myParams.get(KEY_USER));
+        log.info("后端获取用户信息样例", myParams.getObject(KEY_USER, SysQxYhxx.class));
         PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);page.getList(JSONObject.class);
         log.info("分页对象"+page);
         //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询

@@ -9,6 +9,7 @@ package cn.benma666.sjsj.web;
 import cn.benma666.constants.UtilConstInstance;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
+import cn.benma666.iframe.MyParams;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.myutils.Msg;
 import com.alibaba.fastjson.JSONObject;

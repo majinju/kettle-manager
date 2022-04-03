@@ -2,13 +2,12 @@ package cn.benma666.sjsj;
 
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
+import cn.benma666.iframe.MyParams;
 import cn.benma666.iframe.Result;
-import cn.benma666.myutils.MyJSONObject;
 import cn.benma666.myutils.WebUtil;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.LjqInterface;
 import cn.benma666.sjsj.web.LjqManager;
-import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.druid.util.Utils;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
@@ -46,7 +45,7 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         //自定义参数读取逻辑，支持json和普通参数混合传参
-        JSONObject myParams = getJSONParam(request);
+        MyParams myParams = getParams(request);
         //将请求对象注入参数对象中
         myParams.set(LjqInterface.$_OTHEROBJ_REQUEST,request);
         myParams.set(LjqInterface.$_OTHEROBJ_RESPONSE,response);
@@ -115,16 +114,16 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
      * @return 请求参数JSONObject
      * @throws IOException 参数处理异常
      */
-    private JSONObject getJSONParam(HttpServletRequest request) throws IOException {
-        JSONObject myParams = null;
+    private MyParams getParams(HttpServletRequest request) throws IOException {
+        MyParams myParams = null;
         //请求参数为json时
         String ct = request.getContentType();
         if (ct!=null&&ct.contains(MediaType.APPLICATION_JSON)) {
             // 获取输入流读取配置，与默认配置合并
-            myParams = MyJSONObject.parseObject(Utils.read(request.getInputStream()), Feature.OrderedField);
+            myParams = MyParams.parseObject(Utils.read(request.getInputStream()), Feature.OrderedField);
         }
         if(myParams==null){
-            myParams = new MyJSONObject(true);
+            myParams = new MyParams(true);
         }
         //合并以普通请求参数传入的参数
         Map<String, String[]> pm = request.getParameterMap();
