@@ -1538,7 +1538,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     (SysSjglFile) data.get(LjqInterface.KEY_FILE_OBJ));
         } else {//默认JSON
             response.setStatus(r.getCode());
-            WebUtil.sendJson(response, r);
+            WebUtil.sendJson(response, r.toString());
         }
     }
 
