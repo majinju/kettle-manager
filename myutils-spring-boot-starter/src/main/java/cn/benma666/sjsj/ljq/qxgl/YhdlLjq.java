@@ -6,7 +6,6 @@
 
 package cn.benma666.sjsj.ljq.qxgl;
 
-import cn.benma666.crypt.DesUtil;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.Conf;
@@ -15,10 +14,12 @@ import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.HttpUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
+import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
 import org.beetl.sql.core.SqlId;
+
+import java.util.Map;
 
 /**
  * 用户登录拦截器 <br/>
@@ -54,11 +55,15 @@ public class YhdlLjq extends DefaultLjq {
         SysQxYhxx yhxx = jsonObj.toJavaObject(SysQxYhxx.class);
         String yhmm;
         try {
-            yhmm = DesUtil.decrypt(yhxx.getYhmm(), Conf.getVal("benma666.yhxx.ejmm"));
+            // 获取用户信息基础参数对象
+            JSONObject yhxxParams = LjqManager.jcxxByDxdm("SYS_QX_YHXX");
+            //将用户输入的密码加密
+            yhmm = StringUtil.desEnByField(yobj.getString("yhmm"),((Map<String, JSONObject>)
+                    yhxxParams.get(KEY_FIELDS)).get("yhmm"));
         } catch (Exception e) {
             return failed("用户密码解析出错，请联系管理员");
         }
-        if (!yobj.getString("yhmm").equals(yhmm)) {
+        if (!yhxx.getYhmm().equals(yhmm)) {
             return failed("密码不正确");
         }
         if (StringUtil.isNotBlank(yhxx.getXzip())

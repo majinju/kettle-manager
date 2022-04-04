@@ -317,7 +317,7 @@ export default defineComponent({
                 fi.itemRender.name = '$buttons'
                 let obj = {}
                 obj.value = myData.formData[f.zddm];
-                obj.kjmm = f.kzxx.kjkz.mm
+                obj.field = f;
                 fi.itemRender.children = [
                   {
                     props: {
