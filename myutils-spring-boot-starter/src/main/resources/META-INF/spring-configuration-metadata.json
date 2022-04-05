@@ -12,6 +12,11 @@
       "description": "调试模式，默认false，系统中如sql监测等涉及调试的会采用该参数"
     },
     {
+      "name": "benma666.mrputobj",
+      "type": "java.lang.String",
+      "description": "进行数据载体中obj查询的处理类型，默认save,update"
+    },
+    {
       "name": "benma666.service.addr",
       "type": "java.lang.String",
       "description": "系统服务地址，如配置、字典等公共服务系统地址"
@@ -52,7 +57,7 @@
       "description": "没有人工配置对象权限时，登陆用户默认开放的权限，如：jcxx、select等"
     },
     {
-      "name": "benma666.ljq.default-ljq",
+      "name": "benma666.ljq.default",
       "type": "java.lang.String",
       "description": "系统默认拦截器，各个系统可以实现自己的默认拦截器，不配置时默认：cn.benma666.sjsj.web.DefaultLjq"
     },

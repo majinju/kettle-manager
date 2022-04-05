@@ -12,7 +12,6 @@ import cn.benma666.domain.SysLogFwzr;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
-import cn.benma666.exception.ExcelReadException;
 import cn.benma666.exception.MyException;
 import cn.benma666.exception.QxException;
 import cn.benma666.exception.VerifyRuleException;
@@ -38,8 +37,10 @@ import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SqlId;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
@@ -58,7 +59,13 @@ import java.util.*;
  *
  * @author jingma
  */
+@Component
+@Scope("prototype")
 public class DefaultLjq extends BasicObject implements LjqInterface {
+    /**
+     * 去重字段列表缓存后缀
+     */
+    public static final String QCZD_LIST = "_qczdList";
     /**
      * 字段信息缓存
      */
@@ -80,7 +87,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
     @Override
     public JSONObject jcxx(JSONObject myParams) {
-        if (StringUtil.isBlank(myParams.getString($_SYS_CLLX))) {
+        if (StringUtil.isBlank(getCllx(myParams))) {
             throw new MyException(Msg.msg("interceptor.bxsscllx", LjqInterface.$_SYS_CLLX.substring(2)), myParams);
         }
         //获取权限key
@@ -94,8 +101,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         initCzrz(myParams, user);
         //权限鉴定
         auth(myParams, user);
-        //设置需要处理的对象
-        putObj(myParams);
+        if (Conf.getVal("benma666.mrputobj", "save,update").contains(getCllx(myParams))) {
+            //设置需要处理的对象
+            putObj(myParams);
+        }
         //验证规则
         yzgz(myParams);
         //转换规则
@@ -361,25 +370,17 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     return r;
                 }
                 myParams.set("$.sys.editTableData",er.getResult());
-                plbc(myParams);
+                r = plbc(myParams);
+                if(!r.isStatus()){
+                    return r;
+                }
                 count+=er.getResult().size();
             }
             return success("成功上传数据量：" + count);
-        } catch (ExcelReadException e) {
-            try {
-                DSTransactionManager.rollback();
-            } catch (SQLException e1) {
-                log.debug("事务回滚失败", e1);
-            }
-            return failed(e.getMessage());
         } catch (Exception e) {
-            try {
-                DSTransactionManager.rollback();
-            } catch (SQLException e1) {
-                log.debug("事务回滚失败", e1);
-            }
             log.error("文件处理失败：" + myParams + "->" + e.getMessage(), e);
-            return failed("文件处理失败：" + e.getMessage());
+            r = failed("文件处理失败：" + e.getMessage());
+            return swtj(r);
         }
     }
 
@@ -926,11 +927,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected void putObj(JSONObject myParams) {
         myParams.set($_SYS_YZDJL, Boolean.FALSE);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
-        if (KEY_CLLX_SELECT.equals(getCllx(myParams))||"v_xndx".equals(sjdx.getJtdx())||yobj==null) {
-            //查询场景、虚拟对象场景、没有输入参数不进行具体对象查询
+        if(yobj==null){
             return;
         }
-        List<JSONObject> qcList = (List<JSONObject>) sjdx.get("qcList");
+        List<JSONObject> qcList = (List<JSONObject>) fieldsCache.get(sjdx.getId()+ QCZD_LIST);
         JSONObject qcObj = new JSONObject();
         if(qcList.size()==1){
             //一个去重字段
@@ -1024,9 +1024,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 //当没有配置去重字段时，直接采用主键作为去重字段
                 qcList.add(fields.get(sjdx.getZjzd()));
             }
-            sjdx.set("qcList",qcList);
             //设置缓存
             fieldsCache.put(cacheKey, fields);
+            fieldsCache.put(sjdx.getId()+ QCZD_LIST, qcList);
         }
         fields.forEach((zddm,field)->{
             //将整个字段的验证规则设置到系统验证规则中，因为内部会对规则数据进行修改

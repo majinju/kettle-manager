@@ -1,9 +1,10 @@
 benma666:
   debug: true
+  mrputobj: save,update
   service:
     addr: /index
   ljq:
-    default-ljq: cn.benma666.sjsj.web.DefaultLjq
+    default: cn.benma666.sjsj.web.DefaultLjq
   xtqx:
     mrtgqx: dxjcxx,select
   config:

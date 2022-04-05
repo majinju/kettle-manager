@@ -7,21 +7,19 @@
 package cn.benma666.sjsj.ljq.qxgl;
 
 import cn.benma666.constants.UtilConst;
-
 import cn.benma666.exception.MyException;
-import cn.benma666.iframe.DictManager;
 import cn.benma666.iframe.PageInfo;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -30,6 +28,8 @@ import java.util.List;
  * @author jingma
  * @version 0.1
  */
+@Component
+@Scope("prototype")
 public class QxxxLjq extends DefaultLjq {
     /**
      * 保存授权

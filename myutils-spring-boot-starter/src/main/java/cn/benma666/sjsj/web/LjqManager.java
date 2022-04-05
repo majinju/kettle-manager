@@ -17,6 +17,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import org.beetl.sql.core.SqlId;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,15 +31,16 @@ import javax.servlet.http.HttpServletResponse;
  * date: 2018年12月16日 <br/>
  * @author jingma
  */
-public class LjqManager extends BasicObject {
+@Component
+public class LjqManager extends BasicObject implements ApplicationContextAware {
+    /**
+     * spring容器，可以从中获取注册的bean
+     */
+    private static ApplicationContext applicationContext;
     /**
      * 数据对象Map<对象key，对象>
      */
     private static final JSONObject sjdxMap = CacheFactory.use(LjqInterface.KEY_SJDX);
-    /**
-     * 拦截器Map<对象id，拦截器实例>
-     */
-    private static final JSONObject ljqCache = CacheFactory.use("ljq");
 
     /**
      * 使用对应的拦截器 <br/>
@@ -44,17 +50,20 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static LjqInterface use(SysSjglSjdx sjdx) {
-        LjqInterface ljq = (LjqInterface) ljqCache.get(sjdx.getId());
+        LjqInterface ljq = (LjqInterface) sjdx.getLjqObj();
         if (ljq == null) {
-            String ljqStr = valByDef(sjdx.getLjq(), Conf.getVal("benma666.ljq.default-ljq",
+            String ljqStr = valByDef(sjdx.getLjq(), Conf.getVal("benma666.ljq.default",
                     "cn.benma666.sjsj.web.DefaultLjq"));
             try {
-                //实例化定制拦截器
-                ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
+                try{
+                    // 支持从spring容器中取拦截器，从而支持开发在拦截器中使用spring的注解
+                    ljq = (LjqInterface) applicationContext.getBean(Class.forName(ljqStr));
+                }catch (Throwable t){
+                    //实例化定制拦截器
+                    ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
+                }
                 ljq.setSjdx(sjdx);
                 ljq.init();
-                ljqCache.put(sjdx.getId(), ljq);
-                return ljq;
             } catch (Exception e) {
                 throw new MyException(Msg.msg("ljq.mamanger.scljqsb", ljqStr), e);
             }
@@ -287,6 +296,15 @@ public class LjqManager extends BasicObject {
             sjdx = myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class);
         }
         use(sjdx).sendResult(response,myParams,r);
+    }
+
+    @Override
+    public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
+        LjqManager.applicationContext =applicationContext;
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 
 }

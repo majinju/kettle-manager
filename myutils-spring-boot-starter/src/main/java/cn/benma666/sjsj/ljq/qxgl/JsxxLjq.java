@@ -11,8 +11,9 @@ import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
-import cn.benma666.sjzt.Db;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * 角色信息拦截器 <br/>
@@ -20,6 +21,8 @@ import com.alibaba.fastjson.JSONObject;
  * @author jingma
  * @version 0.1
  */
+@Component
+@Scope("prototype")
 public class JsxxLjq extends DefaultLjq {
     @Override
     public Result update(JSONObject myParams) {

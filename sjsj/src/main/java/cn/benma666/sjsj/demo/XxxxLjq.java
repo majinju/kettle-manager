@@ -13,12 +13,18 @@ import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjzt.Db;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.SqlId;
+import org.beetl.sql.core.query.LambdaQuery;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * 演示拦截器。<br/>
  * 拦截器需要在数据对象的“拦截器”中配置该类的完整类路径才会在对应的数据对象上生效，数据对象不配做拦截器时会采用默认拦截器。<br/>
  * 禁止直接在java中拼接sql
  */
+@Component
+//多例
+@Scope("prototype")
 public class XxxxLjq extends DefaultLjq{
     /**
      * 测试演示功能
@@ -30,7 +36,9 @@ public class XxxxLjq extends DefaultLjq{
         log.info("常规日志记录");
         log.info("前端数据获取样例："+ myParams.getString($_SYS_CLLX));
         log.info("配置获取样例："+Conf.getVal("spring.application.name"));
+        log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray("$.sys.editTableData").toJavaObject(SysSjglSjdx.class));
         log.info("字典获取样例："+ DictManager.zdMcByDm(ZD_SYS_QX_APP,Conf.getVal("benma666.app.dm")));
+        log.info("字典名称反向获取代码（可用于验证前端传入的名称是否在字典范围内）："+ DictManager.zdDmByMoreMc(DICT_SYS_COMMON_LJPD,"是、否"));
         log.info("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findSjdx"),myParams));
         log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateSjzd"),myParams));
         log.info("切换数据样例",db("kettle_default").find(
@@ -49,6 +57,12 @@ public class XxxxLjq extends DefaultLjq{
         Result r = LjqManager.select(sjdxParams.getObject(KEY_SJDX, SysSjglSjdx.class), sjdxParams);
         //获取数据
         log.info("调用其他对象的方法查询数据："+r.getData(PageInfo.class).getList(SysSjglSjdx.class));
+        /////////直接采用beetlsql///////////
+        //sqlManager()当前数据对象的默认数据源，与db类似采用sqlManager("xxxx")进行切换数据源
+        LambdaQuery<SysSjglSjdx> query = sqlManager().lambdaQuery(SysSjglSjdx.class);
+        //查询数据，该方式参考官方文档“使用Query”章节
+        log.info("使用Query方式操作数据库："+query.andEq(SysSjglSjdx::getId,"xxxxx").select());
+
         return success("java开发各种常见代码演示");
     }
     /**
