@@ -526,7 +526,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     public Result plbc(JSONObject myParams) throws SQLException {
         JSONArray editTableData = myParams.getJSONArray("$.sys.editTableData");
-        JSONObject[] list = editTableData.toArray(new JSONObject[0]);
+        JSONObject[] list = editTableData.toJavaList(JSONObject.class).toArray(new JSONObject[]{});
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
