@@ -11,7 +11,11 @@ findDemo
 ===
 * 查询演示
 ```sql
-select * from ${sjdx.jtdx}
+select 
+-- @ pageTag(){
+       * 
+-- @}
+from ${sjdx.jtdx}
 -- @where(){
 -- @for(var e in fields){
 -- @var field = e.value;
@@ -20,4 +24,12 @@ select * from ${sjdx.jtdx}
 -- @}
 -- @}
 -- @}
+```
+
+updateDemo
+===
+* 查询演示
+```sql
+update ${sjdx.jtdx} t set t.gxsj=${globalUse("util.expDate14")},t.czmc='${sys.editTableData.~size+sys.editTableData[0].id}'
+
 ```

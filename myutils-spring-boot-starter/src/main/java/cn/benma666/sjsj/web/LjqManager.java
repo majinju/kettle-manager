@@ -63,6 +63,7 @@ public class LjqManager extends BasicObject implements ApplicationContextAware {
                     ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
                 }
                 ljq.setSjdx(sjdx);
+                sjdx.setLjqObj(ljq);
                 ljq.init();
             } catch (Exception e) {
                 throw new MyException(Msg.msg("ljq.mamanger.scljqsb", ljqStr), e);

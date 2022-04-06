@@ -127,7 +127,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         for (String key : zhgz.keySet()) {
             JSONObject gzObj = zhgz.getJSONObject(key);
             Object val = myParams.get("$." + key);
-            String newVal = TransRule.ruleTrans(val,myParams, gzObj, cllx);
+            Object newVal = TransRule.ruleTrans(val,myParams, gzObj, cllx);
             if((isBlank(val)&&isBlank(newVal))){
                 //原始值为空，转换后也为空则跳过
                 continue;

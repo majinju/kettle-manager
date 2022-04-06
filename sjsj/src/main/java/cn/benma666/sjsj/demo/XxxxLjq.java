@@ -27,25 +27,34 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class XxxxLjq extends DefaultLjq{
     /**
-     * 测试演示功能
-     * @param myParams 相关参数
-     * @return 演示结果
+     * 方法名称与前端传入的处理类型一致，参数固定为本方法这两个参数，处理类型可以自定义，方法名与之一致即可
+     * @param myParams 相关参数，具体信息请看参数说明
+     * @return 处理结果
      */
-    public Result test(JSONObject myParams) {
+    public Result getTreeCN(JSONObject myParams){
+        //获取字典中配置的sql语句，sql[]中，sql[0]为数据载体，sql[1]为待执行的sql语句
+        String[] sql = getSql(myParams);
+        return success("获取用户菜单成功",db(sql[0]).find(sql[1],myParams));
+    }
+
+    @Override
+    public Result select(JSONObject myParams) {
         slog.info("静态日志记录类，在静态方法中调用");
         log.info("常规日志记录");
         log.info("前端数据获取样例："+ myParams.getString($_SYS_CLLX));
         log.info("配置获取样例："+Conf.getVal("spring.application.name"));
-        log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray("$.sys.editTableData").toJavaObject(SysSjglSjdx.class));
+        myParams.set("$.sys.editTableData",db().find(SqlId.of("demo","findDemo"),myParams));
+        log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray("$.sys.editTableData").toJavaList(SysSjglSjdx.class));
         log.info("字典获取样例："+ DictManager.zdMcByDm(ZD_SYS_QX_APP,Conf.getVal("benma666.app.dm")));
         log.info("字典名称反向获取代码（可用于验证前端传入的名称是否在字典范围内）："+ DictManager.zdDmByMoreMc(DICT_SYS_COMMON_LJPD,"是、否"));
-        log.info("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findSjdx"),myParams));
-        log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateSjzd"),myParams));
-        log.info("切换数据样例",db("kettle_default").find(
+        log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateDemo"),myParams));
+        log.info("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findDemo"),myParams));
+        log.info("切换数据样例"+db("kettle_default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));
-        log.info("后端获取用户信息样例", myParams.getObject(KEY_USER, SysQxYhxx.class));
-        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);page.getList(JSONObject.class);
-        log.info("分页对象"+page);
+        log.info("后端获取用户信息样例"+myParams.getObject(KEY_USER, SysQxYhxx.class));
+        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
+        page.setList(db().find(SqlId.of("demo","findDemo"),myParams));
+        log.info("分页对象"+page.getList(JSONObject.class));
         //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询
         page = db().queryPage(page, SqlId.of("demo","findDemo"), myParams);
         log.info("分页查询结果："+page);
@@ -62,22 +71,6 @@ public class XxxxLjq extends DefaultLjq{
         LambdaQuery<SysSjglSjdx> query = sqlManager().lambdaQuery(SysSjglSjdx.class);
         //查询数据，该方式参考官方文档“使用Query”章节
         log.info("使用Query方式操作数据库："+query.andEq(SysSjglSjdx::getId,"xxxxx").select());
-
-        return success("java开发各种常见代码演示");
-    }
-    /**
-     * 方法名称与前端传入的处理类型一致，参数固定为本方法这两个参数，处理类型可以自定义，方法名与之一致即可
-     * @param myParams 相关参数，具体信息请看参数说明
-     * @return 处理结果
-     */
-    public Result getTreeCN(JSONObject myParams){
-        //获取字典中配置的sql语句，sql[]中，sql[0]为数据载体，sql[1]为待执行的sql语句
-        String[] sql = getSql(myParams);
-        return success("获取用户菜单成功",db(sql[0]).find(sql[1],myParams));
-    }
-
-    @Override
-    public Result select(JSONObject myParams) {
         return super.select(myParams);
     }
 
