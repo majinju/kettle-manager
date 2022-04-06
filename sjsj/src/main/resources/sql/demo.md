@@ -13,9 +13,9 @@ findDemo
 ```sql
 select 
 -- @ pageTag(){
-       * 
+       t.*
 -- @}
-from ${sjdx.jtdx}
+from ${sjdx.jtdx} t
 -- @where(){
 -- @for(var e in fields){
 -- @var field = e.value;
