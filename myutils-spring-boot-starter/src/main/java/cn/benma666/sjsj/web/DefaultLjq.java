@@ -41,6 +41,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
@@ -182,7 +183,21 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         String cllx = getCllx(myParams);
         try{
             Method m = this.getClass().getMethod(cllx, JSONObject.class);
-            return (Result) m.invoke(this,myParams);
+            if(m.getAnnotation(Transactional.class)!=null){
+                //TODO 事务支持，暂时手段实现，没管事务的其他参数，最好还是采用spring的机制
+                DSTransactionManager.start();
+                Result r;
+                try {
+                    r = (Result) m.invoke(this, myParams);
+                    return swtj(r);
+                }catch (Throwable e){
+                    //回滚事务
+                    swtj(failed("失败"));
+                    throw e;
+                }
+            }else{
+                return (Result) m.invoke(this,myParams);
+            }
         }catch (NoSuchMethodException e){
             //没有找到该处理类型对应的方法，执行默认操作
             Object zxcz = myParams.get("$.sys.zxcz");
@@ -314,8 +329,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         fileJcxx.set("$.page.totalRequired", Boolean.FALSE);
         JsonUtil.copy(fileJcxx,myParams,"$.yobj.id");
         JsonUtil.copy(fileJcxx,myParams,"$.sys.ids");
-        PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(
-                fileJcxx.getObject(KEY_SJDX,SysSjglSjdx.class),fileJcxx).getData();
+        PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(fileJcxx).getData();
         if (page.getList().size() == 0) {
             return failed("没有找到该文件");
         } else if (page.getList().size() > 1) {
@@ -1378,7 +1392,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             JSONObject rzJcxx = LjqManager.jcxxByDxdm("SYS_LOG_FWZR");
             rzJcxx.put(KEY_YOBJ,czrz);
             rzJcxx.put(KEY_USER, myParams.get(KEY_USER));
-            LjqManager.insert((SysSjglSjdx) rzJcxx.get(KEY_SJDX),rzJcxx);
+            LjqManager.insert(rzJcxx);
         }
     }
 
@@ -1402,8 +1416,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         fileJcxx.put(KEY_YOBJ, JSON.parseObject(fileObj.toString()));
         fileJcxx.set("$.page.totalRequired",Boolean.FALSE);
         //如果表中存在此去重码则把这个文件删除
-        List<JSONObject> list = ((PageInfo<JSONObject>)LjqManager.select(fileJcxx.getObject(KEY_SJDX,
-                SysSjglSjdx.class),fileJcxx).getData()).getList();
+        List<JSONObject> list = ((PageInfo<JSONObject>)LjqManager.select(fileJcxx).getData()).getList();
         if (list.size()>0) {
             JSONObject f = list.get(0);
             log.info(f.getString("id") + "文件已经存在");
@@ -1477,7 +1490,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //保存文件信息
         fileObj.setId(StringUtil.getUUIDUpperStr());
         fileJcxx.put(KEY_YOBJ, JSON.parseObject(fileObj.toString()));
-        LjqManager.insert((SysSjglSjdx) fileJcxx.get(KEY_SJDX), fileJcxx);
+        LjqManager.insert(fileJcxx);
         log.debug(fileObj + "文件上传成功");
         return success("文件上传成功", fileObj);
     }

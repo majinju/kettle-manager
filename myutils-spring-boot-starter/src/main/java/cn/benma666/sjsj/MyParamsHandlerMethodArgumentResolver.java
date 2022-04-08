@@ -37,6 +37,6 @@ public class MyParamsHandlerMethodArgumentResolver implements HandlerMethodArgum
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return  (JSONObject) webRequest.getAttribute(LjqInterface.MY_PARAMS, RequestAttributes.SCOPE_REQUEST);
+        return webRequest.getAttribute(LjqInterface.MY_PARAMS, RequestAttributes.SCOPE_REQUEST);
     }
 }

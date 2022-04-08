@@ -34,7 +34,7 @@ public class MyutilsAutoConfig {
     /**
      * 默认数据库类型
      */
-    @Value("spring.datasource.dbtype")
+    @Value("${spring.datasource.dbtype}")
     String dbType;
     /**
      * 数据源

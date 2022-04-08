@@ -37,6 +37,6 @@ public class MySjdxHandlerMethodArgumentResolver implements HandlerMethodArgumen
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return  (SysSjglSjdx) webRequest.getAttribute(LjqInterface.KEY_SJDX, RequestAttributes.SCOPE_REQUEST);
+        return webRequest.getAttribute(LjqInterface.KEY_SJDX, RequestAttributes.SCOPE_REQUEST);
     }
 }

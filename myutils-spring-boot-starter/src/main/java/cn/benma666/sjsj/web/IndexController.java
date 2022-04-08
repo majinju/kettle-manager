@@ -46,15 +46,15 @@ public class IndexController extends BasicObject implements ErrorController {
      * 系统入口
      */
     @RequestMapping("${benma666.service.addr}")
-    public void index(HttpServletResponse response, @MyParams JSONObject myParams, @MySjdx SysSjglSjdx sjdx) {
+    public void index(HttpServletResponse response, @MyParams JSONObject myParams) {
         Result r;
         try {
-            r = LjqManager.data(sjdx, myParams);
+            r = LjqManager.data(myParams);
         }catch (MyException e){
             r = failed(e.getMessage(),e.getData());
             r.setCode(e.getCode());
             log.trace(r.toString(),e);
-        }catch (Exception e){
+        }catch (Throwable e){
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
         }
@@ -65,15 +65,15 @@ public class IndexController extends BasicObject implements ErrorController {
      */
     @RequestMapping(value = "${benma666.service.addr}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void upload(HttpServletResponse response, @MyParams JSONObject myParams,
-                      @MySjdx SysSjglSjdx sjdx, @RequestParam("files") MultipartFile[] files) {
+                      @RequestParam("files") MultipartFile[] files) {
         Result r;
         try {
-            r = LjqManager.upload(sjdx, myParams, files);
+            r = LjqManager.upload(myParams, files);
         }catch (MyException e){
             r = failed(e.getMessage(),e.getData());
             r.setCode(e.getCode());
             log.trace(r.toString(),e);
-        }catch (Exception e){
+        }catch (Throwable e){
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
         }
