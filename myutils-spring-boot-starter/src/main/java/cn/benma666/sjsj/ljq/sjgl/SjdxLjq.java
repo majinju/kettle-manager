@@ -6,12 +6,6 @@
 
 package cn.benma666.sjsj.ljq.sjgl;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
@@ -24,15 +18,21 @@ import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqInterface;
 import cn.benma666.sjsj.web.LjqManager;
-
 import com.alibaba.druid.DbType;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.stuxuhai.jpinyin.PinyinException;
-import org.beetl.sql.clazz.kit.StringKit;
 import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 数据对象拦截器 <br/>
@@ -40,6 +40,8 @@ import org.beetl.sql.core.SqlId;
  * @author jingma
  * @version 0.1
  */
+@Component("SYS_SJGL_SJDX")
+@Scope("prototype")
 public class SjdxLjq extends DefaultLjq {
 
     public static final String KEY_SJZT_OBJ = "sjztObj";

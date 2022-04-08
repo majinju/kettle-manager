@@ -4,7 +4,8 @@ benma666:
   service:
     addr: /index
   ljq:
-    default: cn.benma666.sjsj.web.DefaultLjq
+    # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
+    default: MyDefaultLjq
   xtqx:
     mrtgqx: dxjcxx,select
   config:

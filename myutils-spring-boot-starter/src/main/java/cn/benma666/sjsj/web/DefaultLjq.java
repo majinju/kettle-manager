@@ -59,7 +59,7 @@ import java.util.*;
  *
  * @author jingma
  */
-@Component
+@Component("MyDefaultLjq")
 @Scope("prototype")
 public class DefaultLjq extends BasicObject implements LjqInterface {
     /**
@@ -732,8 +732,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result plbcDb(JSONObject myParams, JSONObject[] list) throws SQLException {
         //获取事务提交量
         int swtjl = myParams.getIntValue("$.sys.swtjl");
-        //开启事务
-        DSTransactionManager.start();
+        //本方法是否开启事务
+        boolean isTrans = true;
+        if(!DSTransactionManager.inTrans()){
+            //若外部未开启事务，则此处开启事务
+            DSTransactionManager.start();
+            isTrans = false;
+        }
 
         List<Object> ro1 = new ArrayList<>();
         //总共多少条记录
@@ -751,7 +756,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             myParams.set($_SYS_CLLX,"");
             r = save(myParams);
             if (!r.isStatus()) {
-                DSTransactionManager.rollback();
+                if(isTrans){
+                    DSTransactionManager.rollback();
+                }
                 r.addMsg("第" + (count + 1) + "行");
                 return r;
             } else {
@@ -763,7 +770,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 }
                 ro1.add(data);
                 count++;
-                if (count % swtjl == 0) {
+                if (count % swtjl == 0&&isTrans) {
                     //达到设置的事务提交量，提交事务并开启新事务。
                     DSTransactionManager.commit();
                     DSTransactionManager.start();
