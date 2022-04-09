@@ -129,6 +129,7 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         Map<String,String> pathValMap = (Map<String,String>)request.getAttribute(
                 "org.springframework.web.servlet.HandlerMapping.uriTemplateVariables");
         if(pathValMap.containsKey("qqfs")&&pathValMap.containsKey("qqz")){
+            //对象代码支持小写中划线
             myParams.set("$."+pathValMap.get("qqfs"),pathValMap.get("qqz"));
         }
         if(pathValMap.containsKey("cllx")){
@@ -143,6 +144,11 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
                     log.warn(pk + "参数设置失败：" + va[0]);
                 }
             }
+        }
+        String dxdm = myParams.getString("$.sjdx.dxdm");
+        if(!isBlank(dxdm)){
+            //对象代码统一为大写
+            myParams.set("$.sjdx.dxdm",dxdm.replace("-","_").toUpperCase());
         }
         //切换语言
         switchLanguage(request, myParams);

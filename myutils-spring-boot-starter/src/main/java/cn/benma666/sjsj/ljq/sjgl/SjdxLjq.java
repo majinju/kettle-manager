@@ -78,6 +78,11 @@ public class SjdxLjq extends DefaultLjq {
 
     @Override
     public Result update(JSONObject myParams) throws MyException {
+        String dxdm = myParams.getString("$.yobj.dxdm");
+        if(!isBlank(dxdm)){
+            //对象代码统一为大写
+            myParams.set("$.yobj.dxdm",dxdm.toUpperCase());
+        }
         Result r = super.update(myParams);
         clearCache();
         return r;
