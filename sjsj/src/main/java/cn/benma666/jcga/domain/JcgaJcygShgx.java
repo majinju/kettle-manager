@@ -3,13 +3,12 @@
 */
 package cn.benma666.jcga.domain;
 
-import java.math.BigDecimal;
+import cn.benma666.domain.BasicBean;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import cn.benma666.domain.BasicBean;
+import java.math.BigDecimal;
 
 /**
  * 机场公安-机场用工-社会关系

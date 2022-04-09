@@ -6,20 +6,19 @@
 
 package cn.benma666.jcga;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
-
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.SjdxExcelReader;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 机场员工离职拦截器 <br/>
@@ -27,6 +26,8 @@ import com.alibaba.fastjson.JSONPath;
  * @author jingma
  * @version 0.1
  */
+@Component
+@Scope("prototype")
 public class JcygLzLjq extends DefaultLjq {
     public Result lzygcl(JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);

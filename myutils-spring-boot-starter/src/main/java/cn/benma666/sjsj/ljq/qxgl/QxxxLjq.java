@@ -15,10 +15,10 @@ import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.UserManager;
 import com.alibaba.fastjson.JSONObject;
-import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -71,8 +71,8 @@ public class QxxxLjq extends DefaultLjq {
         return success("获取菜单成功",StringUtil.buildTree(list,"fqx","dm"));
     }
     @Override
+    @Transactional
     public Result insert(JSONObject myParams){
-        DSTransactionManager.start();
         Result r = super.insert(myParams);
         if(!r.isStatus()){
             return swtj(r);
@@ -88,8 +88,8 @@ public class QxxxLjq extends DefaultLjq {
         return swtj(r);
     }
     @Override
+    @Transactional
     public Result update(JSONObject myParams){
-        DSTransactionManager.start();
         JSONObject obj = myParams.getJSONObject(KEY_OBJ);
         Result r = super.update(myParams);
         if(!r.isStatus()||obj==null){
@@ -112,8 +112,8 @@ public class QxxxLjq extends DefaultLjq {
         return swtj(r);
     }
     @Override
+    @Transactional
     public Result plsc(JSONObject myParams){
-        DSTransactionManager.start();
         //同时逻辑删除对应的子权限
         int countLj = 0;
         int countWl = 0;

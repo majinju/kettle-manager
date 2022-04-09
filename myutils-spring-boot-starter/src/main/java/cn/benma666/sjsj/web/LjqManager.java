@@ -66,13 +66,12 @@ public class LjqManager extends BasicObject {
         LjqInterface ljq = (LjqInterface) sjdx.getLjqObj();
         if (ljq == null) {
             String ljqStr = sjdx.getLjq();
-            if(isBlank(ljqStr)&& context.containsBean(sjdx.getDxdm())){
-                //没有在对象中配置拦截器且容器中存在该数据对象对应的拦截器，则通过对象代码在容器中获取拦截器
+            if(isBlank(ljqStr)){
+                //没有在对象中配置拦截器
                 try{
                     ljq = (LjqInterface) context.getBean(sjdx.getDxdm());
                 }catch (Throwable t){
-                    //通过对象代码获取拦截器失败
-                    throw new MyException("通过对象代码从容器中获取拦截器失败："+sjdx.getDxdm()+t.getMessage(),t);
+                    //通过对象代码获取拦截器失败,忽略
                 }
             }
             //没有通过对象代码找到拦截器
@@ -82,17 +81,20 @@ public class LjqManager extends BasicObject {
                     //从配置文件中读取默认拦截器
                     ljqStr = Conf.getVal("benma666.ljq.default","MyDefaultLjq");
                 }
-                if(context.containsBean(ljqStr)){
+                try{
+                    // 支持从spring容器中取拦截器，从而支持开发在拦截器中使用spring的注解
+                    ljq = (LjqInterface) context.getBean(ljqStr);
+                }catch (Throwable t){
+                    //忽略
                     try{
-                        // 支持从spring容器中取拦截器，从而支持开发在拦截器中使用spring的注解
-                        ljq = (LjqInterface) context.getBean(ljqStr);
-                    }catch (Throwable t){
-                        throw new MyException("从容器中获取拦截器失败："+ljqStr+t.getMessage(),t);
-                    }
-                }else {
-                    // 实例化定制拦截器
-                    try{
-                        ljq = (LjqInterface) Class.forName(ljqStr).getConstructor().newInstance();
+                        Class<?> ljqClass = Class.forName(ljqStr);
+                        try{
+                            // 支持从spring容器中取拦截器，从而支持开发在拦截器中使用spring的注解
+                            ljq = (LjqInterface) context.getBean(ljqClass);
+                        }catch (Throwable t1){
+                            // 实例化定制拦截器
+                            ljq = (LjqInterface) ljqClass.getConstructor().newInstance();
+                        }
                     } catch (Exception e) {
                         throw new MyException("拦截器实例化失败："+ljqStr+e.getMessage(), e);
                     }

@@ -18,7 +18,9 @@ import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqManager;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.beetl.sql.core.DSTransactionManager;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -28,6 +30,8 @@ import java.util.Arrays;
  * @author jingma
  * @version 0.1
  */
+@Component
+@Scope("prototype")
 public class JcygLjq extends DefaultLjq {
     /**
     * 员工编号自增id
@@ -66,8 +70,8 @@ public class JcygLjq extends DefaultLjq {
     }
 
     @Override
+    @Transactional
     public Result plsc(JSONObject myParams) {
-        DSTransactionManager.start();
         //批量删除时，同步删除对应社会关系
         Result result = super.plsc(myParams);
 
@@ -129,12 +133,11 @@ public class JcygLjq extends DefaultLjq {
             shgxYobj.put("lxdh", shgxYobj.getString("sj"));
         }
         shgxYobj.put("shgx", "0");
-        DSTransactionManager.start();
         //保存本人关系
         Result r = LjqManager.insert(shgxParams);
         if(!r.isStatus()){
             r.setMsg("保存本人社会关系异常："+r.getMsg());
-            return r;
+            return swtj(r);
         }
         
         //批量上报时传入的社会关系保存
@@ -146,7 +149,7 @@ public class JcygLjq extends DefaultLjq {
                 r = LjqManager.save(shgxParams);
                 if(!r.isStatus()){
                     r.setMsg("保存社会关系异常："+r.getMsg());
-                    return r;
+                    return swtj(r);
                 }
             }
         }

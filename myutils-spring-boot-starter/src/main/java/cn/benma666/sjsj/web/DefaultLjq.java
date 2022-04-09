@@ -70,7 +70,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     /**
      * 字段信息缓存
      */
-    protected static JSONObject fieldsCache = CacheFactory.use("fields", CacheFactory.TYPE_MEMORY);
+    protected static JSONObject fieldsCache = CacheFactory.use(KEY_FIELDS, CacheFactory.TYPE_MEMORY);
 
     /**
      * 该拦截器对应的数据对象，每个对象一个拦截器
@@ -765,11 +765,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         int update = 0;
         Result r;
         for (JSONObject j : list) {
+            //取消原来的处理类型，由保存方法自动判断
+            myParams.set($_SYS_CLLX,"");
             myParams.put(KEY_YOBJ, j);
             //根据输入参数进行重复查询
             putObj(myParams);
-            //取消原来的处理类型，由保存方法自动判断
-            myParams.set($_SYS_CLLX,"");
             r = save(myParams);
             if (!r.isStatus()) {
                 r.addMsg("第" + (count + 1) + "行");
@@ -788,8 +788,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 }
             }
         }
-        //入库完成提交事务。
-        DSTransactionManager.commit();
         return success("共计"+count+"条记录，其中新增："+insert+"条，更新"+update+"条", ro1);
     }
 

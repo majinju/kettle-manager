@@ -23,12 +23,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import com.github.stuxuhai.jpinyin.PinyinException;
-import org.beetl.sql.core.DSTransactionManager;
 import org.beetl.sql.core.SqlId;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +46,7 @@ public class SjdxLjq extends DefaultLjq {
     public static final String KEY_SJZT_OBJ = "sjztObj";
 
     @Override
+    @Transactional
     public Result insert(JSONObject myParams) throws MyException {
         JSONObject jtdx = myParams.getJSONObject(KEY_YOBJ);
         jtdx.put(FIELD_ID,StringUtil.getUUIDUpperStr());
@@ -58,7 +58,6 @@ public class SjdxLjq extends DefaultLjq {
         JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, jtdx.getString("dxzt"));
         jtdx.put("dxztlx",dbObj.getString("lx"));
         myParams.put(KEY_YOBJ,jtdx);
-        DSTransactionManager.start();
         Result r = super.insert(myParams);
         if(!r.isStatus()){
             return r;
@@ -67,24 +66,20 @@ public class SjdxLjq extends DefaultLjq {
         try {
             jtdx.set(KEY_SJZT_OBJ,dbObj);
             r.addMsg(impFields(myParams.getObject(KEY_YOBJ,SysSjglSjdx.class),myParams).getMsg());
-            DSTransactionManager.commit();
+        } catch (MyException e) {
+            throw e;
         } catch (Exception e) {
-            try {
-                DSTransactionManager.rollback();
-            }catch (Exception e1){
-                log.error("事务回滚失败",e1);
-            }
             log.error("导入字段出错："+e.getMessage(),e);
-            return failed("导入字段出错："+e.getMessage());
+            r = failed("导入字段出错："+e.getMessage());
         }
-        CacheFactory.clear();
-        return r;
+        clearCache();
+        return swtj(r);
     }
 
     @Override
     public Result update(JSONObject myParams) throws MyException {
         Result r = super.update(myParams);
-        CacheFactory.clear();
+        clearCache();
         return r;
     }
 
@@ -95,6 +90,7 @@ public class SjdxLjq extends DefaultLjq {
         //后进行逻辑删除
         int sczds = db().update(SqlId.of("sjsj","updateSjzd"),myParams);
         result.addMsg("逻辑删除字段数："+sczds);
+        clearCache();
         return result;
     }
 
@@ -120,7 +116,8 @@ public class SjdxLjq extends DefaultLjq {
     /**
      * 复制对象
      */
-    public Result fzjl(JSONObject myParams) throws Exception {
+    @Transactional
+    public Result fzjl(JSONObject myParams){
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         Result result = failed("未处理");
         int count = 0;
@@ -136,7 +133,6 @@ public class SjdxLjq extends DefaultLjq {
         List<JSONObject> list = ((PageInfo<JSONObject>) select(myParams).getData()).getList();
         for(JSONObject obj : list){
             String id = obj.getString(FIELD_ID);
-            DSTransactionManager.start();
             //获取对象
             obj.put(FIELD_ID,StringUtil.getUUIDUpperStr());
             obj.put(FIELD_DXDM,obj.getString(FIELD_DXDM)+dmhz);
@@ -149,7 +145,6 @@ public class SjdxLjq extends DefaultLjq {
             String[] arr = getSql(myParams, "fzzd");
             db(arr[0]).update(arr[1], myParams);
             count++;
-            DSTransactionManager.commit();
         }
         return success("成功复制对象个数："+count);
     }
@@ -157,6 +152,7 @@ public class SjdxLjq extends DefaultLjq {
     /**
      * 刷新对象，主要是数据库中字段变化的场景
      */
+    @Transactional
     public Result sxdx(JSONObject myParams) {
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         int count = 0;
@@ -175,6 +171,7 @@ public class SjdxLjq extends DefaultLjq {
             result.addMsg(r.getMsg());
             count++;
         }
+        clearCache();
         result.addMsg("成功刷新对象个数："+count);
         return result;
     }
@@ -182,18 +179,18 @@ public class SjdxLjq extends DefaultLjq {
     /**
      * 批量标准排序，当排序较频繁时，序号密度较高后可以采用此方法进行重新分布
      */
-    public Result bzpx(JSONObject myParams) throws SQLException {
+    @Transactional
+    public Result bzpx(JSONObject myParams){
         //标准排序
         Result result = success("");
         int count = 0;
-        DSTransactionManager.start();
         for(String id:myParams.getJSONArray($_SYS_IDS).toJavaList(String.class)){
             JSONObject jtdxParams = LjqManager.jcxxById(id);
             Result r = bzpxFields(jtdxParams);
             result.addMsg(r.getMsg());
             count++;
         }
-        DSTransactionManager.commit();
+        clearCache();
         result.addMsg("成功重新排序对象个数："+count);
         return result;
     }
@@ -219,6 +216,7 @@ public class SjdxLjq extends DefaultLjq {
             db().update("update sys_sjgl_sjzd t set t.px=? where t.id=?",
                     idx,field.getValue().getString(FIELD_ID));
         }
+        clearCache();
         return success(myParams.getString("$.sjdx.dxmc")+"成功标准化排序字段数："+fields.size());
     }
 
@@ -226,6 +224,7 @@ public class SjdxLjq extends DefaultLjq {
      * 物理删除-基于有效性
      */
     @Override
+    @Transactional
     protected Result wlscByYxx(JSONObject myParams) {
         Result result = super.wlscByYxx(myParams);
         int scs = db().update(SqlId.of("sjsj","deleteSjzd"), myParams);
@@ -386,5 +385,13 @@ public class SjdxLjq extends DefaultLjq {
         }else{
             return success(jtdx.getDxmc()+"导入字段数："+count);
         }
+    }
+
+    /**
+     * 清除数据对象相关缓存
+     */
+    private void clearCache() {
+        CacheFactory.clear(KEY_SJDX);
+        CacheFactory.clear(KEY_FIELDS);
     }
 }

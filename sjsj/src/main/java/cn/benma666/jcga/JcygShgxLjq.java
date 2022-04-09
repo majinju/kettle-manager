@@ -10,7 +10,9 @@ import cn.benma666.iframe.Result;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import com.alibaba.fastjson.JSONObject;
-import org.beetl.sql.core.DSTransactionManager;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 机场员工-社会关系拦截器 <br/>
@@ -18,10 +20,12 @@ import org.beetl.sql.core.DSTransactionManager;
  * @author jingma
  * @version 0.1
  */
+@Component
+@Scope("prototype")
 public class JcygShgxLjq extends DefaultLjq {
     @Override
+    @Transactional
     protected Result saveDb(JSONObject myparams) {
-        DSTransactionManager.start();
         JSONObject yobj = myparams.getJSONObject(KEY_YOBJ);
         String ygbh = yobj.getString("ygbh");
         if(StringUtil.isBlank(ygbh)){
@@ -33,8 +37,8 @@ public class JcygShgxLjq extends DefaultLjq {
         return swtj(r);
     }
     @Override
+    @Transactional
     public Result plsc(JSONObject myParams) {
-        DSTransactionManager.start();
         db().update("update jcga_jcyg_jcxx t set t.gxsj=to_char(sysdate,'yyyymmddhh24miss') where t.ygbh in ("
                 + "select ygbh from jcga_jcyg_shgx where id in (#{join(sys.ids)}))",myParams);
         Result r = super.plcl(myParams);
