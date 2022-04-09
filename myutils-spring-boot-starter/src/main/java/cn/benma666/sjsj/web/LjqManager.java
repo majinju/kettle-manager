@@ -17,10 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
 import org.beetl.sql.core.SqlId;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,11 +31,11 @@ import java.util.Set;
  * @author jingma
  */
 @Component
-public class LjqManager extends BasicObject implements ApplicationContextAware {
+public class LjqManager extends BasicObject {
     /**
      * spring容器，可以从中获取注册的bean
      */
-    private static ApplicationContext applicationContext;
+    private static ApplicationContext context;
     /**
      * 数据对象Map<对象key，对象>
      */
@@ -50,12 +47,13 @@ public class LjqManager extends BasicObject implements ApplicationContextAware {
     /**
      * 虚拟对象
      */
-    private static final SysSjglSjdx xndx;
+    private static SysSjglSjdx xndx;
 
-    static {
+    public LjqManager(ApplicationContext context){
         //给虚拟对象赋值
         xndx = new SysSjglSjdx();
         xndx.setId(LjqInterface.ZD_SJDX_ZDYWLB_XNZD);
+        LjqManager.context = context;
     }
     /**
      * 使用对应的拦截器 <br/>
@@ -68,10 +66,10 @@ public class LjqManager extends BasicObject implements ApplicationContextAware {
         LjqInterface ljq = (LjqInterface) sjdx.getLjqObj();
         if (ljq == null) {
             String ljqStr = sjdx.getLjq();
-            if(isBlank(ljqStr)&&applicationContext.containsBean(sjdx.getDxdm())){
+            if(isBlank(ljqStr)&& context.containsBean(sjdx.getDxdm())){
                 //没有在对象中配置拦截器且容器中存在该数据对象对应的拦截器，则通过对象代码在容器中获取拦截器
                 try{
-                    ljq = (LjqInterface) applicationContext.getBean(sjdx.getDxdm());
+                    ljq = (LjqInterface) context.getBean(sjdx.getDxdm());
                 }catch (Throwable t){
                     //通过对象代码获取拦截器失败
                     throw new MyException("通过对象代码从容器中获取拦截器失败："+sjdx.getDxdm()+t.getMessage(),t);
@@ -84,10 +82,10 @@ public class LjqManager extends BasicObject implements ApplicationContextAware {
                     //从配置文件中读取默认拦截器
                     ljqStr = Conf.getVal("benma666.ljq.default","MyDefaultLjq");
                 }
-                if(applicationContext.containsBean(ljqStr)){
+                if(context.containsBean(ljqStr)){
                     try{
                         // 支持从spring容器中取拦截器，从而支持开发在拦截器中使用spring的注解
-                        ljq = (LjqInterface) applicationContext.getBean(ljqStr);
+                        ljq = (LjqInterface) context.getBean(ljqStr);
                     }catch (Throwable t){
                         throw new MyException("从容器中获取拦截器失败："+ljqStr+t.getMessage(),t);
                     }
@@ -105,6 +103,7 @@ public class LjqManager extends BasicObject implements ApplicationContextAware {
             }
             ljqSet.add(ljq);
             sjdx.setLjqObj(ljq);
+            ljq.setDlLjq(ljq);
             ljq.setSjdx(sjdx);
             ljq.init();
         }
@@ -242,111 +241,72 @@ public class LjqManager extends BasicObject implements ApplicationContextAware {
     }
 
     /**
-     * 验证规则 <br/>
-     * @param sjdx     数据对象
-     * @param myParams 相关参数
-     * @author jingma
-     */
-    public static void yzgz(SysSjglSjdx sjdx, JSONObject myParams) {
-        use(sjdx).yzgz(myParams);
-    }
-    /**
      * 数据处理 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 基础信息
      * @author jingma
      */
-    @Deprecated
-    public static Result data(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).data(myParams);
-    }
     public static Result data(JSONObject myParams) {
-        return data(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).data(myParams);
     }
 
     /**
      * 文件上传 <br/>
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @param files 文件列表
      * @return 基础信息
      * @author jingma
      */
-    @Deprecated
-    public static Result upload(SysSjglSjdx sjdx, JSONObject myParams,
-                                MultipartFile[] files) throws Exception {
-        return use(sjdx).upload(myParams,files);
-    }
     public static Result upload(JSONObject myParams,MultipartFile[] files) throws Exception {
-        return upload(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams,files);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).upload(myParams,files);
+    }
+    /**
+     * 验证规则 <br/>
+     * @param myParams 相关参数
+     * @author jingma
+     */
+    public static void yzgz(JSONObject myParams) {
+        use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).yzgz(myParams);
     }
     /**
      * 分页查询 <br/>
      *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 基础信息
      * @author jingma
      */
-    @Deprecated
-    public static Result select(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).select(myParams);
-    }
     public static Result select(JSONObject myParams) {
-        return select(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams);
-    }
-    @Deprecated
-    public static Result insert(SysSjglSjdx sjdx, JSONObject myParams){
-        return use(sjdx).insert(myParams);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).select(myParams);
     }
     public static Result insert(JSONObject myParams){
-        return insert(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams);
-    }
-    @Deprecated
-    public static Result update(SysSjglSjdx sjdx, JSONObject myParams){
-        return use(sjdx).update(myParams);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).insert(myParams);
     }
     public static Result update(JSONObject myParams) {
-        return update(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams);
-    }
-    @Deprecated
-    public static Result save(SysSjglSjdx sjdx, JSONObject myParams){
-        return use(sjdx).save(myParams);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).update(myParams);
     }
     public static Result save(JSONObject myParams) {
-        return save(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).save(myParams);
     }
     /**
      * 获取sql <br/>
      *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @return 0:数据载体，1：sql
      * @author jingma
      */
-    @Deprecated
-    public static String[] getSql(SysSjglSjdx sjdx, JSONObject myParams) {
-        return use(sjdx).getSql(myParams);
-    }
     public static String[] getSql(JSONObject myParams) {
-        return getSql(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).getSql(myParams);
     }
     /**
      * 获取sql <br/>
      *
-     * @param sjdx     数据对象
      * @param myParams 相关参数
      * @param cllx 相关参数
      * @return 0:数据载体，1：sql
      * @author jingma
      */
-    @Deprecated
-    public static String[] getSql(SysSjglSjdx sjdx, JSONObject myParams,String cllx) {
-        return use(sjdx).getSql(myParams,cllx);
-    }
     public static String[] getSql(JSONObject myParams,String cllx) {
-        return getSql(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class),myParams,cllx);
+        return use(myParams.getObject(LjqInterface.KEY_SJDX,SysSjglSjdx.class)).getSql(myParams,cllx);
     }
     /**
      * 结果发送到前端
@@ -368,14 +328,4 @@ public class LjqManager extends BasicObject implements ApplicationContextAware {
         }
         use(sjdx).sendResult(response,myParams,r);
     }
-
-    @Override
-    public void setApplicationContext(@NotNull ApplicationContext applicationContext) throws BeansException {
-        LjqManager.applicationContext =applicationContext;
-    }
-
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
 }

@@ -46,10 +46,6 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
      */
     private final JSONObject sjsccwParams;
     /**
-     * 错误信息数据对象
-     */
-    private final SysSjglSjdx sjsccwSjdx;
-    /**
      * 开始行,0、1、2....
      */
     protected int startRow = 1;
@@ -95,7 +91,6 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         //设置错误信息相关参数
         this.sjsccwParams = LjqManager.jcxxByDxdm("SYS_LOG_SJSCCW");
         this.sjsccwParams.put(LjqInterface.KEY_USER,myParams.get(LjqInterface.KEY_USER));
-        this.sjsccwSjdx = (SysSjglSjdx) sjsccwParams.get(LjqInterface.KEY_SJDX);
         //设置为新增模式，后续会插入读取错误信息
         sjsccwParams.set(LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_INSERT);
 
@@ -216,7 +211,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         errorList.add(sysLogSjsccw);
         //存入数据库
         sjsccwParams.put(LjqInterface.KEY_YOBJ, sysLogSjsccw);
-        Result r = LjqManager.insert(sjsccwSjdx, sjsccwParams);
+        Result r = LjqManager.insert(sjsccwParams);
         if (!r.isStatus()) {
             log.error("写入错误日志失败：" + r.getMsg());
         }

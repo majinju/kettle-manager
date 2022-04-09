@@ -6,14 +6,12 @@
 
 package cn.benma666.sjsj.web;
 
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
+import cn.benma666.iframe.MyParams;
 import cn.benma666.iframe.Result;
-import cn.benma666.sjsj.MyParams;
-import cn.benma666.sjsj.MySjdx;
+import cn.benma666.sjsj.AMyParams;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -46,7 +44,7 @@ public class IndexController extends BasicObject implements ErrorController {
      * 系统入口
      */
     @RequestMapping("${benma666.service.addr}")
-    public void index(HttpServletResponse response, @MyParams JSONObject myParams) {
+    public void index(HttpServletResponse response, @AMyParams MyParams myParams) {
         Result r;
         try {
             r = LjqManager.data(myParams);
@@ -58,13 +56,13 @@ public class IndexController extends BasicObject implements ErrorController {
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
         }
-        LjqManager.sendResult(response,myParams,swtj(r));
+        LjqManager.sendResult(response,myParams,r);
     }
     /**
      * 系统入口-文件上传
      */
     @RequestMapping(value = "${benma666.service.addr}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void upload(HttpServletResponse response, @MyParams JSONObject myParams,
+    public void upload(HttpServletResponse response, @AMyParams MyParams myParams,
                       @RequestParam("files") MultipartFile[] files) {
         Result r;
         try {
@@ -77,7 +75,7 @@ public class IndexController extends BasicObject implements ErrorController {
             r = failed("处理异常："+e.getMessage());
             log.error(r.getMsg(),e);
         }
-        LjqManager.sendResult(response,myParams,swtj(r));
+        LjqManager.sendResult(response,myParams,r);
     }
     /**
      * 系统范围外的异常

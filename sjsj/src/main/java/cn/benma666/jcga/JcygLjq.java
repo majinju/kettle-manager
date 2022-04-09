@@ -4,11 +4,10 @@
 * Copyright (c) 2018, jingma All Rights Reserved.
 */
 
-package cn.benma666.jcga.ljq;
+package cn.benma666.jcga;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
 import cn.benma666.iframe.AutoId;
 import cn.benma666.iframe.Result;
@@ -114,7 +113,6 @@ public class JcygLjq extends DefaultLjq {
         //社会关系对象,及参数对象构建
         JSONObject shgxParams = myParams.clone();
         JSONObject p = LjqManager.jcxxByDxdm("JCGA_JCYG_SHGX");
-        SysSjglSjdx shgxSjdx = (SysSjglSjdx) p.get(KEY_SJDX);
         shgxParams.putAll(p);
         
         //添加本人关系,员工对应社会关系生成
@@ -133,7 +131,7 @@ public class JcygLjq extends DefaultLjq {
         shgxYobj.put("shgx", "0");
         DSTransactionManager.start();
         //保存本人关系
-        Result r = LjqManager.insert(shgxSjdx, shgxParams);
+        Result r = LjqManager.insert(shgxParams);
         if(!r.isStatus()){
             r.setMsg("保存本人社会关系异常："+r.getMsg());
             return r;
@@ -145,7 +143,7 @@ public class JcygLjq extends DefaultLjq {
             for(JSONObject shgx:shgxs.toArray(new JSONObject[]{})){
                 shgx.put("ygbh", yobj.getString("ygbh"));
                 shgxParams.put(KEY_YOBJ, shgx);
-                r = LjqManager.save(shgxSjdx, shgxParams);
+                r = LjqManager.save(shgxParams);
                 if(!r.isStatus()){
                     r.setMsg("保存社会关系异常："+r.getMsg());
                     return r;

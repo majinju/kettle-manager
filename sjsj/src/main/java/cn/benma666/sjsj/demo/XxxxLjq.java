@@ -77,7 +77,7 @@ public class XxxxLjq extends DefaultLjq{
         LambdaQuery<SysSjglSjdx> query = sqlManager().lambdaQuery(SysSjglSjdx.class);
         //查询数据，该方式参考官方文档“使用Query”章节
         log.info("使用Query方式操作数据库："+query.andEq(SysSjglSjdx::getId,"xxxxx").select());
-//        throw new RuntimeException("xxx");
+//        throw new MyException("xxx");
         return super.select(myParams);
     }
 

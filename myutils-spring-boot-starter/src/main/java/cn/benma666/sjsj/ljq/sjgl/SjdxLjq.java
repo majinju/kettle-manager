@@ -146,7 +146,7 @@ public class SjdxLjq extends DefaultLjq {
             //复制字段
             myParams.set("$.sql.oldSjdxId",id);
             myParams.set("$.sql.newSjdx",obj);
-            String[] arr = LjqManager.getSql(sjdx, myParams, "fzzd");
+            String[] arr = getSql(myParams, "fzzd");
             db(arr[0]).update(arr[1], myParams);
             count++;
             DSTransactionManager.commit();
@@ -331,7 +331,6 @@ public class SjdxLjq extends DefaultLjq {
                     "select * from sys_sjgl_sjzd t where t.sjdx=?",jtdx.getId());
         }
         JSONObject zdParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJZD");
-        SysSjglSjdx zdSjdx = zdParams.getObject(KEY_SJDX,SysSjglSjdx.class);
         int idx = oldFiledMap.size()*10+50;
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
@@ -379,7 +378,7 @@ public class SjdxLjq extends DefaultLjq {
                 fieldObj.put("zdmc",zddm);
             }
             zdParams.put(KEY_YOBJ,fieldObj);
-            LjqManager.insert(zdSjdx,zdParams);
+            LjqManager.insert(zdParams);
             oldFiledMap.put(zddm, null);
         }
         if(fieldsList.isEmpty()&&oldFiledMap.isEmpty()){

@@ -5,7 +5,7 @@ benma666:
     addr: /index
   ljq:
     # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
-    default: cn.benma666.sjsj.web.DefaultLjq
+    default: MyDefaultLjq
   xtqx:
     mrtgqx: dxjcxx,select
   config:
@@ -188,10 +188,3 @@ logging:
       insert-sql: insert into SYS_LOG_HTRZ(xc,jb,scl,scff,sch,xx,ssxm) values(#{threadName},#{level.levelStr},#{loggerName},#{scff},#{sch},#{message},#{loggerContextVO.name})
     rollingpolicy:
       max-file-size: 20MB
-
-beetlsql:
-  sqlManagers: sqlManager
-  sqlManager:
-    ds: dataSource
-    basePackage: cn.benma666
-    daoSuffix: Dao

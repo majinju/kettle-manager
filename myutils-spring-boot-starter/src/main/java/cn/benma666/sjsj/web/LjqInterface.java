@@ -176,6 +176,16 @@ public interface LjqInterface extends UtilConstInstance {
      * @param sjdx 数据对象
      */
     void setSjdx(SysSjglSjdx sjdx);
+
+    /**
+     * @return 代理拦截器
+     */
+    LjqInterface getDlLjq();
+    /**
+     * 设置当前拦截器的代理拦截器
+     * @param _this
+     */
+    void setDlLjq(LjqInterface _this);
     /**
      * 获取国际化消息-操作成功
      *

@@ -1,5 +1,6 @@
 package cn.benma666.sjsj;
 
+import cn.benma666.iframe.MyParams;
 import cn.benma666.sjsj.web.LjqInterface;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.core.MethodParameter;
@@ -21,8 +22,8 @@ public class MyParamsHandlerMethodArgumentResolver implements HandlerMethodArgum
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(JSONObject.class)
-                && parameter.hasParameterAnnotation(MyParams.class);
+        return parameter.getParameterType().isAssignableFrom(MyParams.class)
+                && parameter.hasParameterAnnotation(AMyParams.class);
     }
 
     /**

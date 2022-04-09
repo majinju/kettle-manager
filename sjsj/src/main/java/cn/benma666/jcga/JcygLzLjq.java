@@ -4,7 +4,7 @@
 * Copyright (c) 2018, jingma All Rights Reserved.
 */
 
-package cn.benma666.jcga.ljq;
+package cn.benma666.jcga;
 
 import java.util.ArrayList;
 import java.util.Arrays;

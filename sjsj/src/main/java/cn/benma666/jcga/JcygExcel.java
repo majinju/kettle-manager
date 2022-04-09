@@ -4,7 +4,7 @@
  * Copyright (c) 2018, jingma All Rights Reserved.
  */
 
-package cn.benma666.jcga.ljq;
+package cn.benma666.jcga;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;

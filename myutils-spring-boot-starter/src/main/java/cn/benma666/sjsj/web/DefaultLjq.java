@@ -77,6 +77,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     protected SysSjglSjdx sjdx;
     /**
+     * 被代理的拦截，若是从sb容器中取出的拦截器，拦截器中直接取this为非代理拦截器
+     */
+    protected LjqInterface dlLjq;
+    /**
      * 获取处理类型
      *
      * @param myParams 参数对象
@@ -183,20 +187,20 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         String cllx = getCllx(myParams);
         try{
             Method m = this.getClass().getMethod(cllx, JSONObject.class);
-            if(m.getAnnotation(Transactional.class)!=null){
-                //TODO 事务支持，暂时手段实现，没管事务的其他参数，最好还是采用spring的机制
+            if(!Db.isSpring()&&m.getAnnotation(Transactional.class)!=null){
+                //非spring场景事务支持，没管事务的其他参数
                 DSTransactionManager.start();
                 Result r;
                 try {
-                    r = (Result) m.invoke(this, myParams);
+                    r = (Result) m.invoke(getDlLjq(), myParams);
                     return swtj(r);
                 }catch (Throwable e){
                     //回滚事务
                     swtj(failed("失败"));
                     throw e;
                 }
-            }else{
-                return (Result) m.invoke(this,myParams);
+            }else {
+                return (Result) m.invoke(getDlLjq(),myParams);
             }
         }catch (NoSuchMethodException e){
             //没有找到该处理类型对应的方法，执行默认操作
@@ -538,6 +542,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @param myParams 相关参数
      * @return 操作结果
      */
+    @Transactional
     public Result plbc(JSONObject myParams) throws SQLException {
         JSONArray editTableData = myParams.getJSONArray("$.sys.editTableData");
         JSONObject[] list = editTableData.toJavaList(JSONObject.class).toArray(new JSONObject[]{});
@@ -562,6 +567,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     //后续支持文件等各类数据载体，暂未实现
                     throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
             }
+        }
+        if(!r.isStatus()){
+            //异常场景抛出异常，便于事务回滚
+            throw new MyException(r.getMsg(),r.getData());
         }
         return r;
     }
@@ -746,13 +755,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     protected Result plbcDb(JSONObject myParams, JSONObject[] list) throws SQLException {
         //获取事务提交量
         int swtjl = myParams.getIntValue("$.sys.swtjl");
-        //本方法是否开启事务
-        boolean isTrans = true;
-        if(!DSTransactionManager.inTrans()){
-            //若外部未开启事务，则此处开启事务
-            DSTransactionManager.start();
-            isTrans = false;
-        }
 
         List<Object> ro1 = new ArrayList<>();
         //总共多少条记录
@@ -770,9 +772,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             myParams.set($_SYS_CLLX,"");
             r = save(myParams);
             if (!r.isStatus()) {
-                if(isTrans){
-                    DSTransactionManager.rollback();
-                }
                 r.addMsg("第" + (count + 1) + "行");
                 return r;
             } else {
@@ -784,10 +783,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 }
                 ro1.add(data);
                 count++;
-                if (count % swtjl == 0&&isTrans) {
-                    //达到设置的事务提交量，提交事务并开启新事务。
-                    DSTransactionManager.commit();
-                    DSTransactionManager.start();
+                if (count % swtjl == 0) {
+                    log.info(sjdx.getDxdm()+"已入数据："+count);
                 }
             }
         }
@@ -1603,5 +1600,19 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public void setSjdx(SysSjglSjdx sjdx) {
         this.sjdx = sjdx;
+    }
+
+    @Override
+    public LjqInterface getDlLjq() {
+        if(dlLjq==null){
+            //若代理拦截器为空则返回自己
+            return this;
+        }
+        return dlLjq;
+    }
+
+    @Override
+    public void setDlLjq(LjqInterface dlLjq) {
+        this.dlLjq = dlLjq;
     }
 }
