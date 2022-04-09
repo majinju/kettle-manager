@@ -544,24 +544,24 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      */
     @Transactional
     public Result plbc(JSONObject myParams) throws SQLException {
-        JSONArray editTableData = myParams.getJSONArray("$.sys.editTableData");
-        JSONObject[] list = editTableData.toJavaList(JSONObject.class).toArray(new JSONObject[]{});
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
+            JSONArray editTableData = myParams.getJSONArray("$.sys.editTableData");
+            JSONObject[] list = editTableData.toJavaList(JSONObject.class).toArray(new JSONObject[]{});
             r = plbcDb(myParams,list);
         } else {
             switch (sjdx.getDxztlx()){
                 case ZD_SJZTLX_KAFKA:
                     //kafka场景
-                    r = plbcKafka(myParams,list);
+                    r = plbcKafka(myParams);
                     break;
                 case ZD_SJZTLX_FTP:
-                    r = plbcFtp(myParams,list);
+                    r = plbcFtp(myParams);
                     break;
                 case ZD_SJZTLX_BDWJ:
                     //本地文件
-                    r = plbcBdwj(myParams,list);
+                    r = plbcBdwj(myParams);
                     break;
                 default:
                     //后续支持文件等各类数据载体，暂未实现
@@ -718,41 +718,43 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * 保存数据-本地文件
      */
     protected Result saveBdwj(JSONObject myParams) {
-        return plbcBdwj(myParams,new JSONObject[]{myParams.getJSONObject(KEY_YOBJ)});
+        return plbcBdwj(myParams);
     }
     /**
      * 保存数据-FTP
      */
     protected Result saveFtp(JSONObject myParams) {
-        return plbcFtp(myParams,new JSONObject[]{myParams.getJSONObject(KEY_YOBJ)});
+        return plbcFtp(myParams);
     }
     /**
      * 保存数据-kafka
      */
     protected Result saveKafka(JSONObject myParams) {
-
-        throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
+        return plbcKafka(myParams);
     }
 
     /**
-     * 批量保存数据到本地文件
+     * 批量保存数据到本地文件，不考虑内容，原样保存
      */
-    protected Result plbcBdwj(JSONObject myParams, JSONObject[] list) {
-        dcsjYcl(myParams,Arrays.asList(list), "", KEY_CLLX_INSERT);
+    protected Result plbcBdwj(JSONObject myParams) {
         return Bdwj.use(sjdx.getDxzt()).plbc(sjdx,myParams);
     }
 
-    protected Result plbcFtp(JSONObject myParams, JSONObject[] list) {
-        dcsjYcl(myParams,Arrays.asList(list), "", KEY_CLLX_INSERT);
+    /**
+     * 批量保存数据到ftp上，不考虑内容，原样保存
+     */
+    protected Result plbcFtp(JSONObject myParams) {
         return Ftp.use(sjdx.getDxzt()).plbc(sjdx,myParams);
     }
 
-    protected Result plbcKafka(JSONObject myParams, JSONObject[] list) {
-
+    /**
+     * 批量保存数据到kafka上，不考虑内容，原样保存
+     */
+    protected Result plbcKafka(JSONObject myParams) {
         throw new MyException("不支持的对象载体类型：" + sjdx.getDxztlx());
     }
 
-    protected Result plbcDb(JSONObject myParams, JSONObject[] list) throws SQLException {
+    protected Result plbcDb(JSONObject myParams, JSONObject[] list) {
         //获取事务提交量
         int swtjl = myParams.getIntValue("$.sys.swtjl");
 

@@ -1,5 +1,5 @@
 
-### 登陆
+### 登陆1
 POST {{serviceAddr}}
 Content-Type: application/json
 
@@ -13,6 +13,27 @@ Content-Type: application/json
   },
   "sys":{
     "cllx":"yhdl",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "clearCache":true
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 登陆2
+POST {{serviceAddr}}/sjdx.dxdm/SYS_QX_YHXX_MRDL/yhdl
+Content-Type: application/json
+
+{
+  "yobj": {
+    "yhdm":"sys",
+    "yhmm":"sys_123"
+  },
+  "sys":{
     "token":"4978866291C611DA0D2D5999C413107F",
     "clearCache":true
   }

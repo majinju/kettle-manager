@@ -16,10 +16,7 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +55,11 @@ public class IndexController extends BasicObject implements ErrorController {
         }
         LjqManager.sendResult(response,myParams,r);
     }
+    @RequestMapping("${benma666.service.addr}/{qqfs}/{qqz}/{cllx}")
+    public void index0(HttpServletResponse response, @AMyParams MyParams myParams,
+                       @PathVariable String qqfs,@PathVariable String qqz,@PathVariable String cllx) {
+        index(response,myParams);
+    }
     /**
      * 系统入口-文件上传
      */
@@ -76,6 +78,12 @@ public class IndexController extends BasicObject implements ErrorController {
             log.error(r.getMsg(),e);
         }
         LjqManager.sendResult(response,myParams,r);
+    }
+    @RequestMapping(value = "${benma666.service.addr}/{qqfs}/{qqz}/{cllx}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void upload0(HttpServletResponse response, @AMyParams MyParams myParams,
+                        @RequestParam("files") MultipartFile[] files,
+                        @PathVariable String qqfs,@PathVariable String qqz,@PathVariable String cllx) {
+        upload(response,myParams,files);
     }
     /**
      * 系统范围外的异常

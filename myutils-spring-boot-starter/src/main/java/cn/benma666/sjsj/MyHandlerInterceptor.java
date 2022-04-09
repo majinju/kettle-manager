@@ -125,6 +125,15 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
         if(myParams==null){
             myParams = new MyParams(true);
         }
+        //合并处理路径参数
+        Map<String,String> pathValMap = (Map<String,String>)request.getAttribute(
+                "org.springframework.web.servlet.HandlerMapping.uriTemplateVariables");
+        if(pathValMap.containsKey("qqfs")&&pathValMap.containsKey("qqz")){
+            myParams.set("$."+pathValMap.get("qqfs"),pathValMap.get("qqz"));
+        }
+        if(pathValMap.containsKey("cllx")){
+            myParams.set(LjqInterface.$_SYS_CLLX,pathValMap.get("cllx"));
+        }
         //合并以普通请求参数传入的参数
         Map<String, String[]> pm = request.getParameterMap();
         for (String pk : pm.keySet()) {
