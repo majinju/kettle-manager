@@ -55,9 +55,9 @@ public class IndexController extends BasicObject implements ErrorController {
         }
         LjqManager.sendResult(response,myParams,r);
     }
-    @RequestMapping("${benma666.service.addr}/{qqfs}/{qqz}/{cllx}")
+    @RequestMapping("${benma666.service.addr}/{dxdm}/{cllx}")
     public void index0(HttpServletResponse response, @AMyParams MyParams myParams,
-                       @PathVariable String qqfs,@PathVariable String qqz,@PathVariable String cllx) {
+                       @PathVariable String dxdm,@PathVariable String cllx) {
         index(response,myParams);
     }
     /**
@@ -79,10 +79,10 @@ public class IndexController extends BasicObject implements ErrorController {
         }
         LjqManager.sendResult(response,myParams,r);
     }
-    @RequestMapping(value = "${benma666.service.addr}/{qqfs}/{qqz}/{cllx}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @RequestMapping(value = "${benma666.service.addr}/{dxdm}/{cllx}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void upload0(HttpServletResponse response, @AMyParams MyParams myParams,
                         @RequestParam("files") MultipartFile[] files,
-                        @PathVariable String qqfs,@PathVariable String qqz,@PathVariable String cllx) {
+                        @PathVariable String dxdm,@PathVariable String cllx) {
         upload(response,myParams,files);
     }
     /**

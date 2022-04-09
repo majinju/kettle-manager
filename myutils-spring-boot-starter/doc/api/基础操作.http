@@ -25,7 +25,7 @@ client.test("Request executed successfully", function() {
 %}
 
 ### 登陆2
-POST {{serviceAddr}}/sjdx.dxdm/SYS_QX_YHXX_MRDL/yhdl
+POST {{serviceAddr}}/sys-qx-yhxx-mrdl/yhdl
 Content-Type: application/json
 
 {
