@@ -43,7 +43,7 @@ public class SjzdLjq extends DefaultLjq {
 
     @Override
     @Transactional
-    public Result plbc(JSONObject myParams) throws SQLException {
+    public Result plbc(JSONObject myParams){
         Result r = super.plbc(myParams);
         //保存结束清理缓存
         fieldsCache.clear();

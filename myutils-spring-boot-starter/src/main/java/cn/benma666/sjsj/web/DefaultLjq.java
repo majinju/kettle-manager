@@ -51,7 +51,6 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -206,11 +205,11 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             //没有找到该处理类型对应的方法，执行默认操作
             Object zxcz = myParams.get("$.sys.zxcz");
             if(zxcz==null||KEY_CLLX_GETDATA.equals(zxcz)){
-                return getdata(myParams);
+                return getDlLjq().getdata(myParams);
             }else if(KEY_CLLX_PLCL.equals(zxcz)){
-                return plcl(myParams);
+                return getDlLjq().plcl(myParams);
             }else if(KEY_CLLX_GETFILE.equals(zxcz)){
-                return getfile(myParams);
+                return getDlLjq().getfile(myParams);
             }else{
                 return failed("暂不支持的执行操作："+zxcz);
             }
@@ -258,7 +257,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
 
         //先调用一次查询语句，获取默认查询条件
         getSql(myParams,KEY_CLLX_SELECT);
-        String[] arr = getSql(myParams);
+        String[] arr = getDlLjq().getSql(myParams);
         resultData.put("list", db(arr[0]).find(arr[1], myParams));
         return success("操作成功", resultData);
     }
@@ -267,7 +266,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result plcl(JSONObject myParams) {
         //先调用一次查询语句，获取默认查询条件
         getSql(myParams,KEY_CLLX_SELECT);
-        String[] arr = getSql(myParams);
+        String[] arr = getDlLjq().getSql(myParams);
         return success("操作成功", db(arr[0]).update(arr[1], myParams));
     }
 
@@ -281,7 +280,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result dcsj(JSONObject myParams) {
         //导出数据
         myParams.set("$.page.totalRequired", Boolean.FALSE);
-        PageInfo<JSONObject> page = (PageInfo<JSONObject>) select(myParams).getData();
+        PageInfo<JSONObject> page = (PageInfo<JSONObject>) getDlLjq().select(myParams).getData();
         String fileName = sjdx.getDxmc()+"-" + DateUtil.getGabDate() + ".xlsx";
         if (myParams.getString("$.sys.dcwjm") != null) {
             fileName = myParams.getString("$.sys.dcwjm");
@@ -301,7 +300,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result getfile(JSONObject myParams) {
         String[] arr;
         try {
-            arr = getSql(myParams);
+            arr = getDlLjq().getSql(myParams);
             List<JSONObject> rl = db(arr[0]).find(arr[1], JSONObject.class, myParams);
             if (rl.size() == 0) {
                 return failed("未找到文件数据");
@@ -407,7 +406,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @return 操作结果
      */
     public Result delete(JSONObject myParams) {
-        return plsc(myParams);
+        return getDlLjq().plsc(myParams);
     }
     @Override
     public Result plsc(JSONObject myParams) {
@@ -436,7 +435,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     public Result inspect(JSONObject myParams) {
         //不进行列表查询
         myParams.set("$.page.listRequired",false);
-        Result r = select(myParams);
+        Result r = getDlLjq().select(myParams);
         if(!r.isStatus()){
             return r;
         }
@@ -473,13 +472,13 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
     @Override
     public Result insert(JSONObject myParams) throws MyException {
         myParams.set($_SYS_CLLX, KEY_CLLX_INSERT);
-        return save(myParams);
+        return getDlLjq().save(myParams);
     }
 
     @Override
     public Result update(JSONObject myParams) throws MyException{
         myParams.set($_SYS_CLLX, KEY_CLLX_UPDATE);
-        return save(myParams);
+        return getDlLjq().save(myParams);
     }
 
     /**
@@ -543,7 +542,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
      * @return 操作结果
      */
     @Transactional
-    public Result plbc(JSONObject myParams) throws SQLException {
+    public Result plbc(JSONObject myParams){
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
