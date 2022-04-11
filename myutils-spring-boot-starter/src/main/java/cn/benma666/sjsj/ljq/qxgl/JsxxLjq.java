@@ -43,7 +43,7 @@ public class JsxxLjq extends DefaultLjq {
             db().update("update sys_qx_yhjsgl t set t.js=replace(t.js,?,?),"
                     + "t.gxsj=? where t.js like ?",
                     obj.getString("dm"),dm,DateUtil.getGabDate(),obj.getString("dm")+"%");
-            UserManager.flushUserQxxx();
+//            UserManager.flushUserQxxx();
         }
         return r;
     }

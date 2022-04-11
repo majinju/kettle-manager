@@ -245,44 +245,16 @@ public class SjdxLjq extends DefaultLjq {
     */
     private Result impFields(SysSjglSjdx jtdx, JSONObject myParams) throws PinyinException {
         JSONObject dbObj = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, jtdx.getDxzt());
-        String zddrsql = jtdx.getZddrsql();
-        if(StringUtil.isBlank(zddrsql)){
-            Result r = dis(myParams);
-            if(!r.isStatus()){
-                //获取导入字段sql失败
-                return r;
-            }
-            zddrsql = r.getData(SysSjglSjdx.class).getZddrsql();
-            jtdx.setZddrsql(zddrsql);
+        jtdx.setDxztlx(dbObj.getString("lx"));
+        if(DbType.of(dbObj.getString("lx"))!=null){
+            return impFieldsDB(jtdx,myParams);
         }
-        if(!zddrsql.startsWith("select")){
-            //非查询语句则按自定义字段规则导入。
-            List<JSONObject> fieldsList = new ArrayList<>();
-            for(String row:zddrsql.split("\n")){
-                JSONObject zdObj = new JSONObject();
-                String[] sxs = row.split("\\|");
-                if(sxs.length!=4){
-                    return failed("非自动导出字段场景，自定义字段没有按指定规则填写："+row);
-                }
-                zdObj.put("zddm", sxs[0]);
-                zdObj.put("zdms", sxs[1]);
-                zdObj.put("zdlx", sxs[2]);
-                zdObj.put("zdcd", sxs[3]);
-                fieldsList.add(zdObj);
-            }
-            return crzd(jtdx, myParams, fieldsList);
-        }else{
-            jtdx.setDxztlx(dbObj.getString("lx"));
-            if(DbType.of(dbObj.getString("lx"))!=null){
-                return impFieldsDB(jtdx,myParams);
-            }
-            switch (jtdx.getDxztlx()) {
-            case LjqInterface.ZD_SJZTLX_FTP:
-            case LjqInterface.ZD_SJZTLX_BDWJ:
-                return impFieldsBdwj(jtdx,myParams,sjdx);
-            default:
-                throw new MyException("不支持的对象载体类型："+jtdx.getDxztlx());
-            }
+        switch (jtdx.getDxztlx()) {
+        case LjqInterface.ZD_SJZTLX_FTP:
+        case LjqInterface.ZD_SJZTLX_BDWJ:
+            return impFieldsBdwj(jtdx,myParams);
+        default:
+            throw new MyException("不支持的对象载体类型："+jtdx.getDxztlx());
         }
     }
 
@@ -291,12 +263,28 @@ public class SjdxLjq extends DefaultLjq {
      * @author jingma
      * @param jtdx 要操作的具体对象
      * @param myParams 相关参数
-     * @param sjdx 数据对象的对象
      * @return 处理结果
     */
-    private Result impFieldsBdwj(SysSjglSjdx jtdx, JSONObject myParams,
-            SysSjglSjdx sjdx) {
-        return failed("文件字段导入待实现");
+    private Result impFieldsBdwj(SysSjglSjdx jtdx, JSONObject myParams) {
+        if(isBlank(jtdx.getZddrsql())){
+            //文件类载体，无法自动获取字段，若没有手动配置则跳过
+            return success("没有导入字段");
+        }
+        //非查询语句则按自定义字段规则导入。
+        List<JSONObject> fieldsList = new ArrayList<>();
+        for(String row:jtdx.getZddrsql().split("\n")){
+            JSONObject zdObj = new JSONObject();
+            String[] sxs = row.split("\\|");
+            if(sxs.length!=4){
+                return failed("非自动导出字段场景，自定义字段没有按指定规则填写："+row);
+            }
+            zdObj.put("zddm", sxs[0]);
+            zdObj.put("zdms", sxs[1]);
+            zdObj.put("zdlx", sxs[2]);
+            zdObj.put("zdcd", sxs[3]);
+            fieldsList.add(zdObj);
+        }
+        return crzd(jtdx, myParams, fieldsList);
     }
     /**
      * 获取默认导入sql-载体类型为数据库 <br/>
@@ -306,7 +294,16 @@ public class SjdxLjq extends DefaultLjq {
      * @return 处理结果
     */
     private Result impFieldsDB(SysSjglSjdx jtdx, JSONObject myParams) {
-        List<JSONObject> fieldsList = db(jtdx.getDxzt()).find(jtdx.getZddrsql(),myParams);
+        String zddrsql = jtdx.getZddrsql();
+        if(isBlank(zddrsql)){
+            Result r = dis(myParams);
+            if(!r.isStatus()){
+                //获取导入字段sql失败
+                return r;
+            }
+            zddrsql = r.getData(SysSjglSjdx.class).getZddrsql();
+        }
+        List<JSONObject> fieldsList = db(jtdx.getDxzt()).find(zddrsql,myParams);
         return crzd(jtdx, myParams, fieldsList);
     }
     /**

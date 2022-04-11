@@ -193,7 +193,7 @@ public class LjqManager extends BasicObject {
             } else {
                 JSONObject jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findSjdx"), myParams);
                 if (jsonObj == null) {
-                    throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams.get(LjqInterface.KEY_SJDX)), myParams);
+                    throw new MyException(Msg.msg("interceptor.sjdxbwy", myParams), myParams);
                 }
                 sjdx = jsonObj.toJavaObject(SysSjglSjdx.class);
                 //解析扩展信息
