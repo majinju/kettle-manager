@@ -421,7 +421,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         String[] arr = getSql(myParams,KEY_CLLX_PLSC);
         //后续继续进行逻辑删除操作
         int scs = db(arr[0]).update(arr[1], myParams);
-        if (StringUtil.isBlank(sjdx.getYxxzd())) {
+        if (isBlank(sjdx.getYxxzd())||isBlank(r.getMsg())) {
             r.addMsg("处理记录数：" + scs);
         } else {
             r.addMsg("逻辑删除记录数：" + scs);
@@ -840,6 +840,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 if (ZD_SJDX_KJLX_DICT.equals(kjlx) || "ElCascader".equals(kjlx)
                         || "$radio".equals(kjlx)|| "$checkbox".equals(kjlx)) {
                     row.put(zddm+"_mc",DictManager.zdMcByMoreDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
+                    //字典对象一起返回前端，为便于前端获取附加信息
+//                    row.put(zddm+"_zdobj",DictManager.zdObjByMoreDm(fields.getString("$."+zddm+".zdzdlb"),row.getString(zddm)));
                 }else if(ZD_SJDX_KJLX_CHECKBOX.equals(kjlx)){
                     row.put(zddm+"_mc",DictManager.zdMcByDm(DICT_SYS_COMMON_LJPD,row.getString(zddm)));
                 }
