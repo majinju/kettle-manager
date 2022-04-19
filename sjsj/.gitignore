@@ -34,3 +34,4 @@ build/
 /.mvn/wrapper/
 /src/main/resources/application-oracle.yaml
 /src/main/resources/application-mysql.yaml
+/src/main/resources/application-private.yaml

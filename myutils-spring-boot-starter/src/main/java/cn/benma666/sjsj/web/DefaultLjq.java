@@ -692,8 +692,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         //权限码
         String authCode = myParams.getString(LjqInterface.$_SYS_AUTHCODE);
         //用户
-        if (user==null) {
-            //没有用户信息则默认通过，此类都是系统内部调用
+        if (myParams.getBoolean($_SYS_NBDY)) {
+            //内部调用，则默认通过，此类都是系统内部调用
             return;
         }else if ((authCode == null)&&!UserManager.LSYH.equals(user.getYhdm())
                 && Conf.getVal("benma666.xtqx.mrtgqx","dxjcxx,select").contains(cllx)) {

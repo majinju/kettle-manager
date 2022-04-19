@@ -41,6 +41,10 @@ public class LjqManager extends BasicObject {
      */
     private static final JSONObject sjdxMap = CacheFactory.use(LjqInterface.KEY_SJDX);
     /**
+     * 内部调用缓存-对象基础信息Map<对象key，对象基础信息>
+     */
+    private static final JSONObject jcxxMap = CacheFactory.use(LjqInterface.KEY_CLLX_DXJCXX);
+    /**
      * 拦截器结合，用于重复判断，避免再次出现注入单例对象
      */
     private static final Set<LjqInterface> ljqSet = new HashSet<>();
@@ -185,6 +189,11 @@ public class LjqManager extends BasicObject {
         SysSjglSjdx sjdx;
         //读取缓存
         String cacheKey = myParams.getString(LjqInterface.KEY_SJDX)+myParams.getString(LjqInterface.$_SYS_AUTHCODE);
+        JSONObject jcxx = jcxxMap.getJSONObject(cacheKey);
+        if(jcxx!=null&&nbdy){
+            //基础信息缓存不为空且为内部调用
+            return jcxx;
+        }
         synchronized (sjdxMap){
             //进行同步操作，不免重复查询，缓存加载完成后这里应该耗时很少，应该不会成为瓶颈
             Object obj = sjdxMap.get(cacheKey);
@@ -213,11 +222,7 @@ public class LjqManager extends BasicObject {
         //合并新配置与默认配置
         myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
         if(!nbdy){
-            defParams = defaultCache.getJSONObject("sjdx.jcxx2");
-            if(defParams==null){
-                defParams= JSONObject.parseObject(Conf.getVal("sjdx.jcxx2"), Feature.OrderedField);
-                defaultCache.put("sjdx.jcxx2",defParams);
-            }
+            defParams= JSONObject.parseObject(Conf.getVal("sjdx.jcxx2"), Feature.OrderedField);
             //合并优先级高于用户传参的默认配置
             JsonUtil.mergeJSONObjects(myParams,defParams);
         }
@@ -227,7 +232,12 @@ public class LjqManager extends BasicObject {
         //设置从数据库中读取的数据对象
         myParams.put(LjqInterface.KEY_SJDX, sjdx);
         //获取基础信息
-        return jcxx(sjdx,myParams);
+        jcxx = jcxx(sjdx,myParams);
+        //内部调用基础信息缓存
+        if(nbdy){
+            jcxxMap.put(cacheKey,jcxx);
+        }
+        return jcxx;
     }
 
     /**

@@ -46,6 +46,8 @@ export default defineComponent({
     watch(()=>props.zdlb,async (newZdlb)=>{
       await zdList(props.zdlb).then(function (data){
         myData.options=data;
+      }).catch(function (e){
+        console.log("字典获取失败"+e);
       })
     })
     watch(()=>props.disabled,(newValue)=>{

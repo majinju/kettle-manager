@@ -11,13 +11,15 @@ benma666:
   config:
     list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG,SYS_KP_APPCONFIG
   data:
-    password: 123asdzxc
+    password: xxx
+  fwq:
+    ejmm: xxx
   sjzt:
-    ejmm: 5zIcmw5qVZs=
+    ejmm: xxx
   yhxx:
-    ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
+    ejmm: xxx
   app:
-    ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
+    ejmm: xxx
     dm: sjsj
 
 server:
@@ -43,7 +45,9 @@ spring:
     name: 数据世界
   profiles:
     active: oracle
-#    active: mysql
+    #    active: mysql
+    include:
+      - private
   # 资源信息
   messages:
     # 国际化资源文件路径
