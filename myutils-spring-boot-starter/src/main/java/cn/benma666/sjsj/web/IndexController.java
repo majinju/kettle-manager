@@ -10,7 +10,7 @@ import cn.benma666.exception.MyException;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.MyParams;
 import cn.benma666.iframe.Result;
-import cn.benma666.sjsj.AMyParams;
+import cn.benma666.sjsj.myutils.AMyParams;
 import com.alibaba.fastjson.JSON;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;

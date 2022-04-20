@@ -3,7 +3,6 @@ package cn.benma666.sjsj.myutils;
 import cn.benma666.constants.UtilConst;
 import cn.benma666.exception.MyException;
 import cn.benma666.myutils.StringUtil;
-import cn.benma666.sjsj.ApplicationInit;
 import cn.benma666.sjsj.web.IndexController;
 import cn.benma666.sjsj.web.UserManager;
 import cn.benma666.sjzt.Db;

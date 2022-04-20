@@ -156,7 +156,7 @@ public class LjqManager extends BasicObject {
      * @author jingma
      */
     public static JSONObject jcxxByAuthCode(String authCode) {
-        return jcxxByDxdm(authCode,null);
+        return jcxxByAuthCode(authCode,null);
     }
     public static JSONObject jcxxByAuthCode(String authCode, SysQxYhxx user) {
         JSONObject myParams = new JSONObject();
@@ -172,12 +172,13 @@ public class LjqManager extends BasicObject {
      */
     public static JSONObject jcxx(JSONObject myParams, SysQxYhxx user) {
         myParams.put(LjqInterface.KEY_YOBJ,new JSONObject());
-        if(user!=null){
-            myParams.set(LjqInterface.$_SYS_TOKEN,user.getToken());
-        }
         myParams.set(LjqInterface.$_SYS_CLLX, LjqInterface.KEY_CLLX_DXJCXX);
         myParams.set(LjqInterface.$_SYS_NBDY, Boolean.TRUE);
-        return jcxx(myParams,true);
+        JSONObject jcxx = jcxx(myParams, true);
+        if(user!=null){
+            jcxx.put(LjqInterface.KEY_USER,user);
+        }
+        return jcxx;
     }
 
     /**
@@ -192,7 +193,7 @@ public class LjqManager extends BasicObject {
         JSONObject jcxx = jcxxMap.getJSONObject(cacheKey);
         if(jcxx!=null&&nbdy){
             //基础信息缓存不为空且为内部调用
-            return jcxx;
+            return jcxx.clone();
         }
         synchronized (sjdxMap){
             //进行同步操作，不免重复查询，缓存加载完成后这里应该耗时很少，应该不会成为瓶颈
@@ -236,6 +237,7 @@ public class LjqManager extends BasicObject {
         //内部调用基础信息缓存
         if(nbdy){
             jcxxMap.put(cacheKey,jcxx);
+            jcxx = jcxx.clone();
         }
         return jcxx;
     }

@@ -1,4 +1,4 @@
-package cn.benma666.sjsj;
+package cn.benma666.sjsj.myutils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

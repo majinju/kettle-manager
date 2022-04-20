@@ -54,6 +54,7 @@ public class XxxxLjq extends DefaultLjq{
         log.info("字典获取样例："+ DictManager.zdMcByDm(ZD_SYS_QX_APP,Conf.getVal("benma666.app.dm")));
         log.info("字典名称反向获取代码（可用于验证前端传入的名称是否在字典范围内）："+ DictManager.zdDmByMoreMc(DICT_SYS_COMMON_LJPD,"是、否"));
         log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateDemo"),myParams));
+        log.info("采用文件sql模板执行sql更新："+db("kettle_default").update(SqlId.of("demo","updateDemo"),myParams));
         log.info("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("切换数据样例"+db("kettle_default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));

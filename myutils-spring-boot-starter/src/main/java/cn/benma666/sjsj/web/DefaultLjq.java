@@ -186,8 +186,8 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         String cllx = getCllx(myParams);
         try{
             Method m = this.getClass().getMethod(cllx, JSONObject.class);
-            if(!Db.isSpring()&&m.getAnnotation(Transactional.class)!=null){
-                //非spring场景事务支持，没管事务的其他参数
+            if(m.getAnnotation(Transactional.class)!=null){
+                //没管事务的其他参数
                 DSTransactionManager.start();
                 Result r;
                 try {
