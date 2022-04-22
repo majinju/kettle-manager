@@ -17,6 +17,7 @@
           :columns="myData.tableColumn"
           @cell-click="cellClickEvent"
           @page-change="pageChangeEvent"
+          :seq-config="myData.seqConfig"
           v-bind="gridOptions"
         >
         </vxe-grid>
@@ -60,6 +61,13 @@ export default defineComponent({
     searchParams:{
       type: Object,
       default: {}
+    },
+    /**
+     * 表格代码是否显示，默认不显示
+     */
+    tableDmShow:{
+      type: Boolean,
+      default: false
     }
   },
   emits:["update:modelValue","updateZdmc"],
@@ -74,11 +82,19 @@ export default defineComponent({
        */
       loading: false,
       /**
+       * 列表序号配置
+       */
+      seqConfig:{
+        seqMethod ({ rowIndex }) {
+          return myData.tablePage.pageSize*(myData.tablePage.currentPage-1)+rowIndex+1;
+        }
+      },
+      /**
        * 列定义
        */
       tableColumn: [
         { type: 'seq', width: 50,title: '序号',align:'center'},
-        { field: 'dm', width: 180, title: '代码'},
+        { field: 'dm', width: 180, title: '代码',visible: props.tableDmShow},
         { field: 'mc', title: '名称' }
       ],
       /**
@@ -249,6 +265,7 @@ export default defineComponent({
 .my-dropdown {
   width: 500px;
   height: 260px;
+  max-height: 300px;
   background-color: #fff;
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
 }
