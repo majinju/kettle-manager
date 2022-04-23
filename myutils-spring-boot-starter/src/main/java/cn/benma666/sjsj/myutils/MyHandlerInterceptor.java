@@ -5,7 +5,6 @@ import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.MyParams;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.WebUtil;
-import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.LjqInterface;
 import cn.benma666.sjsj.web.LjqManager;
 import com.alibaba.druid.util.Utils;
@@ -46,9 +45,17 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
                              Object handler) throws Exception {
         //自定义参数读取逻辑，支持json和普通参数混合传参
         MyParams myParams = getParams(request);
+        //将原始请求参数克隆备份一份，可能会用到，如：跨网请求需要原始请求参数
+        myParams.set(LjqInterface.$_OTHEROBJ_YSPARAMS,myParams.clone());
         //将请求对象注入参数对象中
         myParams.set(LjqInterface.$_OTHEROBJ_REQUEST,request);
         myParams.set(LjqInterface.$_OTHEROBJ_RESPONSE,response);
+        //切换语言
+        switchLanguage(request, myParams);
+        //设置客户端ip
+        myParams.set(LjqInterface.$_SYS_CLIENT_IP, WebUtil.getIpAddr(request));
+        //记录请求开始时间
+        myParams.set("$.sys.qqkssj", System.currentTimeMillis());
         Result r = success("预处理成功");
         try {
             if(request.getRequestURI().endsWith("/error")){
@@ -152,12 +159,6 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
             //对象代码统一为大写
             myParams.set("$.sjdx.dxdm",dxdm.replace("-","_").toUpperCase());
         }
-        //切换语言
-        switchLanguage(request, myParams);
-        //设置客户端ip
-        myParams.set(LjqInterface.$_SYS_CLIENT_IP, WebUtil.getIpAddr(request));
-        //记录请求开始时间
-        myParams.set("$.sys.qqkssj", System.currentTimeMillis());
         return myParams;
     }
 }
