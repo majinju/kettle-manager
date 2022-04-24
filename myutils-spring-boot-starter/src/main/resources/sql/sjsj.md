@@ -7,7 +7,9 @@ findSjdx
 select t.*,qx.dm auth_code from sys_sjgl_sjdx t
 left join sys_qx_qxxx qx on qx.sjdx=t.id and qx.yxx='1'
 where t.yxx='1' 
--- @ if(!isEmpty(sys.authCode)){
+-- @ if(!isEmpty(sys.dlsjdxdm)){
+  and t.dm=#{sys.dlsjdxdm}
+-- @} else if(!isEmpty(sys.authCode)){
   and qx.dm=#{sys.authCode}
 -- @} else if(!isEmpty(sjdx.id)){
   and t.id=#{sjdx.id}
