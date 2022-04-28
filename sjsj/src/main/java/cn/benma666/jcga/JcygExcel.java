@@ -8,6 +8,7 @@ package cn.benma666.jcga;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.VerifyRule;
 import cn.benma666.myutils.StringUtil;
@@ -66,8 +67,7 @@ public class JcygExcel extends SjdxExcelReader {
     * @param sjdx 数据对象
     * @param myParams 相关参数
     */
-    @SuppressWarnings("unchecked")
-    public JcygExcel(SysSjglSjdx sjdx, JSONObject myParams,JSONObject fileObj,SysQxYhxx user) {
+    public JcygExcel(SysSjglSjdx sjdx, JSONObject myParams, SysSjglFile fileObj, SysQxYhxx user) {
         super(sjdx, myParams, fileObj);
         ygFields = (Map<String, JSONObject>) myParams.get(LjqInterface.KEY_FIELDS);
         shgxParams = LjqManager.jcxxByDxdm("JCGA_JCYG_SHGX");

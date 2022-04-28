@@ -8,6 +8,7 @@ package cn.benma666.jcga;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysSjglFile;
 import cn.benma666.exception.ExcelReadException;
 import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.web.DefaultLjq;
@@ -36,19 +37,11 @@ public class JcygLzLjq extends DefaultLjq {
         //批量时不进行身份证查重
         myParams.remove("$.yzgz['yobj.gmsfhm'].zdpd");
         //离职员工处理
-        SjdxExcelReader er = new SjdxExcelReader(sjdx, myParams, myParams.getJSONObject("$.sys.files"));
-        try {
-            Result r = er.disposeExcel();
-            if(!r.isStatus()){
-                return r;
-            }
-        } catch (ExcelReadException e) {
-            return failed(e.getMessage());
-        } catch (Exception e) {
-            log.error("文件处理失败："+myParams+"->"+e.getMessage(), e);
-            return failed("文件处理失败："+e.getMessage());
+        SjdxExcelReader er = new SjdxExcelReader(sjdx, myParams, myParams.getObject("$.sys.files", SysSjglFile.class));
+        Result r = er.disposeExcel();
+        if(!r.isStatus()){
+            return r;
         }
-
         /**
         * 无效人员
         */
@@ -64,7 +57,7 @@ public class JcygLzLjq extends DefaultLjq {
                 j.put("id", yg.getString("id"));
                 j.remove("gmsfhm");
                 myParams.put(KEY_YOBJ, j);
-                Result r = update(myParams);
+                r = update(myParams);
                 if(!r.isStatus()){
                     r.setMsg("已成功处理："+count+"人后遇到错误："+r.getMsg());
                     return r;

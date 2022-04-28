@@ -314,7 +314,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             } else if ("blob".equals(sjxs)) {
                 byteArr = fo.getBytes("data");
             }
-            file.setXzms(valByDef(myParams.getBoolean("$.yobj.xzms"),false));
+            if(myParams.containsKey("$.sys.xzms")){
+                file.setXzms(myParams.getIntValue("$.sys.xzms"));
+            }
             return resultFile(byteArr, file);
         } catch (Exception e) {
             log.error("获取文件失败:" + myParams, e);
@@ -339,36 +341,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             return failed("不能找到唯一的文件记录");
         }
         SysSjglFile file = page.getList().get(0).toJavaObject(SysSjglFile.class);
-        file.setXzms(valByDef(myParams.getBoolean("$.yobj.xzms"),false));
-        JSONObject sjzt = DictManager.zdObjByDm(LjqInterface.ZD_SYS_COMMON_SJZT, file.getSjzt());
-        byte[] byteArr;
-        if (DbType.of(sjzt.getString("lx")) != null) {
-            JSONObject file1 = db(sjzt.getString("dm")).findFirst(file.getSclj());
-            if(file1==null){
-                throw new MyException("该文件没找到："+myParams.getString("$.yobj.id"));
-            }
-            byteArr = file1.getBytes("wj");
-        } else {
-            switch (sjzt.getString("lx")) {
-                case ZD_SJZTLX_BDWJ:
-                    //数据载体为本地文件时
-                    try {
-                        byteArr = Utils.readByteArray(new FileInputStream(file.getSclj()));
-                    } catch (IOException e) {
-                        return failed("文件没有找到："+ file.getSclj());
-                    }
-                    break;
-                case ZD_SJZTLX_FTP:
-                    //数据载体为ftp
-                    //ftp也需要一个类似Db的工具类
-                    throw new MyException("暂不支持的数据载体类型：" + sjzt.getString("lx"));
-
-                default:
-                    throw new MyException("暂不支持的数据载体类型：" + sjzt.getString("lx"));
-            }
+        if(myParams.containsKey("$.sys.xzms")){
+            file.setXzms(myParams.getIntValue("$.sys.xzms"));
         }
-        return resultFile(byteArr, file);
+        return resultFile(file.getFileBytes(), file);
     }
+
 
     @Override
     public Result sjplsc(JSONObject myParams) {
@@ -380,7 +358,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         try {
             int count = 0;
             for(int i=0;i<files.size(); i++){
-                JSONObject file = files.getJSONObject(i);
+                SysSjglFile file = files.getObject(i,SysSjglFile.class);
                 SjdxExcelReader er = new SjdxExcelReader(sjdx,myParams, file);
                 r = er.disposeExcel();
                 if (!r.isStatus()) {
@@ -502,6 +480,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 myParams.set($_SYS_CLLX, KEY_CLLX_INSERT);
             }
         }
+        yzgz(myParams);
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
@@ -990,18 +969,23 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             myParams.set("$.page.totalRequired", Boolean.FALSE);
             //设置根据去重字段查询数据的条件
             myParams.put(KEY_YOBJ,qcObj);
-            Result r = select(myParams);
-            if(r.isStatus()){
-                PageInfo<JSONObject> page = r.getData(PageInfo.class);
-                if (page.getList().size() == 1) {
-                    //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
-                    myParams.set($_SYS_YZDJL, Boolean.TRUE);
-                    myParams.put(KEY_OBJ, page.getList().get(0));
-                    //把查询出来的主键设置到原输入参数中，便于配置了去重字段的场景基于主键进行更新
-                    if(StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))){
-                        yobj.put(sjdx.getZjzd(),page.getList().get(0).getString(sjdx.getZjzd()));
+            Result r;
+            try{
+                r = select(myParams);
+                if(r.isStatus()){
+                    PageInfo<JSONObject> page = r.getData(PageInfo.class);
+                    if (page.getList().size() == 1) {
+                        //标记能找到要修改的对象，没找到可能是不存在，也可能是没有权限，避免修改无权限记录
+                        myParams.set($_SYS_YZDJL, Boolean.TRUE);
+                        myParams.put(KEY_OBJ, page.getList().get(0));
+                        //把查询出来的主键设置到原输入参数中，便于配置了去重字段的场景基于主键进行更新
+                        if(StringUtil.isBlank(yobj.getString(sjdx.getZjzd()))){
+                            yobj.put(sjdx.getZjzd(),page.getList().get(0).getString(sjdx.getZjzd()));
+                        }
                     }
                 }
+            }catch (MyException e){
+                log.trace("根据去重信息读取数据失败",e);
             }
             //还原原来的输入参数
             myParams.put(KEY_YOBJ,yobj);
@@ -1523,7 +1507,6 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         SysSjglFile file1 = new SysSjglFile();
         file1.setWjlx("xlsx");
         file1.setWjm(fileName);
-        file1.setXzms(true);
         return resultFile(os.toByteArray(), file1);
     }
 
@@ -1562,11 +1545,45 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 log.error("重定向失败："+r,e);
                 WebUtil.sendJson(response, failed("重定向失败："+r));
             }
-        } else if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {//文件下载场景
+        } else if (MediaType.APPLICATION_OCTET_STREAM_VALUE.equals(r.getDateType())) {
+            //文件下载场景
             JSONObject data = (JSONObject) r.getData();
-            WebUtil.sendBytes(response, data.getBytes(LjqInterface.KEY_FILE_BYTES),
-                    (SysSjglFile) data.get(LjqInterface.KEY_FILE_OBJ));
-        } else {//默认JSON
+            SysSjglFile file = data.getObject(KEY_FILE_OBJ,SysSjglFile.class);
+            byte[] bytes;
+            if(data.containsKey(KEY_FILE_BYTES)){
+                //提供的是二进制数据
+                bytes = data.getBytes(KEY_FILE_BYTES);
+            }else if(data.containsKey(KEY_FILE_BASE64)){
+                //提供的是base64数据
+                bytes = Base64.getDecoder().decode(data.getString(KEY_FILE_BASE64));
+            }else{
+                throw new MyException("没获取到要下载的数据");
+            }
+            //base64
+            String base64;
+            switch (file.getXzms()){
+                case KEY_XZMS_AWJLXXZ:
+                case KEY_XZMS_EJZ:
+                    WebUtil.sendBytes(response, bytes, file);
+                    break;
+                case KEY_XZMS_BASE64:
+                    base64 = Base64.getEncoder().encodeToString(bytes);
+                    WebUtil.sendText(response,base64);
+                    break;
+                case KEY_XZMS_BASE64OBJ:
+                    //转为base64后作为data以json对象返回
+                    base64 = Base64.getEncoder().encodeToString(bytes);
+                    data.remove(KEY_FILE_BYTES);
+                    data.put(KEY_FILE_BASE64,base64);
+                    //修改下载模式为按文件类型下载，便于后续再次进入时直接进行下载，针对代理下载文件场景
+                    file.setXzms(KEY_XZMS_AWJLXXZ);
+                    WebUtil.sendJson(response,r);
+                    break;
+                default:
+                    throw new MyException("不支持的下载模式："+file.getXzms());
+            }
+        } else {
+            //默认JSON
             response.setStatus(r.getCode());
             WebUtil.sendJson(response, r.toString());
         }

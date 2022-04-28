@@ -313,22 +313,20 @@ public class UserManager extends BasicObject {
      */
     public static SysQxYhxx findUser(JSONObject yobj) throws MyException {
         //查询用户
-        JSONObject jsonObj = yobj;
-        if(StringUtil.isBlank(yobj.getString(LjqInterface.FIELD_ID))){
-            jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findUser"), yobj);
-            if(jsonObj==null){
-                throw new MyException("没有找到用户："+yobj);
-            }
+        SysQxYhxx user;
+        user = Db.useSqlManager().selectSingle(SqlId.of("sjsj", "findUser"), yobj, SysQxYhxx.class);
+        if(user==null){
+            throw new MyException("没有找到用户："+yobj);
         }
-        SysQxYhxx user = jsonObj.toJavaObject(SysQxYhxx.class);
         //取消用户密码，登录后就不再需要使用，避免传到前端
         user.setYhmm(null);
         //查询机构
-        jsonObj = Db.use().findFirst(SqlId.of("sjsj", "findJgxx"), Db.buildMap(user.getSsjg()));
-        if(jsonObj==null){
+        SysQxJgxx jgxx = Db.useSqlManager().selectSingle(SqlId.of("sjsj", "findJgxx"), user,
+                SysQxJgxx.class);
+        if(jgxx==null){
             throw new MyException("没有找到用户的机构："+user);
         }
-        user.setJgxx(jsonObj.toJavaObject(SysQxJgxx.class));
+        user.setJgxx(jgxx);
         //查询角色
         user.set("jsxx", Db.use().find(SqlId.of("sjsj","findJsxx"),Db.buildMap(user.getId())));
 

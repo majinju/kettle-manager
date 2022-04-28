@@ -899,7 +899,6 @@ export default defineComponent({
           let params = JSON.parse(JSON.stringify(myData.selectReqData));
           params.sys.cllx = cllx;
           params.sys.ids = ids;
-          params.yobj.xzms = true;
           if(buttonOptions.dcwjm){
             //后台定制了文件名称
             params.sys.dcwjm = buttonOptions.dcwjm

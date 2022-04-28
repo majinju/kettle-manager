@@ -33,7 +33,9 @@ findUser
 * 获取用户信息
 ```sql
 select * from sys_qx_yhxx where yxx='1' 
--- @ if(!isEmpty(sfzh)){
+-- @ if(!isEmpty(id)){
+    and id=#{id}
+-- @}else if(!isEmpty(sfzh)){
     and sfzh=#{sfzh}
 -- @}else if(!isEmpty(yhdm)){
     and yhdm=#{yhdm}
@@ -49,8 +51,8 @@ findJgxx
 * 获取机构信息
 ```sql
 select * from sys_qx_jgxx where yxx='1' 
--- @ if(!isEmpty(p1)){
-    and id=#{p1}
+-- @ if(!isEmpty(ssjg)){
+    and id=#{ssjg}
 -- @}else{
     and id=''
 -- @}

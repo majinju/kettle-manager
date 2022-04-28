@@ -8,8 +8,10 @@ package cn.benma666.sjsj.web;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysLogSjsccw;
+import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.ExcelReadException;
+import cn.benma666.exception.MyException;
 import cn.benma666.exception.VerifyRuleException;
 import cn.benma666.iframe.Result;
 import cn.benma666.iframe.VerifyRule;
@@ -22,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
     /**
      * 文件数据对象
      */
-    protected JSONObject fileObj;
+    protected SysSjglFile fileObj;
     /**
      * 数据对象相关信息
      */
@@ -83,7 +84,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
      * @param myParams 相关参数
      * @param fileObj  对应的文件对象
      */
-    public SjdxExcelReader(SysSjglSjdx sjdx, JSONObject myParams, JSONObject fileObj) {
+    public SjdxExcelReader(SysSjglSjdx sjdx, JSONObject myParams, SysSjglFile fileObj) {
         this.sjdx = sjdx;
         //克隆一个参数对象，避免被修改
         this.myParams = myParams.clone();
@@ -116,18 +117,11 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         Result r = Result.success("处理完成");
         //若是07版excel
         try {
-            File file = new File(fileObj.getString("sclj"));
-            if(file.exists()){
-                EasyExcel.read(file, this).sheet()
-                        .headRowNumber(startRow).doRead();
-            }else{
-                return Result.failed("文件找不到："+file.getAbsolutePath());
-            }
-        } catch (ExcelReadException e) {
-            return Result.failed(e.getMessage());
+            EasyExcel.read(fileObj.getInputStream(), this).sheet()
+                    .headRowNumber(startRow).doRead();
         } catch (Exception e) {
-            log.info("文件处理失败，可能是文件损坏：" + fileObj.getString("sclj"), e);
-            return Result.failed("文件处理失败，可能是文件损坏，请打开文件，重新保存后再尝试上传：" + e.getMessage());
+            log.info("文件处理失败，可能是文件损坏：" + fileObj.getId(), e);
+            throw new MyException("文件处理失败，可能是文件损坏，请打开文件，重新保存后再尝试上传：" + e.getMessage());
         }
         if (getErrorList().size() > 0) {
             r = Result.failed("校验出了" + getErrorList().size() + "个错误，请按错误列表依次修改后再重新上传。");
@@ -206,7 +200,7 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
 
     public void addError(int idx, Object value, String name,
                          String cwxx) {
-        SysLogSjsccw sysLogSjsccw = new SysLogSjsccw(fileObj.getString("id"),
+        SysLogSjsccw sysLogSjsccw = new SysLogSjsccw(fileObj.getId(),
                 value + "", name, (currRow + 1) + "", sjdx.getId(), (idx + 1) + "", cwxx);
         errorList.add(sysLogSjsccw);
         //存入数据库

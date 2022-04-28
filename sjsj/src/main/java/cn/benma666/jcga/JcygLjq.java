@@ -8,6 +8,7 @@ package cn.benma666.jcga;
 
 import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysSjglFile;
 import cn.benma666.exception.ExcelReadException;
 import cn.benma666.iframe.AutoId;
 import cn.benma666.iframe.Result;
@@ -36,13 +37,14 @@ public class JcygLjq extends DefaultLjq {
     /**
     * 员工编号自增id
     */
-    private static AutoId ygbh = new AutoId("JCGA_JCYG_YGBH");
+    private static final AutoId ygbh = new AutoId("JCGA_JCYG_YGBH");
     public Result clygsj(JSONObject myParams) {
         String cllx = myParams.getString(KEY_CLLX);
         JSONObject yobj = myParams.getJSONObject(KEY_YOBJ);
         String msg;
         myParams.remove("$.yzgz['yobj.gmsfhm'].zdpd");
-        JcygExcel er = new JcygExcel(sjdx, myParams, yobj.getJSONObject("fileObj"), (SysQxYhxx) myParams.get(KEY_USER));
+        JcygExcel er = new JcygExcel(sjdx, myParams, yobj.getObject("fileObj", SysSjglFile.class),
+                (SysQxYhxx) myParams.get(KEY_USER));
         try {
             Result r = er.disposeExcel();
             if(!r.isStatus()){
