@@ -32,7 +32,9 @@ export default defineComponent({
       loading:false,
       formData: {
         yhdm: '',
-        yhmm: ''
+        yhmm: '',
+        //获取用户详细信息，不传默认只返回基础信息
+        model: "details"
       },
       formItems: [
         { field: 'yhdm', title: '用户名', span: 24, itemRender: { name: 'ElInput', props:

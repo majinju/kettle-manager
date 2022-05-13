@@ -12,6 +12,7 @@ import cn.benma666.iframe.Conf;
 import cn.benma666.iframe.Result;
 import cn.benma666.myutils.DateUtil;
 import cn.benma666.myutils.HttpUtil;
+import cn.benma666.myutils.JsonUtil;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqManager;
@@ -28,6 +29,8 @@ import java.util.Map;
  * @author jingma
  */
 public class YhdlLjq extends DefaultLjq {
+
+    public static final String BASIC = "basic";
 
     /**
      * 用户登陆
@@ -121,6 +124,13 @@ public class YhdlLjq extends DefaultLjq {
     private Result xtjcxx(JSONObject myParams, SysQxYhxx user) {
         UserManager.addUser(myParams.getString($_SYS_TOKEN), user);
         myParams.put(KEY_USER, user);
-        return super.xtjcxx(myParams);
+        String model = valByDef(myParams.getString("$.yobj.model"), BASIC);
+        if(BASIC.equals(model)){
+            JSONObject data = new JSONObject();
+            JsonUtil.copy(data, myParams, $_SYS_TOKEN);
+            return success("登陆成功",data);
+        }else {
+            return super.xtjcxx(myParams);
+        }
     }
 }

@@ -328,10 +328,9 @@ public class UserManager extends BasicObject {
         }
         user.setJgxx(jgxx);
         //查询角色
-        user.set("jsxx", Db.use().find(SqlId.of("sjsj","findJsxx"),Db.buildMap(user.getId())));
-
-        Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"), Db.buildMap(user));
-        user.setQxMap(qxMap);
+        user.setJsMap(Db.use().findMap("js",SqlId.of("sjsj","findJsxx"),Db.buildMap(user.getId())));
+        //设置用户权限
+        user.setQxMap(Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"), Db.buildMap(user)));
         return user;
     }
 

@@ -192,6 +192,8 @@ public class LjqManager extends BasicObject {
         String cacheKey = myParams.getString(LjqInterface.KEY_SJDX)+myParams.getString(LjqInterface.$_SYS_AUTHCODE);
         JSONObject jcxx = jcxxMap.getJSONObject(cacheKey);
         if(jcxx!=null&&nbdy){
+            jcxx.put(LjqInterface.KEY_YOBJ,myParams.get(LjqInterface.KEY_YOBJ));
+            jcxx.put(LjqInterface.KEY_USER,myParams.get(LjqInterface.KEY_USER));
             //基础信息缓存不为空且为内部调用
             return jcxx.clone();
         }
@@ -224,7 +226,7 @@ public class LjqManager extends BasicObject {
         myParams.putAll(JsonUtil.mergeJSONObjects(defParams,myParams));
         if(!nbdy){
             defParams= JSONObject.parseObject(Conf.getVal("sjdx.jcxx2"), Feature.OrderedField);
-            //合并优先级高于用户传参的默认配置
+            //合并优先级高于用户传参的默认配置2（核心关键配置），对前端传参进行控制，避免前端传参权力太大，入侵系统
             JsonUtil.mergeJSONObjects(myParams,defParams);
         }
         //合并数据对象的扩展信息到系统参数中

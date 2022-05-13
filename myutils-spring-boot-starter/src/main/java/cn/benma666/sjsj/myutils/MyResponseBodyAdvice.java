@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * 对返回值进行处理
  */
-@ControllerAdvice(basePackages = {"cn.benma666.sb"},annotations = {RestController.class})
+@ControllerAdvice(annotations = {RestController.class})
 public class MyResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
@@ -24,6 +24,7 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice {
                                   MediaType selectedContentType, Class selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
         ((ServletServerHttpRequest)request).getServletRequest().setAttribute(MyHandlerInterceptor.RETURN_BODY,body);
-        return body;
+        //自行进行结果处理，此处返回空，避免重复发送报错
+        return null;
     }
 }

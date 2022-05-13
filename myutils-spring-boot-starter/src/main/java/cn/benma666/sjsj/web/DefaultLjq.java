@@ -51,6 +51,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -211,14 +212,14 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             }else if(KEY_CLLX_GETFILE.equals(zxcz)){
                 return getDlLjq().getfile(myParams);
             }else{
-                return failed("暂不支持的执行操作："+zxcz);
+                throw new MyException("暂不支持的执行操作："+zxcz);
             }
         } catch (InvocationTargetException | IllegalAccessException e) {
             if(e.getCause()!=null&&(e.getCause() instanceof MyException)){
                 throw (MyException)e.getCause();
             }
             log.error(cllx+"方法执行失败",e);
-            return failed(cllx+"方法执行失败："+e.getCause().getMessage());
+            throw new MyException(cllx+"方法执行失败："+e.getCause().getMessage());
         }
     }
 
@@ -292,7 +293,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                     (List<List<String>>)myParams.get($_OTHEROBJ_DCSJYCL_DATA), fileName);
         } catch (Exception e) {
             log.error("导出数据失败:" + myParams, e);
-            return failed("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
+            throw new MyException("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
         }
     }
 
@@ -303,7 +304,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             arr = getDlLjq().getSql(myParams);
             List<JSONObject> rl = db(arr[0]).find(arr[1], JSONObject.class, myParams);
             if (rl.size() == 0) {
-                return failed("未找到文件数据");
+                throw new MyException("未找到文件数据");
             }
             JSONObject fo = rl.get(0);
             SysSjglFile file = fo.toJavaObject(SysSjglFile.class);
@@ -320,7 +321,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             return resultFile(byteArr, file);
         } catch (Exception e) {
             log.error("获取文件失败:" + myParams, e);
-            return failed("获取文件失败，请查看系统日志分析原因:" + e.getMessage());
+            throw new MyException("获取文件失败，请查看系统日志分析原因:" + e.getMessage());
         }
     }
 
@@ -336,9 +337,9 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         JsonUtil.copy(fileJcxx,myParams,"$.sys.ids");
         PageInfo<JSONObject> page = (PageInfo<JSONObject>) LjqManager.select(fileJcxx).getData();
         if (page.getList().size() == 0) {
-            return failed("没有找到该文件");
+            throw new MyException("没有找到该文件");
         } else if (page.getList().size() > 1) {
-            return failed("不能找到唯一的文件记录");
+            throw new MyException("不能找到唯一的文件记录");
         }
         SysSjglFile file = page.getList().get(0).toJavaObject(SysSjglFile.class);
         if(myParams.containsKey("$.sys.xzms")){
@@ -468,7 +469,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         if(KEY_CLLX_UPDATE.equals(myParams.getString($_SYS_CLLX))){
             //更新
             if(!myParams.getBoolean($_SYS_YZDJL)){
-                return failed("没有找到要更新的记录");
+                throw new MyException("没有找到要更新的记录");
             }
             //根据处理类型设置消息
             res.setMsg("更新成功");
@@ -480,7 +481,10 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
                 myParams.set($_SYS_CLLX, KEY_CLLX_INSERT);
             }
         }
-        yzgz(myParams);
+        if(!myParams.getBoolean($_SYS_NBDY)){
+            //内部调用不做校验
+            yzgz(myParams);
+        }
         Result r;
         if (DbType.of(sjdx.getDxztlx()) != null) {
             //数据库场景
@@ -610,7 +614,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             return resultExcelFile(header, data, fileName);
         } catch (Exception e) {
             log.error("导出数据失败", e);
-            return failed("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
+            throw new MyException("导出数据失败，请查看系统日志分析原因:" + e.getMessage());
         }
     }
 
@@ -1367,22 +1371,20 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         if(czrz!=null){
             //记录日志
             String fhnr = r.toString();
-            if(fhnr.length()<2000){
+            if(fhnr.getBytes(StandardCharsets.UTF_8).length<4000){
                 czrz.setFhnr(fhnr);
             }else{
                 JSONObject fhnrObj = JSON.parseObject(fhnr);
                 //返回内容较大，不记录内容
                 fhnrObj.remove("data");
-                if(r.getMsg().length()>2000){
-                    fhnrObj.put("msg", r.getMsg().substring(0,2000));
+                if(r.getMsg().getBytes(StandardCharsets.UTF_8).length>2000){
+                    fhnrObj.put("msg", r.getMsg().substring(0,500));
                 }
                 czrz.setFhnr(fhnrObj.toString());
             }
             //设置请求耗时
             long kssj = myParams.getLong("$.sys.qqkssj");
             czrz.setQqhs(BigDecimal.valueOf(System.currentTimeMillis()-kssj));
-            //设置更新时间
-            czrz.setGxsj(DateUtil.getGabDate());
             JSONObject rzJcxx = LjqManager.jcxxByDxdm("SYS_LOG_FWZR");
             rzJcxx.put(KEY_YOBJ,czrz);
             rzJcxx.put(KEY_USER, myParams.get(KEY_USER));

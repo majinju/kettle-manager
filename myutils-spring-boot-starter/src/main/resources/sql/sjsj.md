@@ -8,7 +8,7 @@ select t.*,qx.dm auth_code from sys_sjgl_sjdx t
 left join sys_qx_qxxx qx on qx.sjdx=t.id and qx.yxx='1'
 where t.yxx='1' 
 -- @ if(!isEmpty(sys.dlsjdxdm)){
-  and t.dm=#{sys.dlsjdxdm}
+  and t.dxdm=#{sys.dlsjdxdm}
 -- @} else if(!isEmpty(sys.authCode)){
   and qx.dm=#{sys.authCode}
 -- @} else if(!isEmpty(sjdx.id)){
@@ -62,7 +62,7 @@ findJsxx
 ===
 * 获取角色信息
 ```sql
-select * from sys_qx_yhjsgl where yxx='1' 
+select t.yh,t.js from sys_qx_yhjsgl t where yxx='1' 
 -- @ if(!isEmpty(p1)){
     and yh=#{p1}
 -- @}else{
@@ -89,8 +89,8 @@ findYhqxxx
   ,'ADMIN_DLYH'
   -- @}
   )
-  -- @for(js in p1.jsxx){
-  or js.dm like #{js.js}||'%'
+  -- @for(e in p1.jsMap){
+  or js.dm like #{e.key+'%'}
   -- @}
   )
 ```
@@ -109,7 +109,7 @@ insertJsqxHzqx
 ```sql
   insert into sys_qx_jsqxgl( cjrxm, cjrdm, cjrdwmc, cjrdwdm, js, qx)
   select #{user.cjrxm}, #{user.cjrdm}, #{user.cjrdwmc}, #{user.cjrdwdm}, #{yobj.js}, t.dm from sys_qx_qxxx t
-  where t.dm like #{sql.changeNode.dm}||'%'
+  where t.dm like #{sql.changeNode.dm+'%'}
 ```
 
 insertBlob

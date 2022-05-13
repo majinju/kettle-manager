@@ -1,15 +1,11 @@
 package cn.benma666.sjsj.demo.controller;
 
-import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.MyParams;
+import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.myutils.AMyParams;
-import cn.benma666.sjsj.myutils.MySjdx;
-import cn.benma666.sjsj.web.LjqManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 演示控制器
@@ -18,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/demo/xxxx")
 public class XxxxController extends BasicObject {
     @RequestMapping("select")
-    public void select(HttpServletResponse response, @AMyParams MyParams myParams, @MySjdx SysSjglSjdx sjdx) {
+    public Result select(@AMyParams MyParams myParams) {
         //写自己的业务
-        LjqManager.sendResult(response,myParams,success("请求成功"));
+        return success("请求成功:"+myParams.getCllx());
     }
 }

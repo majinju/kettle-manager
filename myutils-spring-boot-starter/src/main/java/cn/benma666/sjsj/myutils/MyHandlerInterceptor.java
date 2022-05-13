@@ -96,7 +96,20 @@ public class MyHandlerInterceptor extends BasicObject implements HandlerIntercep
     public void postHandle(HttpServletRequest request, HttpServletResponse response,
                            Object handler,@Nullable ModelAndView modelAndView) {
         //进行处理完成后的日志记录等操作
-//        log.debug("返回内容：" + request.getAttribute(RETURN_BODY));
+        Object r = request.getAttribute(RETURN_BODY);
+        Object p = request.getAttribute(LjqInterface.MY_PARAMS);
+        log.trace("返回内容：" + request.getAttribute(RETURN_BODY));
+        Result res;
+        MyParams myParams = null;
+        if(r instanceof Result){
+            res = (Result) r;
+        }else{
+            res = success("处理完成",r);
+        }
+        if(p!=null){
+            myParams = (MyParams) p;
+        }
+        LjqManager.sendResult(response,myParams ,res);
     }
 
     /**

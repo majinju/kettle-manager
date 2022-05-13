@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<druid.version>1.2.7_preview_05</druid.version>
+		<xxl-job.version>2.3.1-SNAPSHOT</xxl-job.version>
 	</properties>
 	<developers>
 		<developer>
@@ -96,7 +97,13 @@
             <version>22.0.0</version>
             <scope>compile</scope>
         </dependency>
-    </dependencies>
+		<!-- xxl-job-core -->
+		<dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-core</artifactId>
+			<version>${xxl-job.version}</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>

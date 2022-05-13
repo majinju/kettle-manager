@@ -34,8 +34,7 @@ Content-Type: application/json
     "yhmm":"sys_123"
   },
   "sys":{
-    "token":"4978866291C611DA0D2D5999C413107F",
-    "clearCache":true
+    "token":"4978866291C611DA0D2D5999C413107F"
   }
 }
 
