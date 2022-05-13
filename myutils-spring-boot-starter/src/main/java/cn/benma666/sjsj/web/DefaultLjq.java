@@ -1409,7 +1409,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         fileObj.setYxx(UtilConst.WHETHER_TRUE);
         JSONObject fileJcxx = LjqManager.jcxxByDxdm("SYS_SJGL_FILE");
         fileJcxx.put(KEY_USER, myParams.get(KEY_USER));
-        fileJcxx.put(KEY_YOBJ, JSON.parseObject(fileObj.toString()));
+        fileJcxx.put(KEY_YOBJ, fileObj.toJSONObject());
         fileJcxx.set("$.page.totalRequired",Boolean.FALSE);
         //如果表中存在此去重码则把这个文件删除
         List<JSONObject> list = ((PageInfo<JSONObject>)LjqManager.select(fileJcxx).getData()).getList();
@@ -1485,7 +1485,7 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
         }
         //保存文件信息
         fileObj.setId(StringUtil.getUUIDUpperStr());
-        fileJcxx.put(KEY_YOBJ, JSON.parseObject(fileObj.toString()));
+        fileJcxx.put(KEY_YOBJ, fileObj.toJSONObject());
         LjqManager.insert(fileJcxx);
         log.debug(fileObj + "文件上传成功");
         return success("文件上传成功", fileObj);
