@@ -62,7 +62,7 @@ findJsxx
 ===
 * 获取角色信息
 ```sql
-select t.yh,t.js from sys_qx_yhjsgl t where yxx='1' 
+select t.js from sys_qx_yhjsgl t where yxx='1' 
 -- @ if(!isEmpty(p1)){
     and yh=#{p1}
 -- @}else{

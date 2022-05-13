@@ -31,7 +31,8 @@ Content-Type: application/json
 {
   "yobj": {
     "yhdm":"sys",
-    "yhmm":"sys_123"
+    "yhmm":"sys_123",
+    "model": "details"
   },
   "sys":{
     "token":"4978866291C611DA0D2D5999C413107F"
