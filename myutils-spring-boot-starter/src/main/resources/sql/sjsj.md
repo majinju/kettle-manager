@@ -95,6 +95,35 @@ findYhqxxx
   )
 ```
 
+findYhDxQxYs
+===
+* 用户相关的对象和权限代码的映射
+```sql
+  select dx.dxdm,max(qx.dm) qxm
+  from sys_qx_qxxx qx
+  inner join sys_qx_jsqxgl jq
+  on qx.dm = jq.qx
+  and jq.yxx = '1'
+  inner join sys_qx_jsxx js
+  on js.dm = jq.js
+  and js.yxx = '1'
+  inner join sys_sjgl_sjdx dx
+  on qx.sjdx=dx.id
+  where qx.yxx = '1'
+  and (js.dm in (
+  'ADMIN_DLYH_LSYH'
+  -- @if(p1.yhdm!='lsyh'){
+  ,'ADMIN_DLYH'
+  -- @}
+  )
+  -- @for(e in p1.jsMap){
+  or js.dm like #{e.key+'%'}
+  -- @}
+  )
+  and qx.sjdx is not null
+  group by dx.dxdm
+```
+
 insertJsqx
 ===
 * 插入角色权限关联信息

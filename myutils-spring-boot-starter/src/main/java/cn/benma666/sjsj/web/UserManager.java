@@ -327,10 +327,7 @@ public class UserManager extends BasicObject {
             throw new MyException("没有找到用户的机构："+user);
         }
         user.setJgxx(jgxx);
-        //查询角色
-        user.setJsMap(Db.use().findMap("js",SqlId.of("sjsj","findJsxx"),Db.buildMap(user.getId())));
-        //设置用户权限
-        user.setQxMap(Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"), Db.buildMap(user)));
+        loadYhqx(user);
         return user;
     }
 
@@ -345,10 +342,7 @@ public class UserManager extends BasicObject {
             //使用redis
             for (String key : redisTemplate.keys("user*")) {
                 user = ((SysQxYhxx) redisTemplate.opsForValue().get(key));
-                Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
-                        Db.buildMap(user));
-                user.setQxMap(qxMap);
-                user.set(DLSJ,System.currentTimeMillis());
+                loadYhqx(user);
                 userCache.put(user.getToken(),user);
                 redisTemplate.opsForValue().set(key,user,sessionYxq, TimeUnit.MINUTES);
             }
@@ -356,12 +350,23 @@ public class UserManager extends BasicObject {
             //不使用redis
             for (String key : userCache.keySet()) {
                 user = userCache.getObject(key,SysQxYhxx.class);
-                Map<String, JSONObject> qxMap = Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"),
-                        Db.buildMap(user));
-                user.setQxMap(qxMap);
-                user.set(DLSJ,System.currentTimeMillis());
+                loadYhqx(user);
                 userCache.put(user.getToken(),user);
             }
         }
+    }
+
+    /**
+     * 加载用户权限相关信息：角色、权限、对象代码与权限的映射
+     */
+    private static void loadYhqx(SysQxYhxx user){
+        //查询角色
+        user.setJsMap(Db.use().findMap("js",SqlId.of("sjsj","findJsxx"),Db.buildMap(user.getId())));
+        //设置用户权限
+        user.setQxMap(Db.use().findMap("dm", SqlId.of("sjsj","findYhqxxx"), Db.buildMap(user)));
+        //设置用户相关对象与权限代码的映射关系
+        user.setDxqxys(Db.use().findMap("dxdm", SqlId.of("sjsj","findYhDxQxYs"), Db.buildMap(user)));
+        //设置登陆时间，计算会话超时
+        user.set(DLSJ,System.currentTimeMillis());
     }
 }
