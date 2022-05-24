@@ -69,8 +69,12 @@ public class XxxxLjq extends DefaultLjq{
         JSONObject sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX");
         //设置查询条件，类似前端查询传参
         sjdxParams.set("$.yobj.dxdm","SYS_SJGL_SJDX");
-        //调用查询
-        Result r = LjqManager.select(sjdxParams);
+        //调用方式1：常用方法在LjqManager中提供了对应方法，可以直接调用。
+        LjqManager.select(sjdxParams);
+        //调用方式2：设置处理类型，通过data方法调用，一些在LjqManager中没有设置的方法需要采用此方法调用。
+        //切记，调用其他数据对象的方法时一定要通过LjqManager去调用，不能直接调用父类的方法。
+        sjdxParams.set($_SYS_CLLX,KEY_CLLX_SELECT);
+        Result r = LjqManager.data(sjdxParams);
         //获取数据
         log.info("调用其他对象的方法查询数据："+r.getData(PageInfo.class).getList(SysSjglSjdx.class));
         /////////直接采用beetlsql///////////

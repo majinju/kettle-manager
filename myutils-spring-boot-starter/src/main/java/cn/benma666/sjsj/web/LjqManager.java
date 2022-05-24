@@ -41,10 +41,6 @@ public class LjqManager extends BasicObject {
      */
     private static final JSONObject sjdxMap = CacheFactory.use(LjqInterface.KEY_SJDX);
     /**
-     * 内部调用缓存-对象基础信息Map<对象key，对象基础信息>
-     */
-    private static final JSONObject jcxxMap = CacheFactory.use(LjqInterface.KEY_CLLX_DXJCXX);
-    /**
      * 拦截器结合，用于重复判断，避免再次出现注入单例对象
      */
     private static final Set<LjqInterface> ljqSet = new HashSet<>();
@@ -190,13 +186,6 @@ public class LjqManager extends BasicObject {
         SysSjglSjdx sjdx;
         //读取缓存
         String cacheKey = myParams.getString(LjqInterface.KEY_SJDX)+myParams.getString(LjqInterface.$_SYS_AUTHCODE);
-        JSONObject jcxx = jcxxMap.getJSONObject(cacheKey);
-        if(jcxx!=null&&nbdy){
-            jcxx.put(LjqInterface.KEY_YOBJ,myParams.get(LjqInterface.KEY_YOBJ));
-            jcxx.put(LjqInterface.KEY_USER,myParams.get(LjqInterface.KEY_USER));
-            //基础信息缓存不为空且为内部调用
-            return jcxx.clone();
-        }
         synchronized (sjdxMap){
             //进行同步操作，不免重复查询，缓存加载完成后这里应该耗时很少，应该不会成为瓶颈
             Object obj = sjdxMap.get(cacheKey);
@@ -235,13 +224,7 @@ public class LjqManager extends BasicObject {
         //设置从数据库中读取的数据对象
         myParams.put(LjqInterface.KEY_SJDX, sjdx);
         //获取基础信息
-        jcxx = jcxx(sjdx,myParams);
-        //内部调用基础信息缓存
-        if(nbdy){
-            jcxxMap.put(cacheKey,jcxx);
-            jcxx = jcxx.clone();
-        }
-        return jcxx;
+        return jcxx(sjdx,myParams);
     }
 
     /**
