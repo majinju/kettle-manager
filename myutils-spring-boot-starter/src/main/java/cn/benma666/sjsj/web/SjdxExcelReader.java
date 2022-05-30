@@ -145,7 +145,9 @@ public class SjdxExcelReader extends AnalysisEventListener<LinkedHashMap<Integer
         }
         int i = 0;
         for (Entry<String, JSONObject> e : fields.entrySet()) {
-            if (!(e.getValue().getString("zdmc") + "[" + e.getValue().getString("zddm") + "]").equals(headMap.get(i))) {
+            if (!(e.getValue().getString("zdmc") + "[" + e.getValue().getString("zddm") + "]").equals(headMap.get(i))
+                &&!(e.getValue().getString("zdmc")).equals(headMap.get(i))) {
+                //支持带字段代码或不带字段代码
                 throw new ExcelReadException("第[" + (i + 1) + "]列必须是\""
                         + e.getValue().getString("zdmc") + "[" + e.getValue().getString("zddm") + "]"
                         + "\"当前实际是\"" + headMap.get(i) + "\"，请不要修改数据模板表头。");

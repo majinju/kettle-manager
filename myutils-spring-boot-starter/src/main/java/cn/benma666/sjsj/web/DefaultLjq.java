@@ -606,7 +606,12 @@ public class DefaultLjq extends BasicObject implements LjqInterface {
             for (Map.Entry<String, JSONObject> f : fields.entrySet()) {
                 if (valByDef(f.getValue().getBoolean("mbzs"),false)) {
                     h = new ArrayList<>();
-                    h.add(f.getValue().getString("zdmc") + "[" + f.getValue().getString("zddm") + "]");
+                    String btmc = f.getValue().getString("zdmc") + "[" + f.getValue().getString("zddm") + "]";
+                    if(valByDef(myParams.getBoolean("$.sys.zddm"),true)){
+                        //是否包含字段代码，默认为是
+                        btmc += "[" + f.getValue().getString("zddm") + "]";
+                    }
+                    h.add(btmc);
                     header.add(h);
                     r.add(VerifyRule.rulejx(f.getValue(), f.getValue().getJSONObject("$.kzxx.yzgz").getJSONObject(KEY_CLLX_INSERT)));
                 }
