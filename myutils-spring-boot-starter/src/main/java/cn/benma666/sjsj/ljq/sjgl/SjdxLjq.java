@@ -336,7 +336,8 @@ public class SjdxLjq extends DefaultLjq {
         for(JSONObject fieldObj:fieldsList){
             idx += 10;
             //本系统统一，数据库中带下划线，本系统采用驼峰命名字段，实体类、数据库查询结果、数据对象中的字段统一
-            String zddm = StringUtil.underlineTohump(fieldObj.getString("zddm"));
+//            String zddm = StringUtil.underlineTohump(fieldObj.getString("zddm"));
+            String zddm = fieldObj.getString("zddm").toLowerCase();
             //设置字段代码，统一用小写
             fieldObj.put("zddm", zddm);
             if(oldFiledMap.containsKey(zddm)){
