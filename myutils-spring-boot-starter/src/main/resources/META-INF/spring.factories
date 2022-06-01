@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.benma666.sjsj.myutils.MyutilsAutoConfig,cn.benma666.sjsj.myutils.WebConfigurer
-org.springframework.boot.env.EnvironmentPostProcessor=cn.benma666.sjsj.myutils.Config
