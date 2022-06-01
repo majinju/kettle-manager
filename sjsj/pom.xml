@@ -8,7 +8,7 @@
 		<version>2.6.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>cn.benma666.sb</groupId>
+	<groupId>cn.benma666</groupId>
 	<artifactId>sjsj</artifactId>
 	<version>0.2.0</version>
 	<name>sjsj</name>
@@ -19,7 +19,7 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>cn.benma666.sb</groupId>
+			<groupId>cn.benma666</groupId>
 			<artifactId>myutils-spring-boot-starter</artifactId>
 			<version>${myutils.vsersion}</version>
 		</dependency>
