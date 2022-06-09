@@ -1,0 +1,20 @@
+.tags {
+    height: 45px;
+    background: #fff;
+    padding-right: 130px;
+    box-shadow: 0 5px 5px #ddd;
+}
+
+.tags-close-box {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    box-sizing: border-box;
+    padding-top: 1px;
+    text-align: center;
+    width: 90px;
+    height: 30px;
+    background: #fff;
+    /*box-shadow: -3px 0 15px 3px rgba(0, 0, 0, 0.1);*/
+    z-index: 10;
+}

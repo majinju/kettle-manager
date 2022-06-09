@@ -1,0 +1,28 @@
+::v-deep(.el-upload) {
+    height: 50px;
+    width: 90px;
+    margin-bottom: 7px;
+    overflow: hidden;
+  }
+  .upload-plsc{
+    margin-left: 8px;
+    margin-top: 16px;
+  }
+  ::v-deep(.el-upload--text ){
+    border: 0;
+  }
+  
+  .qx-div{
+    margin-left: 30px;
+    margin-top: 18px;
+  }
+  .ck-div{
+    margin-left: 20px;
+    margin-top: 11px;
+  }
+  .icon-class{
+    cursor: pointer;
+    width: 5px;
+    height: 5px;
+    color: #1b7ee5;
+  }

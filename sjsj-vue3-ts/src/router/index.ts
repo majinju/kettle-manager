@@ -1,50 +1,71 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import {useStore} from "vuex";
 
 const routes = [
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login/:sys?",
+    alias: "/",
+    name: "Login",
     component: () => import ('../views/Login')
-  }
+  },
   // {
-  //   path: "/home",
-  //   name: "Home",
-  //   component: () => import('@/views/Home'),
-  //   children: [
-  //     {
-  //       path: 'DictionaryManagement',
-  //       name:'字典管理',
-  //       component: () => import('@/views/zdgl/dictionaryManager'),
-  //     },
-  //     {
-  //       path: '/dictionaryAdd' ,
-  //       name: '详情页',
-  //       component: () => import('@/views/zdgl/dictionaryAdd')
-  //     },
-  //     {
-  //       path: '/home/dictionaryEdit',
-  //       name: '编辑页',
-  //       component: () =>import('@/views/zdgl/dictionaryEdit')
-  //     }
-  //   ]
+  //   path: '/test1',
+  //   name: "测试1",
+  //   component:()=> import('../views/test/text.vue')
   // },
+  // {
+  //   path: '/sjdx1',
+  //   name:'数据对象1',
+  //   component: () => import('../views/sjdx1/Sjdx1.vue')
+  // },
+  {
+    path: '/sjdx2',
+    name:'数据对象2',
+    component: () => import('../components/Sjdx')
+  },
+  {
+    path: "/home/:sys?",
+    name: "平台首页",
+    component: () => import('../views/Home'),
+    children: [
+      {
+        path: 'sjdx',
+        name:'数据对象',
+        component: () => import('../components/Sjdx')
+      },
+      // {
+      //   path: 'test',
+      //   name:'测试1',
+      //   component: ()=> import('../views/test/text.vue'),
+      //   children:[
+      //     {
+      //       path: 'sjdxs',
+      //       name:'数据对象1',
+      //       component: () => import('../components/Sjdx.vue')
+      //     },
+      //   ]
+      // }
+    ]
+  },
+
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
 router.beforeEach((to, from, next) => {
-  /** 页面发生变化修改页面title*/
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
-  const token = sessionStorage.getItem('token')
-  if (to.name == 'Login' || token) {
+  const store = useStore();
+  if(store){
+    let token = store.state.user.token;
+    if (to.name === 'Login'||token) {
+      next()
+    } else {
+      next({ path: '/login' })
+    }
+  }else{
     next()
-  } else {
-    next({ path: '/login' })
   }
-})
+
+});
 export default router

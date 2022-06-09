@@ -1,17 +1,29 @@
 import { createStore } from 'vuex'
-import watermark from '../utils/watermark'
+import watermark from '../utils/watermark';
+import axios from "../axios";
 
 export default createStore({
   state: {
-    // 用户信息
+    /**
+     * 用户信息
+     */
     user: {
-      yhxm: '临时用户',
-      yhdm: 'lsyh'
     },
-    // 操作日志，记录了用户的ip等基础信息
-    czrz: {
-      token: ''
-    }
+    /**
+     * 系统参数，记录了用户的ip等基础信息
+     */
+    sys: {
+    },
+    /**
+     * 系统信息
+     */
+    xtxx: {
+      /**
+       * 代码
+       */
+      dm: "KFZFW"
+    },
+    xtcs: {}
   },
   mutations: {
     /**
@@ -20,18 +32,26 @@ export default createStore({
      * @param user 用户信息
      */
     setUser(state, user) {
-      state.user = user
-      watermark.set(user.yhxm + ',' + user.yhdm)
+      state.user = user;
+      console.log(user);
+      watermark.set(user.yhxm + "," + user.yhdm);
     },
     /**
      * 设置系统基础信息
      * @param state 系统状态对象
-     * @param czrz 用户信息
+     * @param sys 系统参数
      */
-    setCzrz(state, czrz) {
-      state.czrz = czrz
-      // 在回话中设置用户权限码
-      sessionStorage.setItem('token', czrz.token)
+    setSys(state, sys) {
+      state.sys = sys;
+      axios.setToken(sys.token);
+    },
+    /**
+     * 设置系统信息
+     * @param state 系统状态对象
+     * @param xtxx 系统信息
+     */
+    setXtxx(state, xtxx) {
+      state.xtxx = xtxx;
     }
   },
   actions: {
@@ -46,8 +66,10 @@ export default createStore({
     getUser: state => state.user,
     /**
      * @param state 系统状态对象
-     * @returns {{}} 当前用户的一些信息
+     * @returns {{}} 当前系统参数
      */
-    getCzrz: state => state.czrz
+    getSys: state => state.sys,
+    //TODO: 源代码没定义xtcs
+    getXtcs: state => state.xtcs
   }
 })

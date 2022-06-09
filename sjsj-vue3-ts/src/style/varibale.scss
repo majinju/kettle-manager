@@ -1,0 +1,75 @@
+$bg-color-default: #726aca;
+$bg-color-danger: #f3545e;
+$resource-shrink-trs: margin 0.3s, left 0.3s; 
+// old
+// 定义变量文件
+$bg-color: #1890ff;
+$scroll-color: #6e94e0;
+//字体大小定义
+$font_size_12: 12px;
+$font_size_14: 14px;
+$font_size_16: 16px;
+$font_size_18: 18px;
+$font_size_20: 20px;
+//字体调整的差量
+$size:0;
+$size_4: 1px;
+$size_6: 2px;
+$size_8: 3px;
+
+// 失败的颜色
+$fail-color: #e84d4d;
+// 成功的颜色
+$success-color: #4a9c27;
+// 灰色
+$gray_bg_color: #f6f8fa;
+// 黑色
+$caret_color: #4a5866;
+// 导航栏背景色
+$nav_bg_color:#1f2532;
+// 导航栏字体颜色
+$nav_color:#6e94e0; // 关系模型模块变量
+// 边框样式
+$border_style: solid 1px #e1e6ed;
+// 虚线边框样式
+$dashed_border_style: dashed 1px #e1e6ed;
+// 文件夹颜色
+$folder_color: #e89d2c;
+// 实体图标颜色
+$entity_color: #919ca8;
+// 鼠标移上去背景色
+$hover_bg_color: #e1e6ed;
+$blue_color: #3152ad;
+
+// font color
+$fontDark: #323233;
+$fontGrey: #666667;
+$fontTint: #98989c;
+$mainColor: #00b38b;
+$sideBarWidth: 180px;
+
+// sidebar
+$menuText:#bfcbd9;
+$menuActiveText:#409dfc;
+$subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
+
+$menuBg:#304156;
+$menuHover:#263445;
+
+$subMenuBg:#1f2d3d;
+$subMenuHover:#001528;
+
+$sideBarWidth: 210px;
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+:export {
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+}
