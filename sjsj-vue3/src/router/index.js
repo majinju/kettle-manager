@@ -9,19 +9,14 @@ const routes = [
     component: () => import ('../views/Login')
   },
   {
-    path: '/test1',
-    name: "测试1",
-    component:()=> import('../views/test/text')
-  },
-  {
-    path: '/sjdx1',
-    name:'数据对象1',
-    component: () => import('../views/sjdx1/Sjdx1')
-  },
-  {
     path: '/sjdx2',
     name:'数据对象2',
-    component: () => import('../components/Sjdx')
+    component: () => import('../components/Sjdx2')
+  },
+  {
+    path: '/test',
+    name:'测试',
+    component: () => import('../components/Test')
   },
   {
     path: "/home/:sys?",
@@ -32,18 +27,6 @@ const routes = [
         path: 'sjdx',
         name:'数据对象',
         component: () => import('../components/Sjdx')
-      },
-      {
-        path: 'test',
-        name:'测试1',
-        component: ()=> import('../views/test/text'),
-        children:[
-          {
-            path: 'sjdxs',
-            name:'数据对象1',
-            component: () => import('../components/Sjdx')
-          },
-        ]
       }
     ]
   },

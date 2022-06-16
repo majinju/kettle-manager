@@ -3,7 +3,6 @@ import XEUtils from "xe-utils";
 import MyDownList from "components/MyDownList";
 import MySelect from "components/MySelect";
 import MySelectGrid from "../components/MySelectGrid";
-import MySelectGrid1 from "@/views/sjdx1/MySelectGrid1";
 import {dateFormat, zdObj} from "@/utils/common"
 import MyMarkDown from "components/MyMarkDown";
 import MyRadio from "components/MyRadio";
@@ -168,16 +167,6 @@ export const VxeExtend = {
           const { props } = renderOpts
           return[
             <MySelectGrid v-model={data[property]} {...props}/>
-          ]
-        },
-      },
-      MySelectGrid1: {
-        autofocus: 'input.my-input__inner',
-        renderItemContent(renderOpts, params) {
-          const { data, property } = params
-          const { props } = renderOpts
-          return[
-            <MySelectGrid1 v-model={data[property]} {...props}/>
           ]
         },
       },
