@@ -2,6 +2,7 @@ import axios from "./axios";
 import { ElMessage } from "element-plus";
 import watermark from "./utils/watermark";
 import store from "./store";
+import router from './router';
 import { defineComponent } from "vue";
 import { RouterView } from 'vue-router';
 
@@ -10,15 +11,15 @@ export default defineComponent({
     setup() {
         // 在页面加载时读取sessionStorage
         if (sessionStorage.getItem("store")) {
-            (this as any).$store.replaceState(
+            store.replaceState(
                 Object.assign(
                     {},
-                    (this as any).$store.state,
+                    store.state,
                     JSON.parse(sessionStorage.getItem("store") as string)
                 )
             );
             //设置水印
-            const user = (this as any).$store.state.user;
+            const user: any = store.state.user;
             watermark.set(user.yhxm + "," + user.yhdm);
         } else {
             axios
@@ -30,9 +31,9 @@ export default defineComponent({
                 })
                 .then((response: any) => {
                     if (response.status) {
-                        (this as any).$store.commit("setSys", response.data.sys);
-                        (this as any).$store.commit("setUser", response.data.user);
-                        (this as any).$router.push("/home");
+                        store.commit("setSys", response.data.sys);
+                        store.commit("setUser", response.data.user);
+                        router.push("/home");
                     } else {
                         ElMessage.error(response.msg);
                     }
@@ -40,7 +41,7 @@ export default defineComponent({
         }
         // 在页面刷新时将store保存到sessionStorage里
         window.addEventListener("beforeunload", () => {
-            sessionStorage.setItem("store", JSON.stringify((this as any).$store.state));
+            sessionStorage.setItem("store", JSON.stringify(store.state));
         });
         const renderDom = () => {
             return (

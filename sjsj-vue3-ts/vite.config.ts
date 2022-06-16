@@ -13,6 +13,7 @@ const name = process.env.VUE_APP_TITLE || '系统加载中...'
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
+    base: "./",
     plugins: [vue(), vueJsx()],
     define: {
       'process.env': env.APP_ENV
@@ -36,9 +37,9 @@ export default defineConfig(({ command, mode }) => {
       proxy: {
         '/sjsj-ht': {
           ws: false,
-          target: 'http://124.220.197.217:8168',
+          target: 'http://124.220.197.217:8162',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/sjsj-ht/, '')
+          // rewrite: (path) => path.replace(/^\/sjsj-ht/, '')
         }
       }
     }

@@ -15,6 +15,9 @@ export default defineComponent({
          */
         dxjcxx: {
             type: Object
+        },
+        MyFormVNode: {
+            type: Object
         }
     },
     //关闭弹窗
@@ -529,9 +532,7 @@ export default defineComponent({
         }
 
         const vxeFormNode = computed(() => {
-            // let Myform = new MyFormClass(<vxe-form ref={xForm} key={myData.timestamp} data={myData.formData} rules={myData.formRule}
-            //     items={myData.formItems}></vxe-form>, xForm, myData)
-            return <vxe-form ref={xForm} key={myData.timestamp} data={myData.formData} rules={myData.formRule}
+            return props.MyFormVNode ? props.MyFormVNode : <vxe-form ref={xForm} key={myData.timestamp} data={myData.formData} rules={myData.formRule}
                 items={myData.formItems}></vxe-form>
         })
 

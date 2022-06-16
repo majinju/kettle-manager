@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import App from './App.vue';
+import App from './App';
 //状态
 import store from './store';
 //请求工具

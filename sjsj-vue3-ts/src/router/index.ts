@@ -9,11 +9,6 @@ const routes = [
     component: () => import ('../views/Login')
   },
   // {
-  //   path: '/test1',
-  //   name: "测试1",
-  //   component:()=> import('../views/test/text.vue')
-  // },
-  // {
   //   path: '/sjdx1',
   //   name:'数据对象1',
   //   component: () => import('../views/sjdx1/Sjdx1.vue')

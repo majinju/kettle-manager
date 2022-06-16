@@ -17,6 +17,8 @@ export default defineComponent({
      * @returns {Promise<void>}
      */
     beforeRouteUpdate: (to, from) => {
+        console.error(to)
+        console.error(from)
     },
     emits: ["close"],
     /**
@@ -119,6 +121,7 @@ export default defineComponent({
         return (
             <div>
                 {Object.keys(this.myData.dxjcxx).map((item: any, index: number) => {
+                    {console.error(this.myData.dxjcxx)}
                     return (
                         <div>
                             <MyForm key={item} dxjcxx={this.myData.dxjcxx[item]}

@@ -13,6 +13,10 @@ export default defineComponent({
     setup() {
         const myData = reactive({
             /**
+             * 展示渲染
+             */
+            showMode: "",
+            /**
              * 系统代码
              */
             xtdm: "",
@@ -35,6 +39,7 @@ export default defineComponent({
         const router = useRouter();
         const route = useRoute();
         myData.xtdm = route.params.sys as string;
+        myData.showMode = route.query.showMode as string;
         if (isEmpty(myData.xtdm)) {
             myData.xtdm = store.state.xtxx.dm
         }
@@ -219,63 +224,74 @@ export default defineComponent({
     },
     render() {
         return (
-            <div class="home-body">
-                <el-container>
-                    <el-header class="home-heard">
-                        <div class="heard-title">
-                            <img class="title-img" src={titlePng} alt="" />
-                            <span class="title-span">{this.myData.xtxx.mc}</span>
-                        </div>
-                        <div class="title-dw">
-                            <span class="title-ssjg">所属机构{">"}</span>
-                            {this.jgmcVNode}
-                            {/* <span class="title-name">{this.user.value.jgxx.jgmc}</span> */}
-                        </div>
-                    </el-header>
-                    <el-container>
-                        <el-aside class="home-aside">
-                            <div class="user-info">
-                                {this.userImgVNode}
-                                {/* <img class="user-img" src={this.userImg.value} alt="" /> */}
-                                <div class="">
-                                    <el-row>
-                                        <el-col span={19}>
-                                            {this.yhxmVNode}
-                                        </el-col>
-                                        <el-col span={5}>
-                                            <span class="btn el-icon-switch-button" onClick={this.logout}></span>
-                                        </el-col>
-                                    </el-row>
-                                </div>
-                            </div>
-                            <el-menu
-                                class="el-menu-vertical-demo"
-                                collapse={this.isCollapse}
-                                onOpen={this.handleOpen}
-                                onClose={this.handleClose}>
-                                {this.myData.menuList.map((item: any, index: number) => {
-                                    return <MenuItem item={item}></MenuItem>
-                                })}
-                            </el-menu>
-                        </el-aside>
+            <>
+                {
+                    this.myData.showMode === 'sjdx' ? (<Suspense>
+                        <router-view v-slots={{
+                            default: (scope: any) => <transition name="move" mode="out-in"> <keep-alive is={scope.Component} >{scope.Component}</keep-alive> </transition>,
+                        }}
+                        ></router-view>
+                    </Suspense>) : <div class="home-body">
                         <el-container>
-                            <el-main>
-                                <div class="content-box">
-                                    <HomeTabs></HomeTabs>
-                                    <div class="content">
-                                        <Suspense>
-                                            <router-view v-slots={{
-                                                default: (scope: any) => <transition name="move" mode="out-in"> <keep-alive is={scope.Component} >{scope.Component}</keep-alive> </transition>,
-                                            }}
-                                            ></router-view>
-                                        </Suspense>
-                                    </div>
+                            <el-header class="home-heard">
+                                <div class="heard-title">
+                                    <img class="title-img" src={titlePng} alt="" />
+                                    <span class="title-span">{this.myData.xtxx.mc}</span>
                                 </div>
-                            </el-main>
+                                <div class="title-dw">
+                                    <span class="title-ssjg">所属机构{">"}</span>
+                                    {this.jgmcVNode}
+                                    {/* <span class="title-name">{this.user.value.jgxx.jgmc}</span> */}
+                                </div>
+                            </el-header>
+                            <el-container>
+                                <el-aside class="home-aside">
+                                    <div class="user-info">
+                                        {this.userImgVNode}
+                                        {/* <img class="user-img" src={this.userImg.value} alt="" /> */}
+                                        <div class="">
+                                            <el-row>
+                                                <el-col span={19}>
+                                                    {this.yhxmVNode}
+                                                </el-col>
+                                                <el-col span={5}>
+                                                    <span class="btn el-icon-switch-button" onClick={this.logout}></span>
+                                                </el-col>
+                                            </el-row>
+                                        </div>
+                                    </div>
+                                    <el-menu
+                                        class="el-menu-vertical-demo"
+                                        collapse={this.isCollapse}
+                                        onOpen={this.handleOpen}
+                                        onClose={this.handleClose}>
+                                        {this.myData.menuList.map((item: any, index: number) => {
+                                            return <MenuItem item={item}></MenuItem>
+                                        })}
+                                    </el-menu>
+                                </el-aside>
+                                <el-container>
+                                    <el-main>
+                                        <div class="content-box">
+                                            <HomeTabs></HomeTabs>
+                                            <div class="content">
+                                                <Suspense>
+                                                    <router-view v-slots={{
+                                                        default: (scope: any) => <transition name="move" mode="out-in"> <keep-alive is={scope.Component} >{scope.Component}</keep-alive> </transition>,
+                                                    }}
+                                                    ></router-view>
+                                                </Suspense>
+                                            </div>
+                                        </div>
+                                    </el-main>
+                                </el-container>
+                            </el-container>
                         </el-container>
-                    </el-container>
-                </el-container>
-            </div >
+                    </div >
+                }
+            </>
+
+
         )
     }
 })
