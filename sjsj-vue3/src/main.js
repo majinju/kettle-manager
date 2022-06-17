@@ -18,7 +18,7 @@ import './style/common.scss';
 import watermark from './utils/watermark';
 import '@/assets/icon/iconfont.css'
 //设置服务端基础路径
-axios.setBaseURL(WEB_CONFIG.baseRoot);
+axios.setBaseURL(WEB_CONFIG.urlRoot);
 
 const app = createApp(App,{});
 installElementPlus(app);

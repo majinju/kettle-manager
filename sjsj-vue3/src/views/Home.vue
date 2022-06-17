@@ -4,7 +4,7 @@
       <el-header class="home-heard">
         <div class="heard-title">
           <img class="title-img" src="~assets/img/title.png" alt="">
-          <span class="title-span">{{myData.xtxx.mc}}</span>
+          <span class="title-span">{{myData.xtmc}}</span>
         </div>
         <div class="title-dw">
           <span class="title-ssjg">所属机构></span>
@@ -81,14 +81,7 @@ export default defineComponent({
   components:{HomeTabs},
   setup () {
     const myData = reactive({
-      /**
-       * 系统代码
-       */
-      xtdm:"",
-      /**
-       * 系统信息
-       */
-      xtxx:{},
+      xtmc:WEB_CONFIG.xtmc,
       /**
        * 菜单列表
        */
@@ -100,17 +93,7 @@ export default defineComponent({
     });
     const store = useStore();
     const router = useRouter();
-    const route = useRoute();
-    myData.xtdm = route.params.sys;
-    if(isEmpty(myData.xtdm)){
-      myData.xtdm = store.state.xtxx.dm
-    }
-    zdObj({zdlb:"SYS_QX_QXXX",dm:myData.xtdm}).then((xtxx)=>{
-      myData.xtxx=xtxx
-      store.commit("setXtxx",xtxx)
-      document.title=xtxx.mc
-    }).catch(err=>{
-    })
+    document.title=WEB_CONFIG.xtmc;
     /**
      * 获取菜单
      */
@@ -125,7 +108,7 @@ export default defineComponent({
           },
           yobj:{
             treeModel: "cds",
-            treeRoot: myData.xtdm,
+            treeRoot: WEB_CONFIG.cdRoot,
             fqx: node.data.dm ? node.data.dm : "",
           }
         }).then((response) => {
@@ -254,14 +237,14 @@ export default defineComponent({
           if (req.status) {
             ElMessage.success(req.msg)
             //将当前系统代码返回回去
-            router.push('/login/'+myData.xtdm)
+            router.push('/login')
           } else {
             ElMessage.warning(req.msg)
           }
         })
       }).catch(() =>{})
     }
-    getMenuList(myData.xtdm)
+    getMenuList(WEB_CONFIG.cdRoot)
     return {
       myData,
       user,

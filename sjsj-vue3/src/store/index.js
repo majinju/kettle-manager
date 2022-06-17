@@ -14,15 +14,6 @@ export default createStore({
      */
     sys:{
     },
-    /**
-     * 系统信息
-     */
-    xtxx:{
-      /**
-       * 代码
-       */
-      dm:"KFZFW"
-    },
   },
   mutations: {
     /**
@@ -43,14 +34,6 @@ export default createStore({
       state.sys=sys;
       axios.setToken(sys.token);
     },
-    /**
-     * 设置系统信息
-     * @param state 系统状态对象
-     * @param xtxx 系统信息
-     */
-    setXtxx(state,xtxx){
-      state.xtxx=xtxx;
-    }
   },
   actions: {
   },
@@ -67,6 +50,5 @@ export default createStore({
      * @returns {{}} 当前系统参数
      */
     getSys: state => state.sys,
-    getXtcs: state => state.xtcs
   }
 })

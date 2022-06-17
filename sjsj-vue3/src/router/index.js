@@ -3,7 +3,7 @@ import {useStore} from "vuex";
 
 const routes = [
   {
-    path: "/login/:sys?",
+    path: "/login",
     alias: "/",
     name: "Login",
     component: () => import ('../views/Login')
@@ -19,7 +19,7 @@ const routes = [
     component: () => import('../components/Test')
   },
   {
-    path: "/home/:sys?",
+    path: "/home",
     name: "平台首页",
     component: () => import('../views/Home'),
     children: [
