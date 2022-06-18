@@ -39,9 +39,9 @@ module.exports = {
         ws: false,
         target: process.env.VUE_APP_API_BASE_HOST,
         changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_API_BASE_ROOT]: ''
-        }
+        // pathRewrite: {
+        //   ['^' + process.env.VUE_APP_API_BASE_ROOT]: ''
+        // }
       }
     },
     disableHostCheck: true
