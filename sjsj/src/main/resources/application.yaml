@@ -53,6 +53,7 @@ spring:
 #    active: mysql
     include:
       - private
+      - xxljob
   # 资源信息
   messages:
     # 国际化资源文件路径
