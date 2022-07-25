@@ -1,10 +1,9 @@
 package cn.benma666.sjsj.demo.job;
 
-import cn.benma666.iframe.BasicObject;
+import cn.benma666.myutils.Log;
+import cn.benma666.sjsj.job.BasicJob;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedInputStream;
@@ -22,24 +21,25 @@ import java.util.concurrent.TimeUnit;
  * 开发步骤：
  *      1、任务开发：在Spring Bean实例中，开发Job方法；
  *      2、注解配置：为Job方法添加注解 "@XxlJob(value="自定义jobhandler名称", init = "JobHandler初始化方法", destroy = "JobHandler销毁方法")"，注解value值对应的是调度中心新建任务的JobHandler属性的值。
- *      3、执行日志：需要通过 "XxlJobHelper.log" 打印执行日志；
+ *      3、执行日志：需要通过 "log" 打印执行日志；
  *      4、任务结果：默认任务结果为 "成功" 状态，不需要主动设置；如有诉求，比如设置任务结果为失败，可以通过 "XxlJobHelper.handleFail/handleSuccess" 自主设置任务结果；
  *
  * @author xuxueli 2019-12-11 21:52:51
  */
 @Component
-public class XxxJob extends BasicObject {
+public class XxxJob extends BasicJob {
 
 
     /**
      * 1、简单任务示例（Bean模式）
      */
-    @XxlJob("demoJobHandler")
+    @XxlJob(value = "demoJobHandler", init = "init", destroy = "destroy")
     public void demoJobHandler() throws Exception {
-        XxlJobHelper.log("XXL-JOB, Hello World.");
+        log("XXL-JOB, Hello World.");
+        log("xxxxx");
 
         for (int i = 0; i < 5; i++) {
-            XxlJobHelper.log("beat at:" + i);
+            log("beat at:" + i);
             TimeUnit.SECONDS.sleep(2);
         }
         // default success
@@ -49,21 +49,21 @@ public class XxxJob extends BasicObject {
     /**
      * 2、分片广播任务
      */
-    @XxlJob("shardingJobHandler")
+    @XxlJob(value = "shardingJobHandler", init = "init", destroy = "destroy")
     public void shardingJobHandler() throws Exception {
-
+        log("shardingJobHandler:"+getVal("$.1111.2222"));
         // 分片参数
         int shardIndex = XxlJobHelper.getShardIndex();
         int shardTotal = XxlJobHelper.getShardTotal();
 
-        XxlJobHelper.log("分片参数：当前分片序号 = {}, 总分片数 = {}", shardIndex, shardTotal);
+        log("分片参数：当前分片序号 = {}, 总分片数 = {}", shardIndex, shardTotal);
 
         // 业务逻辑
         for (int i = 0; i < shardTotal; i++) {
             if (i == shardIndex) {
-                XxlJobHelper.log("第 {} 片, 命中分片开始处理", i);
+                log("第 {} 片, 命中分片开始处理", i);
             } else {
-                XxlJobHelper.log("第 {} 片, 忽略", i);
+                log("第 {} 片, 忽略", i);
             }
         }
 
@@ -94,14 +94,14 @@ public class XxxJob extends BasicObject {
             // command log
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                XxlJobHelper.log(line);
+                log(line);
             }
 
             // command exit
             process.waitFor();
             exitValue = process.exitValue();
         } catch (Exception e) {
-            XxlJobHelper.log(e);
+            log(e);
         } finally {
             if (bufferedReader != null) {
                 bufferedReader.close();
@@ -130,7 +130,7 @@ public class XxxJob extends BasicObject {
         // param parse
         String param = XxlJobHelper.getJobParam();
         if (param==null || param.trim().length()==0) {
-            XxlJobHelper.log("param["+ param +"] invalid.");
+            log("param["+ param +"] invalid.");
 
             XxlJobHelper.handleFail();
             return;
@@ -154,13 +154,13 @@ public class XxxJob extends BasicObject {
 
         // param valid
         if (url==null || url.trim().length()==0) {
-            XxlJobHelper.log("url["+ url +"] invalid.");
+            log("url["+ url +"] invalid.");
 
             XxlJobHelper.handleFail();
             return;
         }
         if (method==null || !Arrays.asList("GET", "POST").contains(method)) {
-            XxlJobHelper.log("method["+ method +"] invalid.");
+            log("method["+ method +"] invalid.");
 
             XxlJobHelper.handleFail();
             return;
@@ -212,11 +212,11 @@ public class XxxJob extends BasicObject {
             }
             String responseMsg = result.toString();
 
-            XxlJobHelper.log(responseMsg);
+            log(responseMsg);
 
             return;
         } catch (Exception e) {
-            XxlJobHelper.log(e);
+            log(e);
 
             XxlJobHelper.handleFail();
             return;
@@ -229,7 +229,7 @@ public class XxxJob extends BasicObject {
                     connection.disconnect();
                 }
             } catch (Exception e2) {
-                XxlJobHelper.log(e2);
+                log(e2);
             }
         }
 
@@ -240,13 +240,7 @@ public class XxxJob extends BasicObject {
      */
     @XxlJob(value = "demoJobHandler2", init = "init", destroy = "destroy")
     public void demoJobHandler2() throws Exception {
-        XxlJobHelper.log("XXL-JOB, Hello World.");
-    }
-    public void init(){
-        log.info("init");
-    }
-    public void destroy(){
-        log.info("destroy");
+        log("XXL-JOB, Hello World.");
     }
 
 
