@@ -195,6 +195,7 @@ logging:
     druid.sql.Statement: debug
   logback:
     mylog:
+      level: ERROR
       insert-sql: insert into SYS_LOG_HTRZ(id,cjsj,gxsj,xc,jb,scl,scff,sch,xx,ssxm) values(#{id},#{cjsj},#{gxsj},#{threadName},#{level.levelStr},#{loggerName},#{scff},#{sch},#{message},#{loggerContextVO.name})
     rollingpolicy:
       max-file-size: 20MB

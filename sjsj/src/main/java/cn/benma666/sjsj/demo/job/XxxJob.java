@@ -1,7 +1,10 @@
 package cn.benma666.sjsj.demo.job;
 
-import cn.benma666.myutils.Log;
+import cn.benma666.myutils.DateUtil;
+import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.job.BasicJob;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.stereotype.Component;
@@ -35,9 +38,19 @@ public class XxxJob extends BasicJob {
      */
     @XxlJob(value = "demoJobHandler", init = "init", destroy = "destroy")
     public void demoJobHandler() throws Exception {
-        log("XXL-JOB, Hello World.");
-        log("xxxxx");
-
+        log("demoJobHandler:"+getVal("$.1111.2222"));
+        String zlsjc = valByDef(getZlsjc(),"19700000000000");
+        String ids = valByDef(getIds(),"[]");
+        JSONArray idsO = JSON.parseArray(ids);
+        log("增量时间戳："+zlsjc);
+        log("主键集合："+idsO);
+        //更新增量时间戳
+        setZlsjc(DateUtil.getGabDate());
+        idsO = new JSONArray();
+        idsO.add(StringUtil.getUUIDUpperStr());
+        idsO.add(StringUtil.getUUIDUpperStr());
+        //更新主键集合
+        setIds(idsO.toString());
         for (int i = 0; i < 5; i++) {
             log("beat at:" + i);
             TimeUnit.SECONDS.sleep(2);
@@ -242,6 +255,8 @@ public class XxxJob extends BasicJob {
     public void demoJobHandler2() throws Exception {
         log("XXL-JOB, Hello World.");
     }
-
+    public void destroy(){
+        log.info("destroy");
+    }
 
 }
