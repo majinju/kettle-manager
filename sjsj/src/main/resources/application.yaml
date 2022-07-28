@@ -184,8 +184,8 @@ management:
 
 # 日志配置
 logging:
-  pattern: "%d{MM-dd HH:mm:ss} %-5level [%t] %logger{30}.%M:%L - %msg%n"
-  pattern-db: "{'scff':'%M','sch':'%L'}"
+  #pattern: "%d{MM-dd HH:mm:ss} %-5level [%t] %logger{30}.%M:%L - %msg%n"
+  #pattern-db: "{'scff':'%M','sch':'%L','message':'%m','threadName':'%t','level':'%level','ssxm':'%cn','loggerName':'%logger{30}','cjsj':'%date{yyyyMMddHHmmss}','gxsj':'%date{yyyyMMddHHmmss}'}"
   file:
     path: /benma666/logs
   level:
@@ -195,7 +195,7 @@ logging:
     druid.sql.Statement: debug
   logback:
     mylog:
-      level: ERROR
-      insert-sql: insert into SYS_LOG_HTRZ(id,cjsj,gxsj,xc,jb,scl,scff,sch,xx,ssxm) values(#{id},#{cjsj},#{gxsj},#{threadName},#{level.levelStr},#{loggerName},#{scff},#{sch},#{message},#{loggerContextVO.name})
+      #level: ERROR
+      #insert-sql: insert into SYS_LOG_HTRZ(id,cjsj,gxsj,xc,jb,scl,scff,sch,xx,ssxm) values(#{id},#{cjsj},#{gxsj},#{threadName},#{level},#{loggerName},#{scff},#{sch},#{message},#{ssxm})
     rollingpolicy:
-      max-file-size: 20MB
+      #max-file-size: 20MB
