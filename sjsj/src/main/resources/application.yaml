@@ -132,6 +132,7 @@ spring:
           statement-prepare-after-log-enabled: false
           #关闭参数
           statement-parameter-set-log-enabled: false
+          statement-parameter-clear-log-enable: false
           #执行后
           statement-execute-after-log-enabled: false
           #关闭后
