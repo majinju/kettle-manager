@@ -13,7 +13,7 @@ findDemo
 ```sql
 select 
 -- @ pageTag(){
-       t.*
+       t.*,'xxx11' dddd
 -- @}
 from ${sjdx.jtdx} t
 -- @where(){
