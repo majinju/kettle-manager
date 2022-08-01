@@ -30,8 +30,13 @@ import java.util.concurrent.TimeUnit;
  * @author xuxueli 2019-12-11 21:52:51
  */
 @Component
+@XxlJob(value = "XxxJob",init = "init")
 public class XxxJob extends BasicJob {
 
+    public void execute() throws Exception {
+        log("demoJobHandler:"+getVal("$.1111.2222"));
+        log("this is bean job handler");
+    }
 
     /**
      * 1、简单任务示例（Bean模式）
