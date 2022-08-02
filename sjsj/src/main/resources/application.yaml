@@ -3,6 +3,8 @@ benma666:
   debug: true
   # 默认需要自动通过主键去获取数据库里记录的方法。
   mrputobj: save,update
+  login:
+    dlsbcs: 5
   service:
     addr: /index
   ljq:
@@ -191,7 +193,7 @@ logging:
     path: /benma666/logs
   level:
     root: info
-    cn.benma666: trace
+    cn.benma666: debug
     org.springframework.core: debug
     druid.sql.Statement: debug
   logback:
