@@ -13,7 +13,7 @@ benma666:
   xtqx:
     # 没有创建权限时，默认通过的方法
     mrtgqx: dxjcxx,select
-    # 授权模式，cllx（精确到处理类型），sjdx（只要相关数据对象有授权就可以使用其下所有方法），authCode（只要对应授权码有授权就可以使用其下所有方法），默认为cllx
+    # 授权模式，cllx（精确到处理类型），sjdx（只要相关数据对象有授权就可以使用其下所有方法），默认为cllx
     sqms: cllx
   config:
     list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG,SYS_KP_APPCONFIG
