@@ -121,6 +121,8 @@ spring:
           slow-sql-millis: 10000
           merge-sql: true
         wall:
+          # 开发和测试环境true，正式环境false
+          enabled: true
           config:
             multi-statement-allow: false
         slf4j:
