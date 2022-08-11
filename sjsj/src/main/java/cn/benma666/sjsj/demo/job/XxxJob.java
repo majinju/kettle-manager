@@ -112,14 +112,14 @@ public class XxxJob extends BasicJob {
             // command log
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                log(line);
+                info("",line);
             }
 
             // command exit
             process.waitFor();
             exitValue = process.exitValue();
         } catch (Exception e) {
-            log(e);
+            error("",e);
         } finally {
             if (bufferedReader != null) {
                 bufferedReader.close();
@@ -234,7 +234,7 @@ public class XxxJob extends BasicJob {
 
             return;
         } catch (Exception e) {
-            log(e);
+            error("",e);
 
             XxlJobHelper.handleFail();
             return;
@@ -247,7 +247,7 @@ public class XxxJob extends BasicJob {
                     connection.disconnect();
                 }
             } catch (Exception e2) {
-                log(e2);
+                error("",e2);
             }
         }
 
