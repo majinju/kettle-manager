@@ -34,8 +34,8 @@ import java.util.concurrent.TimeUnit;
 public class XxxJob extends BasicJob {
 
     public void execute() throws Exception {
-        log("demoJobHandler:"+getVal("$.1111.2222"));
-        log("this is bean job handler");
+        info("demoJobHandler:"+getVal("$.1111.2222"));
+        info("this is bean job handler");
     }
 
     /**
@@ -43,12 +43,12 @@ public class XxxJob extends BasicJob {
      */
     @XxlJob(value = "demoJobHandler", init = "init", destroy = "destroy")
     public void demoJobHandler() throws Exception {
-        log("demoJobHandler:"+getVal("$.1111.2222"));
+        debug("demoJobHandler:"+getVal("$.1111.2222"));
         String zlsjc = valByDef(getZlsjc(),"19700000000000");
         String ids = valByDef(getIds(),"[]");
         JSONArray idsO = JSON.parseArray(ids);
-        log("增量时间戳："+zlsjc);
-        log("主键集合："+idsO);
+        info("增量时间戳："+zlsjc);
+        info("主键集合："+idsO);
         //更新增量时间戳
         setZlsjc(DateUtil.getGabDate());
         idsO = new JSONArray();
@@ -57,7 +57,7 @@ public class XxxJob extends BasicJob {
         //更新主键集合
         setIds(idsO.toString());
         for (int i = 0; i < 5; i++) {
-            log("beat at:" + i);
+            info("beat at:" + i);
             TimeUnit.SECONDS.sleep(2);
         }
         // default success
@@ -69,19 +69,19 @@ public class XxxJob extends BasicJob {
      */
     @XxlJob(value = "shardingJobHandler", init = "init", destroy = "destroy")
     public void shardingJobHandler() throws Exception {
-        log("shardingJobHandler:"+getVal("$.1111.2222"));
+        info("shardingJobHandler:"+getVal("$.1111.2222"));
         // 分片参数
         int shardIndex = XxlJobHelper.getShardIndex();
         int shardTotal = XxlJobHelper.getShardTotal();
 
-        log("分片参数：当前分片序号 = {}, 总分片数 = {}", shardIndex, shardTotal);
+        info("分片参数：当前分片序号 = {}, 总分片数 = {}", shardIndex, shardTotal);
 
         // 业务逻辑
         for (int i = 0; i < shardTotal; i++) {
             if (i == shardIndex) {
-                log("第 {} 片, 命中分片开始处理", i);
+                info("第 {} 片, 命中分片开始处理", i);
             } else {
-                log("第 {} 片, 忽略", i);
+                info("第 {} 片, 忽略", i);
             }
         }
 
@@ -148,7 +148,7 @@ public class XxxJob extends BasicJob {
         // param parse
         String param = XxlJobHelper.getJobParam();
         if (param==null || param.trim().length()==0) {
-            log("param["+ param +"] invalid.");
+            info("param["+ param +"] invalid.");
 
             XxlJobHelper.handleFail();
             return;
@@ -172,13 +172,13 @@ public class XxxJob extends BasicJob {
 
         // param valid
         if (url==null || url.trim().length()==0) {
-            log("url["+ url +"] invalid.");
+            info("url["+ url +"] invalid.");
 
             XxlJobHelper.handleFail();
             return;
         }
         if (method==null || !Arrays.asList("GET", "POST").contains(method)) {
-            log("method["+ method +"] invalid.");
+            info("method["+ method +"] invalid.");
 
             XxlJobHelper.handleFail();
             return;
@@ -230,7 +230,7 @@ public class XxxJob extends BasicJob {
             }
             String responseMsg = result.toString();
 
-            log(responseMsg);
+            info(responseMsg);
 
             return;
         } catch (Exception e) {
@@ -258,7 +258,7 @@ public class XxxJob extends BasicJob {
      */
     @XxlJob(value = "demoJobHandler2", init = "init", destroy = "destroy")
     public void demoJobHandler2() throws Exception {
-        log("XXL-JOB, Hello World.");
+        info("XXL-JOB, Hello World.");
     }
     public void destroy(){
         log.info("destroy");
