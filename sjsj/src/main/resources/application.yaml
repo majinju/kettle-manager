@@ -4,6 +4,7 @@ benma666:
   # 默认需要自动通过主键去获取数据库里记录的方法。
   mrputobj: save,update
   login:
+    # 登录失败次数
     dlsbcs: 5
   service:
     addr: /index
@@ -11,8 +12,6 @@ benma666:
     # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
     default: MyDefaultLjq
   xtqx:
-    # 没有创建权限时，默认通过的方法
-    mrtgqx: dxjcxx,select
     # 授权模式，cllx（精确到处理类型），sjdx（只要相关数据对象有授权就可以使用其下所有方法），默认为cllx
     sqms: cllx
   config:
