@@ -35,6 +35,8 @@ server:
     # 应用的访问路径
     context-path: "/sjsj-ht"
     session:
+      # 重启会话保持
+      persistent: true
       #单位(s)  这里是24小时
       timeout: 24h
   tomcat:
