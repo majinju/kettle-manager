@@ -55,7 +55,7 @@ public class XxxJob extends BasicJob {
         idsO.add(StringUtil.getUUIDUpperStr());
         idsO.add(StringUtil.getUUIDUpperStr());
         //更新主键集合
-        setIds(idsO.toString());
+        setIds(idsO);
         for (int i = 0; i < 5; i++) {
             info("beat at:" + i);
             TimeUnit.SECONDS.sleep(2);
