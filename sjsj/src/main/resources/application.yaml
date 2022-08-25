@@ -52,8 +52,8 @@ spring:
   application:
     name: 数据世界
   profiles:
-    active: oracle
-#    active: mysql
+    #active: oracle
+    active: mysql
     include:
       - private
       - xxljob
