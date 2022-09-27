@@ -50,17 +50,18 @@
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.9" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.9" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.32" level="project" />
-    <orderEntry type="library" name="Maven: com.ibeetl:beetlsql:3.14.5-RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.ibeetl:sql-core:3.14.5-RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.ibeetl:sql-util:3.14.5-RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.ibeetl:beetlsql:3.19.0-RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.ibeetl:sql-core:3.19.0-RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.ibeetl:sql-util:3.19.0-RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.github.jsqlparser:jsqlparser:4.1" level="project" />
-    <orderEntry type="library" name="Maven: com.ibeetl:sql-gen:3.14.5-RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.ibeetl:sql-fetch:3.14.5-RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.ibeetl:sql-mapper:3.14.5-RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.ibeetl:sql-gen:3.19.0-RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.ibeetl:sql-fetch:3.19.0-RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.ibeetl:sql-mapper:3.19.0-RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.ibeetl:beetl:3.10.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.antlr:antlr4-runtime:4.9.2" level="project" />
     <orderEntry type="library" name="Maven: javax.persistence:persistence-api:1.0.2" level="project" />
-    <orderEntry type="library" name="Maven: com.ibeetl:sql-spring:3.14.5-RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.ibeetl:sql-spring:3.19.0-RELEASE" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.11.0" level="project" />
     <orderEntry type="library" name="Maven: com.jcraft:jsch:0.1.55" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.13.2" level="project" />
