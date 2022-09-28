@@ -104,6 +104,9 @@ spring:
       test-while-idle: true
       test-on-borrow: true
       test-on-return: false
+      # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作。
+      keep-alive: true
+      keep-alive-between-time-millis: 300000
       web-stat-filter:
         enabled: true
       stat-view-servlet:
