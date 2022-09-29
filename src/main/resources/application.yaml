@@ -94,7 +94,7 @@ spring:
       # 配置获取连接等待超时的时间
       max-wait: 300000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 600000
+      time-between-eviction-runs-millis: 300000
       # 配置一个连接在池中最小生存的时间，单位是毫秒
       min-evictable-idle-time-millis: 300000
       # 配置一个连接在池中最大生存的时间，单位是毫秒
@@ -106,7 +106,7 @@ spring:
       test-on-return: false
       # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作。
       keep-alive: true
-      keep-alive-between-time-millis: 300000
+      keep-alive-between-time-millis: 600000
       web-stat-filter:
         enabled: true
       stat-view-servlet:
