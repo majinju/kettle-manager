@@ -85,6 +85,7 @@ spring:
 #    password: sjsj
 #    dbtype: mysql
     druid:
+      name: default
       # 初始连接数
       initial-size: 2
       # 最小连接池数量
@@ -99,10 +100,11 @@ spring:
       min-evictable-idle-time-millis: 300000
       # 配置一个连接在池中最大生存的时间，单位是毫秒
       max-evictable-idle-time-millis: 900000
+      socket-timeout: 60000
       # 配置检测连接是否有效
       validation-query: SELECT 1 FROM DUAL
       test-while-idle: true
-      test-on-borrow: true
+      test-on-borrow: false
       test-on-return: false
       # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作。
       keep-alive: true
@@ -149,6 +151,8 @@ spring:
           statement-execute-batch-after-log-enabled: false
           statement-execute-query-after-log-enabled: false
           statement-execute-update-after-log-enabled: false
+      remove-abandoned: false
+      remove-abandoned-timeout: 6000000
   redis:
     # 是否使用redis
     enabled: false
