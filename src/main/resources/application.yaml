@@ -109,6 +109,8 @@ spring:
       # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作。
       keep-alive: true
       keep-alive-between-time-millis: 600000
+      remove-abandoned: false
+      remove-abandoned-timeout: 6000000
       web-stat-filter:
         enabled: true
       stat-view-servlet:
@@ -151,13 +153,11 @@ spring:
           statement-execute-batch-after-log-enabled: false
           statement-execute-query-after-log-enabled: false
           statement-execute-update-after-log-enabled: false
-      remove-abandoned: false
-      remove-abandoned-timeout: 6000000
   redis:
     # 是否使用redis
-    enabled: false
+    enabled: true
     # 地址
-    host: localhost
+    host: 192.168.1.22
     # 端口，默认为6379
     port: 6379
     # 数据库索引
