@@ -1,12 +1,10 @@
 package cn.benma666.sjsj.demo;
 
 import cn.benma666.domain.SysQxYhxx;
+import cn.benma666.domain.SysSjglBhsc;
 import cn.benma666.domain.SysSjglSjdx;
 import cn.benma666.exception.MyException;
-import cn.benma666.iframe.Conf;
-import cn.benma666.iframe.DictManager;
-import cn.benma666.iframe.PageInfo;
-import cn.benma666.iframe.Result;
+import cn.benma666.iframe.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqManager;
@@ -30,6 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class XxxxLjq extends DefaultLjq{
     @Value("${spring.application.name}")
     private String appname;
+    AutoId ai1 = new AutoId("select 9 from dual");
+    AutoId ai2 = new AutoId(new SysSjglBhsc());
+    AutoId ai4 = new AutoId(new SysSjglBhsc("JCGA_JCYG_YGBH"));
     /**
      * 方法名称与前端传入的处理类型一致，参数固定为本方法这两个参数，处理类型可以自定义，方法名与之一致即可
      * @param myParams 相关参数，具体信息请看参数说明
@@ -49,6 +50,9 @@ public class XxxxLjq extends DefaultLjq{
         log.info("前端数据获取样例："+ myParams.getString($_SYS_CLLX));
         log.info("配置获取样例："+Conf.getVal("spring.application.name"));
         log.info("配置获取样例："+appname);
+        log.info("编号1：{}",ai1.next());
+        log.info("编号2：{}",ai2.next());
+        log.info("编号4：{}",ai4.next());
         log.info("xxl："+db("xxl_job").find("select count(1) from xxl_job_info t where t.trigger_status=?",1));
         myParams.set($_SYS_EDITTABLEDATA,db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray($_SYS_EDITTABLEDATA).toJavaList(SysSjglSjdx.class));
