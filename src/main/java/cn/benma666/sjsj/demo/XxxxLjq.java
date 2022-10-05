@@ -81,7 +81,7 @@ public class XxxxLjq extends DefaultLjq{
         sjdxParams.set($_SYS_CLLX,KEY_CLLX_SELECT);
         Result r = LjqManager.data(sjdxParams);
         //获取数据
-        log.info("调用其他对象的方法查询数据："+r.getData(PageInfo.class).getList(SysSjglSjdx.class));
+        log.info("调用其他对象的方法查询数据："+r.getPageList(SysSjglSjdx.class));
         /////////直接采用beetlsql///////////
         //sqlManager()当前数据对象的默认数据源，与db类似采用sqlManager("xxxx")进行切换数据源
         LambdaQuery<SysSjglSjdx> query = sqlManager().lambdaQuery(SysSjglSjdx.class);
