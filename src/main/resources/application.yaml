@@ -27,6 +27,13 @@ benma666:
   app:
     ejmm: xxx
     dm: sjsj
+  znjh:
+    # 启用智能交换
+    enabled: true
+    # 小文件等待毫秒
+    xwjdd: 100
+    # 大文件等待毫秒
+    dwjdd: 1000
 
 server:
   # 服务器的HTTP端口，默认为8080
@@ -214,3 +221,16 @@ logging:
       #insert-sql: insert into SYS_LOG_HTRZ(id,cjsj,gxsj,xc,jb,scl,scff,sch,xx,ssxm) values(#{id},#{cjsj},#{gxsj},#{threadName},#{level},#{loggerName},#{scff},#{sch},#{message},#{ssxm})
     rollingpolicy:
       #max-file-size: 20MB
+
+#线程池配置
+thread-pool:
+  #核心线程数
+  core-pool-size: 10
+  #最大线程数
+  max-pool-size: 40
+  #队列大小 缓存多少个任务
+  queue-capacity: 200
+  #线程活跃时间
+  keep-alive-seconds: 600
+  #线程名字 前缀
+  thread-name-prefix: myThread--
