@@ -11,7 +11,7 @@ xxljob:
     username: admin
     password: ma1990
   ### 执行器通讯TOKEN [选填]：非空时启用；
-  accessToken: default_token
+  accessToken:
   executor:
     ### 执行器AppName [选填]：执行器心跳注册分组依据；为空则关闭自动注册
     appname: sjsj
