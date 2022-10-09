@@ -108,7 +108,8 @@ spring:
       min-evictable-idle-time-millis: 300000
       # 配置一个连接在池中最大生存的时间，单位是毫秒
       max-evictable-idle-time-millis: 900000
-      socket-timeout: 60000
+      # 连接超时
+      socket-timeout: 600000
       # 配置检测连接是否有效
       validation-query: SELECT 1 FROM DUAL
       test-while-idle: true
@@ -225,6 +226,8 @@ logging:
 
 #线程池配置
 thread-pool:
+  # 是否启用
+  enabled: true
   #核心线程数
   core-pool-size: 10
   #最大线程数
