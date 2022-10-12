@@ -35,6 +35,8 @@ benma666:
     xwjdd: 100
     # 大文件等待毫秒
     dwjdd: 1000
+    # 穿透调用等待时长
+    ctdydd: 120000
 
 server:
   # 服务器的HTTP端口，默认为8080
