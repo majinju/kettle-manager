@@ -40,7 +40,7 @@ benma666:
     # 默认地址
     url: /default
     # 默认用户,专用同步账号
-    user: sjtb
+    user: "yhdm=sys"
 
 server:
   # 服务器的HTTP端口，默认为8080
