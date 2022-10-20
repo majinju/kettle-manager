@@ -28,7 +28,7 @@
     <orderEntry type="module" module-name="myutils-spring-boot-starter" />
     <orderEntry type="module" module-name="myutils" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.83" level="project" />
-    <orderEntry type="library" name="Maven: com.alibaba:druid:1.2.11" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:druid:1.2.13" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:easyexcel:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.15" level="project" />
