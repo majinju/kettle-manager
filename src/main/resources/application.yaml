@@ -6,6 +6,8 @@ benma666:
   login:
     # 登录失败次数
     dlsbcs: 5
+  web-socket:
+    enabled: false
   service:
     addr: /index
   ljq:
