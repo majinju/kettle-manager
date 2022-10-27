@@ -8,6 +8,7 @@ import cn.benma666.iframe.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqManager;
+import cn.benma666.sjsj.web.XtxxController;
 import cn.benma666.sjzt.Db;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.SqlId;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
 
 /**
  * 演示拦截器。<br/>
@@ -53,13 +56,19 @@ public class XxxxLjq extends DefaultLjq{
         log.info("编号1：{}",ai1.next());
         log.info("编号2：{}",ai2.next());
         log.info("编号4：{}",ai4.next());
+        //向客户端发送websocket消息
+        try {
+            XtxxController.sendAllMessage("xxxx："+myParams.getString("$.yobj.mc"),"01");
+        } catch (IOException e) {
+            log.error("向客户端发送消息失败",e);
+        }
         log.info("xxl："+db("xxl_job").find("select count(1) from xxl_job_info t where t.trigger_status=?",1));
         myParams.set($_SYS_EDITTABLEDATA,db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray($_SYS_EDITTABLEDATA).toJavaList(SysSjglSjdx.class));
         log.info("字典获取样例："+ DictManager.zdMcByDm(ZD_SYS_QX_APP,Conf.getAppdm()));
         log.info("字典名称反向获取代码（可用于验证前端传入的名称是否在字典范围内）："+ DictManager.zdDmByMoreMc(DICT_SYS_COMMON_LJPD,"是、否"));
-        log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateDemo"),myParams));
-        log.info("采用文件sql模板执行sql更新："+db("default").update(SqlId.of("demo","updateDemo"),myParams));
+//        log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateDemo"),myParams));
+//        log.info("采用文件sql模板执行sql更新："+db("default").update(SqlId.of("demo","updateDemo"),myParams));
         log.info("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("切换数据样例"+db("default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));

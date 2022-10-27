@@ -7,7 +7,7 @@ benma666:
     # 登录失败次数
     dlsbcs: 5
   web-socket:
-    enabled: false
+    enabled: true
   service:
     addr: /index
   ljq:
@@ -220,6 +220,7 @@ logging:
     root: info
     cn.benma666: trace
     org.springframework.core: debug
+    org.springframework.boot: info
     druid.sql.Statement: debug
   logback:
     console:

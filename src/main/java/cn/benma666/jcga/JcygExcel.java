@@ -10,6 +10,7 @@ import cn.benma666.constants.UtilConst;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglFile;
 import cn.benma666.domain.SysSjglSjdx;
+import cn.benma666.domain.SysSjglSjzd;
 import cn.benma666.iframe.VerifyRule;
 import cn.benma666.myutils.StringUtil;
 import cn.benma666.sjsj.web.LjqInterface;
@@ -18,6 +19,7 @@ import cn.benma666.sjsj.web.SjdxExcelReader;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.util.TypeUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,34 +35,22 @@ import java.util.Map.Entry;
  */
 public class JcygExcel extends SjdxExcelReader {
     /**
-    * 员工字段
-    */
-    private Map<String, JSONObject> ygFields;
-    /**
-    * 社会关系字段
-    */
-    private Map<String, JSONObject> shgxFields;
-    /**
-    * 社会关系对象参数
-    */
-    private JSONObject shgxParams;
-    /**
     * 员工模板字段数
     */
-    private int ygmbzds;
+    private final int ygmbzds;
     /**
     * 社会关系模板字段
     */
-    private Map<String,JSONObject> shgxmbField;
+    private final Map<String,SysSjglSjzd> shgxmbField;
 
     /**
     * 重复上传人员列表
     */
-    private List<String> cfscryList = new ArrayList<String>();
+    private List<String> cfscryList = new ArrayList<>();
     /**
     * 已处理人员列表
     */
-    private List<String> yclList = new ArrayList<String>();
+    private List<String> yclList = new ArrayList<>();
 
     /**
     * Creates a new instance of JcygExcel.
@@ -69,28 +59,37 @@ public class JcygExcel extends SjdxExcelReader {
     */
     public JcygExcel(SysSjglSjdx sjdx, JSONObject myParams, SysSjglFile fileObj, SysQxYhxx user) {
         super(sjdx, myParams, fileObj);
-        ygFields = (Map<String, JSONObject>) myParams.get(LjqInterface.KEY_FIELDS);
-        shgxParams = LjqManager.jcxxByDxdm("JCGA_JCYG_SHGX");
-        shgxFields = (Map<String, JSONObject>) shgxParams.get(LjqInterface.KEY_FIELDS);
-        for(JSONObject f:ygFields.values()){
-            if(f.getBooleanValue("mbzs")){
-                this.fields.put(f.getString("zddm"),f);
+        /**
+         * 员工字段
+         */
+        Map<String, SysSjglSjzd> ygFields = (Map<String, SysSjglSjzd>) myParams.get(LjqInterface.KEY_FIELDS);
+        /**
+         * 社会关系对象参数
+         */
+        JSONObject shgxParams = LjqManager.jcxxByDxdm("JCGA_JCYG_SHGX");
+        /**
+         * 社会关系字段
+         */
+        Map<String, SysSjglSjzd> shgxFields = (Map<String, SysSjglSjzd>) shgxParams.get(LjqInterface.KEY_FIELDS);
+        for(SysSjglSjzd f: ygFields.values()){
+            if(TypeUtils.castToBoolean(StringUtil.valByDef(f.getMbzs(),"0"))){
+                this.fields.put(f.getZddm(),f);
             }
         }
-        shgxmbField = new LinkedHashMap<String, JSONObject>();
-        for(JSONObject f:shgxFields.values()){
-            if(f.getBooleanValue("mbzs")){
-                shgxmbField.put(f.getString("zddm"),(JSONObject) f.clone());
+        shgxmbField = new LinkedHashMap<String, SysSjglSjzd>();
+        for(SysSjglSjzd f: shgxFields.values()){
+            if(TypeUtils.castToBoolean(StringUtil.valByDef(f.getMbzs(),"0"))){
+                shgxmbField.put(f.getZddm(),(SysSjglSjzd) f.clone());
             }
         }
         ygmbzds = this.fields.size();
         for(int i=0;i<5;i++){
             //模板中支持五个关系
-            for(JSONObject f:shgxmbField.values()){
-                f=(JSONObject) f.clone();
+            for(SysSjglSjzd f:shgxmbField.values()){
+                f=(SysSjglSjzd) f.clone();
                 //关系移除非空判断
-                f.put("hdyzgz", f.getString("hdyzgz").replace("notNull", ""));
-                this.fields.put(i+"_"+f.getString("zddm"),f);
+//                f.put("hdyzgz", f.getString("hdyzgz").replace("notNull", ""));
+                this.fields.put(i+"_"+f.getZddm(),f);
             }
         }
         //表头多了一行，从第一行开始
@@ -134,7 +133,7 @@ public class JcygExcel extends SjdxExcelReader {
                 sfjy = false;
             }
             JSONObject shgx = new JSONObject();
-            for(Entry<String, JSONObject> e:shgxmbField.entrySet()){
+            for(Entry<String, SysSjglSjzd> e:shgxmbField.entrySet()){
                 value = jcyg.getString(gxs+"_"+e.getKey());
                 if(sfjy){
                     //不为空或需要校验
