@@ -1,5 +1,6 @@
 package cn.benma666.sjsj.demo;
 
+import cn.benma666.domain.SysPtglXtxx;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglBhsc;
 import cn.benma666.domain.SysSjglSjdx;
@@ -8,7 +9,7 @@ import cn.benma666.iframe.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqManager;
-import cn.benma666.sjsj.web.XtxxController;
+import cn.benma666.sjsj.web.XtxxWebSocket;
 import cn.benma666.sjzt.Db;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.SqlId;
@@ -57,11 +58,7 @@ public class XxxxLjq extends DefaultLjq{
         log.info("编号2：{}",ai2.next());
         log.info("编号4：{}",ai4.next());
         //向客户端发送websocket消息
-        try {
-            XtxxController.sendAllMessage("xxxx："+myParams.getString("$.yobj.mc"),"01");
-        } catch (IOException e) {
-            log.error("向客户端发送消息失败",e);
-        }
+        XtxxWebSocket.sendMsg(new SysPtglXtxx("测试"),getUser(myParams));
         log.info("xxl："+db("xxl_job").find("select count(1) from xxl_job_info t where t.trigger_status=?",1));
         myParams.set($_SYS_EDITTABLEDATA,db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray($_SYS_EDITTABLEDATA).toJavaList(SysSjglSjdx.class));

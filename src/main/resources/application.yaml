@@ -198,6 +198,7 @@ management:
   server:
     port: 8090
   endpoints:
+    enabled-by-default: false
     web:
       exposure:
         #默认值访问health,info端点  用*可以包含全部端点
