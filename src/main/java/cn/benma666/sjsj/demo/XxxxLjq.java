@@ -58,7 +58,7 @@ public class XxxxLjq extends DefaultLjq{
         log.info("编号2：{}",ai2.next());
         log.info("编号4：{}",ai4.next());
         //向客户端发送websocket消息
-        XtxxWebSocket.sendMsg(new SysPtglXtxx("测试"),getUser(myParams));
+//        XtxxWebSocket.sendMsg(new SysPtglXtxx("测试"),getUser(myParams));
         log.info("xxl："+db("xxl_job").find("select count(1) from xxl_job_info t where t.trigger_status=?",1));
         myParams.set($_SYS_EDITTABLEDATA,db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray($_SYS_EDITTABLEDATA).toJavaList(SysSjglSjdx.class));
