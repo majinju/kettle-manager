@@ -1,6 +1,5 @@
 package cn.benma666.sjsj.demo;
 
-import cn.benma666.domain.SysPtglXtxx;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglBhsc;
 import cn.benma666.domain.SysSjglSjdx;
@@ -9,7 +8,6 @@ import cn.benma666.iframe.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqManager;
-import cn.benma666.sjsj.web.XtxxWebSocket;
 import cn.benma666.sjzt.Db;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.SqlId;
@@ -18,8 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
 
 /**
  * 演示拦截器。<br/>
