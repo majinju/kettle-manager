@@ -2,7 +2,7 @@ benma666:
   # 调试模式
   debug: true
   # 默认需要自动通过主键去获取数据库里记录的方法。
-  mrputobj: save,update,insert
+  mrputobj: save,update,insert,dxjcxx
   login:
     # 登录失败次数
     dlsbcs: 5
