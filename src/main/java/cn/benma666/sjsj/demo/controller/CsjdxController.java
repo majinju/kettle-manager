@@ -1,6 +1,5 @@
 package cn.benma666.sjsj.demo.controller;
 
-import cn.benma666.constants.UtilConst;
 import cn.benma666.iframe.BasicObject;
 import cn.benma666.iframe.MyParams;
 import cn.benma666.iframe.Result;
