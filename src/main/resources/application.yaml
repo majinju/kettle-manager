@@ -18,6 +18,7 @@ benma666:
     list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG,SYS_KP_APPCONFIG
   data:
     password: xxx
+    private-key: xxx
   fwq:
     ejmm: xxx
   sjzt:
