@@ -245,4 +245,4 @@ thread-pool:
   #线程活跃时间
   keep-alive-seconds: 600
   #线程名字 前缀
-  thread-name-prefix: myThread--
+  thread-name-prefix: myThread
