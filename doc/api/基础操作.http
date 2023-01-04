@@ -1,0 +1,285 @@
+
+### 登陆1
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_YHXX_MRDL"
+  },
+  "yobj": {
+    "yhdm":"sys",
+    "yhmm":"sys_123"
+  },
+  "sys":{
+    "cllx":"yhdl",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "clearCache":true
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 登陆2
+POST http://127.0.0.1:8090/sjsj-ht/default/sys-qx-yhxx-mrdl/yhdl
+Content-Type: application/json
+
+{
+  "yobj": {
+    "yhdm":"sys",
+    "yhmm":"sys_123",
+    "model": "details"
+  },
+  "sys":{
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 刷新用户权限
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_QXXX"
+  },
+  "sys":{
+    "cllx":"sxyhqx",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "clearCache":false
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 系统基础信息
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_QTQX"
+  },
+  "yobj": {
+  },
+  "sys":{
+//    "ctdy": "YHY_SJY",
+//    "timeout": 2000,
+    "cllx":"xtjcxx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 对象基础信息
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_SJGL_TYZD"
+  },
+  "yobj": {
+    "id": "0E369823CC1A45E88ED6BE8E8F7DCBC0"
+  },
+  "sys":{
+    "cllx":"dxjcxx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 查询数据缓存
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_COMMON_CACHE"
+  },
+  "yobj": {
+  },
+  "sys":{
+    "cllx":"select",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 清除数据缓存
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_COMMON_CACHE"
+  },
+  "sys":{
+    "ids": ["fields","dict","sjdx","ljq"],
+    "cllx":"qchc",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 系统菜单获取
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_QTQX"
+  },
+  "yobj": {
+    "treeModel": "cds",
+    "treeRoot": "KFZFW"
+  },
+  "sys":{
+    "cllx":"getTreeCN",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 系统子菜单获取
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_QTQX"
+  },
+  "yobj": {
+    "treeModel": "cds",
+    "treeRoot": "KFZFW",
+    "fqx": "KFZFW_PTGL"
+  },
+  "sys":{
+    "cllx":"getTreeCN",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 系统完整菜单树获取
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "yobj": {
+    "treeModel": "cds",
+    "treeRoot": "KFZFW"
+  },
+  "sys": {
+    "authCode": "QTQX_QXXX",
+    "cllx": "cds",
+    "token": "4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 用户退出
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_YHXX_MRDL"
+  },
+  "sys":{
+    "cllx":"yhtc",
+    "token":"4978866291C611DA0D2D5999C413107F",
+    "clearCache":false
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 业务系统自定义controller
+POST http://127.0.0.1:8090/sjsj-ht/custom/demo/tyzd/select
+Content-Type: application/json
+
+{
+  "yobj": {
+    "dm": "112321"
+  },
+  "sys":{
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
+### 业务系统自定义controller
+POST http://127.0.0.1:8090/sjsj-ht/csjdx/sys_sjgl_tyzd_demo/select
+Content-Type: application/json
+token: 4978866291C611DA0D2D5999C413107F
+
+{
+  "yobj": {
+    "dm": "112321"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
