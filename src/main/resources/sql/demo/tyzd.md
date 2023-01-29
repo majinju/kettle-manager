@@ -25,7 +25,7 @@ insert
 ```sql
 insert into SYS_SJGL_TYZD_DEMO(dm,mc,cjrdm)
 --此处只为演示自定义设置参数，其实更简单的是直接传入myParams，则可以采用user.id获取用户代码，user.jgxx获取用户的机构信息
-values(#{p1.dm},#{p1.mc},,#{p1.cjrdm})
+values(#{p1.dm},#{p1.mc},#{p1.cjrdm})
 ```
 
 update
