@@ -249,7 +249,7 @@ client.test("Request executed successfully", function() {
 %}
 
 ### 业务系统自定义controller
-POST http://127.0.0.1:8090/sjsj-ht/custom/demo/tyzd/select
+POST http://127.0.0.1:8090/sjsj-ht/custom/demo/select
 Content-Type: application/json
 
 {

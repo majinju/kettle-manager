@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * 此为一个可选方式，还是建议走拦截器形式便于统一实现穿透等机制。<br/>
  */
 @RestController
-@RequestMapping("/custom/demo/tyzd")
+@RequestMapping("/custom/demo")
 public class TyzdController extends BasicObject {
     @RequestMapping("select")
     public Result select(@AMyParams MyParams myParams, HttpServletRequest request) {
@@ -39,7 +39,7 @@ public class TyzdController extends BasicObject {
         SysSjglTyzdDemo zd = myParams.yobj(SysSjglTyzdDemo.class);
         SysQxYhxx yhxx = myParams.user();
         zd.setCjrdwdm(yhxx.getId());
-        int num = db().update(SqlId.of("demo.tyzd", "insert"), Db.buildMap(yhxx));
+        int num = db().update(SqlId.of("demo.tyzd", "insert"), Db.buildMap(zd));
         return success("成功新增记录数："+num);
     }
     @RequestMapping("update")
