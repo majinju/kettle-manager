@@ -45,4 +45,19 @@ public class CsjdxController extends BasicObject {
         //写自己的业务
         return LjqManager.data(myParams);
     }
+    @RequestMapping("qchc")
+    public Result qchc(@AMyParams MyParams myParams) {
+        //写自己的业务
+        return LjqManager.data(myParams);
+    }
+    @RequestMapping("dcmb")
+    public Result dcmb(@AMyParams MyParams myParams) {
+        //写自己的业务
+        return LjqManager.data(myParams);
+    }
+    @RequestMapping("sjplsc")
+    public Result sjplsc(@AMyParams MyParams myParams) {
+        //写自己的业务
+        return LjqManager.data(myParams);
+    }
 }

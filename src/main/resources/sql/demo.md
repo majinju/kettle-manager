@@ -11,7 +11,7 @@ findDemo
 ===
 * 查询演示
 ```sql
-select 
+select
 -- @ pageTag(){
        t.*,'xxx11' dddd
 -- @}
@@ -21,8 +21,8 @@ from ${sjdx.jtdx} t
 for(var e in fields){
 var field = e.value;
 if(!isEmpty(yobj[field.zddm])){
+//  and ${field.zddm} = #{yobj['${field.zddm}']}
  */
-    and ${field.zddm} = #{yobj['${field.zddm}']}
 /*
 }
 }
