@@ -17,6 +17,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 演示拦截器。<br/>
  * 拦截器需要在数据对象的“拦截器”中配置该类的完整类路径才会在对应的数据对象上生效，数据对象不配做拦截器时会采用默认拦截器。<br/>
@@ -53,6 +58,15 @@ public class XxxxLjq extends DefaultLjq{
         log.info("编号1：{}",ai1.next());
         log.info("编号2：{}",ai2.next());
         log.info("编号4：{}",ai4.next());
+        JSONObject bdjgParams = LjqManager.jcxxByDxdm("SYS_BDHC_JG");
+        List<JSONObject> list = new ArrayList<>();
+        JSONObject o = new JSONObject();
+        o.put("hdxgxx",new StringReader("xxxxxxxxxxxx1111"));
+        list.add(o);
+        bdjgParams.set($_SYS_EDITTABLEDATA,list);
+        bdjgParams.set($_SYS_CLLX,KEY_CLLX_PLBC);
+        LjqManager.data(bdjgParams);
+
         //向客户端发送websocket消息
 //        XtxxWebSocket.sendMsg(new SysPtglXtxx("测试"),getUser(myParams));
         log.info("xxl："+db("xxl_job").find("select count(1) from xxl_job_info t where t.trigger_status=?",1));
