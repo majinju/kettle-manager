@@ -5,7 +5,7 @@ benma666:
     # 登录失败次数
     dlsbcs: 5
     # 请求并发限制
-    qqbfxz: 5
+    qqbfxz: 10
   web-socket:
     enabled: true
   service:
@@ -241,11 +241,11 @@ thread-pool:
   # 是否启用
   enabled: true
   #核心线程数
-  core-pool-size: 10
+  core-pool-size: 40
   #最大线程数
   max-pool-size: 40
   #队列大小 缓存多少个任务
-  queue-capacity: 200
+  queue-capacity: 2000
   #线程活跃时间
   keep-alive-seconds: 600
   #线程名字 前缀
