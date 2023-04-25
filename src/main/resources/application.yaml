@@ -6,6 +6,8 @@ benma666:
     dlsbcs: 5
     # 请求并发限制
     qqbfxz: 10
+    # 用户同时在线会话数限制
+    tszxhhsxz: 20
   web-socket:
     enabled: true
   service:
