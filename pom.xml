@@ -16,13 +16,116 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<myutils.vsersion>0.2.0</myutils.vsersion>
+		<kettle.version>8.3.0.0-SNAPSHOT</kettle.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>cn.benma666</groupId>
 			<artifactId>myutils-spring-boot-starter</artifactId>
 			<version>${myutils.vsersion}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-beanutils</artifactId>
+					<groupId>commons-beanutils</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-collections</artifactId>
+					<groupId>commons-collections</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-lang</artifactId>
+					<groupId>commons-lang</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xercesImpl</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-compress</artifactId>
+					<groupId>org.apache.commons</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		<!-- kettle start-->
+		<dependency>
+			<groupId>cn.benma666</groupId>
+			<artifactId>myutils-kettle</artifactId>
+			<version>${myutils.vsersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>pentaho-kettle</groupId>
+			<artifactId>kettle-core</artifactId>
+			<version>${kettle.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>beetl</artifactId>
+					<groupId>com.ibeetl</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-io</artifactId>
+					<groupId>commons-io</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jsch</artifactId>
+					<groupId>com.jcraft</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>pentaho-kettle</groupId>
+			<artifactId>kettle-engine</artifactId>
+			<version>${kettle.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-lang</artifactId>
+					<groupId>commons-lang</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-io</artifactId>
+					<groupId>commons-io</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-dbcp</artifactId>
+					<groupId>commons-dbcp</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xercesImpl</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>poi</artifactId>
+					<groupId>org.apache.poi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>poi-ooxml</artifactId>
+					<groupId>org.apache.poi</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>poi-ooxml-schemas</artifactId>
+					<groupId>org.apache.poi</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--        <dependency>-->
+		<!--            <groupId>org.pentaho.di.plugins</groupId>-->
+		<!--            <artifactId>excel-plugins-impl</artifactId>-->
+		<!--            <version>${kettle.version}</version>-->
+		<!--            <scope>provided</scope>-->
+		<!--        </dependency>-->
+		<dependency>
+			<groupId>cn.benma666</groupId>
+			<artifactId>KettleEasyExpand</artifactId>
+			<version>${myutils.vsersion}</version>
+		</dependency>
+		<!-- kettle end-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

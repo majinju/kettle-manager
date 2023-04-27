@@ -49,6 +49,9 @@ benma666:
     user: "sys"
     # 应用初始化启动（非xxl场景支持），目前建议优先采用xxl调度，方便管理。
     appInitStart: false
+  km:
+    # 应用初始化启动
+    appInitStart: false
 
 server:
   # 服务器的HTTP端口，默认为8080
