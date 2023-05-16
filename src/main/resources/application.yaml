@@ -72,6 +72,8 @@ server:
       max: 800
       # Tomcat启动初始化的线程数，默认值25
       min-spare: 30
+#    connection-timeout:
+#    keep-alive-timeout:
 
 spring:
   application:
@@ -248,11 +250,11 @@ thread-pool:
   # 是否启用
   enabled: true
   #核心线程数
-  core-pool-size: 40
+  core-pool-size: 5
   #最大线程数
-  max-pool-size: 40
+  max-pool-size: 5
   #队列大小 缓存多少个任务
-  queue-capacity: 2000
+  queue-capacity: 20000
   #线程活跃时间
   keep-alive-seconds: 600
   #线程名字 前缀

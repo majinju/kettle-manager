@@ -7,6 +7,7 @@ import cn.benma666.exception.MyException;
 import cn.benma666.iframe.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.DefaultLjq;
+import cn.benma666.sjsj.web.HdInterface;
 import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjzt.Db;
 import com.alibaba.fastjson.JSONObject;
@@ -17,7 +18,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +58,14 @@ public class XxxxLjq extends DefaultLjq{
         log.info("编号1：{}",ai1.next());
         log.info("编号2：{}",ai2.next());
         log.info("编号4：{}",ai4.next());
+        Result r = LjqManager.streamSelect("select * from sys_log_fwzr t", 10, new HdInterface() {
+            @Override
+            public Result run(List<JSONObject> list, boolean hdjs) {
+                log.info("回调记录："+list.size());
+                return success("回调成功："+list.size());
+            }
+        }, 600000, "sjsj-test");
+        log.info("流式查询结果："+r);
         JSONObject bdjgParams = LjqManager.jcxxByDxdm("SYS_BDHC_JG");
         List<JSONObject> list = new ArrayList<>();
         JSONObject o = new JSONObject();
@@ -95,7 +103,7 @@ public class XxxxLjq extends DefaultLjq{
         //调用方式2：设置处理类型，通过data方法调用，一些在LjqManager中没有设置的方法需要采用此方法调用。
         //切记，调用其他数据对象的方法时一定要通过LjqManager去调用，不能直接调用父类的方法。
         sjdxParams.set($_SYS_CLLX,KEY_CLLX_SELECT);
-        Result r = LjqManager.data(sjdxParams);
+        r = LjqManager.data(sjdxParams);
         //获取数据
         log.info("调用其他对象的方法查询数据："+r.getPageList(SysSjglSjdx.class));
         /////////直接采用beetlsql///////////
