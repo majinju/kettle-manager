@@ -49,6 +49,16 @@ benma666:
     user: "sys"
     # 应用初始化启动（非xxl场景支持），目前建议优先采用xxl调度，方便管理。
     appInitStart: false
+    #线程池配置
+    thread-pool:
+      #核心线程数
+      core-pool-size: 5
+      #最大线程数
+      max-pool-size: 5
+      #队列大小 缓存多少个任务
+      queue-capacity: 20000
+      #线程活跃时间
+      keep-alive-seconds: 600
   km:
     # 应用初始化启动
     appInitStart: false
@@ -122,11 +132,11 @@ spring:
       # 配置获取连接等待超时的时间
       max-wait: 300000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 60000
+      time-between-eviction-runs-millis: 300000
       # 配置一个连接在池中最小生存的时间，单位是毫秒
-      min-evictable-idle-time-millis: 60000
+      min-evictable-idle-time-millis: 300000
       # 配置一个连接在池中最大生存的时间，单位是毫秒
-      max-evictable-idle-time-millis: 6000000
+      max-evictable-idle-time-millis: 900000
       # 连接超时
       socket-timeout: 600000
       # 配置检测连接是否有效
@@ -136,7 +146,7 @@ spring:
       test-on-return: false
       # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作。
       keep-alive: true
-      keep-alive-between-time-millis: 120000
+      keep-alive-between-time-millis: 600000
       remove-abandoned: false
       remove-abandoned-timeout: 6000000
       web-stat-filter:
@@ -250,9 +260,9 @@ thread-pool:
   # 是否启用
   enabled: true
   #核心线程数
-  core-pool-size: 5
+  core-pool-size: 10
   #最大线程数
-  max-pool-size: 5
+  max-pool-size: 50
   #队列大小 缓存多少个任务
   queue-capacity: 20000
   #线程活跃时间
