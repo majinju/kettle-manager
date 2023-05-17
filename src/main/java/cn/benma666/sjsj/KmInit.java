@@ -1,9 +1,8 @@
 package cn.benma666.sjsj;
 
 import cn.benma666.iframe.BasicObject;
-import cn.benma666.iframe.DefaultLog;
 import cn.benma666.kettle.job.JobManager;
-import cn.benma666.sjsj.job.ZnjhJob;
+import cn.benma666.sjsj.myutils.ThreadPool;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,6 +17,6 @@ public class KmInit extends BasicObject implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         //智能交换-应用初始化启动
-        new Thread(JobManager::init).start();
+        ThreadPool.use().run(JobManager::init);
     }
 }
