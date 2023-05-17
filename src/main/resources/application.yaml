@@ -61,7 +61,7 @@ benma666:
       keep-alive-seconds: 600
   km:
     # 应用初始化启动
-    appInitStart: false
+    appInitStart: true
 
 server:
   # 服务器的HTTP端口，默认为8080
