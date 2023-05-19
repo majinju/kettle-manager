@@ -120,11 +120,11 @@
 		<!--            <version>${kettle.version}</version>-->
 		<!--            <scope>provided</scope>-->
 		<!--        </dependency>-->
-		<dependency>
-			<groupId>cn.benma666</groupId>
-			<artifactId>KettleEasyExpand</artifactId>
-			<version>${myutils.vsersion}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>cn.benma666</groupId>-->
+<!--			<artifactId>KettleEasyExpand</artifactId>-->
+<!--			<version>${myutils.vsersion}</version>-->
+<!--		</dependency>-->
 		<!-- kettle end-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
