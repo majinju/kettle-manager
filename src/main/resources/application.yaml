@@ -11,11 +11,15 @@ benma666:
   web-socket:
     enabled: true
   service:
+    # 统一代理地址，应用管理中统一代理的应用都只配置了项目名称，需要读取该配置补充为完整的地址
+    tydlzd: http://localhost:9002
     addr: /index
     # 允许上传的文件类型
     yxscwjlx: xls,xlsx,txt,csv,zip,rar,7z,png,jpg,json,xml
     # spring安全框架忽略的路径，多个路径逗号分割，eg:/druid/**,/sjdx**,/auth**,/default**,/xtxx**,/index**
     security-addr: /test/**
+    # 系统根目录
+    xtgml: /benma666
   ljq:
     # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
     default: MyDefaultLjq
@@ -23,7 +27,7 @@ benma666:
     # 授权模式，cllx（精确到处理类型），sjdx（只要相关数据对象有授权就可以使用其下所有方法），默认为cllx
     sqms: cllx
   config:
-    list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG,SYS_KP_APPCONFIG
+    list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG
   data:
     password: xxx
     private-key: xxx
@@ -33,6 +37,7 @@ benma666:
   sjzt:
     ejmm: xxx
   yhxx:
+    # 用户目前采用md5加密不需要设置密码
     ejmm: xxx
   app:
     ejmm: xxx
@@ -255,6 +260,7 @@ logging:
   #pattern: "%d{MM-dd HH:mm:ss} %-5level [%t] %logger{30}.%M:%L - %msg%n"
   #pattern-db: "{'scff':'%M','sch':'%L','message':'%m','threadName':'%t','level':'%level','ssxm':'%cn','loggerName':'%logger{30}','cjsj':'%date{yyyyMMddHHmmss}','gxsj':'%date{yyyyMMddHHmmss}'}"
   file:
+    # 日志文件根目录
     path: /benma666/logs
   level:
     root: info
@@ -285,3 +291,13 @@ thread-pool:
   keep-alive-seconds: 600
   #线程名字 前缀
   thread-name-prefix: myThread
+# 微信相关
+wx:
+  # 微信接口基础地址
+  api-base-url: https://api.weixin.qq.com
+  # 微信登录接口参数
+  api-login-params:
+    # 奔马数据
+    bmsj: appid=xxx&secret=xxx&grant_type=authorization_code&js_code=
+    # 奔马数科
+    bmsk: appid=xxx&secret=xxx&grant_type=authorization_code&js_code=
