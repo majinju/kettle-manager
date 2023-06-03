@@ -29,18 +29,25 @@ benma666:
   config:
     list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG
   data:
+    # 系统主密码
     password: xxx
+    # sm2私钥
     private-key: xxx
+    # sm2公钥
     public-key: xxx
   fwq:
+    # 密码解密密码
     ejmm: xxx
   sjzt:
+    # 密码解密密码
     ejmm: xxx
   yhxx:
     # 用户目前采用md5加密不需要设置密码
     ejmm: xxx
   app:
+    # 密码解密密码
     ejmm: xxx
+    # 应用代码，没有应用都要独立的应用代码，与应用管理中的代码一致
     dm: sjsj
   # 智能交换
   znjh:
@@ -97,6 +104,7 @@ spring:
   security:
     user:
       name: jingma
+      # spring权限框架密码
       password: jingma
       roles:
         - admin
@@ -170,6 +178,7 @@ spring:
         url-pattern: /druid/*
         # 控制台管理用户名和密码
         login-username: jingma
+        # durid管理页面密码
         login-password: jingma
       filter:
         stat:
@@ -203,6 +212,7 @@ spring:
           statement-execute-batch-after-log-enabled: false
           statement-execute-query-after-log-enabled: false
           statement-execute-update-after-log-enabled: false
+  # redis相关配置
   redis:
     # 是否使用redis
     enabled: true
