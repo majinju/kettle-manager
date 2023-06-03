@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * 应用初始化-km启动
  */
 @Component
-@ConditionalOnProperty("benma666.km.appInitStart")
+@ConditionalOnProperty("benma666.km.app-init-start")
 public class KmInit extends BasicObject implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
