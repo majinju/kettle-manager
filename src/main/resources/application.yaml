@@ -65,7 +65,13 @@ benma666:
       keep-alive-seconds: 600
   km:
     # 应用初始化启动
-    appInitStart: true
+    app-init-start: true
+    # 是否单独为每个作业写日志文件
+    write-log-file: true
+    # 日志文件最大大小，达到该大小进行切换
+    log-file-size: 20
+    # 日志预警匹配的正则
+    log-warning-pattern: (Exception|Error)
 
 server:
   # 服务器的HTTP端口，默认为8080
