@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>cn.benma666</groupId>
-	<artifactId>sjsj</artifactId>
+	<artifactId>sjds</artifactId>
 	<version>0.2.0</version>
-	<name>sjsj</name>
-	<description>数据世界</description>
+	<name>sjds</name>
+	<description>数据大师</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<myutils.vsersion>0.2.0</myutils.vsersion>
