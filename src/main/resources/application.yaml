@@ -2,6 +2,7 @@ benma666:
   # 调试模式
   debug: true
   login:
+    # default-login: true
     # 登录失败次数
     dlsbcs: 5
     # 请求并发限制
@@ -53,10 +54,6 @@ benma666:
   znjh:
     # 自动穿透调用，默认1
     zdctdy: 1
-    # 小文件等待毫秒
-    xwjdd: 100
-    # 大文件等待毫秒
-    dwjdd: 1000
     # 穿透调用等待时长
     ctdydd: 120000
     # 默认地址
@@ -281,11 +278,11 @@ logging:
   logback:
     console:
       level: debug
-    mylog:
+    #mylog:
       #level: ERROR
       #insert-sql: insert into SYS_LOG_HTRZ(id,cjsj,gxsj,xc,jb,scl,scff,sch,xx,ssxm) values(#{id},#{cjsj},#{gxsj},#{threadName},#{level},#{loggerName},#{scff},#{sch},#{message},#{ssxm})
-    rollingpolicy:
-      #max-file-size: 20MB
+#    rollingpolicy:
+#      max-file-size: 20MB
 
 #线程池配置
 thread-pool:
