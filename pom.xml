@@ -73,6 +73,10 @@
 					<artifactId>jsch</artifactId>
 					<groupId>com.jcraft</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>myutils-noweb</artifactId>
+					<groupId>cn.benma666</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
