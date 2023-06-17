@@ -1,0 +1,15 @@
+# 基础镜像
+FROM  openjdk:8-jre
+# author
+MAINTAINER jingma
+
+# 挂载目录
+VOLUME sjds-benma666:/benma666
+# 创建目录
+RUN mkdir -p /benma666
+# 指定路径
+WORKDIR /benma666
+# 复制文件到路径
+COPY ./dist /benma666/sjsj
+# 启动服务
+ENTRYPOINT ["/benma666/sjsj/start.sh"]

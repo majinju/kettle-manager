@@ -2,7 +2,7 @@ benma666:
   # 调试模式
   debug: true
   login:
-    # default-login: true
+    default-login: true
     # 登录失败次数
     dlsbcs: 5
     # 请求并发限制
@@ -21,6 +21,8 @@ benma666:
     security-addr: /test/**
     # 系统根目录
     xtgml: /benma666
+    # 数据对象机制忽略的路径
+    hllj: (/error|/execption)
   ljq:
     # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
     default: MyDefaultLjq
@@ -61,7 +63,7 @@ benma666:
     # 默认用户,专用同步账号
     user: "sys"
     # 应用初始化启动（非xxl场景支持），目前建议优先采用xxl调度，方便管理。
-    appInitStart: false
+    app-init-start: false
     #线程池配置
     thread-pool:
       #核心线程数
