@@ -8,6 +8,10 @@ usage() {
 echo "begin copy sql "
 # 数据世界的脚本
 cp ../../../myutils-spring-boot-starter/doc/db/mysql/sjsj2_dev.sql ./mysql/db
+cp ../db/mysql/kettle_default.sql ./mysql/db
+sed -i '1i USE `kettle_default`;' ./mysql/db/kettle_default.sql
+sed -i '1i CREATE DATABASE  `kettle_default` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;' ./mysql/db/kettle_default.sql
+sed -i '1i DROP DATABASE IF EXISTS `kettle_default`;' ./mysql/db/kettle_default.sql
 
 echo "begin copy html "
 cp -r ../../../sjsj-vue3-ts/dist/** ./nginx/html/dist
