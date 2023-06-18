@@ -10,4 +10,4 @@ RUN mkdir -p /benma666/redis
 # 指定路径
 WORKDIR /benma666/redis
 # 复制conf文件到路径
-COPY ./conf/redis.conf /benma666/redis/redis.conf
+#COPY ./conf/redis.conf /benma666/redis/redis.conf
