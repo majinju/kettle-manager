@@ -15,4 +15,8 @@ cp -r ../../../sjsj-vue3-ts/dist/** ./nginx/html/dist
 echo "begin copy sjsj "
 cp -r ../dist/** ./sjsj/dist
 cp ../../target/*.jar ./sjsj/dist
-cp ../../src/main/resources/*.yaml ./sjsj/dist
+cp ../../src/main/resources/application.yaml ./sjsj/dist
+cp ./sjsj/conf/* ./sjsj/dist
+#cp ../../src/main/resources/application-mysql.yaml ./sjsj/dist
+#cp ../../src/main/resources/application-private.yaml ./sjsj/dist
+#sed  -i "s/192.168.1.22:3306\/sjsj2_dev/benma666-mysql:3306\/sjsj2_zs/g"  ./sjsj/dist/application-mysql.yaml

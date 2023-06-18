@@ -1,7 +1,7 @@
 # 基础镜像
 FROM nginx
-# author
-MAINTAINER jingma
+# 通过镜像标签声明了作者信息
+LABEL maintainer="jingma"
 
 # 挂载目录
 VOLUME /benma666/sjsj-qd

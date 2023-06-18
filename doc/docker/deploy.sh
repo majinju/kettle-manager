@@ -2,7 +2,7 @@
 
 # 使用说明，用来提示输入参数
 usage() {
-	echo "Usage: sh 执行脚本.sh [port|base|modules|stop|rm]"
+	echo "Usage: sh 执行脚本.sh [port|base|app|stop|rm]"
 	exit 1
 }
 
@@ -19,7 +19,7 @@ base(){
 }
 
 # 启动程序模块（必须）
-modules(){
+app(){
 	docker-compose up -d benma666-nginx benma666-sjsj
 }
 
@@ -41,8 +41,8 @@ case "$1" in
 "base")
 	base
 ;;
-"modules")
-	modules
+"app")
+	app
 ;;
 "stop")
 	stop

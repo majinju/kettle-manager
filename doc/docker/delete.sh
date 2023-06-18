@@ -7,6 +7,7 @@ rm -rf ./mysql/db/*
 
 echo "begin delete html "
 rm -rf ./nginx/html/dist/*
+rm -rf ./nginx/logs/*
 
 echo "begin delete sjsj "
 rm -rf ./sjsj/dist/*

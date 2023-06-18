@@ -1,7 +1,7 @@
 # 基础镜像
 FROM mysql
-# author
-MAINTAINER jingma
+# 通过镜像标签声明了作者信息
+LABEL maintainer="jingma"
 
 # 执行sql脚本
 ADD ./db/*.sql /docker-entrypoint-initdb.d/
