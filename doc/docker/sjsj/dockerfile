@@ -11,7 +11,7 @@ RUN mkdir -p /benma666
 # 指定路径
 WORKDIR /benma666/sjsj
 # 复制文件到路径
-COPY ./dist /benma666/sjsj
+#COPY ./dist /benma666/sjsj
 # 启动服务
 ENTRYPOINT ["/benma666/sjsj/docker.sh"]
 #ENTRYPOINT ["java", "-cp", "sjsj-0.2.0.jar:lib/*", "cn.benma666.sjsj.SjsjApplication", "--spring.config.location=application.yaml"]

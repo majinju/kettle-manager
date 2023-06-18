@@ -10,4 +10,4 @@ rm -rf ./nginx/html/dist/*
 rm -rf ./nginx/logs/*
 
 echo "begin delete sjsj "
-rm -rf ./sjsj/dist/*
+rm -rf ./sjsj/data/sjsj

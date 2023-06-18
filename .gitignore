@@ -36,3 +36,8 @@ build/
 /src/main/resources/application-mysql.yaml
 /src/main/resources/application-private.yaml
 /doc/docker/mysql/data/
+/doc/docker/sjsj/dist/
+/doc/docker/nginx/html/dist/
+/doc/docker/mysql/db/
+/doc/docker/nginx/logs/
+/doc/docker/sjsj/data/
