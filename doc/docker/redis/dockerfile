@@ -1,0 +1,13 @@
+# 基础镜像
+FROM redis
+# 通过镜像标签声明了作者信息
+LABEL maintainer="jingma"
+
+# 挂载目录
+VOLUME /benma666/redis
+# 创建目录
+RUN mkdir -p /benma666/redis
+# 指定路径
+WORKDIR /benma666/redis
+# 复制conf文件到路径
+COPY ./conf/redis.conf /benma666/redis/redis.conf

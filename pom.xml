@@ -227,7 +227,7 @@
 						<configuration>
 							<target>
 								<echo>拷贝jar包</echo>
-								<copy todir="${basedir}/doc/lib">
+								<copy todir="${basedir}/doc/dist/lib">
 									<fileset dir="${basedir}/target/ext-lib" includes="**" />
 								</copy>
 								<delete dir="${basedir}/target/ext-lib" includes="**" />

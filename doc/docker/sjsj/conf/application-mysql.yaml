@@ -1,0 +1,8 @@
+
+spring:
+  datasource:
+    # useOldAliasMetadataBehavior=true 加上此参数才能取到字段别名
+    url: jdbc:mysql://benma666-mysql:3306/sjsj2_zs?useOldAliasMetadataBehavior=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: password
+    dbtype: mysql
