@@ -53,6 +53,8 @@ copy(){
   mkdir -p ./nginx/data/conf
   cp -r ../../../sjsj-vue3-ts/dist/** ./nginx/data/dist
   cp ./nginx/conf/nginx.conf ./nginx/data/conf/nginx.conf
+  sed  -i "s/"KFZFW"/"SJDS"/g"  ./nginx/data/dist/index.html
+  sed  -i "s/"数据世界"/"数据大师"/g"  ./nginx/data/dist/index.html
 
   echo "begin copy redis "
   mkdir -p ./redis/data
