@@ -2,7 +2,7 @@
 
 # 复制项目的文件到对应docker路径，便于一键生成镜像。
 usage() {
-	echo "Usage: sh 执行脚本.sh [copy|build|del]"
+	echo "Usage: sh 执行脚本.sh [copy|zip|del]"
 	exit 1
 }
 
@@ -23,6 +23,11 @@ copy(){
   cp ../../target/*.jar ./sjsj/hd
   cp ../../src/main/resources/application.yaml ./sjsj/hd/application.yaml
   cp ./sjsj/conf/* ./sjsj/hd
+}
+
+# 打包部署文件
+zip(){
+  command zip -vr ../../target/sjds.zip ./mysql ./nginx ./redis ./sjsj deploy.sh docker-compose.yml
 }
 
 # 删除基础信息，升级一般需要全量替换的文件

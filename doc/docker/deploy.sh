@@ -29,7 +29,7 @@ build(){
 
 # 开启所需端口
 port(){
-	firewall-cmd --add-port=80/tcp --permanent
+	firewall-cmd --add-port=8091/tcp --permanent
 	firewall-cmd --add-port=8090/tcp --permanent
 	service firewalld restart
 }
