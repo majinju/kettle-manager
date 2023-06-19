@@ -49,8 +49,8 @@ case "$1" in
 "copy")
 	copy
 ;;
-"build")
-	build
+"zip")
+	zip
 ;;
 "del")
 	del
