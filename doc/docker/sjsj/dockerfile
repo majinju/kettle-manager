@@ -5,13 +5,8 @@ LABEL maintainer="jingma"
 
 # 挂载目录
 VOLUME /benma666
-
-# 创建目录
-#RUN mkdir -p /benma666
-# 复制文件到路径
-#COPY ./data/sjsj /benma666/sjsj
 # 指定路径
 WORKDIR /benma666/sjsj
 # 启动服务
-ENTRYPOINT ["/benma666/sjsj/docker.sh"]
-#ENTRYPOINT ["java", "-cp", "sjsj-0.2.0.jar:lib/*", "cn.benma666.sjsj.SjsjApplication", "--spring.config.location=application.yaml"]
+#ENTRYPOINT ["/benma666/sjsj/docker.sh"]
+ENTRYPOINT ["java", "-cp", "sjsj-0.2.0.jar:lib/*", "cn.benma666.sjsj.SjsjApplication", "--spring.config.location=application.yaml"]

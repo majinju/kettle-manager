@@ -5,11 +5,5 @@ LABEL maintainer="jingma"
 
 # 挂载目录
 VOLUME /benma666
-# 创建目录
-#RUN mkdir -p /benma666/sjsj-qd
-# 复制conf文件到路径
-#COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-# 复制html文件到路径
-#COPY ./html/dist /benma666/sjsj-qd
 # 指定路径
 WORKDIR /benma666
