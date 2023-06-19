@@ -2,7 +2,7 @@
 
 # 复制项目的文件到对应docker路径，便于一键生成镜像。
 usage() {
-	echo "Usage: sh 执行脚本.sh [copy|build|del]"
+	echo "Usage: sh 执行脚本.sh [copy|zip|del]"
 	exit 1
 }
 
@@ -13,6 +13,7 @@ copy(){
   # 数据世界的脚本
   cp ../../../myutils-spring-boot-starter/doc/db/mysql/sjsj2_dev.sql ./mysql/db
   cp ../db/mysql/kettle_default.sql ./mysql/db
+  cp ../db/mysql/init.sql ./mysql/db/kettle_init.sql
   # kettle资源库添加建库信息，便于mysql自动建库
   sed -i '1i USE `kettle_default`;' ./mysql/db/kettle_default.sql
   sed -i '1i CREATE DATABASE  `kettle_default` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;' ./mysql/db/kettle_default.sql
@@ -38,7 +39,9 @@ copy(){
   cp ../../src/main/resources/application.yaml ./sjsj/hd/application.yaml
   cp ./sjsj/conf/* ./sjsj/hd
 }
-
+zip(){
+  command zip -vr ../../target/sjds.zip ./mysql ./nginx ./redis ./sjsj deploy.sh docker-compose.yml
+}
 # 删除基础信息，升级一般需要全量替换的文件
 del(){
 	# 删除复制的文件。
@@ -58,8 +61,8 @@ case "$1" in
 "copy")
 	copy
 ;;
-"build")
-	build
+"zip")
+	zip
 ;;
 "del")
 	del

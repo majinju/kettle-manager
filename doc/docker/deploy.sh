@@ -8,9 +8,9 @@ usage() {
 # 拷贝文件
 copy(){
   echo "begin copy nginx "
-  mkdir -p ./data/nginx/html/sjsj
+  mkdir -p ./data/nginx/html/sjds
   mkdir -p ./data/nginx/conf
-  cp -r ./nginx/qd/** ./data/nginx/html/sjsj
+  cp -r ./nginx/qd/** ./data/nginx/html/sjds
   cp ./nginx/conf/nginx.conf ./data/nginx/conf/nginx.conf
 
   echo "begin copy redis "
@@ -29,7 +29,7 @@ build(){
 
 # 开启所需端口
 port(){
-	firewall-cmd --add-port=80/tcp --permanent
+	firewall-cmd --add-port=8091/tcp --permanent
 	firewall-cmd --add-port=8090/tcp --permanent
 	service firewalld restart
 }
