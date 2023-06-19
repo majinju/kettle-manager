@@ -1,16 +1,16 @@
 benma666:
   # 调试模式
   debug: true
-#  datasource:
-#    kettle_default:
-#      ljc: jdbc:mysql://xxx:3306/xxxx?useOldAliasMetadataBehavior=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-#      yhm: root
-#      mm: xxx
-#      lx: mysql
-#      kzxx-obj:
-#        kettleConfig:
-#          kuser: admin
-#          kpass: admin
+  #  datasource:
+  #    kettle_default:
+  #      ljc: jdbc:mysql://xxx:3306/xxxx?useOldAliasMetadataBehavior=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+  #      yhm: root
+  #      mm: xxx
+  #      lx: mysql
+  #      kzxx-obj:
+  #        kettleConfig:
+  #          kuser: admin
+  #          kpass: admin
   login:
     default-login: true
     # 登录失败次数
@@ -84,15 +84,6 @@ benma666:
       queue-capacity: 20000
       #线程活跃时间
       keep-alive-seconds: 600
-  km:
-    # 应用初始化启动
-    app-init-start: true
-    # 是否单独为每个作业写日志文件
-    write-log-file: true
-    # 日志文件最大大小，达到该大小进行切换
-    log-file-size: 20
-    # 日志预警匹配的正则
-    log-warning-pattern: (Exception|Error)
 
 server:
   # 服务器的HTTP端口，默认为8080
