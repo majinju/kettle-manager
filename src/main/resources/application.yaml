@@ -1,6 +1,16 @@
 benma666:
   # 调试模式
   debug: true
+#  datasource:
+#    kettle_default:
+#      ljc: jdbc:mysql://xxx:3306/xxxx?useOldAliasMetadataBehavior=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+#      yhm: root
+#      mm: xxx
+#      lx: mysql
+#      kzxx-obj:
+#        kettleConfig:
+#          kuser: admin
+#          kpass: admin
   login:
     default-login: true
     # 登录失败次数

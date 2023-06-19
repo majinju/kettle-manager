@@ -9,6 +9,7 @@ services:
       - "3316:3306"
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime
       - ./mysql/data/conf:/etc/mysql/conf.d
       - ./mysql/data/logs:/logs
       - ./mysql/data/data:/var/lib/mysql
@@ -32,6 +33,7 @@ services:
       - "6389:6379"
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime
       - ./redis/data/redis.conf:/benma666/redis/redis.conf
       - ./redis/data/data:/data
     command: redis-server /benma666/redis/redis.conf
@@ -44,6 +46,7 @@ services:
       - "8091:8091"
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime
       - ./nginx/data:/benma666
       - ./nginx/data/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/data/logs:/var/log/nginx
@@ -61,6 +64,7 @@ services:
       - "8090:8090"
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime
       - ./sjsj/data:/benma666
       #- ./sjsj/data/logs:/benma666/logs
     environment:

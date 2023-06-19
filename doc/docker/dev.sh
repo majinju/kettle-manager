@@ -14,7 +14,7 @@ delbase(){
   rm -rf ./mysql/db
 
   echo "begin delete html "
-  rm -rf ./nginx/data/dist/*
+  rm -rf ./nginx/data/html/sjds/*
 
   echo "begin delete sjsj "
   rm -rf ./sjsj/data/sjsj
@@ -44,17 +44,25 @@ copy(){
   # 数据世界的脚本
   cp ../../../myutils-spring-boot-starter/doc/db/mysql/sjsj2_dev.sql ./mysql/db
   cp ../db/mysql/kettle_default.sql ./mysql/db
+  # kettle资源库添加建库信息，便于mysql自动建库
   sed -i '1i USE `kettle_default`;' ./mysql/db/kettle_default.sql
   sed -i '1i CREATE DATABASE  `kettle_default` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;' ./mysql/db/kettle_default.sql
   sed -i '1i DROP DATABASE IF EXISTS `kettle_default`;' ./mysql/db/kettle_default.sql
+  # 删除oracle资源库信息
+  sed -i "/VALUES ('kettle_oracle'/d" ./mysql/db/sjsj2_dev.sql
+  sed -i "/VALUES ('sjds'/d" ./mysql/db/sjsj2_dev.sql
+  sed -i "/'SJDS-SJSJ/d" ./mysql/db/sjsj2_dev.sql
+  sed -i "/'SHRMYY/d" ./mysql/db/sjsj2_dev.sql
+  sed  -i "s/sjsj-ht/sjds-ht/g"  ./mysql/db/sjsj2_dev.sql
 
   echo "begin copy nginx "
-  mkdir -p ./nginx/data/dist
+  mkdir -p ./nginx/data/html/sjds
   mkdir -p ./nginx/data/conf
-  cp -r ../../../sjsj-vue3-ts/dist/** ./nginx/data/dist
+  cp -r ../../../sjsj-vue3-ts/dist/** ./nginx/data/html/sjds
   cp ./nginx/conf/nginx.conf ./nginx/data/conf/nginx.conf
-  sed  -i "s/"KFZFW"/"SJDS"/g"  ./nginx/data/dist/index.html
-  sed  -i "s/"数据世界"/"数据大师"/g"  ./nginx/data/dist/index.html
+  sed  -i "s/"KFZFW"/"SJDS"/g"  ./nginx/data/html/sjds/index.html
+  sed  -i "s/sjsj-ht/sjds-ht/g"  ./nginx/data/html/sjds/index.html
+  sed  -i "s/"数据世界"/"数据大师"/g"  ./nginx/data/html/sjds/index.html
 
   echo "begin copy redis "
   mkdir -p ./redis/data

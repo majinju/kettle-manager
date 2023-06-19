@@ -14,4 +14,4 @@ VOLUME /benma666
 WORKDIR /benma666/sjsj
 # 启动服务
 ENTRYPOINT ["/benma666/sjsj/docker.sh"]
-#ENTRYPOINT ["java", "-cp", "sjsj-0.2.0.jar:lib/*", "cn.benma666.sjsj.SjsjApplication", "--spring.config.location=application.yaml"]
+#ENTRYPOINT ["java", "-cp", "sjds-0.2.0.jar:lib/*", "cn.benma666.sjsj.SjsjApplication", "--spring.config.location=application.yaml"]

@@ -1,4 +1,17 @@
 benma666:
+  datasource:
+    # kettle资源库数据库连接信息
+    kettle_default:
+      ljc: jdbc:mysql://benma666-mysql:3306/kettle_default?useOldAliasMetadataBehavior=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      yhm: root
+      mm: password
+      lx: mysql
+      kzxx-obj:
+        kettleConfig:
+          # 资源库账号
+          kuser: admin
+          # 资源库密码
+          kpass: admin
   data:
     # 系统主密码
     password: 123asdzxc
@@ -35,7 +48,7 @@ server:
   port: 8090
   servlet:
     # 应用的访问路径
-    context-path: "/sjsj-ht"
+    context-path: "/sjds-ht"
 spring:
   security:
     user:
