@@ -15,7 +15,7 @@ copy(){
   # 升级脚本
   cp ../../../myutils-spring-boot-starter/doc/db/mysql/upscript.sql ./mysql/db
   # 删除测试穿透调用，正式环境会出问题
-  sed  -i "s/INSERT INTO `sys_znjh_ctdy`/d"  ./mysql/db/sjsj2_dev.sql
+  sed  -i "/INSERT INTO \`sys_znjh_ctdy\`/d"  ./mysql/db/sjsj2_dev.sql
 
   echo "begin copy qd "
   mkdir -p ./nginx/qd
