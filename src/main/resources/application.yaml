@@ -136,7 +136,7 @@ spring:
       # 设置总上传的文件大小
       max-request-size:  100MB
       # 上传临时目录
-      location: /tmp/sjsj/upload
+      location: ${benma666.service.xtgml}/upload/tmp
       # 文件大小达到该阈值，将写入临时目录，默认为0，即所有文件都会直接写入磁盘临时文件中。
       file-size-threshold: 0B
       # 是否惰性处理请求，默认为false。
