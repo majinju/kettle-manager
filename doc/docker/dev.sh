@@ -12,6 +12,11 @@ copy(){
   mkdir -p ./mysql/db
   # 数据世界的脚本
   cp ../../../myutils-spring-boot-starter/doc/db/mysql/sjsj2_dev.sql ./mysql/db
+  # 升级脚本
+  cp ../../../myutils-spring-boot-starter/doc/db/mysql/upscript.sql ./mysql/db
+  # 删除测试穿透调用，正式环境会出问题
+  sed  -i "s/INSERT INTO `sys_znjh_ctdy`/d"  ./mysql/db/sjsj2_dev.sql
+
   cp ../db/mysql/kettle_default.sql ./mysql/db
   cp ../db/mysql/init.sql ./mysql/db/kettle_init.sql
   # kettle资源库添加建库信息，便于mysql自动建库
@@ -39,9 +44,12 @@ copy(){
   cp ../../src/main/resources/application.yaml ./sjsj/hd/application.yaml
   cp ./sjsj/conf/* ./sjsj/hd
 }
+
+# 打包部署文件
 zip(){
   command zip -vr ../../target/sjds.zip ./mysql ./nginx ./redis ./sjsj deploy.sh docker-compose.yml 部署手册.md
 }
+
 # 删除基础信息，升级一般需要全量替换的文件
 del(){
 	# 删除复制的文件。

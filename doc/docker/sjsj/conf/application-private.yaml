@@ -75,9 +75,3 @@ management:
   #actuator端口 如果不配置做默认使用上面8080端口
   server:
     port: 8090
-
-# 日志配置
-logging:
-  file:
-    # 日志文件根目录
-    path: /benma666/logs
