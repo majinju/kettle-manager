@@ -40,7 +40,7 @@ copy(){
   cp ./sjsj/conf/* ./sjsj/hd
 }
 zip(){
-  command zip -vr ../../target/sjds.zip ./mysql ./nginx ./redis ./sjsj deploy.sh docker-compose.yml
+  command zip -vr ../../target/sjsj.zip ./mysql ./nginx ./redis ./sjsj deploy.sh docker-compose.yml 部署手册.md
 }
 # 删除基础信息，升级一般需要全量替换的文件
 del(){
