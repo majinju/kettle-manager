@@ -271,7 +271,7 @@ logging:
   #pattern-db: "{'scff':'%M','sch':'%L','message':'%m','threadName':'%t','level':'%level','ssxm':'%cn','loggerName':'%logger{30}','cjsj':'%date{yyyyMMddHHmmss}','gxsj':'%date{yyyyMMddHHmmss}'}"
   file:
     # 日志文件根目录
-    path: /benma666/logs
+    path: ${benma666.service.xtgml}/logs
   level:
     root: info
     cn.benma666: trace
