@@ -9,16 +9,17 @@ usage() {
 # 拷贝文件
 copy(){
   echo "begin copy db "
-  mkdir -p ./mysql/db
+  mkdir -p ./mysql/db/oracle
   # 数据世界的脚本
   cp ../../../myutils-spring-boot-starter/doc/db/mysql/sjsj2_dev.sql ./mysql/db
   # 升级脚本
   cp ../../../myutils-spring-boot-starter/doc/db/mysql/upscript.sql ./mysql/db
   # 删除测试穿透调用，正式环境会出问题
-  sed  -i "s/INSERT INTO `sys_znjh_ctdy`/d"  ./mysql/db/sjsj2_dev.sql
+  sed  -i "/INSERT INTO \`sys_znjh_ctdy\`/d"  ./mysql/db/sjsj2_dev.sql
 
   cp ../db/mysql/kettle_default.sql ./mysql/db
   cp ../db/mysql/init.sql ./mysql/db/kettle_init.sql
+  cp ../db/oracle/init.sql ./mysql/db/oracle/kettle_init.sql
   # kettle资源库添加建库信息，便于mysql自动建库
   sed -i '1i USE `kettle_default`;' ./mysql/db/kettle_default.sql
   sed -i '1i CREATE DATABASE  `kettle_default` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;' ./mysql/db/kettle_default.sql
