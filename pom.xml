@@ -3,25 +3,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.12</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>cn.benma666</groupId>
+		<artifactId>my-parent</artifactId>
+		<version>0.2.0</version>
 	</parent>
-	<groupId>cn.benma666</groupId>
 	<artifactId>sjds</artifactId>
-	<version>0.2.0</version>
 	<name>sjds</name>
 	<description>数据大师</description>
-	<properties>
-		<java.version>1.8</java.version>
-		<kettle.version>8.3.0.0-SNAPSHOT</kettle.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>cn.benma666</groupId>
 			<artifactId>myutils-spring-boot-starter</artifactId>
-			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-beanutils</artifactId>
@@ -81,7 +73,6 @@
 		<dependency>
 			<groupId>pentaho-kettle</groupId>
 			<artifactId>kettle-engine</artifactId>
-			<version>${kettle.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-lang</artifactId>
@@ -124,7 +115,6 @@
 		<dependency>
 			<groupId>pentaho-kettle</groupId>
 			<artifactId>kettle-ui-swt</artifactId>
-			<version>${kettle.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -146,16 +136,15 @@
 		<!--            <version>${kettle.version}</version>-->
 		<!--            <scope>provided</scope>-->
 		<!--        </dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>cn.benma666</groupId>-->
-<!--			<artifactId>KettleEasyExpand</artifactId>-->
-<!--			<version>${myutils.vsersion}</version>-->
-<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>cn.benma666</groupId>-->
+		<!--			<artifactId>KettleEasyExpand</artifactId>-->
+		<!--			<version>${myutils.vsersion}</version>-->
+		<!--		</dependency>-->
 		<!-- kettle end-->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
-			<version>5.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -166,25 +155,6 @@
 
 	<build>
 		<plugins>
-			<!--			<plugin>-->
-			<!--				<groupId>org.springframework.boot</groupId>-->
-			<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
-			<!--				<dependencies>-->
-			<!--					<dependency>-->
-			<!--						<groupId>org.springframework</groupId>-->
-			<!--						<artifactId>springloaded</artifactId>-->
-			<!--						<version>1.2.6.RELEASE</version>-->
-			<!--					</dependency>-->
-			<!--				</dependencies>-->
-			<!--			</plugin>-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -192,34 +162,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadoc</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<doclint>none</doclint>
-					<charset>UTF-8</charset>
-					<encoding>UTF-8</encoding>
-					<docencoding>UTF-8</docencoding>
-				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
@@ -229,13 +178,13 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<target>
+							<tasks>
 								<echo>拷贝jar包</echo>
 								<copy todir="${basedir}/doc/dist/lib">
 									<fileset dir="${basedir}/target/ext-lib" includes="**" />
 								</copy>
 								<delete dir="${basedir}/target/ext-lib" includes="**" />
-							</target>
+							</tasks>
 						</configuration>
 					</execution>
 					<execution>
@@ -254,74 +203,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/ext-lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-dependency-plugin
-										</artifactId>
-										<versionRange>
-											[2.1,)
-										</versionRange>
-										<goals>
-											<goal>
-												copy-dependencies
-											</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 
 </project>
