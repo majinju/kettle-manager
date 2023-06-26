@@ -249,8 +249,8 @@ spring:
 # actuator 监控配置
 management:
   #actuator端口 如果不配置做默认使用上面8080端口
-  server:
-    port: 8090
+#  server:
+#    port: 8090
   endpoints:
     enabled-by-default: false
     web:

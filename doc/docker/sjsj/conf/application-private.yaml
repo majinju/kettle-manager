@@ -25,14 +25,10 @@ benma666:
     tydlzd: http://192.168.1.22:8091
     # 系统根目录
     xtgml: /benma666
-  # kettle管理系统
 
 server:
   # 服务器的HTTP端口，默认为8080
   port: 8090
-  servlet:
-    # 应用的访问路径
-    context-path: "/sjsj-ht"
 spring:
   security:
     user:
@@ -53,9 +49,3 @@ spring:
     port: 6379
     # 密码
     password:
-
-# actuator 监控配置
-management:
-  #actuator端口 如果不配置做默认使用上面8080端口
-  server:
-    port: 8090
