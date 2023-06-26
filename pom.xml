@@ -41,12 +41,10 @@
 		<dependency>
 			<groupId>cn.benma666</groupId>
 			<artifactId>myutils-kettle</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>pentaho-kettle</groupId>
 			<artifactId>kettle-core</artifactId>
-			<version>${kettle.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>beetl</artifactId>
@@ -130,17 +128,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!--        <dependency>-->
-		<!--            <groupId>org.pentaho.di.plugins</groupId>-->
-		<!--            <artifactId>excel-plugins-impl</artifactId>-->
-		<!--            <version>${kettle.version}</version>-->
-		<!--            <scope>provided</scope>-->
-		<!--        </dependency>-->
-		<!--		<dependency>-->
-		<!--			<groupId>cn.benma666</groupId>-->
-		<!--			<artifactId>KettleEasyExpand</artifactId>-->
-		<!--			<version>${myutils.vsersion}</version>-->
-		<!--		</dependency>-->
 		<!-- kettle end-->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
