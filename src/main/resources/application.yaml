@@ -27,12 +27,8 @@ benma666:
     addr: /index
     # 允许上传的文件类型
     yxscwjlx: xls,xlsx,txt,csv,zip,rar,7z,png,jpg,json,xml
-    # spring安全框架忽略的路径，多个路径逗号分割，eg:/druid/**,/sjdx**,/auth**,/default**,/xtxx**,/index**
-    security-addr: /test/**
     # 系统根目录
     xtgml: /benma666
-    # 数据对象机制忽略的路径
-    hllj: (/error|/execption)
   ljq:
     # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
     default: MyDefaultLjq
