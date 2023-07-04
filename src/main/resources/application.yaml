@@ -274,6 +274,8 @@ logging:
     org.springframework.core: debug
     org.springframework.boot: info
     druid.sql.Statement: debug
+    # word模板引擎相关日志
+    com.deepoove.poi: debug
   logback:
     console:
       level: debug
