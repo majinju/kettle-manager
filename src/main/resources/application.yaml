@@ -155,13 +155,13 @@ spring:
       # 最大连接池数量
       max-active: 50
       # 配置获取连接等待超时的时间
-      max-wait: 300000
+      max-wait: 60000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 300000
+      time-between-eviction-runs-millis: 60000
       # 配置一个连接在池中最小生存的时间，单位是毫秒
-      min-evictable-idle-time-millis: 300000
+      min-evictable-idle-time-millis: 60000
       # 配置一个连接在池中最大生存的时间，单位是毫秒
-      max-evictable-idle-time-millis: 900000
+      max-evictable-idle-time-millis: 6000000
       # 连接超时
       socket-timeout: 600000
       # 配置检测连接是否有效
