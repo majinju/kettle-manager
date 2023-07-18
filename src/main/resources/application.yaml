@@ -27,12 +27,8 @@ benma666:
     addr: /index
     # 允许上传的文件类型
     yxscwjlx: xls,xlsx,txt,csv,zip,rar,7z,png,jpg,json,xml
-    # spring安全框架忽略的路径，多个路径逗号分割，eg:/druid/**,/sjdx**,/auth**,/default**,/xtxx**,/index**
-    security-addr: /test/**
     # 系统根目录
     xtgml: /benma666
-    # 数据对象机制忽略的路径
-    hllj: (/error|/execption)
   ljq:
     # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
     default: MyDefaultLjq
@@ -168,13 +164,13 @@ spring:
       # 最大连接池数量
       max-active: 50
       # 配置获取连接等待超时的时间
-      max-wait: 300000
+      max-wait: 60000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 300000
+      time-between-eviction-runs-millis: 60000
       # 配置一个连接在池中最小生存的时间，单位是毫秒
-      min-evictable-idle-time-millis: 300000
+      min-evictable-idle-time-millis: 60000
       # 配置一个连接在池中最大生存的时间，单位是毫秒
-      max-evictable-idle-time-millis: 900000
+      max-evictable-idle-time-millis: 6000000
       # 连接超时
       socket-timeout: 600000
       # 配置检测连接是否有效
@@ -287,6 +283,8 @@ logging:
     org.springframework.core: debug
     org.springframework.boot: info
     druid.sql.Statement: debug
+    # word模板引擎相关日志
+    com.deepoove.poi: debug
   logback:
     console:
       level: debug

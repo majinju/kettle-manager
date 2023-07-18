@@ -6,6 +6,7 @@ import cn.benma666.iframe.Result;
 import cn.benma666.sjsj.demo.domain.SysSjglTyzdDemo;
 import cn.benma666.sjsj.myutils.AMyParams;
 import cn.benma666.sjsj.web.LjqManager;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,45 +18,45 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/csjdx/sys_sjgl_tyzd_demo")
 public class CsjdxController extends BasicObject {
-    @RequestMapping("select")
+    @PostMapping("select")
     public Result select(@AMyParams MyParams myParams) {
         SysSjglTyzdDemo zd = myParams.yobj(SysSjglTyzdDemo.class);
         log.info("参数：{}",zd);
         //写自己的业务
         return LjqManager.data(myParams);
     }
-    @RequestMapping("insert")
+    @PostMapping("insert")
     public Result insert(@AMyParams MyParams myParams) {
         SysSjglTyzdDemo zd = myParams.yobj(SysSjglTyzdDemo.class);
         log.info("参数：{}",zd);
         //写自己的业务
         return LjqManager.data(myParams);
     }
-    @RequestMapping("update")
+    @PostMapping("update")
     public Result update(@AMyParams MyParams myParams) {
         SysSjglTyzdDemo zd = myParams.yobj(SysSjglTyzdDemo.class);
         log.info("参数：{}",zd);
         //写自己的业务
         return LjqManager.data(myParams);
     }
-    @RequestMapping("plsc")
+    @PostMapping("plsc")
     public Result plsc(@AMyParams MyParams myParams) {
         SysSjglTyzdDemo zd = myParams.yobj(SysSjglTyzdDemo.class);
         log.info("参数：{}",zd);
         //写自己的业务
         return LjqManager.data(myParams);
     }
-    @RequestMapping("qchc")
+    @PostMapping("qchc")
     public Result qchc(@AMyParams MyParams myParams) {
         //写自己的业务
         return LjqManager.data(myParams);
     }
-    @RequestMapping("dcmb")
+    @PostMapping("dcmb")
     public Result dcmb(@AMyParams MyParams myParams) {
         //写自己的业务
         return LjqManager.data(myParams);
     }
-    @RequestMapping("sjplsc")
+    @PostMapping("sjplsc")
     public Result sjplsc(@AMyParams MyParams myParams) {
         //写自己的业务
         return LjqManager.data(myParams);
