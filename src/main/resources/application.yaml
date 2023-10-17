@@ -86,7 +86,7 @@ server:
   port: 8090
   servlet:
     # 应用的访问路径
-#    context-path: "/sjsj-ht"
+    context-path: "/sjsj-ht"
     session:
       # 重启会话保持
       persistent: true
