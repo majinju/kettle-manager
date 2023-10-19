@@ -20,12 +20,6 @@
  where not exists (
          select 1 from sys_qx_qxxx q where q.id=t.qx
      );
- select *
- -- delete
- from sys_qx_qxxx t
- where not exists (
-         select 1 from sys_qx_qxxx q where q.id=t.qx
-     );
  -- 清理无用字段
  select *
  -- delete
