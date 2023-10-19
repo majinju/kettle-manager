@@ -45,6 +45,27 @@ client.test("Request executed successfully", function() {
 });
 %}
 
+### 免登陆 采用授权码登录
+POST http://127.0.0.1:8090/sjsj-ht/default
+Content-Type: application/json
+
+{
+  "sjdx":{
+    "dxdm":"SYS_QX_QTQX"
+  },
+  "sys":{
+    "userInfo":"sqm-jingma",
+    "cllx": "xtjcxx",
+    "token":"4978866291C611DA0D2D5999C413107F"
+  }
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "请求异常："+response.body);
+});
+%}
+
 ### 刷新用户权限
 POST {{serviceAddr}}
 Content-Type: application/json
