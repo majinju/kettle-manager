@@ -53,7 +53,7 @@ public class XxxxLjq extends DefaultLjq{
     public Result select(MyParams myParams) {
         slog.info("静态日志记录类{}，在静态方法中调用{}",",你好",",你好");
         log.error("常规日志记录{},{}",1,2,new MyException("xxxx"));
-        log.info("前端数据获取样例："+ myParams.getString($_SYS_CLLX));
+        log.info("前端数据获取样例："+ myParams.yobj());
         log.info("配置获取样例："+Conf.getVal("spring.application.name"));
         log.info("配置获取样例："+appname);
         log.info("编号1：{}",ai1.next());
