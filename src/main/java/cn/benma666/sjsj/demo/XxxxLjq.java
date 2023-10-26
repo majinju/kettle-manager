@@ -1,5 +1,7 @@
 package cn.benma666.sjsj.demo;
 
+import cn.benma666.dict.Cllx;
+import cn.benma666.dict.Zdlb;
 import cn.benma666.domain.SysQxYhxx;
 import cn.benma666.domain.SysSjglBhsc;
 import cn.benma666.domain.SysSjglSjdx;
@@ -7,7 +9,6 @@ import cn.benma666.exception.MyException;
 import cn.benma666.iframe.*;
 import cn.benma666.sjsj.myutils.Msg;
 import cn.benma666.sjsj.web.DefaultLjq;
-import cn.benma666.sjsj.web.HdInterface;
 import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjzt.Db;
 import cn.benma666.sjzt.MyLambdaQuery;
@@ -58,30 +59,32 @@ public class XxxxLjq extends DefaultLjq{
         log.info("编号1：{}",ai1.next());
         log.info("编号2：{}",ai2.next());
         log.info("编号4：{}",ai4.next());
-        Result r = LjqManager.streamSelect("select * from sys_log_fwzr t", 10, new HdInterface() {
-            @Override
-            public Result run(List<JSONObject> list, boolean hdjs) {
-                log.info("回调记录："+list.size());
-                return success("回调成功："+list.size());
-            }
-        }, 600000, "sjsj-test");
-        log.info("流式查询结果："+r);
-        MyParams bdjgParams = LjqManager.jcxxByDxdm("SYS_BDHC_JG");
+//        Result r = LjqManager.streamSelect("select * from sys_log_fwzr t", 10, new HdInterface() {
+//            @Override
+//            public Result run(List<JSONObject> list, boolean hdjs) {
+//                log.info("回调记录："+list.size());
+//                return success("回调成功："+list.size());
+//            }
+//        }, 600000, "sjsj");
+//        log.info("流式查询结果："+r);
+        MyParams dzdParams = LjqManager.jcxxByDxdm("SYS_SJGL_DZD");
         List<JSONObject> list = new ArrayList<>();
         JSONObject o = new JSONObject();
-        o.put("hdxgxx",new StringReader("xxxxxxxxxxxx1111"));
+        o.put("dm","xxx");
+        o.put("zdlb","xxx");
+        o.put("mc",new StringReader("xxxxxxxxxxxx1111"));
         list.add(o);
-        bdjgParams.sys().setEditTableData(list);
-        bdjgParams.sys().setCllx(KEY_CLLX_PLBC);
-        LjqManager.data(bdjgParams);
+        dzdParams.sys().setEditTableData(list);
+        dzdParams.sys().setCllx(Cllx.plbc.name());
+        LjqManager.data(dzdParams);
 
         //向客户端发送websocket消息
 //        XtxxWebSocket.sendMsg(new SysPtglXtxx("测试"),getUser(myParams));
         log.info("xxl："+db("xxl_job").find("select count(1) from xxl_job_info t where t.trigger_status=?",1));
         myParams.sys().setEditTableData(db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray($_SYS_EDITTABLEDATA).toJavaList(SysSjglSjdx.class));
-        log.info("字典获取样例："+ DictManager.zdMcByDm(ZD_SYS_QX_APP,Conf.getAppdm()));
-        log.info("字典名称反向获取代码（可用于验证前端传入的名称是否在字典范围内）："+ DictManager.zdDmByMoreMc(DICT_SYS_COMMON_LJPD,"是、否"));
+        log.info("字典获取样例："+ DictManager.zdMcByDm(Zdlb.SYS_QX_APP.name(),Conf.getAppdm()));
+        log.info("字典名称反向获取代码（可用于验证前端传入的名称是否在字典范围内）："+ DictManager.zdDmByMoreMc(Zdlb.SYS_COMMON_LJPD.name(),"是、否"));
 //        log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateDemo"),myParams));
 //        log.info("采用文件sql模板执行sql更新："+db("default").update(SqlId.of("demo","updateDemo"),myParams));
         log.info("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findDemo"),myParams));
@@ -102,16 +105,20 @@ public class XxxxLjq extends DefaultLjq{
         LjqManager.select(sjdxParams);
         //调用方式2：设置处理类型，通过data方法调用，一些在LjqManager中没有设置的方法需要采用此方法调用。
         //切记，调用其他数据对象的方法时一定要通过LjqManager去调用，不能直接调用父类的方法。
-        sjdxParams.set($_SYS_CLLX,KEY_CLLX_SELECT);
-        r = LjqManager.data(sjdxParams);
+        sjdxParams.sys().setCllx(Cllx.select.name());
+        Result r = LjqManager.data(sjdxParams);
         //获取数据
         log.info("调用其他对象的方法查询数据："+r.getPageList(SysSjglSjdx.class));
         /////////直接采用beetlsql///////////
         //sqlManager()当前数据对象的默认数据源，与db类似采用sqlManager("xxxx")进行切换数据源
-        MyLambdaQuery<SysSjglSjdx> query = db().myLambdaQuery(SysSjglSjdx.class);
+        MyLambdaQuery<SysSjglSjdx> query = db().lambdaQuery(SysSjglSjdx.class);
         //查询数据，该方式参考官方文档“使用Query”章节
         log.info("使用Query方式操作数据库："+query.andEq(SysSjglSjdx::getId,"xxxxx").select());
 //        throw new MyException("xxx");
+        SysSjglSjdx dx = SysSjglSjdx.builder().id("912769435779405698B51852FB4277DB").dxms("xx").build();
+        query.updateSelective(dx);
+        dx = SysSjglSjdx.builder().id("912769435779405698B51852FB4277DB").dxms("").build();
+        query.updateSelective(dx);
         return super.select(myParams);
     }
 
