@@ -12,6 +12,7 @@ import cn.benma666.sjsj.web.DefaultLjq;
 import cn.benma666.sjsj.web.LjqManager;
 import cn.benma666.sjzt.Db;
 import cn.benma666.sjzt.MyLambdaQuery;
+import cn.benma666.sjzt.SjsjField;
 import com.alibaba.fastjson.JSONObject;
 import org.beetl.sql.core.SqlId;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,16 +92,16 @@ public class XxxxLjq extends DefaultLjq{
         log.info("切换数据样例"+db("default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));
         log.info("后端获取用户信息样例："+myParams.getObject(KEY_USER, SysQxYhxx.class).getYhxm());
-        PageInfo<JSONObject> page = myParams.getObject(KEY_PAGE,PageInfo.class);
+        PageInfo<JSONObject> page = myParams.page();
         page.setList(db().find(SqlId.of("demo","findDemo"),myParams));
         log.info("分页对象"+page.getList(JSONObject.class));
         //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询
         page = db().queryPage(page, SqlId.of("demo","findDemo"), myParams);
         log.info("分页查询结果："+page);
         //获取其他对象的基础信息进行方法调用
-        MyParams sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX");
+        MyParams sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX",myParams.user());
         //设置查询条件，类似前端查询传参
-        sjdxParams.set("$.yobj.dxdm","SYS_SJGL_SJDX");
+        sjdxParams.yobj().set(SjsjField.dxdm.name(),"SYS_SJGL_SJDX");
         //调用方式1：常用方法在LjqManager中提供了对应方法，可以直接调用。
         LjqManager.select(sjdxParams);
         //调用方式2：设置处理类型，通过data方法调用，一些在LjqManager中没有设置的方法需要采用此方法调用。
