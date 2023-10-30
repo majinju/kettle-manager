@@ -4,7 +4,7 @@ benma666:
   # websoket是否启用
   web-socket-enabled: true
   # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
-  ljq-default: MyDefaultLjq
+  ljq-default: DzDefaultLjq
   # 授权模式，cllx（精确到处理类型），sjdx（只要相关数据对象有授权就可以使用其下所有方法），默认为cllx
   xtqx-sqms: cllx
   # 配置的字典类别列表

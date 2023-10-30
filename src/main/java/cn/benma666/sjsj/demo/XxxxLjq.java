@@ -45,7 +45,7 @@ public class XxxxLjq extends DefaultLjq{
      */
     public Result getTreeCN(MyParams myParams){
         //获取字典中配置的sql语句，sql[]中，sql[0]为数据载体，sql[1]为待执行的sql语句
-        String[] sql = getSql(myParams);
+        String[] sql = LjqManager.getSql(myParams);
         return success("获取用户菜单成功",db(sql[0]).find(sql[1],myParams));
     }
 
@@ -82,24 +82,24 @@ public class XxxxLjq extends DefaultLjq{
         //向客户端发送websocket消息
 //        XtxxWebSocket.sendMsg(new SysPtglXtxx("测试"),getUser(myParams));
         log.info("xxl："+db("xxl_job").find("select count(1) from xxl_job_info t where t.trigger_status=?",1));
-        myParams.sys().setEditTableData(db().find(SqlId.of("demo","findDemo"),myParams));
+        myParams.sys().setEditTableData(getDb().find(SqlId.of("demo","findDemo"),myParams));
         log.info("获取前端传入的编辑列表，且转为实体类："+myParams.getJSONArray($_SYS_EDITTABLEDATA).toJavaList(SysSjglSjdx.class));
         log.info("字典获取样例："+ DictManager.zdMcByDm(Zdlb.SYS_QX_APP.name(),Conf.getAppdm()));
         log.info("字典名称反向获取代码（可用于验证前端传入的名称是否在字典范围内）："+ DictManager.zdDmByMoreMc(Zdlb.SYS_COMMON_LJPD.name(),"是、否"));
 //        log.info("采用文件sql模板执行sql更新："+db().update(SqlId.of("demo","updateDemo"),myParams));
 //        log.info("采用文件sql模板执行sql更新："+db("default").update(SqlId.of("demo","updateDemo"),myParams));
-        log.info("采用文件sql模板执行sql查询："+db().find(SqlId.of("demo","findDemo"),myParams));
+        log.info("采用文件sql模板执行sql查询："+ getDb().find(SqlId.of("demo","findDemo"),myParams));
         log.info("切换数据样例"+db("default").find(
                 SqlId.of("demo","findSysDate"), Db.buildMap()));
         log.info("后端获取用户信息样例："+myParams.getObject(KEY_USER, SysQxYhxx.class).getYhxm());
         PageInfo<JSONObject> page = myParams.page();
-        page.setList(db().find(SqlId.of("demo","findDemo"),myParams));
+        page.setList(getDb().find(SqlId.of("demo","findDemo"),myParams));
         log.info("分页对象"+page.getList(JSONObject.class));
         //直接用查询语句调用分页方法即可，底层支持对各类数据库进行分页查询
-        page = db().queryPage(page, SqlId.of("demo","findDemo"), myParams);
+        page = getDb().queryPage(page, SqlId.of("demo","findDemo"), myParams);
         log.info("分页查询结果："+page);
         //获取其他对象的基础信息进行方法调用
-        MyParams sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX",myParams.user());
+        MyParams sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX");
         //设置查询条件，类似前端查询传参
         sjdxParams.yobj().set(SjsjField.dxdm.name(),"SYS_SJGL_SJDX");
         //调用方式1：常用方法在LjqManager中提供了对应方法，可以直接调用。
@@ -112,7 +112,7 @@ public class XxxxLjq extends DefaultLjq{
         log.info("调用其他对象的方法查询数据："+r.getPageList(SysSjglSjdx.class));
         /////////直接采用beetlsql///////////
         //sqlManager()当前数据对象的默认数据源，与db类似采用sqlManager("xxxx")进行切换数据源
-        MyLambdaQuery<SysSjglSjdx> query = db().lambdaQuery(SysSjglSjdx.class);
+        MyLambdaQuery<SysSjglSjdx> query = getDb().lambdaQuery(SysSjglSjdx.class);
         //查询数据，该方式参考官方文档“使用Query”章节
         log.info("使用Query方式操作数据库："+query.andEq(SysSjglSjdx::getId,"xxxxx").select());
 //        throw new MyException("xxx");
@@ -149,7 +149,7 @@ public class XxxxLjq extends DefaultLjq{
      * 获取字典列表
      */
     public Result zdList(MyParams myParams) {
-        if(myParams.getBoolean("$.sys.dataCache")){
+        if(myParams.sys().getDataCache()){
             //使用缓存
             return success(msgCzcg(),DictManager.zdMap(myParams));
         }else{
@@ -161,7 +161,7 @@ public class XxxxLjq extends DefaultLjq{
      * 获取字典树
      */
     public Result zdTree(MyParams myParams) {
-        if(myParams.getBoolean("$.sys.dataCache")){
+        if(myParams.sys().getDataCache()){
             //使用缓存
             return success(msgCzcg(),DictManager.zdTree(myParams));
         }else{
@@ -173,7 +173,7 @@ public class XxxxLjq extends DefaultLjq{
      * 获取字典项对象
      */
     public Result zdObj(MyParams myParams) {
-        if(myParams.getBoolean("$.sys.dataCache")){
+        if(myParams.sys().getDataCache()){
             //使用缓存
             return success(msgCzcg(),DictManager.zdObj(myParams));
         }else{
