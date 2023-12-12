@@ -72,8 +72,8 @@ from sjsj2_zs.sys_sjgl_sjzd t where
         )
 -- and t.id in ('3E2EBF693D9147B6B838B33B8DECD184')
 ;
-insert into sjsj2_zs.sys_sjgl_sjzd(zddm,zdmc,px,kjlx,zdkd,cxzs,cxms,lbzs,xzzs,bjzs,yxbj,bjbt,xqzs,bzzd,mbzs,yxx,sjdx,zdms,zdjp,zdqp,zdlx,zdcd,cxmrz,xzmrz,zdzdlb,ZDYWLB,zddx,zdfy,yxpx,cxbt,zydj,zdts,cssl,qcbh,cjsj,gxsj,id,kzxx)
-select zddm,zdmc,px,kjlx,zdkd,cxzs,cxms,lbzs,xzzs,bjzs,yxbj,bjbt,xqzs,bzzd,mbzs,yxx,sjdx,zdms,zdjp,zdqp,zdlx,zdcd,cxmrz,xzmrz,zdzdlb,ZDYWLB,zddx,zdfy,yxpx,cxbt,zydj,zdts,cssl,qcbh,cjsj,gxsj,id,kzxx from sjsj2_dev.sys_sjgl_sjzd t
+insert into sjsj2_zs.sys_sjgl_sjzd(zddm,yszddm,zdmc,px,kjlx,zdkd,cxzs,cxms,lbzs,xzzs,bjzs,yxbj,bjbt,xqzs,bzzd,mbzs,yxx,sjdx,zdms,zdjp,zdqp,zdlx,zdcd,cxmrz,xzmrz,zdzdlb,ZDYWLB,zddx,zdfy,yxpx,cxbt,zydj,zdts,cssl,qcbh,cjsj,gxsj,id,kzxx)
+select zddm,yszddm,zdmc,px,kjlx,zdkd,cxzs,cxms,lbzs,xzzs,bjzs,yxbj,bjbt,xqzs,bzzd,mbzs,yxx,sjdx,zdms,zdjp,zdqp,zdlx,zdcd,cxmrz,xzmrz,zdzdlb,ZDYWLB,zddx,zdfy,yxpx,cxbt,zydj,zdts,cssl,qcbh,cjsj,gxsj,id,kzxx from sjsj2_dev.sys_sjgl_sjzd t
 where not exists (
         select 1 from sjsj2_zs.sys_sjgl_sjzd t1 where t1.id=t.id
     )
