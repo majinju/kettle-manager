@@ -68,7 +68,7 @@ public class XxxxLjq extends DefaultLjq{
 //            }
 //        }, 600000, "sjsj");
 //        log.info("流式查询结果："+r);
-        MyParams dzdParams = LjqManager.jcxxByDxdm("SYS_SJGL_DZD");
+        MyParams dzdParams = LjqManager.jcxxByDxdm("SYS_SJGL_TYZD_DEMO");
         List<JSONObject> list = new ArrayList<>();
         JSONObject o = new JSONObject();
         o.put("dm","xxx");
