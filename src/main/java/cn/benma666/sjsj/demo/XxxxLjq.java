@@ -35,9 +35,8 @@ import java.util.List;
 public class XxxxLjq extends DefaultLjq{
     @Value("${spring.application.name}")
     private String appname;
-    AutoId ai1 = new AutoId("select 9 from dual");
-    AutoId ai2 = new AutoId(new SysSjglBhsc());
-    AutoId ai4 = new AutoId(new SysSjglBhsc("JCGA_JCYG_YGBH"));
+    AutoId ai1 = AutoId.use("test","select 9 from dual");
+    AutoId ai2 = AutoId.use(new SysSjglBhsc("JCGA_JCYG_YGBH"));
     /**
      * 方法名称与前端传入的处理类型一致，参数固定为本方法这两个参数，处理类型可以自定义，方法名与之一致即可
      * @param myParams 相关参数，具体信息请看参数说明
@@ -59,7 +58,6 @@ public class XxxxLjq extends DefaultLjq{
         log.info("配置获取样例："+appname);
         log.info("编号1：{}",ai1.next());
         log.info("编号2：{}",ai2.next());
-        log.info("编号4：{}",ai4.next());
 //        Result r = LjqManager.streamSelect("select * from sys_log_fwzr t", 10, new HdInterface() {
 //            @Override
 //            public Result run(List<JSONObject> list, boolean hdjs) {
@@ -68,7 +66,7 @@ public class XxxxLjq extends DefaultLjq{
 //            }
 //        }, 600000, "sjsj");
 //        log.info("流式查询结果："+r);
-        MyParams dzdParams = LjqManager.jcxxByDxdm("SYS_SJGL_TYZD_DEMO");
+        MyParams dzdParams = LjqManager.jcxxByDxdm("SYS_SJGL_TYZD_DEMO",myParams.user());
         List<JSONObject> list = new ArrayList<>();
         JSONObject o = new JSONObject();
         o.put("dm","xxx");
