@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="pojo" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="cn.benma666.main.GenPojoCode" />
+    <module name="sjsj" />
+    <option name="PROGRAM_PARAMETERS" value="doc/pojo.json" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

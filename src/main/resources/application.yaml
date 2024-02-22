@@ -1,6 +1,24 @@
 benma666:
   # 调试模式
   debug: true
+  # websoket是否启用
+  web-socket-enabled: true
+  # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
+  ljq-default: DzDefaultLjq
+  # 授权模式，cllx（精确到处理类型），sjdx（只要相关数据对象有授权就可以使用其下所有方法），默认为cllx
+  xtqx-sqms: cllx
+  # 配置的字典类别列表
+  config-list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG
+  # 密码解密密码
+  fwq-ejmm: xxx
+  # 密码解密密码
+  sjzt-ejmm: xxx
+  # 用户目前采用md5加密不需要设置密码
+  yhxx-ejmm: xxx
+  # 密码解密密码
+  app-ejmm: xxx
+  # 应用代码，没有应用都要独立的应用代码，与应用管理中的代码一致
+  app-dm: sjsj
   #  datasource:
   #    kettle_default:
   #      ljc: jdbc:mysql://xxx:3306/xxxx?useOldAliasMetadataBehavior=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
@@ -19,8 +37,6 @@ benma666:
     qqbfxz: 10
     # 用户同时在线会话数限制
     tszxhhsxz: 20
-  web-socket:
-    enabled: true
   service:
     # 统一代理地址，应用管理中统一代理的应用都只配置了项目名称，需要读取该配置补充为完整的地址
     tydlzd: http://localhost:9002
@@ -29,14 +45,6 @@ benma666:
     yxscwjlx: xls,xlsx,txt,csv,zip,rar,7z,png,jpg,json,xml
     # 系统根目录
     xtgml: /benma666
-  ljq:
-    # 可以是springboot的bean名称（从容器中获取）或者具体的完整类路径（反射实例化，springboot的注解不会生效）
-    default: MyDefaultLjq
-  xtqx:
-    # 授权模式，cllx（精确到处理类型），sjdx（只要相关数据对象有授权就可以使用其下所有方法），默认为cllx
-    sqms: cllx
-  config:
-    list: SYS_COMMON_APPCONFIG,SYS_MYSERVICE_APPCONFIG,SYS_SJGL_APPCONFIG
   data:
     # 系统主密码
     password: xxx
@@ -44,24 +52,10 @@ benma666:
     private-key: xxx
     # sm2公钥
     public-key: xxx
-  fwq:
-    # 密码解密密码
-    ejmm: xxx
-  sjzt:
-    # 密码解密密码
-    ejmm: xxx
-  yhxx:
-    # 用户目前采用md5加密不需要设置密码
-    ejmm: xxx
-  app:
-    # 密码解密密码
-    ejmm: xxx
-    # 应用代码，没有应用都要独立的应用代码，与应用管理中的代码一致
-    dm: sjsj
   # 智能交换
   znjh:
-    # 自动穿透调用，默认1
-    zdctdy: 1
+    # 自动穿透调用，默认true
+    zdctdy: true
     # 穿透调用等待时长
     ctdydd: 120000
     # 默认地址
@@ -80,22 +74,13 @@ benma666:
       queue-capacity: 20000
       #线程活跃时间
       keep-alive-seconds: 600
-  km:
-    # 应用初始化启动
-    app-init-start: true
-    # 是否单独为每个作业写日志文件
-    write-log-file: true
-    # 日志文件最大大小，达到该大小进行切换
-    log-file-size: 20
-    # 日志预警匹配的正则
-    log-warning-pattern: (Exception|Error)
 
 server:
   # 服务器的HTTP端口，默认为8080
   port: 8090
   servlet:
     # 应用的访问路径
-    #context-path: "/sjsj-ht"
+#    context-path: "/sjsj-ht"
     session:
       # 重启会话保持
       persistent: true

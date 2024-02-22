@@ -1,0 +1,30 @@
+//Oracle
+//{
+//	"url":"jdbc:oracle:thin:@127.0.0.1:1521:mydb",
+//	"user":"SJSJ2_DEV",
+//	"pwd":"sjsj_123",
+//	"owner":"SJSJ2_DEV",
+//	"lx": "oracle",
+//	"pkg":"cn.benma666.domain",
+//	"tableNames":["SYS_SJGL_HTRW"],
+//	//字段类型映射
+//	"zdlxys": {
+//		"NUMBER": "BigDecimal",
+//		"DATE": "java.util.Date"
+//	}
+//}
+//mysql
+{
+	"url":"jdbc:mysql://192.168.1.22:3306/sjsj2_dev?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai",
+	"user":"root",
+	"pwd":"ma1990",
+	"lx": "mysql",
+	"owner":"sjsj2_dev",
+	"pkg":"cn.benma666.domain",
+	"tableNames":['sys_sjgl_sjzt'],
+	//字段类型映射
+	"zdlxys": {
+		"bigint": "BigDecimal",
+		"int": "BigDecimal"
+	}
+}
