@@ -34,6 +34,14 @@
 19. 智能交换：本系统提供一个智能交换系统，能方便的配置实现本地文件、ftp、kafka等数据载体间的数据近实时同步，从而简单快捷实现高效的跨网数据交换等复杂需求。
 20. bean生成工具：链接: https://pan.baidu.com/s/1sWa6PDF0VcT48CiSxEbhQw?pwd=pq2p 提取码:pq2p
 
+## 关联项目
+
+1. [前端项目](https://gitee.com/majinju/sjsj-pc.git)
+2. [通用工具](https://gitee.com/majinju/myutils.git)
+3. [sb工具集](https://gitee.com/majinju/myutils-spring-boot-starter.git)
+4. [uniapp移动端](https://gitee.com/majinju/sjsj-yd.git)
+5. [java项目根项目](https://gitee.com/majinju/my-parent.git)
+
 ## 相关文档
 
 1. [开发规范](../sjsj/doc/kfsc/开发规范.md)
