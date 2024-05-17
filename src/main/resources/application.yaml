@@ -42,7 +42,7 @@ benma666:
     tydlzd: http://localhost:9002
     addr: /index
     # 允许上传的文件类型
-    yxscwjlx: xls,xlsx,txt,csv,zip,rar,7z,png,jpg,json,xml
+    yxscwjlx: xls,xlsx,txt,csv,zip,rar,7z,png,jpg,json,xml,pdf,doc,docx,ppt,pptx,mp3,mp4,ofd
     # 系统根目录
     xtgml: /benma666
   data:
