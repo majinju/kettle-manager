@@ -53,11 +53,10 @@
 						<configuration>
 							<tasks>
 								<echo>拷贝jar包</echo>
-								<mkdir dir="${basedir}/target/ext-lib" />
 								<copy todir="${basedir}/doc/dist/lib">
 									<fileset dir="${basedir}/target/ext-lib" includes="**" />
 								</copy>
-								<delete dir="${basedir}/target/ext-lib" includes="**" />
+<!--								<delete dir="${basedir}/target/ext-lib" includes="**" />-->
 							</tasks>
 						</configuration>
 					</execution>
