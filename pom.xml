@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>cn.benma666</groupId>
 		<artifactId>my-parent</artifactId>
-		<version>0.2.1</version>
+		<version>0.2.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>sjds</artifactId>
 	<name>sjds</name>
@@ -167,11 +167,10 @@
 						<configuration>
 							<tasks>
 								<echo>拷贝jar包</echo>
-								<mkdir dir="${basedir}/target/ext-lib" />
 								<copy todir="${basedir}/doc/dist/lib">
 									<fileset dir="${basedir}/target/ext-lib" includes="**" />
 								</copy>
-								<delete dir="${basedir}/target/ext-lib" includes="**" />
+<!--								<delete dir="${basedir}/target/ext-lib" includes="**" />-->
 							</tasks>
 						</configuration>
 					</execution>
