@@ -32,7 +32,7 @@
 17. 国际化支持：集成国际化支持，可以便捷的开发国际化系统。
 18. 定时任务：本系统集成xxl-job作为定时任务管理机制，可以方便的进行定时任务的开发及管理。
 19. 智能交换：本系统提供一个智能交换系统，能方便的配置实现本地文件、ftp、kafka等数据载体间的数据近实时同步，从而简单快捷实现高效的跨网数据交换等复杂需求。
-20. bean生成工具：链接: https://pan.baidu.com/s/1sWa6PDF0VcT48CiSxEbhQw?pwd=pq2p 提取码:pq2p
+20. bean生成工具：系统内置基于beetl模板开发pojo生成工具，可以在idea中导入doc/idea-run/pojo.run.xml，然后根据需要修改doc/pojo.json配置文件生成实体类。
 
 ## 关联项目
 
@@ -44,7 +44,7 @@
 
 ## 相关文档
 
-1. [开发规范](../sjsj/doc/kfsc/开发规范.md)
-1. [系统参数](../sjsj/doc/kfsc/系统参数.md)
-1. [开发手册](../sjsj/doc/kfsc/开发手册.md)
+1. [开发规范](./doc/kfsc/开发规范.md)
+1. [系统参数](./doc/kfsc/系统参数.md)
+1. [开发手册](./doc/kfsc/开发手册.md)
 
