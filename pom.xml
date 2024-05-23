@@ -43,7 +43,7 @@
 			<artifactId>myutils-kettle</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>pentaho-kettle</groupId>
+			<groupId>cn.benma666</groupId>
 			<artifactId>kettle-core</artifactId>
 			<exclusions>
 				<exclusion>
@@ -69,7 +69,7 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>pentaho-kettle</groupId>
+			<groupId>cn.benma666</groupId>
 			<artifactId>kettle-engine</artifactId>
 			<exclusions>
 				<exclusion>
@@ -108,10 +108,22 @@
 					<artifactId>servlet-api</artifactId>
 					<groupId>javax.servlet</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>kettle-core</artifactId>
+					<groupId>pentaho-kettle</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>curvesapi</artifactId>
+					<groupId>com.github.virtuald</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>snappy-java</artifactId>
+					<groupId>org.xerial.snappy</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>pentaho-kettle</groupId>
+			<groupId>cn.benma666</groupId>
 			<artifactId>kettle-ui-swt</artifactId>
 			<exclusions>
 				<exclusion>

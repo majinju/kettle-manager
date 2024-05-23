@@ -74,13 +74,17 @@ benma666:
       queue-capacity: 20000
       #线程活跃时间
       keep-alive-seconds: 600
+  # kettle管理系统
+  km:
+    # 应用初始化启动
+    app-init-start: true
 
 server:
   # 服务器的HTTP端口，默认为8080
   port: 8090
   servlet:
     # 应用的访问路径
-#    context-path: "/sjsj-ht"
+    context-path: "/sjsj-ht"
     session:
       # 重启会话保持
       persistent: true
