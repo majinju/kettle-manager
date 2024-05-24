@@ -9,7 +9,7 @@
 //	"tableNames":["SYS_SJGL_HTRW"],
 //	//字段类型映射
 //	"zdlxys": {
-//		"NUMBER": "BigDecimal",
+//		"NUMBER": "Integer",
 //		"DATE": "java.util.Date"
 //	}
 //}
@@ -17,14 +17,14 @@
 {
 	"url":"jdbc:mysql://192.168.1.22:3306/sjsj2_dev?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai",
 	"user":"root",
-	"pwd":"ma1990",
+	"pwd":"xxx",
 	"lx": "mysql",
-	"owner":"sjsj2_dev",
+	"owner":"kettle_default",
 	"pkg":"cn.benma666.domain",
-	"tableNames":['sys_sjgl_sjzt'],
+	"tableNames":['r_jobentry'],
 	//字段类型映射
 	"zdlxys": {
-		"bigint": "BigDecimal",
-		"int": "BigDecimal"
+		"bigint": "Long",
+		"int": "Integer"
 	}
 }
