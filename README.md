@@ -38,7 +38,9 @@ kettle作为非常优秀的开源ETL工具得到了非常广泛的使用，一�
 1.	[项目文档地址](https://trimdata.cn:2000/sjsj2/#/singleHome/sjdx?sjdx.dxdm=SYS_SJGL_GRBJ&sys.cllx=ckwd&yobj.ckwd=33FC64D3885C46BEA2BAACF74BBCBD82&)
 1.  项目源码
     1. https://gitee.com/majinju/kettle-manager.git 之前的kettle-manager仓库，针对数据大师项目的web项目。
-    1. https://gitee.com/majinju/myutils-kettle.git 我的工具集kettle相关子项目
+    2. https://gitee.com/majinju/myutils-kettle.git 我的工具集kettle相关子项目
+    3. 数据库目前主要支持mysql，代码层面是支持各种数据库的，但基础脚本目前主要维护mysql，其他库强烈需求时再生成脚本。
+    4. kettle相关依赖要使用kettle的maven仓库下载：https://repo.orl.eng.hitachivantara.com/artifactory/pnt-mvn/，我开发的或定制的依赖要从maven中央仓库下载：https://oss.sonatype.org/content/groups/public
 1.	问题反馈邮箱：jinjuma@yeah.net。
 1.	项目交流qq群：320302530(已满勿加)，交流2群：142104962(已满勿加)，交流3群：142105082。
 
