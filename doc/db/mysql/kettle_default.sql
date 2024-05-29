@@ -11,7 +11,7 @@
  Target Server Version : 80024
  File Encoding         : 65001
 
- Date: 04/06/2023 01:16:41
+ Date: 29/05/2024 10:35:25
 */
 
 SET NAMES utf8mb4;
@@ -41,37 +41,11 @@ CREATE TABLE `kettle_kz_log`  (
   `ddjd` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '调度节点@KETTLE_GLPT_ZYGL_DDJD',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_kz_log_kssj`(`kssj`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of kettle_kz_log
 -- ----------------------------
-INSERT INTO `kettle_kz_log` VALUES ('20230602160501', '20230602160501', '1', 99999, '{}', NULL, NULL, NULL, NULL, '04A3F785E7394E92AA70F6B555C047A4', 7, '记录本机ip', '20230602160501', NULL, NULL, 'D:\\benma666\\logs\\kettle\\20230602\\记录本机ip_160501.txt', NULL);
-INSERT INTO `kettle_kz_log` VALUES ('20230604003052', '20230604003052', '1', 99999, '{}', NULL, NULL, NULL, NULL, '05825DC47B4B4D70BFA9F96762674B0D', 6, 'JobManager', '20230604003052', NULL, NULL, 'F:\\benma666\\logs\\20230604\\JobManager_003052.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230604004522', '20230604004522', '1', 99999, '{}', NULL, NULL, NULL, NULL, '08B18903B052475DBB6943786A718F04', 7, '记录本机ip', '20230604004522', NULL, NULL, 'D:\\benma666\\logs\\20230604\\记录本机ip_004522.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230603221949', '20230603221949', '1', 99999, '{}', NULL, NULL, NULL, NULL, '11283316FC324D379D2A9D0329124BB4', 6, 'JobManager', '20230603221949', NULL, NULL, 'F:\\benma666\\logs\\20230603\\JobManager_221949.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230602080824', '20230602080824', '1', 99999, '{}', NULL, NULL, NULL, NULL, '16EB6D2215284D71B1B0CAE8A75AE490', 6, 'JobManager', '20230602080824', NULL, NULL, 'F:\\benma666\\logs\\kettle\\20230602\\JobManager_080824.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230603224958', '20230603224958', '1', 99999, '{}', NULL, NULL, NULL, NULL, '2088C7AE5421454E9F00ABB4BE88E20C', 7, '记录本机ip', '20230603224958', NULL, NULL, 'D:\\benma666\\logs\\20230603\\记录本机ip_224958.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230604010833', '20230604010833', '1', 99999, '{}', NULL, NULL, NULL, NULL, '28406A40597B496082BD7D2B15847B3F', 7, '记录本机ip', '20230604010833', NULL, NULL, 'D:\\benma666\\logs\\20230604\\记录本机ip_010833.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230603212356', '20230603212356', '1', 99999, '{}', NULL, NULL, NULL, NULL, '29FAF51BFED04503A8A70E194941037C', 6, 'JobManager', '20230603212356', NULL, NULL, 'F:\\benma666\\logs\\20230603\\JobManager_212356.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230601234832', '20230601234832', '1', 99999, '{}', NULL, NULL, NULL, NULL, '3D591D06CB7B4A14802C7B7D04002C2F', 6, 'JobManager', '20230601234832', NULL, NULL, 'F:\\benma666\\logs\\kettle\\20230601\\JobManager_234832.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230603222453', '20230603222453', '1', 99999, '{}', NULL, NULL, NULL, NULL, '48C94B61A62A4B95B9D2AE0950A46983', 6, 'JobManager', '20230603222453', NULL, NULL, 'F:\\benma666\\logs\\20230603\\JobManager_222453.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230603212039', '20230603212039', '1', 99999, '{}', NULL, NULL, NULL, NULL, '53403452B0FA4B72AC94A7F7C437898B', 6, 'JobManager', '20230603212039', NULL, NULL, 'F:\\benma666\\logs\\20230603\\JobManager_212039.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230602174709', '20230602174709', '1', 99999, '{}', NULL, NULL, NULL, NULL, '58895C69395D49A8A8D73F8E6EDD78C2', 7, '记录本机ip', '20230602174709', NULL, NULL, 'D:\\benma666\\logs\\kettle\\20230602\\记录本机ip_174709.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230603224141', '20230603224141', '1', 99999, '{}', NULL, NULL, NULL, NULL, '59F454AA4DEA44E9978F5822E1D335CF', 7, '记录本机ip', '20230603224141', NULL, NULL, 'D:\\benma666\\logs\\20230603\\记录本机ip_224141.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230602160850', '20230602160850', '1', 99999, '{}', NULL, NULL, NULL, NULL, '5F56471EE23B4D5E826B941FDC5A3DDE', 7, '记录本机ip', '20230602160850', NULL, NULL, 'D:\\benma666\\logs\\kettle\\20230602\\记录本机ip_160850.txt', NULL);
-INSERT INTO `kettle_kz_log` VALUES ('20230602160630', '20230602160630', '1', 99999, '{}', NULL, NULL, NULL, NULL, '63D40BC6CBE441D2A06B9AA95CD3C076', 7, '记录本机ip', '20230602160630', NULL, NULL, 'D:\\benma666\\logs\\kettle\\20230602\\记录本机ip_160630.txt', NULL);
-INSERT INTO `kettle_kz_log` VALUES ('20230604005416', '20230604005416', '1', 99999, '{}', NULL, NULL, NULL, NULL, '7173702191E145FBA492D8A3E8AA8C24', 7, '记录本机ip', '20230604005416', NULL, NULL, 'D:\\benma666\\logs\\20230604\\记录本机ip_005416.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230602161701', '20230602161701', '1', 99999, '{}', NULL, NULL, NULL, NULL, '71A8093CFC3041EEB6B480733357B953', 7, '记录本机ip', '20230602161701', NULL, NULL, 'D:\\benma666\\logs\\kettle\\20230602\\记录本机ip_161701.txt', NULL);
-INSERT INTO `kettle_kz_log` VALUES ('20230603222113', '20230603222113', '1', 99999, '{}', NULL, NULL, NULL, NULL, '982351DB4F0F4B8A9D5F40E07A2F27B3', 6, 'JobManager', '20230603222113', NULL, NULL, 'F:\\benma666\\logs\\20230603\\JobManager_222113.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230603223759', '20230603223759', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'A953FEE7C05F4050A8B76C01CC60CB8A', 6, 'JobManager', '20230603223759', NULL, NULL, 'F:\\benma666\\logs\\20230603\\JobManager_223759.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230603235350', '20230603235350', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'ABD1F833B7764441917BA1FCC1380FB4', 6, 'JobManager', '20230603235350', NULL, NULL, 'F:\\benma666\\logs\\20230603\\JobManager_235350.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230603223537', '20230603223537', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'AEFEBDEAC2C14147815536DF53CCC344', 7, '记录本机ip', '20230603223537', NULL, NULL, 'D:\\benma666\\logs\\20230603\\记录本机ip_223537.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230604001556', '20230604001556', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'B22EDBB385FE48B6A5B8771F79D3FCBE', 7, '记录本机ip', '20230604001556', NULL, NULL, 'D:\\benma666\\logs\\20230604\\记录本机ip_001556.txt', 'sjds');
-INSERT INTO `kettle_kz_log` VALUES ('20230603174631', '20230603174631', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'B3D8779B9C734B4AACE83F4B8055D958', 6, 'JobManager', '20230603174631', NULL, NULL, 'F:\\benma666\\logs\\kettle\\20230603\\JobManager_174631.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230602154614', '20230602154614', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'C522A99C44DB421FB14A88B0C919B90E', 7, '记录本机ip', '20230602154614', NULL, NULL, 'D:\\benma666\\logs\\kettle\\20230602\\记录本机ip_154614.txt', NULL);
-INSERT INTO `kettle_kz_log` VALUES ('20230602161206', '20230602161206', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'D06E9B4E85DC4B58932ECD9C0E5435E0', 6, 'JobManager', '20230602161206', NULL, NULL, 'F:\\benma666\\logs\\kettle\\20230602\\JobManager_161206.txt', 'sjsj');
-INSERT INTO `kettle_kz_log` VALUES ('20230603234602', '20230603234602', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'EB43A9FF1E9F49C5BDD47D229B8F9A21', 7, '记录本机ip', '20230603234602', NULL, NULL, 'D:\\benma666\\logs\\20230603\\记录本机ip_234602.txt', 'sjds');
 
 -- ----------------------------
 -- Table structure for kettle_kz_zycs
@@ -92,12 +66,12 @@ CREATE TABLE `kettle_kz_zycs`  (
   `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '键',
   `value` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '值',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业参数' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业参数' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of kettle_kz_zycs
 -- ----------------------------
-INSERT INTO `kettle_kz_zycs` VALUES ('20230531235544', '20230531235903', '1', 99999, '{}', NULL, NULL, NULL, NULL, '9a358abfffcb11ed8ef3000c29f304ac', 6, 'code', '234234543s\nfsdfsdfsddf\n\n\n现场111');
+INSERT INTO `kettle_kz_zycs` VALUES ('20230531235544', '20240524145632', '1', 99999, '{}', NULL, NULL, NULL, NULL, '9a358abfffcb11ed8ef3000c29f304ac', 6, 'code', '123');
 
 -- ----------------------------
 -- Table structure for kettle_kz_zykz
@@ -138,7 +112,7 @@ CREATE TABLE `kettle_kz_zykz`  (
   `sczj` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '输出组件',
   `bz` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业扩展' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业扩展' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of kettle_kz_zykz
@@ -147,22 +121,22 @@ INSERT INTO `kettle_kz_zykz` VALUES ('20230531141141', '20230531141440', '0', 99
 INSERT INTO `kettle_kz_zykz` VALUES ('20230531141141', '20230531141440', '0', 99999, '{}', NULL, NULL, NULL, NULL, '02f61446ff7a11ed8ef3000c29f304ac', 18, NULL, NULL, NULL, NULL, NULL, NULL, '3', 'cgzy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230526142454', '20230601223230', '0', 99999, '{}', NULL, NULL, NULL, NULL, '0768de1bfb8e11ed8ef3000c29f304ac', 15, 'km测试', NULL, NULL, NULL, NULL, NULL, '3', 'KM作业', NULL, NULL, NULL, NULL, NULL, 'cn.benma666.kettle.job.JobManager', '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230526125920', '20230601223230', '0', 99999, '{}', NULL, NULL, NULL, NULL, '133907fcfb8211ed8ef3000c29f304ac', 13, 'sql测试', NULL, NULL, NULL, NULL, NULL, '3', 'sql作业', NULL, NULL, 'default', 'select 3', NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `kettle_kz_zykz` VALUES ('20230521214807', '20230604011638', '1', 99999, '{}', NULL, NULL, NULL, NULL, '1db052f3f7de11edb4ad000c29f304ac', 6, NULL, 'Running', '20230604011638', '0', 'sjsj', '等15秒/重/初', '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', '912769435779405698B51852FB4277DB', '912769435779405698B51852FB4277DB', NULL, NULL, NULL, NULL, '作业运行状态管理任务，会更新所有作业的状态');
+INSERT INTO `kettle_kz_zykz` VALUES ('20230521214807', '20240528174026', '1', 99999, '{}', NULL, NULL, NULL, NULL, '1db052f3f7de11edb4ad000c29f304ac', 6, NULL, 'Waiting', '20240529101815', '0', 'sjsj', '等15秒/重/初', '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', '912769435779405698B51852FB4277DB', '912769435779405698B51852FB4277DB', NULL, NULL, NULL, NULL, '作业运行状态管理任务，会更新所有作业的状态');
 INSERT INTO `kettle_kz_zykz` VALUES ('20230601223257', '20230601223322', '1', 99999, '{}', NULL, NULL, NULL, NULL, '33a30f0e008911ee8ef3000c29f304ac', 3, NULL, NULL, NULL, '0', NULL, NULL, '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230601223258', '20230601223323', '1', 99999, '{}', NULL, NULL, NULL, NULL, '3439370a008911ee8ef3000c29f304ac', 5, NULL, NULL, NULL, '0', NULL, NULL, '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230526112007', '20230601223301', '1', 99999, '{}', NULL, NULL, NULL, NULL, '36d489eafb7411ed8ef3000c29f304ac', 11, NULL, NULL, NULL, '0', NULL, NULL, '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230531141318', '20230531141440', '0', 99999, '{}', NULL, NULL, NULL, NULL, '3cc8c3acff7a11ed8ef3000c29f304ac', 19, NULL, NULL, NULL, NULL, NULL, NULL, '3', 'cgzy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230531141345', '20230531141440', '0', 99999, '{}', NULL, NULL, NULL, NULL, '4cb5ff1bff7a11ed8ef3000c29f304ac', 20, NULL, NULL, NULL, NULL, NULL, NULL, '3', 'sql', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230524233344', '20230601223259', '0', 99999, '{}', NULL, NULL, NULL, NULL, '5e08eec7fa4811ed8ef3000c29f304ac', 9, '测试js', NULL, NULL, '0', NULL, NULL, '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `kettle_kz_zykz` VALUES ('20230521215024', '20230531151510', '1', 99999, '{}', NULL, NULL, NULL, NULL, '6f5fa061f7de11edb4ad000c29f304ac', 1, NULL, 'Stopped', '20230525231032', NULL, NULL, '等5分0秒/重/初', '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `kettle_kz_zykz` VALUES ('20230521215024', '20240529023351', '1', 99999, '{}', NULL, NULL, NULL, NULL, '6f5fa061f7de11edb4ad000c29f304ac', 1, NULL, 'Running', '20240529023351', '0', 'sjsj', '等5分0秒/重/初', '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230521215024', '20230604010833', '1', 99999, '{}', NULL, NULL, NULL, NULL, '6f64261ff7de11edb4ad000c29f304ac', 7, NULL, 'Waiting', '20230604010833', '0', 'sjds', '等1分0秒/重/初', '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', 'SYS_SJGL_SJDX', 'SYS_SJGL_SJDX', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230531142929', '20230531154719', '0', 99999, '{}', NULL, NULL, NULL, NULL, '7f0aa6faff7c11ed8ef3000c29f304ac', 16, 'shell测试1', NULL, NULL, NULL, NULL, NULL, '3', 'shell作业', '/tmp', 'll', NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230526142148', '20230601223230', '0', 99999, '{}', NULL, NULL, NULL, NULL, '989b36b8fb8d11ed8ef3000c29f304ac', 14, 'shell测试', NULL, NULL, NULL, NULL, NULL, '3', 'shell作业', '/tmp', 'll', NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230524235009', '20230601223324', '0', 99999, '{}', NULL, NULL, NULL, NULL, 'a9534530fa4a11ed8ef3000c29f304ac', 8, 'jsces1', NULL, NULL, '0', NULL, NULL, '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230523005803', '20230531151511', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'd0ecef2df8c111edb4ad000c29f304ac', 2, NULL, 'Stopped', '20230523080817', NULL, NULL, '不需要定时', '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `kettle_kz_zykz` VALUES ('20230524233729', '20230601223325', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'e4aa5c29fa4811ed8ef3000c29f304ac', 10, 'sssss', NULL, NULL, '0', NULL, NULL, '3', '常规作业', NULL, NULL, NULL, NULL, NULL, NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `kettle_kz_zykz` VALUES ('20230526125809', '20230601223230', '0', 99999, '{}', NULL, NULL, NULL, NULL, 'e8d709d0fb8111ed8ef3000c29f304ac', 12, 'js测试2', 'Finished', '20230526173340', NULL, NULL, '不需要定时', '3', 'JS作业', NULL, NULL, NULL, NULL, 'var a;\ntrue;', NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `kettle_kz_zykz` VALUES ('20230531234414', '20230601000922', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'fea43e0affc911ed8ef3000c29f304ac', 22, NULL, 'Waiting', '20230604003051', NULL, 'sjsj', '等15秒/重/初', '3', 'cgzy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `kettle_kz_zykz` VALUES ('20230526125809', '20240529023521', '0', 99999, '{}', NULL, NULL, NULL, NULL, 'e8d709d0fb8111ed8ef3000c29f304ac', 12, 'js测试2', 'Running', '20240529023521', NULL, 'sjsj', '等15秒/重/初', '3', 'JS作业', NULL, NULL, NULL, NULL, 'var a;\ntrue;', NULL, '{\n  \n}', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `kettle_kz_zykz` VALUES ('20230531234414', '20230601000922', '1', 99999, '{}', NULL, NULL, NULL, NULL, 'fea43e0affc911ed8ef3000c29f304ac', 22, NULL, 'Waiting', '20240529101815', NULL, 'sjsj', '等15秒/重/初', '3', 'cgzy', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for kettle_kz_zyyj
@@ -189,7 +163,7 @@ CREATE TABLE `kettle_kz_zyyj`  (
   `sfcw` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否错误',
   `ddjd` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '调度节点@KETTLE_GLPT_ZYGL_DDJD',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业预警' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'kettle-扩展-作业预警' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of kettle_kz_zyyj
@@ -208,7 +182,7 @@ CREATE TABLE `r_cluster`  (
   `SOCKETS_COMPRESSED` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `DYNAMIC_CLUSTER` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_CLUSTER`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_cluster
@@ -223,7 +197,7 @@ CREATE TABLE `r_cluster_slave`  (
   `ID_CLUSTER` int NULL DEFAULT NULL,
   `ID_SLAVE` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID_CLUSTER_SLAVE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_cluster_slave
@@ -243,7 +217,7 @@ CREATE TABLE `r_condition`  (
   `RIGHT_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ID_VALUE_RIGHT` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID_CONDITION`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_condition
@@ -267,7 +241,7 @@ CREATE TABLE `r_database`  (
   `DATA_TBS` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `INDEX_TBS` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_DATABASE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_database
@@ -275,6 +249,7 @@ CREATE TABLE `r_database`  (
 INSERT INTO `r_database` VALUES (1, 'kettle_default', 37, 5, NULL, 'kettle_default', 1521, NULL, 'Encrypted ', NULL, NULL, NULL);
 INSERT INTO `r_database` VALUES (2, 'default', 37, 5, NULL, 'default', -1, NULL, 'Encrypted ', NULL, NULL, NULL);
 INSERT INTO `r_database` VALUES (3, 'AgileBI', 29, 1, 'localhost', 'pentaho-instaview', 50000, 'monetdb', 'Encrypted 2be98afc86aa7f2e4cb14a17edb86abd8', NULL, NULL, NULL);
+INSERT INTO `r_database` VALUES (4, 'kettle', 37, 5, NULL, 'kettle', 1521, NULL, 'Encrypted ', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for r_database_attribute
@@ -287,7 +262,7 @@ CREATE TABLE `r_database_attribute`  (
   `VALUE_STR` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_DATABASE_ATTRIBUTE`) USING BTREE,
   UNIQUE INDEX `IDX_RDAT`(`ID_DATABASE`, `CODE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_database_attribute
@@ -296,28 +271,37 @@ INSERT INTO `r_database_attribute` VALUES (1748, 3, 'EXTRA_OPTION_MYSQL.defaultF
 INSERT INTO `r_database_attribute` VALUES (1749, 3, 'EXTRA_OPTION_MYSQL.useCursorFetch', 'true');
 INSERT INTO `r_database_attribute` VALUES (1750, 3, 'EXTRA_OPTION_INFOBRIGHT.characterEncoding', 'UTF-8');
 INSERT INTO `r_database_attribute` VALUES (1751, 3, 'PORT_NUMBER', '50000');
-INSERT INTO `r_database_attribute` VALUES (1752, 2, 'EXTRA_OPTION_MYSQL.useCursorFetch', 'true');
-INSERT INTO `r_database_attribute` VALUES (1753, 2, 'EXTRA_OPTION_INFOBRIGHT.characterEncoding', 'UTF-8');
-INSERT INTO `r_database_attribute` VALUES (1754, 2, 'INITIAL_POOL_SIZE', '2');
-INSERT INTO `r_database_attribute` VALUES (1755, 2, 'USE_POOLING', 'Y');
-INSERT INTO `r_database_attribute` VALUES (1756, 2, 'MAXIMUM_POOL_SIZE', '5');
-INSERT INTO `r_database_attribute` VALUES (1757, 2, 'POOLING_characterEncoding', 'utf-8');
-INSERT INTO `r_database_attribute` VALUES (1758, 2, 'SUPPORTS_TIMESTAMP_DATA_TYPE', 'Y');
-INSERT INTO `r_database_attribute` VALUES (1759, 2, 'SUPPORTS_BOOLEAN_DATA_TYPE', 'Y');
-INSERT INTO `r_database_attribute` VALUES (1760, 2, 'EXTRA_OPTION_MYSQL.defaultFetchSize', '500');
-INSERT INTO `r_database_attribute` VALUES (1761, 2, 'PORT_NUMBER', '-1');
-INSERT INTO `r_database_attribute` VALUES (1762, 2, 'POOLING_testWhileIdle', 'true');
-INSERT INTO `r_database_attribute` VALUES (1763, 2, 'FORCE_IDENTIFIERS_TO_LOWERCASE', 'Y');
-INSERT INTO `r_database_attribute` VALUES (1764, 2, 'POOLING_validationQuery', 'select 1 from dual');
-INSERT INTO `r_database_attribute` VALUES (1765, 1, 'USE_POOLING', 'N');
-INSERT INTO `r_database_attribute` VALUES (1766, 1, 'PRESERVE_RESERVED_WORD_CASE', 'N');
-INSERT INTO `r_database_attribute` VALUES (1767, 1, 'IS_CLUSTERED', 'N');
-INSERT INTO `r_database_attribute` VALUES (1768, 1, 'SUPPORTS_TIMESTAMP_DATA_TYPE', 'Y');
-INSERT INTO `r_database_attribute` VALUES (1769, 1, 'SUPPORTS_BOOLEAN_DATA_TYPE', 'Y');
-INSERT INTO `r_database_attribute` VALUES (1770, 1, 'PORT_NUMBER', '1521');
-INSERT INTO `r_database_attribute` VALUES (1771, 1, 'FORCE_IDENTIFIERS_TO_UPPERCASE', 'N');
-INSERT INTO `r_database_attribute` VALUES (1772, 1, 'FORCE_IDENTIFIERS_TO_LOWERCASE', 'N');
-INSERT INTO `r_database_attribute` VALUES (1773, 1, 'QUOTE_ALL_FIELDS', 'N');
+INSERT INTO `r_database_attribute` VALUES (1796, 2, 'EXTRA_OPTION_MYSQL.useCursorFetch', 'true');
+INSERT INTO `r_database_attribute` VALUES (1797, 2, 'EXTRA_OPTION_INFOBRIGHT.characterEncoding', 'UTF-8');
+INSERT INTO `r_database_attribute` VALUES (1798, 2, 'INITIAL_POOL_SIZE', '2');
+INSERT INTO `r_database_attribute` VALUES (1799, 2, 'USE_POOLING', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1800, 2, 'MAXIMUM_POOL_SIZE', '5');
+INSERT INTO `r_database_attribute` VALUES (1801, 2, 'POOLING_characterEncoding', 'utf-8');
+INSERT INTO `r_database_attribute` VALUES (1802, 2, 'SUPPORTS_TIMESTAMP_DATA_TYPE', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1803, 2, 'SUPPORTS_BOOLEAN_DATA_TYPE', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1804, 2, 'EXTRA_OPTION_MYSQL.defaultFetchSize', '500');
+INSERT INTO `r_database_attribute` VALUES (1805, 2, 'PORT_NUMBER', '-1');
+INSERT INTO `r_database_attribute` VALUES (1806, 2, 'POOLING_testWhileIdle', 'true');
+INSERT INTO `r_database_attribute` VALUES (1807, 2, 'FORCE_IDENTIFIERS_TO_LOWERCASE', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1808, 2, 'POOLING_validationQuery', 'select 1 from dual');
+INSERT INTO `r_database_attribute` VALUES (1809, 1, 'USE_POOLING', 'N');
+INSERT INTO `r_database_attribute` VALUES (1810, 1, 'PRESERVE_RESERVED_WORD_CASE', 'N');
+INSERT INTO `r_database_attribute` VALUES (1811, 1, 'IS_CLUSTERED', 'N');
+INSERT INTO `r_database_attribute` VALUES (1812, 1, 'SUPPORTS_TIMESTAMP_DATA_TYPE', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1813, 1, 'SUPPORTS_BOOLEAN_DATA_TYPE', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1814, 1, 'PORT_NUMBER', '1521');
+INSERT INTO `r_database_attribute` VALUES (1815, 1, 'FORCE_IDENTIFIERS_TO_UPPERCASE', 'N');
+INSERT INTO `r_database_attribute` VALUES (1816, 1, 'FORCE_IDENTIFIERS_TO_LOWERCASE', 'N');
+INSERT INTO `r_database_attribute` VALUES (1817, 1, 'QUOTE_ALL_FIELDS', 'N');
+INSERT INTO `r_database_attribute` VALUES (1818, 4, 'USE_POOLING', 'N');
+INSERT INTO `r_database_attribute` VALUES (1819, 4, 'PRESERVE_RESERVED_WORD_CASE', 'N');
+INSERT INTO `r_database_attribute` VALUES (1820, 4, 'IS_CLUSTERED', 'N');
+INSERT INTO `r_database_attribute` VALUES (1821, 4, 'SUPPORTS_TIMESTAMP_DATA_TYPE', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1822, 4, 'SUPPORTS_BOOLEAN_DATA_TYPE', 'Y');
+INSERT INTO `r_database_attribute` VALUES (1823, 4, 'PORT_NUMBER', '1521');
+INSERT INTO `r_database_attribute` VALUES (1824, 4, 'FORCE_IDENTIFIERS_TO_UPPERCASE', 'N');
+INSERT INTO `r_database_attribute` VALUES (1825, 4, 'FORCE_IDENTIFIERS_TO_LOWERCASE', 'N');
+INSERT INTO `r_database_attribute` VALUES (1826, 4, 'QUOTE_ALL_FIELDS', 'N');
 
 -- ----------------------------
 -- Table structure for r_database_contype
@@ -328,7 +312,7 @@ CREATE TABLE `r_database_contype`  (
   `CODE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `DESCRIPTION` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_DATABASE_CONTYPE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_database_contype
@@ -349,7 +333,7 @@ CREATE TABLE `r_database_type`  (
   `CODE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `DESCRIPTION` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_DATABASE_TYPE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_database_type
@@ -419,7 +403,7 @@ CREATE TABLE `r_dependency`  (
   `TABLE_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `FIELD_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_DEPENDENCY`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_dependency
@@ -435,7 +419,7 @@ CREATE TABLE `r_directory`  (
   `DIRECTORY_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_DIRECTORY`) USING BTREE,
   UNIQUE INDEX `IDX_RDIR`(`ID_DIRECTORY_PARENT`, `DIRECTORY_NAME`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_directory
@@ -459,7 +443,7 @@ CREATE TABLE `r_element`  (
   `ID_ELEMENT_TYPE` int NULL DEFAULT NULL,
   `NAME` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_ELEMENT`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_element
@@ -476,7 +460,7 @@ CREATE TABLE `r_element_attribute`  (
   `ATTR_KEY` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ATTR_VALUE` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_ELEMENT_ATTRIBUTE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_element_attribute
@@ -492,7 +476,7 @@ CREATE TABLE `r_element_type`  (
   `NAME` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `DESCRIPTION` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_ELEMENT_TYPE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_element_type
@@ -521,21 +505,21 @@ CREATE TABLE `r_job`  (
   `USE_LOGFIELD` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `SHARED_FILE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_JOB`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_job
 -- ----------------------------
-INSERT INTO `r_job` VALUES (1, 2, '获取公网ip', '获取公网ip', '{\n  \n}', '99', 2, -1, NULL, 'admin', '2020-08-21 09:50:53', '系统管理员', '2023-05-31 15:15:10', '1', '0', '1', NULL);
+INSERT INTO `r_job` VALUES (1, 2, '获取公网ip', '获取公网ip', '{\n  \n}', '99', 2, -1, NULL, 'admin', '2020-08-21 09:50:53', 'admin', '2024-05-29 10:33:28', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (2, 9, '启动frpc', '启动frpc', '{\n  \n}', '99', 2, -1, NULL, 'BC5D77315CA84C6C807988E3CD17E70D', '2021-06-11 14:00:47', '系统管理员', '2023-05-31 15:15:11', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (3, 3, '流转公用作业', NULL, NULL, '01', 0, -1, NULL, 'admin', '2019-12-07 21:01:36', '系统管理员', '2023-06-01 22:33:22', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (5, 6, '模板作业', NULL, NULL, '01', 1, -1, NULL, 'admin', '2019-12-07 21:01:39', '系统管理员', '2023-06-01 22:33:23', '1', '0', '1', NULL);
-INSERT INTO `r_job` VALUES (6, 7, 'JobManager', '作业管理器', '{\r\n  \r\n}', '01', 2, -1, NULL, '管理员', '2020-08-20 11:35:35', '系统管理员', '2023-05-31 15:15:08', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (7, 8, '记录本机ip', '记录本机ip', '{\n  \n}', '99', 2, -1, NULL, 'admin', '2023-05-19 11:33:35', '系统管理员', '2023-05-31 15:48:26', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (8, 5, 'km', 'km模板', '{\n  \n}', '01', 1, -1, NULL, '-', '2017-06-14 09:33:19', '系统管理员', '2023-06-01 22:33:24', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (9, 5, 'javascript', 'js模板', '{\n  \n}', '01', 1, -1, NULL, '-', '2017-06-14 09:28:51', '系统管理员', '2023-06-01 22:32:59', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (10, 5, 'shell', 'shell模板', '{\n  \n}', '01', 1, -1, NULL, '-', '2017-06-13 21:55:57', '系统管理员', '2023-06-01 22:33:25', '1', '0', '1', NULL);
 INSERT INTO `r_job` VALUES (11, 5, 'sql', 'sql模板', '{\n  \n}', '01', 1, -1, NULL, '-', '2017-06-14 09:27:34', '系统管理员', '2023-06-01 22:33:01', '1', '0', '1', NULL);
+INSERT INTO `r_job` VALUES (12, 7, 'JobManager', '作业管理器', '{\r\n  \r\n}', '01', 2, -1, NULL, '管理员', '2020-08-20 11:35:35', 'admin', '2024-05-28 15:32:20', '1', '0', '1', NULL);
 
 -- ----------------------------
 -- Table structure for r_job_attribute
@@ -550,344 +534,11 @@ CREATE TABLE `r_job_attribute`  (
   `VALUE_STR` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_JOB_ATTRIBUTE`) USING BTREE,
   UNIQUE INDEX `IDX_JATT`(`ID_JOB`, `CODE`, `NR`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_job_attribute
 -- ----------------------------
-INSERT INTO `r_job_attribute` VALUES (5404, 6, 0, 'LOG_SIZE_LIMIT', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5405, 6, 0, 'JOB_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5406, 6, 0, 'JOB_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5407, 6, 0, 'JOB_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5408, 6, 0, 'JOB_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5409, 6, 0, 'JOB_LOG_TABLE_FIELD_ID0', 0, 'ID_JOB');
-INSERT INTO `r_job_attribute` VALUES (5410, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME0', 0, 'ID_JOB');
-INSERT INTO `r_job_attribute` VALUES (5411, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5412, 6, 0, 'JOB_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5413, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5414, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5415, 6, 0, 'JOB_LOG_TABLE_FIELD_ID2', 0, 'JOBNAME');
-INSERT INTO `r_job_attribute` VALUES (5416, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME2', 0, 'JOBNAME');
-INSERT INTO `r_job_attribute` VALUES (5417, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5418, 6, 0, 'JOB_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
-INSERT INTO `r_job_attribute` VALUES (5419, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
-INSERT INTO `r_job_attribute` VALUES (5420, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5421, 6, 0, 'JOB_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5422, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5423, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5424, 6, 0, 'JOB_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5425, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5426, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5427, 6, 0, 'JOB_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5428, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5429, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5430, 6, 0, 'JOB_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (5431, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (5432, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5433, 6, 0, 'JOB_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (5434, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (5435, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5436, 6, 0, 'JOB_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (5437, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (5438, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5439, 6, 0, 'JOB_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (5440, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (5441, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5442, 6, 0, 'JOB_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
-INSERT INTO `r_job_attribute` VALUES (5443, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
-INSERT INTO `r_job_attribute` VALUES (5444, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5445, 6, 0, 'JOB_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
-INSERT INTO `r_job_attribute` VALUES (5446, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
-INSERT INTO `r_job_attribute` VALUES (5447, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5448, 6, 0, 'JOB_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
-INSERT INTO `r_job_attribute` VALUES (5449, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
-INSERT INTO `r_job_attribute` VALUES (5450, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5451, 6, 0, 'JOB_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
-INSERT INTO `r_job_attribute` VALUES (5452, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
-INSERT INTO `r_job_attribute` VALUES (5453, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5454, 6, 0, 'JOB_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
-INSERT INTO `r_job_attribute` VALUES (5455, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
-INSERT INTO `r_job_attribute` VALUES (5456, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5457, 6, 0, 'JOB_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (5458, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (5459, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5460, 6, 0, 'JOB_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
-INSERT INTO `r_job_attribute` VALUES (5461, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
-INSERT INTO `r_job_attribute` VALUES (5462, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5463, 6, 0, 'JOB_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
-INSERT INTO `r_job_attribute` VALUES (5464, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
-INSERT INTO `r_job_attribute` VALUES (5465, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5466, 6, 0, 'JOB_LOG_TABLE_FIELD_ID19', 0, 'START_JOB_ENTRY');
-INSERT INTO `r_job_attribute` VALUES (5467, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME19', 0, 'START_JOB_ENTRY');
-INSERT INTO `r_job_attribute` VALUES (5468, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5469, 6, 0, 'JOB_LOG_TABLE_FIELD_ID20', 0, 'CLIENT');
-INSERT INTO `r_job_attribute` VALUES (5470, 6, 0, 'JOB_LOG_TABLE_FIELD_NAME20', 0, 'CLIENT');
-INSERT INTO `r_job_attribute` VALUES (5471, 6, 0, 'JOB_LOG_TABLE_FIELD_ENABLED20', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5472, 6, 0, 'JOBLOG_TABLE_INTERVAL', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5473, 6, 0, 'JOBLOG_TABLE_SIZE_LIMIT', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5474, 6, 0, 'JOB_ENTRY_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5475, 6, 0, 'JOB_ENTRY_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5476, 6, 0, 'JOB_ENTRY_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5477, 6, 0, 'JOB_ENTRY_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5478, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (5479, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (5480, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5481, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5482, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5483, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5484, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (5485, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (5486, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5487, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID3', 0, 'JOBNAME');
-INSERT INTO `r_job_attribute` VALUES (5488, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
-INSERT INTO `r_job_attribute` VALUES (5489, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5490, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID4', 0, 'JOBENTRYNAME');
-INSERT INTO `r_job_attribute` VALUES (5491, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
-INSERT INTO `r_job_attribute` VALUES (5492, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5493, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID5', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5494, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME5', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5495, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5496, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID6', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5497, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME6', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5498, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5499, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID7', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5500, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME7', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5501, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5502, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID8', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (5503, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME8', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (5504, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5505, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID9', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (5506, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME9', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (5507, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5508, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID10', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (5509, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME10', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (5510, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5511, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID11', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (5512, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME11', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (5513, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5514, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID12', 0, 'RESULT');
-INSERT INTO `r_job_attribute` VALUES (5515, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME12', 0, 'RESULT');
-INSERT INTO `r_job_attribute` VALUES (5516, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5517, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID13', 0, 'NR_RESULT_ROWS');
-INSERT INTO `r_job_attribute` VALUES (5518, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME13', 0, 'NR_RESULT_ROWS');
-INSERT INTO `r_job_attribute` VALUES (5519, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5520, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID14', 0, 'NR_RESULT_FILES');
-INSERT INTO `r_job_attribute` VALUES (5521, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME14', 0, 'NR_RESULT_FILES');
-INSERT INTO `r_job_attribute` VALUES (5522, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5523, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID15', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (5524, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME15', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (5525, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED15', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5526, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID16', 0, 'COPY_NR');
-INSERT INTO `r_job_attribute` VALUES (5527, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME16', 0, 'COPY_NR');
-INSERT INTO `r_job_attribute` VALUES (5528, 6, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED16', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5529, 6, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5530, 6, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5531, 6, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5532, 6, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5533, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (5534, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (5535, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5536, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5537, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5538, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5539, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (5540, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (5541, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5542, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
-INSERT INTO `r_job_attribute` VALUES (5543, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
-INSERT INTO `r_job_attribute` VALUES (5544, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5545, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
-INSERT INTO `r_job_attribute` VALUES (5546, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
-INSERT INTO `r_job_attribute` VALUES (5547, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5548, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
-INSERT INTO `r_job_attribute` VALUES (5549, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
-INSERT INTO `r_job_attribute` VALUES (5550, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5551, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
-INSERT INTO `r_job_attribute` VALUES (5552, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
-INSERT INTO `r_job_attribute` VALUES (5553, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5554, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
-INSERT INTO `r_job_attribute` VALUES (5555, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
-INSERT INTO `r_job_attribute` VALUES (5556, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5557, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
-INSERT INTO `r_job_attribute` VALUES (5558, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
-INSERT INTO `r_job_attribute` VALUES (5559, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5560, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
-INSERT INTO `r_job_attribute` VALUES (5561, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
-INSERT INTO `r_job_attribute` VALUES (5562, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5563, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5564, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5565, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5566, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5567, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5568, 6, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5569, 6, 0, 'PARAM_KEY', 0, 'code');
-INSERT INTO `r_job_attribute` VALUES (5570, 6, 0, 'PARAM_DEFAULT', 0, 'mrz');
-INSERT INTO `r_job_attribute` VALUES (5571, 6, 0, 'PARAM_DESC', 0, '测试描述');
-INSERT INTO `r_job_attribute` VALUES (5902, 1, 0, 'LOG_SIZE_LIMIT', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5903, 1, 0, 'JOB_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5904, 1, 0, 'JOB_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5905, 1, 0, 'JOB_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5906, 1, 0, 'JOB_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5907, 1, 0, 'JOB_LOG_TABLE_FIELD_ID0', 0, 'ID_JOB');
-INSERT INTO `r_job_attribute` VALUES (5908, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME0', 0, 'ID_JOB');
-INSERT INTO `r_job_attribute` VALUES (5909, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5910, 1, 0, 'JOB_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5911, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5912, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5913, 1, 0, 'JOB_LOG_TABLE_FIELD_ID2', 0, 'JOBNAME');
-INSERT INTO `r_job_attribute` VALUES (5914, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME2', 0, 'JOBNAME');
-INSERT INTO `r_job_attribute` VALUES (5915, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5916, 1, 0, 'JOB_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
-INSERT INTO `r_job_attribute` VALUES (5917, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
-INSERT INTO `r_job_attribute` VALUES (5918, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5919, 1, 0, 'JOB_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5920, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5921, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5922, 1, 0, 'JOB_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5923, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5924, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5925, 1, 0, 'JOB_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5926, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5927, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5928, 1, 0, 'JOB_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (5929, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (5930, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5931, 1, 0, 'JOB_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (5932, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (5933, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5934, 1, 0, 'JOB_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (5935, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (5936, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5937, 1, 0, 'JOB_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (5938, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (5939, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5940, 1, 0, 'JOB_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
-INSERT INTO `r_job_attribute` VALUES (5941, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
-INSERT INTO `r_job_attribute` VALUES (5942, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5943, 1, 0, 'JOB_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
-INSERT INTO `r_job_attribute` VALUES (5944, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
-INSERT INTO `r_job_attribute` VALUES (5945, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5946, 1, 0, 'JOB_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
-INSERT INTO `r_job_attribute` VALUES (5947, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
-INSERT INTO `r_job_attribute` VALUES (5948, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5949, 1, 0, 'JOB_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
-INSERT INTO `r_job_attribute` VALUES (5950, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
-INSERT INTO `r_job_attribute` VALUES (5951, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5952, 1, 0, 'JOB_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
-INSERT INTO `r_job_attribute` VALUES (5953, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
-INSERT INTO `r_job_attribute` VALUES (5954, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5955, 1, 0, 'JOB_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (5956, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (5957, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5958, 1, 0, 'JOB_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
-INSERT INTO `r_job_attribute` VALUES (5959, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
-INSERT INTO `r_job_attribute` VALUES (5960, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5961, 1, 0, 'JOB_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
-INSERT INTO `r_job_attribute` VALUES (5962, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
-INSERT INTO `r_job_attribute` VALUES (5963, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5964, 1, 0, 'JOB_LOG_TABLE_FIELD_ID19', 0, 'START_JOB_ENTRY');
-INSERT INTO `r_job_attribute` VALUES (5965, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME19', 0, 'START_JOB_ENTRY');
-INSERT INTO `r_job_attribute` VALUES (5966, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5967, 1, 0, 'JOB_LOG_TABLE_FIELD_ID20', 0, 'CLIENT');
-INSERT INTO `r_job_attribute` VALUES (5968, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME20', 0, 'CLIENT');
-INSERT INTO `r_job_attribute` VALUES (5969, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED20', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (5970, 1, 0, 'JOBLOG_TABLE_INTERVAL', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5971, 1, 0, 'JOBLOG_TABLE_SIZE_LIMIT', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5972, 1, 0, 'JOB_ENTRY_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5973, 1, 0, 'JOB_ENTRY_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5974, 1, 0, 'JOB_ENTRY_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5975, 1, 0, 'JOB_ENTRY_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (5976, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (5977, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (5978, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5979, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5980, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (5981, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5982, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (5983, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (5984, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5985, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID3', 0, 'JOBNAME');
-INSERT INTO `r_job_attribute` VALUES (5986, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
-INSERT INTO `r_job_attribute` VALUES (5987, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5988, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID4', 0, 'JOBENTRYNAME');
-INSERT INTO `r_job_attribute` VALUES (5989, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
-INSERT INTO `r_job_attribute` VALUES (5990, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5991, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID5', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5992, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME5', 0, 'LINES_READ');
-INSERT INTO `r_job_attribute` VALUES (5993, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5994, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID6', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5995, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME6', 0, 'LINES_WRITTEN');
-INSERT INTO `r_job_attribute` VALUES (5996, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (5997, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID7', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5998, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME7', 0, 'LINES_UPDATED');
-INSERT INTO `r_job_attribute` VALUES (5999, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6000, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID8', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (6001, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME8', 0, 'LINES_INPUT');
-INSERT INTO `r_job_attribute` VALUES (6002, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6003, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID9', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (6004, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME9', 0, 'LINES_OUTPUT');
-INSERT INTO `r_job_attribute` VALUES (6005, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6006, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID10', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (6007, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME10', 0, 'LINES_REJECTED');
-INSERT INTO `r_job_attribute` VALUES (6008, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6009, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID11', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (6010, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME11', 0, 'ERRORS');
-INSERT INTO `r_job_attribute` VALUES (6011, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6012, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID12', 0, 'RESULT');
-INSERT INTO `r_job_attribute` VALUES (6013, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME12', 0, 'RESULT');
-INSERT INTO `r_job_attribute` VALUES (6014, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6015, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID13', 0, 'NR_RESULT_ROWS');
-INSERT INTO `r_job_attribute` VALUES (6016, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME13', 0, 'NR_RESULT_ROWS');
-INSERT INTO `r_job_attribute` VALUES (6017, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6018, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID14', 0, 'NR_RESULT_FILES');
-INSERT INTO `r_job_attribute` VALUES (6019, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME14', 0, 'NR_RESULT_FILES');
-INSERT INTO `r_job_attribute` VALUES (6020, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6021, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID15', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (6022, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME15', 0, 'LOG_FIELD');
-INSERT INTO `r_job_attribute` VALUES (6023, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED15', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (6024, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID16', 0, 'COPY_NR');
-INSERT INTO `r_job_attribute` VALUES (6025, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME16', 0, 'COPY_NR');
-INSERT INTO `r_job_attribute` VALUES (6026, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED16', 0, 'N');
-INSERT INTO `r_job_attribute` VALUES (6027, 1, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (6028, 1, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (6029, 1, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (6030, 1, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_job_attribute` VALUES (6031, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (6032, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_job_attribute` VALUES (6033, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6034, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (6035, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (6036, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6037, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (6038, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
-INSERT INTO `r_job_attribute` VALUES (6039, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6040, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
-INSERT INTO `r_job_attribute` VALUES (6041, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
-INSERT INTO `r_job_attribute` VALUES (6042, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6043, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
-INSERT INTO `r_job_attribute` VALUES (6044, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
-INSERT INTO `r_job_attribute` VALUES (6045, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6046, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
-INSERT INTO `r_job_attribute` VALUES (6047, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
-INSERT INTO `r_job_attribute` VALUES (6048, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6049, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
-INSERT INTO `r_job_attribute` VALUES (6050, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
-INSERT INTO `r_job_attribute` VALUES (6051, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6052, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
-INSERT INTO `r_job_attribute` VALUES (6053, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
-INSERT INTO `r_job_attribute` VALUES (6054, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6055, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
-INSERT INTO `r_job_attribute` VALUES (6056, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
-INSERT INTO `r_job_attribute` VALUES (6057, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6058, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
-INSERT INTO `r_job_attribute` VALUES (6059, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
-INSERT INTO `r_job_attribute` VALUES (6060, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6061, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (6062, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (6063, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_job_attribute` VALUES (6064, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (6065, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
-INSERT INTO `r_job_attribute` VALUES (6066, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
 INSERT INTO `r_job_attribute` VALUES (6067, 2, 0, 'LOG_SIZE_LIMIT', 0, NULL);
 INSERT INTO `r_job_attribute` VALUES (6068, 2, 0, 'JOB_LOG_TABLE_CONNECTION_NAME', 0, NULL);
 INSERT INTO `r_job_attribute` VALUES (6069, 2, 0, 'JOB_LOG_TABLE_SCHEMA_NAME', 0, NULL);
@@ -2325,6 +1976,339 @@ INSERT INTO `r_job_attribute` VALUES (9432, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_ENAB
 INSERT INTO `r_job_attribute` VALUES (9433, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
 INSERT INTO `r_job_attribute` VALUES (9434, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
 INSERT INTO `r_job_attribute` VALUES (9435, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9436, 12, 0, 'LOG_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9437, 12, 0, 'JOB_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9438, 12, 0, 'JOB_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9439, 12, 0, 'JOB_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9440, 12, 0, 'JOB_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9441, 12, 0, 'JOB_LOG_TABLE_FIELD_ID0', 0, 'ID_JOB');
+INSERT INTO `r_job_attribute` VALUES (9442, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME0', 0, 'ID_JOB');
+INSERT INTO `r_job_attribute` VALUES (9443, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9444, 12, 0, 'JOB_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9445, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9446, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9447, 12, 0, 'JOB_LOG_TABLE_FIELD_ID2', 0, 'JOBNAME');
+INSERT INTO `r_job_attribute` VALUES (9448, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME2', 0, 'JOBNAME');
+INSERT INTO `r_job_attribute` VALUES (9449, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9450, 12, 0, 'JOB_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
+INSERT INTO `r_job_attribute` VALUES (9451, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
+INSERT INTO `r_job_attribute` VALUES (9452, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9453, 12, 0, 'JOB_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9454, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9455, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9456, 12, 0, 'JOB_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9457, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9458, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9459, 12, 0, 'JOB_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9460, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9461, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9462, 12, 0, 'JOB_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9463, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9464, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9465, 12, 0, 'JOB_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9466, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9467, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9468, 12, 0, 'JOB_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9469, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9470, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9471, 12, 0, 'JOB_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9472, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9473, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9474, 12, 0, 'JOB_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
+INSERT INTO `r_job_attribute` VALUES (9475, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
+INSERT INTO `r_job_attribute` VALUES (9476, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9477, 12, 0, 'JOB_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
+INSERT INTO `r_job_attribute` VALUES (9478, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
+INSERT INTO `r_job_attribute` VALUES (9479, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9480, 12, 0, 'JOB_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
+INSERT INTO `r_job_attribute` VALUES (9481, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
+INSERT INTO `r_job_attribute` VALUES (9482, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9483, 12, 0, 'JOB_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
+INSERT INTO `r_job_attribute` VALUES (9484, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
+INSERT INTO `r_job_attribute` VALUES (9485, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9486, 12, 0, 'JOB_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
+INSERT INTO `r_job_attribute` VALUES (9487, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
+INSERT INTO `r_job_attribute` VALUES (9488, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9489, 12, 0, 'JOB_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9490, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9491, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9492, 12, 0, 'JOB_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_job_attribute` VALUES (9493, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_job_attribute` VALUES (9494, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9495, 12, 0, 'JOB_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
+INSERT INTO `r_job_attribute` VALUES (9496, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
+INSERT INTO `r_job_attribute` VALUES (9497, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9498, 12, 0, 'JOB_LOG_TABLE_FIELD_ID19', 0, 'START_JOB_ENTRY');
+INSERT INTO `r_job_attribute` VALUES (9499, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME19', 0, 'START_JOB_ENTRY');
+INSERT INTO `r_job_attribute` VALUES (9500, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9501, 12, 0, 'JOB_LOG_TABLE_FIELD_ID20', 0, 'CLIENT');
+INSERT INTO `r_job_attribute` VALUES (9502, 12, 0, 'JOB_LOG_TABLE_FIELD_NAME20', 0, 'CLIENT');
+INSERT INTO `r_job_attribute` VALUES (9503, 12, 0, 'JOB_LOG_TABLE_FIELD_ENABLED20', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9504, 12, 0, 'JOBLOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9505, 12, 0, 'JOBLOG_TABLE_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9506, 12, 0, 'JOB_ENTRY_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9507, 12, 0, 'JOB_ENTRY_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9508, 12, 0, 'JOB_ENTRY_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9509, 12, 0, 'JOB_ENTRY_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9510, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9511, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9512, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9513, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9514, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9515, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9516, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9517, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9518, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9519, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID3', 0, 'JOBNAME');
+INSERT INTO `r_job_attribute` VALUES (9520, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_job_attribute` VALUES (9521, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9522, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID4', 0, 'JOBENTRYNAME');
+INSERT INTO `r_job_attribute` VALUES (9523, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_job_attribute` VALUES (9524, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9525, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID5', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9526, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME5', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9527, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9528, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID6', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9529, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME6', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9530, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9531, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID7', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9532, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME7', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9533, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9534, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID8', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9535, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME8', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9536, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9537, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID9', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9538, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME9', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9539, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9540, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID10', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9541, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME10', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9542, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9543, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID11', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9544, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME11', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9545, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9546, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID12', 0, 'RESULT');
+INSERT INTO `r_job_attribute` VALUES (9547, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME12', 0, 'RESULT');
+INSERT INTO `r_job_attribute` VALUES (9548, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9549, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID13', 0, 'NR_RESULT_ROWS');
+INSERT INTO `r_job_attribute` VALUES (9550, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME13', 0, 'NR_RESULT_ROWS');
+INSERT INTO `r_job_attribute` VALUES (9551, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9552, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID14', 0, 'NR_RESULT_FILES');
+INSERT INTO `r_job_attribute` VALUES (9553, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME14', 0, 'NR_RESULT_FILES');
+INSERT INTO `r_job_attribute` VALUES (9554, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9555, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID15', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9556, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME15', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9557, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED15', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9558, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID16', 0, 'COPY_NR');
+INSERT INTO `r_job_attribute` VALUES (9559, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME16', 0, 'COPY_NR');
+INSERT INTO `r_job_attribute` VALUES (9560, 12, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED16', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9561, 12, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9562, 12, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9563, 12, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9564, 12, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9565, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9566, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9567, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9568, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9569, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9570, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9571, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9572, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9573, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9574, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_job_attribute` VALUES (9575, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_job_attribute` VALUES (9576, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9577, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
+INSERT INTO `r_job_attribute` VALUES (9578, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
+INSERT INTO `r_job_attribute` VALUES (9579, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9580, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
+INSERT INTO `r_job_attribute` VALUES (9581, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
+INSERT INTO `r_job_attribute` VALUES (9582, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9583, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_job_attribute` VALUES (9584, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_job_attribute` VALUES (9585, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9586, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
+INSERT INTO `r_job_attribute` VALUES (9587, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
+INSERT INTO `r_job_attribute` VALUES (9588, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9589, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
+INSERT INTO `r_job_attribute` VALUES (9590, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
+INSERT INTO `r_job_attribute` VALUES (9591, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9592, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_job_attribute` VALUES (9593, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_job_attribute` VALUES (9594, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9595, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9596, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9597, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9598, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9599, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9600, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9601, 12, 0, 'PARAM_KEY', 0, 'code');
+INSERT INTO `r_job_attribute` VALUES (9602, 12, 0, 'PARAM_DEFAULT', 0, 'mrz');
+INSERT INTO `r_job_attribute` VALUES (9603, 12, 0, 'PARAM_DESC', 0, '测试描述');
+INSERT INTO `r_job_attribute` VALUES (9604, 1, 0, 'LOG_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9605, 1, 0, 'JOB_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9606, 1, 0, 'JOB_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9607, 1, 0, 'JOB_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9608, 1, 0, 'JOB_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9609, 1, 0, 'JOB_LOG_TABLE_FIELD_ID0', 0, 'ID_JOB');
+INSERT INTO `r_job_attribute` VALUES (9610, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME0', 0, 'ID_JOB');
+INSERT INTO `r_job_attribute` VALUES (9611, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9612, 1, 0, 'JOB_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9613, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9614, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9615, 1, 0, 'JOB_LOG_TABLE_FIELD_ID2', 0, 'JOBNAME');
+INSERT INTO `r_job_attribute` VALUES (9616, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME2', 0, 'JOBNAME');
+INSERT INTO `r_job_attribute` VALUES (9617, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9618, 1, 0, 'JOB_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
+INSERT INTO `r_job_attribute` VALUES (9619, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
+INSERT INTO `r_job_attribute` VALUES (9620, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9621, 1, 0, 'JOB_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9622, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9623, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9624, 1, 0, 'JOB_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9625, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9626, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9627, 1, 0, 'JOB_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9628, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9629, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9630, 1, 0, 'JOB_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9631, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9632, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9633, 1, 0, 'JOB_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9634, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9635, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9636, 1, 0, 'JOB_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9637, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9638, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9639, 1, 0, 'JOB_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9640, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9641, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9642, 1, 0, 'JOB_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
+INSERT INTO `r_job_attribute` VALUES (9643, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
+INSERT INTO `r_job_attribute` VALUES (9644, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9645, 1, 0, 'JOB_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
+INSERT INTO `r_job_attribute` VALUES (9646, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
+INSERT INTO `r_job_attribute` VALUES (9647, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9648, 1, 0, 'JOB_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
+INSERT INTO `r_job_attribute` VALUES (9649, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
+INSERT INTO `r_job_attribute` VALUES (9650, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9651, 1, 0, 'JOB_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
+INSERT INTO `r_job_attribute` VALUES (9652, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
+INSERT INTO `r_job_attribute` VALUES (9653, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9654, 1, 0, 'JOB_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
+INSERT INTO `r_job_attribute` VALUES (9655, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
+INSERT INTO `r_job_attribute` VALUES (9656, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9657, 1, 0, 'JOB_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9658, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9659, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9660, 1, 0, 'JOB_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_job_attribute` VALUES (9661, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_job_attribute` VALUES (9662, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9663, 1, 0, 'JOB_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
+INSERT INTO `r_job_attribute` VALUES (9664, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
+INSERT INTO `r_job_attribute` VALUES (9665, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9666, 1, 0, 'JOB_LOG_TABLE_FIELD_ID19', 0, 'START_JOB_ENTRY');
+INSERT INTO `r_job_attribute` VALUES (9667, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME19', 0, 'START_JOB_ENTRY');
+INSERT INTO `r_job_attribute` VALUES (9668, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9669, 1, 0, 'JOB_LOG_TABLE_FIELD_ID20', 0, 'CLIENT');
+INSERT INTO `r_job_attribute` VALUES (9670, 1, 0, 'JOB_LOG_TABLE_FIELD_NAME20', 0, 'CLIENT');
+INSERT INTO `r_job_attribute` VALUES (9671, 1, 0, 'JOB_LOG_TABLE_FIELD_ENABLED20', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9672, 1, 0, 'JOBLOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9673, 1, 0, 'JOBLOG_TABLE_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9674, 1, 0, 'JOB_ENTRY_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9675, 1, 0, 'JOB_ENTRY_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9676, 1, 0, 'JOB_ENTRY_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9677, 1, 0, 'JOB_ENTRY_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9678, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9679, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9680, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9681, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9682, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9683, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9684, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9685, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9686, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9687, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID3', 0, 'JOBNAME');
+INSERT INTO `r_job_attribute` VALUES (9688, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_job_attribute` VALUES (9689, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9690, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID4', 0, 'JOBENTRYNAME');
+INSERT INTO `r_job_attribute` VALUES (9691, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_job_attribute` VALUES (9692, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9693, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID5', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9694, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME5', 0, 'LINES_READ');
+INSERT INTO `r_job_attribute` VALUES (9695, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9696, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID6', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9697, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME6', 0, 'LINES_WRITTEN');
+INSERT INTO `r_job_attribute` VALUES (9698, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9699, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID7', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9700, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME7', 0, 'LINES_UPDATED');
+INSERT INTO `r_job_attribute` VALUES (9701, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9702, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID8', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9703, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME8', 0, 'LINES_INPUT');
+INSERT INTO `r_job_attribute` VALUES (9704, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9705, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID9', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9706, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME9', 0, 'LINES_OUTPUT');
+INSERT INTO `r_job_attribute` VALUES (9707, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9708, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID10', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9709, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME10', 0, 'LINES_REJECTED');
+INSERT INTO `r_job_attribute` VALUES (9710, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9711, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID11', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9712, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME11', 0, 'ERRORS');
+INSERT INTO `r_job_attribute` VALUES (9713, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9714, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID12', 0, 'RESULT');
+INSERT INTO `r_job_attribute` VALUES (9715, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME12', 0, 'RESULT');
+INSERT INTO `r_job_attribute` VALUES (9716, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9717, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID13', 0, 'NR_RESULT_ROWS');
+INSERT INTO `r_job_attribute` VALUES (9718, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME13', 0, 'NR_RESULT_ROWS');
+INSERT INTO `r_job_attribute` VALUES (9719, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9720, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID14', 0, 'NR_RESULT_FILES');
+INSERT INTO `r_job_attribute` VALUES (9721, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME14', 0, 'NR_RESULT_FILES');
+INSERT INTO `r_job_attribute` VALUES (9722, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9723, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID15', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9724, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME15', 0, 'LOG_FIELD');
+INSERT INTO `r_job_attribute` VALUES (9725, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED15', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9726, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ID16', 0, 'COPY_NR');
+INSERT INTO `r_job_attribute` VALUES (9727, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_NAME16', 0, 'COPY_NR');
+INSERT INTO `r_job_attribute` VALUES (9728, 1, 0, 'JOB_ENTRY_LOG_TABLE_FIELD_ENABLED16', 0, 'N');
+INSERT INTO `r_job_attribute` VALUES (9729, 1, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9730, 1, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9731, 1, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9732, 1, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_job_attribute` VALUES (9733, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9734, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_job_attribute` VALUES (9735, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9736, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9737, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9738, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9739, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9740, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_job_attribute` VALUES (9741, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9742, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_job_attribute` VALUES (9743, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_job_attribute` VALUES (9744, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9745, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
+INSERT INTO `r_job_attribute` VALUES (9746, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
+INSERT INTO `r_job_attribute` VALUES (9747, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9748, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
+INSERT INTO `r_job_attribute` VALUES (9749, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
+INSERT INTO `r_job_attribute` VALUES (9750, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9751, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_job_attribute` VALUES (9752, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_job_attribute` VALUES (9753, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9754, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
+INSERT INTO `r_job_attribute` VALUES (9755, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
+INSERT INTO `r_job_attribute` VALUES (9756, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9757, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
+INSERT INTO `r_job_attribute` VALUES (9758, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
+INSERT INTO `r_job_attribute` VALUES (9759, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9760, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_job_attribute` VALUES (9761, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_job_attribute` VALUES (9762, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9763, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9764, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9765, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_job_attribute` VALUES (9766, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9767, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_job_attribute` VALUES (9768, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
 
 -- ----------------------------
 -- Table structure for r_job_hop
@@ -2339,21 +2323,11 @@ CREATE TABLE `r_job_hop`  (
   `EVALUATION` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `UNCONDITIONAL` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_JOB_HOP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_job_hop
 -- ----------------------------
-INSERT INTO `r_job_hop` VALUES (114, 6, 126, 128, '1', '1', '1');
-INSERT INTO `r_job_hop` VALUES (115, 6, 128, 127, '1', '1', '0');
-INSERT INTO `r_job_hop` VALUES (120, 1, 135, 137, '1', '1', '1');
-INSERT INTO `r_job_hop` VALUES (121, 1, 137, 140, '1', '1', '1');
-INSERT INTO `r_job_hop` VALUES (122, 1, 140, 136, '1', '1', '0');
-INSERT INTO `r_job_hop` VALUES (123, 1, 140, 138, '0', '0', '0');
-INSERT INTO `r_job_hop` VALUES (124, 1, 138, 141, '0', '1', '0');
-INSERT INTO `r_job_hop` VALUES (125, 1, 141, 139, '1', '1', '0');
-INSERT INTO `r_job_hop` VALUES (126, 1, 139, 136, '1', '1', '0');
-INSERT INTO `r_job_hop` VALUES (127, 1, 140, 141, '1', '0', '0');
 INSERT INTO `r_job_hop` VALUES (128, 2, 142, 143, '1', '1', '0');
 INSERT INTO `r_job_hop` VALUES (129, 2, 144, 142, '1', '1', '1');
 INSERT INTO `r_job_hop` VALUES (144, 7, 166, 168, '1', '1', '1');
@@ -2401,6 +2375,14 @@ INSERT INTO `r_job_hop` VALUES (224, 8, 228, 227, '1', '1', '1');
 INSERT INTO `r_job_hop` VALUES (225, 8, 227, 229, '1', '1', '0');
 INSERT INTO `r_job_hop` VALUES (226, 10, 230, 231, '1', '1', '1');
 INSERT INTO `r_job_hop` VALUES (227, 10, 231, 232, '1', '1', '0');
+INSERT INTO `r_job_hop` VALUES (228, 12, 233, 235, '1', '1', '1');
+INSERT INTO `r_job_hop` VALUES (229, 12, 235, 234, '1', '1', '0');
+INSERT INTO `r_job_hop` VALUES (230, 1, 236, 238, '1', '1', '1');
+INSERT INTO `r_job_hop` VALUES (231, 1, 238, 240, '1', '1', '1');
+INSERT INTO `r_job_hop` VALUES (232, 1, 240, 237, '1', '1', '0');
+INSERT INTO `r_job_hop` VALUES (233, 1, 241, 239, '1', '1', '0');
+INSERT INTO `r_job_hop` VALUES (234, 1, 239, 237, '1', '1', '0');
+INSERT INTO `r_job_hop` VALUES (235, 1, 240, 241, '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for r_job_lock
@@ -2413,7 +2395,7 @@ CREATE TABLE `r_job_lock`  (
   `LOCK_MESSAGE` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `LOCK_DATE` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`ID_JOB_LOCK`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_job_lock
@@ -2426,7 +2408,7 @@ DROP TABLE IF EXISTS `r_job_note`;
 CREATE TABLE `r_job_note`  (
   `ID_JOB` int NULL DEFAULT NULL,
   `ID_NOTE` int NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_job_note
@@ -2444,21 +2426,11 @@ CREATE TABLE `r_jobentry`  (
   `NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `DESCRIPTION` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_JOBENTRY`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_jobentry
 -- ----------------------------
-INSERT INTO `r_jobentry` VALUES (126, 6, 74, 'START', NULL);
-INSERT INTO `r_jobentry` VALUES (127, 6, 59, '成功', NULL);
-INSERT INTO `r_jobentry` VALUES (128, 6, 91, 'kettle简单扩展作业插件', NULL);
-INSERT INTO `r_jobentry` VALUES (135, 1, 74, 'START', NULL);
-INSERT INTO `r_jobentry` VALUES (136, 1, 59, '成功', NULL);
-INSERT INTO `r_jobentry` VALUES (137, 1, 87, '获取公网ip', NULL);
-INSERT INTO `r_jobentry` VALUES (138, 1, 32, 'aliyun-dns.bat', NULL);
-INSERT INTO `r_jobentry` VALUES (139, 1, 86, '设置变量', NULL);
-INSERT INTO `r_jobentry` VALUES (140, 1, 69, '检验字段的值', NULL);
-INSERT INTO `r_jobentry` VALUES (141, 1, 32, 'aliyun-dns.bat 2', NULL);
 INSERT INTO `r_jobentry` VALUES (142, 2, 32, 'shell', NULL);
 INSERT INTO `r_jobentry` VALUES (143, 2, 59, '成功', NULL);
 INSERT INTO `r_jobentry` VALUES (144, 2, 74, 'START', NULL);
@@ -2500,6 +2472,15 @@ INSERT INTO `r_jobentry` VALUES (229, 8, 59, '成功', NULL);
 INSERT INTO `r_jobentry` VALUES (230, 10, 74, 'START', NULL);
 INSERT INTO `r_jobentry` VALUES (231, 10, 32, 'shell', NULL);
 INSERT INTO `r_jobentry` VALUES (232, 10, 59, '成功', NULL);
+INSERT INTO `r_jobentry` VALUES (233, 12, 74, 'START', NULL);
+INSERT INTO `r_jobentry` VALUES (234, 12, 59, '成功', NULL);
+INSERT INTO `r_jobentry` VALUES (235, 12, 91, 'kettle简单扩展作业插件', NULL);
+INSERT INTO `r_jobentry` VALUES (236, 1, 74, 'START', NULL);
+INSERT INTO `r_jobentry` VALUES (237, 1, 59, '成功', NULL);
+INSERT INTO `r_jobentry` VALUES (238, 1, 87, '获取公网ip', NULL);
+INSERT INTO `r_jobentry` VALUES (239, 1, 86, '设置变量', NULL);
+INSERT INTO `r_jobentry` VALUES (240, 1, 69, '检验字段的值', NULL);
+INSERT INTO `r_jobentry` VALUES (241, 1, 32, 'aliyun-dns.bat', NULL);
 
 -- ----------------------------
 -- Table structure for r_jobentry_attribute
@@ -2515,114 +2496,11 @@ CREATE TABLE `r_jobentry_attribute`  (
   `VALUE_STR` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_JOBENTRY_ATTRIBUTE`) USING BTREE,
   UNIQUE INDEX `IDX_RJEA`(`ID_JOBENTRY_ATTRIBUTE`, `CODE`, `NR`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_jobentry_attribute
 -- ----------------------------
-INSERT INTO `r_jobentry_attribute` VALUES (1207, 6, 126, 0, 'start', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1208, 6, 126, 0, 'dummy', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1209, 6, 126, 0, 'repeat', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1210, 6, 126, 0, 'schedulerType', 1, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1211, 6, 126, 0, 'intervalSeconds', 15, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1212, 6, 126, 0, 'intervalMinutes', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1213, 6, 126, 0, 'hour', 12, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1214, 6, 126, 0, 'minutes', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1215, 6, 126, 0, 'weekDay', 1, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1216, 6, 126, 0, 'dayOfMonth', 1, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1217, 6, 126, 0, 'initStart', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1218, 6, 126, 0, 'cron', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1219, 6, 128, 0, 'configInfo', 0, '{}');
-INSERT INTO `r_jobentry_attribute` VALUES (1220, 6, 128, 0, 'className', 0, 'cn.benma666.kettle.job.JobManager');
-INSERT INTO `r_jobentry_attribute` VALUES (1271, 1, 135, 0, 'start', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1272, 1, 135, 0, 'dummy', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1273, 1, 135, 0, 'repeat', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1274, 1, 135, 0, 'schedulerType', 1, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1275, 1, 135, 0, 'intervalSeconds', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1276, 1, 135, 0, 'intervalMinutes', 5, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1277, 1, 135, 0, 'hour', 12, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1278, 1, 135, 0, 'minutes', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1279, 1, 135, 0, 'weekDay', 1, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1280, 1, 135, 0, 'dayOfMonth', 1, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1281, 1, 135, 0, 'initStart', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1282, 1, 135, 0, 'cron', 0, '0 2 * * * ? *');
-INSERT INTO `r_jobentry_attribute` VALUES (1283, 1, 137, 0, 'specification_method', 0, 'rep_name');
-INSERT INTO `r_jobentry_attribute` VALUES (1284, 1, 137, 0, 'trans_object_id', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1285, 1, 137, 0, 'name', 0, '获取公网ip');
-INSERT INTO `r_jobentry_attribute` VALUES (1286, 1, 137, 0, 'dir_path', 0, '/other/获取公网ip');
-INSERT INTO `r_jobentry_attribute` VALUES (1287, 1, 137, 0, 'file_name', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1288, 1, 137, 0, 'arg_from_previous', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1289, 1, 137, 0, 'params_from_previous', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1290, 1, 137, 0, 'exec_per_row', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1291, 1, 137, 0, 'clear_rows', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1292, 1, 137, 0, 'clear_files', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1293, 1, 137, 0, 'set_logfile', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1294, 1, 137, 0, 'add_date', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1295, 1, 137, 0, 'add_time', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1296, 1, 137, 0, 'logfile', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1297, 1, 137, 0, 'logext', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1298, 1, 137, 0, 'loglevel', 0, 'Basic');
-INSERT INTO `r_jobentry_attribute` VALUES (1299, 1, 137, 0, 'cluster', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1300, 1, 137, 0, 'slave_server_name', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1301, 1, 137, 0, 'set_append_logfile', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1302, 1, 137, 0, 'wait_until_finished', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1303, 1, 137, 0, 'follow_abort_remote', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1304, 1, 137, 0, 'create_parent_folder', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1305, 1, 137, 0, 'logging_remote_work', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1306, 1, 137, 0, 'run_configuration', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1307, 1, 137, 0, 'pass_all_parameters', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1308, 1, 138, 0, 'file_name', 0, 'D:\\devtool\\aliyun-dns\\aliyun-dns.bat');
-INSERT INTO `r_jobentry_attribute` VALUES (1309, 1, 138, 0, 'work_directory', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1310, 1, 138, 0, 'arg_from_previous', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1311, 1, 138, 0, 'exec_per_row', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1312, 1, 138, 0, 'set_logfile', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1313, 1, 138, 0, 'set_append_logfile', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1314, 1, 138, 0, 'add_date', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1315, 1, 138, 0, 'add_time', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1316, 1, 138, 0, 'logfile', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1317, 1, 138, 0, 'logext', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1318, 1, 138, 0, 'loglevel', 0, 'Basic');
-INSERT INTO `r_jobentry_attribute` VALUES (1319, 1, 138, 0, 'insertScript', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1320, 1, 138, 0, 'script', 0, 'java  -DACCESS_KEY_ID=LTAI5tEQEw1KSuktsUFFxoFf -DACCESS_KEY_SECRET=YrLd90Wqg8kN4vMSVZB4Vxo9EeeEhg  -jar D:\\devtool\\aliyun-dns.jar  \"\" \"123.146.223.212\" \"benma666.cn\" \"my\" \"A\"');
-INSERT INTO `r_jobentry_attribute` VALUES (1321, 1, 138, 0, 'argument', 0, '${dqip}');
-INSERT INTO `r_jobentry_attribute` VALUES (1322, 1, 138, 1, 'argument', 0, 'benma666.cn');
-INSERT INTO `r_jobentry_attribute` VALUES (1323, 1, 138, 2, 'argument', 0, 'my');
-INSERT INTO `r_jobentry_attribute` VALUES (1324, 1, 138, 3, 'argument', 0, 'A');
-INSERT INTO `r_jobentry_attribute` VALUES (1325, 1, 139, 0, 'replacevars', 0, 'Y');
-INSERT INTO `r_jobentry_attribute` VALUES (1326, 1, 139, 0, 'filename', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1327, 1, 139, 0, 'file_variable_type', 0, 'ROOT_JOB');
-INSERT INTO `r_jobentry_attribute` VALUES (1328, 1, 139, 0, 'variable_name', 0, 'msg');
-INSERT INTO `r_jobentry_attribute` VALUES (1329, 1, 139, 0, 'variable_value', 0, 'none');
-INSERT INTO `r_jobentry_attribute` VALUES (1330, 1, 139, 0, 'variable_type', 0, 'ROOT_JOB');
-INSERT INTO `r_jobentry_attribute` VALUES (1331, 1, 140, 0, 'valuetype', 0, 'variable');
-INSERT INTO `r_jobentry_attribute` VALUES (1332, 1, 140, 0, 'fieldname', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1333, 1, 140, 0, 'variablename', 0, '${msg}');
-INSERT INTO `r_jobentry_attribute` VALUES (1334, 1, 140, 0, 'fieldtype', 0, 'string');
-INSERT INTO `r_jobentry_attribute` VALUES (1335, 1, 140, 0, 'mask', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1336, 1, 140, 0, 'comparevalue', 0, 'none');
-INSERT INTO `r_jobentry_attribute` VALUES (1337, 1, 140, 0, 'minvalue', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1338, 1, 140, 0, 'maxvalue', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1339, 1, 140, 0, 'successcondition', 0, 'equal');
-INSERT INTO `r_jobentry_attribute` VALUES (1340, 1, 140, 0, 'successnumbercondition', 0, 'equal');
-INSERT INTO `r_jobentry_attribute` VALUES (1341, 1, 140, 0, 'successbooleancondition', 0, 'false');
-INSERT INTO `r_jobentry_attribute` VALUES (1342, 1, 140, 0, 'successwhenvarset', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1343, 1, 141, 0, 'file_name', 0, 'D:\\devtool\\aliyun-dns\\aliyun-dns.bat');
-INSERT INTO `r_jobentry_attribute` VALUES (1344, 1, 141, 0, 'work_directory', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1345, 1, 141, 0, 'arg_from_previous', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1346, 1, 141, 0, 'exec_per_row', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1347, 1, 141, 0, 'set_logfile', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1348, 1, 141, 0, 'set_append_logfile', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1349, 1, 141, 0, 'add_date', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1350, 1, 141, 0, 'add_time', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1351, 1, 141, 0, 'logfile', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1352, 1, 141, 0, 'logext', 0, NULL);
-INSERT INTO `r_jobentry_attribute` VALUES (1353, 1, 141, 0, 'loglevel', 0, 'Basic');
-INSERT INTO `r_jobentry_attribute` VALUES (1354, 1, 141, 0, 'insertScript', 0, 'N');
-INSERT INTO `r_jobentry_attribute` VALUES (1355, 1, 141, 0, 'script', 0, 'java  -DACCESS_KEY_ID=LTAI5tEQEw1KSuktsUFFxoFf -DACCESS_KEY_SECRET=YrLd90Wqg8kN4vMSVZB4Vxo9EeeEhg  -jar D:\\devtool\\aliyun-dns.jar  \"\" \"123.146.223.212\" \"benma666.cn\" \"my\" \"A\"');
-INSERT INTO `r_jobentry_attribute` VALUES (1356, 1, 141, 0, 'argument', 0, '${dqip}');
-INSERT INTO `r_jobentry_attribute` VALUES (1357, 1, 141, 1, 'argument', 0, 'trimdata.cn');
-INSERT INTO `r_jobentry_attribute` VALUES (1358, 1, 141, 2, 'argument', 0, '@');
-INSERT INTO `r_jobentry_attribute` VALUES (1359, 1, 141, 3, 'argument', 0, 'A');
 INSERT INTO `r_jobentry_attribute` VALUES (1360, 2, 142, 0, 'file_name', 0, NULL);
 INSERT INTO `r_jobentry_attribute` VALUES (1361, 2, 142, 0, 'work_directory', 0, 'd:');
 INSERT INTO `r_jobentry_attribute` VALUES (1362, 2, 142, 0, 'arg_from_previous', 0, 'N');
@@ -3128,6 +3006,92 @@ INSERT INTO `r_jobentry_attribute` VALUES (2415, 10, 231, 0, 'logext', 0, NULL);
 INSERT INTO `r_jobentry_attribute` VALUES (2416, 10, 231, 0, 'loglevel', 0, 'Basic');
 INSERT INTO `r_jobentry_attribute` VALUES (2417, 10, 231, 0, 'insertScript', 0, 'Y');
 INSERT INTO `r_jobentry_attribute` VALUES (2418, 10, 231, 0, 'script', 0, 'dir');
+INSERT INTO `r_jobentry_attribute` VALUES (2419, 12, 233, 0, 'start', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2420, 12, 233, 0, 'dummy', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2421, 12, 233, 0, 'repeat', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2422, 12, 233, 0, 'schedulerType', 1, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2423, 12, 233, 0, 'intervalSeconds', 15, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2424, 12, 233, 0, 'intervalMinutes', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2425, 12, 233, 0, 'hour', 12, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2426, 12, 233, 0, 'minutes', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2427, 12, 233, 0, 'weekDay', 1, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2428, 12, 233, 0, 'dayOfMonth', 1, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2429, 12, 233, 0, 'initStart', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2430, 12, 233, 0, 'cron', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2431, 12, 235, 0, 'configInfo', 0, '{}');
+INSERT INTO `r_jobentry_attribute` VALUES (2432, 12, 235, 0, 'className', 0, 'cn.benma666.kettle.job.JobManager');
+INSERT INTO `r_jobentry_attribute` VALUES (2433, 1, 236, 0, 'start', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2434, 1, 236, 0, 'dummy', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2435, 1, 236, 0, 'repeat', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2436, 1, 236, 0, 'schedulerType', 1, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2437, 1, 236, 0, 'intervalSeconds', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2438, 1, 236, 0, 'intervalMinutes', 5, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2439, 1, 236, 0, 'hour', 12, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2440, 1, 236, 0, 'minutes', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2441, 1, 236, 0, 'weekDay', 1, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2442, 1, 236, 0, 'dayOfMonth', 1, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2443, 1, 236, 0, 'initStart', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2444, 1, 236, 0, 'cron', 0, '0 2 * * * ? *');
+INSERT INTO `r_jobentry_attribute` VALUES (2445, 1, 238, 0, 'specification_method', 0, 'rep_name');
+INSERT INTO `r_jobentry_attribute` VALUES (2446, 1, 238, 0, 'trans_object_id', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2447, 1, 238, 0, 'name', 0, '获取公网ip');
+INSERT INTO `r_jobentry_attribute` VALUES (2448, 1, 238, 0, 'dir_path', 0, '/other/获取公网ip');
+INSERT INTO `r_jobentry_attribute` VALUES (2449, 1, 238, 0, 'file_name', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2450, 1, 238, 0, 'arg_from_previous', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2451, 1, 238, 0, 'params_from_previous', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2452, 1, 238, 0, 'exec_per_row', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2453, 1, 238, 0, 'clear_rows', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2454, 1, 238, 0, 'clear_files', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2455, 1, 238, 0, 'set_logfile', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2456, 1, 238, 0, 'add_date', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2457, 1, 238, 0, 'add_time', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2458, 1, 238, 0, 'logfile', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2459, 1, 238, 0, 'logext', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2460, 1, 238, 0, 'loglevel', 0, 'Basic');
+INSERT INTO `r_jobentry_attribute` VALUES (2461, 1, 238, 0, 'cluster', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2462, 1, 238, 0, 'slave_server_name', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2463, 1, 238, 0, 'set_append_logfile', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2464, 1, 238, 0, 'wait_until_finished', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2465, 1, 238, 0, 'follow_abort_remote', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2466, 1, 238, 0, 'create_parent_folder', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2467, 1, 238, 0, 'logging_remote_work', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2468, 1, 238, 0, 'run_configuration', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2469, 1, 238, 0, 'pass_all_parameters', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2470, 1, 239, 0, 'replacevars', 0, 'Y');
+INSERT INTO `r_jobentry_attribute` VALUES (2471, 1, 239, 0, 'filename', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2472, 1, 239, 0, 'file_variable_type', 0, 'ROOT_JOB');
+INSERT INTO `r_jobentry_attribute` VALUES (2473, 1, 239, 0, 'variable_name', 0, 'msg');
+INSERT INTO `r_jobentry_attribute` VALUES (2474, 1, 239, 0, 'variable_value', 0, 'none');
+INSERT INTO `r_jobentry_attribute` VALUES (2475, 1, 239, 0, 'variable_type', 0, 'ROOT_JOB');
+INSERT INTO `r_jobentry_attribute` VALUES (2476, 1, 240, 0, 'valuetype', 0, 'variable');
+INSERT INTO `r_jobentry_attribute` VALUES (2477, 1, 240, 0, 'fieldname', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2478, 1, 240, 0, 'variablename', 0, '${msg}');
+INSERT INTO `r_jobentry_attribute` VALUES (2479, 1, 240, 0, 'fieldtype', 0, 'string');
+INSERT INTO `r_jobentry_attribute` VALUES (2480, 1, 240, 0, 'mask', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2481, 1, 240, 0, 'comparevalue', 0, 'none');
+INSERT INTO `r_jobentry_attribute` VALUES (2482, 1, 240, 0, 'minvalue', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2483, 1, 240, 0, 'maxvalue', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2484, 1, 240, 0, 'successcondition', 0, 'equal');
+INSERT INTO `r_jobentry_attribute` VALUES (2485, 1, 240, 0, 'successnumbercondition', 0, 'equal');
+INSERT INTO `r_jobentry_attribute` VALUES (2486, 1, 240, 0, 'successbooleancondition', 0, 'false');
+INSERT INTO `r_jobentry_attribute` VALUES (2487, 1, 240, 0, 'successwhenvarset', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2488, 1, 241, 0, 'file_name', 0, 'D:\\devtool\\aliyun-dns\\aliyun-dns.bat');
+INSERT INTO `r_jobentry_attribute` VALUES (2489, 1, 241, 0, 'work_directory', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2490, 1, 241, 0, 'arg_from_previous', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2491, 1, 241, 0, 'exec_per_row', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2492, 1, 241, 0, 'set_logfile', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2493, 1, 241, 0, 'set_append_logfile', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2494, 1, 241, 0, 'add_date', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2495, 1, 241, 0, 'add_time', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2496, 1, 241, 0, 'logfile', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2497, 1, 241, 0, 'logext', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2498, 1, 241, 0, 'loglevel', 0, 'Basic');
+INSERT INTO `r_jobentry_attribute` VALUES (2499, 1, 241, 0, 'insertScript', 0, 'N');
+INSERT INTO `r_jobentry_attribute` VALUES (2500, 1, 241, 0, 'script', 0, NULL);
+INSERT INTO `r_jobentry_attribute` VALUES (2501, 1, 241, 0, 'argument', 0, '${dqip}');
+INSERT INTO `r_jobentry_attribute` VALUES (2502, 1, 241, 1, 'argument', 0, 'trimdata.cn');
+INSERT INTO `r_jobentry_attribute` VALUES (2503, 1, 241, 2, 'argument', 0, '@');
+INSERT INTO `r_jobentry_attribute` VALUES (2504, 1, 241, 3, 'argument', 0, 'A');
 
 -- ----------------------------
 -- Table structure for r_jobentry_copy
@@ -3144,21 +3108,11 @@ CREATE TABLE `r_jobentry_copy`  (
   `GUI_DRAW` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `PARALLEL` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_JOBENTRY_COPY`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_jobentry_copy
 -- ----------------------------
-INSERT INTO `r_jobentry_copy` VALUES (126, 126, 6, 74, 0, 162, 240, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (127, 127, 6, 59, 0, 521, 241, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (128, 128, 6, 91, 0, 352, 240, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (135, 135, 1, 74, 0, 158, 138, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (136, 136, 1, 59, 0, 779, 138, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (137, 137, 1, 87, 0, 339, 139, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (138, 138, 1, 32, 0, 471, 289, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (139, 139, 1, 86, 0, 781, 288, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (140, 140, 1, 69, 0, 469, 136, '1', '0');
-INSERT INTO `r_jobentry_copy` VALUES (141, 141, 1, 32, 0, 635, 291, '1', '0');
 INSERT INTO `r_jobentry_copy` VALUES (142, 142, 2, 32, 0, 265, 183, '1', '0');
 INSERT INTO `r_jobentry_copy` VALUES (143, 143, 2, 59, 0, 409, 183, '1', '0');
 INSERT INTO `r_jobentry_copy` VALUES (144, 144, 2, 74, 0, 121, 183, '1', '0');
@@ -3200,6 +3154,15 @@ INSERT INTO `r_jobentry_copy` VALUES (229, 229, 8, 59, 0, 521, 241, '1', '0');
 INSERT INTO `r_jobentry_copy` VALUES (230, 230, 10, 74, 0, 121, 183, '1', '0');
 INSERT INTO `r_jobentry_copy` VALUES (231, 231, 10, 32, 0, 265, 183, '1', '0');
 INSERT INTO `r_jobentry_copy` VALUES (232, 232, 10, 59, 0, 409, 183, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (233, 233, 12, 74, 0, 162, 240, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (234, 234, 12, 59, 0, 521, 241, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (235, 235, 12, 91, 0, 352, 240, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (236, 236, 1, 74, 0, 158, 138, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (237, 237, 1, 59, 0, 779, 138, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (238, 238, 1, 87, 0, 339, 139, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (239, 239, 1, 86, 0, 781, 288, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (240, 240, 1, 69, 0, 469, 136, '1', '0');
+INSERT INTO `r_jobentry_copy` VALUES (241, 241, 1, 32, 0, 464, 288, '1', '0');
 
 -- ----------------------------
 -- Table structure for r_jobentry_database
@@ -3211,7 +3174,7 @@ CREATE TABLE `r_jobentry_database`  (
   `ID_DATABASE` int NULL DEFAULT NULL,
   INDEX `IDX_RJD1`(`ID_JOB`) USING BTREE,
   INDEX `IDX_RJD2`(`ID_DATABASE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_jobentry_database
@@ -3226,7 +3189,7 @@ CREATE TABLE `r_jobentry_type`  (
   `CODE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `DESCRIPTION` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_JOBENTRY_TYPE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_jobentry_type
@@ -3339,7 +3302,7 @@ CREATE TABLE `r_log`  (
   `ID_DATABASE_LOG` int NULL DEFAULT NULL,
   `TABLE_NAME_LOG` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_LOG`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_log
@@ -3354,7 +3317,7 @@ CREATE TABLE `r_loglevel`  (
   `CODE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `DESCRIPTION` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_LOGLEVEL`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_loglevel
@@ -3374,7 +3337,7 @@ CREATE TABLE `r_namespace`  (
   `ID_NAMESPACE` bigint NOT NULL,
   `NAME` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_NAMESPACE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_namespace
@@ -3406,7 +3369,7 @@ CREATE TABLE `r_note`  (
   `FONT_BORDER_COLOR_BLUE` int NULL DEFAULT NULL,
   `DRAW_SHADOW` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_NOTE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_note
@@ -3422,7 +3385,7 @@ CREATE TABLE `r_partition`  (
   `ID_PARTITION_SCHEMA` int NULL DEFAULT NULL,
   `PARTITION_ID` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_PARTITION`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_partition
@@ -3438,7 +3401,7 @@ CREATE TABLE `r_partition_schema`  (
   `DYNAMIC_DEFINITION` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `PARTITIONS_PER_SLAVE` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_PARTITION_SCHEMA`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_partition_schema
@@ -3455,7 +3418,7 @@ CREATE TABLE `r_repository_log`  (
   `LOG_USER` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `OPERATION_DESC` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_REPOSITORY_LOG`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_repository_log
@@ -3615,11 +3578,13 @@ CREATE TABLE `r_slave`  (
   `NON_PROXY_HOSTS` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `MASTER` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_SLAVE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_slave
 -- ----------------------------
+INSERT INTO `r_slave` VALUES (1, 'master1', 'localhost', '8080', NULL, 'cluster', 'Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8', NULL, NULL, NULL, '1');
+INSERT INTO `r_slave` VALUES (2, 'slave2', 'localhost', '8082', NULL, 'cluster', 'Encrypted 2be98afc86aa7f2e4cb1aa265cd86aac8', NULL, NULL, NULL, '0');
 
 -- ----------------------------
 -- Table structure for r_step
@@ -3638,20 +3603,11 @@ CREATE TABLE `r_step`  (
   `GUI_DRAW` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `COPIES_STRING` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_STEP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_step
 -- ----------------------------
-INSERT INTO `r_step` VALUES (1, 1, 'HTTP client', NULL, 43, '1', 1, 204, 98, '1', '1');
-INSERT INTO `r_step` VALUES (2, 1, 'HTTP client 2', NULL, 43, '1', 1, 201, 198, '1', '1');
-INSERT INTO `r_step` VALUES (3, 1, 'JavaScript代码', NULL, 48, '1', 1, 335, 98, '1', '1');
-INSERT INTO `r_step` VALUES (4, 1, 'JavaScript代码 2', NULL, 48, '1', 1, 334, 196, '1', '1');
-INSERT INTO `r_step` VALUES (5, 1, 'Switch / Case', NULL, 109, '1', 1, 472, 100, '1', '1');
-INSERT INTO `r_step` VALUES (6, 1, '写日志', NULL, 131, '1', 1, 610, 99, '1', '1');
-INSERT INTO `r_step` VALUES (7, 1, '发送邮件', NULL, 142, '1', 1, 476, 208, '1', '1');
-INSERT INTO `r_step` VALUES (8, 1, '获取变量', NULL, 206, '1', 1, 73, 98, '1', '1');
-INSERT INTO `r_step` VALUES (9, 1, '设置变量', NULL, 222, '1', 1, 615, 206, '1', '1');
 INSERT INTO `r_step` VALUES (10, 2, 'JavaScript代码', NULL, 48, '1', 1, 333, 122, '1', '1');
 INSERT INTO `r_step` VALUES (11, 2, '获取系统信息', NULL, 210, '1', 1, 130, 120, '1', '1');
 INSERT INTO `r_step` VALUES (12, 2, '设置变量', NULL, 222, '1', 1, 521, 128, '1', '1');
@@ -3671,6 +3627,26 @@ INSERT INTO `r_step` VALUES (39, 10, 'HTTP Post', NULL, 44, '1', 1, 392, 177, '1
 INSERT INTO `r_step` VALUES (40, 10, 'HTTP client', NULL, 43, '1', 1, 393, 270, '1', '1');
 INSERT INTO `r_step` VALUES (41, 10, '写日志', NULL, 131, '1', 1, 581, 183, '1', '1');
 INSERT INTO `r_step` VALUES (42, 10, '自定义常量数据', NULL, 205, '1', 1, 133, 180, '1', '1');
+INSERT INTO `r_step` VALUES (43, 11, '写日志', NULL, 131, '1', 1, 350, 228, '1', '1');
+INSERT INTO `r_step` VALUES (44, 11, '日志处理', NULL, 48, '0', 1, 479, 114, '1', '1');
+INSERT INTO `r_step` VALUES (45, 11, '更新', NULL, 180, '1', 1, 482, 228, '1', '1');
+INSERT INTO `r_step` VALUES (46, 11, '根据Java代码过滤记录', NULL, 183, '1', 1, 349, 114, '1', '1');
+INSERT INTO `r_step` VALUES (47, 11, '获取变量', NULL, 206, '0', 1, 219, 114, '1', '1');
+INSERT INTO `r_step` VALUES (48, 11, '获取系统信息', NULL, 210, '1', 1, 89, 114, '1', '1');
+INSERT INTO `r_step` VALUES (49, 11, '表输出', NULL, 216, '1', 1, 609, 114, '1', '1');
+INSERT INTO `r_step` VALUES (50, 12, 'JavaScript代码', NULL, 48, '1', 1, 296, 108, '1', '1');
+INSERT INTO `r_step` VALUES (51, 12, '获取变量', NULL, 206, '1', 1, 187, 106, '1', '1');
+INSERT INTO `r_step` VALUES (52, 12, '表输入', NULL, 215, '1', 1, 81, 109, '1', '1');
+INSERT INTO `r_step` VALUES (53, 12, '设置变量', NULL, 222, '1', 1, 434, 107, '1', '1');
+INSERT INTO `r_step` VALUES (54, 1, 'HTTP client', NULL, 43, '1', 1, 204, 98, '1', '1');
+INSERT INTO `r_step` VALUES (55, 1, 'HTTP client 2', NULL, 43, '1', 1, 201, 198, '1', '1');
+INSERT INTO `r_step` VALUES (56, 1, 'JavaScript代码', NULL, 48, '1', 1, 335, 98, '1', '1');
+INSERT INTO `r_step` VALUES (57, 1, 'JavaScript代码 2', NULL, 48, '1', 1, 334, 196, '1', '1');
+INSERT INTO `r_step` VALUES (58, 1, 'Switch / Case', NULL, 109, '1', 1, 472, 100, '1', '1');
+INSERT INTO `r_step` VALUES (59, 1, '写日志', NULL, 131, '1', 1, 610, 99, '1', '1');
+INSERT INTO `r_step` VALUES (60, 1, '发送邮件', NULL, 142, '1', 1, 476, 208, '1', '1');
+INSERT INTO `r_step` VALUES (61, 1, '获取变量', NULL, 206, '1', 1, 73, 98, '1', '1');
+INSERT INTO `r_step` VALUES (62, 1, '设置变量', NULL, 222, '1', 1, 615, 206, '1', '1');
 
 -- ----------------------------
 -- Table structure for r_step_attribute
@@ -3686,237 +3662,11 @@ CREATE TABLE `r_step_attribute`  (
   `VALUE_STR` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_STEP_ATTRIBUTE`) USING BTREE,
   UNIQUE INDEX `IDX_RSAT`(`ID_STEP`, `CODE`, `NR`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_step_attribute
 -- ----------------------------
-INSERT INTO `r_step_attribute` VALUES (1, 1, 1, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (2, 1, 1, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (3, 1, 1, 0, 'url', 0, 'http://icanhazip.com/');
-INSERT INTO `r_step_attribute` VALUES (4, 1, 1, 0, 'urlInField', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (5, 1, 1, 0, 'urlField', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (6, 1, 1, 0, 'encoding', 0, 'UTF-8');
-INSERT INTO `r_step_attribute` VALUES (7, 1, 1, 0, 'httpLogin', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (8, 1, 1, 0, 'httpPassword', 0, 'Encrypted ');
-INSERT INTO `r_step_attribute` VALUES (9, 1, 1, 0, 'proxyHost', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (10, 1, 1, 0, 'proxyPort', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (11, 1, 1, 0, 'socketTimeout', 0, '10000');
-INSERT INTO `r_step_attribute` VALUES (12, 1, 1, 0, 'connectionTimeout', 0, '10000');
-INSERT INTO `r_step_attribute` VALUES (13, 1, 1, 0, 'closeIdleConnectionsTime', 0, '-1');
-INSERT INTO `r_step_attribute` VALUES (14, 1, 1, 0, 'result_name', 0, 'zxip');
-INSERT INTO `r_step_attribute` VALUES (15, 1, 1, 0, 'result_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (16, 1, 1, 0, 'response_time', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (17, 1, 1, 0, 'response_header', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (18, 1, 1, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (19, 1, 1, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (20, 1, 2, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (21, 1, 2, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (22, 1, 2, 0, 'url', 0, 'https://benma666.cn/myip');
-INSERT INTO `r_step_attribute` VALUES (23, 1, 2, 0, 'urlInField', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (24, 1, 2, 0, 'urlField', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (25, 1, 2, 0, 'encoding', 0, 'UTF-8');
-INSERT INTO `r_step_attribute` VALUES (26, 1, 2, 0, 'httpLogin', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (27, 1, 2, 0, 'httpPassword', 0, 'Encrypted ');
-INSERT INTO `r_step_attribute` VALUES (28, 1, 2, 0, 'proxyHost', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (29, 1, 2, 0, 'proxyPort', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (30, 1, 2, 0, 'socketTimeout', 0, '10000');
-INSERT INTO `r_step_attribute` VALUES (31, 1, 2, 0, 'connectionTimeout', 0, '10000');
-INSERT INTO `r_step_attribute` VALUES (32, 1, 2, 0, 'closeIdleConnectionsTime', 0, '-1');
-INSERT INTO `r_step_attribute` VALUES (33, 1, 2, 0, 'result_name', 0, 'result');
-INSERT INTO `r_step_attribute` VALUES (34, 1, 2, 0, 'result_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (35, 1, 2, 0, 'response_time', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (36, 1, 2, 0, 'response_header', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (37, 1, 2, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (38, 1, 2, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (39, 1, 3, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (40, 1, 3, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (41, 1, 3, 0, 'compatible', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (42, 1, 3, 0, 'optimizationLevel', 0, '9');
-INSERT INTO `r_step_attribute` VALUES (43, 1, 3, 0, 'jsScript_name', 0, 'Script 1');
-INSERT INTO `r_step_attribute` VALUES (44, 1, 3, 0, 'jsScript_script', 0, '//Script here\n//ip变化\nvar ipbh = false;\nvar msg = \"\";\n//替换换行符\nvar zxip1 = zxip.replace(\"\\n\",\"\");\nif(dqip!=zxip1){\n	ipbh = true;\n	msg = \"原IP：\"+dqip+\"，最新IP：\"+zxip1;\n}');
-INSERT INTO `r_step_attribute` VALUES (45, 1, 3, 0, 'jsScript_type', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (46, 1, 3, 0, 'field_name', 0, 'ipbh');
-INSERT INTO `r_step_attribute` VALUES (47, 1, 3, 0, 'field_rename', 0, 'ipbh');
-INSERT INTO `r_step_attribute` VALUES (48, 1, 3, 0, 'field_type', 0, 'Boolean');
-INSERT INTO `r_step_attribute` VALUES (49, 1, 3, 0, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (50, 1, 3, 0, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (51, 1, 3, 0, 'field_replace', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (52, 1, 3, 1, 'field_name', 0, 'msg');
-INSERT INTO `r_step_attribute` VALUES (53, 1, 3, 1, 'field_rename', 0, 'msg');
-INSERT INTO `r_step_attribute` VALUES (54, 1, 3, 1, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (55, 1, 3, 1, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (56, 1, 3, 1, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (57, 1, 3, 1, 'field_replace', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (58, 1, 3, 2, 'field_name', 0, 'zxip1');
-INSERT INTO `r_step_attribute` VALUES (59, 1, 3, 2, 'field_rename', 0, 'zxip1');
-INSERT INTO `r_step_attribute` VALUES (60, 1, 3, 2, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (61, 1, 3, 2, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (62, 1, 3, 2, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (63, 1, 3, 2, 'field_replace', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (64, 1, 3, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (65, 1, 3, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (66, 1, 4, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (67, 1, 4, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (68, 1, 4, 0, 'compatible', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (69, 1, 4, 0, 'optimizationLevel', 0, '9');
-INSERT INTO `r_step_attribute` VALUES (70, 1, 4, 0, 'jsScript_name', 0, 'Script 1');
-INSERT INTO `r_step_attribute` VALUES (71, 1, 4, 0, 'jsScript_script', 0, '//Script here\n//ip变化\nvar ipbh = false;\nvar msg = \"\";\n//var start = result.indexOf(\'14px; \">\')+8;\n//var zxip1 = result.substring(start,result.indexOf(\' \',start));\nvar zxip1=trim(result);\nif(dqip!=zxip1){\n	ipbh = true;\n	msg = \"原IP：\"+dqip+\"，最新IP：\"+zxip1;\n}');
-INSERT INTO `r_step_attribute` VALUES (72, 1, 4, 0, 'jsScript_type', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (73, 1, 4, 0, 'field_name', 0, 'ipbh');
-INSERT INTO `r_step_attribute` VALUES (74, 1, 4, 0, 'field_rename', 0, 'ipbh');
-INSERT INTO `r_step_attribute` VALUES (75, 1, 4, 0, 'field_type', 0, 'Boolean');
-INSERT INTO `r_step_attribute` VALUES (76, 1, 4, 0, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (77, 1, 4, 0, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (78, 1, 4, 0, 'field_replace', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (79, 1, 4, 1, 'field_name', 0, 'msg');
-INSERT INTO `r_step_attribute` VALUES (80, 1, 4, 1, 'field_rename', 0, 'msg');
-INSERT INTO `r_step_attribute` VALUES (81, 1, 4, 1, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (82, 1, 4, 1, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (83, 1, 4, 1, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (84, 1, 4, 1, 'field_replace', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (85, 1, 4, 2, 'field_name', 0, 'zxip1');
-INSERT INTO `r_step_attribute` VALUES (86, 1, 4, 2, 'field_rename', 0, 'zxip1');
-INSERT INTO `r_step_attribute` VALUES (87, 1, 4, 2, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (88, 1, 4, 2, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (89, 1, 4, 2, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (90, 1, 4, 2, 'field_replace', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (91, 1, 4, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (92, 1, 4, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (93, 1, 5, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (94, 1, 5, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (95, 1, 5, 0, 'fieldname', 0, 'ipbh');
-INSERT INTO `r_step_attribute` VALUES (96, 1, 5, 0, 'use_contains', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (97, 1, 5, 0, 'case_value_type', 0, 'Boolean');
-INSERT INTO `r_step_attribute` VALUES (98, 1, 5, 0, 'case_value_format', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (99, 1, 5, 0, 'case_value_decimal', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (100, 1, 5, 0, 'case_value_group', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (101, 1, 5, 0, 'default_target_step', 0, '写日志');
-INSERT INTO `r_step_attribute` VALUES (102, 1, 5, 0, 'case_value', 0, 'true');
-INSERT INTO `r_step_attribute` VALUES (103, 1, 5, 0, 'case_target_step', 0, '发送邮件');
-INSERT INTO `r_step_attribute` VALUES (104, 1, 5, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (105, 1, 5, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (106, 1, 6, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (107, 1, 6, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (108, 1, 6, 0, 'loglevel', 0, 'log_level_basic');
-INSERT INTO `r_step_attribute` VALUES (109, 1, 6, 0, 'displayHeader', 0, 'Y');
-INSERT INTO `r_step_attribute` VALUES (110, 1, 6, 0, 'limitRows', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (111, 1, 6, 0, 'limitRowsNumber', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (112, 1, 6, 0, 'logmessage', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (113, 1, 6, 0, 'field_name', 0, 'zxip1');
-INSERT INTO `r_step_attribute` VALUES (114, 1, 6, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (115, 1, 6, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (116, 1, 7, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (117, 1, 7, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (118, 1, 7, 0, 'server', 0, 'yx_smtp');
-INSERT INTO `r_step_attribute` VALUES (119, 1, 7, 0, 'port', 0, 'yx_smtp_dk');
-INSERT INTO `r_step_attribute` VALUES (120, 1, 7, 0, 'destination', 0, 'yx_zh');
-INSERT INTO `r_step_attribute` VALUES (121, 1, 7, 0, 'destinationCc', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (122, 1, 7, 0, 'destinationBCc', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (123, 1, 7, 0, 'replyToAddresses', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (124, 1, 7, 0, 'replyto', 0, 'yx_zh');
-INSERT INTO `r_step_attribute` VALUES (125, 1, 7, 0, 'replytoname', 0, 'yx_zh');
-INSERT INTO `r_step_attribute` VALUES (126, 1, 7, 0, 'subject', 0, 'zxip1');
-INSERT INTO `r_step_attribute` VALUES (127, 1, 7, 0, 'include_date', 0, 'Y');
-INSERT INTO `r_step_attribute` VALUES (128, 1, 7, 0, 'include_subfolders', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (129, 1, 7, 0, 'zipFilenameDynamic', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (130, 1, 7, 0, 'attachContentFromField', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (131, 1, 7, 0, 'attachContentField', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (132, 1, 7, 0, 'attachContentFileNameField', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (133, 1, 7, 0, 'isFilenameDynamic', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (134, 1, 7, 0, 'dynamicFieldname', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (135, 1, 7, 0, 'dynamicWildcard', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (136, 1, 7, 0, 'dynamicZipFilename', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (137, 1, 7, 0, 'sourcefilefoldername', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (138, 1, 7, 0, 'sourcewildcard', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (139, 1, 7, 0, 'contact_person', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (140, 1, 7, 0, 'contact_phone', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (141, 1, 7, 0, 'comment', 0, 'msg');
-INSERT INTO `r_step_attribute` VALUES (142, 1, 7, 0, 'encoding', 0, 'UTF-8');
-INSERT INTO `r_step_attribute` VALUES (143, 1, 7, 0, 'priority', 0, 'normal');
-INSERT INTO `r_step_attribute` VALUES (144, 1, 7, 0, 'importance', 0, 'normal');
-INSERT INTO `r_step_attribute` VALUES (145, 1, 7, 0, 'sensitivity', 0, 'normal');
-INSERT INTO `r_step_attribute` VALUES (146, 1, 7, 0, 'include_files', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (147, 1, 7, 0, 'use_auth', 0, 'Y');
-INSERT INTO `r_step_attribute` VALUES (148, 1, 7, 0, 'use_secure_auth', 0, 'Y');
-INSERT INTO `r_step_attribute` VALUES (149, 1, 7, 0, 'auth_user', 0, 'yx_zh');
-INSERT INTO `r_step_attribute` VALUES (150, 1, 7, 0, 'auth_password', 0, 'Encrypted 2be98afc86aa7f2e4cb79ce69c6ada2d7');
-INSERT INTO `r_step_attribute` VALUES (151, 1, 7, 0, 'only_comment', 0, 'Y');
-INSERT INTO `r_step_attribute` VALUES (152, 1, 7, 0, 'use_HTML', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (153, 1, 7, 0, 'use_Priority', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (154, 1, 7, 0, 'secureconnectiontype', 0, 'SSL');
-INSERT INTO `r_step_attribute` VALUES (155, 1, 7, 0, 'zip_files', 0, 'N');
-INSERT INTO `r_step_attribute` VALUES (156, 1, 7, 0, 'zip_name', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (157, 1, 7, 0, 'zip_limit_size', 0, '0');
-INSERT INTO `r_step_attribute` VALUES (158, 1, 7, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (159, 1, 7, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (160, 1, 8, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (161, 1, 8, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (162, 1, 8, 0, 'field_name', 0, 'dqip');
-INSERT INTO `r_step_attribute` VALUES (163, 1, 8, 0, 'field_variable', 0, '${dqip}');
-INSERT INTO `r_step_attribute` VALUES (164, 1, 8, 0, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (165, 1, 8, 0, 'field_format', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (166, 1, 8, 0, 'field_currency', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (167, 1, 8, 0, 'field_decimal', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (168, 1, 8, 0, 'field_group', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (169, 1, 8, 0, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (170, 1, 8, 0, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (171, 1, 8, 0, 'field_trim_type', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (172, 1, 8, 1, 'field_name', 0, 'yx_zh');
-INSERT INTO `r_step_attribute` VALUES (173, 1, 8, 1, 'field_variable', 0, 'jinjuma@yeah.net');
-INSERT INTO `r_step_attribute` VALUES (174, 1, 8, 1, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (175, 1, 8, 1, 'field_format', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (176, 1, 8, 1, 'field_currency', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (177, 1, 8, 1, 'field_decimal', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (178, 1, 8, 1, 'field_group', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (179, 1, 8, 1, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (180, 1, 8, 1, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (181, 1, 8, 1, 'field_trim_type', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (182, 1, 8, 2, 'field_name', 0, 'yx_mm');
-INSERT INTO `r_step_attribute` VALUES (183, 1, 8, 2, 'field_variable', 0, 'Majinju1990.');
-INSERT INTO `r_step_attribute` VALUES (184, 1, 8, 2, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (185, 1, 8, 2, 'field_format', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (186, 1, 8, 2, 'field_currency', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (187, 1, 8, 2, 'field_decimal', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (188, 1, 8, 2, 'field_group', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (189, 1, 8, 2, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (190, 1, 8, 2, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (191, 1, 8, 2, 'field_trim_type', 0, 'both');
-INSERT INTO `r_step_attribute` VALUES (192, 1, 8, 3, 'field_name', 0, 'yx_smtp');
-INSERT INTO `r_step_attribute` VALUES (193, 1, 8, 3, 'field_variable', 0, 'smtp.yeah.net');
-INSERT INTO `r_step_attribute` VALUES (194, 1, 8, 3, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (195, 1, 8, 3, 'field_format', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (196, 1, 8, 3, 'field_currency', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (197, 1, 8, 3, 'field_decimal', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (198, 1, 8, 3, 'field_group', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (199, 1, 8, 3, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (200, 1, 8, 3, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (201, 1, 8, 3, 'field_trim_type', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (202, 1, 8, 4, 'field_name', 0, 'yx_smtp_dk');
-INSERT INTO `r_step_attribute` VALUES (203, 1, 8, 4, 'field_variable', 0, '994');
-INSERT INTO `r_step_attribute` VALUES (204, 1, 8, 4, 'field_type', 0, 'String');
-INSERT INTO `r_step_attribute` VALUES (205, 1, 8, 4, 'field_format', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (206, 1, 8, 4, 'field_currency', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (207, 1, 8, 4, 'field_decimal', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (208, 1, 8, 4, 'field_group', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (209, 1, 8, 4, 'field_length', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (210, 1, 8, 4, 'field_precision', -1, NULL);
-INSERT INTO `r_step_attribute` VALUES (211, 1, 8, 4, 'field_trim_type', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (212, 1, 8, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (213, 1, 8, 0, 'row_distribution_code', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (214, 1, 9, 0, 'PARTITIONING_SCHEMA', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (215, 1, 9, 0, 'PARTITIONING_METHOD', 0, 'none');
-INSERT INTO `r_step_attribute` VALUES (216, 1, 9, 0, 'field_name', 0, 'zxip1');
-INSERT INTO `r_step_attribute` VALUES (217, 1, 9, 0, 'variable_name', 0, 'dqip');
-INSERT INTO `r_step_attribute` VALUES (218, 1, 9, 0, 'variable_type', 0, 'ROOT_JOB');
-INSERT INTO `r_step_attribute` VALUES (219, 1, 9, 0, 'default_value', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (220, 1, 9, 1, 'field_name', 0, 'msg');
-INSERT INTO `r_step_attribute` VALUES (221, 1, 9, 1, 'variable_name', 0, 'msg');
-INSERT INTO `r_step_attribute` VALUES (222, 1, 9, 1, 'variable_type', 0, 'ROOT_JOB');
-INSERT INTO `r_step_attribute` VALUES (223, 1, 9, 1, 'default_value', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (224, 1, 9, 0, 'use_formatting', 0, 'Y');
-INSERT INTO `r_step_attribute` VALUES (225, 1, 9, 0, 'cluster_schema', 0, NULL);
-INSERT INTO `r_step_attribute` VALUES (226, 1, 9, 0, 'row_distribution_code', 0, NULL);
 INSERT INTO `r_step_attribute` VALUES (227, 2, 10, 0, 'PARTITIONING_SCHEMA', 0, NULL);
 INSERT INTO `r_step_attribute` VALUES (228, 2, 10, 0, 'PARTITIONING_METHOD', 0, 'none');
 INSERT INTO `r_step_attribute` VALUES (229, 2, 10, 0, 'compatible', 0, 'N');
@@ -4307,6 +4057,523 @@ INSERT INTO `r_step_attribute` VALUES (869, 10, 42, 0, 'nr_lines', 1, NULL);
 INSERT INTO `r_step_attribute` VALUES (870, 10, 42, 0, 'item_0', 0, 'trimdata');
 INSERT INTO `r_step_attribute` VALUES (871, 10, 42, 0, 'cluster_schema', 0, NULL);
 INSERT INTO `r_step_attribute` VALUES (872, 10, 42, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (873, 11, 43, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (874, 11, 43, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (875, 11, 43, 0, 'loglevel', 0, 'log_level_basic');
+INSERT INTO `r_step_attribute` VALUES (876, 11, 43, 0, 'displayHeader', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (877, 11, 43, 0, 'limitRows', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (878, 11, 43, 0, 'limitRowsNumber', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (879, 11, 43, 0, 'logmessage', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (880, 11, 43, 0, 'field_name', 0, 'ID_JOB');
+INSERT INTO `r_step_attribute` VALUES (881, 11, 43, 1, 'field_name', 0, 'INPUT');
+INSERT INTO `r_step_attribute` VALUES (882, 11, 43, 2, 'field_name', 0, 'RESULT');
+INSERT INTO `r_step_attribute` VALUES (883, 11, 43, 3, 'field_name', 0, 'ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (884, 11, 43, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (885, 11, 43, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (886, 11, 44, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (887, 11, 44, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (888, 11, 44, 0, 'compatible', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (889, 11, 44, 0, 'optimizationLevel', 0, '9');
+INSERT INTO `r_step_attribute` VALUES (890, 11, 44, 0, 'jsScript_name', 0, 'Script 1');
+INSERT INTO `r_step_attribute` VALUES (891, 11, 44, 0, 'jsScript_script', 0, '//Script here\n\n\nEND_TIME = date2str(END_TIME,\"yyyyMMddhhmmss\");\nSTART_TIME = date2str(START_TIME,\"yyyyMMddhhmmss\");\n\nif(NEW_ZLSJC==null||NEW_ZLSJC==\"\"){\n	NEW_ZLSJC = ZLSJC;\n}\nvar OID = Packages.cn.benma666.myutils.StringUtil.getUUIDUpperStr();');
+INSERT INTO `r_step_attribute` VALUES (892, 11, 44, 0, 'jsScript_type', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (893, 11, 44, 0, 'field_name', 0, 'END_TIME');
+INSERT INTO `r_step_attribute` VALUES (894, 11, 44, 0, 'field_rename', 0, 'END_TIME');
+INSERT INTO `r_step_attribute` VALUES (895, 11, 44, 0, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (896, 11, 44, 0, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (897, 11, 44, 0, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (898, 11, 44, 0, 'field_replace', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (899, 11, 44, 1, 'field_name', 0, 'START_TIME');
+INSERT INTO `r_step_attribute` VALUES (900, 11, 44, 1, 'field_rename', 0, 'START_TIME');
+INSERT INTO `r_step_attribute` VALUES (901, 11, 44, 1, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (902, 11, 44, 1, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (903, 11, 44, 1, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (904, 11, 44, 1, 'field_replace', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (905, 11, 44, 2, 'field_name', 0, 'NEW_ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (906, 11, 44, 2, 'field_rename', 0, 'NEW_ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (907, 11, 44, 2, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (908, 11, 44, 2, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (909, 11, 44, 2, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (910, 11, 44, 2, 'field_replace', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (911, 11, 44, 3, 'field_name', 0, 'OID');
+INSERT INTO `r_step_attribute` VALUES (912, 11, 44, 3, 'field_rename', 0, 'OID');
+INSERT INTO `r_step_attribute` VALUES (913, 11, 44, 3, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (914, 11, 44, 3, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (915, 11, 44, 3, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (916, 11, 44, 3, 'field_replace', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (917, 11, 44, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (918, 11, 44, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (919, 11, 45, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (920, 11, 45, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (921, 11, 45, 0, 'id_connection', 1, NULL);
+INSERT INTO `r_step_attribute` VALUES (922, 11, 45, 0, 'skip_lookup', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (923, 11, 45, 0, 'commit', 0, '100');
+INSERT INTO `r_step_attribute` VALUES (924, 11, 45, 0, 'use_batch', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (925, 11, 45, 0, 'schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (926, 11, 45, 0, 'table', 0, 'R_JOB');
+INSERT INTO `r_step_attribute` VALUES (927, 11, 45, 0, 'error_ignored', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (928, 11, 45, 0, 'ignore_flag_field', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (929, 11, 45, 0, 'key_name', 0, 'ID_JOB');
+INSERT INTO `r_step_attribute` VALUES (930, 11, 45, 0, 'key_field', 0, 'ID_JOB');
+INSERT INTO `r_step_attribute` VALUES (931, 11, 45, 0, 'key_condition', 0, '=');
+INSERT INTO `r_step_attribute` VALUES (932, 11, 45, 0, 'key_name2', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (933, 11, 45, 0, 'value_name', 0, 'ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (934, 11, 45, 0, 'value_rename', 0, 'NEW_ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (935, 11, 45, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (936, 11, 45, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (937, 11, 46, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (938, 11, 46, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (939, 11, 46, 0, 'send_true_to', 0, '日志处理');
+INSERT INTO `r_step_attribute` VALUES (940, 11, 46, 0, 'send_false_to', 0, '写日志');
+INSERT INTO `r_step_attribute` VALUES (941, 11, 46, 0, 'condition', 0, '!(\"0\".equals(INPUT)&&\"success\".equals(RESULT))');
+INSERT INTO `r_step_attribute` VALUES (942, 11, 46, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (943, 11, 46, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (944, 11, 47, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (945, 11, 47, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (946, 11, 47, 0, 'field_name', 0, 'JOB_NAME');
+INSERT INTO `r_step_attribute` VALUES (947, 11, 47, 0, 'field_variable', 0, '${JOB_NAME}');
+INSERT INTO `r_step_attribute` VALUES (948, 11, 47, 0, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (949, 11, 47, 0, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (950, 11, 47, 0, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (951, 11, 47, 0, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (952, 11, 47, 0, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (953, 11, 47, 0, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (954, 11, 47, 0, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (955, 11, 47, 0, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (956, 11, 47, 1, 'field_name', 0, 'ID_JOB');
+INSERT INTO `r_step_attribute` VALUES (957, 11, 47, 1, 'field_variable', 0, '${ID_JOB}');
+INSERT INTO `r_step_attribute` VALUES (958, 11, 47, 1, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (959, 11, 47, 1, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (960, 11, 47, 1, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (961, 11, 47, 1, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (962, 11, 47, 1, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (963, 11, 47, 1, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (964, 11, 47, 1, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (965, 11, 47, 1, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (966, 11, 47, 2, 'field_name', 0, 'INPUT');
+INSERT INTO `r_step_attribute` VALUES (967, 11, 47, 2, 'field_variable', 0, '${input}');
+INSERT INTO `r_step_attribute` VALUES (968, 11, 47, 2, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (969, 11, 47, 2, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (970, 11, 47, 2, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (971, 11, 47, 2, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (972, 11, 47, 2, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (973, 11, 47, 2, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (974, 11, 47, 2, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (975, 11, 47, 2, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (976, 11, 47, 3, 'field_name', 0, 'OUTPUT');
+INSERT INTO `r_step_attribute` VALUES (977, 11, 47, 3, 'field_variable', 0, '${output}');
+INSERT INTO `r_step_attribute` VALUES (978, 11, 47, 3, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (979, 11, 47, 3, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (980, 11, 47, 3, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (981, 11, 47, 3, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (982, 11, 47, 3, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (983, 11, 47, 3, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (984, 11, 47, 3, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (985, 11, 47, 3, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (986, 11, 47, 4, 'field_name', 0, 'START_TIME');
+INSERT INTO `r_step_attribute` VALUES (987, 11, 47, 4, 'field_variable', 0, '${START_TIME}');
+INSERT INTO `r_step_attribute` VALUES (988, 11, 47, 4, 'field_type', 0, 'Date');
+INSERT INTO `r_step_attribute` VALUES (989, 11, 47, 4, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (990, 11, 47, 4, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (991, 11, 47, 4, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (992, 11, 47, 4, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (993, 11, 47, 4, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (994, 11, 47, 4, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (995, 11, 47, 4, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (996, 11, 47, 5, 'field_name', 0, 'WRITTEN');
+INSERT INTO `r_step_attribute` VALUES (997, 11, 47, 5, 'field_variable', 0, '${written}');
+INSERT INTO `r_step_attribute` VALUES (998, 11, 47, 5, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (999, 11, 47, 5, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1000, 11, 47, 5, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1001, 11, 47, 5, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1002, 11, 47, 5, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1003, 11, 47, 5, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1004, 11, 47, 5, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1005, 11, 47, 5, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1006, 11, 47, 6, 'field_name', 0, 'UPDATED');
+INSERT INTO `r_step_attribute` VALUES (1007, 11, 47, 6, 'field_variable', 0, '${updated}');
+INSERT INTO `r_step_attribute` VALUES (1008, 11, 47, 6, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1009, 11, 47, 6, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1010, 11, 47, 6, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1011, 11, 47, 6, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1012, 11, 47, 6, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1013, 11, 47, 6, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1014, 11, 47, 6, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1015, 11, 47, 6, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1016, 11, 47, 7, 'field_name', 0, 'RESULT');
+INSERT INTO `r_step_attribute` VALUES (1017, 11, 47, 7, 'field_variable', 0, '${result}');
+INSERT INTO `r_step_attribute` VALUES (1018, 11, 47, 7, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1019, 11, 47, 7, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1020, 11, 47, 7, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1021, 11, 47, 7, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1022, 11, 47, 7, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1023, 11, 47, 7, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1024, 11, 47, 7, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1025, 11, 47, 7, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1026, 11, 47, 8, 'field_name', 0, 'NEW_ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (1027, 11, 47, 8, 'field_variable', 0, '${NEW_ZLSJC}');
+INSERT INTO `r_step_attribute` VALUES (1028, 11, 47, 8, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1029, 11, 47, 8, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1030, 11, 47, 8, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1031, 11, 47, 8, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1032, 11, 47, 8, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1033, 11, 47, 8, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1034, 11, 47, 8, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1035, 11, 47, 8, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1036, 11, 47, 9, 'field_name', 0, 'ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (1037, 11, 47, 9, 'field_variable', 0, '${ZLSJC}');
+INSERT INTO `r_step_attribute` VALUES (1038, 11, 47, 9, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1039, 11, 47, 9, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1040, 11, 47, 9, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1041, 11, 47, 9, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1042, 11, 47, 9, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1043, 11, 47, 9, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1044, 11, 47, 9, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1045, 11, 47, 9, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1046, 11, 47, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1047, 11, 47, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1048, 11, 48, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1049, 11, 48, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1050, 11, 48, 0, 'field_name', 0, 'END_TIME');
+INSERT INTO `r_step_attribute` VALUES (1051, 11, 48, 0, 'field_type', 0, 'system date (variable)');
+INSERT INTO `r_step_attribute` VALUES (1052, 11, 48, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1053, 11, 48, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1054, 11, 49, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1055, 11, 49, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1056, 11, 49, 0, 'id_connection', 1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1057, 11, 49, 0, 'schema', 0, 'sjsj_zs');
+INSERT INTO `r_step_attribute` VALUES (1058, 11, 49, 0, 'table', 0, 'sys_log_sjlzrz');
+INSERT INTO `r_step_attribute` VALUES (1059, 11, 49, 0, 'commit', 0, '1000');
+INSERT INTO `r_step_attribute` VALUES (1060, 11, 49, 0, 'truncate', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1061, 11, 49, 0, 'ignore_errors', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1062, 11, 49, 0, 'use_batch', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1063, 11, 49, 0, 'specify_fields', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1064, 11, 49, 0, 'partitioning_enabled', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1065, 11, 49, 0, 'partitioning_field', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1066, 11, 49, 0, 'partitioning_daily', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1067, 11, 49, 0, 'partitioning_monthly', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1068, 11, 49, 0, 'tablename_in_field', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1069, 11, 49, 0, 'tablename_field', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1070, 11, 49, 0, 'tablename_in_table', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1071, 11, 49, 0, 'return_keys', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1072, 11, 49, 0, 'return_field', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1073, 11, 49, 0, 'column_name', 0, 'jssj');
+INSERT INTO `r_step_attribute` VALUES (1074, 11, 49, 0, 'stream_name', 0, 'END_TIME');
+INSERT INTO `r_step_attribute` VALUES (1075, 11, 49, 1, 'column_name', 0, 'zymc');
+INSERT INTO `r_step_attribute` VALUES (1076, 11, 49, 1, 'stream_name', 0, 'JOB_NAME');
+INSERT INTO `r_step_attribute` VALUES (1077, 11, 49, 2, 'column_name', 0, 'zy');
+INSERT INTO `r_step_attribute` VALUES (1078, 11, 49, 2, 'stream_name', 0, 'ID_JOB');
+INSERT INTO `r_step_attribute` VALUES (1079, 11, 49, 3, 'column_name', 0, 'dql');
+INSERT INTO `r_step_attribute` VALUES (1080, 11, 49, 3, 'stream_name', 0, 'INPUT');
+INSERT INTO `r_step_attribute` VALUES (1081, 11, 49, 4, 'column_name', 0, 'kssj');
+INSERT INTO `r_step_attribute` VALUES (1082, 11, 49, 4, 'stream_name', 0, 'START_TIME');
+INSERT INTO `r_step_attribute` VALUES (1083, 11, 49, 5, 'column_name', 0, 'xzl');
+INSERT INTO `r_step_attribute` VALUES (1084, 11, 49, 5, 'stream_name', 0, 'WRITTEN');
+INSERT INTO `r_step_attribute` VALUES (1085, 11, 49, 6, 'column_name', 0, 'jg');
+INSERT INTO `r_step_attribute` VALUES (1086, 11, 49, 6, 'stream_name', 0, 'RESULT');
+INSERT INTO `r_step_attribute` VALUES (1087, 11, 49, 7, 'column_name', 0, 'zlsjc');
+INSERT INTO `r_step_attribute` VALUES (1088, 11, 49, 7, 'stream_name', 0, 'NEW_ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (1089, 11, 49, 8, 'column_name', 0, 'id');
+INSERT INTO `r_step_attribute` VALUES (1090, 11, 49, 8, 'stream_name', 0, 'OID');
+INSERT INTO `r_step_attribute` VALUES (1091, 11, 49, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1092, 11, 49, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1093, 12, 50, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1094, 12, 50, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1095, 12, 50, 0, 'compatible', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1096, 12, 50, 0, 'optimizationLevel', 0, '9');
+INSERT INTO `r_step_attribute` VALUES (1097, 12, 50, 0, 'jsScript_name', 0, 'Script 1');
+INSERT INTO `r_step_attribute` VALUES (1098, 12, 50, 0, 'jsScript_script', 0, '//Script here\n\nif(RUN_START<DEF_RUN_START){\n	RUN_START=DEF_RUN_START;\n}\nif(ZLSJC<RUN_START){\n	ZLSJC = RUN_START;\n}\n');
+INSERT INTO `r_step_attribute` VALUES (1099, 12, 50, 0, 'jsScript_type', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1100, 12, 50, 0, 'field_name', 0, 'ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (1101, 12, 50, 0, 'field_rename', 0, 'ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (1102, 12, 50, 0, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1103, 12, 50, 0, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1104, 12, 50, 0, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1105, 12, 50, 0, 'field_replace', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1106, 12, 50, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1107, 12, 50, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1108, 12, 51, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1109, 12, 51, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1110, 12, 51, 0, 'field_name', 0, 'RUN_START');
+INSERT INTO `r_step_attribute` VALUES (1111, 12, 51, 0, 'field_variable', 0, '${RUN_START}');
+INSERT INTO `r_step_attribute` VALUES (1112, 12, 51, 0, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1113, 12, 51, 0, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1114, 12, 51, 0, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1115, 12, 51, 0, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1116, 12, 51, 0, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1117, 12, 51, 0, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1118, 12, 51, 0, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1119, 12, 51, 0, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1120, 12, 51, 1, 'field_name', 0, 'DEF_RUN_START');
+INSERT INTO `r_step_attribute` VALUES (1121, 12, 51, 1, 'field_variable', 0, '${DEF_RUN_START}');
+INSERT INTO `r_step_attribute` VALUES (1122, 12, 51, 1, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1123, 12, 51, 1, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1124, 12, 51, 1, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1125, 12, 51, 1, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1126, 12, 51, 1, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1127, 12, 51, 1, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1128, 12, 51, 1, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1129, 12, 51, 1, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1130, 12, 51, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1131, 12, 51, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1132, 12, 52, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1133, 12, 52, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1134, 12, 52, 0, 'id_connection', 4, NULL);
+INSERT INTO `r_step_attribute` VALUES (1135, 12, 52, 0, 'sql', 0, 'select ZLSJC\n  from kettle_kz_zykz\n where id_job = \'${ID_JOB}\'\n');
+INSERT INTO `r_step_attribute` VALUES (1136, 12, 52, 0, 'limit', 0, '0');
+INSERT INTO `r_step_attribute` VALUES (1137, 12, 52, 0, 'lookup', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1138, 12, 52, 0, 'execute_each_row', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1139, 12, 52, 0, 'variables_active', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1140, 12, 52, 0, 'lazy_conversion_active', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1141, 12, 52, 0, 'cached_row_meta_active', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1142, 12, 52, 0, 'row-meta', 0, '<row-meta></row-meta>');
+INSERT INTO `r_step_attribute` VALUES (1143, 12, 52, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1144, 12, 52, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1145, 12, 53, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1146, 12, 53, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1147, 12, 53, 0, 'field_name', 0, 'ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (1148, 12, 53, 0, 'variable_name', 0, 'ZLSJC');
+INSERT INTO `r_step_attribute` VALUES (1149, 12, 53, 0, 'variable_type', 0, 'ROOT_JOB');
+INSERT INTO `r_step_attribute` VALUES (1150, 12, 53, 0, 'default_value', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1151, 12, 53, 0, 'use_formatting', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1152, 12, 53, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1153, 12, 53, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1154, 1, 54, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1155, 1, 54, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1156, 1, 54, 0, 'url', 0, 'http://icanhazip.com/');
+INSERT INTO `r_step_attribute` VALUES (1157, 1, 54, 0, 'urlInField', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1158, 1, 54, 0, 'urlField', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1159, 1, 54, 0, 'encoding', 0, 'UTF-8');
+INSERT INTO `r_step_attribute` VALUES (1160, 1, 54, 0, 'httpLogin', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1161, 1, 54, 0, 'httpPassword', 0, 'Encrypted ');
+INSERT INTO `r_step_attribute` VALUES (1162, 1, 54, 0, 'proxyHost', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1163, 1, 54, 0, 'proxyPort', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1164, 1, 54, 0, 'socketTimeout', 0, '10000');
+INSERT INTO `r_step_attribute` VALUES (1165, 1, 54, 0, 'connectionTimeout', 0, '10000');
+INSERT INTO `r_step_attribute` VALUES (1166, 1, 54, 0, 'closeIdleConnectionsTime', 0, '-1');
+INSERT INTO `r_step_attribute` VALUES (1167, 1, 54, 0, 'result_name', 0, 'zxip');
+INSERT INTO `r_step_attribute` VALUES (1168, 1, 54, 0, 'result_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1169, 1, 54, 0, 'response_time', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1170, 1, 54, 0, 'response_header', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1171, 1, 54, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1172, 1, 54, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1173, 1, 55, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1174, 1, 55, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1175, 1, 55, 0, 'url', 0, 'https://benma666.cn/myip');
+INSERT INTO `r_step_attribute` VALUES (1176, 1, 55, 0, 'urlInField', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1177, 1, 55, 0, 'urlField', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1178, 1, 55, 0, 'encoding', 0, 'UTF-8');
+INSERT INTO `r_step_attribute` VALUES (1179, 1, 55, 0, 'httpLogin', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1180, 1, 55, 0, 'httpPassword', 0, 'Encrypted ');
+INSERT INTO `r_step_attribute` VALUES (1181, 1, 55, 0, 'proxyHost', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1182, 1, 55, 0, 'proxyPort', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1183, 1, 55, 0, 'socketTimeout', 0, '10000');
+INSERT INTO `r_step_attribute` VALUES (1184, 1, 55, 0, 'connectionTimeout', 0, '10000');
+INSERT INTO `r_step_attribute` VALUES (1185, 1, 55, 0, 'closeIdleConnectionsTime', 0, '-1');
+INSERT INTO `r_step_attribute` VALUES (1186, 1, 55, 0, 'result_name', 0, 'result');
+INSERT INTO `r_step_attribute` VALUES (1187, 1, 55, 0, 'result_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1188, 1, 55, 0, 'response_time', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1189, 1, 55, 0, 'response_header', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1190, 1, 55, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1191, 1, 55, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1192, 1, 56, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1193, 1, 56, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1194, 1, 56, 0, 'compatible', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1195, 1, 56, 0, 'optimizationLevel', 0, '9');
+INSERT INTO `r_step_attribute` VALUES (1196, 1, 56, 0, 'jsScript_name', 0, 'Script 1');
+INSERT INTO `r_step_attribute` VALUES (1197, 1, 56, 0, 'jsScript_script', 0, '//Script here\n//ip变化\nvar ipbh = false;\nvar msg = \"\";\n//替换换行符\nvar zxip1 = zxip.replace(\"\\n\",\"\");\nif(dqip!=zxip1){\n	ipbh = true;\n	msg = \"原IP：\"+dqip+\"，最新IP：\"+zxip1;\n}');
+INSERT INTO `r_step_attribute` VALUES (1198, 1, 56, 0, 'jsScript_type', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1199, 1, 56, 0, 'field_name', 0, 'ipbh');
+INSERT INTO `r_step_attribute` VALUES (1200, 1, 56, 0, 'field_rename', 0, 'ipbh');
+INSERT INTO `r_step_attribute` VALUES (1201, 1, 56, 0, 'field_type', 0, 'Boolean');
+INSERT INTO `r_step_attribute` VALUES (1202, 1, 56, 0, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1203, 1, 56, 0, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1204, 1, 56, 0, 'field_replace', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1205, 1, 56, 1, 'field_name', 0, 'msg');
+INSERT INTO `r_step_attribute` VALUES (1206, 1, 56, 1, 'field_rename', 0, 'msg');
+INSERT INTO `r_step_attribute` VALUES (1207, 1, 56, 1, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1208, 1, 56, 1, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1209, 1, 56, 1, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1210, 1, 56, 1, 'field_replace', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1211, 1, 56, 2, 'field_name', 0, 'zxip1');
+INSERT INTO `r_step_attribute` VALUES (1212, 1, 56, 2, 'field_rename', 0, 'zxip1');
+INSERT INTO `r_step_attribute` VALUES (1213, 1, 56, 2, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1214, 1, 56, 2, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1215, 1, 56, 2, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1216, 1, 56, 2, 'field_replace', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1217, 1, 56, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1218, 1, 56, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1219, 1, 57, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1220, 1, 57, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1221, 1, 57, 0, 'compatible', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1222, 1, 57, 0, 'optimizationLevel', 0, '9');
+INSERT INTO `r_step_attribute` VALUES (1223, 1, 57, 0, 'jsScript_name', 0, 'Script 1');
+INSERT INTO `r_step_attribute` VALUES (1224, 1, 57, 0, 'jsScript_script', 0, '//Script here\n//ip变化\nvar ipbh = false;\nvar msg = \"\";\n//var start = result.indexOf(\'14px; \">\')+8;\n//var zxip1 = result.substring(start,result.indexOf(\' \',start));\nvar zxip1=trim(result);\nif(dqip!=zxip1){\n	ipbh = true;\n	msg = \"原IP：\"+dqip+\"，最新IP：\"+zxip1;\n}');
+INSERT INTO `r_step_attribute` VALUES (1225, 1, 57, 0, 'jsScript_type', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1226, 1, 57, 0, 'field_name', 0, 'ipbh');
+INSERT INTO `r_step_attribute` VALUES (1227, 1, 57, 0, 'field_rename', 0, 'ipbh');
+INSERT INTO `r_step_attribute` VALUES (1228, 1, 57, 0, 'field_type', 0, 'Boolean');
+INSERT INTO `r_step_attribute` VALUES (1229, 1, 57, 0, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1230, 1, 57, 0, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1231, 1, 57, 0, 'field_replace', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1232, 1, 57, 1, 'field_name', 0, 'msg');
+INSERT INTO `r_step_attribute` VALUES (1233, 1, 57, 1, 'field_rename', 0, 'msg');
+INSERT INTO `r_step_attribute` VALUES (1234, 1, 57, 1, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1235, 1, 57, 1, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1236, 1, 57, 1, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1237, 1, 57, 1, 'field_replace', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1238, 1, 57, 2, 'field_name', 0, 'zxip1');
+INSERT INTO `r_step_attribute` VALUES (1239, 1, 57, 2, 'field_rename', 0, 'zxip1');
+INSERT INTO `r_step_attribute` VALUES (1240, 1, 57, 2, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1241, 1, 57, 2, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1242, 1, 57, 2, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1243, 1, 57, 2, 'field_replace', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1244, 1, 57, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1245, 1, 57, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1246, 1, 58, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1247, 1, 58, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1248, 1, 58, 0, 'fieldname', 0, 'ipbh');
+INSERT INTO `r_step_attribute` VALUES (1249, 1, 58, 0, 'use_contains', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1250, 1, 58, 0, 'case_value_type', 0, 'Boolean');
+INSERT INTO `r_step_attribute` VALUES (1251, 1, 58, 0, 'case_value_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1252, 1, 58, 0, 'case_value_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1253, 1, 58, 0, 'case_value_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1254, 1, 58, 0, 'default_target_step', 0, '写日志');
+INSERT INTO `r_step_attribute` VALUES (1255, 1, 58, 0, 'case_value', 0, 'true');
+INSERT INTO `r_step_attribute` VALUES (1256, 1, 58, 0, 'case_target_step', 0, '发送邮件');
+INSERT INTO `r_step_attribute` VALUES (1257, 1, 58, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1258, 1, 58, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1259, 1, 59, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1260, 1, 59, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1261, 1, 59, 0, 'loglevel', 0, 'log_level_basic');
+INSERT INTO `r_step_attribute` VALUES (1262, 1, 59, 0, 'displayHeader', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1263, 1, 59, 0, 'limitRows', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1264, 1, 59, 0, 'limitRowsNumber', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1265, 1, 59, 0, 'logmessage', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1266, 1, 59, 0, 'field_name', 0, 'zxip1');
+INSERT INTO `r_step_attribute` VALUES (1267, 1, 59, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1268, 1, 59, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1269, 1, 60, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1270, 1, 60, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1271, 1, 60, 0, 'server', 0, 'yx_smtp');
+INSERT INTO `r_step_attribute` VALUES (1272, 1, 60, 0, 'port', 0, 'yx_smtp_dk');
+INSERT INTO `r_step_attribute` VALUES (1273, 1, 60, 0, 'destination', 0, 'yx_szh');
+INSERT INTO `r_step_attribute` VALUES (1274, 1, 60, 0, 'destinationCc', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1275, 1, 60, 0, 'destinationBCc', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1276, 1, 60, 0, 'replyToAddresses', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1277, 1, 60, 0, 'replyto', 0, 'yx_zh');
+INSERT INTO `r_step_attribute` VALUES (1278, 1, 60, 0, 'replytoname', 0, 'yx_zh');
+INSERT INTO `r_step_attribute` VALUES (1279, 1, 60, 0, 'subject', 0, 'zxip1');
+INSERT INTO `r_step_attribute` VALUES (1280, 1, 60, 0, 'include_date', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1281, 1, 60, 0, 'include_subfolders', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1282, 1, 60, 0, 'zipFilenameDynamic', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1283, 1, 60, 0, 'attachContentFromField', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1284, 1, 60, 0, 'attachContentField', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1285, 1, 60, 0, 'attachContentFileNameField', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1286, 1, 60, 0, 'isFilenameDynamic', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1287, 1, 60, 0, 'dynamicFieldname', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1288, 1, 60, 0, 'dynamicWildcard', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1289, 1, 60, 0, 'dynamicZipFilename', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1290, 1, 60, 0, 'sourcefilefoldername', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1291, 1, 60, 0, 'sourcewildcard', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1292, 1, 60, 0, 'contact_person', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1293, 1, 60, 0, 'contact_phone', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1294, 1, 60, 0, 'comment', 0, 'msg');
+INSERT INTO `r_step_attribute` VALUES (1295, 1, 60, 0, 'encoding', 0, 'UTF-8');
+INSERT INTO `r_step_attribute` VALUES (1296, 1, 60, 0, 'priority', 0, 'normal');
+INSERT INTO `r_step_attribute` VALUES (1297, 1, 60, 0, 'importance', 0, 'normal');
+INSERT INTO `r_step_attribute` VALUES (1298, 1, 60, 0, 'sensitivity', 0, 'normal');
+INSERT INTO `r_step_attribute` VALUES (1299, 1, 60, 0, 'include_files', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1300, 1, 60, 0, 'use_auth', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1301, 1, 60, 0, 'use_secure_auth', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1302, 1, 60, 0, 'auth_user', 0, 'yx_zh');
+INSERT INTO `r_step_attribute` VALUES (1303, 1, 60, 0, 'auth_password', 0, 'Encrypted 2be98afc86aa7f2e4cb79ce69c6ada2d7');
+INSERT INTO `r_step_attribute` VALUES (1304, 1, 60, 0, 'only_comment', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1305, 1, 60, 0, 'use_HTML', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1306, 1, 60, 0, 'use_Priority', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1307, 1, 60, 0, 'secureconnectiontype', 0, 'SSL');
+INSERT INTO `r_step_attribute` VALUES (1308, 1, 60, 0, 'zip_files', 0, 'N');
+INSERT INTO `r_step_attribute` VALUES (1309, 1, 60, 0, 'zip_name', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1310, 1, 60, 0, 'zip_limit_size', 0, '0');
+INSERT INTO `r_step_attribute` VALUES (1311, 1, 60, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1312, 1, 60, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1313, 1, 61, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1314, 1, 61, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1315, 1, 61, 0, 'field_name', 0, 'dqip');
+INSERT INTO `r_step_attribute` VALUES (1316, 1, 61, 0, 'field_variable', 0, '${dqip}');
+INSERT INTO `r_step_attribute` VALUES (1317, 1, 61, 0, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1318, 1, 61, 0, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1319, 1, 61, 0, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1320, 1, 61, 0, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1321, 1, 61, 0, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1322, 1, 61, 0, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1323, 1, 61, 0, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1324, 1, 61, 0, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1325, 1, 61, 1, 'field_name', 0, 'yx_zh');
+INSERT INTO `r_step_attribute` VALUES (1326, 1, 61, 1, 'field_variable', 0, 'test@benma666.cn');
+INSERT INTO `r_step_attribute` VALUES (1327, 1, 61, 1, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1328, 1, 61, 1, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1329, 1, 61, 1, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1330, 1, 61, 1, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1331, 1, 61, 1, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1332, 1, 61, 1, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1333, 1, 61, 1, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1334, 1, 61, 1, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1335, 1, 61, 2, 'field_name', 0, 'yx_mm');
+INSERT INTO `r_step_attribute` VALUES (1336, 1, 61, 2, 'field_variable', 0, 'ZXCqwe123.');
+INSERT INTO `r_step_attribute` VALUES (1337, 1, 61, 2, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1338, 1, 61, 2, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1339, 1, 61, 2, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1340, 1, 61, 2, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1341, 1, 61, 2, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1342, 1, 61, 2, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1343, 1, 61, 2, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1344, 1, 61, 2, 'field_trim_type', 0, 'both');
+INSERT INTO `r_step_attribute` VALUES (1345, 1, 61, 3, 'field_name', 0, 'yx_smtp');
+INSERT INTO `r_step_attribute` VALUES (1346, 1, 61, 3, 'field_variable', 0, 'smtp.exmail.qq.com');
+INSERT INTO `r_step_attribute` VALUES (1347, 1, 61, 3, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1348, 1, 61, 3, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1349, 1, 61, 3, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1350, 1, 61, 3, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1351, 1, 61, 3, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1352, 1, 61, 3, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1353, 1, 61, 3, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1354, 1, 61, 3, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1355, 1, 61, 4, 'field_name', 0, 'yx_smtp_dk');
+INSERT INTO `r_step_attribute` VALUES (1356, 1, 61, 4, 'field_variable', 0, '465');
+INSERT INTO `r_step_attribute` VALUES (1357, 1, 61, 4, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1358, 1, 61, 4, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1359, 1, 61, 4, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1360, 1, 61, 4, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1361, 1, 61, 4, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1362, 1, 61, 4, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1363, 1, 61, 4, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1364, 1, 61, 4, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1365, 1, 61, 5, 'field_name', 0, 'yx_szh');
+INSERT INTO `r_step_attribute` VALUES (1366, 1, 61, 5, 'field_variable', 0, 'jinjuma@yeah.net');
+INSERT INTO `r_step_attribute` VALUES (1367, 1, 61, 5, 'field_type', 0, 'String');
+INSERT INTO `r_step_attribute` VALUES (1368, 1, 61, 5, 'field_format', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1369, 1, 61, 5, 'field_currency', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1370, 1, 61, 5, 'field_decimal', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1371, 1, 61, 5, 'field_group', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1372, 1, 61, 5, 'field_length', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1373, 1, 61, 5, 'field_precision', -1, NULL);
+INSERT INTO `r_step_attribute` VALUES (1374, 1, 61, 5, 'field_trim_type', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1375, 1, 61, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1376, 1, 61, 0, 'row_distribution_code', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1377, 1, 62, 0, 'PARTITIONING_SCHEMA', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1378, 1, 62, 0, 'PARTITIONING_METHOD', 0, 'none');
+INSERT INTO `r_step_attribute` VALUES (1379, 1, 62, 0, 'field_name', 0, 'zxip1');
+INSERT INTO `r_step_attribute` VALUES (1380, 1, 62, 0, 'variable_name', 0, 'dqip');
+INSERT INTO `r_step_attribute` VALUES (1381, 1, 62, 0, 'variable_type', 0, 'ROOT_JOB');
+INSERT INTO `r_step_attribute` VALUES (1382, 1, 62, 0, 'default_value', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1383, 1, 62, 1, 'field_name', 0, 'msg');
+INSERT INTO `r_step_attribute` VALUES (1384, 1, 62, 1, 'variable_name', 0, 'msg');
+INSERT INTO `r_step_attribute` VALUES (1385, 1, 62, 1, 'variable_type', 0, 'ROOT_JOB');
+INSERT INTO `r_step_attribute` VALUES (1386, 1, 62, 1, 'default_value', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1387, 1, 62, 0, 'use_formatting', 0, 'Y');
+INSERT INTO `r_step_attribute` VALUES (1388, 1, 62, 0, 'cluster_schema', 0, NULL);
+INSERT INTO `r_step_attribute` VALUES (1389, 1, 62, 0, 'row_distribution_code', 0, NULL);
 
 -- ----------------------------
 -- Table structure for r_step_database
@@ -4318,7 +4585,7 @@ CREATE TABLE `r_step_database`  (
   `ID_DATABASE` int NULL DEFAULT NULL,
   INDEX `IDX_RSD1`(`ID_TRANSFORMATION`) USING BTREE,
   INDEX `IDX_RSD2`(`ID_DATABASE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_step_database
@@ -4330,6 +4597,9 @@ INSERT INTO `r_step_database` VALUES (8, 34, 2);
 INSERT INTO `r_step_database` VALUES (8, 36, 1);
 INSERT INTO `r_step_database` VALUES (9, 37, 1);
 INSERT INTO `r_step_database` VALUES (9, 38, 2);
+INSERT INTO `r_step_database` VALUES (11, 45, 1);
+INSERT INTO `r_step_database` VALUES (11, 49, 1);
+INSERT INTO `r_step_database` VALUES (12, 52, 4);
 
 -- ----------------------------
 -- Table structure for r_step_type
@@ -4341,7 +4611,7 @@ CREATE TABLE `r_step_type`  (
   `DESCRIPTION` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `HELPTEXT` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_STEP_TYPE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_step_type
@@ -4580,6 +4850,7 @@ INSERT INTO `r_step_type` VALUES (231, 'PropertyInput', '配置文件输入', 'R
 INSERT INTO `r_step_type` VALUES (232, 'PropertyOutput', '配置文件输出', 'Write data to properties file');
 INSERT INTO `r_step_type` VALUES (233, 'BlockUntilStepsFinish', '阻塞数据直到步骤都完成', 'Block this step until selected steps finish.');
 INSERT INTO `r_step_type` VALUES (234, 'MyEasyExpand', '我的Kettle简单扩展', 'Kettle简单扩展');
+INSERT INTO `r_step_type` VALUES (235, 'EasyExpand', 'Kettle简单扩展', 'Kettle简单扩展');
 
 -- ----------------------------
 -- Table structure for r_trans_attribute
@@ -4594,233 +4865,11 @@ CREATE TABLE `r_trans_attribute`  (
   `VALUE_STR` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`ID_TRANS_ATTRIBUTE`) USING BTREE,
   UNIQUE INDEX `IDX_TATT`(`ID_TRANSFORMATION`, `CODE`, `NR`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_attribute
 -- ----------------------------
-INSERT INTO `r_trans_attribute` VALUES (1, 1, 0, 'UNIQUE_CONNECTIONS', 0, 'N');
-INSERT INTO `r_trans_attribute` VALUES (2, 1, 0, 'FEEDBACK_SHOWN', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (3, 1, 0, 'FEEDBACK_SIZE', 50000, NULL);
-INSERT INTO `r_trans_attribute` VALUES (4, 1, 0, 'USING_THREAD_PRIORITIES', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (5, 1, 0, 'SHARED_FILE', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (6, 1, 0, 'CAPTURE_STEP_PERFORMANCE', 0, 'N');
-INSERT INTO `r_trans_attribute` VALUES (7, 1, 0, 'STEP_PERFORMANCE_CAPTURING_DELAY', 1000, NULL);
-INSERT INTO `r_trans_attribute` VALUES (8, 1, 0, 'STEP_PERFORMANCE_CAPTURING_SIZE_LIMIT', 0, '100');
-INSERT INTO `r_trans_attribute` VALUES (9, 1, 0, 'STEP_PERFORMANCE_LOG_TABLE', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (10, 1, 0, 'LOG_SIZE_LIMIT', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (11, 1, 0, 'LOG_INTERVAL', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (12, 1, 0, 'TRANSFORMATION_TYPE', 0, 'Normal');
-INSERT INTO `r_trans_attribute` VALUES (13, 1, 0, 'SLEEP_TIME_EMPTY', 50, NULL);
-INSERT INTO `r_trans_attribute` VALUES (14, 1, 0, 'SLEEP_TIME_FULL', 50, NULL);
-INSERT INTO `r_trans_attribute` VALUES (15, 1, 0, 'TRANS_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (16, 1, 0, 'TRANS_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (17, 1, 0, 'TRANS_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (18, 1, 0, 'TRANS_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (19, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (20, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (21, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (22, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (23, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (24, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (25, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID2', 0, 'TRANSNAME');
-INSERT INTO `r_trans_attribute` VALUES (26, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME2', 0, 'TRANSNAME');
-INSERT INTO `r_trans_attribute` VALUES (27, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (28, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
-INSERT INTO `r_trans_attribute` VALUES (29, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
-INSERT INTO `r_trans_attribute` VALUES (30, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (31, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
-INSERT INTO `r_trans_attribute` VALUES (32, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
-INSERT INTO `r_trans_attribute` VALUES (33, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (34, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT4', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (35, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
-INSERT INTO `r_trans_attribute` VALUES (36, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
-INSERT INTO `r_trans_attribute` VALUES (37, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (38, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT5', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (39, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
-INSERT INTO `r_trans_attribute` VALUES (40, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
-INSERT INTO `r_trans_attribute` VALUES (41, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (42, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT6', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (43, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
-INSERT INTO `r_trans_attribute` VALUES (44, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
-INSERT INTO `r_trans_attribute` VALUES (45, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (46, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT7', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (47, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
-INSERT INTO `r_trans_attribute` VALUES (48, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
-INSERT INTO `r_trans_attribute` VALUES (49, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (50, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT8', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (51, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
-INSERT INTO `r_trans_attribute` VALUES (52, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
-INSERT INTO `r_trans_attribute` VALUES (53, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (54, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT9', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (55, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
-INSERT INTO `r_trans_attribute` VALUES (56, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
-INSERT INTO `r_trans_attribute` VALUES (57, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (58, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
-INSERT INTO `r_trans_attribute` VALUES (59, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
-INSERT INTO `r_trans_attribute` VALUES (60, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (61, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
-INSERT INTO `r_trans_attribute` VALUES (62, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
-INSERT INTO `r_trans_attribute` VALUES (63, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (64, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
-INSERT INTO `r_trans_attribute` VALUES (65, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
-INSERT INTO `r_trans_attribute` VALUES (66, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (67, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
-INSERT INTO `r_trans_attribute` VALUES (68, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
-INSERT INTO `r_trans_attribute` VALUES (69, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (70, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
-INSERT INTO `r_trans_attribute` VALUES (71, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
-INSERT INTO `r_trans_attribute` VALUES (72, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (73, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
-INSERT INTO `r_trans_attribute` VALUES (74, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
-INSERT INTO `r_trans_attribute` VALUES (75, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (76, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
-INSERT INTO `r_trans_attribute` VALUES (77, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
-INSERT INTO `r_trans_attribute` VALUES (78, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
-INSERT INTO `r_trans_attribute` VALUES (79, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
-INSERT INTO `r_trans_attribute` VALUES (80, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
-INSERT INTO `r_trans_attribute` VALUES (81, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
-INSERT INTO `r_trans_attribute` VALUES (82, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID19', 0, 'CLIENT');
-INSERT INTO `r_trans_attribute` VALUES (83, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME19', 0, 'CLIENT');
-INSERT INTO `r_trans_attribute` VALUES (84, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
-INSERT INTO `r_trans_attribute` VALUES (85, 1, 0, 'TRANSLOG_TABLE_INTERVAL', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (86, 1, 0, 'TRANSLOG_TABLE_SIZE_LIMIT', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (87, 1, 0, 'STEP_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (88, 1, 0, 'STEP_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (89, 1, 0, 'STEP_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (90, 1, 0, 'STEP_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (91, 1, 0, 'STEP_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (92, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (93, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (94, 1, 0, 'STEP_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (95, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (96, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (97, 1, 0, 'STEP_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
-INSERT INTO `r_trans_attribute` VALUES (98, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
-INSERT INTO `r_trans_attribute` VALUES (99, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (100, 1, 0, 'STEP_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
-INSERT INTO `r_trans_attribute` VALUES (101, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
-INSERT INTO `r_trans_attribute` VALUES (102, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (103, 1, 0, 'STEP_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
-INSERT INTO `r_trans_attribute` VALUES (104, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
-INSERT INTO `r_trans_attribute` VALUES (105, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (106, 1, 0, 'STEP_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
-INSERT INTO `r_trans_attribute` VALUES (107, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
-INSERT INTO `r_trans_attribute` VALUES (108, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (109, 1, 0, 'STEP_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
-INSERT INTO `r_trans_attribute` VALUES (110, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
-INSERT INTO `r_trans_attribute` VALUES (111, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (112, 1, 0, 'STEP_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
-INSERT INTO `r_trans_attribute` VALUES (113, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
-INSERT INTO `r_trans_attribute` VALUES (114, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (115, 1, 0, 'STEP_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
-INSERT INTO `r_trans_attribute` VALUES (116, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
-INSERT INTO `r_trans_attribute` VALUES (117, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (118, 1, 0, 'STEP_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
-INSERT INTO `r_trans_attribute` VALUES (119, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
-INSERT INTO `r_trans_attribute` VALUES (120, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (121, 1, 0, 'STEP_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
-INSERT INTO `r_trans_attribute` VALUES (122, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
-INSERT INTO `r_trans_attribute` VALUES (123, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (124, 1, 0, 'STEP_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
-INSERT INTO `r_trans_attribute` VALUES (125, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
-INSERT INTO `r_trans_attribute` VALUES (126, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (127, 1, 0, 'STEP_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
-INSERT INTO `r_trans_attribute` VALUES (128, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
-INSERT INTO `r_trans_attribute` VALUES (129, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (130, 1, 0, 'STEP_LOG_TABLE_FIELD_ID13', 0, 'LOG_FIELD');
-INSERT INTO `r_trans_attribute` VALUES (131, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME13', 0, 'LOG_FIELD');
-INSERT INTO `r_trans_attribute` VALUES (132, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED13', 0, 'N');
-INSERT INTO `r_trans_attribute` VALUES (133, 1, 0, 'PERFORMANCE_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (134, 1, 0, 'PERFORMANCE_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (135, 1, 0, 'PERFORMANCE_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (136, 1, 0, 'PERFORMANCE_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (137, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (138, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (139, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (140, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID1', 0, 'SEQ_NR');
-INSERT INTO `r_trans_attribute` VALUES (141, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME1', 0, 'SEQ_NR');
-INSERT INTO `r_trans_attribute` VALUES (142, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (143, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID2', 0, 'LOGDATE');
-INSERT INTO `r_trans_attribute` VALUES (144, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME2', 0, 'LOGDATE');
-INSERT INTO `r_trans_attribute` VALUES (145, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (146, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
-INSERT INTO `r_trans_attribute` VALUES (147, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
-INSERT INTO `r_trans_attribute` VALUES (148, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (149, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
-INSERT INTO `r_trans_attribute` VALUES (150, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
-INSERT INTO `r_trans_attribute` VALUES (151, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (152, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
-INSERT INTO `r_trans_attribute` VALUES (153, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
-INSERT INTO `r_trans_attribute` VALUES (154, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (155, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
-INSERT INTO `r_trans_attribute` VALUES (156, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
-INSERT INTO `r_trans_attribute` VALUES (157, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (158, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
-INSERT INTO `r_trans_attribute` VALUES (159, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
-INSERT INTO `r_trans_attribute` VALUES (160, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (161, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
-INSERT INTO `r_trans_attribute` VALUES (162, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
-INSERT INTO `r_trans_attribute` VALUES (163, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (164, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
-INSERT INTO `r_trans_attribute` VALUES (165, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
-INSERT INTO `r_trans_attribute` VALUES (166, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (167, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
-INSERT INTO `r_trans_attribute` VALUES (168, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
-INSERT INTO `r_trans_attribute` VALUES (169, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (170, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
-INSERT INTO `r_trans_attribute` VALUES (171, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
-INSERT INTO `r_trans_attribute` VALUES (172, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (173, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
-INSERT INTO `r_trans_attribute` VALUES (174, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
-INSERT INTO `r_trans_attribute` VALUES (175, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (176, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID13', 0, 'INPUT_BUFFER_ROWS');
-INSERT INTO `r_trans_attribute` VALUES (177, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME13', 0, 'INPUT_BUFFER_ROWS');
-INSERT INTO `r_trans_attribute` VALUES (178, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (179, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID14', 0, 'OUTPUT_BUFFER_ROWS');
-INSERT INTO `r_trans_attribute` VALUES (180, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME14', 0, 'OUTPUT_BUFFER_ROWS');
-INSERT INTO `r_trans_attribute` VALUES (181, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (182, 1, 0, 'PERFORMANCELOG_TABLE_INTERVAL', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (183, 1, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (184, 1, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (185, 1, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (186, 1, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
-INSERT INTO `r_trans_attribute` VALUES (187, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (188, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
-INSERT INTO `r_trans_attribute` VALUES (189, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (190, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (191, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (192, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (193, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
-INSERT INTO `r_trans_attribute` VALUES (194, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
-INSERT INTO `r_trans_attribute` VALUES (195, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (196, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
-INSERT INTO `r_trans_attribute` VALUES (197, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
-INSERT INTO `r_trans_attribute` VALUES (198, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (199, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
-INSERT INTO `r_trans_attribute` VALUES (200, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
-INSERT INTO `r_trans_attribute` VALUES (201, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (202, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
-INSERT INTO `r_trans_attribute` VALUES (203, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
-INSERT INTO `r_trans_attribute` VALUES (204, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (205, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
-INSERT INTO `r_trans_attribute` VALUES (206, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
-INSERT INTO `r_trans_attribute` VALUES (207, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (208, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
-INSERT INTO `r_trans_attribute` VALUES (209, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
-INSERT INTO `r_trans_attribute` VALUES (210, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (211, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
-INSERT INTO `r_trans_attribute` VALUES (212, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
-INSERT INTO `r_trans_attribute` VALUES (213, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (214, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
-INSERT INTO `r_trans_attribute` VALUES (215, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
-INSERT INTO `r_trans_attribute` VALUES (216, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (217, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (218, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (219, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
-INSERT INTO `r_trans_attribute` VALUES (220, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (221, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
-INSERT INTO `r_trans_attribute` VALUES (222, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
 INSERT INTO `r_trans_attribute` VALUES (223, 2, 0, 'UNIQUE_CONNECTIONS', 0, 'N');
 INSERT INTO `r_trans_attribute` VALUES (224, 2, 0, 'FEEDBACK_SHOWN', 0, 'Y');
 INSERT INTO `r_trans_attribute` VALUES (225, 2, 0, 'FEEDBACK_SIZE', 50000, NULL);
@@ -5931,6 +5980,693 @@ INSERT INTO `r_trans_attribute` VALUES (2220, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_EN
 INSERT INTO `r_trans_attribute` VALUES (2221, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
 INSERT INTO `r_trans_attribute` VALUES (2222, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
 INSERT INTO `r_trans_attribute` VALUES (2223, 10, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2224, 11, 0, 'UNIQUE_CONNECTIONS', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2225, 11, 0, 'FEEDBACK_SHOWN', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2226, 11, 0, 'FEEDBACK_SIZE', 50000, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2227, 11, 0, 'USING_THREAD_PRIORITIES', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2228, 11, 0, 'SHARED_FILE', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2229, 11, 0, 'CAPTURE_STEP_PERFORMANCE', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2230, 11, 0, 'STEP_PERFORMANCE_CAPTURING_DELAY', 1000, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2231, 11, 0, 'STEP_PERFORMANCE_CAPTURING_SIZE_LIMIT', 0, '100');
+INSERT INTO `r_trans_attribute` VALUES (2232, 11, 0, 'STEP_PERFORMANCE_LOG_TABLE', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2233, 11, 0, 'LOG_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2234, 11, 0, 'LOG_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2235, 11, 0, 'TRANSFORMATION_TYPE', 0, 'Normal');
+INSERT INTO `r_trans_attribute` VALUES (2236, 11, 0, 'SLEEP_TIME_EMPTY', 50, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2237, 11, 0, 'SLEEP_TIME_FULL', 50, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2238, 11, 0, 'TRANS_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2239, 11, 0, 'TRANS_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2240, 11, 0, 'TRANS_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2241, 11, 0, 'TRANS_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2242, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2243, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2244, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2245, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2246, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2247, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2248, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID2', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2249, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME2', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2250, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2251, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
+INSERT INTO `r_trans_attribute` VALUES (2252, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
+INSERT INTO `r_trans_attribute` VALUES (2253, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2254, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2255, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2256, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2257, 11, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT4', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2258, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2259, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2260, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2261, 11, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT5', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2262, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2263, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2264, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2265, 11, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT6', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2266, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2267, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2268, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2269, 11, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT7', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2270, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2271, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2272, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2273, 11, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT8', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2274, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2275, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2276, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2277, 11, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT9', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2278, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2279, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2280, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2281, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
+INSERT INTO `r_trans_attribute` VALUES (2282, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
+INSERT INTO `r_trans_attribute` VALUES (2283, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2284, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
+INSERT INTO `r_trans_attribute` VALUES (2285, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
+INSERT INTO `r_trans_attribute` VALUES (2286, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2287, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2288, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2289, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2290, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
+INSERT INTO `r_trans_attribute` VALUES (2291, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
+INSERT INTO `r_trans_attribute` VALUES (2292, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2293, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
+INSERT INTO `r_trans_attribute` VALUES (2294, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
+INSERT INTO `r_trans_attribute` VALUES (2295, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2296, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2297, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2298, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2299, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_trans_attribute` VALUES (2300, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_trans_attribute` VALUES (2301, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2302, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
+INSERT INTO `r_trans_attribute` VALUES (2303, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
+INSERT INTO `r_trans_attribute` VALUES (2304, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2305, 11, 0, 'TRANS_LOG_TABLE_FIELD_ID19', 0, 'CLIENT');
+INSERT INTO `r_trans_attribute` VALUES (2306, 11, 0, 'TRANS_LOG_TABLE_FIELD_NAME19', 0, 'CLIENT');
+INSERT INTO `r_trans_attribute` VALUES (2307, 11, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2308, 11, 0, 'TRANSLOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2309, 11, 0, 'TRANSLOG_TABLE_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2310, 11, 0, 'STEP_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2311, 11, 0, 'STEP_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2312, 11, 0, 'STEP_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2313, 11, 0, 'STEP_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2314, 11, 0, 'STEP_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2315, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2316, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2317, 11, 0, 'STEP_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2318, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2319, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2320, 11, 0, 'STEP_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2321, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2322, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2323, 11, 0, 'STEP_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2324, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2325, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2326, 11, 0, 'STEP_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2327, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2328, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2329, 11, 0, 'STEP_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2330, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2331, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2332, 11, 0, 'STEP_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2333, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2334, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2335, 11, 0, 'STEP_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2336, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2337, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2338, 11, 0, 'STEP_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2339, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2340, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2341, 11, 0, 'STEP_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2342, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2343, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2344, 11, 0, 'STEP_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2345, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2346, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2347, 11, 0, 'STEP_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2348, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2349, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2350, 11, 0, 'STEP_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2351, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2352, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2353, 11, 0, 'STEP_LOG_TABLE_FIELD_ID13', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2354, 11, 0, 'STEP_LOG_TABLE_FIELD_NAME13', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2355, 11, 0, 'STEP_LOG_TABLE_FIELD_ENABLED13', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2356, 11, 0, 'PERFORMANCE_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2357, 11, 0, 'PERFORMANCE_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2358, 11, 0, 'PERFORMANCE_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2359, 11, 0, 'PERFORMANCE_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2360, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2361, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2362, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2363, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID1', 0, 'SEQ_NR');
+INSERT INTO `r_trans_attribute` VALUES (2364, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME1', 0, 'SEQ_NR');
+INSERT INTO `r_trans_attribute` VALUES (2365, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2366, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID2', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2367, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME2', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2368, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2369, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2370, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2371, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2372, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2373, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2374, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2375, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2376, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2377, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2378, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2379, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2380, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2381, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2382, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2383, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2384, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2385, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2386, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2387, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2388, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2389, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2390, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2391, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2392, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2393, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2394, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2395, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2396, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2397, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2398, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2399, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID13', 0, 'INPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2400, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME13', 0, 'INPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2401, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2402, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID14', 0, 'OUTPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2403, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME14', 0, 'OUTPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2404, 11, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2405, 11, 0, 'PERFORMANCELOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2406, 11, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2407, 11, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2408, 11, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2409, 11, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2410, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2411, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2412, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2413, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2414, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2415, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2416, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2417, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2418, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2419, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_trans_attribute` VALUES (2420, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_trans_attribute` VALUES (2421, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2422, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
+INSERT INTO `r_trans_attribute` VALUES (2423, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
+INSERT INTO `r_trans_attribute` VALUES (2424, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2425, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2426, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2427, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2428, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_trans_attribute` VALUES (2429, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_trans_attribute` VALUES (2430, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2431, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
+INSERT INTO `r_trans_attribute` VALUES (2432, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
+INSERT INTO `r_trans_attribute` VALUES (2433, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2434, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
+INSERT INTO `r_trans_attribute` VALUES (2435, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
+INSERT INTO `r_trans_attribute` VALUES (2436, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2437, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_trans_attribute` VALUES (2438, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_trans_attribute` VALUES (2439, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2440, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2441, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2442, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2443, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2444, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2445, 11, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2446, 11, 0, 'PARAM_KEY', 0, 'input');
+INSERT INTO `r_trans_attribute` VALUES (2447, 11, 0, 'PARAM_DEFAULT', 0, '0');
+INSERT INTO `r_trans_attribute` VALUES (2448, 11, 0, 'PARAM_DESC', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2449, 11, 1, 'PARAM_KEY', 0, 'output');
+INSERT INTO `r_trans_attribute` VALUES (2450, 11, 1, 'PARAM_DEFAULT', 0, '0');
+INSERT INTO `r_trans_attribute` VALUES (2451, 11, 1, 'PARAM_DESC', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2452, 11, 2, 'PARAM_KEY', 0, 'result');
+INSERT INTO `r_trans_attribute` VALUES (2453, 11, 2, 'PARAM_DEFAULT', 0, 'failed');
+INSERT INTO `r_trans_attribute` VALUES (2454, 11, 2, 'PARAM_DESC', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2455, 11, 3, 'PARAM_KEY', 0, 'updated');
+INSERT INTO `r_trans_attribute` VALUES (2456, 11, 3, 'PARAM_DEFAULT', 0, '0');
+INSERT INTO `r_trans_attribute` VALUES (2457, 11, 3, 'PARAM_DESC', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2458, 11, 4, 'PARAM_KEY', 0, 'written');
+INSERT INTO `r_trans_attribute` VALUES (2459, 11, 4, 'PARAM_DEFAULT', 0, '0');
+INSERT INTO `r_trans_attribute` VALUES (2460, 11, 4, 'PARAM_DESC', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2461, 12, 0, 'UNIQUE_CONNECTIONS', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2462, 12, 0, 'FEEDBACK_SHOWN', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2463, 12, 0, 'FEEDBACK_SIZE', 50000, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2464, 12, 0, 'USING_THREAD_PRIORITIES', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2465, 12, 0, 'SHARED_FILE', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2466, 12, 0, 'CAPTURE_STEP_PERFORMANCE', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2467, 12, 0, 'STEP_PERFORMANCE_CAPTURING_DELAY', 1000, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2468, 12, 0, 'STEP_PERFORMANCE_CAPTURING_SIZE_LIMIT', 0, '100');
+INSERT INTO `r_trans_attribute` VALUES (2469, 12, 0, 'STEP_PERFORMANCE_LOG_TABLE', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2470, 12, 0, 'LOG_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2471, 12, 0, 'LOG_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2472, 12, 0, 'TRANSFORMATION_TYPE', 0, 'Normal');
+INSERT INTO `r_trans_attribute` VALUES (2473, 12, 0, 'SLEEP_TIME_EMPTY', 50, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2474, 12, 0, 'SLEEP_TIME_FULL', 50, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2475, 12, 0, 'TRANS_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2476, 12, 0, 'TRANS_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2477, 12, 0, 'TRANS_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2478, 12, 0, 'TRANS_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2479, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2480, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2481, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2482, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2483, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2484, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2485, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID2', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2486, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME2', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2487, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2488, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
+INSERT INTO `r_trans_attribute` VALUES (2489, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
+INSERT INTO `r_trans_attribute` VALUES (2490, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2491, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2492, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2493, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2494, 12, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT4', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2495, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2496, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2497, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2498, 12, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT5', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2499, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2500, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2501, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2502, 12, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT6', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2503, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2504, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2505, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2506, 12, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT7', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2507, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2508, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2509, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2510, 12, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT8', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2511, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2512, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2513, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2514, 12, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT9', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2515, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2516, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2517, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2518, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
+INSERT INTO `r_trans_attribute` VALUES (2519, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
+INSERT INTO `r_trans_attribute` VALUES (2520, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2521, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
+INSERT INTO `r_trans_attribute` VALUES (2522, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
+INSERT INTO `r_trans_attribute` VALUES (2523, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2524, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2525, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2526, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2527, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
+INSERT INTO `r_trans_attribute` VALUES (2528, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
+INSERT INTO `r_trans_attribute` VALUES (2529, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2530, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
+INSERT INTO `r_trans_attribute` VALUES (2531, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
+INSERT INTO `r_trans_attribute` VALUES (2532, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2533, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2534, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2535, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2536, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_trans_attribute` VALUES (2537, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_trans_attribute` VALUES (2538, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2539, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
+INSERT INTO `r_trans_attribute` VALUES (2540, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
+INSERT INTO `r_trans_attribute` VALUES (2541, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2542, 12, 0, 'TRANS_LOG_TABLE_FIELD_ID19', 0, 'CLIENT');
+INSERT INTO `r_trans_attribute` VALUES (2543, 12, 0, 'TRANS_LOG_TABLE_FIELD_NAME19', 0, 'CLIENT');
+INSERT INTO `r_trans_attribute` VALUES (2544, 12, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2545, 12, 0, 'TRANSLOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2546, 12, 0, 'TRANSLOG_TABLE_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2547, 12, 0, 'STEP_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2548, 12, 0, 'STEP_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2549, 12, 0, 'STEP_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2550, 12, 0, 'STEP_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2551, 12, 0, 'STEP_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2552, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2553, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2554, 12, 0, 'STEP_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2555, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2556, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2557, 12, 0, 'STEP_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2558, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2559, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2560, 12, 0, 'STEP_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2561, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2562, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2563, 12, 0, 'STEP_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2564, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2565, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2566, 12, 0, 'STEP_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2567, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2568, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2569, 12, 0, 'STEP_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2570, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2571, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2572, 12, 0, 'STEP_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2573, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2574, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2575, 12, 0, 'STEP_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2576, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2577, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2578, 12, 0, 'STEP_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2579, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2580, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2581, 12, 0, 'STEP_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2582, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2583, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2584, 12, 0, 'STEP_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2585, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2586, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2587, 12, 0, 'STEP_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2588, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2589, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2590, 12, 0, 'STEP_LOG_TABLE_FIELD_ID13', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2591, 12, 0, 'STEP_LOG_TABLE_FIELD_NAME13', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2592, 12, 0, 'STEP_LOG_TABLE_FIELD_ENABLED13', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2593, 12, 0, 'PERFORMANCE_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2594, 12, 0, 'PERFORMANCE_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2595, 12, 0, 'PERFORMANCE_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2596, 12, 0, 'PERFORMANCE_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2597, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2598, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2599, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2600, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID1', 0, 'SEQ_NR');
+INSERT INTO `r_trans_attribute` VALUES (2601, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME1', 0, 'SEQ_NR');
+INSERT INTO `r_trans_attribute` VALUES (2602, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2603, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID2', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2604, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME2', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2605, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2606, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2607, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2608, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2609, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2610, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2611, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2612, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2613, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2614, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2615, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2616, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2617, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2618, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2619, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2620, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2621, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2622, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2623, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2624, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2625, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2626, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2627, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2628, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2629, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2630, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2631, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2632, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2633, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2634, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2635, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2636, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID13', 0, 'INPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2637, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME13', 0, 'INPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2638, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2639, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID14', 0, 'OUTPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2640, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME14', 0, 'OUTPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2641, 12, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2642, 12, 0, 'PERFORMANCELOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2643, 12, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2644, 12, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2645, 12, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2646, 12, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2647, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2648, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2649, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2650, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2651, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2652, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2653, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2654, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2655, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2656, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_trans_attribute` VALUES (2657, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_trans_attribute` VALUES (2658, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2659, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
+INSERT INTO `r_trans_attribute` VALUES (2660, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
+INSERT INTO `r_trans_attribute` VALUES (2661, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2662, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2663, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2664, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2665, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_trans_attribute` VALUES (2666, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_trans_attribute` VALUES (2667, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2668, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
+INSERT INTO `r_trans_attribute` VALUES (2669, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
+INSERT INTO `r_trans_attribute` VALUES (2670, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2671, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
+INSERT INTO `r_trans_attribute` VALUES (2672, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
+INSERT INTO `r_trans_attribute` VALUES (2673, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2674, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_trans_attribute` VALUES (2675, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_trans_attribute` VALUES (2676, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2677, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2678, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2679, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2680, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2681, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2682, 12, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2683, 12, 0, 'PARAM_KEY', 0, 'DEF_RUN_START');
+INSERT INTO `r_trans_attribute` VALUES (2684, 12, 0, 'PARAM_DEFAULT', 0, '19700101000000');
+INSERT INTO `r_trans_attribute` VALUES (2685, 12, 0, 'PARAM_DESC', 0, '默认开始时间');
+INSERT INTO `r_trans_attribute` VALUES (2686, 12, 1, 'PARAM_KEY', 0, 'ID_JOB');
+INSERT INTO `r_trans_attribute` VALUES (2687, 12, 1, 'PARAM_DEFAULT', 0, '3');
+INSERT INTO `r_trans_attribute` VALUES (2688, 12, 1, 'PARAM_DESC', 0, '作业id');
+INSERT INTO `r_trans_attribute` VALUES (2689, 1, 0, 'UNIQUE_CONNECTIONS', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2690, 1, 0, 'FEEDBACK_SHOWN', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2691, 1, 0, 'FEEDBACK_SIZE', 50000, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2692, 1, 0, 'USING_THREAD_PRIORITIES', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2693, 1, 0, 'SHARED_FILE', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2694, 1, 0, 'CAPTURE_STEP_PERFORMANCE', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2695, 1, 0, 'STEP_PERFORMANCE_CAPTURING_DELAY', 1000, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2696, 1, 0, 'STEP_PERFORMANCE_CAPTURING_SIZE_LIMIT', 0, '100');
+INSERT INTO `r_trans_attribute` VALUES (2697, 1, 0, 'STEP_PERFORMANCE_LOG_TABLE', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2698, 1, 0, 'LOG_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2699, 1, 0, 'LOG_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2700, 1, 0, 'TRANSFORMATION_TYPE', 0, 'Normal');
+INSERT INTO `r_trans_attribute` VALUES (2701, 1, 0, 'SLEEP_TIME_EMPTY', 50, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2702, 1, 0, 'SLEEP_TIME_FULL', 50, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2703, 1, 0, 'TRANS_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2704, 1, 0, 'TRANS_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2705, 1, 0, 'TRANS_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2706, 1, 0, 'TRANS_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2707, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2708, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2709, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2710, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2711, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2712, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2713, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID2', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2714, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME2', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2715, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2716, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID3', 0, 'STATUS');
+INSERT INTO `r_trans_attribute` VALUES (2717, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME3', 0, 'STATUS');
+INSERT INTO `r_trans_attribute` VALUES (2718, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2719, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID4', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2720, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME4', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2721, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2722, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT4', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2723, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2724, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME5', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2725, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2726, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT5', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2727, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID6', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2728, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME6', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2729, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2730, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT6', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2731, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID7', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2732, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME7', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2733, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2734, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT7', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2735, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2736, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME8', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2737, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2738, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT8', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2739, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID9', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2740, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME9', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2741, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2742, 1, 0, 'TRANS_LOG_TABLE_FIELD_SUBJECT9', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2743, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID10', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2744, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME10', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2745, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2746, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID11', 0, 'STARTDATE');
+INSERT INTO `r_trans_attribute` VALUES (2747, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME11', 0, 'STARTDATE');
+INSERT INTO `r_trans_attribute` VALUES (2748, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2749, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID12', 0, 'ENDDATE');
+INSERT INTO `r_trans_attribute` VALUES (2750, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME12', 0, 'ENDDATE');
+INSERT INTO `r_trans_attribute` VALUES (2751, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2752, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID13', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2753, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME13', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2754, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2755, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID14', 0, 'DEPDATE');
+INSERT INTO `r_trans_attribute` VALUES (2756, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME14', 0, 'DEPDATE');
+INSERT INTO `r_trans_attribute` VALUES (2757, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2758, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID15', 0, 'REPLAYDATE');
+INSERT INTO `r_trans_attribute` VALUES (2759, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME15', 0, 'REPLAYDATE');
+INSERT INTO `r_trans_attribute` VALUES (2760, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED15', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2761, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID16', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2762, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME16', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2763, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED16', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2764, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_trans_attribute` VALUES (2765, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME17', 0, 'EXECUTING_SERVER');
+INSERT INTO `r_trans_attribute` VALUES (2766, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED17', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2767, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID18', 0, 'EXECUTING_USER');
+INSERT INTO `r_trans_attribute` VALUES (2768, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME18', 0, 'EXECUTING_USER');
+INSERT INTO `r_trans_attribute` VALUES (2769, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED18', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2770, 1, 0, 'TRANS_LOG_TABLE_FIELD_ID19', 0, 'CLIENT');
+INSERT INTO `r_trans_attribute` VALUES (2771, 1, 0, 'TRANS_LOG_TABLE_FIELD_NAME19', 0, 'CLIENT');
+INSERT INTO `r_trans_attribute` VALUES (2772, 1, 0, 'TRANS_LOG_TABLE_FIELD_ENABLED19', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2773, 1, 0, 'TRANSLOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2774, 1, 0, 'TRANSLOG_TABLE_SIZE_LIMIT', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2775, 1, 0, 'STEP_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2776, 1, 0, 'STEP_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2777, 1, 0, 'STEP_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2778, 1, 0, 'STEP_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2779, 1, 0, 'STEP_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2780, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2781, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2782, 1, 0, 'STEP_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2783, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2784, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2785, 1, 0, 'STEP_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2786, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2787, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2788, 1, 0, 'STEP_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2789, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2790, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2791, 1, 0, 'STEP_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2792, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2793, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2794, 1, 0, 'STEP_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2795, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2796, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2797, 1, 0, 'STEP_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2798, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2799, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2800, 1, 0, 'STEP_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2801, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2802, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2803, 1, 0, 'STEP_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2804, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2805, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2806, 1, 0, 'STEP_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2807, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2808, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2809, 1, 0, 'STEP_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2810, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2811, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2812, 1, 0, 'STEP_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2813, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2814, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2815, 1, 0, 'STEP_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2816, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2817, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2818, 1, 0, 'STEP_LOG_TABLE_FIELD_ID13', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2819, 1, 0, 'STEP_LOG_TABLE_FIELD_NAME13', 0, 'LOG_FIELD');
+INSERT INTO `r_trans_attribute` VALUES (2820, 1, 0, 'STEP_LOG_TABLE_FIELD_ENABLED13', 0, 'N');
+INSERT INTO `r_trans_attribute` VALUES (2821, 1, 0, 'PERFORMANCE_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2822, 1, 0, 'PERFORMANCE_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2823, 1, 0, 'PERFORMANCE_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2824, 1, 0, 'PERFORMANCE_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2825, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2826, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2827, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2828, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID1', 0, 'SEQ_NR');
+INSERT INTO `r_trans_attribute` VALUES (2829, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME1', 0, 'SEQ_NR');
+INSERT INTO `r_trans_attribute` VALUES (2830, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2831, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID2', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2832, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME2', 0, 'LOGDATE');
+INSERT INTO `r_trans_attribute` VALUES (2833, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2834, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2835, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME3', 0, 'TRANSNAME');
+INSERT INTO `r_trans_attribute` VALUES (2836, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2837, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2838, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME4', 0, 'STEPNAME');
+INSERT INTO `r_trans_attribute` VALUES (2839, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2840, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2841, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME5', 0, 'STEP_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2842, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2843, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2844, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME6', 0, 'LINES_READ');
+INSERT INTO `r_trans_attribute` VALUES (2845, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2846, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2847, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME7', 0, 'LINES_WRITTEN');
+INSERT INTO `r_trans_attribute` VALUES (2848, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2849, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2850, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME8', 0, 'LINES_UPDATED');
+INSERT INTO `r_trans_attribute` VALUES (2851, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2852, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2853, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME9', 0, 'LINES_INPUT');
+INSERT INTO `r_trans_attribute` VALUES (2854, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2855, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2856, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME10', 0, 'LINES_OUTPUT');
+INSERT INTO `r_trans_attribute` VALUES (2857, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2858, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2859, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME11', 0, 'LINES_REJECTED');
+INSERT INTO `r_trans_attribute` VALUES (2860, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2861, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2862, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME12', 0, 'ERRORS');
+INSERT INTO `r_trans_attribute` VALUES (2863, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED12', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2864, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID13', 0, 'INPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2865, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME13', 0, 'INPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2866, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED13', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2867, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ID14', 0, 'OUTPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2868, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_NAME14', 0, 'OUTPUT_BUFFER_ROWS');
+INSERT INTO `r_trans_attribute` VALUES (2869, 1, 0, 'PERFORMANCE_LOG_TABLE_FIELD_ENABLED14', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2870, 1, 0, 'PERFORMANCELOG_TABLE_INTERVAL', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2871, 1, 0, 'CHANNEL_LOG_TABLE_CONNECTION_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2872, 1, 0, 'CHANNEL_LOG_TABLE_SCHEMA_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2873, 1, 0, 'CHANNEL_LOG_TABLE_TABLE_NAME', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2874, 1, 0, 'CHANNEL_LOG_TABLE_TIMEOUT_IN_DAYS', 0, NULL);
+INSERT INTO `r_trans_attribute` VALUES (2875, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2876, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME0', 0, 'ID_BATCH');
+INSERT INTO `r_trans_attribute` VALUES (2877, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED0', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2878, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2879, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME1', 0, 'CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2880, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED1', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2881, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2882, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME2', 0, 'LOG_DATE');
+INSERT INTO `r_trans_attribute` VALUES (2883, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED2', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2884, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_trans_attribute` VALUES (2885, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME3', 0, 'LOGGING_OBJECT_TYPE');
+INSERT INTO `r_trans_attribute` VALUES (2886, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED3', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2887, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID4', 0, 'OBJECT_NAME');
+INSERT INTO `r_trans_attribute` VALUES (2888, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME4', 0, 'OBJECT_NAME');
+INSERT INTO `r_trans_attribute` VALUES (2889, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED4', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2890, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID5', 0, 'OBJECT_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2891, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME5', 0, 'OBJECT_COPY');
+INSERT INTO `r_trans_attribute` VALUES (2892, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED5', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2893, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_trans_attribute` VALUES (2894, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME6', 0, 'REPOSITORY_DIRECTORY');
+INSERT INTO `r_trans_attribute` VALUES (2895, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED6', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2896, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID7', 0, 'FILENAME');
+INSERT INTO `r_trans_attribute` VALUES (2897, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME7', 0, 'FILENAME');
+INSERT INTO `r_trans_attribute` VALUES (2898, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED7', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2899, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID8', 0, 'OBJECT_ID');
+INSERT INTO `r_trans_attribute` VALUES (2900, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME8', 0, 'OBJECT_ID');
+INSERT INTO `r_trans_attribute` VALUES (2901, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED8', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2902, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_trans_attribute` VALUES (2903, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME9', 0, 'OBJECT_REVISION');
+INSERT INTO `r_trans_attribute` VALUES (2904, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED9', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2905, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2906, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME10', 0, 'PARENT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2907, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED10', 0, 'Y');
+INSERT INTO `r_trans_attribute` VALUES (2908, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ID11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2909, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_NAME11', 0, 'ROOT_CHANNEL_ID');
+INSERT INTO `r_trans_attribute` VALUES (2910, 1, 0, 'CHANNEL_LOG_TABLE_FIELD_ENABLED11', 0, 'Y');
 
 -- ----------------------------
 -- Table structure for r_trans_cluster
@@ -5941,7 +6677,7 @@ CREATE TABLE `r_trans_cluster`  (
   `ID_TRANSFORMATION` int NULL DEFAULT NULL,
   `ID_CLUSTER` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID_TRANS_CLUSTER`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_cluster
@@ -5958,20 +6694,11 @@ CREATE TABLE `r_trans_hop`  (
   `ID_STEP_TO` int NULL DEFAULT NULL,
   `ENABLED` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_TRANS_HOP`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_hop
 -- ----------------------------
-INSERT INTO `r_trans_hop` VALUES (1, 1, 8, 1, '0');
-INSERT INTO `r_trans_hop` VALUES (2, 1, 5, 6, '1');
-INSERT INTO `r_trans_hop` VALUES (3, 1, 1, 3, '1');
-INSERT INTO `r_trans_hop` VALUES (4, 1, 3, 5, '0');
-INSERT INTO `r_trans_hop` VALUES (5, 1, 5, 7, '1');
-INSERT INTO `r_trans_hop` VALUES (6, 1, 7, 9, '1');
-INSERT INTO `r_trans_hop` VALUES (7, 1, 2, 4, '1');
-INSERT INTO `r_trans_hop` VALUES (8, 1, 8, 2, '1');
-INSERT INTO `r_trans_hop` VALUES (9, 1, 4, 5, '1');
 INSERT INTO `r_trans_hop` VALUES (10, 2, 10, 12, '1');
 INSERT INTO `r_trans_hop` VALUES (11, 2, 11, 10, '1');
 INSERT INTO `r_trans_hop` VALUES (24, 7, 28, 27, '1');
@@ -5981,6 +6708,24 @@ INSERT INTO `r_trans_hop` VALUES (27, 10, 42, 39, '0');
 INSERT INTO `r_trans_hop` VALUES (28, 10, 39, 41, '0');
 INSERT INTO `r_trans_hop` VALUES (29, 10, 42, 40, '1');
 INSERT INTO `r_trans_hop` VALUES (30, 10, 40, 41, '1');
+INSERT INTO `r_trans_hop` VALUES (31, 11, 44, 45, '1');
+INSERT INTO `r_trans_hop` VALUES (32, 11, 44, 49, '1');
+INSERT INTO `r_trans_hop` VALUES (33, 11, 47, 46, '1');
+INSERT INTO `r_trans_hop` VALUES (34, 11, 48, 47, '1');
+INSERT INTO `r_trans_hop` VALUES (35, 11, 46, 44, '1');
+INSERT INTO `r_trans_hop` VALUES (36, 11, 46, 43, '1');
+INSERT INTO `r_trans_hop` VALUES (37, 12, 51, 50, '1');
+INSERT INTO `r_trans_hop` VALUES (38, 12, 52, 51, '1');
+INSERT INTO `r_trans_hop` VALUES (39, 12, 50, 53, '1');
+INSERT INTO `r_trans_hop` VALUES (40, 1, 61, 54, '0');
+INSERT INTO `r_trans_hop` VALUES (41, 1, 58, 59, '1');
+INSERT INTO `r_trans_hop` VALUES (42, 1, 54, 56, '1');
+INSERT INTO `r_trans_hop` VALUES (43, 1, 56, 58, '0');
+INSERT INTO `r_trans_hop` VALUES (44, 1, 58, 60, '1');
+INSERT INTO `r_trans_hop` VALUES (45, 1, 60, 62, '1');
+INSERT INTO `r_trans_hop` VALUES (46, 1, 55, 57, '1');
+INSERT INTO `r_trans_hop` VALUES (47, 1, 61, 55, '1');
+INSERT INTO `r_trans_hop` VALUES (48, 1, 57, 58, '1');
 
 -- ----------------------------
 -- Table structure for r_trans_lock
@@ -5993,7 +6738,7 @@ CREATE TABLE `r_trans_lock`  (
   `LOCK_MESSAGE` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `LOCK_DATE` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`ID_TRANS_LOCK`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_lock
@@ -6006,7 +6751,7 @@ DROP TABLE IF EXISTS `r_trans_note`;
 CREATE TABLE `r_trans_note`  (
   `ID_TRANSFORMATION` int NULL DEFAULT NULL,
   `ID_NOTE` int NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_note
@@ -6021,7 +6766,7 @@ CREATE TABLE `r_trans_partition_schema`  (
   `ID_TRANSFORMATION` int NULL DEFAULT NULL,
   `ID_PARTITION_SCHEMA` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID_TRANS_PARTITION_SCHEMA`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_partition_schema
@@ -6036,7 +6781,7 @@ CREATE TABLE `r_trans_slave`  (
   `ID_TRANSFORMATION` int NULL DEFAULT NULL,
   `ID_SLAVE` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID_TRANS_SLAVE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_slave
@@ -6050,7 +6795,7 @@ CREATE TABLE `r_trans_step_condition`  (
   `ID_TRANSFORMATION` int NULL DEFAULT NULL,
   `ID_STEP` int NULL DEFAULT NULL,
   `ID_CONDITION` int NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_trans_step_condition
@@ -6088,17 +6833,19 @@ CREATE TABLE `r_transformation`  (
   `MODIFIED_DATE` datetime NULL DEFAULT NULL,
   `SIZE_ROWSET` int NULL DEFAULT NULL,
   PRIMARY KEY (`ID_TRANSFORMATION`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_transformation
 -- ----------------------------
-INSERT INTO `r_transformation` VALUES (1, 2, '获取公网ip', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2020-08-21 09:50:53', 'admin', '2022-04-12 14:58:54', 10000);
+INSERT INTO `r_transformation` VALUES (1, 2, '获取公网ip', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2020-08-21 09:50:53', 'admin', '2024-05-23 17:23:10', 10000);
 INSERT INTO `r_transformation` VALUES (2, 3, '作业初始化', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2019-12-07 21:01:30', 'admin', '2019-11-16 00:51:20', 10000);
 INSERT INTO `r_transformation` VALUES (7, 6, '处理转换-增量模板', NULL, NULL, NULL, 0, 28, 29, 28, 28, 29, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2019-12-07 21:01:35', 'admin', '2019-11-16 01:35:20', 10000);
 INSERT INTO `r_transformation` VALUES (8, 6, '处理转换-组件集合', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2019-12-07 21:01:35', 'admin', '2019-11-16 23:57:00', 10000);
 INSERT INTO `r_transformation` VALUES (9, 6, '处理转换-默认模板', NULL, NULL, NULL, 0, 37, 38, 37, 37, 38, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2019-12-07 21:01:34', 'admin', '2019-11-16 01:35:36', 10000);
 INSERT INTO `r_transformation` VALUES (10, 8, '处理转换', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2023-05-19 11:33:28', 'admin', '2023-05-19 19:00:03', 10000);
+INSERT INTO `r_transformation` VALUES (11, 3, '写日志', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2018-07-10 10:38:37', 'admin', '2023-11-23 22:55:27', 10000);
+INSERT INTO `r_transformation` VALUES (12, 3, '获取增量时间戳', NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, -1, NULL, '1', '1', -1, NULL, NULL, 0, 0, 'admin', '2018-07-10 10:38:36', 'admin', '2023-11-23 22:55:33', 10000);
 
 -- ----------------------------
 -- Table structure for r_user
@@ -6112,7 +6859,7 @@ CREATE TABLE `r_user`  (
   `DESCRIPTION` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `ENABLED` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_USER`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_user
@@ -6131,7 +6878,7 @@ CREATE TABLE `r_value`  (
   `VALUE_STR` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `IS_NULL` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_VALUE`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_value
@@ -6148,7 +6895,7 @@ CREATE TABLE `r_version`  (
   `UPGRADE_DATE` datetime NULL DEFAULT NULL,
   `IS_UPGRADE` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`ID_VERSION`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of r_version
