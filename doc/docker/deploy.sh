@@ -22,6 +22,9 @@ copy(){
   mkdir -p ./data/sjsj/sjsj
   rm -rf ./data/sjsj/sjsj/*
   cp -r ./sjsj/hd/* ./data/sjsj/sjsj
+  mkdir -p ./data/sjsj/upload/common
+  rm -rf ./data/sjsj/upload/common/*
+  cp -r ./sjsj/upload/common/* ./data/upload/common
 }
 
 # 全部构建，存在的会重构
