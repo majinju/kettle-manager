@@ -167,6 +167,7 @@
 						<configuration>
 							<tasks>
 								<echo>拷贝jar包</echo>
+								<delete dir="${basedir}/doc/dist/lib" includes="**" />
 								<copy todir="${basedir}/doc/dist/lib">
 									<fileset dir="${basedir}/target/ext-lib" includes="**" />
 								</copy>
