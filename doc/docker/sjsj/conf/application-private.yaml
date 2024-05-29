@@ -6,20 +6,16 @@ benma666:
     private-key: 00DE51F43646A767874194A261D444FACE3AB426CC3B7B6CA2ECF2671DFE858B39
     # sm2公钥
     public-key: 0479D7705FB39AB2C2E9B8CF5DE258887B36B63EED4E7184E02FDBC0983EEF027982544528A0BF2C9B30EB37EEFC6D6E7601717CFFA1BEB93116E6CC62E0ED8D6D
-  fwq:
-    # 密码解密密码
-    ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
-  sjzt:
-    # 密码解密密码
-    ejmm: 5zIcmw5qVZs=
-  yhxx:
-    # 用户目前采用md5加密不需要设置密码
-    ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
-  app:
-    # 密码解密密码
-    ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
-    # 应用代码，没有应用都要独立的应用代码，与应用管理中的代码一致
-    dm: sjsj
+  # 密码解密密码
+  fwq-ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
+  # 密码解密密码
+  sjzt-ejmm: 5zIcmw5qVZs=
+  # 用户目前采用md5加密不需要设置密码
+  yhxx-ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
+  # 密码解密密码
+  app-ejmm: YA3EPe3fj/XrUtXDBr0y/Q==
+  # 应用代码，没有应用都要独立的应用代码，与应用管理中的代码一致
+  app-dm: sjsj
   service:
     # 统一代理地址，应用管理中统一代理的应用都只配置了项目名称，需要读取该配置补充为完整的地址
     tydlzd: http://192.168.1.22:8091

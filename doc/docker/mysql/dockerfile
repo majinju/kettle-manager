@@ -4,4 +4,4 @@ FROM mysql
 LABEL maintainer="jingma"
 
 # 执行sql脚本
-ADD ./db/*.sql /docker-entrypoint-initdb.d/
+ADD ./db/sjsj2_dev.sql /docker-entrypoint-initdb.d/

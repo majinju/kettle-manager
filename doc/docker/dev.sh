@@ -8,6 +8,7 @@ usage() {
 
 # 拷贝文件
 copy(){
+  del
   echo "begin copy db "
   mkdir -p ./mysql/db
   # 数据世界的脚本
@@ -24,7 +25,7 @@ copy(){
   echo "begin copy hd "
   mkdir -p ./sjsj/hd
   cp -r ../dist/** ./sjsj/hd
-  cp ../../target/*.jar ./sjsj/hd
+  cp ../../target/sjsj-0.2.2-SNAPSHOT.jar ./sjsj/hd/sjsj.jar
   cp ../../src/main/resources/application.yaml ./sjsj/hd/application.yaml
   cp ./sjsj/conf/* ./sjsj/hd
 }

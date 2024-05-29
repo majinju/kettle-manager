@@ -9,6 +9,7 @@ usage() {
 copy(){
   echo "begin copy nginx "
   mkdir -p ./data/nginx/html/sjsj
+  rm -rf ./data/nginx/html/sjsj/*
   mkdir -p ./data/nginx/conf
   cp -r ./nginx/qd/** ./data/nginx/html/sjsj
   cp ./nginx/conf/nginx.conf ./data/nginx/conf/nginx.conf
@@ -19,6 +20,7 @@ copy(){
 
   echo "begin copy sjsj "
   mkdir -p ./data/sjsj/sjsj
+  rm -rf ./data/sjsj/sjsj/*
   cp -r ./sjsj/hd/* ./data/sjsj/sjsj
 }
 
