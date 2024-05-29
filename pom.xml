@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>cn.benma666</groupId>
 		<artifactId>my-parent</artifactId>
-		<version>0.2.2-SNAPSHOT</version>
+		<version>0.2.2</version>
 	</parent>
 	<artifactId>sjds</artifactId>
 	<name>sjds</name>
@@ -156,18 +156,6 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
@@ -182,7 +170,7 @@
 								<copy todir="${basedir}/doc/dist/lib">
 									<fileset dir="${basedir}/target/ext-lib" includes="**" />
 								</copy>
-<!--								<delete dir="${basedir}/target/ext-lib" includes="**" />-->
+								<delete dir="${basedir}/target/ext-lib" includes="**" />
 							</tasks>
 						</configuration>
 					</execution>
@@ -198,14 +186,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
