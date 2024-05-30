@@ -1,4 +1,14 @@
 benma666:
+  datasource:
+    kettle_default:
+      ljc: jdbc:mysql://benma666-mysql:3306/kettle_default?useOldAliasMetadataBehavior=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      yhm: root
+      mm: password
+      lx: mysql
+      kzxx-obj:
+        kettleConfig:
+          kuser: admin
+          kpass: admin
   data:
     # 系统主密码
     password: 123asdzxc

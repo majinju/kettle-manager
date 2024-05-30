@@ -30,7 +30,7 @@ copy(){
   sed -i "/VALUES ('sjds'/d" ./mysql/db/sjsj2_dev.sql
   sed -i "/'SJDS-SJSJ/d" ./mysql/db/sjsj2_dev.sql
   sed -i "/'SHRMYY/d" ./mysql/db/sjsj2_dev.sql
-  sed  -i "s/sjsj-ht/sjds-ht/g"  ./mysql/db/sjsj2_dev.sql
+  sed -i "s/sjsj-ht/sjds-ht/g"  ./mysql/db/sjsj2_dev.sql
 
   echo "begin copy qd "
   mkdir -p ./nginx/qd
