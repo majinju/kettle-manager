@@ -7,6 +7,11 @@ LABEL maintainer="jingma"
 VOLUME /benma666
 # 指定路径
 WORKDIR /benma666/sjsj
+
+# 指定时区，默认使用的世界通用时间
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # 启动服务
 #ENTRYPOINT ["/benma666/sjsj/docker.sh"]
 ENTRYPOINT ["java", "-cp", "sjds.jar:lib/*", "cn.benma666.sjsj.SjsjApplication", "--spring.config.location=application.yaml"]
