@@ -74,7 +74,7 @@ bbqh(){
   newV=$2
   wkDir=`pwd`/../../..
   echo "${oldV}切换为${newV}，根目录：${wkDir}"
-  sed -i "s/${oldV}/${newV}/g" dev.sh dev1.sh ${wkDir}/my-parent/pom.xml ${wkDir}/myutils/pom.xml \
+  sed -i "s/${oldV}/${newV}/g" dev.sh ${wkDir}/my-parent/pom.xml ${wkDir}/myutils/pom.xml \
     ${wkDir}/myutils-kettle/pom.xml ${wkDir}/myutils-spring-boot-starter/pom.xml ${wkDir}/sjsj/pom.xml \
     ${wkDir}/pentaho-kettle/core/pom.xml ${wkDir}/pentaho-kettle/engine/pom.xml ${wkDir}/pentaho-kettle/ui/pom.xml
 }
