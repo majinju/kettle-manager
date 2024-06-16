@@ -2,7 +2,7 @@
 
 # 复制项目的文件到对应docker路径，便于一键生成镜像。
 usage() {
-	echo "Usage: sh 执行脚本.sh [copy|zip|del]"
+	echo "Usage: sh 执行脚本.sh [copy|zip|del|bbqh]"
 	exit 1
 }
 
@@ -42,7 +42,7 @@ copy(){
   echo "begin copy hd "
   mkdir -p ./sjsj/hd
   cp -r ../dist/** ./sjsj/hd
-  cp ../../target/sjds-0.2.2-SNAPSHOT.jar ./sjsj/hd/sjds.jar
+  cp ../../target/sjds-0.2.3.jar ./sjsj/hd/sjds.jar
   cp ../../src/main/resources/application.yaml ./sjsj/hd/application.yaml
   cp ./sjsj/conf/* ./sjsj/hd
   mkdir -p ./sjsj/upload/common
@@ -66,7 +66,19 @@ del(){
 
   echo "begin delete hd "
   rm -rf ./sjsj/hd
+  rm -rf ./sjsj/upload
 }
+# 版本切换
+bbqh(){
+  oldV=$1
+  newV=$2
+  wkDir=`pwd`/../../..
+  echo "${oldV}切换为${newV}，根目录：${wkDir}"
+  sed -i "s/${oldV}/${newV}/g" dev.sh ${wkDir}/my-parent/pom.xml ${wkDir}/myutils/pom.xml \
+    ${wkDir}/myutils-kettle/pom.xml ${wkDir}/myutils-spring-boot-starter/pom.xml ${wkDir}/sjsj/pom.xml \
+    ${wkDir}/pentaho-kettle/core/pom.xml ${wkDir}/pentaho-kettle/engine/pom.xml ${wkDir}/pentaho-kettle/ui/pom.xml
+}
+
 
 # 根据输入参数，选择执行对应方法，不输入则执行使用说明
 case "$1" in
@@ -78,6 +90,9 @@ case "$1" in
 ;;
 "del")
 	del
+;;
+"bbqh")
+	bbqh $2 $3
 ;;
 *)
 	usage
