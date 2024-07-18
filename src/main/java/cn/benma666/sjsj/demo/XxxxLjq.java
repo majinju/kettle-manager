@@ -66,16 +66,16 @@ public class XxxxLjq extends DefaultLjq{
 //            }
 //        }, 600000, "sjsj");
 //        log.info("流式查询结果："+r);
-        MyParams dzdParams = LjqManager.jcxxByDxdm("SYS_SJGL_TYZD_DEMO",myParams.user());
-        List<JSONObject> list = new ArrayList<>();
-        JSONObject o = new JSONObject();
-        o.put("dm","xxx");
-        o.put("zdlb","xxx");
-        o.put("mc",new StringReader("xxxxxxxxxxxx1111"));
-        list.add(o);
-        dzdParams.sys().setEditTableData(list);
-        dzdParams.sys().setCllx(Cllx.plbc.name());
-        LjqManager.data(dzdParams);
+//        MyParams dzdParams = LjqManager.jcxxByDxdm("SYS_SJGL_TYZD_DEMO",myParams.user());
+//        List<JSONObject> list = new ArrayList<>();
+//        JSONObject o = new JSONObject();
+//        o.put("dm","xxx");
+//        o.put("zdlb","xxx");
+//        o.put("mc",new StringReader("xxxxxxxxxxxx1111"));
+//        list.add(o);
+//        dzdParams.sys().setEditTableData(list);
+//        dzdParams.sys().setCllx(Cllx.plbc.name());
+//        LjqManager.data(dzdParams);
 
         //向客户端发送websocket消息
 //        XtxxWebSocket.sendMsg(new SysPtglXtxx("测试"),getUser(myParams));
@@ -97,7 +97,7 @@ public class XxxxLjq extends DefaultLjq{
         page = getDb().queryPage(page, SqlId.of("demo","findDemo"), myParams);
         log.info("分页查询结果："+page);
         //获取其他对象的基础信息进行方法调用
-        MyParams sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX");
+        MyParams sjdxParams = LjqManager.jcxxByDxdm("SYS_SJGL_SJDX",myParams.user());
         //设置查询条件，类似前端查询传参
         sjdxParams.yobj().set(SjsjField.dxdm.name(),"SYS_SJGL_SJDX");
         //调用方式1：常用方法在LjqManager中提供了对应方法，可以直接调用。
