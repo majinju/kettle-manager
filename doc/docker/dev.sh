@@ -25,7 +25,7 @@ copy(){
   echo "begin copy hd "
   mkdir -p ./sjsj/hd
   cp -r ../dist/** ./sjsj/hd
-  cp ../../target/sjsj-0.2.4.jar ./sjsj/hd/sjsj.jar
+  cp ../../target/sjsj-0.2.5-SNAPSHOT.jar ./sjsj/hd/sjsj.jar
   cp ../../src/main/resources/application.yaml ./sjsj/hd/application.yaml
   cp ./sjsj/conf/* ./sjsj/hd
   mkdir -p ./sjsj/upload/common
