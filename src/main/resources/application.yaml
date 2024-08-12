@@ -160,6 +160,8 @@ spring:
       max-evictable-idle-time-millis: 6000000
       # 连接超时
       socket-timeout: 600000
+      # 这样每个物理连接在创建超过设定时间之后，也会被DestroyTask 强制回收掉，然后再创建新的物理连接。
+      phy-timeout-millis: 6000000
       # 配置检测连接是否有效
       validation-query: SELECT 1 FROM DUAL
       test-while-idle: true
