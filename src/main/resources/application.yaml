@@ -87,7 +87,8 @@ server:
       # 重启会话保持
       persistent: true
       #单位(s)  这里是24小时
-      timeout: 24h
+#      timeout: 24h
+      timeout: 30m
   tomcat:
     # tomcat的URI编码
     uri-encoding: UTF-8
