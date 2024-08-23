@@ -153,26 +153,44 @@ spring:
       max-active: 50
       # 配置获取连接等待超时的时间
       max-wait: 60000
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-      time-between-eviction-runs-millis: 60000
-      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒，必须小于keepAliveBetweenTimeMillis
+      time-between-eviction-runs-millis: 600000
+      # 配置一个连接在池中最小空闲的时间，达到此空闲时限时，超出最小空闲连接数的连接会被回收，单位是毫秒
       min-evictable-idle-time-millis: 60000
-      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      # 配置一个连接在池中最大空闲的时间，超过此空闲时间，即使在最小空闲连接数范围内也会被回收，单位是毫秒
       max-evictable-idle-time-millis: 6000000
       # 连接超时
       socket-timeout: 600000
       # 这样每个物理连接在创建超过设定时间之后，也会被DestroyTask 强制回收掉，然后再创建新的物理连接。
-      phy-timeout-millis: 6000000
+      phy-timeout-millis: 18000000
       # 配置检测连接是否有效
       validation-query: SELECT 1 FROM DUAL
       test-while-idle: true
       test-on-borrow: false
       test-on-return: false
-      # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作。
+      # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作，调用测试语句访问数据库，从而缩短连接的空闲时间，若测试不可用则会释放连接。
       keep-alive: true
+      # 保活操作间隔
       keep-alive-between-time-millis: 600000
-      remove-abandoned: false
-      remove-abandoned-timeout: 6000000
+      # 针对被应用获取的连接，超过时限未归还的连接会被强制回收，针对泄露连接的场景，获取连接一直没有释放，从实现看，执行sql中的连接不会被回收，执行频率与destroyTask一致，打开此配置可以在druid的web界面查看被获取连接的堆栈。
+      remove-abandoned: true
+      log-abandoned: true
+      # 单位是秒
+      remove-abandoned-timeout: 1800
+      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      pool-prepared-statements：flase
+      # 设置PSCache值
+      max-pool-prepared-statement-per-connection-size: 20
+      # 异步初始化策略,必须要remove-abandoned为false才能生效，这样连接出问题的时候，每隔time-between-connect-error-millis秒请求，默认false，设置为true会单独启动一个定时任务创建重连链接
+      #      async-init: false
+      # 数据库服务宕机自动重连机制，从源码看设置为true重试达到connection-error-retry-attempts次后会停止重试，设置为false则会间隔timeBetweenConnectErrorMillis一直重试，默认false
+      break-after-acquire-failure: false
+      # 连接出错后再尝试连接
+      connection-error-retry-attempts: 3
+      # 连接出错后重试时间间隔
+      time-between-connect-error-millis: 300000
+      # 配置事务超时时间，单位秒
+#      transaction-query-timeout: 6000
       web-stat-filter:
         enabled: true
       stat-view-servlet:
@@ -189,7 +207,7 @@ spring:
           enabled: true
           # 慢SQL记录
           log-slow-sql: true
-          slow-sql-millis: 10000
+          slow-sql-millis: 20000
           merge-sql: true
         wall:
           # 开发和测试环境true，正式环境false
