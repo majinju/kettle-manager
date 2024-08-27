@@ -171,14 +171,14 @@ spring:
       # 连接池中的minIdle数量以内的连接，空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作，调用测试语句访问数据库，从而缩短连接的空闲时间，若测试不可用则会释放连接。
       keep-alive: true
       # 保活操作间隔
-      keep-alive-between-time-millis: 600000
+      keep-alive-between-time-millis: 1200000
       # 针对被应用获取的连接，超过时限未归还的连接会被强制回收，针对泄露连接的场景，获取连接一直没有释放，从实现看，执行sql中的连接不会被回收，执行频率与destroyTask一致，打开此配置可以在druid的web界面查看被获取连接的堆栈。
       remove-abandoned: true
       log-abandoned: true
       # 单位是秒
       remove-abandoned-timeout: 1800
       # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
-      pool-prepared-statements：flase
+      pool-prepared-statements: false
       # 设置PSCache值
       max-pool-prepared-statement-per-connection-size: 20
       # 异步初始化策略,必须要remove-abandoned为false才能生效，这样连接出问题的时候，每隔time-between-connect-error-millis秒请求，默认false，设置为true会单独启动一个定时任务创建重连链接
