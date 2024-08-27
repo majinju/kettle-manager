@@ -42,6 +42,9 @@ server:
   servlet:
     # 应用的访问路径
     context-path: "/sjds-ht"
+    session:
+      #单位(s)  这里是24小时
+      timeout: 30M
 spring:
   security:
     user:
