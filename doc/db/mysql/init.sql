@@ -183,7 +183,7 @@ CREATE OR REPLACE  VIEW `v_job` AS SELECT
       (
        `r_job` `j`
           LEFT JOIN `kettle_kz_zykz` `k` ON ((
-              `j`.`ID_JOB` = `k`.`id_job`
+              `j`.`ID_JOB` = `k`.`id_job` and k.yxx='1'
           )));
 
 CREATE OR REPLACE VIEW `v_zhyy` AS SELECT
