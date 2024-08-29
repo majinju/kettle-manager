@@ -177,10 +177,10 @@ spring:
       log-abandoned: true
       # 单位是秒
       remove-abandoned-timeout: 1800
+      # 设置PSCache值，pool-prepared-statements这个参数基本没啥用，只要当前参数大于0就会设置pool-prepared-statements为true
+      max-pool-prepared-statement-per-connection-size: 0
       # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
       pool-prepared-statements: false
-      # 设置PSCache值
-      max-pool-prepared-statement-per-connection-size: 20
       # 异步初始化策略,必须要remove-abandoned为false才能生效，这样连接出问题的时候，每隔time-between-connect-error-millis秒请求，默认false，设置为true会单独启动一个定时任务创建重连链接
       #      async-init: false
       # 数据库服务宕机自动重连机制，从源码看设置为true重试达到connection-error-retry-attempts次后会停止重试，设置为false则会间隔timeBetweenConnectErrorMillis一直重试，默认false
