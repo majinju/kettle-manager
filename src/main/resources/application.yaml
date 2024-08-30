@@ -29,6 +29,10 @@ benma666:
   #        kettleConfig:
   #          kuser: admin
   #          kpass: admin
+  #      druid:
+  #        logAbandoned: false
+  #        # 单位是秒
+  #        removeAbandonedTimeout: 18000
   login:
     default-login: true
     # 登录失败次数
