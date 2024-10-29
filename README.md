@@ -47,7 +47,7 @@ kettle作为非常优秀的开源ETL工具得到了非常广泛的使用，一�
     4. kettle相关依赖要使用kettle的maven仓库下载：https://repo.orl.eng.hitachivantara.com/artifactory/pnt-mvn/
     5. 我开发的或定制的依赖要从maven中央仓库下载：https://oss.sonatype.org/content/groups/public
 3. 问题反馈邮箱：jinjuma@yeah.net。
-4. 项目交流qq群：320302530(已满勿加)，交流2群：142104962(已满勿加)，交流3群：142105082。
+4. 项目交流qq群，交流1群：320302530，交流2群：142104962，交流3群：142105082(已满勿加)。
 
 
 ## 常见问题
