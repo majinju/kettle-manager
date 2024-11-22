@@ -120,6 +120,10 @@
 					<artifactId>snappy-java</artifactId>
 					<groupId>org.xerial.snappy</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>bcprov-jdk14</artifactId>
+					<groupId>bouncycastle</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
