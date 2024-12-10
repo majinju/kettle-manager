@@ -44,3 +44,5 @@ build/
 /doc/docker/dev1.sh
 /doc/docker/data/
 /doc/docker/sjsj/upload/
+/doc/docker/data-my/
+/doc/docker/deploy1-my.sh
